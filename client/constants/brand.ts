@@ -8,22 +8,23 @@ export const Brand = {
 };
 
 export const DailyAnchorConcepts = [
-  "Mercy exceeds sin.",
-  "Effort is required, outcomes belong to Allah.",
-  "Hearts fluctuate and return remains open.",
-  "Hardship can carry wisdom you cannot yet see.",
+  "Not every thought deserves your trust.",
+  "Feelings are real. Conclusions are testable.",
+  "Faith is alignment, not denial.",
+  "Clarity begins when assumptions are questioned.",
+  "Effort is yours. Outcomes belong to Allah.",
+  "Return is always open.",
+  "Hardship can hold wisdom.",
   "Trust does not cancel action.",
+  "Mercy exceeds sin.",
   "No soul is burdened beyond capacity.",
-  "Delay is not denial.",
-  "Allah is closer than perceived distance.",
-  "Patience illuminates the path.",
-  "Gratitude opens unexpected doors.",
 ];
 
 export const ScreenCopy = {
   home: {
-    cta: "Begin Reflection",
+    cta: "Untangle Your Thoughts",
     historyLink: "View Past Reflections",
+    cardDescription: "Slow down. Name the thought. Test it against truth. Take one small step.",
   },
   
   thoughtCapture: {
