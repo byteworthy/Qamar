@@ -42,7 +42,7 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="Distortion"
         component={DistortionScreen}
-        options={{ headerTitle: "Understanding", gestureEnabled: false }}
+        options={{ headerTitle: "Reflection", gestureEnabled: false }}
       />
       <Stack.Screen
         name="Reframe"
@@ -52,7 +52,7 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="Regulation"
         component={RegulationScreen}
-        options={{ headerTitle: "Regulate", gestureEnabled: false }}
+        options={{ headerTitle: "Calming Practice", gestureEnabled: false }}
       />
       <Stack.Screen
         name="Intention"
@@ -67,7 +67,7 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="History"
         component={HistoryScreen}
-        options={{ headerTitle: "Past Sessions" }}
+        options={{ headerTitle: "Past Reflections" }}
       />
     </Stack.Navigator>
   );

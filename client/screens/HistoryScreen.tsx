@@ -128,10 +128,10 @@ export default function HistoryScreen() {
     <View style={styles.emptyContainer}>
       <Feather name="book-open" size={48} color={theme.textSecondary} />
       <ThemedText type="h4" style={[styles.emptyTitle, { fontFamily: Fonts?.serif }]}>
-        No Sessions Yet
+        No Reflections Yet
       </ThemedText>
       <ThemedText type="body" style={[styles.emptyText, { color: theme.textSecondary }]}>
-        Your completed sessions will appear here
+        Your completed reflections will appear here
       </ThemedText>
     </View>
   );

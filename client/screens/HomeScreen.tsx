@@ -48,7 +48,7 @@ export default function HomeScreen() {
       <View style={styles.mainContent}>
         <View style={[styles.card, { backgroundColor: theme.cardBackground }]}>
           <ThemedText type="h4" style={[styles.cardTitle, { fontFamily: Fonts?.serif }]}>
-            Begin Your Session
+            Begin Your Reflection
           </ThemedText>
           <ThemedText type="body" style={[styles.cardDescription, { color: theme.textSecondary }]}>
             Take a moment to slow down, identify what troubles your mind, and find clarity through faith-grounded reflection.
@@ -57,7 +57,7 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate("ThoughtCapture")}
             style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
           >
-            Start Session
+            Start Reflection
           </Button>
         </View>
 
@@ -70,18 +70,15 @@ export default function HomeScreen() {
         >
           <Feather name="clock" size={20} color={theme.textSecondary} />
           <ThemedText type="body" style={{ marginLeft: Spacing.sm, color: theme.textSecondary }}>
-            View Past Sessions
+            View Past Reflections
           </ThemedText>
           <Feather name="chevron-right" size={20} color={theme.textSecondary} style={{ marginLeft: "auto" }} />
         </Pressable>
       </View>
 
       <View style={styles.footer}>
-        <ThemedText type="caption" style={[styles.footerText, { color: theme.textSecondary }]}>
-          Islam is the cognitive framework
-        </ThemedText>
-        <ThemedText type="caption" style={[styles.footerText, { color: theme.textSecondary }]}>
-          CBT is the method
+        <ThemedText type="caption" style={[styles.disclaimer, { color: theme.textSecondary }]}>
+          Siraat is a guided reflection tool, not a replacement for therapy or professional mental health care. It does not diagnose, treat, or cure any condition.
         </ThemedText>
       </View>
     </ScrollView>
@@ -137,7 +134,9 @@ const styles = StyleSheet.create({
     marginTop: Spacing["4xl"],
     gap: Spacing.xs,
   },
-  footerText: {
-    fontStyle: "italic",
+  disclaimer: {
+    textAlign: "center",
+    lineHeight: 18,
+    paddingHorizontal: Spacing.md,
   },
 });

@@ -7,6 +7,25 @@ const openai = new OpenAI({
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
 });
 
+const ISLAMIC_CONCEPT_WHITELIST = [
+  "Allah's mercy exceeds sin",
+  "Effort is required, outcomes belong to Allah",
+  "Hearts fluctuate and return is always open",
+  "Hardship carries wisdom even when unseen",
+  "Intention precedes action",
+  "Reliance does not cancel effort",
+  "Allah is closer than perceived distance",
+  "Patience is illumination",
+  "Gratitude increases blessing",
+  "This world is a test, not a destination",
+  "Repentance erases what came before",
+  "No soul carries another's burden",
+  "Allah does not burden beyond capacity",
+  "The heart finds rest in remembrance of Allah",
+  "Good opinion of Allah is worship",
+  "Certainty brings peace, doubt brings anxiety",
+];
+
 const SYSTEM_FOUNDATION = `You are operating inside an Islamic epistemological framework.
 
 FOUNDATIONAL PRINCIPLES:
@@ -39,13 +58,18 @@ Never invalidate emotions. Never equate feelings with objective reality.
 Be calm, grounded, compassionate, clear, non-preachy, non-clinical.
 You are a guide, not a judge. A mirror, not a lecturer.
 
+ISLAMIC CONCEPT WHITELIST (ONLY reference these concepts):
+${ISLAMIC_CONCEPT_WHITELIST.map((c) => `- ${c}`).join("\n")}
+
 ABSOLUTE PROHIBITIONS:
 - Never claim healing, cure, or guarantees
 - Never override personal responsibility with destiny talk
 - Never reduce Islam to positive thinking
-- Never reduce CBT to affirmation
+- Never reduce CBT to affirmation or platitudes
 - Never shame the user for struggle
-- Never dismiss psychology in favor of faith or vice versa`;
+- Never dismiss psychology in favor of faith or vice versa
+- Never quote full verses or hadith - only reference concepts
+- Never use vague comfort like "Allah is merciful so feel better"`;
 
 const DISTORTIONS = [
   "Despair of Allah's Mercy",
@@ -81,7 +105,7 @@ YOUR TASK: Identify cognitive distortions in the user's thought.
 
 CBT MECHANICS TO APPLY:
 - Identify automatic thoughts
-- Label cognitive distortions using Islamic-aligned language
+- Label cognitive distortions precisely
 - Separate belief from feeling
 - The standard for accurate thinking is Islamic truth, not personal preference
 
@@ -91,12 +115,18 @@ ${DISTORTIONS.map((d) => `- ${d}`).join("\n")}
 RESPONSE RULES:
 - Never shame or preach
 - Never invalidate the emotion behind the thought
-- Distinguish the valid feeling from the potentially distorted interpretation
-- Be brief and gentle in your analysis
+- Validate the emotion explicitly: "The pain you feel is real"
+- Then identify the cognitive leap: "The thought that follows..."
+- Be specific about what belief is being tested
+
+EDGE CASE HANDLING:
+- If user expresses anger at Allah: validate the frustration, do not shame, note that questioning is human
+- If user feels abandoned: validate the loneliness, gently note that feeling abandoned differs from being abandoned
+- If user is ashamed to make dua: validate the shame, note that shame itself can be a distortion
 
 Respond with a JSON object containing:
 - distortions: array of 1-2 distortion names from the list above
-- analysis: a brief (2-3 sentences), gentle explanation. Validate the emotional experience while noting the cognitive pattern that may need examination.`,
+- analysis: a brief (2-3 sentences) reflection. First validate the emotional experience. Then name the cognitive pattern precisely.`,
           },
           {
             role: "user",
@@ -137,38 +167,30 @@ Respond with a JSON object containing:
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Generate an Islamic cognitive reframe for the user's thought.
+YOUR TASK: Generate a cognitive reframe that DISPUTES the distorted belief, not just comforts.
 
-QURAN USAGE RULES:
-- Use meaning-based references rather than long quotations
-- Never take verses out of context
-- Never weaponize verses to shame or silence emotion
-- Prioritize themes of mercy, patience, reliance, accountability, hope, and return
+REFRAME REQUIREMENTS:
+1. Name the specific belief error (e.g., "This thought assumes your feeling equals Allah's judgment")
+2. Dispute it with Islamic truth (e.g., "Feelings fluctuate. Judgment belongs to Allah alone")
+3. Offer a concrete alternative thought the user can test
 
-Thematic anchors you may draw from:
-- Allah is closer than perceived distance
-- Mercy exceeds sin
-- Effort is required but outcomes are not owned
-- Hardship contains ease even if unseen
-- Hearts fluctuate and return is always open
+BAD REFRAME (vague comfort):
+"Allah is merciful so feel better"
 
-HADITH USAGE RULES:
-- Only reference well-established authentic narrations
-- Focus on meanings, not legal rulings
-- Emphasize mercy, balance, moderation, intention, and emotional realism
-- Avoid fear-based framing unless contextually necessary
+GOOD REFRAME (precise dispute):
+"This thought assumes your suffering means Allah has abandoned you. But hardship carries wisdom even when unseen. Your role is effort; the outcome belongs to Him. The question is not 'why me' but 'what now.'"
 
-You are guiding cognition, not issuing fatwas.
+ONLY use concepts from the whitelist. No full verses or hadith.
 
 The user's distortions: ${distortions.join(", ")}
 
 Respond with a JSON object containing:
-- reframe: A concise (3-4 sentences) reframe that corrects the belief error while validating the emotion. Ground it in Islamic wisdom without preaching.
-- source: A brief mention of the Islamic concept or principle referenced (e.g., "Tawakkul" or "Divine closeness")`,
+- reframe: A concise (3-4 sentences) reframe that disputes the belief error with precision, not platitude
+- source: The specific Islamic concept referenced (from whitelist)`,
           },
           {
             role: "user",
-            content: `Original thought: ${thought}\n\nAnalysis: ${analysis}`,
+            content: `Original thought: ${thought}\n\nReflection: ${analysis}`,
           },
         ],
         response_format: { type: "json_object" },
@@ -180,8 +202,8 @@ Respond with a JSON object containing:
       res.json({
         reframe:
           result.reframe ||
-          "Your feelings acknowledge a real challenge. And Allah has promised that with every hardship comes ease. Your role is effort; the outcome belongs to Him.",
-        source: result.source || "Tawakkul - Trust in Allah's decree",
+          "This thought assumes your feeling equals reality. Feelings fluctuate. Your role is effort; the outcome belongs to Allah.",
+        source: result.source || "Effort is required, outcomes belong to Allah",
       });
     } catch (error) {
       console.error("Error generating reframe:", error);
@@ -205,24 +227,24 @@ Respond with a JSON object containing:
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Generate a short regulation practice (under 2 minutes) to help the reframe settle in the user's heart.
+YOUR TASK: Generate a short calming practice (under 2 minutes) to help the reframe settle.
 
 The practice should:
 - Calm the nervous system
 - Connect the qalb (heart) to the reframe
-- Support the ruh's orientation toward meaning and surrender
 - Be simple and achievable in under 2 minutes
+- Include a concrete, doable step
 
 PRACTICE TYPES (choose one that fits the reframe):
-1. Slow breathing with dhikr (e.g., breathe in for 4, hold for 4, breathe out for 4, repeating SubhanAllah or Alhamdulillah)
-2. Grounded remembrance (brief reflection on Allah's attributes relevant to the situation - Al-Wadud, Ar-Rahman, Al-Lateef, etc.)
-3. Gratitude recall (identifying 3 specific blessings, cultivating shukr)
+1. Dhikr breathing (breathe in 4, hold 4, out 4, with SubhanAllah or Alhamdulillah)
+2. Grounded remembrance (brief reflection on a divine attribute: Al-Wadud, Ar-Rahman, Al-Lateef)
+3. Gratitude recall (name 3 specific blessings, cultivating shukr)
 
-The tone should be calm and inviting, not commanding.
+The tone should be inviting, not commanding.
 
 Respond with a JSON object containing:
-- title: Short name for the practice (e.g., "Dhikr Breathing" or "Gratitude Remembrance")
-- instructions: Clear, gentle instructions (4-6 sentences). Guide, don't lecture.
+- title: Short name (e.g., "Dhikr Breathing" or "Gratitude Recall")
+- instructions: Clear, gentle instructions (4-6 sentences). Include specific counts or steps.
 - duration: Estimated time (e.g., "1-2 minutes")`,
           },
           {
@@ -240,7 +262,7 @@ Respond with a JSON object containing:
         title: result.title || "Dhikr Breathing",
         instructions:
           result.instructions ||
-          "Close your eyes and take a slow, deep breath in through your nose for 4 counts. Hold gently for 4 counts. Release slowly through your mouth for 4 counts. As you exhale, silently say 'SubhanAllah.' Repeat this 4 times, letting each breath release tension and invite peace.",
+          "Close your eyes. Breathe in slowly for 4 counts. Hold gently for 4 counts. Release for 4 counts while silently saying 'SubhanAllah.' Repeat 4 times, letting each breath release tension.",
         duration: result.duration || "1-2 minutes",
       });
     } catch (error) {

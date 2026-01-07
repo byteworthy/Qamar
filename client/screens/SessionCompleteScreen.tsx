@@ -62,10 +62,10 @@ export default function SessionCompleteScreen() {
           <Feather name="check" size={40} color={SiraatColors.cream} />
         </View>
         <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Session Complete
+          Reflection Complete
         </ThemedText>
         <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
-          You have walked the straight path today
+          You have taken a step on the straight path
         </ThemedText>
       </View>
 
