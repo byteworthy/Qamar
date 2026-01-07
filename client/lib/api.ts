@@ -1,18 +1,23 @@
 import { getApiUrl, apiRequest } from "./query-client";
 
-interface AnalysisResult {
+export interface AnalysisResult {
   distortions: string[];
-  analysis: string;
+  happening: string;
+  pattern: string[];
+  matters: string;
 }
 
-interface ReframeResult {
-  reframe: string;
-  source: string;
+export interface ReframeResult {
+  beliefTested: string;
+  perspective: string;
+  nextStep: string;
+  anchors: string[];
 }
 
-interface PracticeResult {
+export interface PracticeResult {
   title: string;
-  instructions: string;
+  steps: string[];
+  reminder: string;
   duration: string;
 }
 

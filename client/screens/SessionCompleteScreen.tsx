@@ -12,6 +12,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { saveSession } from "@/lib/storage";
+import { ScreenCopy } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "SessionComplete">;
 type RouteType = RouteProp<RootStackParamList, "SessionComplete">;
@@ -21,7 +22,7 @@ export default function SessionCompleteScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe, intention, practice } = route.params;
+  const { thought, distortions, reframe, intention, practice, anchor } = route.params;
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -62,40 +63,31 @@ export default function SessionCompleteScreen() {
           <Feather name="check" size={40} color={SiraatColors.cream} />
         </View>
         <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Reflection Complete
+          {ScreenCopy.complete.title}
         </ThemedText>
         <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
-          You have taken a step on the straight path
+          {ScreenCopy.complete.subtitle}
         </ThemedText>
       </View>
 
-      <View style={styles.summarySection}>
-        <View style={[styles.summaryCard, { backgroundColor: theme.backgroundDefault }]}>
+      <View style={styles.cardsSection}>
+        <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
           <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-            Your Intention
+            {ScreenCopy.complete.cards.niyyah}
           </ThemedText>
-          <ThemedText type="bodyLarge" style={[styles.intentionText, { fontFamily: Fonts?.serif }]}>
+          <ThemedText type="bodyLarge" style={[styles.cardText, { fontFamily: Fonts?.serif }]}>
             {intention}
           </ThemedText>
         </View>
 
-        <View style={[styles.summaryCard, { backgroundColor: theme.backgroundDefault }]}>
+        <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
           <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-            The Reframe
+            {ScreenCopy.complete.cards.anchor}
           </ThemedText>
-          <ThemedText type="body" style={[styles.reframeText, { fontFamily: Fonts?.serif }]}>
-            {reframe}
+          <ThemedText type="body" style={[styles.cardText, { fontFamily: Fonts?.serif, fontStyle: "italic" }]}>
+            {anchor}
           </ThemedText>
         </View>
-      </View>
-
-      <View style={styles.closingSection}>
-        <ThemedText type="body" style={[styles.closingText, { color: theme.textSecondary, fontFamily: Fonts?.serif }]}>
-          "Verily, with hardship comes ease."
-        </ThemedText>
-        <ThemedText type="caption" style={{ color: theme.accent }}>
-          Quran 94:6
-        </ThemedText>
       </View>
 
       <View style={styles.buttonSection}>
@@ -103,7 +95,7 @@ export default function SessionCompleteScreen() {
           onPress={handleGoHome}
           style={{ backgroundColor: theme.primary }}
         >
-          Return Home
+          {ScreenCopy.complete.returnHome}
         </Button>
       </View>
     </ScrollView>
@@ -137,31 +129,17 @@ const styles = StyleSheet.create({
   subtitle: {
     textAlign: "center",
   },
-  summarySection: {
+  cardsSection: {
     gap: Spacing.lg,
     marginBottom: Spacing["3xl"],
   },
-  summaryCard: {
+  card: {
     padding: Spacing.xl,
     borderRadius: BorderRadius.md,
   },
-  intentionText: {
+  cardText: {
     marginTop: Spacing.sm,
-    lineHeight: 28,
-  },
-  reframeText: {
-    marginTop: Spacing.sm,
-    lineHeight: 24,
-    fontStyle: "italic",
-  },
-  closingSection: {
-    alignItems: "center",
-    marginBottom: Spacing["3xl"],
-  },
-  closingText: {
-    textAlign: "center",
-    fontStyle: "italic",
-    marginBottom: Spacing.xs,
+    lineHeight: 26,
   },
   buttonSection: {
     marginTop: "auto",

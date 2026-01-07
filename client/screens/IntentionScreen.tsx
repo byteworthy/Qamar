@@ -7,11 +7,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { ScreenCopy } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Intention">;
 type RouteType = RouteProp<RootStackParamList, "Intention">;
@@ -23,7 +24,7 @@ export default function IntentionScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe, practice } = route.params;
+  const { thought, distortions, reframe, practice, anchor } = route.params;
 
   const canContinue = intention.trim().length > 3;
 
@@ -36,6 +37,7 @@ export default function IntentionScreen() {
         reframe, 
         intention: intention.trim(),
         practice,
+        anchor,
       });
     }
   };
@@ -53,27 +55,30 @@ export default function IntentionScreen() {
     >
       <View style={styles.section}>
         <ThemedText type="h3" style={[styles.heading, { fontFamily: Fonts?.serif }]}>
-          Set Your Niyyah
+          {ScreenCopy.intention.title}
         </ThemedText>
         <ThemedText type="body" style={[styles.description, { color: theme.textSecondary }]}>
-          What is one small, aligned action you can take? A single step rooted in this new understanding.
+          {ScreenCopy.intention.subtitle}
         </ThemedText>
       </View>
 
-      <View style={[styles.reframeSummary, { backgroundColor: theme.backgroundDefault }]}>
-        <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-          Your reframe:
-        </ThemedText>
-        <ThemedText type="small" style={[styles.reframeText, { fontFamily: Fonts?.serif }]}>
-          {reframe}
-        </ThemedText>
+      <View style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}>
+        <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.indigo }]} />
+        <View style={styles.anchorContent}>
+          <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+            {ScreenCopy.intention.anchorLabel}
+          </ThemedText>
+          <ThemedText type="small" style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
+            {anchor}
+          </ThemedText>
+        </View>
       </View>
 
       <View style={styles.inputSection}>
         <TextInput
           value={intention}
           onChangeText={setIntention}
-          placeholder="I intend to..."
+          placeholder={ScreenCopy.intention.placeholder}
           placeholderTextColor={theme.textSecondary}
           multiline
           style={[
@@ -86,9 +91,6 @@ export default function IntentionScreen() {
           ]}
           textAlignVertical="top"
         />
-        <ThemedText type="caption" style={[styles.hint, { color: theme.textSecondary }]}>
-          Keep it simple and achievable
-        </ThemedText>
       </View>
 
       <View style={styles.buttonSection}>
@@ -97,7 +99,7 @@ export default function IntentionScreen() {
           disabled={!canContinue}
           style={{ backgroundColor: canContinue ? theme.primary : theme.border }}
         >
-          Complete Session
+          {ScreenCopy.intention.complete}
         </Button>
       </View>
     </KeyboardAwareScrollViewCompat>
@@ -121,12 +123,20 @@ const styles = StyleSheet.create({
   description: {
     lineHeight: 24,
   },
-  reframeSummary: {
-    padding: Spacing.lg,
+  anchorCard: {
+    flexDirection: "row",
     borderRadius: BorderRadius.md,
     marginBottom: Spacing.xl,
+    overflow: "hidden",
   },
-  reframeText: {
+  anchorAccent: {
+    width: 4,
+  },
+  anchorContent: {
+    flex: 1,
+    padding: Spacing.lg,
+  },
+  anchorText: {
     marginTop: Spacing.xs,
     lineHeight: 22,
     fontStyle: "italic",
@@ -141,9 +151,6 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     fontSize: 17,
     lineHeight: 26,
-  },
-  hint: {
-    marginTop: Spacing.sm,
   },
   buttonSection: {
     marginTop: "auto",

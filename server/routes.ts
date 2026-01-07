@@ -101,7 +101,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Identify cognitive distortions in the user's thought.
+YOUR TASK: Identify cognitive distortions in the user's thought and structure your response clearly.
 
 CBT MECHANICS TO APPLY:
 - Identify automatic thoughts
@@ -112,12 +112,11 @@ CBT MECHANICS TO APPLY:
 DISTORTIONS TO IDENTIFY (choose 1-2 that fit best):
 ${DISTORTIONS.map((d) => `- ${d}`).join("\n")}
 
-RESPONSE RULES:
-- Never shame or preach
-- Never invalidate the emotion behind the thought
-- Validate the emotion explicitly: "The pain you feel is real"
-- Then identify the cognitive leap: "The thought that follows..."
-- Be specific about what belief is being tested
+RESPONSE STRUCTURE:
+You must respond with THREE distinct sections:
+1. "happening" - One short paragraph describing what the user is experiencing emotionally. Validate the emotion.
+2. "pattern" - Two bullet points, each naming ONE distortion and ONE sentence explaining it.
+3. "matters" - One short paragraph that validates emotion without agreeing with the distorted conclusion.
 
 EDGE CASE HANDLING:
 - If user expresses anger at Allah: validate the frustration, do not shame, note that questioning is human
@@ -126,7 +125,9 @@ EDGE CASE HANDLING:
 
 Respond with a JSON object containing:
 - distortions: array of 1-2 distortion names from the list above
-- analysis: a brief (2-3 sentences) reflection. First validate the emotional experience. Then name the cognitive pattern precisely.`,
+- happening: one short paragraph validating the emotional experience
+- pattern: array of 2 strings, each a one-sentence explanation of one distortion
+- matters: one short paragraph that validates without affirming the distortion`,
           },
           {
             role: "user",
@@ -141,9 +142,9 @@ Respond with a JSON object containing:
 
       res.json({
         distortions: result.distortions || ["Emotional reasoning"],
-        analysis:
-          result.analysis ||
-          "Your feelings are valid. Let us explore a different perspective together.",
+        happening: result.happening || "The pain you feel is real and deserves acknowledgment.",
+        pattern: result.pattern || ["This thought pattern involves interpreting feelings as facts."],
+        matters: result.matters || "Your emotions are valid, but they may not reflect the full truth of your situation.",
       });
     } catch (error) {
       console.error("Error analyzing thought:", error);
@@ -167,26 +168,32 @@ Respond with a JSON object containing:
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Generate a cognitive reframe that DISPUTES the distorted belief, not just comforts.
+YOUR TASK: Generate a cognitive reframe structured in three blocks.
 
-REFRAME REQUIREMENTS:
-1. Name the specific belief error (e.g., "This thought assumes your feeling equals Allah's judgment")
-2. Dispute it with Islamic truth (e.g., "Feelings fluctuate. Judgment belongs to Allah alone")
-3. Offer a concrete alternative thought the user can test
+BLOCK 1 - THE BELIEF BEING TESTED:
+One sentence naming the specific belief error.
+Example: "This thought assumes your feeling equals Allah's judgment of you."
 
-BAD REFRAME (vague comfort):
-"Allah is merciful so feel better"
+BLOCK 2 - A TRUER PERSPECTIVE:
+Two to three sentences max, grounded in the concept whitelist. This is the core reframe.
+Example: "Feelings fluctuate, but Allah's mercy is constant. Hardship carries wisdom even when unseen. Your role is effort; the outcome belongs to Him."
 
-GOOD REFRAME (precise dispute):
-"This thought assumes your suffering means Allah has abandoned you. But hardship carries wisdom even when unseen. Your role is effort; the outcome belongs to Him. The question is not 'why me' but 'what now.'"
+BLOCK 3 - ONE NEXT STEP:
+One simple action that can be done today.
+Example: "Make one small dua, even if your heart feels heavy."
+
+ANCHORS:
+List 2-4 concept names from the whitelist that you referenced (names only, not full text).
 
 ONLY use concepts from the whitelist. No full verses or hadith.
 
 The user's distortions: ${distortions.join(", ")}
 
 Respond with a JSON object containing:
-- reframe: A concise (3-4 sentences) reframe that disputes the belief error with precision, not platitude
-- source: The specific Islamic concept referenced (from whitelist)`,
+- beliefTested: one sentence naming the belief error
+- perspective: 2-3 sentences with the truer perspective
+- nextStep: one simple action for today
+- anchors: array of 2-4 concept names from the whitelist`,
           },
           {
             role: "user",
@@ -200,10 +207,10 @@ Respond with a JSON object containing:
       const result = JSON.parse(content);
 
       res.json({
-        reframe:
-          result.reframe ||
-          "This thought assumes your feeling equals reality. Feelings fluctuate. Your role is effort; the outcome belongs to Allah.",
-        source: result.source || "Effort is required, outcomes belong to Allah",
+        beliefTested: result.beliefTested || "This thought assumes your feeling equals reality.",
+        perspective: result.perspective || "Feelings fluctuate. Your role is effort; the outcome belongs to Allah.",
+        nextStep: result.nextStep || "Take one small step of effort today, trusting the outcome to Allah.",
+        anchors: result.anchors || ["Effort is required, outcomes belong to Allah"],
       });
     } catch (error) {
       console.error("Error generating reframe:", error);
@@ -227,25 +234,26 @@ Respond with a JSON object containing:
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Generate a short calming practice (under 2 minutes) to help the reframe settle.
+YOUR TASK: Generate a short calming practice (under 2 minutes) formatted as numbered steps.
 
-The practice should:
-- Calm the nervous system
-- Connect the qalb (heart) to the reframe
-- Be simple and achievable in under 2 minutes
-- Include a concrete, doable step
+OUTPUT FORMAT:
+- title: Short name (e.g., "Dhikr Breathing" or "Gratitude Recall")
+- steps: An array of exactly 3 short steps (one sentence each). Each step should be clear and actionable.
+- reminder: One short sentence to close the practice.
+- duration: Estimated time (e.g., "1-2 minutes")
 
 PRACTICE TYPES (choose one that fits the reframe):
 1. Dhikr breathing (breathe in 4, hold 4, out 4, with SubhanAllah or Alhamdulillah)
 2. Grounded remembrance (brief reflection on a divine attribute: Al-Wadud, Ar-Rahman, Al-Lateef)
 3. Gratitude recall (name 3 specific blessings, cultivating shukr)
 
-The tone should be inviting, not commanding.
+The tone should be inviting, not commanding. Keep each step to one clear sentence.
 
 Respond with a JSON object containing:
-- title: Short name (e.g., "Dhikr Breathing" or "Gratitude Recall")
-- instructions: Clear, gentle instructions (4-6 sentences). Include specific counts or steps.
-- duration: Estimated time (e.g., "1-2 minutes")`,
+- title: string
+- steps: array of exactly 3 strings (one sentence each)
+- reminder: one short sentence
+- duration: string`,
           },
           {
             role: "user",
@@ -260,9 +268,12 @@ Respond with a JSON object containing:
 
       res.json({
         title: result.title || "Dhikr Breathing",
-        instructions:
-          result.instructions ||
-          "Close your eyes. Breathe in slowly for 4 counts. Hold gently for 4 counts. Release for 4 counts while silently saying 'SubhanAllah.' Repeat 4 times, letting each breath release tension.",
+        steps: result.steps || [
+          "Close your eyes and breathe in slowly for 4 counts.",
+          "Hold gently for 4 counts, silently saying 'SubhanAllah.'",
+          "Release for 4 counts, letting tension leave with the breath."
+        ],
+        reminder: result.reminder || "Let each breath remind you that you are held.",
         duration: result.duration || "1-2 minutes",
       });
     } catch (error) {

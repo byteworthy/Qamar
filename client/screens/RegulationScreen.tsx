@@ -14,13 +14,21 @@ import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { generatePractice } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
+import { ScreenCopy } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Regulation">;
 type RouteType = RouteProp<RootStackParamList, "Regulation">;
 
+interface PracticeResult {
+  title: string;
+  steps: string[];
+  reminder: string;
+  duration: string;
+}
+
 export default function RegulationScreen() {
   const [loading, setLoading] = useState(true);
-  const [practice, setPractice] = useState({ title: "", instructions: "", duration: "" });
+  const [practice, setPractice] = useState<PracticeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -30,7 +38,7 @@ export default function RegulationScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe } = route.params;
+  const { thought, distortions, reframe, anchor } = route.params;
 
   useEffect(() => {
     const generate = async () => {
@@ -61,7 +69,13 @@ export default function RegulationScreen() {
   };
 
   const handleContinue = () => {
-    navigation.navigate("Intention", { thought, distortions, reframe, practice: practice.title });
+    navigation.navigate("Intention", { 
+      thought, 
+      distortions, 
+      reframe, 
+      practice: practice?.title || "",
+      anchor: anchor || "",
+    });
   };
 
   if (loading) {
@@ -75,11 +89,11 @@ export default function RegulationScreen() {
     );
   }
 
-  if (error) {
+  if (error || !practice) {
     return (
       <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
         <ThemedText type="body" style={[styles.errorText, { color: theme.error }]}>
-          {error}
+          {error || "Something went wrong"}
         </ThemedText>
         <Button
           onPress={() => navigation.goBack()}
@@ -102,8 +116,8 @@ export default function RegulationScreen() {
         },
       ]}
     >
-      <View style={styles.section}>
-        <ThemedText type="h3" style={[styles.heading, { fontFamily: Fonts?.serif }]}>
+      <View style={styles.header}>
+        <ThemedText type="h3" style={[styles.title, { fontFamily: Fonts?.serif }]}>
           {practice.title}
         </ThemedText>
         <ThemedText type="small" style={[styles.duration, { color: theme.accent }]}>
@@ -112,17 +126,31 @@ export default function RegulationScreen() {
       </View>
 
       <View style={[styles.practiceCard, { backgroundColor: isActive ? SiraatColors.emeraldDark : theme.backgroundDefault }]}>
+        <ThemedText type="caption" style={[styles.stepsLabel, { color: isActive ? SiraatColors.cream : theme.textSecondary }]}>
+          {ScreenCopy.practice.stepsLabel}
+        </ThemedText>
+        {practice.steps.map((step, index) => (
+          <View key={index} style={styles.stepRow}>
+            <View style={[styles.stepNumber, { backgroundColor: isActive ? SiraatColors.cream : theme.primary }]}>
+              <ThemedText type="small" style={{ color: isActive ? SiraatColors.emeraldDark : "#FFFFFF", fontWeight: "700" }}>
+                {index + 1}
+              </ThemedText>
+            </View>
+            <ThemedText 
+              type="body" 
+              style={[styles.stepText, { color: isActive ? SiraatColors.cream : theme.text }]}
+            >
+              {step}
+            </ThemedText>
+          </View>
+        ))}
+        
+        <View style={[styles.reminderBar, { backgroundColor: isActive ? SiraatColors.cream : theme.border, opacity: 0.3 }]} />
         <ThemedText 
-          type="bodyLarge" 
-          style={[
-            styles.instructionsText, 
-            { 
-              color: isActive ? SiraatColors.cream : theme.text,
-              fontFamily: Fonts?.serif,
-            }
-          ]}
+          type="small" 
+          style={[styles.reminderText, { color: isActive ? SiraatColors.cream : theme.textSecondary, fontFamily: Fonts?.serif }]}
         >
-          {practice.instructions}
+          {practice.reminder}
         </ThemedText>
       </View>
 
@@ -132,7 +160,7 @@ export default function RegulationScreen() {
             onPress={handleStartPractice}
             style={{ backgroundColor: theme.accent }}
           >
-            Begin Practice
+            {ScreenCopy.practice.begin}
           </Button>
         ) : null}
         
@@ -141,7 +169,7 @@ export default function RegulationScreen() {
             onPress={handleCompletePractice}
             style={{ backgroundColor: theme.accent }}
           >
-            I Have Completed This
+            {ScreenCopy.practice.complete}
           </Button>
         ) : null}
 
@@ -154,7 +182,7 @@ export default function RegulationScreen() {
               onPress={handleContinue}
               style={{ backgroundColor: theme.primary }}
             >
-              Set Your Intention
+              {ScreenCopy.practice.continue}
             </Button>
           </>
         ) : null}
@@ -185,11 +213,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: Spacing.lg,
   },
-  section: {
+  header: {
     marginBottom: Spacing["2xl"],
     alignItems: "center",
   },
-  heading: {
+  title: {
     marginBottom: Spacing.xs,
     textAlign: "center",
   },
@@ -197,15 +225,40 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   practiceCard: {
-    padding: Spacing["3xl"],
+    padding: Spacing.xl,
     borderRadius: BorderRadius.lg,
     marginBottom: Spacing.xl,
-    minHeight: 200,
-    justifyContent: "center",
   },
-  instructionsText: {
-    lineHeight: 32,
+  stepsLabel: {
+    marginBottom: Spacing.lg,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  stepRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: Spacing.md,
+    gap: Spacing.md,
+  },
+  stepNumber: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  stepText: {
+    flex: 1,
+    lineHeight: 24,
+  },
+  reminderBar: {
+    height: 1,
+    marginVertical: Spacing.lg,
+  },
+  reminderText: {
     textAlign: "center",
+    fontStyle: "italic",
+    lineHeight: 22,
   },
   buttonSection: {
     marginTop: "auto",

@@ -1,0 +1,139 @@
+You are a senior full stack engineer and product designer. The app is working. Do not change the core flow logic. This task is a focused rebrand and copy refinement based on the current screenshots.
+
+Goal
+Rebrand the app to Noor CBT as the parent brand, while keeping Siraat as the internal method name.
+
+Brand architecture
+Parent brand name shown in the UI: Noor CBT
+Method name shown in the UI: The Siraat Method
+Do not show Siraat as the app title anywhere after this change. It can appear only as the method name.
+
+Global text replacements
+Replace app title Siraat with Noor CBT
+Replace tagline Cognition aligned with truth, not mood with a Noor centered line
+
+New tagline options, choose one and apply consistently
+Option A
+Clarity through faith and reason
+Option B
+Light for the mind, rooted in Islam
+Option C
+Untangle thoughts, return with clarity
+
+Home screen changes
+Current quote card is fine but make it shorter and more Noor aligned. Use one line only. Rotate from a small approved list.
+
+Create a list called dailyAnchorConcepts using only concept level statements, no verse dumps
+Examples
+Mercy exceeds sin
+Effort is required, outcomes belong to Allah
+Hearts fluctuate and return remains open
+Hardship can carry wisdom you cannot yet see
+Trust does not cancel action
+No soul is burdened beyond capacity
+Delay is not denial
+
+Home screen sections
+Top
+Logo icon stays
+Title becomes Noor CBT
+Subtext becomes the chosen tagline
+
+Primary CTA
+Change Start Reflection to Begin Reflection
+
+Secondary link
+Keep View Past Reflections
+
+Footer disclaimer
+Update to this exact text and keep it small
+Noor CBT is a guided reflection tool. It does not diagnose, treat, or cure any condition.
+
+Method callout
+Add a small line on the home screen under the CTA area
+Powered by the Siraat Method
+
+Flow screen copy changes
+Keep the current screen structure. Only tighten text and readability.
+
+Capture screen
+Header stays but tighten subcopy
+Current
+Write openly and honestly. Your thoughts are private and held with compassion. There is no judgment here.
+Replace with
+Write what is on your mind. This is private. No shame. No judgment.
+
+Reflection screen
+Change title What we noticed to Reflection
+Change the two distortion pills styling so text never breaks awkwardly. Keep them as single line or allow clean wrap with better padding.
+
+Reduce the long paragraph into three parts with headings
+Use this structure
+What is happening
+One short paragraph
+The thinking pattern
+Two bullets naming the distortions and one line each
+What matters
+One short paragraph that validates emotion without agreeing with the distorted conclusion
+
+Reframe screen
+Change header A Different Perspective to Clearer Perspective
+Keep the current logic but shorten output.
+
+Reframe output format
+You must produce the reframe as three blocks
+Block 1
+The belief being tested
+One sentence
+Block 2
+A truer perspective
+Two to three sentences max, grounded in the concept whitelist
+Block 3
+One next step
+One simple action that can be done today
+
+At the bottom show a small line labeled Anchors used and list two to four concept names only, not verse text
+
+Calming Practice screen
+Keep the practice but reduce text length and increase scannability
+Format as
+Steps
+1
+2
+3
+Then a single line reminder
+
+Set Intention screen
+Header stays Set Your Niyyah
+Subcopy stays but shorten
+Replace with
+Choose one small action aligned with this new perspective.
+
+Remove the full reframe block from this screen. It is too long.
+Instead show a short summary called Your anchor in one sentence, pulled from the Block 2 above.
+
+Completion screen
+Header stays Reflection Complete
+Replace subtext You have taken a step on the straight path with a Noor aligned line
+Options
+Option A
+You chose clarity today
+Option B
+You returned with intention
+Option C
+A small step, real light
+
+Then show two cards only
+Your Niyyah
+Your anchor
+
+Design constraints
+Keep the Yemeni inspired aesthetic. Do not change the palette drastically.
+Improve readability by increasing line height on long text blocks and limiting paragraph width inside cards.
+
+Implementation notes
+Perform changes by updating constants and copy maps rather than hard coded strings scattered across components.
+Create a single file for brand copy and labels, then import it across screens.
+
+Deliverable
+A working build with the same flow, updated branding to Noor CBT, Siraat Method displayed as the internal method, shorter copy, better readability, and consistent labels.

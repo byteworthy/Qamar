@@ -7,23 +7,11 @@ import { Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Typography, Fonts, SiraatColors } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-
-const GROUNDING_REMINDERS = [
-  "Feelings inform you. They do not judge you.",
-  "Your heart fluctuates. Return is always open.",
-  "Effort is yours. Outcome belongs to Allah.",
-  "Hardship may carry wisdom you cannot yet see.",
-  "Mercy exceeds every mistake you fear.",
-  "This world tests you. It does not define you.",
-  "Your intention precedes your action.",
-  "Patience illuminates the path forward.",
-  "Allah is closer than the distance you perceive.",
-  "Gratitude opens doors you did not expect.",
-];
+import { Brand, DailyAnchorConcepts, ScreenCopy } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -32,10 +20,10 @@ export default function HomeScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
 
-  const dailyReminder = useMemo(() => {
+  const dailyAnchor = useMemo(() => {
     const today = new Date();
-    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % GROUNDING_REMINDERS.length;
-    return GROUNDING_REMINDERS[dayIndex];
+    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % DailyAnchorConcepts.length;
+    return DailyAnchorConcepts[dayIndex];
   }, []);
 
   return (
@@ -57,17 +45,17 @@ export default function HomeScreen() {
           contentFit="contain"
         />
         <ThemedText type="h1" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Siraat
+          {Brand.name}
         </ThemedText>
         <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Cognition aligned with truth, not mood
+          {Brand.tagline}
         </ThemedText>
       </View>
 
-      <View style={[styles.reminderCard, { backgroundColor: theme.backgroundDefault }]}>
-        <View style={[styles.reminderAccent, { backgroundColor: SiraatColors.indigo }]} />
-        <ThemedText type="body" style={[styles.reminderText, { fontFamily: Fonts?.serif }]}>
-          {dailyReminder}
+      <View style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}>
+        <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.indigo }]} />
+        <ThemedText type="body" style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
+          {dailyAnchor}
         </ThemedText>
       </View>
 
@@ -83,8 +71,11 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate("ThoughtCapture")}
             style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
           >
-            Start Reflection
+            {ScreenCopy.home.cta}
           </Button>
+          <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
+            {Brand.methodCallout}
+          </ThemedText>
         </View>
 
         <Pressable
@@ -96,7 +87,7 @@ export default function HomeScreen() {
         >
           <Feather name="clock" size={20} color={theme.textSecondary} />
           <ThemedText type="body" style={{ marginLeft: Spacing.sm, color: theme.textSecondary }}>
-            View Past Reflections
+            {ScreenCopy.home.historyLink}
           </ThemedText>
           <Feather name="chevron-right" size={20} color={theme.textSecondary} style={{ marginLeft: "auto" }} />
         </Pressable>
@@ -104,7 +95,7 @@ export default function HomeScreen() {
 
       <View style={styles.footer}>
         <ThemedText type="caption" style={[styles.disclaimer, { color: theme.textSecondary }]}>
-          Siraat is a guided reflection tool, not a replacement for therapy or professional mental health care. It does not diagnose, treat, or cure any condition.
+          {Brand.disclaimer}
         </ThemedText>
       </View>
     </ScrollView>
@@ -121,7 +112,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    marginBottom: Spacing["4xl"],
+    marginBottom: Spacing.xl,
   },
   logo: {
     width: 80,
@@ -134,18 +125,18 @@ const styles = StyleSheet.create({
   subtitle: {
     textAlign: "center",
   },
-  reminderCard: {
+  anchorCard: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: BorderRadius.md,
     marginBottom: Spacing.xl,
     overflow: "hidden",
   },
-  reminderAccent: {
+  anchorAccent: {
     width: 4,
     alignSelf: "stretch",
   },
-  reminderText: {
+  anchorText: {
     flex: 1,
     paddingVertical: Spacing.lg,
     paddingHorizontal: Spacing.lg,
@@ -166,6 +157,11 @@ const styles = StyleSheet.create({
   },
   cardDescription: {
     lineHeight: 24,
+  },
+  methodCallout: {
+    textAlign: "center",
+    marginTop: Spacing.lg,
+    fontStyle: "italic",
   },
   historyButton: {
     flexDirection: "row",

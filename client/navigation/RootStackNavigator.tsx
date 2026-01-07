@@ -16,9 +16,9 @@ export type RootStackParamList = {
   ThoughtCapture: undefined;
   Distortion: { thought: string };
   Reframe: { thought: string; distortions: string[]; analysis: string };
-  Regulation: { thought: string; distortions: string[]; reframe: string };
-  Intention: { thought: string; distortions: string[]; reframe: string; practice: string };
-  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string };
+  Regulation: { thought: string; distortions: string[]; reframe: string; anchor: string };
+  Intention: { thought: string; distortions: string[]; reframe: string; practice: string; anchor: string };
+  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string; anchor: string };
   History: undefined;
 };
 
@@ -47,7 +47,7 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="Reframe"
         component={ReframeScreen}
-        options={{ headerTitle: "Reframe", gestureEnabled: false }}
+        options={{ headerTitle: "Clearer Perspective", gestureEnabled: false }}
       />
       <Stack.Screen
         name="Regulation"

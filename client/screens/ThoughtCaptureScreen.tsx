@@ -11,6 +11,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { ScreenCopy } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "ThoughtCapture">;
 
@@ -45,7 +46,7 @@ export default function ThoughtCaptureScreen() {
           What is troubling your mind?
         </ThemedText>
         <ThemedText type="body" style={[styles.description, { color: theme.textSecondary }]}>
-          Write openly and honestly. Your thoughts are private and held with compassion. There is no judgment here.
+          {ScreenCopy.thoughtCapture.subtitle}
         </ThemedText>
       </View>
 
@@ -53,7 +54,7 @@ export default function ThoughtCaptureScreen() {
         <TextInput
           value={thought}
           onChangeText={setThought}
-          placeholder="I feel anxious because..."
+          placeholder={ScreenCopy.thoughtCapture.placeholder}
           placeholderTextColor={theme.textSecondary}
           multiline
           style={[
@@ -77,7 +78,7 @@ export default function ThoughtCaptureScreen() {
           disabled={!canContinue}
           style={{ backgroundColor: canContinue ? theme.primary : theme.border }}
         >
-          Continue
+          {ScreenCopy.thoughtCapture.continue}
         </Button>
       </View>
     </KeyboardAwareScrollViewCompat>
