@@ -3,6 +3,8 @@ import { createServer, type Server } from "node:http";
 import OpenAI from "openai";
 import { storage } from "./storage";
 import { billingService } from "./billing";
+import { classifyTone, getTonePromptModifier } from "./toneClassifier";
+import { inferInnerState, getStatePromptModifier, detectAssumptionPattern, getAssumptionPromptModifier } from "./stateInference";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -98,6 +100,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Thought is required" });
       }
 
+      const toneClassification = classifyTone(thought);
+      const toneModifier = getTonePromptModifier(toneClassification.mode);
+      
+      const stateInference = inferInnerState(thought);
+      const stateModifier = getStatePromptModifier(stateInference.state);
+
       const response = await openai.chat.completions.create({
         model: "gpt-5.1",
         max_completion_tokens: 1024,
@@ -106,7 +114,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Identify cognitive distortions in the user's thought and structure your response clearly.
+${toneModifier}
+
+${stateModifier}
+
+YOUR TASK: Answer ONE question only: What is happening and what is the thinking pattern?
+
+SINGLE QUESTION RULE:
+This screen answers ONLY: "What is happening and what is the thinking pattern?"
+- Do NOT include next steps
+- Do NOT include calming practices
+- Do NOT include reframes or solutions
+- Only identify and validate
 
 CBT MECHANICS TO APPLY:
 - Identify automatic thoughts
@@ -165,6 +184,15 @@ Respond with a JSON object containing:
         return res.status(400).json({ error: "Thought and distortions are required" });
       }
 
+      const toneClassification = classifyTone(thought);
+      const toneModifier = getTonePromptModifier(toneClassification.mode);
+      
+      const stateInference = inferInnerState(thought);
+      const stateModifier = getStatePromptModifier(stateInference.state);
+      
+      const assumptionDetection = detectAssumptionPattern(thought);
+      const assumptionModifier = getAssumptionPromptModifier(assumptionDetection);
+
       const response = await openai.chat.completions.create({
         model: "gpt-5.1",
         max_completion_tokens: 1024,
@@ -173,7 +201,19 @@ Respond with a JSON object containing:
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Generate a cognitive reframe structured in three blocks.
+${toneModifier}
+
+${stateModifier}
+
+${assumptionModifier}
+
+YOUR TASK: Answer ONE question only: What truth sits alongside this and what is the tested belief?
+
+SINGLE QUESTION RULE:
+This screen answers ONLY: "What truth sits alongside this thought and what belief is being tested?"
+- Do NOT include calming practices
+- Do NOT include additional analysis of the pattern
+- Only reframe with clarity
 
 BLOCK 1 - THE BELIEF BEING TESTED:
 One sentence naming the specific belief error.
@@ -239,7 +279,14 @@ Respond with a JSON object containing:
             role: "system",
             content: `${SYSTEM_FOUNDATION}
 
-YOUR TASK: Generate a short calming practice (under 2 minutes) formatted as numbered steps.
+YOUR TASK: Answer ONE question only: What is one practice to settle the heart and body?
+
+SINGLE QUESTION RULE:
+This screen answers ONLY: "What is one practice to settle the heart and body?"
+- Do NOT include additional analysis
+- Do NOT include additional reframing
+- Do NOT include teaching or explanation
+- Only provide the practice itself
 
 OUTPUT FORMAT:
 - title: Short name (e.g., "Dhikr Breathing" or "Gratitude Recall")

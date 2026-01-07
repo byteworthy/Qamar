@@ -94,9 +94,17 @@ export default function HomeScreen() {
           >
             {ScreenCopy.home.cta}
           </Button>
-          <ThemedText type="body" style={[styles.ctaSubcopy, { color: theme.textSecondary }]}>
-            {ScreenCopy.home.ctaSubcopy}
-          </ThemedText>
+          <View style={styles.ctaSubcopyContainer}>
+            {ScreenCopy.home.ctaSubcopyLines.map((line, index) => (
+              <ThemedText 
+                key={index} 
+                type="body" 
+                style={[styles.ctaSubcopyLine, { color: theme.textSecondary }]}
+              >
+                {line}
+              </ThemedText>
+            ))}
+          </View>
             <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
             {Brand.methodCallout}
           </ThemedText>
@@ -198,10 +206,14 @@ const styles = StyleSheet.create({
     padding: Spacing["3xl"],
     borderRadius: BorderRadius.lg,
   },
-  ctaSubcopy: {
-    textAlign: "center",
+  ctaSubcopyContainer: {
     marginTop: Spacing.xl,
-    lineHeight: 24,
+    alignItems: "center",
+    gap: Spacing.xs,
+  },
+  ctaSubcopyLine: {
+    textAlign: "center",
+    lineHeight: 22,
   },
   methodCallout: {
     textAlign: "center",

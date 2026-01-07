@@ -1,0 +1,194 @@
+PROMPT START
+
+Role
+Senior product engineer and copy implementer.
+
+Context
+Noor CBT app.
+
+Non negotiables
+Do not add new screens. Do not add new features. Do not change navigation. Do not change the reflection flow steps. Do not change the palette, logo, or typography direction. This is a precision copy and intelligence tuning update only.
+
+Goal
+1. Lock home screen copy word for word.
+2. Enforce a single question per reflection step.
+3. Add silent adaptive tone intelligence that shifts phrasing for thinkers versus feelers without exposing any settings or labels.
+4. Add silent state inference and assumption pattern recognition to improve precision.
+5. Prepare return summaries logic but do not surface it yet.
+
+PART 1
+Home screen copy update. Implement exactly. No paraphrasing. No alternates. No rotation. No italic styling.
+
+Title
+Noor CBT
+
+Tagline
+Light for the mind, rooted in Islam.
+
+Anchor line card text
+When the mind feels heavy, it is often carrying assumptions it has not examined.
+
+Primary CTA button label
+Return to Clarity
+
+CTA subcopy directly under the button
+Render as three short sentences with clear separation. Exact text:
+
+Examine the thought.
+Realign your perspective.
+Move forward with trust.
+
+Method line
+Powered by the Siraat Method
+
+Secondary actions
+Past Reflections
+Upgrade to Noor Plus
+
+Footer disclaimer
+Leave unchanged and do not increase prominence.
+
+PART 2
+Copy governing rule for reflection content generation. Apply silently. No UI changes.
+
+Rule
+Every reflection step answers only one question.
+
+Enforce these step purposes
+Capture Your Thought
+Only capture, no reframing language.
+
+Reflection screen
+Answer: What is happening and what is the thinking pattern.
+Do not include next steps here.
+
+Clearer Perspective screen
+Answer: What truth sits alongside this and what is the tested belief.
+Do not include calming practice here.
+
+Calming Practice screen
+Answer: What is one practice to settle the heart and body.
+Do not include additional analysis here.
+
+Set Intention screen
+Answer: What is one aligned action.
+Do not include additional reframing here.
+
+Prohibit
+Do not combine comfort, teaching, and reframing in the same step.
+
+PART 3
+Depth expansions. No new UI. No new screens. Internal intelligence only.
+
+3.1
+State based interpretation. Highest priority.
+
+Before generating any reflection content, infer the user’s inner state, not their topic.
+
+Supported states list
+Tightness around provision
+Fear of loss
+Shame after sin
+Justified anger
+Feeling unseen
+Confusion between effort and control
+Gratitude that feels overwhelming
+
+Use the detected state to subtly adjust tone and word choice across the existing reflection screens.
+
+Do not label the state for the user.
+Do not show the state in UI.
+Do not store the state in a way that is displayed.
+
+3.2
+Assumption pattern recognition. Silent feature.
+
+Internally recognize recurring assumptions such as
+If I suffer, Allah is displeased
+If I fail, I am unworthy
+If I feel anxious, something bad will happen
+If I am patient, outcomes should change
+If I do good, Allah owes me ease
+
+When detected
+Reflect the assumption gently.
+Test it clearly.
+Do not moralize.
+Do not quote verses excessively.
+Keep it precise and disciplined.
+
+3.3
+Return summaries. Prepare only.
+
+Track themes across multiple reflections.
+After several reflections, generate a single paragraph summary that
+Observes patterns
+Avoids advice
+Avoids encouragement language
+Feels like a wise, neutral observer
+
+Do not surface this yet unless the product already supports a place to show it.
+Prepare the logic only.
+
+PART 4
+Adaptive tone intelligence. Implement silently. No settings. No labels. No personas.
+
+Goal
+Adjust sentence framing for thinkers versus feelers while keeping the same truth and same reflection flow.
+
+Define tone modes
+Thinkers mode
+Emphasize structure, sequencing, assumptions, tests, and clarity language.
+Example framing pattern
+This thought is placing responsibility where control does not exist.
+
+Feelers mode
+Emphasize emotional naming, weight language, acknowledgment before testing.
+Example framing pattern
+It sounds heavy to carry everything as if it depends only on you.
+
+How to infer tone preference silently
+Use signals from user input and reflection history
+Sentence length
+Emotional language density
+Abstract versus concrete phrasing
+Repeated reflection patterns
+
+If signals are mixed or low confidence
+Use balanced neutral tone.
+
+Rules
+No user facing choice.
+No UI toggle.
+No quiz.
+No personality naming.
+No spiritual flattery.
+No over customization.
+Do not change the Siraat Method structure.
+Only adjust sentence framing and ordering within each step’s single question constraint.
+
+Implementation approach
+Create a small internal tone classifier utility that returns thinkers, feelers, or balanced with confidence score.
+Pass that tone into the AI prompt template and response shaping for each step.
+
+PART 5
+Design and tone constraints
+Keep existing color palette.
+Keep existing logo and icon.
+Maintain scholarly restrained typography.
+Avoid decorative religious symbols.
+Prefer test language over try language.
+Prefer clarity language over comfort language.
+Avoid aphorism style slogans inside the reflection flow.
+Avoid long quote dumps.
+
+SUCCESS CRITERIA
+Home screen copy matches exactly.
+Anchor line is static and not italic.
+CTA subcopy is three short separated sentences.
+Reflection journey still passes end to end.
+Generated content stays single question per screen.
+Tone adapts silently without any visible settings.
+Build passes.
+
+PROMPT END

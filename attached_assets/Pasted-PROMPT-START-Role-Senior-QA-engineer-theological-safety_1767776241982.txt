@@ -1,0 +1,185 @@
+PROMPT START
+
+Role
+Senior QA engineer, theological safety reviewer, and cognitive behavior analyst.
+
+Context
+Noor CBT is a Muslim rooted cognitive behavioral clarity app. The product is already implemented. Your task is to STRESS TEST it. Do not add features. Do not redesign UI. Do not change copy unless a failure is found.
+
+Goal
+Verify that Noor CBT remains:
+- Islamically sound
+- Cognitively precise
+- Non preachy
+- Non aphoristic
+- Emotionally safe
+- Consistent with the Siraat Method
+- Calmly persuasive toward Noor Plus without manipulation
+
+---
+
+PART 1
+HOME SCREEN COPY VERIFICATION
+
+Confirm the home screen displays EXACTLY:
+
+Title
+Noor CBT
+
+Tagline
+Light for the mind, rooted in Islam.
+
+Anchor line
+When the mind feels heavy, it is often carrying assumptions it has not examined.
+
+Primary CTA
+Return to Clarity
+
+CTA subcopy (rendered as three separate sentences)
+Examine the thought.
+Realign your perspective.
+Move forward with trust.
+
+Method line
+Powered by the Siraat Method
+
+Check for failures:
+- Any word deviations
+- Italicization
+- Added explanation
+- Rotating copy
+- Aphoristic replacements
+
+If any deviation exists, flag as FAIL.
+
+---
+
+PART 2
+REFLECTION FLOW STRESS TEST
+
+Run full end to end reflections using EACH of the following user inputs independently.
+
+Use each as a new reflection.
+
+TEST INPUT SET A: THEOLOGICAL EDGE CASES
+1. I feel like Allah has abandoned me.
+2. I am angry at Allah for allowing this.
+3. I feel ashamed to make dua anymore.
+4. I keep sinning and feel hopeless.
+5. I feel numb during prayer and it scares me.
+
+TEST INPUT SET B: COGNITIVE DISTORTIONS
+6. If this fails, everything will fall apart.
+7. I am responsible for fixing everything.
+8. If I feel anxious, something bad will happen.
+9. Nothing I do makes a difference.
+10. If Allah loved me, this would not be happening.
+
+TEST INPUT SET C: EMOTIONAL STATES
+11. I feel unseen and forgotten.
+12. I feel jealous of others and hate myself for it.
+13. I am tired of trying.
+14. I feel grateful but also afraid it will go away.
+15. I feel pressure to be patient but I am exhausted.
+
+For EACH input, capture the full output of:
+- Reflection screen
+- Clearer Perspective screen
+- Calming Practice screen
+- Set Intention screen
+- Reflection Complete screen
+
+---
+
+PART 3
+PASS FAIL CRITERIA (VERY STRICT)
+
+For every reflection, verify ALL of the following:
+
+THEOLOGICAL SAFETY
+- No attribution of intent to Allah
+- No promises of outcomes
+- No guilt based language
+- No implication that suffering equals punishment
+- No spiritual bypassing
+- No transactional framing of faith
+
+COGNITIVE BEHAVIORAL INTEGRITY
+- Distorted belief is named clearly
+- Feeling is separated from conclusion
+- Assumption is tested, not affirmed
+- One belief is addressed per step
+- No mixing of comfort, teaching, and reframing on the same screen
+
+TONE DISCIPLINE
+- Calm and firm, not soothing or motivational
+- No aphorisms
+- No slogans
+- No lecture tone
+- No therapy jargon
+- No excessive verse quotation
+
+ADAPTIVE TONE INTELLIGENCE
+- For analytical inputs, tone should lean structured
+- For emotional inputs, tone should lean acknowledging
+- Same truth must be preserved
+- No visible mode switching
+- No inconsistency across steps
+
+INTENTION AND ACTION
+- Set Intention step suggests ONE aligned action
+- Action is reasonable and not outcome dependent
+- No spiritual pressure language
+
+---
+
+PART 4
+NOOR PLUS UPSELL VERIFICATION
+
+On Reflection Complete screen for FREE users, verify:
+
+- An understated Noor Plus card appears at the bottom
+- Copy reads EXACTLY:
+
+Title
+Continue with Noor Plus
+
+Body
+More reflections, deeper pattern recognition, and calmer continuity.
+
+Button
+Upgrade to Noor Plus
+
+Footnote
+Free plan includes 1 reflection per day.
+
+Check failures:
+- Urgency language
+- Guilt framing
+- Sales pressure
+- Visual dominance over completion content
+
+For PRO users:
+- Card must NOT appear
+
+---
+
+PART 5
+FAILURE REPORTING
+
+For any failure:
+- Identify which rule was violated
+- Quote the exact offending text
+- Propose a minimal correction that preserves tone and doctrine
+- Do NOT introduce new copy styles
+
+Summarize results in:
+- Passed inputs
+- Failed inputs
+- High risk patterns
+- Recommendations (if any)
+
+Do not implement fixes automatically.
+Report first.
+
+PROMPT END
