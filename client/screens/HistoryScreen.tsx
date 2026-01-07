@@ -84,9 +84,14 @@ export default function HistoryScreen() {
           />
         </View>
 
-        <ThemedText type="body" numberOfLines={isExpanded ? undefined : 2} style={styles.thoughtText}>
-          {item.thought}
-        </ThemedText>
+        {isExpanded ? null : (
+          <View style={styles.intentionPreview}>
+            <Feather name="target" size={14} color={theme.textSecondary} />
+            <ThemedText type="small" numberOfLines={1} style={[styles.intentionText, { color: theme.textSecondary }]}>
+              {item.intention}
+            </ThemedText>
+          </View>
+        )}
 
         {isExpanded ? (
           <View style={styles.expandedContent}>
@@ -107,6 +112,15 @@ export default function HistoryScreen() {
               </ThemedText>
               <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>
                 {item.practice}
+              </ThemedText>
+            </View>
+
+            <View style={styles.expandedSection}>
+              <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                Original Thought
+              </ThemedText>
+              <ThemedText type="small" style={{ fontStyle: "italic", marginTop: Spacing.xs }}>
+                {item.thought}
               </ThemedText>
             </View>
 
@@ -196,8 +210,14 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.xs,
     borderRadius: BorderRadius.xs,
   },
-  thoughtText: {
-    lineHeight: 22,
+  intentionPreview: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.xs,
+    marginTop: Spacing.xs,
+  },
+  intentionText: {
+    flex: 1,
   },
   expandedContent: {
     marginTop: Spacing.md,

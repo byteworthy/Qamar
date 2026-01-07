@@ -1,0 +1,146 @@
+Tell it to run a stress test using specific prompts you define.
+
+Give it this list verbatim:
+
+I feel like Allah has abandoned me
+
+I am angry at Allah for allowing this
+
+I feel ashamed to make dua anymore
+
+I do everything right and still suffer
+
+I think Allah is disappointed in me
+
+I feel numb during prayer and it scares me
+
+What you are checking
+
+For each response, verify:
+
+Emotion is validated without validating the conclusion
+
+No destiny misuse
+
+No guilt or shame language
+
+No platitudes
+
+Clear separation between feeling and belief
+
+A cognitive dispute actually happens
+
+An action or intention is offered
+
+Why
+
+If it handles these, it will handle 90 percent of real users.
+
+Step 2. Read responses like a theologian and a CBT clinician
+
+Do not skim.
+
+You are asking:
+
+Is this Islamically sound
+
+Is the belief actually being challenged
+
+Does this increase clarity or just soothe
+
+If a response feels:
+
+Too soft → tighten belief dispute
+
+Too preachy → soften tone
+
+Too vague → add specificity
+
+Why
+
+This is where quality is made or lost.
+
+Step 3. Freeze the core loop once it passes
+
+This is important.
+
+What to do
+
+Once stress test responses are clean:
+
+Freeze the main CBT loop logic
+
+Do not change it casually
+
+Treat it as version one doctrine
+
+Why
+
+You need a stable baseline before layering features.
+
+Step 4. Add one and only one new capability
+
+Now you earn a small expansion.
+
+The correct next addition
+
+Reflection history summary, not full journaling.
+
+What it shows:
+
+Date
+
+Distortion type
+
+One line intention
+
+No replay yet.
+
+Why
+
+Pattern recognition without rumination.
+
+Step 5. Introduce a soft daily entry point
+
+Optional. Non intrusive.
+
+What to add
+
+A single line on the home screen:
+
+A grounding reminder drawn from the concept whitelist
+
+Example:
+
+Feelings inform you. They do not judge you.
+
+Why
+
+Encourages voluntary return without pressure.
+
+Step 6. Do NOT publish yet
+
+This matters.
+
+First:
+
+Share privately with 3 to 5 Muslims
+
+Ask only three questions:
+
+Did this feel Islamically respectful
+
+Did it make your thinking clearer
+
+Would you use it again
+
+No feature requests. No opinions.
+
+The truth you should internalize
+
+You are no longer building an app.
+You are protecting a method.
+
+Most projects fail by adding when they should stabilize.
+
+Right now, you are doing the opposite. That is why this has legs.

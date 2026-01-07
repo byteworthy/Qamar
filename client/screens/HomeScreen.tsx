@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { View, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -7,10 +7,23 @@ import { Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Typography, Fonts } from "@/constants/theme";
+import { Spacing, BorderRadius, Typography, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+
+const GROUNDING_REMINDERS = [
+  "Feelings inform you. They do not judge you.",
+  "Your heart fluctuates. Return is always open.",
+  "Effort is yours. Outcome belongs to Allah.",
+  "Hardship may carry wisdom you cannot yet see.",
+  "Mercy exceeds every mistake you fear.",
+  "This world tests you. It does not define you.",
+  "Your intention precedes your action.",
+  "Patience illuminates the path forward.",
+  "Allah is closer than the distance you perceive.",
+  "Gratitude opens doors you did not expect.",
+];
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -18,6 +31,12 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+
+  const dailyReminder = useMemo(() => {
+    const today = new Date();
+    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % GROUNDING_REMINDERS.length;
+    return GROUNDING_REMINDERS[dayIndex];
+  }, []);
 
   return (
     <ScrollView
@@ -42,6 +61,13 @@ export default function HomeScreen() {
         </ThemedText>
         <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
           Cognition aligned with truth, not mood
+        </ThemedText>
+      </View>
+
+      <View style={[styles.reminderCard, { backgroundColor: theme.backgroundDefault }]}>
+        <View style={[styles.reminderAccent, { backgroundColor: SiraatColors.indigo }]} />
+        <ThemedText type="body" style={[styles.reminderText, { fontFamily: Fonts?.serif }]}>
+          {dailyReminder}
         </ThemedText>
       </View>
 
@@ -107,6 +133,24 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: "center",
+  },
+  reminderCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing.xl,
+    overflow: "hidden",
+  },
+  reminderAccent: {
+    width: 4,
+    alignSelf: "stretch",
+  },
+  reminderText: {
+    flex: 1,
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+    fontStyle: "italic",
+    lineHeight: 22,
   },
   mainContent: {
     flex: 1,
