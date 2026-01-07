@@ -32,6 +32,15 @@ Preferred communication style: Simple, everyday language.
 - **Database**: PostgreSQL with Drizzle ORM (schema defined in shared/schema.ts)
 - **API Pattern**: RESTful endpoints (/api/analyze, /api/reframe, /api/practice)
 
+### Islamic Epistemological Framework
+The AI prompts are grounded in a comprehensive Islamic framework (see attached_assets for full document):
+- **Tawhid as cognitive center**: Allah is source of meaning; balance effort and trust
+- **Islamic anthropology**: Qalb (heart), Aql (reason), Nafs (ego), Ruh (spirit)
+- **Meaningful suffering**: Hardship serves growth/purification, never framed as punishment
+- **Emotions vs truth**: Validate feelings, test cognitive interpretations
+- **CBT as method, not worldview**: Islamic truth is the standard, not personal preference
+- **Tone**: Calm, grounded, compassionate, non-preachy, non-clinical
+
 ### Session Flow Implementation
 Each screen in the flow receives data from the previous step via navigation params:
 1. ThoughtCaptureScreen → captures user's troubling thought
