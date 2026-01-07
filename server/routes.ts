@@ -106,6 +106,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const stateInference = inferInnerState(thought);
       const stateModifier = getStatePromptModifier(stateInference.state);
 
+      // Developer-only logging for adaptive intelligence (not exposed to users)
+      if (process.env.NODE_ENV === "development") {
+        console.log("[Adaptive Intelligence] /api/analyze", {
+          tone: { mode: toneClassification.mode, confidence: toneClassification.confidence.toFixed(2) },
+          state: stateInference.state,
+        });
+      }
+
       const response = await openai.chat.completions.create({
         model: "gpt-5.1",
         max_completion_tokens: 1024,
@@ -192,6 +200,15 @@ Respond with a JSON object containing:
       
       const assumptionDetection = detectAssumptionPattern(thought);
       const assumptionModifier = getAssumptionPromptModifier(assumptionDetection);
+
+      // Developer-only logging for adaptive intelligence (not exposed to users)
+      if (process.env.NODE_ENV === "development") {
+        console.log("[Adaptive Intelligence] /api/reframe", {
+          tone: { mode: toneClassification.mode, confidence: toneClassification.confidence.toFixed(2) },
+          state: stateInference.state,
+          assumptionDetected: assumptionDetection.detected ? assumptionDetection.assumption : null,
+        });
+      }
 
       const response = await openai.chat.completions.create({
         model: "gpt-5.1",
