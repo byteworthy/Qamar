@@ -121,14 +121,14 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate("Pricing")}
             style={({ pressed }) => [
               styles.upgradeButton,
-              { backgroundColor: theme.backgroundDefault, opacity: pressed ? 0.7 : 0.85 },
+              { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.7 : 0.85 },
             ]}
           >
-            <Feather name="star" size={16} color={theme.textSecondary} />
-            <ThemedText type="caption" style={{ marginLeft: Spacing.sm, color: theme.textSecondary }}>
+            <Feather name="star" size={16} color="#fff" />
+            <ThemedText type="caption" style={{ marginLeft: Spacing.sm, color: "#fff" }}>
               Upgrade to Noor Plus
             </ThemedText>
-            <Feather name="chevron-right" size={16} color={theme.textSecondary} style={{ marginLeft: "auto" }} />
+            <Feather name="chevron-right" size={16} color="#fff" style={{ marginLeft: "auto" }} />
           </Pressable>
         ) : null}
       </View>
