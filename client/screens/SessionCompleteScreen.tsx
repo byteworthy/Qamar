@@ -15,7 +15,7 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { saveSession } from "@/lib/storage";
 import { ScreenCopy } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
-import { apiRequest, getApiUrl } from "@/lib/query-client";
+import { apiRequest } from "@/lib/query-client";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "SessionComplete">;
 type RouteType = RouteProp<RootStackParamList, "SessionComplete">;
@@ -27,12 +27,7 @@ interface ContextualDua {
 }
 
 async function fetchContextualDua(state: string): Promise<{ dua: ContextualDua }> {
-  const url = new URL("/api/duas/contextual", getApiUrl());
-  const response = await apiRequest(url.toString(), {
-    method: "POST",
-    body: JSON.stringify({ state }),
-    headers: { "Content-Type": "application/json" },
-  });
+  const response = await apiRequest("POST", "/api/duas/contextual", { state });
   return response.json();
 }
 
@@ -70,12 +65,7 @@ export default function SessionCompleteScreen() {
 
     const saveToServer = async () => {
       try {
-        const url = new URL("/api/reflection/save", getApiUrl());
-        const response = await apiRequest(url.toString(), {
-          method: "POST",
-          body: JSON.stringify({ thought, distortions, reframe, intention, practice, anchor }),
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await apiRequest("POST", "/api/reflection/save", { thought, distortions, reframe, intention, practice, anchor });
         const data = await response.json();
         if (data.detectedState) {
           setDetectedState(data.detectedState);
