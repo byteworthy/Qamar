@@ -25,7 +25,10 @@ export class BillingService {
         metadata: { userId },
       });
       customerId = customer.id;
+      console.log('[BILLING] Created Stripe customer:', { userId, customerId });
       await this.updateUserStripeInfo(userId, { stripeCustomerId: customerId });
+    } else {
+      console.log('[BILLING] Using existing customer:', { userId, customerId });
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -37,6 +40,8 @@ export class BillingService {
       cancel_url: cancelUrl,
       metadata: { userId },
     });
+
+    console.log('[BILLING] Checkout session created:', { userId, customerId, sessionId: session.id });
 
     return { checkoutUrl: session.url };
   }

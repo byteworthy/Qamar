@@ -2,7 +2,10 @@ import type { Express, Request, Response } from 'express';
 import express from 'express';
 import { billingService } from './billingService';
 import { WebhookHandlers } from './webhookHandlers';
-import { getStripePublishableKey } from './stripeClient';
+import { getStripePublishableKey, getStripeSecretKey } from './stripeClient';
+import { db } from '../db';
+import { users } from '@shared/schema';
+import { eq } from 'drizzle-orm';
 
 export function registerBillingWebhookRoute(app: Express) {
   app.post(
@@ -38,6 +41,8 @@ export function registerBillingRoutes(app: Express) {
     try {
       const { userId, email, priceId } = req.body;
 
+      console.log('[CHECKOUT] Creating session:', { userId, email, priceId });
+
       if (!userId || !email || !priceId) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
@@ -54,9 +59,11 @@ export function registerBillingRoutes(app: Express) {
         `${baseUrl}/billing/cancel`
       );
 
+      console.log('[CHECKOUT] Session created, URL:', result.checkoutUrl?.substring(0, 60) + '...');
+
       res.json(result);
     } catch (error: any) {
-      console.error('Create checkout session error:', error);
+      console.error('[CHECKOUT] Error:', error.message);
       res.status(500).json({ error: error.message });
     }
   });
@@ -105,6 +112,45 @@ export function registerBillingRoutes(app: Express) {
       res.json({ publishableKey, priceId });
     } catch (error: any) {
       console.error('Get billing config error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get('/api/billing/debug', async (req: Request, res: Response) => {
+    try {
+      const userId = req.query.userId as string;
+      
+      let hasStripeKey = false;
+      let hasWebhookSecret = false;
+      
+      try {
+        const secretKey = await getStripeSecretKey();
+        hasStripeKey = !!secretKey && secretKey.startsWith('sk_');
+      } catch (e) {
+        hasStripeKey = false;
+      }
+
+      hasWebhookSecret = true;
+
+      const hasPriceId = !!process.env.STRIPE_PRICE_ID;
+      const environmentMode = process.env.REPLIT_DEPLOYMENT === '1' ? 'production' : 'development';
+
+      let subscriptionStatus = null;
+      if (userId) {
+        const [user] = await db.select().from(users).where(eq(users.id, userId));
+        subscriptionStatus = user?.subscriptionStatus || 'not_found';
+      }
+
+      res.json({
+        hasStripeKey,
+        hasWebhookSecret,
+        hasPriceId,
+        environmentMode,
+        currentUserId: userId || null,
+        subscriptionStatus,
+      });
+    } catch (error: any) {
+      console.error('Debug error:', error);
       res.status(500).json({ error: error.message });
     }
   });

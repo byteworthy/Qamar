@@ -27,9 +27,15 @@ export class WebhookHandlers {
       throw err;
     }
 
+    console.log('[WEBHOOK] Received event:', event.type);
+
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
+        console.log('[WEBHOOK] checkout.session.completed:', { 
+          customerId: session.customer, 
+          subscriptionId: session.subscription 
+        });
         if (session.subscription && session.customer) {
           await billingService.handleCheckoutCompleted(
             session.customer as string,
@@ -43,6 +49,11 @@ export class WebhookHandlers {
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
         const periodEnd = (subscription as any).current_period_end;
+        console.log('[WEBHOOK] subscription updated:', { 
+          subscriptionId: subscription.id, 
+          status: subscription.status,
+          customerId: subscription.customer
+        });
         await billingService.handleSubscriptionUpdated(
           subscription.id,
           subscription.status,
@@ -53,6 +64,7 @@ export class WebhookHandlers {
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
+        console.log('[WEBHOOK] subscription deleted:', { subscriptionId: subscription.id });
         await billingService.handleSubscriptionDeleted(subscription.id);
         break;
       }
