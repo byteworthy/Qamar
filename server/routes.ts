@@ -356,7 +356,7 @@ Respond with a JSON object containing:
   app.post("/api/reflection/save", async (req, res) => {
     try {
       const userId = req.auth?.userId;
-      const { thought, distortions, reframe, intention, practice } = req.body;
+      const { thought, distortions, reframe, intention, practice, keyAssumption, detectedState, anchor } = req.body;
 
       if (!userId) {
         return res.status(401).json({ error: "Authentication required" });
@@ -382,6 +382,9 @@ Respond with a JSON object containing:
         reframe,
         intention,
         practice,
+        keyAssumption,
+        detectedState,
+        anchor,
       });
 
       res.json({ success: true });
@@ -446,6 +449,215 @@ Respond with a JSON object containing:
     } catch (error) {
       console.error("Error checking reflection limit:", error);
       res.status(500).json({ error: "Failed to check limit" });
+    }
+  });
+
+  // GET /api/insights/summary
+  // PRO ONLY: Returns pattern insight summaries for the user
+  app.get("/api/insights/summary", async (req, res) => {
+    try {
+      const userId = req.auth?.userId;
+
+      if (!userId) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      if (!isPaid) {
+        return res.status(403).json({ 
+          error: "This feature requires Noor Plus",
+          code: "PRO_REQUIRED"
+        });
+      }
+
+      const reflectionCount = await storage.getReflectionCount(userId);
+      
+      if (reflectionCount < 5) {
+        return res.json({
+          available: false,
+          message: "Complete 5 reflections to unlock your pattern summary.",
+          reflectionCount,
+          requiredCount: 5,
+        });
+      }
+
+      const existingSummary = await storage.getLatestInsightSummary(userId);
+      
+      if (existingSummary && existingSummary.reflectionCount === reflectionCount) {
+        return res.json({
+          available: true,
+          summary: existingSummary.summary,
+          reflectionCount,
+          generatedAt: existingSummary.generatedAt,
+        });
+      }
+
+      const recentReflections = await storage.getRecentReflections(userId, 15);
+      const assumptions = recentReflections
+        .filter(r => r.keyAssumption)
+        .map(r => r.keyAssumption);
+      const states = recentReflections
+        .filter(r => r.detectedState)
+        .map(r => r.detectedState);
+      const distortions = recentReflections
+        .flatMap(r => r.distortions || []);
+
+      const summaryPrompt = `Based on these patterns from ${reflectionCount} reflections:
+- Recurring assumptions: ${assumptions.join(", ") || "None detected yet"}
+- Common emotional states: ${states.join(", ") || "Various"}
+- Frequent distortions: ${distortions.join(", ") || "Various"}
+
+Write a 2-3 sentence insight summary that:
+1. Names the user's most common cognitive pattern without judgment
+2. Notes one area where growth is already visible
+3. Offers one gentle observation about what tends to trigger their distortions
+
+Keep the tone warm, observational, not prescriptive. Do not give advice.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-5.1",
+        max_completion_tokens: 256,
+        messages: [
+          {
+            role: "system",
+            content: `${SYSTEM_FOUNDATION}
+            
+You are generating a brief pattern summary for someone who has completed multiple reflections. 
+Be warm, observational, and non-judgmental. Do not give advice or prescriptions.
+Respond with plain text, not JSON.`,
+          },
+          {
+            role: "user",
+            content: summaryPrompt,
+          },
+        ],
+      });
+
+      const summary = response.choices[0]?.message?.content || 
+        "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity.";
+
+      await storage.saveInsightSummary(userId, summary, reflectionCount);
+
+      res.json({
+        available: true,
+        summary,
+        reflectionCount,
+        generatedAt: new Date(),
+      });
+    } catch (error) {
+      console.error("Error generating insight summary:", error);
+      res.status(500).json({ error: "Failed to generate insight summary" });
+    }
+  });
+
+  // GET /api/insights/assumptions
+  // PRO ONLY: Returns the user's personal assumption library
+  app.get("/api/insights/assumptions", async (req, res) => {
+    try {
+      const userId = req.auth?.userId;
+
+      if (!userId) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      if (!isPaid) {
+        return res.status(403).json({ 
+          error: "This feature requires Noor Plus",
+          code: "PRO_REQUIRED"
+        });
+      }
+
+      const assumptions = await storage.getAssumptionLibrary(userId);
+
+      res.json({
+        assumptions,
+        total: assumptions.length,
+      });
+    } catch (error) {
+      console.error("Error fetching assumption library:", error);
+      res.status(500).json({ error: "Failed to fetch assumption library" });
+    }
+  });
+
+  // POST /api/duas/contextual
+  // PRO ONLY: Returns a contextual dua based on the user's inner state
+  const DUA_BY_STATE: Record<string, { arabic: string; transliteration: string; meaning: string }> = {
+    grief: {
+      arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ",
+      transliteration: "Inna lillahi wa inna ilayhi raji'un",
+      meaning: "Indeed, to Allah we belong and to Him we shall return.",
+    },
+    fear: {
+      arabic: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ",
+      transliteration: "Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu",
+      meaning: "Sufficient for me is Allah; there is no deity except Him. On Him I rely.",
+    },
+    shame: {
+      arabic: "رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي",
+      transliteration: "Rabbi inni dhalamtu nafsi faghfir li",
+      meaning: "My Lord, indeed I have wronged myself, so forgive me.",
+    },
+    anger: {
+      arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      transliteration: "A'udhu billahi min ash-shaytanir-rajim",
+      meaning: "I seek refuge in Allah from the accursed Satan.",
+    },
+    loneliness: {
+      arabic: "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+      transliteration: "La ilaha illa anta subhanaka inni kuntu min adh-dhalimin",
+      meaning: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+    },
+    doubt: {
+      arabic: "رَبِّ زِدْنِي عِلْمًا",
+      transliteration: "Rabbi zidni 'ilma",
+      meaning: "My Lord, increase me in knowledge.",
+    },
+    despair: {
+      arabic: "لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ",
+      transliteration: "La taqnatu min rahmatillah",
+      meaning: "Do not despair of the mercy of Allah.",
+    },
+    exhaustion: {
+      arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+      transliteration: "Allahumma inni a'udhu bika min al-hammi wal-hazan",
+      meaning: "O Allah, I seek refuge in You from anxiety and sorrow.",
+    },
+  };
+
+  app.post("/api/duas/contextual", async (req, res) => {
+    try {
+      const userId = req.auth?.userId;
+      const { state } = req.body;
+
+      if (!userId) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      if (!isPaid) {
+        return res.status(403).json({ 
+          error: "This feature requires Noor Plus",
+          code: "PRO_REQUIRED"
+        });
+      }
+
+      const normalizedState = (state || "").toLowerCase();
+      const dua = DUA_BY_STATE[normalizedState] || DUA_BY_STATE["exhaustion"];
+
+      res.json({
+        state: normalizedState || "general",
+        dua,
+      });
+    } catch (error) {
+      console.error("Error fetching contextual dua:", error);
+      res.status(500).json({ error: "Failed to fetch contextual dua" });
     }
   });
 
