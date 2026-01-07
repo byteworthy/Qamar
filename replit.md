@@ -1,8 +1,10 @@
-# Siraat
+# Noor CBT
 
 ## Overview
 
-Siraat is an Islamic cognitive behavioral therapy (CBT) mobile application built with React Native/Expo. The app helps Muslim users process troubling thoughts through a structured 5-step flow: Thought Capture → Distortion Identification → Islamic Cognitive Reframe → Regulation Practice → Intention Reset. Sessions are designed to be completed in under 5 minutes.
+Noor CBT is an Islamic cognitive behavioral therapy (CBT) mobile application built with React Native/Expo. Powered by "The Siraat Method," the app helps Muslim users process troubling thoughts through a structured 5-step flow: Thought Capture → Distortion Identification → Islamic Cognitive Reframe → Regulation Practice → Intention Reset. Sessions are designed to be completed in under 5 minutes.
+
+**Tagline**: "Light for the mind, rooted in Islam."
 
 The core philosophy is that Islam provides the cognitive framework while CBT serves as the method - this is not Western CBT with Islamic quotes added, but a fundamentally Islamic approach to mental wellness.
 
@@ -19,6 +21,7 @@ Preferred communication style: Simple, everyday language.
 - **Styling**: StyleSheet-based theming with a custom theme system supporting light/dark modes
 - **Animations**: React Native Reanimated for subtle, contemplative motion effects
 - **Local Storage**: AsyncStorage for persisting completed session history
+- **Brand Copy**: Centralized in `client/constants/brand.ts`
 
 ### Design System
 - **Visual Identity**: Earth tones inspired by Yemeni masjid geometry (sand, clay, indigo, emerald, charcoal)
@@ -30,10 +33,30 @@ Preferred communication style: Simple, everyday language.
 - **Runtime**: Express.js server with TypeScript
 - **AI Integration**: OpenAI API for analyzing thoughts, generating Islamic reframes, and creating regulation practices
 - **Database**: PostgreSQL with Drizzle ORM (schema defined in shared/schema.ts)
-- **API Pattern**: RESTful endpoints (/api/analyze, /api/reframe, /api/practice)
+- **API Pattern**: RESTful endpoints with structured JSON responses
+
+### API Response Formats
+
+**POST /api/analyze** returns:
+- distortions: array of 1-2 distortion names
+- happening: one paragraph validating emotional experience
+- pattern: array of bullet points explaining each distortion
+- matters: one paragraph validating without affirming distortion
+
+**POST /api/reframe** returns:
+- beliefTested: one sentence naming the belief error
+- perspective: 2-3 sentences with the truer perspective (core reframe)
+- nextStep: one simple action for today
+- anchors: array of 2-4 concept names from whitelist
+
+**POST /api/practice** returns:
+- title: short practice name
+- steps: array of 3 numbered steps
+- reminder: one closing sentence
+- duration: estimated time
 
 ### Islamic Epistemological Framework
-The AI prompts are grounded in a comprehensive Islamic framework (see attached_assets for full document):
+The AI prompts are grounded in a comprehensive Islamic framework:
 - **Tawhid as cognitive center**: Allah is source of meaning; balance effort and trust
 - **Islamic anthropology**: Qalb (heart), Aql (reason), Nafs (ego), Ruh (spirit)
 - **Meaningful suffering**: Hardship serves growth/purification, never framed as punishment
@@ -44,11 +67,11 @@ The AI prompts are grounded in a comprehensive Islamic framework (see attached_a
 ### Reflection Flow Implementation (FROZEN v1 - DO NOT MODIFY WITHOUT REVIEW)
 The core CBT loop has been stress-tested with 6 edge case prompts and validated for theological safety and clinical accuracy. Each screen receives data from the previous step via navigation params:
 1. ThoughtCaptureScreen → captures user's troubling thought
-2. DistortionScreen → AI identifies cognitive distortions using Islamic-aligned language
-3. ReframeScreen → AI generates Quran/Sunnah-grounded reframe that DISPUTES beliefs
-4. RegulationScreen (Calming Practice) → AI provides 2-minute calming practice (dhikr, breathing)
-5. IntentionScreen → User sets a niyyah (intention)
-6. SessionCompleteScreen (Reflection Complete) → Saves reflection, returns to home
+2. DistortionScreen → Shows "What is happening" / "Thinking pattern" / "What matters"
+3. ReframeScreen → Shows 3 blocks: belief tested, truer perspective, next step, plus anchors
+4. RegulationScreen → Shows numbered steps with reminder
+5. IntentionScreen → User sets niyyah with anchor card displayed
+6. SessionCompleteScreen → Shows only Niyyah and Anchor cards
 
 ### Islamic Concept Whitelist (16 vetted concepts in server/routes.ts)
 The AI can ONLY reference these concepts to prevent theological drift:
@@ -69,9 +92,23 @@ The AI can ONLY reference these concepts to prevent theological drift:
 - Good opinion of Allah is worship
 - Certainty brings peace, doubt brings anxiety
 
+### Daily Anchor Concepts (10 short phrases in brand.ts)
+Shown on home screen, rotates daily:
+- Mercy exceeds sin.
+- Effort is required, outcomes belong to Allah.
+- Hearts fluctuate and return remains open.
+- Hardship can carry wisdom you cannot yet see.
+- Trust does not cancel action.
+- No soul is burdened beyond capacity.
+- Delay is not denial.
+- Allah is closer than perceived distance.
+- Patience illuminates the path.
+- Gratitude opens unexpected doors.
+
 ### Home Screen Features
-- Daily grounding reminder: Shows one concept per day from whitelist
-- Disclaimer: "Siraat is a guided reflection tool, not a replacement for therapy..."
+- Daily grounding reminder from anchor concepts
+- Disclaimer: "Noor CBT is a guided reflection tool. It does not diagnose, treat, or cure any condition."
+- "Powered by the Siraat Method" callout
 
 ### History Screen
 - Shows date, distortion type tags, one-line intention preview (collapsed)
