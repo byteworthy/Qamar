@@ -1,19 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <!-- Outer frame: rounded square with centered aperture -->
-  <rect x="56" y="56" width="400" height="400" rx="24" stroke="#3D3D3D" stroke-width="12" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Outer solid frame -->
+  <rect x="48" y="48" width="416" height="416" rx="32" fill="#3D3D3D"/>
   
-  <!-- Middle frame: nested inward -->
-  <rect x="104" y="104" width="304" height="304" rx="16" stroke="#3D3D3D" stroke-width="10" fill="none"/>
+  <!-- Recessed middle layer -->
+  <rect x="88" y="88" width="336" height="336" rx="20" fill="#FAF8F3"/>
   
-  <!-- Inner frame: deepest layer with pointed arch top -->
-  <path 
-    d="M160 408 L160 220 Q160 160 256 140 Q352 160 352 220 L352 408" 
-    stroke="#3D3D3D" 
-    stroke-width="8" 
-    stroke-linecap="round"
-    fill="none"
-  />
+  <!-- Inner carved frame -->
+  <rect x="120" y="120" width="272" height="272" rx="12" fill="#3D3D3D"/>
   
-  <!-- Central void: the focal aperture -->
-  <circle cx="256" cy="280" r="40" stroke="#3D3D3D" stroke-width="6" fill="none"/>
+  <!-- Central aperture - the cognitive void -->
+  <rect x="176" y="176" width="160" height="160" rx="8" fill="#FAF8F3"/>
 </svg>
