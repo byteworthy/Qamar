@@ -41,14 +41,41 @@ The AI prompts are grounded in a comprehensive Islamic framework (see attached_a
 - **CBT as method, not worldview**: Islamic truth is the standard, not personal preference
 - **Tone**: Calm, grounded, compassionate, non-preachy, non-clinical
 
-### Session Flow Implementation
-Each screen in the flow receives data from the previous step via navigation params:
+### Reflection Flow Implementation (FROZEN v1 - DO NOT MODIFY WITHOUT REVIEW)
+The core CBT loop has been stress-tested with 6 edge case prompts and validated for theological safety and clinical accuracy. Each screen receives data from the previous step via navigation params:
 1. ThoughtCaptureScreen → captures user's troubling thought
 2. DistortionScreen → AI identifies cognitive distortions using Islamic-aligned language
-3. ReframeScreen → AI generates Quran/Sunnah-grounded reframe
-4. RegulationScreen → AI provides 2-minute calming practice (dhikr, breathing)
+3. ReframeScreen → AI generates Quran/Sunnah-grounded reframe that DISPUTES beliefs
+4. RegulationScreen (Calming Practice) → AI provides 2-minute calming practice (dhikr, breathing)
 5. IntentionScreen → User sets a niyyah (intention)
-6. SessionCompleteScreen → Saves session, returns to home
+6. SessionCompleteScreen (Reflection Complete) → Saves reflection, returns to home
+
+### Islamic Concept Whitelist (16 vetted concepts in server/routes.ts)
+The AI can ONLY reference these concepts to prevent theological drift:
+- Allah's mercy exceeds sin
+- Effort is required, outcomes belong to Allah
+- Hearts fluctuate and return is always open
+- Hardship carries wisdom even when unseen
+- Intention precedes action
+- Reliance does not cancel effort
+- Allah is closer than perceived distance
+- Patience is illumination
+- Gratitude increases blessing
+- This world is a test, not a destination
+- Repentance erases what came before
+- No soul carries another's burden
+- Allah does not burden beyond capacity
+- The heart finds rest in remembrance of Allah
+- Good opinion of Allah is worship
+- Certainty brings peace, doubt brings anxiety
+
+### Home Screen Features
+- Daily grounding reminder: Shows one concept per day from whitelist
+- Disclaimer: "Siraat is a guided reflection tool, not a replacement for therapy..."
+
+### History Screen
+- Shows date, distortion type tags, one-line intention preview (collapsed)
+- Full details available on expand
 
 ### Path Aliases
 - `@/` maps to `./client/`
