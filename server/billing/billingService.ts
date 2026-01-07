@@ -180,6 +180,50 @@ export class BillingService {
     // 'past_due' still has access (grace period) but should prompt to fix payment
     return status === 'active' || status === 'past_due';
   }
+
+  async syncSubscriptionFromStripe(userId: string): Promise<{ status: SubscriptionStatus; planName: string }> {
+    const stripe = await getUncachableStripeClient();
+    const user = await this.getUser(userId);
+    
+    if (!user?.stripeCustomerId) {
+      return { status: 'free', planName: 'Free' };
+    }
+
+    try {
+      const subscriptions = await stripe.subscriptions.list({
+        customer: user.stripeCustomerId,
+        status: 'all',
+        limit: 1,
+      });
+
+      if (subscriptions.data.length === 0) {
+        return { status: 'free', planName: 'Free' };
+      }
+
+      const subscription = subscriptions.data[0];
+      const newStatus = this.mapStripeStatus(subscription.status);
+      const periodEnd = (subscription as any).current_period_end;
+
+      console.log('[SYNC] Syncing subscription from Stripe:', {
+        userId,
+        subscriptionId: subscription.id,
+        stripeStatus: subscription.status,
+        mappedStatus: newStatus,
+      });
+
+      await this.updateUserStripeInfo(userId, {
+        stripeSubscriptionId: subscription.id,
+        subscriptionStatus: newStatus,
+        currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : null,
+      });
+
+      const planName = newStatus === 'active' ? 'Noor Plus' : 'Free';
+      return { status: newStatus, planName };
+    } catch (error) {
+      console.error('[SYNC] Error syncing subscription:', error);
+      return this.getBillingStatus(userId);
+    }
+  }
 }
 
 export const billingService = new BillingService();

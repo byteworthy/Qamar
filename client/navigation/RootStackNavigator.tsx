@@ -11,6 +11,7 @@ import IntentionScreen from "@/screens/IntentionScreen";
 import SessionCompleteScreen from "@/screens/SessionCompleteScreen";
 import HistoryScreen from "@/screens/HistoryScreen";
 import PricingScreen from "@/screens/PricingScreen";
+import BillingSuccessScreen from "@/screens/BillingSuccessScreen";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -22,6 +23,7 @@ export type RootStackParamList = {
   SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string; anchor: string; detectedState?: string };
   History: undefined;
   Pricing: undefined;
+  BillingSuccess: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -75,6 +77,11 @@ export default function RootStackNavigator() {
         name="Pricing"
         component={PricingScreen}
         options={{ headerTitle: "Upgrade" }}
+      />
+      <Stack.Screen
+        name="BillingSuccess"
+        component={BillingSuccessScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

@@ -111,3 +111,12 @@ export function isPaidStatus(status: string): boolean {
   // Only 'active' and 'past_due' are treated as paid (past_due is grace period)
   return status === "active" || status === "past_due";
 }
+
+export async function syncBillingStatus(): Promise<BillingStatus> {
+  const response = await apiRequest("POST", "/api/billing/sync", {});
+  
+  if (!response.ok) {
+    return { status: "free", planName: "Free" };
+  }
+  return response.json();
+}
