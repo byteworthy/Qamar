@@ -21,7 +21,7 @@ export default function SessionCompleteScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe, intention } = route.params;
+  const { thought, distortions, reframe, intention, practice } = route.params;
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -31,6 +31,7 @@ export default function SessionCompleteScreen() {
       distortions,
       reframe,
       intention,
+      practice,
       timestamp: Date.now(),
     });
   }, []);

@@ -103,6 +103,15 @@ export default function HistoryScreen() {
 
             <View style={styles.expandedSection}>
               <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                Practice
+              </ThemedText>
+              <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>
+                {item.practice}
+              </ThemedText>
+            </View>
+
+            <View style={styles.expandedSection}>
+              <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                 Intention
               </ThemedText>
               <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>

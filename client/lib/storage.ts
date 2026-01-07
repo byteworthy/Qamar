@@ -7,6 +7,7 @@ export interface Session {
   distortions: string[];
   reframe: string;
   intention: string;
+  practice: string;
   timestamp: number;
 }
 

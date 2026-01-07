@@ -18,7 +18,7 @@ export type RootStackParamList = {
   Reframe: { thought: string; distortions: string[]; analysis: string };
   Regulation: { thought: string; distortions: string[]; reframe: string };
   Intention: { thought: string; distortions: string[]; reframe: string; practice: string };
-  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string };
+  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string };
   History: undefined;
 };
 
