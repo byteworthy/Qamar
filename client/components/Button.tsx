@@ -16,6 +16,7 @@ interface ButtonProps {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
+  variant?: "primary" | "secondary";
 }
 
 const springConfig: WithSpringConfig = {
@@ -33,6 +34,7 @@ export function Button({
   children,
   style,
   disabled = false,
+  variant = "primary",
 }: ButtonProps) {
   const { theme } = useTheme();
   const scale = useSharedValue(1);
@@ -43,7 +45,7 @@ export function Button({
 
   const handlePressIn = () => {
     if (!disabled) {
-      scale.value = withSpring(0.98, springConfig);
+      scale.value = withSpring(0.97, springConfig);
     }
   };
 
@@ -51,6 +53,20 @@ export function Button({
     if (!disabled) {
       scale.value = withSpring(1, springConfig);
     }
+  };
+
+  const getBackgroundColor = () => {
+    if (variant === "secondary") {
+      return theme.backgroundSecondary;
+    }
+    return theme.primary;
+  };
+
+  const getTextColor = () => {
+    if (variant === "secondary") {
+      return theme.text;
+    }
+    return theme.buttonText;
   };
 
   return (
@@ -62,7 +78,7 @@ export function Button({
       style={[
         styles.button,
         {
-          backgroundColor: theme.link,
+          backgroundColor: getBackgroundColor(),
           opacity: disabled ? 0.5 : 1,
         },
         style,
@@ -71,7 +87,7 @@ export function Button({
     >
       <ThemedText
         type="body"
-        style={[styles.buttonText, { color: theme.buttonText }]}
+        style={[styles.buttonText, { color: getTextColor() }]}
       >
         {children}
       </ThemedText>
@@ -82,9 +98,10 @@ export function Button({
 const styles = StyleSheet.create({
   button: {
     height: Spacing.buttonHeight,
-    borderRadius: BorderRadius.full,
+    borderRadius: BorderRadius.lg,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: Spacing["2xl"],
   },
   buttonText: {
     fontWeight: "600",
