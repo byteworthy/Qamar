@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { pgTable, text, timestamp, serial, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, serial, jsonb, integer } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
@@ -33,7 +33,26 @@ export const sessions = pgTable("sessions", {
   reframe: text("reframe").notNull(),
   intention: text("intention").notNull(),
   practice: text("practice").notNull(),
+  keyAssumption: text("key_assumption"),
+  detectedState: text("detected_state"),
+  anchor: text("anchor"),
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insightSummaries = pgTable("insight_summaries", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  summary: text("summary").notNull(),
+  reflectionCount: integer("reflection_count").notNull(),
+  generatedAt: timestamp("generated_at").defaultNow(),
+});
+
+export const assumptionLibrary = pgTable("assumption_library", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  assumptionLabel: text("assumption_label").notNull(),
+  count: integer("count").default(1),
+  lastSeenAt: timestamp("last_seen_at").defaultNow(),
 });
 
 export type User = typeof users.$inferSelect;

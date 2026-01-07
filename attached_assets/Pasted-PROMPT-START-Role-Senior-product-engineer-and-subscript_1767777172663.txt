@@ -1,0 +1,182 @@
+PROMPT START
+
+Role
+Senior product engineer and subscription product architect.
+
+Context
+Noor CBT app is already functional with Stripe. Do not change the existing reflection flow. Do not change existing screen order. Do not change branding, palette, logo, typography, or current home CTA language.
+
+Instruction
+Implement Noor Plus value as a second product layer inside the app. This is a Pro plan expansion. Keep the app calm, scholarly, and restrained.
+
+Non negotiables
+- Do not add a new reflection flow
+- Do not change existing reflection screens or their order
+- Do not add gamification, streaks, mood trackers, daily prompts, or content feeds
+- Do not add verse dumps
+- Do not add pushy sales copy
+- Prefer clarity and pattern language over comfort language
+- Prefer state language over outcome language
+
+Goal
+Noor CBT has two products:
+Product 1: Noor CBT reflections (moment level clarity)
+Product 2: Noor Plus insight layer (pattern level clarity)
+
+Implement these Noor Plus features:
+1. Unlimited reflections for subscribed users
+2. Pattern Insight Summaries (paragraph level, neutral observer tone)
+3. Personal Assumption Library (recurring assumptions inferred from reflections)
+4. Duas by inner state (contextual, non browsy, shown only after reflection for Pro)
+5. Extended reflection history for Pro (no limits)
+
+UI constraints
+Minimize UI additions. Prefer using existing screens and adding ONE discreet section where needed.
+Do not create a new tab bar or feed.
+
+Allowed UI additions
+- Pricing screen can list Noor Plus benefits
+- Reflection Complete screen may include one additional section for Pro users only
+- Past Reflections screen may include an Insights view or an Insights section
+
+PART 1
+Billing and Entitlements
+
+Define entitlements based on billing status:
+- Free: 1 reflection per day, limited history, no insights, no dua layer
+- Pro: unlimited reflections, unlimited history, insights enabled, dua layer enabled
+
+Enforce entitlements server side:
+- Reflection creation limit applies only to free users
+- Pro users bypass limits
+
+PART 2
+Data model changes
+
+Update database schema to support:
+- reflection records with timestamp, userId, rawThought, keyAssumption tags, detectedState tags
+- user insight metadata, such as lastInsightGeneratedAt
+- assumption library table or computed store keyed by userId with counts
+
+Do not surface detectedState or tags in UI unless inside Pro Insights section.
+
+PART 3
+Pattern Insight Summaries
+
+Implement a server endpoint for Pro only:
+GET /api/insights/summary
+
+Logic:
+- Use the most recent N reflections, for example 10 to 20, to generate one paragraph
+- Tone: calm, neutral observer, scholarly
+- No advice
+- No encouragement language
+- No promises
+- No moralizing
+- No excessive quoting
+
+Output:
+- single paragraph string
+- optionally 2 to 4 short bullet observations if already supported by UI, otherwise paragraph only
+
+Caching:
+- Generate at most once per 24 hours per user unless new reflections exceed a threshold
+- Store the generated summary and timestamp for reuse
+
+PART 4
+Personal Assumption Library
+
+Implement Pro only endpoints:
+GET /api/insights/assumptions
+
+Logic:
+- For each reflection, run the assumption detector
+- Maintain a list of recurring assumptions with counts
+- Keep language neutral and non shaming
+
+Output format:
+- array of objects: { assumptionLabel, count, lastSeenAt }
+
+Display:
+- Only in a Pro Insights section, not on home screen
+
+PART 5
+Duas by inner state after reflection
+
+Pro only.
+
+Implement:
+POST /api/duas/contextual
+
+Input:
+- userId
+- detectedState
+- optional topic or distortion tag
+
+Output:
+- one dua only, not a list
+- include Arabic, transliteration, and English
+- keep it short
+- state framing: “words to align the heart in this state”
+- do not frame as outcome purchase
+- do not include multiple alternatives
+
+Placement:
+- Show only after a completed reflection, inside a discreet Pro section on the Reflection Complete screen
+- If free user, do not show dua section
+
+PART 6
+Extended Reflection History
+
+For Pro users:
+- remove limits on saved reflections
+For Free users:
+- keep current limit behavior
+
+Past Reflections screen:
+- Keep existing layout
+- Add an “Insights” entry point only if there is already a place for it, otherwise add a small Insights card at top for Pro users linking to insights summary and assumptions list
+
+PART 7
+Pricing screen copy and positioning
+
+Keep tone scholarly and restrained.
+
+Noor Plus benefits list must emphasize:
+- pattern level clarity
+- deeper recognition over time
+- continuity
+- contextual duas tied to states
+
+Avoid:
+- heal, transform, manifest, glow
+- urgency and discount language
+- guilt framing
+
+PART 8
+Validation
+
+Add a test plan and run it:
+
+Free user tests:
+- can complete 1 reflection per day
+- second reflection is blocked
+- no insights endpoints accessible
+- no dua section displayed after reflection
+- limited history enforced
+
+Pro user tests:
+- unlimited reflections
+- insights summary endpoint returns data
+- assumptions endpoint returns data
+- contextual dua returns one dua
+- reflection complete shows the Pro dua section
+- history is unlimited
+
+Stripe tests:
+- upgrade changes entitlements immediately
+- downgrade reverts entitlements correctly
+
+Build passes and end to end reflection flow still works.
+
+PROMPT END
