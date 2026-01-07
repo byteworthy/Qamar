@@ -1,8 +1,10 @@
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
+import cookieParser from "cookie-parser";
 import { registerRoutes } from "./routes";
 import { registerBillingWebhookRoute, registerBillingRoutes, getStripeSync } from "./billing";
 import { runMigrations } from "stripe-replit-sync";
+import { sessionMiddleware } from "./middleware/auth";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -259,9 +261,20 @@ async function initStripe() {
 (async () => {
   setupCors(app);
   
+  // CRITICAL: Webhook route MUST be registered BEFORE body parsing middleware.
+  // Stripe webhook verification requires the raw request body as a Buffer.
+  // If express.json() runs first, it will parse the body and break signature verification.
   registerBillingWebhookRoute(app);
   
   setupBodyParsing(app);
+  
+  // Cookie parser must come before session middleware
+  app.use(cookieParser());
+  
+  // Session middleware creates/validates signed session cookies for user identity
+  // All subsequent routes can access req.auth.userId instead of trusting client input
+  app.use(sessionMiddleware);
+  
   setupRequestLogging(app);
 
   await initStripe();

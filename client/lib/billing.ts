@@ -1,19 +1,8 @@
 import { apiRequest, getApiUrl } from "./query-client";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const USER_ID_KEY = "noor_user_id";
-
-export async function getUserId(): Promise<string> {
-  let userId = await AsyncStorage.getItem(USER_ID_KEY);
-  if (!userId) {
-    userId = `user_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
-    await AsyncStorage.setItem(USER_ID_KEY, userId);
-  }
-  return userId;
-}
-
+// Billing status state machine - normalized values only
 export interface BillingStatus {
-  status: "free" | "active" | "canceled" | "past_due" | "trialing";
+  status: "free" | "active" | "past_due" | "canceled";
   planName: string;
 }
 
@@ -28,12 +17,15 @@ export interface ReflectionLimit {
   isPaid: boolean;
 }
 
+// All billing requests use credentials: 'include' to send the session cookie.
+// The server derives user identity from the signed session cookie, NOT from request body.
+
 export async function getBillingStatus(): Promise<BillingStatus> {
-  const userId = await getUserId();
   const url = new URL("/api/billing/status", getApiUrl());
-  url.searchParams.set("userId", userId);
   
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    credentials: 'include',
+  });
   if (!response.ok) {
     return { status: "free", planName: "Free" };
   }
@@ -42,39 +34,36 @@ export async function getBillingStatus(): Promise<BillingStatus> {
 
 export async function getBillingConfig(): Promise<BillingConfig> {
   const url = new URL("/api/billing/config", getApiUrl());
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    credentials: 'include',
+  });
   return response.json();
 }
 
+// SECURITY: Only email is sent to the server.
+// userId is derived from the server-side session cookie.
 export async function createCheckoutSession(email: string): Promise<{ checkoutUrl: string }> {
-  const userId = await getUserId();
-  const config = await getBillingConfig();
-  
   const response = await apiRequest("POST", "/api/billing/create-checkout-session", {
-    userId,
     email,
-    priceId: config.priceId,
   });
   
   return response.json();
 }
 
+// SECURITY: No client-supplied identity.
+// userId is derived from the server-side session cookie.
 export async function createPortalSession(): Promise<{ portalUrl: string }> {
-  const userId = await getUserId();
-  
-  const response = await apiRequest("POST", "/api/billing/create-portal-session", {
-    userId,
-  });
+  const response = await apiRequest("POST", "/api/billing/create-portal-session", {});
   
   return response.json();
 }
 
 export async function checkReflectionLimit(): Promise<ReflectionLimit> {
-  const userId = await getUserId();
   const url = new URL("/api/reflection/can-reflect", getApiUrl());
-  url.searchParams.set("userId", userId);
   
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    credentials: 'include',
+  });
   if (!response.ok) {
     return { canReflect: true, remaining: 1, isPaid: false };
   }
@@ -88,13 +77,8 @@ export async function saveReflection(data: {
   intention: string;
   practice: string;
 }): Promise<{ success: boolean; error?: string; code?: string }> {
-  const userId = await getUserId();
-  
   try {
-    const response = await apiRequest("POST", "/api/reflection/save", {
-      userId,
-      ...data,
-    });
+    const response = await apiRequest("POST", "/api/reflection/save", data);
     
     if (!response.ok) {
       const error = await response.json();
@@ -112,11 +96,11 @@ export async function getReflectionHistory(): Promise<{
   isLimited: boolean;
   limit: number | null;
 }> {
-  const userId = await getUserId();
   const url = new URL("/api/reflection/history", getApiUrl());
-  url.searchParams.set("userId", userId);
   
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    credentials: 'include',
+  });
   if (!response.ok) {
     return { history: [], isLimited: true, limit: 3 };
   }
@@ -124,5 +108,6 @@ export async function getReflectionHistory(): Promise<{
 }
 
 export function isPaidStatus(status: string): boolean {
-  return status === "active" || status === "trialing";
+  // Only 'active' and 'past_due' are treated as paid (past_due is grace period)
+  return status === "active" || status === "past_due";
 }

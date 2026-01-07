@@ -11,6 +11,20 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const processedStripeEvents = pgTable("processed_stripe_events", {
+  eventId: text("event_id").primaryKey(),
+  eventType: text("event_type").notNull(),
+  processedAt: timestamp("processed_at").defaultNow(),
+});
+
+export const userSessions = pgTable("user_sessions", {
+  token: text("token").primaryKey(),
+  userId: text("user_id").notNull(),
+  email: text("email"),
+  createdAt: timestamp("created_at").defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
 export const sessions = pgTable("sessions", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull(),

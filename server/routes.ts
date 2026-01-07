@@ -287,12 +287,15 @@ Respond with a JSON object containing:
     }
   });
 
+  // POST /api/reflection/save
+  // SECURITY: userId is derived from server-side session, NOT from request body.
   app.post("/api/reflection/save", async (req, res) => {
     try {
-      const { userId, thought, distortions, reframe, intention, practice } = req.body;
+      const userId = req.auth?.userId;
+      const { thought, distortions, reframe, intention, practice } = req.body;
 
       if (!userId) {
-        return res.status(400).json({ error: "User ID is required" });
+        return res.status(401).json({ error: "Authentication required" });
       }
 
       const user = await storage.getOrCreateUser(userId);
@@ -324,12 +327,14 @@ Respond with a JSON object containing:
     }
   });
 
+  // GET /api/reflection/history
+  // SECURITY: userId is derived from server-side session, NOT from query params.
   app.get("/api/reflection/history", async (req, res) => {
     try {
-      const userId = req.query.userId as string;
+      const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(400).json({ error: "User ID is required" });
+        return res.status(401).json({ error: "Authentication required" });
       }
 
       const { status } = await billingService.getBillingStatus(userId);
@@ -349,9 +354,11 @@ Respond with a JSON object containing:
     }
   });
 
+  // GET /api/reflection/can-reflect
+  // SECURITY: userId is derived from server-side session, NOT from query params.
   app.get("/api/reflection/can-reflect", async (req, res) => {
     try {
-      const userId = req.query.userId as string;
+      const userId = req.auth?.userId;
 
       if (!userId) {
         return res.json({ canReflect: true, remaining: FREE_DAILY_LIMIT });

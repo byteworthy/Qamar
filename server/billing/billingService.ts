@@ -3,7 +3,13 @@ import { db } from '../db';
 import { users } from '@shared/schema';
 import { eq, sql } from 'drizzle-orm';
 
-export type SubscriptionStatus = 'free' | 'active' | 'canceled' | 'past_due' | 'trialing';
+// BILLING STATUS STATE MACHINE
+// Only these four states are valid:
+// - 'free': No active subscription
+// - 'active': Paid and current
+// - 'past_due': Payment failed, still has access but needs attention
+// - 'canceled': Subscription ended
+export type SubscriptionStatus = 'free' | 'active' | 'past_due' | 'canceled';
 
 export interface UserBillingInfo {
   stripeCustomerId: string | null;
@@ -68,10 +74,19 @@ export class BillingService {
       return { status: 'free', planName: 'Free' };
     }
 
-    const status = user.subscriptionStatus as SubscriptionStatus || 'free';
-    const planName = status === 'active' || status === 'trialing' ? 'Noor Plus' : 'Free';
+    const status = this.normalizeStatus(user.subscriptionStatus);
+    const planName = status === 'active' ? 'Noor Plus' : 'Free';
     
     return { status, planName };
+  }
+
+  private normalizeStatus(dbStatus: string | null): SubscriptionStatus {
+    switch (dbStatus) {
+      case 'active': return 'active';
+      case 'past_due': return 'past_due';
+      case 'canceled': return 'canceled';
+      default: return 'free';
+    }
   }
 
   async handleCheckoutCompleted(customerId: string, subscriptionId: string) {
@@ -114,15 +129,20 @@ export class BillingService {
   }
 
   private mapStripeStatus(stripeStatus: string): SubscriptionStatus {
+    // Map Stripe subscription status to our normalized state machine
     switch (stripeStatus) {
-      case 'active': return 'active';
-      case 'trialing': return 'trialing';
-      case 'past_due': return 'past_due';
+      case 'active':
+      case 'trialing': // Treat trialing as active (paid user)
+        return 'active';
+      case 'past_due':
+        return 'past_due';
       case 'canceled':
       case 'unpaid':
+      case 'incomplete':
       case 'incomplete_expired':
         return 'canceled';
-      default: return 'free';
+      default:
+        return 'free';
     }
   }
 
@@ -156,7 +176,9 @@ export class BillingService {
   }
 
   isPaidUser(status: SubscriptionStatus): boolean {
-    return status === 'active' || status === 'trialing';
+    // Only 'active' status grants paid features
+    // 'past_due' still has access (grace period) but should prompt to fix payment
+    return status === 'active' || status === 'past_due';
   }
 }
 

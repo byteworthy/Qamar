@@ -1,6 +1,9 @@
 import { getStripeSync } from './stripeClient';
 import { billingService } from './billingService';
 import { getUncachableStripeClient } from './stripeClient';
+import { db } from '../db';
+import { processedStripeEvents } from '@shared/schema';
+import { eq } from 'drizzle-orm';
 import type Stripe from 'stripe';
 
 export class WebhookHandlers {
@@ -23,51 +26,77 @@ export class WebhookHandlers {
     try {
       event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
     } catch (err) {
-      console.error('Webhook signature verification failed:', err);
+      console.error('[WEBHOOK] Signature verification failed:', err);
       throw err;
     }
 
-    console.log('[WEBHOOK] Received event:', event.type);
+    // IDEMPOTENCY: Check if we've already processed this event
+    const eventId = event.id;
+    const [existing] = await db.select()
+      .from(processedStripeEvents)
+      .where(eq(processedStripeEvents.eventId, eventId));
 
-    switch (event.type) {
-      case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session;
-        console.log('[WEBHOOK] checkout.session.completed:', { 
-          customerId: session.customer, 
-          subscriptionId: session.subscription 
-        });
-        if (session.subscription && session.customer) {
-          await billingService.handleCheckoutCompleted(
-            session.customer as string,
-            session.subscription as string
-          );
+    if (existing) {
+      console.log('[WEBHOOK] Duplicate event ignored:', eventId);
+      return;
+    }
+
+    console.log('[WEBHOOK] Processing event:', event.type, eventId);
+
+    try {
+      switch (event.type) {
+        case 'checkout.session.completed': {
+          const session = event.data.object as Stripe.Checkout.Session;
+          console.log('[WEBHOOK] checkout.session.completed:', { 
+            customerId: session.customer, 
+            subscriptionId: session.subscription 
+          });
+          if (session.subscription && session.customer) {
+            await billingService.handleCheckoutCompleted(
+              session.customer as string,
+              session.subscription as string
+            );
+          }
+          break;
         }
-        break;
+
+        case 'customer.subscription.created':
+        case 'customer.subscription.updated': {
+          const subscription = event.data.object as Stripe.Subscription;
+          const periodEnd = (subscription as any).current_period_end;
+          console.log('[WEBHOOK] subscription updated:', { 
+            subscriptionId: subscription.id, 
+            status: subscription.status,
+            customerId: subscription.customer
+          });
+          // IDEMPOTENT: Update is safe to run multiple times - same data produces same result
+          await billingService.handleSubscriptionUpdated(
+            subscription.id,
+            subscription.status,
+            periodEnd
+          );
+          break;
+        }
+
+        case 'customer.subscription.deleted': {
+          const subscription = event.data.object as Stripe.Subscription;
+          console.log('[WEBHOOK] subscription deleted:', { subscriptionId: subscription.id });
+          // IDEMPOTENT: Setting status to 'canceled' is safe to run multiple times
+          await billingService.handleSubscriptionDeleted(subscription.id);
+          break;
+        }
       }
 
-      case 'customer.subscription.created':
-      case 'customer.subscription.updated': {
-        const subscription = event.data.object as Stripe.Subscription;
-        const periodEnd = (subscription as any).current_period_end;
-        console.log('[WEBHOOK] subscription updated:', { 
-          subscriptionId: subscription.id, 
-          status: subscription.status,
-          customerId: subscription.customer
-        });
-        await billingService.handleSubscriptionUpdated(
-          subscription.id,
-          subscription.status,
-          periodEnd
-        );
-        break;
-      }
+      // Mark event as processed AFTER successful handling
+      await db.insert(processedStripeEvents).values({
+        eventId,
+        eventType: event.type,
+      }).onConflictDoNothing();
 
-      case 'customer.subscription.deleted': {
-        const subscription = event.data.object as Stripe.Subscription;
-        console.log('[WEBHOOK] subscription deleted:', { subscriptionId: subscription.id });
-        await billingService.handleSubscriptionDeleted(subscription.id);
-        break;
-      }
+      console.log('[WEBHOOK] Event processed successfully:', eventId);
+    } catch (error) {
+      console.error('[WEBHOOK] Error processing event:', eventId, error);
+      throw error;
     }
   }
 }
