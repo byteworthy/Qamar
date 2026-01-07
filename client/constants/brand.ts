@@ -12,7 +12,7 @@ export const Brand = {
 export const ScreenCopy = {
   home: {
     cta: "Return to Clarity",
-    ctaSubcopy: "A quiet space to examine your thoughts, realign your perspective, and move forward with trust.",
+    ctaSubcopy: "Examine the thought. Realign your perspective. Move forward with trust.",
     historyLink: "Past Reflections",
   },
   
