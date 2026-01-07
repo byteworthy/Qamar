@@ -356,7 +356,7 @@ Respond with a JSON object containing:
   app.post("/api/reflection/save", async (req, res) => {
     try {
       const userId = req.auth?.userId;
-      const { thought, distortions, reframe, intention, practice, keyAssumption, detectedState, anchor } = req.body;
+      const { thought, distortions, reframe, intention, practice, anchor } = req.body;
 
       if (!userId) {
         return res.status(401).json({ error: "Authentication required" });
@@ -376,6 +376,12 @@ Respond with a JSON object containing:
         }
       }
 
+      const stateInference = inferInnerState(thought);
+      const assumptionDetection = detectAssumptionPattern(thought);
+      
+      const detectedState = stateInference.state;
+      const keyAssumption = assumptionDetection.detected ? assumptionDetection.assumption : undefined;
+
       await storage.saveReflection(userId, {
         thought,
         distortions,
@@ -387,7 +393,10 @@ Respond with a JSON object containing:
         anchor,
       });
 
-      res.json({ success: true });
+      res.json({ 
+        success: true,
+        detectedState: isPaid ? detectedState : undefined,
+      });
     } catch (error) {
       console.error("Error saving reflection:", error);
       res.status(500).json({ error: "Failed to save reflection" });

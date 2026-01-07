@@ -18,8 +18,8 @@ export type RootStackParamList = {
   Distortion: { thought: string };
   Reframe: { thought: string; distortions: string[]; analysis: string };
   Regulation: { thought: string; distortions: string[]; reframe: string; anchor: string };
-  Intention: { thought: string; distortions: string[]; reframe: string; practice: string; anchor: string };
-  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string; anchor: string };
+  Intention: { thought: string; distortions: string[]; reframe: string; practice: string; anchor: string; detectedState?: string };
+  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string; anchor: string; detectedState?: string };
   History: undefined;
   Pricing: undefined;
 };

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView, Pressable, ActivityIndicator } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute, RouteProp, CommonActions } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -15,9 +15,26 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { saveSession } from "@/lib/storage";
 import { ScreenCopy } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
+import { apiRequest, getApiUrl } from "@/lib/query-client";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "SessionComplete">;
 type RouteType = RouteProp<RootStackParamList, "SessionComplete">;
+
+interface ContextualDua {
+  arabic: string;
+  transliteration: string;
+  meaning: string;
+}
+
+async function fetchContextualDua(state: string): Promise<{ dua: ContextualDua }> {
+  const url = new URL("/api/duas/contextual", getApiUrl());
+  const response = await apiRequest(url.toString(), {
+    method: "POST",
+    body: JSON.stringify({ state }),
+    headers: { "Content-Type": "application/json" },
+  });
+  return response.json();
+}
 
 export default function SessionCompleteScreen() {
   const insets = useSafeAreaInsets();
@@ -25,6 +42,10 @@ export default function SessionCompleteScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
   const { thought, distortions, reframe, intention, practice, anchor } = route.params;
+
+  const [detectedState, setDetectedState] = useState<string | null>(null);
+  const [dua, setDua] = useState<ContextualDua | null>(null);
+  const [duaLoading, setDuaLoading] = useState(false);
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],
@@ -45,7 +66,42 @@ export default function SessionCompleteScreen() {
       practice,
       timestamp: Date.now(),
     });
+
+    const saveToServer = async () => {
+      try {
+        const url = new URL("/api/reflection/save", getApiUrl());
+        const response = await apiRequest(url.toString(), {
+          method: "POST",
+          body: JSON.stringify({ thought, distortions, reframe, intention, practice, anchor }),
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        if (data.detectedState) {
+          setDetectedState(data.detectedState);
+        }
+      } catch (error) {
+        console.error("Error saving reflection to server:", error);
+      }
+    };
+
+    saveToServer();
   }, []);
+
+  useEffect(() => {
+    if (isPaid && detectedState) {
+      setDuaLoading(true);
+      fetchContextualDua(detectedState)
+        .then((data) => {
+          setDua(data.dua);
+        })
+        .catch((error) => {
+          console.error("Error fetching dua:", error);
+        })
+        .finally(() => {
+          setDuaLoading(false);
+        });
+    }
+  }, [isPaid, detectedState]);
 
   const handleGoHome = () => {
     navigation.dispatch(
@@ -99,6 +155,33 @@ export default function SessionCompleteScreen() {
           </ThemedText>
         </View>
       </View>
+
+      {isPaid && (dua || duaLoading) ? (
+        <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault, borderColor: SiraatColors.indigo }]}>
+          <View style={[styles.duaProBadge, { backgroundColor: SiraatColors.indigo }]}>
+            <Feather name="star" size={12} color="#fff" />
+            <ThemedText type="caption" style={{ color: "#fff", marginLeft: 4 }}>Noor Plus</ThemedText>
+          </View>
+          <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+            Dua for Your Heart
+          </ThemedText>
+          {duaLoading ? (
+            <ActivityIndicator size="small" color={theme.primary} style={{ marginTop: Spacing.lg }} />
+          ) : dua ? (
+            <>
+              <ThemedText type="bodyLarge" style={[styles.duaArabic, { fontFamily: Fonts?.serif }]}>
+                {dua.arabic}
+              </ThemedText>
+              <ThemedText type="body" style={[styles.duaTransliteration, { color: theme.textSecondary }]}>
+                {dua.transliteration}
+              </ThemedText>
+              <ThemedText type="body" style={[styles.duaMeaning, { fontFamily: Fonts?.serif }]}>
+                {dua.meaning}
+              </ThemedText>
+            </>
+          ) : null}
+        </View>
+      ) : null}
 
       <View style={styles.buttonSection}>
         <Button
@@ -203,5 +286,34 @@ const styles = StyleSheet.create({
   upgradeFootnote: {
     textAlign: "center",
     opacity: 0.7,
+  },
+  duaCard: {
+    padding: Spacing["2xl"],
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+    marginBottom: Spacing.xl,
+  },
+  duaProBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.xs,
+    marginBottom: Spacing.md,
+  },
+  duaArabic: {
+    marginTop: Spacing.lg,
+    textAlign: "right",
+    fontSize: 24,
+    lineHeight: 40,
+  },
+  duaTransliteration: {
+    marginTop: Spacing.md,
+    fontStyle: "italic",
+  },
+  duaMeaning: {
+    marginTop: Spacing.sm,
+    lineHeight: 26,
   },
 });

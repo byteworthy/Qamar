@@ -24,7 +24,7 @@ export default function IntentionScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe, practice, anchor } = route.params;
+  const { thought, distortions, reframe, practice, anchor, detectedState } = route.params;
 
   const canContinue = intention.trim().length > 3;
 
@@ -38,6 +38,7 @@ export default function IntentionScreen() {
         intention: intention.trim(),
         practice,
         anchor,
+        detectedState,
       });
     }
   };
