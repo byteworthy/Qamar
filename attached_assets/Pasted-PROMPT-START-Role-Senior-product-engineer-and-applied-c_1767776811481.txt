@@ -1,0 +1,185 @@
+PROMPT START
+
+Role
+Senior product engineer and applied cognition architect.
+
+Context
+Noor CBT app is already functional. UI, copy, branding, CTA, screens, and reflection flow are FINAL.
+
+Instruction
+Do NOT change any UI, copy, text, layout, screens, navigation, or visual elements.
+Do NOT add features.
+Do NOT surface new sections.
+Do NOT modify CTA behavior.
+This task is INTERNAL INTELLIGENCE ONLY.
+
+Goal
+Improve the precision, relevance, and depth of Noor CBT responses by upgrading internal reasoning and tone selection, without any visible product changes.
+
+---
+
+PART 1
+Single Question Discipline (Internal Enforcement)
+
+Enforce this rule internally across the reflection flow:
+
+Each reflection step must answer only ONE question.
+
+Step purposes (do not change screen order or UI):
+
+- Thought Capture  
+  Purpose: capture the thought only. No reframing, no comfort.
+
+- Reflection / Analysis  
+  Purpose: identify what is happening and what assumption or thinking pattern is present.
+
+- Clearer Perspective  
+  Purpose: test the assumption and present a truer perspective that sits alongside the feeling.
+
+- Calming Practice  
+  Purpose: provide one grounding practice only. No analysis.
+
+- Intention  
+  Purpose: suggest one aligned next step. No reframing.
+
+Do not combine comfort, teaching, reframing, and action in the same step.
+
+---
+
+PART 2
+State Based Interpretation (Silent, Highest Priority)
+
+Before generating any reflection response, infer the user’s INNER STATE, not their topic.
+
+Supported internal states include:
+
+- Tightness around provision
+- Fear of loss
+- Shame after sin
+- Justified anger
+- Feeling unseen
+- Confusion between effort and control
+- Gratitude that feels overwhelming
+
+Use the inferred state to subtly adjust:
+- Word choice
+- Sentence pacing
+- Tone firmness vs softness
+
+Rules:
+- Do NOT label the state for the user
+- Do NOT show the state in UI
+- Do NOT store or expose the state visibly
+- This affects tone only, not content structure
+
+---
+
+PART 3
+Assumption Pattern Recognition (Silent)
+
+Internally detect recurring assumption patterns such as:
+
+- If I suffer, Allah is displeased
+- If I fail, I am unworthy
+- If I feel anxious, something bad will happen
+- If I am patient, outcomes should change
+- If I do good, Allah owes me ease
+
+When a pattern is detected:
+
+- Reflect the assumption gently
+- Test it explicitly
+- Separate feeling from conclusion
+- Avoid moralizing language
+- Avoid excessive verse quotation
+- Avoid reassurance or promises
+
+The response should feel precise and disciplined, not instructional or motivational.
+
+---
+
+PART 4
+Adaptive Tone Intelligence (No Personas, No Settings)
+
+Implement silent adaptive tone selection.
+
+This is NOT:
+- Personalization
+- Personas
+- Therapist styles
+- User selected modes
+
+The product remains one product with one method.
+
+Tone Modes (internal only):
+
+1. Thinker leaning tone
+   Emphasize:
+   - Structure
+   - Logic
+   - Assumptions
+   - Clear tests of belief
+
+2. Feeler leaning tone
+   Emphasize:
+   - Emotional naming
+   - Weight and burden language
+   - Acknowledgment before testing
+
+Inference signals:
+- Sentence length
+- Emotional language density
+- Abstract vs concrete phrasing
+- Repeated reflection patterns
+
+Rules:
+- No UI toggles
+- No user choice
+- No labels
+- If confidence is low, default to balanced neutral tone
+- The SAME truth must be preserved regardless of tone
+
+Only sentence framing and ordering may shift.
+
+---
+
+PART 5
+Return Summaries (Preparation Only)
+
+Internally track themes across multiple reflections.
+
+Prepare logic to generate a single paragraph summary that:
+- Observes patterns across reflections
+- Avoids advice
+- Avoids encouragement language
+- Sounds like a calm, neutral observer
+
+Do NOT surface this summary yet.
+Do NOT add UI.
+Prepare logic only.
+
+---
+
+PART 6
+Constraints
+
+- Do NOT change any existing copy
+- Do NOT change CTA language
+- Do NOT change the home screen
+- Do NOT introduce new religious symbols
+- Do NOT add motivational or aphoristic language
+- Prefer clarity over comfort
+- Prefer testing over reassurance
+
+---
+
+SUCCESS CRITERIA
+
+- No visible product changes
+- Reflection flow remains identical to the user
+- Responses feel more precise and better timed
+- No tone drift toward generic therapy or inspiration
+- Build passes
+- End to end reflection still works
+
+PROMPT END

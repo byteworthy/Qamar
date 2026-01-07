@@ -1,0 +1,130 @@
+PROMPT START
+
+Role
+Senior product engineer and applied cognition architect.
+
+Context
+Noor CBT is a single method product. Do not add screens. Do not add features. Do not change navigation. Do not introduce personas. Do not add any user facing settings. This task is an internal intelligence upgrade only.
+
+Goal
+Implement adaptive tone intelligence so Noor CBT subtly adjusts sentence framing for two cognition entry points:
+1. Thinker leaning tone
+2. Feeler leaning tone
+
+This must make the app feel personally intelligent without becoming customizable.
+
+Non negotiables
+- Same product, same flow, same screens
+- No UI changes
+- No new copy on the home screen
+- No new toggles, quizzes, or onboarding questions
+- No persona names or labels shown to users
+- Do not change the Siraat Method structure
+- Adaptive tone is silent and probabilistic
+
+Definition
+Adaptive tone intelligence is not personalization and not personas.
+It is a small internal layer that changes how the same truth is spoken based on how the user processes meaning.
+
+High level analogy to guide implementation
+Two people hear the same khutbah.
+One remembers the structure of the argument.
+One remembers how it made their heart feel.
+Same message. Different entry point.
+Noor CBT selects the entry point that reduces friction and increases clarity.
+
+Tone modes
+Thinker leaning tone
+Emphasize:
+- structure and sequencing
+- naming assumptions precisely
+- testing belief with clarity language
+- less emotional phrasing, more map like language
+Example pattern:
+This thought is placing responsibility where control does not exist.
+
+Feeler leaning tone
+Emphasize:
+- emotional naming and burden language
+- acknowledgment before testing
+- softer lead in, same firm test
+Example pattern:
+It sounds heavy to carry everything as if it depends only on you.
+
+Balanced tone
+When uncertain, default to neutral, blending both without being wordy.
+
+How to infer tone silently
+Implement a lightweight tone classifier that outputs:
+- mode: thinker, feeler, or balanced
+- confidence: 0 to 1
+- reasons: internal only for debugging, never shown to users
+
+Signals to use from user input and past reflections
+- Sentence length and complexity
+- Emotional language density
+- Abstract versus concrete phrasing
+- Frequency of certainty words
+- Repeated reflection patterns across sessions
+
+Rules for inference
+- No direct questions to the user
+- No storing labels in any user visible surface
+- If confidence is below a threshold, use balanced tone
+- Re evaluate over time, but avoid rapid switching within a single reflection
+
+Where to apply adaptive tone
+Apply tone selection to the AI prompt template and response shaping for these steps only:
+- Reflection or Analysis step
+- Clearer Perspective step
+
+Do not change:
+- Calming Practice step structure
+- Intention step structure
+- Any UI text
+
+Tone application constraints
+- Preserve the same truth and same cognitive test regardless of mode
+- Only adjust sentence framing and ordering
+- Keep the app scholarly and restrained
+- Avoid motivational language and aphorisms
+- Avoid spiritual flattery and generic reassurance
+- Avoid excessive verse quoting
+
+Safety constraints
+To prevent misuse, implement guardrails:
+- No personality like banter
+- No over empathy
+- No lecturing
+- No claims about Allah’s intent
+- No promises of outcomes
+- No transactional framing of faith
+
+Validation plan
+Add internal developer only logging to confirm:
+- mode selected per reflection
+- confidence score
+- no mode switching within a single reflection unless user input changes drastically
+
+Run a mini internal test set without changing UI
+Use these inputs and confirm tone output differs only in framing:
+
+Thinker leaning test input
+I need to map what is true here because my thoughts are spiraling.
+
+Feeler leaning test input
+I feel crushed and overwhelmed and I cannot stop thinking.
+
+Ambiguous test input
+I do not know what to do and I keep replaying everything.
+
+Ensure the same core reframe appears, but phrasing differs appropriately.
+
+Deliverable
+- Adaptive tone utility implemented
+- Integrated into AI prompt generation
+- No UI changes
+- Build passes
+- Reflection journey still works end to end
+
+PROMPT END
