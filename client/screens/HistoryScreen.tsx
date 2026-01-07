@@ -1,23 +1,77 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, StyleSheet, FlatList, RefreshControl, Pressable } from "react-native";
+import { View, StyleSheet, FlatList, RefreshControl, Pressable, ActivityIndicator } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
+import { useQuery } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { getSessions, Session } from "@/lib/storage";
+import { getBillingStatus, isPaidStatus } from "@/lib/billing";
+import { apiRequest, getApiUrl } from "@/lib/query-client";
+import { RootStackParamList } from "@/navigation/RootStackNavigator";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "History">;
+
+interface InsightSummary {
+  totalReflections: number;
+  topDistortions: { name: string; count: number }[];
+  summary: string | null;
+  lastUpdated: string | null;
+}
+
+interface Assumption {
+  id: number;
+  assumption: string;
+  frequency: number;
+  firstSeen: string;
+  lastSeen: string;
+}
 
 export default function HistoryScreen() {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [insightsExpanded, setInsightsExpanded] = useState(false);
 
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
+  const navigation = useNavigation<NavigationProp>();
+
+  const { data: billingStatus } = useQuery({
+    queryKey: ["/api/billing/status"],
+    queryFn: getBillingStatus,
+    staleTime: 60000,
+  });
+
+  const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
+
+  const { data: insights, isLoading: insightsLoading, refetch: refetchInsights } = useQuery({
+    queryKey: ["/api/insights/summary"],
+    queryFn: async () => {
+      const url = new URL("/api/insights/summary", getApiUrl());
+      const response = await apiRequest(url.toString());
+      return response.json() as Promise<InsightSummary>;
+    },
+    enabled: isPaid,
+    staleTime: 300000,
+  });
+
+  const { data: assumptions, isLoading: assumptionsLoading, refetch: refetchAssumptions } = useQuery({
+    queryKey: ["/api/insights/assumptions"],
+    queryFn: async () => {
+      const url = new URL("/api/insights/assumptions", getApiUrl());
+      const response = await apiRequest(url.toString());
+      return response.json() as Promise<{ assumptions: Assumption[] }>;
+    },
+    enabled: isPaid && insightsExpanded,
+    staleTime: 300000,
+  });
 
   const loadSessions = async () => {
     const data = await getSessions();
@@ -33,7 +87,117 @@ export default function HistoryScreen() {
   const handleRefresh = async () => {
     setRefreshing(true);
     await loadSessions();
+    if (isPaid) {
+      refetchInsights();
+      if (insightsExpanded) {
+        refetchAssumptions();
+      }
+    }
     setRefreshing(false);
+  };
+
+  const renderInsightsCard = () => {
+    if (!isPaid) return null;
+
+    return (
+      <View style={[styles.insightsCard, { backgroundColor: theme.backgroundDefault, borderColor: SiraatColors.indigo }]}>
+        <Pressable
+          onPress={() => setInsightsExpanded(!insightsExpanded)}
+          style={styles.insightsHeader}
+        >
+          <View style={styles.insightsHeaderLeft}>
+            <View style={[styles.proBadge, { backgroundColor: SiraatColors.indigo }]}>
+              <Feather name="star" size={12} color="#fff" />
+              <ThemedText type="caption" style={{ color: "#fff", marginLeft: 4 }}>Noor Plus</ThemedText>
+            </View>
+            <ThemedText type="bodyLarge" style={[styles.insightsTitle, { fontFamily: Fonts?.serif }]}>
+              Your Patterns
+            </ThemedText>
+          </View>
+          <Feather
+            name={insightsExpanded ? "chevron-up" : "chevron-down"}
+            size={20}
+            color={theme.textSecondary}
+          />
+        </Pressable>
+
+        {insightsExpanded ? (
+          <View style={styles.insightsContent}>
+            <View style={[styles.divider, { backgroundColor: theme.border }]} />
+            
+            {insightsLoading ? (
+              <ActivityIndicator size="small" color={theme.primary} style={{ marginVertical: Spacing.lg }} />
+            ) : insights ? (
+              <>
+                <View style={styles.insightSection}>
+                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                    Total Reflections
+                  </ThemedText>
+                  <ThemedText type="h3" style={{ fontFamily: Fonts?.serif }}>
+                    {insights.totalReflections}
+                  </ThemedText>
+                </View>
+
+                {insights.topDistortions.length > 0 ? (
+                  <View style={styles.insightSection}>
+                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                      Common Patterns
+                    </ThemedText>
+                    <View style={styles.distortionsList}>
+                      {insights.topDistortions.map((d, i) => (
+                        <View key={i} style={styles.distortionRow}>
+                          <ThemedText type="body">{d.name}</ThemedText>
+                          <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                            {d.count}x
+                          </ThemedText>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                ) : null}
+
+                {insights.summary ? (
+                  <View style={styles.insightSection}>
+                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                      Pattern Summary
+                    </ThemedText>
+                    <ThemedText type="body" style={[styles.summaryText, { fontFamily: Fonts?.serif }]}>
+                      {insights.summary}
+                    </ThemedText>
+                  </View>
+                ) : insights.totalReflections < 5 ? (
+                  <View style={styles.insightSection}>
+                    <ThemedText type="small" style={{ color: theme.textSecondary, fontStyle: "italic" }}>
+                      Complete {5 - insights.totalReflections} more reflection{5 - insights.totalReflections !== 1 ? "s" : ""} to unlock your pattern summary.
+                    </ThemedText>
+                  </View>
+                ) : null}
+
+                {assumptions?.assumptions && assumptions.assumptions.length > 0 ? (
+                  <View style={styles.insightSection}>
+                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                      Your Assumptions
+                    </ThemedText>
+                    {assumptions.assumptions.slice(0, 3).map((a, i) => (
+                      <View key={i} style={[styles.assumptionCard, { backgroundColor: theme.backgroundSecondary }]}>
+                        <ThemedText type="body" style={{ fontFamily: Fonts?.serif }}>
+                          {a.assumption}
+                        </ThemedText>
+                        <ThemedText type="caption" style={{ color: theme.textSecondary, marginTop: Spacing.xs }}>
+                          Appeared {a.frequency} time{a.frequency !== 1 ? "s" : ""}
+                        </ThemedText>
+                      </View>
+                    ))}
+                  </View>
+                ) : assumptionsLoading ? (
+                  <ActivityIndicator size="small" color={theme.primary} style={{ marginVertical: Spacing.sm }} />
+                ) : null}
+              </>
+            ) : null}
+          </View>
+        ) : null}
+      </View>
+    );
   };
 
   const formatDate = (timestamp: number) => {
@@ -163,6 +327,7 @@ export default function HistoryScreen() {
       data={sessions}
       keyExtractor={(item) => item.timestamp.toString()}
       renderItem={renderSession}
+      ListHeaderComponent={renderInsightsCard}
       ListEmptyComponent={renderEmpty}
       refreshControl={
         <RefreshControl
@@ -246,5 +411,56 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: "center",
+  },
+  insightsCard: {
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+    marginBottom: Spacing.xl,
+  },
+  insightsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  insightsHeaderLeft: {
+    flex: 1,
+  },
+  proBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.xs,
+    marginBottom: Spacing.sm,
+  },
+  insightsTitle: {
+    marginTop: Spacing.xs,
+  },
+  insightsContent: {
+    marginTop: Spacing.md,
+  },
+  insightSection: {
+    marginBottom: Spacing.lg,
+  },
+  distortionsList: {
+    marginTop: Spacing.sm,
+  },
+  distortionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: Spacing.xs,
+  },
+  summaryText: {
+    marginTop: Spacing.sm,
+    lineHeight: 24,
+    fontStyle: "italic",
+  },
+  assumptionCard: {
+    padding: Spacing.md,
+    borderRadius: BorderRadius.sm,
+    marginTop: Spacing.sm,
   },
 });

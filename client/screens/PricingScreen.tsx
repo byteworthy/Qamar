@@ -165,12 +165,16 @@ export default function PricingScreen() {
     { text: "View last 3 reflections", included: true },
     { text: "Unlimited reflections", included: false },
     { text: "Full history access", included: false },
+    { text: "Pattern insights", included: false },
+    { text: "Contextual duas", included: false },
   ];
 
   const plusFeatures: PlanFeature[] = [
     { text: "Unlimited reflections", included: true },
-    { text: "Full history access", included: true },
-    { text: "Priority support", included: true },
+    { text: "Full reflection history", included: true },
+    { text: "Pattern insights and summaries", included: true },
+    { text: "Personal assumption library", included: true },
+    { text: "Contextual duas by inner state", included: true },
     { text: "Cancel anytime", included: true },
   ];
 
@@ -188,10 +192,10 @@ export default function PricingScreen() {
     >
       <View style={styles.header}>
         <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Choose Your Plan
+          Deepen Your Practice
         </ThemedText>
         <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Unlock unlimited reflections with Noor Plus
+          Noor Plus reveals patterns in your thoughts and offers guidance tailored to your heart.
         </ThemedText>
       </View>
 

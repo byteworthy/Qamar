@@ -46,6 +46,7 @@ export default function SessionCompleteScreen() {
   const [detectedState, setDetectedState] = useState<string | null>(null);
   const [dua, setDua] = useState<ContextualDua | null>(null);
   const [duaLoading, setDuaLoading] = useState(false);
+  const [duaError, setDuaError] = useState(false);
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],
@@ -90,12 +91,14 @@ export default function SessionCompleteScreen() {
   useEffect(() => {
     if (isPaid && detectedState) {
       setDuaLoading(true);
+      setDuaError(false);
       fetchContextualDua(detectedState)
         .then((data) => {
           setDua(data.dua);
         })
         .catch((error) => {
           console.error("Error fetching dua:", error);
+          setDuaError(true);
         })
         .finally(() => {
           setDuaLoading(false);
@@ -156,7 +159,7 @@ export default function SessionCompleteScreen() {
         </View>
       </View>
 
-      {isPaid && (dua || duaLoading) ? (
+      {isPaid && (dua || duaLoading || duaError) ? (
         <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault, borderColor: SiraatColors.indigo }]}>
           <View style={[styles.duaProBadge, { backgroundColor: SiraatColors.indigo }]}>
             <Feather name="star" size={12} color="#fff" />
@@ -167,6 +170,10 @@ export default function SessionCompleteScreen() {
           </ThemedText>
           {duaLoading ? (
             <ActivityIndicator size="small" color={theme.primary} style={{ marginTop: Spacing.lg }} />
+          ) : duaError ? (
+            <ThemedText type="small" style={[styles.duaFallback, { color: theme.textSecondary }]}>
+              Your reflection has been saved. May Allah bring you clarity and peace.
+            </ThemedText>
           ) : dua ? (
             <>
               <ThemedText type="bodyLarge" style={[styles.duaArabic, { fontFamily: Fonts?.serif }]}>
@@ -315,5 +322,10 @@ const styles = StyleSheet.create({
   duaMeaning: {
     marginTop: Spacing.sm,
     lineHeight: 26,
+  },
+  duaFallback: {
+    marginTop: Spacing.lg,
+    fontStyle: "italic",
+    lineHeight: 22,
   },
 });
