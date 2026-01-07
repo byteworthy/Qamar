@@ -1,0 +1,148 @@
+You are a senior full stack engineer, UX designer, and cognitive behavioral psychology implementer with deep respect for Islamic theology.
+
+Build a web based MVP called Siraat, an Islamic cognitive behavioral therapy application.
+
+Core purpose
+
+Siraat helps Muslim users slow down their thoughts, identify cognitive distortions, reframe them using Quran and authentic Sunnah aligned reasoning, regulate emotions through short faith based practices, and set a clear intention for action.
+
+This is not a motivational app.
+This is not a reminder app.
+This is not Western CBT with Islamic quotes added.
+
+Islam is the cognitive framework.
+CBT is the method.
+
+Core user flow
+
+Single linear flow. No branching.
+
+Thought Capture
+A text input asking the user to write what is troubling their mind right now.
+
+Distortion Identification
+Analyze the thought and identify one or two cognitive distortions using Islamic aligned language such as despair of mercy, over attachment to dunya outcome, mind reading, catastrophizing, emotional reasoning.
+
+Islamic Cognitive Reframe
+Generate one concise reframe that:
+
+Corrects the belief error
+
+Is grounded in Quran or authentic hadith meaning without long quotations
+
+Is emotionally validating without affirming distortion
+
+Regulation Practice
+Provide one under two minute practice such as:
+
+Slow breathing with dhikr count
+
+Grounded remembrance
+
+Gratitude recall
+This should calm the nervous system so the reframe can land.
+
+Intention Reset
+Prompt the user to set one simple niyyah aligned with the reframe.
+
+Session ends after intention.
+
+Total session time under five minutes.
+
+Psychological rules
+
+Never shame the user
+
+Never preach
+
+Never invalidate emotions
+
+Always separate feeling from truth claim
+
+Always anchor reframes in Islamic worldview
+
+Always offer a behavioral micro step or intention
+
+Theological boundaries
+
+Use Quran and authentic hadith concepts only
+
+No speculative metaphysics
+
+No claims of healing or guarantees
+
+Emphasize effort, trust, and return
+
+Avoid fatalism and avoid self blame
+
+UI requirements
+
+Single page application
+
+Calm Yemeni inspired aesthetic
+
+Earth tones and warm lighting feel
+
+Arabic geometric accents used subtly
+
+Clean readable layout
+
+Mobile first responsive design
+
+Technical stack
+
+Frontend React with clean component structure
+
+Backend minimal Node or serverless logic
+
+Prompt driven AI logic with clear separation between:
+
+Thought analysis
+
+Distortion labeling
+
+Reframe generation
+
+Regulation practice
+
+Intention generation
+
+Structure prompts so they are editable and expandable later.
+
+Deliverables
+
+Functional MVP with the full CBT loop
+
+Clean UI matching the aesthetic direction
+
+Clear prompt logic documented in code comments
+
+Ready for rapid iteration
+
+Build this as a foundation, not a finished cathedral.
+
+PROMPT END
+
+Why this prompt works
+
+It constrains scope so Replit does not overbuild
+
+It locks theology so the app stays clean
+
+It centers CBT mechanics so results are real
+
+It gives design direction without micromanaging
+
+This is enough to get something real on screen fast.
+
+Next step after Replit generates the first version
+
+We review three things only:
+
+Is the cognitive reframe actually correct
+
+Does the tone feel grounded not preachy
+
+Does the UI feel calming or distracting
+
+Once those are dialed in, we expand.
