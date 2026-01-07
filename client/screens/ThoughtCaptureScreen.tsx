@@ -43,9 +43,9 @@ export default function ThoughtCaptureScreen() {
     >
       <View style={styles.introSection}>
         <ThemedText type="h3" style={[styles.heading, { fontFamily: Fonts?.serif }]}>
-          What is troubling your mind?
+          {ScreenCopy.thoughtCapture.title}
         </ThemedText>
-        <ThemedText type="body" style={[styles.description, { color: theme.textSecondary }]}>
+        <ThemedText type="body" style={[styles.description, { color: theme.textSecondary, lineHeight: 26 }]}>
           {ScreenCopy.thoughtCapture.subtitle}
         </ThemedText>
       </View>
@@ -68,7 +68,7 @@ export default function ThoughtCaptureScreen() {
           textAlignVertical="top"
         />
         <ThemedText type="caption" style={[styles.hint, { color: theme.textSecondary }]}>
-          {thought.length > 0 ? `${thought.length} characters` : "Take your time"}
+          {thought.length > 0 ? `${thought.length} characters` : ScreenCopy.thoughtCapture.hint}
         </ThemedText>
       </View>
 
@@ -94,13 +94,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
   },
   introSection: {
-    marginBottom: Spacing["2xl"],
+    marginBottom: Spacing["3xl"],
   },
   heading: {
-    marginBottom: Spacing.md,
+    marginBottom: Spacing.lg,
   },
   description: {
-    lineHeight: 24,
+    lineHeight: 26,
   },
   inputSection: {
     flex: 1,

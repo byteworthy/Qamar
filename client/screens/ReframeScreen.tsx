@@ -71,7 +71,7 @@ export default function ReframeScreen() {
       <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
         <ActivityIndicator size="large" color={theme.primary} />
         <ThemedText type="body" style={[styles.loadingText, { color: theme.textSecondary }]}>
-          Finding wisdom for your heart...
+          {ScreenCopy.reframe.loading}
         </ThemedText>
       </ThemedView>
     );
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   block: {
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
   },
   blockLabel: {
     marginBottom: Spacing.sm,
@@ -191,12 +191,12 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
   perspectiveCard: {
-    padding: Spacing.xl,
+    padding: Spacing["2xl"],
     borderRadius: BorderRadius.md,
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
   },
   perspectiveText: {
-    lineHeight: 30,
+    lineHeight: 32,
     fontStyle: "italic",
   },
   anchorsSection: {

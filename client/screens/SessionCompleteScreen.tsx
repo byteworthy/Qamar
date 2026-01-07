@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    marginBottom: Spacing["4xl"],
+    marginBottom: Spacing["3xl"],
   },
   checkCircle: {
     width: 80,
@@ -130,16 +130,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   cardsSection: {
-    gap: Spacing.lg,
-    marginBottom: Spacing["3xl"],
+    gap: Spacing.xl,
+    marginBottom: Spacing["4xl"],
   },
   card: {
-    padding: Spacing.xl,
+    padding: Spacing["2xl"],
     borderRadius: BorderRadius.md,
   },
   cardText: {
-    marginTop: Spacing.sm,
-    lineHeight: 26,
+    marginTop: Spacing.md,
+    lineHeight: 28,
   },
   buttonSection: {
     marginTop: "auto",

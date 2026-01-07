@@ -83,7 +83,7 @@ export default function RegulationScreen() {
       <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
         <ActivityIndicator size="large" color={theme.primary} />
         <ThemedText type="body" style={[styles.loadingText, { color: theme.textSecondary }]}>
-          Preparing your practice...
+          {ScreenCopy.practice.loading}
         </ThemedText>
       </ThemedView>
     );
@@ -176,7 +176,7 @@ export default function RegulationScreen() {
         {completed ? (
           <>
             <ThemedText type="body" style={[styles.completedText, { color: theme.success }]}>
-              Practice completed
+              {ScreenCopy.practice.completed}
             </ThemedText>
             <Button
               onPress={handleContinue}
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   header: {
-    marginBottom: Spacing["2xl"],
+    marginBottom: Spacing["3xl"],
     alignItems: "center",
   },
   title: {
@@ -225,9 +225,9 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   practiceCard: {
-    padding: Spacing.xl,
+    padding: Spacing["2xl"],
     borderRadius: BorderRadius.lg,
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
   },
   stepsLabel: {
     marginBottom: Spacing.lg,

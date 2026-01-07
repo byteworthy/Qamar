@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: BorderRadius.md,
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
     overflow: "hidden",
   },
   anchorAccent: {
@@ -190,9 +190,9 @@ const styles = StyleSheet.create({
   },
   anchorText: {
     flex: 1,
-    paddingVertical: Spacing.lg,
-    paddingHorizontal: Spacing.lg,
-    lineHeight: 24,
+    paddingVertical: Spacing.xl,
+    paddingHorizontal: Spacing.xl,
+    lineHeight: 26,
   },
   mainContent: {
     flex: 1,
@@ -200,13 +200,13 @@ const styles = StyleSheet.create({
     gap: Spacing.lg,
   },
   card: {
-    padding: Spacing["2xl"],
+    padding: Spacing["3xl"],
     borderRadius: BorderRadius.lg,
   },
   ctaSubcopy: {
     textAlign: "center",
-    marginTop: Spacing.lg,
-    lineHeight: 22,
+    marginTop: Spacing.xl,
+    lineHeight: 24,
   },
   methodCallout: {
     textAlign: "center",

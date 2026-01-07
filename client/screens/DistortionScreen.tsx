@@ -66,7 +66,7 @@ export default function DistortionScreen() {
       <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
         <ActivityIndicator size="large" color={theme.primary} />
         <ThemedText type="body" style={[styles.loadingText, { color: theme.textSecondary }]}>
-          Reflecting on your words...
+          {ScreenCopy.distortion.loading}
         </ThemedText>
       </ThemedView>
     );
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   section: {
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
   },
   sectionLabel: {
     marginBottom: Spacing.sm,

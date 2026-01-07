@@ -115,18 +115,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
   },
   section: {
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
   },
   heading: {
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.md,
   },
   description: {
-    lineHeight: 24,
+    lineHeight: 26,
   },
   anchorCard: {
     flexDirection: "row",
     borderRadius: BorderRadius.md,
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing["2xl"],
     overflow: "hidden",
   },
   anchorAccent: {
