@@ -1,31 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <!-- Background -->
-  <rect width="512" height="512" rx="48" fill="#F5F0E6"/>
+  <rect width="512" height="512" rx="40" fill="#E8DCC8"/>
   
-  <!-- Outer arch -->
+  <!-- Outermost arch -->
   <path 
-    d="M128 400 L128 220 Q128 100 256 80 Q384 100 384 220 L384 400" 
-    stroke="#2D2D2D" 
-    stroke-width="14" 
-    stroke-linecap="round"
-    fill="none"
-  />
-  
-  <!-- Middle arch -->
-  <path 
-    d="M176 400 L176 240 Q176 140 256 120 Q336 140 336 240 L336 400" 
-    stroke="#2D2D2D" 
-    stroke-width="12" 
-    stroke-linecap="round"
-    fill="none"
-  />
-  
-  <!-- Inner arch -->
-  <path 
-    d="M224 400 L224 260 Q224 180 256 160 Q288 180 288 260 L288 400" 
+    d="M140 380 L140 230 Q140 120 256 95 Q372 120 372 230 L372 380" 
     stroke="#2D2D2D" 
     stroke-width="10" 
     stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  
+  <!-- Second arch -->
+  <path 
+    d="M175 380 L175 245 Q175 150 256 130 Q337 150 337 245 L337 380" 
+    stroke="#2D2D2D" 
+    stroke-width="10" 
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  
+  <!-- Third arch -->
+  <path 
+    d="M210 380 L210 260 Q210 180 256 165 Q302 180 302 260 L302 380" 
+    stroke="#2D2D2D" 
+    stroke-width="10" 
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  
+  <!-- Innermost arch -->
+  <path 
+    d="M245 380 L245 280 Q245 220 256 210 Q267 220 267 280 L267 380" 
+    stroke="#2D2D2D" 
+    stroke-width="10" 
+    stroke-linecap="round"
+    stroke-linejoin="round"
     fill="none"
   />
 </svg>
