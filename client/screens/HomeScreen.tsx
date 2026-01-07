@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { View, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -12,7 +12,7 @@ import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { Brand, HomeAnchors, ScreenCopy } from "@/constants/brand";
+import { Brand, ScreenCopy } from "@/constants/brand";
 import { checkReflectionLimit, getBillingStatus, isPaidStatus } from "@/lib/billing";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -22,11 +22,6 @@ export default function HomeScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
 
-  const dailyAnchor = useMemo(() => {
-    const today = new Date();
-    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % HomeAnchors.length;
-    return HomeAnchors[dayIndex];
-  }, []);
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],
@@ -87,7 +82,7 @@ export default function HomeScreen() {
       <View style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}>
         <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.indigo }]} />
         <ThemedText type="body" style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
-          {dailyAnchor}
+          {Brand.anchorLine}
         </ThemedText>
       </View>
 

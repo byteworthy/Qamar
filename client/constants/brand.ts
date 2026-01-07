@@ -5,32 +5,14 @@ export const Brand = {
   
   disclaimer: "A guided reflection tool. Not a substitute for professional care.",
   methodCallout: "Powered by the Siraat Method",
+  
+  anchorLine: "When the mind feels heavy, it is often carrying assumptions it has not examined.",
 };
-
-export const HomeAnchors = [
-  "Not every thought deserves your trust.",
-  "Feelings are real. Conclusions are testable.",
-  "Clarity begins when assumptions are questioned.",
-  "Effort is yours. Outcomes belong to Allah.",
-  "Mercy is wider than your worst moment.",
-  "Return is always open.",
-  "Trust does not cancel action.",
-  "A heavy heart can still be guided.",
-  "Distortion hides inside familiar feelings.",
-  "What you believe shapes what you see.",
-  "A hard truth is easier than a false comfort.",
-  "The mind patterns. Test the pattern.",
-  "Stillness is not avoidance.",
-  "Patience illuminates.",
-  "Gratitude opens what was closed.",
-];
-
-export const DailyAnchorConcepts = HomeAnchors;
 
 export const ScreenCopy = {
   home: {
     cta: "Return to Clarity",
-    ctaSubcopy: "Slow. Examine. Realign.",
+    ctaSubcopy: "A quiet space to examine your thoughts, realign your perspective, and move forward with trust.",
     historyLink: "Past Reflections",
   },
   
