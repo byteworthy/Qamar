@@ -1,0 +1,69 @@
+You are a senior product designer and brand specialist working inside an already functioning Noor CBT app. Do not add features. Do not change the palette. Do not change the reflection flow. Your job is brand sharpness: logo refinement direction, homepage tension copy, and CTA micro shift.
+
+High level goal
+Make Noor CBT feel less like a generic Islamic app template and more like an intellectually grounded clarity tool. Keep it calm, but increase cognitive authority and memorability.
+
+Do these tasks in order.
+
+Logo mark refinement direction
+Current arch mark is directionally correct but still feels generic and decorative. Replace it with a mark that communicates structure and cognition, not place.
+
+Constraints
+No stars
+No crescents
+No lanterns
+No brains or hearts
+No rays or glow effects
+No ornate details that disappear at icon size
+
+Design direction
+Use Yemeni inspired geometry and negative space, but reduce it to a modern framework like symbol.
+
+Aim for one of these forms
+Option A
+A minimal abstract mihrab reduced to straight lines, like a frame or doorway outline, with strong negative space and geometric balance
+
+Option B
+A nested frame motif suggesting layers of thought, like two or three stepped outlines forming an arch like geometry, minimal and architectural
+
+Option C
+A single monoline geometric emblem inspired by Yemeni window lattice, simplified to a crisp mark that reads as a lens or structure
+
+Implementation note
+Update the SVG or icon component used on the home screen and app header. Ensure it works in one color. Ensure it reads at small sizes. Keep within the existing palette.
+
+Homepage quote card, increase cognitive tension
+Replace the current daily anchor quote list with a new set that is still Islamic aligned but more cognitively activating. These must be short, one line, and not preachy.
+
+Replace the dailyAnchorConcepts list with these lines exactly
+Not every thought deserves your trust
+Feelings are real. Conclusions are testable
+Faith is alignment, not denial
+Clarity begins when assumptions are questioned
+Effort is yours. Outcomes belong to Allah
+Return is always open
+Hardship can hold wisdom
+Trust does not cancel action
+Mercy exceeds sin
+No soul is burdened beyond capacity
+
+Display one at random per load, same as current behavior.
+
+CTA micro shift
+Change the primary button label from Begin Reflection to Untangle Your Thoughts
+
+Keep secondary navigation the same.
+
+Micro copy tightening for authority
+On the Begin Your Reflection card, replace the body copy with a tighter version:
+
+Current body copy should be replaced with
+Slow down. Name the thought. Test it against truth. Take one small step.
+
+Keep the Powered by the Siraat Method line.
+
+Design constraints
+Do not change the overall layout, spacing system, or palette. Only update the logo asset and copy. Ensure contrast and readability remain strong.
+
+Deliverable
+Commit the changes, run the existing end to end test, and confirm the home screen now feels more intellectually grounded and less decorative.

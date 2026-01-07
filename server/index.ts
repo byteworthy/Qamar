@@ -1,6 +1,8 @@
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
+import { registerBillingWebhookRoute, registerBillingRoutes, getStripeSync } from "./billing";
+import { runMigrations } from "stripe-replit-sync";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -216,10 +218,55 @@ function setupErrorHandler(app: express.Application) {
   });
 }
 
+async function initStripe() {
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) {
+    log('DATABASE_URL not set, skipping Stripe initialization');
+    return;
+  }
+
+  try {
+    log('Initializing Stripe schema...');
+    await runMigrations({ databaseUrl });
+    log('Stripe schema ready');
+
+    const stripeSync = await getStripeSync();
+
+    log('Setting up managed webhook...');
+    const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
+    try {
+      const result = await stripeSync.findOrCreateManagedWebhook(
+        `${webhookBaseUrl}/api/billing/webhook`
+      );
+      if (result?.webhook?.url) {
+        log(`Webhook configured: ${result.webhook.url}`);
+      } else {
+        log('Webhook setup returned without URL, continuing...');
+      }
+    } catch (webhookError: any) {
+      log('Webhook setup error (non-fatal):', webhookError.message);
+    }
+
+    log('Syncing Stripe data in background...');
+    stripeSync.syncBackfill()
+      .then(() => log('Stripe data synced'))
+      .catch((err: any) => log('Error syncing Stripe data:', err.message));
+  } catch (error: any) {
+    log('Stripe initialization error:', error.message);
+  }
+}
+
 (async () => {
   setupCors(app);
+  
+  registerBillingWebhookRoute(app);
+  
   setupBodyParsing(app);
   setupRequestLogging(app);
+
+  await initStripe();
+
+  registerBillingRoutes(app);
 
   configureExpoAndLanding(app);
 

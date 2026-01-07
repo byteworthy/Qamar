@@ -114,6 +114,15 @@ Shown on home screen, rotates daily:
 - Shows date, distortion type tags, one-line intention preview (collapsed)
 - Full details available on expand
 
+### Billing API Endpoints
+- **GET /api/billing/status**: Returns subscription status for a user
+- **GET /api/billing/config**: Returns Stripe publishable key and price ID
+- **POST /api/billing/create-checkout-session**: Creates Stripe Checkout session for upgrade
+- **POST /api/billing/create-portal-session**: Creates Stripe Customer Portal session
+- **GET /api/reflection/can-reflect**: Checks if user can create a reflection (limit enforcement)
+- **POST /api/reflection/save**: Saves a completed reflection (with limit enforcement)
+- **GET /api/reflection/history**: Returns user's reflection history (limited for free tier)
+
 ### Path Aliases
 - `@/` maps to `./client/`
 - `@shared/` maps to `./shared/`
@@ -129,6 +138,14 @@ Shown on home screen, rotates daily:
 - **PostgreSQL**: Primary data store
   - Environment variable: `DATABASE_URL`
   - ORM: Drizzle with drizzle-zod for validation
+
+### Stripe Subscriptions
+- **Noor Plus**: $9.99/month subscription plan
+  - Price ID: `price_1SmrDT4tVSVFoBgm4lhd0idY` (environment variable: `STRIPE_PRICE_ID`)
+  - Free tier: 1 reflection/day, last 3 history entries
+  - Paid tier: Unlimited reflections, full history
+- **Billing Flow**: Email-based Stripe Checkout for upgrades, Customer Portal for management
+- **Server-side enforcement**: Routes check subscription status before allowing reflections
 
 ### Key NPM Packages
 - **expo**: Core mobile framework

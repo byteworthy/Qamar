@@ -10,6 +10,7 @@ import RegulationScreen from "@/screens/RegulationScreen";
 import IntentionScreen from "@/screens/IntentionScreen";
 import SessionCompleteScreen from "@/screens/SessionCompleteScreen";
 import HistoryScreen from "@/screens/HistoryScreen";
+import PricingScreen from "@/screens/PricingScreen";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   Intention: { thought: string; distortions: string[]; reframe: string; practice: string; anchor: string };
   SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string; anchor: string };
   History: undefined;
+  Pricing: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -68,6 +70,11 @@ export default function RootStackNavigator() {
         name="History"
         component={HistoryScreen}
         options={{ headerTitle: "Past Reflections" }}
+      />
+      <Stack.Screen
+        name="Pricing"
+        component={PricingScreen}
+        options={{ headerTitle: "Upgrade" }}
       />
     </Stack.Navigator>
   );

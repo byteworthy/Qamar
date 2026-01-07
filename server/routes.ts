@@ -1,11 +1,16 @@
 import type { Express } from "express";
 import { createServer, type Server } from "node:http";
 import OpenAI from "openai";
+import { storage } from "./storage";
+import { billingService } from "./billing";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
 });
+
+const FREE_DAILY_LIMIT = 1;
+const FREE_HISTORY_LIMIT = 3;
 
 const ISLAMIC_CONCEPT_WHITELIST = [
   "Allah's mercy exceeds sin",
@@ -279,6 +284,97 @@ Respond with a JSON object containing:
     } catch (error) {
       console.error("Error generating practice:", error);
       res.status(500).json({ error: "Failed to generate practice" });
+    }
+  });
+
+  app.post("/api/reflection/save", async (req, res) => {
+    try {
+      const { userId, thought, distortions, reframe, intention, practice } = req.body;
+
+      if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+
+      const user = await storage.getOrCreateUser(userId);
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      if (!isPaid) {
+        const todayCount = await storage.getTodayReflectionCount(userId);
+        if (todayCount >= FREE_DAILY_LIMIT) {
+          return res.status(402).json({ 
+            error: "Upgrade to Noor Plus for unlimited reflections",
+            code: "LIMIT_EXCEEDED"
+          });
+        }
+      }
+
+      await storage.saveReflection(userId, {
+        thought,
+        distortions,
+        reframe,
+        intention,
+        practice,
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error saving reflection:", error);
+      res.status(500).json({ error: "Failed to save reflection" });
+    }
+  });
+
+  app.get("/api/reflection/history", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+
+      if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      const limit = isPaid ? undefined : FREE_HISTORY_LIMIT;
+      const history = await storage.getReflectionHistory(userId, limit);
+
+      res.json({ 
+        history, 
+        isLimited: !isPaid,
+        limit: isPaid ? null : FREE_HISTORY_LIMIT
+      });
+    } catch (error) {
+      console.error("Error fetching history:", error);
+      res.status(500).json({ error: "Failed to fetch history" });
+    }
+  });
+
+  app.get("/api/reflection/can-reflect", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+
+      if (!userId) {
+        return res.json({ canReflect: true, remaining: FREE_DAILY_LIMIT });
+      }
+
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      if (isPaid) {
+        return res.json({ canReflect: true, remaining: null, isPaid: true });
+      }
+
+      const todayCount = await storage.getTodayReflectionCount(userId);
+      const remaining = Math.max(0, FREE_DAILY_LIMIT - todayCount);
+
+      res.json({ 
+        canReflect: remaining > 0, 
+        remaining,
+        isPaid: false
+      });
+    } catch (error) {
+      console.error("Error checking reflection limit:", error);
+      res.status(500).json({ error: "Failed to check limit" });
     }
   });
 

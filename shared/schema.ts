@@ -1,4 +1,31 @@
 import { z } from "zod";
+import { pgTable, text, timestamp, serial, jsonb } from "drizzle-orm/pg-core";
+
+export const users = pgTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email"),
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  subscriptionStatus: text("subscription_status").default("free"),
+  currentPeriodEnd: timestamp("current_period_end"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sessions = pgTable("sessions", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  thought: text("thought").notNull(),
+  distortions: jsonb("distortions").notNull().$type<string[]>(),
+  reframe: text("reframe").notNull(),
+  intention: text("intention").notNull(),
+  practice: text("practice").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+export type Session = typeof sessions.$inferSelect;
+export type InsertSession = typeof sessions.$inferInsert;
 
 export const sessionSchema = z.object({
   thought: z.string(),
@@ -9,4 +36,4 @@ export const sessionSchema = z.object({
   timestamp: z.number(),
 });
 
-export type Session = z.infer<typeof sessionSchema>;
+export type SessionLocal = z.infer<typeof sessionSchema>;

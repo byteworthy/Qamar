@@ -1,0 +1,158 @@
+import { getUncachableStripeClient } from './stripeClient';
+import { db } from '../db';
+import { users } from '@shared/schema';
+import { eq, sql } from 'drizzle-orm';
+
+export type SubscriptionStatus = 'free' | 'active' | 'canceled' | 'past_due' | 'trialing';
+
+export interface UserBillingInfo {
+  stripeCustomerId: string | null;
+  stripeSubscriptionId: string | null;
+  subscriptionStatus: SubscriptionStatus;
+  currentPeriodEnd: Date | null;
+}
+
+export class BillingService {
+  async createCheckoutSession(userId: string, email: string, priceId: string, successUrl: string, cancelUrl: string) {
+    const stripe = await getUncachableStripeClient();
+    
+    const user = await this.getOrCreateUser(userId, email);
+    
+    let customerId = user.stripeCustomerId;
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email,
+        metadata: { userId },
+      });
+      customerId = customer.id;
+      await this.updateUserStripeInfo(userId, { stripeCustomerId: customerId });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      payment_method_types: ['card'],
+      line_items: [{ price: priceId, quantity: 1 }],
+      mode: 'subscription',
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      metadata: { userId },
+    });
+
+    return { checkoutUrl: session.url };
+  }
+
+  async createPortalSession(userId: string, returnUrl: string) {
+    const stripe = await getUncachableStripeClient();
+    
+    const user = await this.getUser(userId);
+    if (!user?.stripeCustomerId) {
+      throw new Error('No billing account found');
+    }
+
+    const session = await stripe.billingPortal.sessions.create({
+      customer: user.stripeCustomerId,
+      return_url: returnUrl,
+    });
+
+    return { portalUrl: session.url };
+  }
+
+  async getBillingStatus(userId: string): Promise<{ status: SubscriptionStatus; planName: string }> {
+    const user = await this.getUser(userId);
+    if (!user) {
+      return { status: 'free', planName: 'Free' };
+    }
+
+    const status = user.subscriptionStatus as SubscriptionStatus || 'free';
+    const planName = status === 'active' || status === 'trialing' ? 'Noor Plus' : 'Free';
+    
+    return { status, planName };
+  }
+
+  async handleCheckoutCompleted(customerId: string, subscriptionId: string) {
+    const stripe = await getUncachableStripeClient();
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    
+    const customer = await stripe.customers.retrieve(customerId);
+    const userId = (customer as any).metadata?.userId;
+    const periodEnd = (subscription as any).current_period_end;
+    
+    if (userId) {
+      await this.updateUserStripeInfo(userId, {
+        stripeSubscriptionId: subscriptionId,
+        subscriptionStatus: this.mapStripeStatus(subscription.status),
+        currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : null,
+      });
+    }
+  }
+
+  async handleSubscriptionUpdated(subscriptionId: string, status: string, currentPeriodEnd?: number) {
+    const [user] = await db.select().from(users).where(eq(users.stripeSubscriptionId, subscriptionId));
+    
+    if (user) {
+      await this.updateUserStripeInfo(user.id, {
+        subscriptionStatus: this.mapStripeStatus(status),
+        currentPeriodEnd: currentPeriodEnd ? new Date(currentPeriodEnd * 1000) : null,
+      });
+    }
+  }
+
+  async handleSubscriptionDeleted(subscriptionId: string) {
+    const [user] = await db.select().from(users).where(eq(users.stripeSubscriptionId, subscriptionId));
+    
+    if (user) {
+      await this.updateUserStripeInfo(user.id, {
+        subscriptionStatus: 'canceled',
+        stripeSubscriptionId: null,
+      });
+    }
+  }
+
+  private mapStripeStatus(stripeStatus: string): SubscriptionStatus {
+    switch (stripeStatus) {
+      case 'active': return 'active';
+      case 'trialing': return 'trialing';
+      case 'past_due': return 'past_due';
+      case 'canceled':
+      case 'unpaid':
+      case 'incomplete_expired':
+        return 'canceled';
+      default: return 'free';
+    }
+  }
+
+  async getOrCreateUser(userId: string, email: string) {
+    let [user] = await db.select().from(users).where(eq(users.id, userId));
+    
+    if (!user) {
+      [user] = await db.insert(users).values({
+        id: userId,
+        email,
+        subscriptionStatus: 'free',
+      }).returning();
+    }
+    
+    return user;
+  }
+
+  async getUser(userId: string) {
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+    return user;
+  }
+
+  async updateUserStripeInfo(userId: string, info: Partial<{
+    stripeCustomerId: string | null;
+    stripeSubscriptionId: string | null;
+    subscriptionStatus: SubscriptionStatus;
+    currentPeriodEnd: Date | null;
+  }>) {
+    const [user] = await db.update(users).set(info).where(eq(users.id, userId)).returning();
+    return user;
+  }
+
+  isPaidUser(status: SubscriptionStatus): boolean {
+    return status === 'active' || status === 'trialing';
+  }
+}
+
+export const billingService = new BillingService();

@@ -1,10 +1,11 @@
 import React, { useMemo } from "react";
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useQuery } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -12,6 +13,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand, DailyAnchorConcepts, ScreenCopy } from "@/constants/brand";
+import { checkReflectionLimit, getBillingStatus, isPaidStatus } from "@/lib/billing";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -25,6 +27,36 @@ export default function HomeScreen() {
     const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % DailyAnchorConcepts.length;
     return DailyAnchorConcepts[dayIndex];
   }, []);
+
+  const { data: billingStatus } = useQuery({
+    queryKey: ["/api/billing/status"],
+    queryFn: getBillingStatus,
+    staleTime: 60000,
+  });
+
+  const { data: limitStatus } = useQuery({
+    queryKey: ["/api/reflection/can-reflect"],
+    queryFn: checkReflectionLimit,
+    staleTime: 30000,
+  });
+
+  const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
+  const canReflect = limitStatus?.canReflect ?? true;
+
+  const handleBeginReflection = () => {
+    if (!canReflect && !isPaid) {
+      Alert.alert(
+        "Daily Limit Reached",
+        "You have used your free daily reflection. Upgrade to Noor Plus for unlimited reflections.",
+        [
+          { text: "Maybe Later", style: "cancel" },
+          { text: "Upgrade", onPress: () => navigation.navigate("Pricing") }
+        ]
+      );
+      return;
+    }
+    navigation.navigate("ThoughtCapture");
+  };
 
   return (
     <ScrollView
@@ -68,11 +100,18 @@ export default function HomeScreen() {
             Take a moment to slow down, identify what troubles your mind, and find clarity through faith-grounded reflection.
           </ThemedText>
           <Button
-            onPress={() => navigation.navigate("ThoughtCapture")}
+            onPress={handleBeginReflection}
             style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
           >
             {ScreenCopy.home.cta}
           </Button>
+          {!isPaid && limitStatus ? (
+            <ThemedText type="caption" style={[styles.limitText, { color: theme.textSecondary }]}>
+              {limitStatus.remaining === 0 
+                ? "Daily limit reached" 
+                : `${limitStatus.remaining} free reflection${limitStatus.remaining === 1 ? '' : 's'} remaining today`}
+            </ThemedText>
+          ) : null}
           <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
             {Brand.methodCallout}
           </ThemedText>
@@ -91,6 +130,22 @@ export default function HomeScreen() {
           </ThemedText>
           <Feather name="chevron-right" size={20} color={theme.textSecondary} style={{ marginLeft: "auto" }} />
         </Pressable>
+
+        {!isPaid ? (
+          <Pressable
+            onPress={() => navigation.navigate("Pricing")}
+            style={({ pressed }) => [
+              styles.upgradeButton,
+              { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.8 : 1 },
+            ]}
+          >
+            <Feather name="star" size={20} color="#fff" />
+            <ThemedText type="body" style={{ marginLeft: Spacing.sm, color: "#fff", fontWeight: "600" }}>
+              Upgrade to Noor Plus
+            </ThemedText>
+            <Feather name="chevron-right" size={20} color="#fff" style={{ marginLeft: "auto" }} />
+          </Pressable>
+        ) : null}
       </View>
 
       <View style={styles.footer}>
@@ -168,6 +223,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: Spacing.lg,
     borderRadius: BorderRadius.md,
+  },
+  upgradeButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
+  },
+  limitText: {
+    textAlign: "center",
+    marginTop: Spacing.sm,
   },
   footer: {
     alignItems: "center",
