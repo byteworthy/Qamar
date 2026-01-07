@@ -15,8 +15,17 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const prefix = Linking.createURL("/");
 
+const getWebPrefix = () => {
+  if (Platform.OS === "web" && typeof window !== "undefined") {
+    return window.location.origin + "/";
+  }
+  return undefined;
+};
+
+const webPrefix = getWebPrefix();
+
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [prefix, "https://"],
+  prefixes: webPrefix ? [prefix, webPrefix] : [prefix],
   config: {
     screens: {
       Home: "",

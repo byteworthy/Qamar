@@ -107,20 +107,13 @@ export function registerBillingRoutes(app: Express) {
 
   // GET /api/billing/status
   // SECURITY: userId is derived from server-side session only.
-  // If sync=true query param, syncs from Stripe first (useful after checkout)
+  // SECURITY: sync=true removed from this endpoint - use POST /api/billing/sync instead
   app.get('/api/billing/status', async (req: Request, res: Response) => {
     try {
       const userId = req.auth?.userId;
 
       if (!userId) {
         return res.json({ status: 'free', planName: 'Free' });
-      }
-
-      const shouldSync = req.query.sync === 'true';
-      
-      if (shouldSync) {
-        const result = await billingService.syncSubscriptionFromStripe(userId);
-        return res.json(result);
       }
 
       const result = await billingService.getBillingStatus(userId);
@@ -133,7 +126,9 @@ export function registerBillingRoutes(app: Express) {
 
   // POST /api/billing/sync
   // Sync subscription status from Stripe
+  // SECURITY: requireAuth ensures userId is derived from session, not client input
   app.post('/api/billing/sync', requireAuth, async (req: Request, res: Response) => {
+    console.log('[SYNC] Sync request from user:', req.auth!.userId);
     try {
       const userId = req.auth!.userId;
       const result = await billingService.syncSubscriptionFromStripe(userId);

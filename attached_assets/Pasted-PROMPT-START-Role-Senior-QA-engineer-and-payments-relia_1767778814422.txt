@@ -1,0 +1,194 @@
+PROMPT START
+
+Role
+Senior QA engineer and payments reliability engineer.
+
+Context
+Noor CBT app already has Stripe implemented and Noor Plus entitlements added.
+Your task is to run a full end to end stress test focused on:
+- Pricing page behavior
+- Stripe checkout and portal
+- Webhook reliability
+- Entitlement gating for all Noor Plus features
+- Paywall edge cases
+Do not add new features. Do not change UI copy. Do not change reflection flow.
+
+Goal
+Make the Noor Plus upgrade path and paywalls bullet proof. Verify correctness under success, failure, retry, and downgrade scenarios.
+
+PART 1
+Preflight Verification
+
+1. Confirm Stripe mode
+- Verify the Stripe dashboard is in TEST mode
+- Verify STRIPE_PRICE_ID exists and references a TEST mode price
+- Verify billing config endpoint returns expected publishable key and price id if applicable
+
+2. Confirm webhook wiring
+- Verify webhook route uses raw body and signature validation
+- Verify webhook secret is present via connector integration
+- Add server logs for each webhook event handled, including event id and type
+- Ensure idempotency: repeated webhook events must not create duplicate subscriptions or duplicate user records
+
+3. Confirm database readiness
+- Confirm users table supports Stripe customer id, subscription status, plan name, and timestamps
+- Confirm schema constraints do not block creating a user record for billing flow
+- Confirm indexes or unique constraints prevent duplicate stripe_customer_id entries
+
+PART 2
+Entitlement Matrix
+
+Define entitlements and verify gating server side for each:
+
+Free user:
+- reflections_per_day_limit enforced
+- insights summary endpoint denied or returns free status
+- assumptions endpoint denied or returns free status
+- contextual dua endpoint denied or returns free status
+- extended history limited
+
+Pro user:
+- unlimited reflections
+- insights summary enabled
+- assumptions library enabled
+- contextual dua enabled after reflection
+- unlimited history enabled
+
+All gating must be enforced on the server. Client side gating is not sufficient.
+
+PART 3
+Automated Test Scenarios
+
+Run each scenario end to end and record results including:
+- UI behavior
+- server logs
+- webhook logs
+- database changes
+- final entitlement status
+
+Scenario A
+Free user visits Pricing page
+- Pricing page renders
+- Upgrade button works
+- No Pro content is visible without upgrade
+- Billing status displays correctly
+
+Scenario B
+Successful checkout
+- Initiate checkout from Pricing page
+- Complete Stripe checkout using test card 4242424242424242
+- Verify redirect to success route
+- Verify user subscription status becomes active or pro
+- Verify Pro entitlements unlock immediately in the app
+- Verify Pro only features now work:
+  - unlimited reflections
+  - insights summary endpoint returns data
+  - assumptions endpoint returns data
+  - contextual dua endpoint returns one dua after reflection
+  - history is unlimited
+
+Scenario C
+Payment failure
+- Use a decline test card 4000000000000002
+- Verify checkout fails gracefully
+- Verify user remains free
+- Verify no Pro entitlements unlock
+- Verify errors are handled without crashing or broken state
+
+Scenario D
+Authentication required
+- Use 4000002500003155
+- Verify 3DS flow works or fails gracefully depending on platform
+- Verify final status matches Stripe outcome
+
+Scenario E
+Refresh and resume
+- After successful upgrade, refresh the app or reload page
+- Ensure billing status is re fetched
+- Ensure Pro remains unlocked
+
+Scenario F
+Customer portal access
+- From app, open Stripe customer portal
+- Verify portal session is created successfully
+- Return to app and confirm state remains correct
+
+Scenario G
+Cancel subscription
+- In portal, cancel subscription
+- Verify webhook updates user status to canceled or canceling
+- Define expected behavior:
+  - if cancel at period end, Pro remains until end date
+  - if immediate cancel, Pro removed immediately
+- Verify entitlements match the rule consistently
+
+Scenario H
+Reactivate subscription
+- If canceled, reactivate or purchase again
+- Verify status changes back to active
+- Verify entitlements restore
+
+Scenario I
+Webhook retry and duplication
+- Simulate webhook event replay by invoking handler twice with same event id if possible
+- Verify idempotency: no duplicate customer creation, no duplicate subscription records, no duplicate reflection entitlements entries
+- Verify logs indicate event already processed
+
+Scenario J
+Network interruptions
+- Simulate client side interrupted redirect after checkout session created
+- User closes tab, re opens app
+- Verify status is fetched from server and resolves correctly
+- Ensure no stuck limbo state
+
+PART 4
+Security and Abuse Tests
+
+1. Client tampering
+- Attempt to call Pro endpoints with a free user
+- Confirm server denies access reliably
+- Confirm no sensitive data is returned
+
+2. Plan spoofing
+- Ensure subscription status is derived from server stored state, not from client provided flags
+- Ensure userId used in billing routes cannot be swapped to unlock another user
+
+3. Reflection limit enforcement
+- Confirm limit is enforced server side for free users even if client removes the UI limit
+
+PART 5
+Observability
+
+Add or verify minimal logging, without exposing secrets:
+- checkout session created with userId and priceId
+- stripe customer id created and linked
+- webhook event type and event id
+- subscription status transitions
+- entitlement evaluation outcomes
+
+Add a debug endpoint if one exists already:
+GET /api/billing/debug
+Return:
+- hasStripeKey
+- hasPriceId
+- subscriptionStatus
+- planName
+- userId
+- lastWebhookEventId processed if tracked
+
+Do not expose secrets.
+
+PART 6
+Final Report
+
+At the end, output a concise report:
+
+- Summary: pass or fail
+- Failures by scenario with exact root cause
+- Proposed minimal fixes for each failure
+- Regression tests to rerun after fixes
+
+Do not implement fixes automatically.
+Report first, then wait.
+
+PROMPT END
