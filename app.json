@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Siraat",
-    "slug": "siraat",
+    "name": "Noor CBT",
+    "slug": "noor-cbt",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "siraat",
+    "scheme": "noor-cbt",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.siraat.app"
+      "bundleIdentifier": "com.noorcbt.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "package": "com.siraat.app",
+      "package": "com.noorcbt.app",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
