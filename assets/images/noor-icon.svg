@@ -1,13 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Outer solid frame -->
-  <rect x="48" y="48" width="416" height="416" rx="32" fill="#3D3D3D"/>
+  <!-- Outer seal boundary -->
+  <circle cx="256" cy="256" r="220" fill="#3D3D3D"/>
   
-  <!-- Recessed middle layer -->
-  <rect x="88" y="88" width="336" height="336" rx="20" fill="#FAF8F3"/>
+  <!-- Inner void - negative space -->
+  <circle cx="256" cy="256" r="160" fill="#FAF8F3"/>
   
-  <!-- Inner carved frame -->
-  <rect x="120" y="120" width="272" height="272" rx="12" fill="#3D3D3D"/>
-  
-  <!-- Central aperture - the cognitive void -->
-  <rect x="176" y="176" width="160" height="160" rx="8" fill="#FAF8F3"/>
+  <!-- Focal geometry - centered square -->
+  <rect x="196" y="196" width="120" height="120" fill="#3D3D3D"/>
 </svg>
