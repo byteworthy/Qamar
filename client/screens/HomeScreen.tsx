@@ -12,7 +12,7 @@ import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { Brand, DailyAnchorConcepts, ScreenCopy } from "@/constants/brand";
+import { Brand, HomeAnchors, ScreenCopy } from "@/constants/brand";
 import { checkReflectionLimit, getBillingStatus, isPaidStatus } from "@/lib/billing";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -24,8 +24,8 @@ export default function HomeScreen() {
 
   const dailyAnchor = useMemo(() => {
     const today = new Date();
-    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % DailyAnchorConcepts.length;
-    return DailyAnchorConcepts[dayIndex];
+    const dayIndex = (today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate()) % HomeAnchors.length;
+    return HomeAnchors[dayIndex];
   }, []);
 
   const { data: billingStatus } = useQuery({
@@ -93,18 +93,15 @@ export default function HomeScreen() {
 
       <View style={styles.mainContent}>
         <View style={[styles.card, { backgroundColor: theme.cardBackground }]}>
-          <ThemedText type="h4" style={[styles.cardTitle, { fontFamily: Fonts?.serif }]}>
-            Begin Your Reflection
-          </ThemedText>
-          <ThemedText type="body" style={[styles.cardDescription, { color: theme.textSecondary }]}>
-            Take a moment to slow down, identify what troubles your mind, and find clarity through faith-grounded reflection.
-          </ThemedText>
           <Button
             onPress={handleBeginReflection}
-            style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
+            style={{ backgroundColor: theme.primary }}
           >
             {ScreenCopy.home.cta}
           </Button>
+          <ThemedText type="body" style={[styles.ctaSubcopy, { color: theme.textSecondary }]}>
+            {ScreenCopy.home.ctaSubcopy}
+          </ThemedText>
           {!isPaid && limitStatus ? (
             <ThemedText type="caption" style={[styles.limitText, { color: theme.textSecondary }]}>
               {limitStatus.remaining === 0 
@@ -195,8 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: Spacing.lg,
     paddingHorizontal: Spacing.lg,
-    fontStyle: "italic",
-    lineHeight: 22,
+    lineHeight: 24,
   },
   mainContent: {
     flex: 1,
@@ -207,11 +203,10 @@ const styles = StyleSheet.create({
     padding: Spacing["2xl"],
     borderRadius: BorderRadius.lg,
   },
-  cardTitle: {
-    marginBottom: Spacing.sm,
-  },
-  cardDescription: {
-    lineHeight: 24,
+  ctaSubcopy: {
+    textAlign: "center",
+    marginTop: Spacing.lg,
+    lineHeight: 22,
   },
   methodCallout: {
     textAlign: "center",

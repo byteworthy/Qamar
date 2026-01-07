@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Outer frame: rounded square with centered aperture -->
+  <rect x="56" y="56" width="400" height="400" rx="24" stroke="#3D3D3D" stroke-width="12" fill="none"/>
+  
+  <!-- Middle frame: nested inward -->
+  <rect x="104" y="104" width="304" height="304" rx="16" stroke="#3D3D3D" stroke-width="10" fill="none"/>
+  
+  <!-- Inner frame: deepest layer with pointed arch top -->
+  <path 
+    d="M160 408 L160 220 Q160 160 256 140 Q352 160 352 220 L352 408" 
+    stroke="#3D3D3D" 
+    stroke-width="8" 
+    stroke-linecap="round"
+    fill="none"
+  />
+  
+  <!-- Central void: the focal aperture -->
+  <circle cx="256" cy="280" r="40" stroke="#3D3D3D" stroke-width="6" fill="none"/>
+</svg>

@@ -7,22 +7,30 @@ export const Brand = {
   methodCallout: "Powered by the Siraat Method",
 };
 
-export const DailyAnchorConcepts = [
-  "Mercy exceeds sin.",
-  "Effort is required, outcomes belong to Allah.",
-  "Hearts fluctuate and return remains open.",
-  "Hardship can carry wisdom you cannot yet see.",
+export const HomeAnchors = [
+  "Not every thought deserves your trust.",
+  "Feelings are real. Conclusions are testable.",
+  "Faith is alignment, not denial.",
+  "Clarity begins when assumptions get questioned.",
+  "Effort is yours. Outcomes belong to Allah.",
+  "Mercy is bigger than your worst moment.",
+  "Return is always open. Even now.",
   "Trust does not cancel action.",
-  "No soul is burdened beyond capacity.",
-  "Delay is not denial.",
-  "Allah is closer than perceived distance.",
-  "Patience illuminates the path.",
-  "Gratitude opens unexpected doors.",
+  "Your heart can feel heavy and still be guided.",
+  "Your worth is not your outcome.",
+  "Distortion hides inside familiar feelings.",
+  "What you believe shapes what you see.",
+  "Stillness is not the same as avoidance.",
+  "A hard truth can be easier than a false comfort.",
+  "The mind patterns. Test the pattern.",
 ];
+
+export const DailyAnchorConcepts = HomeAnchors;
 
 export const ScreenCopy = {
   home: {
-    cta: "Begin Reflection",
+    cta: "Return to Clarity",
+    ctaSubcopy: "Slow the mind. Examine the thought. Realign with what's true.",
     historyLink: "View Past Reflections",
   },
   
