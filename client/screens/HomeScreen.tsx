@@ -97,14 +97,7 @@ export default function HomeScreen() {
           <ThemedText type="body" style={[styles.ctaSubcopy, { color: theme.textSecondary }]}>
             {ScreenCopy.home.ctaSubcopy}
           </ThemedText>
-          {!isPaid && limitStatus ? (
-            <ThemedText type="caption" style={[styles.limitText, { color: theme.textSecondary }]}>
-              {limitStatus.remaining === 0 
-                ? "Daily limit reached" 
-                : `${limitStatus.remaining} free reflection${limitStatus.remaining === 1 ? '' : 's'} remaining today`}
-            </ThemedText>
-          ) : null}
-          <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
+            <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
             {Brand.methodCallout}
           </ThemedText>
         </View>
@@ -128,14 +121,14 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate("Pricing")}
             style={({ pressed }) => [
               styles.upgradeButton,
-              { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.8 : 1 },
+              { backgroundColor: theme.backgroundDefault, opacity: pressed ? 0.7 : 0.85 },
             ]}
           >
-            <Feather name="star" size={20} color="#fff" />
-            <ThemedText type="body" style={{ marginLeft: Spacing.sm, color: "#fff", fontWeight: "600" }}>
+            <Feather name="star" size={16} color={theme.textSecondary} />
+            <ThemedText type="caption" style={{ marginLeft: Spacing.sm, color: theme.textSecondary }}>
               Upgrade to Noor Plus
             </ThemedText>
-            <Feather name="chevron-right" size={20} color="#fff" style={{ marginLeft: "auto" }} />
+            <Feather name="chevron-right" size={16} color={theme.textSecondary} style={{ marginLeft: "auto" }} />
           </Pressable>
         ) : null}
       </View>
@@ -144,6 +137,13 @@ export default function HomeScreen() {
         <ThemedText type="caption" style={[styles.disclaimer, { color: theme.textSecondary }]}>
           {Brand.disclaimer}
         </ThemedText>
+        {!isPaid && limitStatus ? (
+          <ThemedText type="caption" style={[styles.limitHint, { color: theme.textSecondary }]}>
+            {limitStatus.remaining === 0 
+              ? "Daily reflection used" 
+              : `${limitStatus.remaining} free reflection${limitStatus.remaining === 1 ? '' : 's'} today`}
+          </ThemedText>
+        ) : null}
       </View>
     </ScrollView>
   );
@@ -217,12 +217,15 @@ const styles = StyleSheet.create({
   upgradeButton: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.lg,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.lg,
     borderRadius: BorderRadius.md,
   },
-  limitText: {
+  limitHint: {
     textAlign: "center",
-    marginTop: Spacing.sm,
+    marginTop: Spacing.md,
+    opacity: 0.6,
+    fontSize: 11,
   },
   footer: {
     alignItems: "center",
