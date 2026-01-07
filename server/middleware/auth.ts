@@ -30,18 +30,33 @@ function signToken(token: string): string {
 }
 
 function verifySignedToken(signedToken: string): string | null {
-  const parts = signedToken.split('.');
-  if (parts.length !== 2) return null;
-  
-  const [token, signature] = parts;
-  const secret = getSessionSecret();
-  const expectedSignature = crypto.createHmac('sha256', secret).update(token).digest('hex');
-  
-  if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))) {
+  try {
+    const parts = signedToken.split('.');
+    if (parts.length !== 2) return null;
+    
+    const [token, signature] = parts;
+    const secret = getSessionSecret();
+    const expectedSignature = crypto.createHmac('sha256', secret).update(token).digest('hex');
+    
+    // SECURITY: Check buffer lengths first to prevent timingSafeEqual from throwing
+    const signatureBuffer = Buffer.from(signature, 'hex');
+    const expectedBuffer = Buffer.from(expectedSignature, 'hex');
+    
+    if (signatureBuffer.length !== expectedBuffer.length) {
+      console.warn('[AUTH] Session signature length mismatch - possible tampering attempt');
+      return null;
+    }
+    
+    if (!crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
+      console.warn('[AUTH] Session signature verification failed');
+      return null;
+    }
+    
+    return token;
+  } catch (error) {
+    console.warn('[AUTH] Session token verification error:', error);
     return null;
   }
-  
-  return token;
 }
 
 function generateSessionToken(): string {
@@ -98,7 +113,44 @@ export async function sessionMiddleware(req: Request, res: Response, next: NextF
     
     next();
   } catch (error) {
-    console.error('[AUTH] Session middleware error:', error);
+    // SECURITY: On any error, clear potentially forged cookie and create fresh session
+    console.error('[AUTH] Session middleware error, issuing new session:', error);
+    
+    // Clear the invalid cookie
+    res.clearCookie(SESSION_COOKIE_NAME);
+    
+    // Create a new session
+    try {
+      const newToken = generateSessionToken();
+      const userId = `user_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
+      const expiresAt = new Date(Date.now() + SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000);
+      
+      await db.insert(userSessions).values({
+        token: newToken,
+        userId,
+        expiresAt,
+      }).onConflictDoNothing();
+      
+      const signedNewToken = signToken(newToken);
+      
+      res.cookie(SESSION_COOKIE_NAME, signedNewToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production' || process.env.REPLIT_DEPLOYMENT === '1',
+        sameSite: 'lax',
+        maxAge: SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000,
+        path: '/',
+      });
+      
+      req.auth = {
+        userId,
+        email: null,
+        sessionToken: newToken,
+      };
+    } catch (innerError) {
+      console.error('[AUTH] Failed to create recovery session:', innerError);
+      // Continue without auth - endpoints will handle 401 appropriately
+    }
+    
     next();
   }
 }
