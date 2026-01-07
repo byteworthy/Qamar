@@ -4,13 +4,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { useQuery } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
-import { NoorMark } from "@/components/NoorMark";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand, DailyAnchorConcepts, ScreenCopy } from "@/constants/brand";
 import { checkReflectionLimit, getBillingStatus, isPaidStatus } from "@/lib/billing";
@@ -71,8 +71,12 @@ export default function HomeScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <NoorMark size={72} color={theme.text} />
-        <ThemedText type="h1" style={[styles.title, { fontFamily: Fonts?.serif, marginTop: Spacing.md }]}>
+        <Image
+          source={require("../../assets/images/icon.png")}
+          style={styles.logo}
+          contentFit="contain"
+        />
+        <ThemedText type="h1" style={[styles.title, { fontFamily: Fonts?.serif }]}>
           {Brand.name}
         </ThemedText>
         <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -93,7 +97,7 @@ export default function HomeScreen() {
             Begin Your Reflection
           </ThemedText>
           <ThemedText type="body" style={[styles.cardDescription, { color: theme.textSecondary }]}>
-            {ScreenCopy.home.cardDescription}
+            Take a moment to slow down, identify what troubles your mind, and find clarity through faith-grounded reflection.
           </ThemedText>
           <Button
             onPress={handleBeginReflection}
@@ -164,6 +168,11 @@ const styles = StyleSheet.create({
   header: {
     alignItems: "center",
     marginBottom: Spacing.xl,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: Spacing.lg,
   },
   title: {
     marginBottom: Spacing.xs,
