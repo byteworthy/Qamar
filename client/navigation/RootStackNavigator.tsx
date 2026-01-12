@@ -92,17 +92,17 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="CalmingPractice"
         component={CalmingPracticeScreen}
-        options={{ headerTitle: "Calming Practice" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Dua"
         component={DuaScreen}
-        options={{ headerTitle: "Dua" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Insights"
         component={InsightsScreen}
-        options={{ headerTitle: "Insights" }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

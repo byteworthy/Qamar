@@ -21,9 +21,9 @@ interface CardProps {
 }
 
 const springConfig: WithSpringConfig = {
-  damping: 15,
-  mass: 0.3,
-  stiffness: 150,
+  damping: 20,
+  mass: 0.4,
+  stiffness: 200,
   overshootClamping: true,
   energyThreshold: 0.001,
 };
@@ -102,13 +102,13 @@ export function Card({
 
 const styles = StyleSheet.create({
   card: {
-    padding: Spacing.xl,
-    borderRadius: BorderRadius["2xl"],
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
   },
   cardTitle: {
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.xs,
   },
   cardDescription: {
-    opacity: 0.7,
+    opacity: 0.75,
   },
 });

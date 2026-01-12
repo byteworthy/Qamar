@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
@@ -10,6 +9,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
+import { ScreenLayout, ScreenSection } from "@/components/ScreenLayout";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 
 interface InnerState {
@@ -174,28 +174,28 @@ const DUAS: Record<string, Record<string, Dua>> = {
       arabic: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ",
       transliteration: "Rabbana-ghfir lana wa li-ikhwaninal-ladhina sabaquna bil-iman",
       english: "Our Lord, forgive us and our brothers who preceded us in faith",
-      forState: "When you've wronged family",
+      forState: "When sin affects those you love",
     },
     health: {
-      arabic: "اللَّهُمَّ إِنِّي أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ",
-      transliteration: "Allahumma inni astaghfiruka wa atubu ilayk",
-      english: "O Allah, I seek Your forgiveness and turn to You in repentance",
-      forState: "When sin has affected your wellbeing",
+      arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ",
+      transliteration: "Allahumma inni as'alukal-'afwa wal-'afiyah",
+      english: "O Allah, I ask You for pardon and wellbeing",
+      forState: "When sin weighs on your body and soul",
     },
     return: {
-      arabic: "أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
-      transliteration: "Astaghfirullaha-lladhi la ilaha illa huwal-Hayyul-Qayyum wa atubu ilayh",
-      english: "I seek forgiveness from Allah, there is no god but He, the Living, the Sustainer, and I turn to Him in repentance",
-      forState: "When you're ready to return",
+      arabic: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+      transliteration: "Rabbana dhalamna anfusana wa in lam taghfir lana wa tarhamna lanakoonanna minal-khasireen",
+      english: "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers",
+      forState: "When you need to return fully",
     },
     fear: {
-      arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا",
-      transliteration: "Rabbana la tuzigh qulubana ba'da idh hadaytana",
-      english: "Our Lord, do not let our hearts deviate after You have guided us",
-      forState: "When you fear falling again",
+      arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ",
+      transliteration: "Rabbighfir li wa tub 'alayya innaka antat-Tawwabur-Raheem",
+      english: "My Lord, forgive me and accept my repentance, You are the Accepting of repentance, the Merciful",
+      forState: "When fear of consequences grips you",
     },
     gratitude: {
-      arabic: "الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَذَا",
+      arabic: "الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَٰذَا",
       transliteration: "Alhamdulillahil-ladhi hadana lihadha",
       english: "Praise be to Allah who guided us to this",
       forState: "When you're grateful for the chance to return",
@@ -206,81 +206,80 @@ const DUAS: Record<string, Record<string, Dua>> = {
       arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
       transliteration: "A'udhu billahi minash-shaytanir-rajeem",
       english: "I seek refuge in Allah from the accursed Satan",
-      forState: "When work frustration builds",
+      forState: "When workplace frustrations boil over",
     },
     family: {
-      arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ",
-      transliteration: "Rabbi awzi'ni an ashkura ni'matak",
-      english: "My Lord, enable me to be grateful for Your blessing",
-      forState: "When family tests your patience",
+      arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+      transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yun",
+      english: "Our Lord, grant us from our spouses and offspring comfort to our eyes",
+      forState: "When family conflicts stir anger",
     },
     health: {
-      arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
-      transliteration: "Allahumma inni as'alukal-huda wat-tuqa wal-'afafa wal-ghina",
-      english: "O Allah, I ask You for guidance, piety, chastity, and contentment",
-      forState: "When anger affects your peace",
+      arabic: "اللَّهُمَّ أَصْلِحْ لِي قَلْبِي",
+      transliteration: "Allahumma aslih li qalbi",
+      english: "O Allah, rectify my heart",
+      forState: "When anger affects your wellbeing",
     },
     return: {
-      arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا",
-      transliteration: "Rabbana-ghfir lana dhunubana wa israfana fi amrina",
-      english: "Our Lord, forgive us our sins and our excess in our affairs",
-      forState: "When anger led you to wrong",
+      arabic: "رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي",
+      transliteration: "Rabbi inni dhalamtu nafsi faghfir li",
+      english: "My Lord, I have wronged myself, so forgive me",
+      forState: "When anger led to regret",
     },
     fear: {
       arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي",
       transliteration: "Allahumma inni a'udhu bika min sharri nafsi",
       english: "O Allah, I seek refuge in You from the evil of my own self",
-      forState: "When you fear your own reaction",
+      forState: "When you fear what anger might cause",
     },
     gratitude: {
-      arabic: "رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا",
-      transliteration: "Raditu billahi rabban wa bil-islami dinan",
-      english: "I am pleased with Allah as Lord and Islam as religion",
-      forState: "When you want to release and accept",
+      arabic: "الْحَمْدُ لِلَّهِ عَلَى كُلِّ حَالٍ",
+      transliteration: "Alhamdulillahi 'ala kulli hal",
+      english: "Praise be to Allah in every condition",
+      forState: "When you want to replace anger with gratitude",
     },
   },
   unseen: {
     work: {
-      arabic: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ",
-      transliteration: "Hasbiyal-lahu la ilaha illa huwa 'alayhi tawakkaltu",
-      english: "Allah is sufficient for me, there is no god but He, in Him I place my trust",
+      arabic: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ",
+      transliteration: "Hasbiyallahu la ilaha illa huwa 'alayhi tawakkaltu",
+      english: "Allah is sufficient for me, there is no god but Him, in Him I place my trust",
       forState: "When your work goes unrecognized",
     },
     family: {
-      arabic: "رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنْتَ خَيْرُ الْوَارِثِينَ",
-      transliteration: "Rabbi la tadharnī fardan wa anta khayrul-waritheen",
+      arabic: "رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنتَ خَيْرُ الْوَارِثِينَ",
+      transliteration: "Rabbi la tadharniy fardan wa anta khayrul-waritheen",
       english: "My Lord, do not leave me alone, and You are the best of inheritors",
-      forState: "When you feel invisible to family",
+      forState: "When you feel unseen by those closest to you",
     },
     health: {
-      arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
-      transliteration: "Allahumma inni as'alukal-'afiyata fid-dunya wal-akhirah",
-      english: "O Allah, I ask You for wellbeing in this world and the next",
-      forState: "When suffering feels unwitnessed",
+      arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ",
+      transliteration: "Allahumma inni as'alukal-'afiyah",
+      english: "O Allah, I ask You for wellbeing",
+      forState: "When feeling unseen affects your health",
     },
     return: {
-      arabic: "إِنَّ اللَّهَ يَعْلَمُ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ",
-      transliteration: "Innallaha ya'lamu ma fis-samawati wal-ard",
-      english: "Indeed, Allah knows what is in the heavens and the earth",
-      forState: "When you need to know you are seen",
+      arabic: "إِنَّ اللَّهَ يَعْلَمُ مَا تُخْفُونَ وَمَا تُعْلِنُونَ",
+      transliteration: "Innallaha ya'lamu ma tukhfoona wa ma tu'linoon",
+      english: "Indeed, Allah knows what you conceal and what you reveal",
+      forState: "When you need to remember you are always seen",
     },
     fear: {
-      arabic: "وَاللَّهُ بَصِيرٌ بِالْعِبَادِ",
-      transliteration: "Wallahu baseerun bil-'ibad",
-      english: "And Allah is All-Seeing of His servants",
-      forState: "When you fear being forgotten",
+      arabic: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ",
+      transliteration: "Wa huwa ma'akum ayna ma kuntum",
+      english: "And He is with you wherever you are",
+      forState: "When invisibility brings fear",
     },
     gratitude: {
-      arabic: "الْحَمْدُ لِلَّهِ الَّذِي لَا يَخْفَى عَلَيْهِ شَيْءٌ",
-      transliteration: "Alhamdulillahil-ladhi la yakhfa 'alayhi shay'",
-      english: "Praise be to Allah from whom nothing is hidden",
-      forState: "When you ground in being truly known",
+      arabic: "الْحَمْدُ لِلَّهِ الَّذِي يَرَانِي وَلَا أَرَاهُ",
+      transliteration: "Alhamdulillahil-ladhi yarani wa la arah",
+      english: "Praise be to Allah who sees me though I do not see Him",
+      forState: "When you want to rest in being seen by Allah",
     },
   },
 };
 
 export default function DuaScreen() {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const { theme } = useTheme();
   const [selectedState, setSelectedState] = useState<InnerState | null>(null);
@@ -293,16 +292,10 @@ export default function DuaScreen() {
   });
 
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-  const isDemo = true; // Demo mode
-
-  const selectedDua = selectedState && selectedContext 
-    ? DUAS[selectedState.id]?.[selectedContext.id] 
-    : null;
+  const isDemo = true;
 
   const handleBack = () => {
-    if (selectedDua) {
-      setSelectedContext(null);
-    } else if (selectedContext) {
+    if (selectedContext) {
       setSelectedContext(null);
     } else if (selectedState) {
       setSelectedState(null);
@@ -311,24 +304,14 @@ export default function DuaScreen() {
     }
   };
 
+  const selectedDua = selectedState && selectedContext 
+    ? DUAS[selectedState.id]?.[selectedContext.id] 
+    : null;
+
   if (selectedDua) {
     return (
-      <ScrollView
-        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-        contentContainerStyle={[
-          styles.contentContainer,
-          { paddingBottom: insets.bottom + Spacing["3xl"] },
-        ]}
-        showsVerticalScrollIndicator={false}
-      >
-        <Pressable onPress={handleBack} style={styles.backButton}>
-          <Feather name="arrow-left" size={20} color={theme.textSecondary} />
-          <ThemedText type="body" style={{ color: theme.textSecondary, marginLeft: Spacing.xs }}>
-            Back
-          </ThemedText>
-        </Pressable>
-
-        <Animated.View entering={FadeInUp.duration(500)}>
+      <ScreenLayout title="Dua" showBack onBack={handleBack}>
+        <Animated.View entering={FadeInUp.duration(400)}>
           <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault }]}>
             <ThemedText type="h2" style={styles.arabicText}>
               {selectedDua.arabic}
@@ -336,29 +319,29 @@ export default function DuaScreen() {
           </View>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.translitContainer}>
+        <Animated.View entering={FadeInUp.duration(350).delay(100)} style={styles.translitContainer}>
           <ThemedText type="body" style={[styles.transliteration, { color: theme.textSecondary }]}>
             {selectedDua.transliteration}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.englishContainer}>
-          <ThemedText type="bodyLarge" style={{ fontFamily: Fonts?.serif, lineHeight: 28 }}>
+        <Animated.View entering={FadeInUp.duration(350).delay(150)} style={styles.englishContainer}>
+          <ThemedText type="bodyLarge" style={{ fontFamily: Fonts?.serif, lineHeight: 26 }}>
             {selectedDua.english}
           </ThemedText>
         </Animated.View>
 
         <Animated.View 
-          entering={FadeInUp.duration(400).delay(300)}
+          entering={FadeInUp.duration(350).delay(200)}
           style={[styles.forStateCard, { backgroundColor: SiraatColors.indigo + "10" }]}
         >
           <View style={[styles.forStateAccent, { backgroundColor: SiraatColors.indigo }]} />
-          <ThemedText type="small" style={{ color: theme.textSecondary, fontStyle: "italic" }}>
+          <ThemedText type="small" style={{ color: theme.textSecondary, fontStyle: "italic", padding: Spacing.md }}>
             {selectedDua.forState}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(400).delay(400)} style={styles.doneContainer}>
+        <Animated.View entering={FadeInUp.duration(350).delay(250)} style={styles.doneContainer}>
           <Button
             onPress={() => navigation.goBack()}
             style={{ backgroundColor: theme.primary }}
@@ -366,189 +349,169 @@ export default function DuaScreen() {
             Done
           </Button>
         </Animated.View>
-      </ScrollView>
+      </ScreenLayout>
     );
   }
 
   if (selectedState) {
     return (
-      <ScrollView
-        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-        contentContainerStyle={[
-          styles.contentContainer,
-          { paddingBottom: insets.bottom + Spacing["3xl"] },
-        ]}
-        showsVerticalScrollIndicator={false}
-      >
-        <Pressable onPress={handleBack} style={styles.backButton}>
-          <Feather name="arrow-left" size={20} color={theme.textSecondary} />
-          <ThemedText type="body" style={{ color: theme.textSecondary, marginLeft: Spacing.xs }}>
-            Back
-          </ThemedText>
-        </Pressable>
-
-        <Animated.View entering={FadeInDown.duration(400)} style={styles.intro}>
-          <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.sm }}>
+      <ScreenLayout title="Dua" showBack onBack={handleBack}>
+        <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
+          <ThemedText type="h4" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.xs }}>
             What area of life?
           </ThemedText>
           <ThemedText type="body" style={{ color: theme.textSecondary }}>
-            Choose the context that fits your situation.
+            Choose the context that fits.
           </ThemedText>
         </Animated.View>
 
-        <View style={styles.optionsList}>
-          {LIFE_CONTEXTS.map((context, index) => (
-            <Animated.View
-              key={context.id}
-              entering={FadeInUp.duration(400).delay(100 + index * 60)}
-            >
-              <Pressable
-                onPress={() => setSelectedContext(context)}
-                style={({ pressed }) => [
-                  styles.optionCard,
-                  { 
-                    backgroundColor: theme.cardBackground,
-                    opacity: pressed ? 0.85 : 1,
-                  },
-                ]}
+        <ScreenSection>
+          <View style={styles.optionsList}>
+            {LIFE_CONTEXTS.map((context, index) => (
+              <Animated.View
+                key={context.id}
+                entering={FadeInUp.duration(350).delay(80 + index * 50)}
               >
-                <ThemedText type="body">{context.label}</ThemedText>
-                <Feather name="chevron-right" size={18} color={theme.textSecondary} />
-              </Pressable>
-            </Animated.View>
-          ))}
-        </View>
-      </ScrollView>
+                <Pressable
+                  onPress={() => setSelectedContext(context)}
+                  style={({ pressed }) => [
+                    styles.optionCard,
+                    { 
+                      backgroundColor: theme.cardBackground,
+                      opacity: pressed ? 0.85 : 1,
+                    },
+                  ]}
+                >
+                  <ThemedText type="body">{context.label}</ThemedText>
+                  <Feather name="chevron-right" size={18} color={theme.textSecondary} />
+                </Pressable>
+              </Animated.View>
+            ))}
+          </View>
+        </ScreenSection>
+      </ScreenLayout>
     );
   }
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-      contentContainerStyle={[
-        styles.contentContainer,
-        { paddingBottom: insets.bottom + Spacing["3xl"] },
-      ]}
-      showsVerticalScrollIndicator={false}
-    >
-      <Animated.View entering={FadeInDown.duration(400)} style={styles.intro}>
-        <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.sm }}>
+    <ScreenLayout title="Dua" showBack>
+      <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
+        <ThemedText type="h4" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.xs }}>
           What are you carrying?
         </ThemedText>
         <ThemedText type="body" style={{ color: theme.textSecondary }}>
-          Choose what fits closest to how you feel.
+          Choose what fits closest.
         </ThemedText>
       </Animated.View>
 
-      <View style={styles.optionsList}>
-        {INNER_STATES.map((state, index) => {
-          const isLocked = !isPaid && !isDemo && index > 2;
-          return (
-            <Animated.View
-              key={state.id}
-              entering={FadeInUp.duration(400).delay(100 + index * 60)}
-            >
-              <Pressable
-                onPress={() => !isLocked && setSelectedState(state)}
-                style={({ pressed }) => [
-                  styles.stateCard,
-                  { 
-                    backgroundColor: theme.cardBackground,
-                    opacity: pressed && !isLocked ? 0.85 : isLocked ? 0.5 : 1,
-                  },
-                ]}
+      <ScreenSection>
+        <View style={styles.optionsList}>
+          {INNER_STATES.map((state, index) => {
+            const isLocked = !isPaid && !isDemo && index > 2;
+            return (
+              <Animated.View
+                key={state.id}
+                entering={FadeInUp.duration(350).delay(80 + index * 50)}
               >
-                <View style={[styles.stateIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
-                  <Feather name={state.icon} size={20} color={SiraatColors.indigo} />
-                </View>
-                <ThemedText type="body" style={{ flex: 1 }}>{state.label}</ThemedText>
-                {isLocked ? (
-                  <Feather name="lock" size={16} color={theme.textSecondary} />
-                ) : (
-                  <Feather name="chevron-right" size={18} color={theme.textSecondary} />
-                )}
-              </Pressable>
-            </Animated.View>
-          );
-        })}
-      </View>
-    </ScrollView>
+                <Pressable
+                  onPress={() => !isLocked && setSelectedState(state)}
+                  style={({ pressed }) => [
+                    styles.stateCard,
+                    { 
+                      backgroundColor: theme.cardBackground,
+                      opacity: pressed && !isLocked ? 0.85 : isLocked ? 0.5 : 1,
+                    },
+                  ]}
+                >
+                  <View style={[styles.stateAccent, { backgroundColor: SiraatColors.indigo }]} />
+                  <View style={[styles.stateIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
+                    <Feather name={state.icon} size={18} color={SiraatColors.indigo} />
+                  </View>
+                  <ThemedText type="body" style={{ flex: 1 }}>{state.label}</ThemedText>
+                  {isLocked ? (
+                    <Feather name="lock" size={14} color={theme.textSecondary} />
+                  ) : (
+                    <Feather name="chevron-right" size={18} color={theme.textSecondary} />
+                  )}
+                </Pressable>
+              </Animated.View>
+            );
+          })}
+        </View>
+      </ScreenSection>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    paddingHorizontal: Spacing.xl,
-    paddingTop: Spacing.lg,
-  },
   intro: {
-    marginBottom: Spacing["2xl"],
-  },
-  backButton: {
-    flexDirection: "row",
-    alignItems: "center",
     marginBottom: Spacing.xl,
   },
   optionsList: {
-    gap: Spacing.md,
+    gap: Spacing.sm,
   },
   optionCard: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    padding: Spacing.md,
+    borderRadius: BorderRadius.sm,
   },
   stateCard: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    gap: Spacing.lg,
+    padding: Spacing.md,
+    borderRadius: BorderRadius.sm,
+    gap: Spacing.md,
+    overflow: "hidden",
+  },
+  stateAccent: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 3,
   },
   stateIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
+    width: 36,
+    height: 36,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: Spacing.xs,
   },
   duaCard: {
-    padding: Spacing["2xl"],
-    borderRadius: BorderRadius.lg,
+    padding: Spacing.xl,
+    borderRadius: BorderRadius.sm,
     alignItems: "center",
   },
   arabicText: {
-    fontSize: 28,
-    lineHeight: 48,
+    fontSize: 26,
+    lineHeight: 44,
     textAlign: "center",
     fontFamily: "serif",
   },
   translitContainer: {
-    marginTop: Spacing.xl,
-    paddingHorizontal: Spacing.md,
+    marginTop: Spacing.lg,
+    paddingHorizontal: Spacing.sm,
   },
   transliteration: {
     textAlign: "center",
     fontStyle: "italic",
-    lineHeight: 24,
+    lineHeight: 22,
   },
   englishContainer: {
-    marginTop: Spacing.xl,
-    paddingHorizontal: Spacing.md,
+    marginTop: Spacing.lg,
+    paddingHorizontal: Spacing.sm,
   },
   forStateCard: {
     flexDirection: "row",
-    borderRadius: BorderRadius.md,
+    borderRadius: BorderRadius.sm,
     overflow: "hidden",
-    marginTop: Spacing["2xl"],
+    marginTop: Spacing.xl,
   },
   forStateAccent: {
-    width: 4,
+    width: 3,
   },
   doneContainer: {
     marginTop: Spacing["2xl"],

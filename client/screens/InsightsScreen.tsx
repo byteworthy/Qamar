@@ -1,6 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -11,6 +10,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
+import { ScreenLayout, ScreenSection } from "@/components/ScreenLayout";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { getApiUrl } from "@/lib/query-client";
@@ -31,7 +31,6 @@ async function fetchPatterns(): Promise<PatternData> {
 }
 
 export default function InsightsScreen() {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
 
@@ -42,10 +41,8 @@ export default function InsightsScreen() {
   });
 
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-  // Demo mode: Set to false for production to enforce Pro gating
   const isDemo = true;
 
-  // Seeded demo reflections - 10 realistic entries with timestamps and variation
   const demoReflections = [
     { id: 1, timestamp: new Date(Date.now() - 1 * 86400000), state: "tightness_around_provision", thought: "I'm behind on bills and can't stop thinking about it", distortions: ["catastrophizing", "fortune-telling"] },
     { id: 2, timestamp: new Date(Date.now() - 2 * 86400000), state: "fear_of_loss", thought: "What if my spouse leaves me?", distortions: ["catastrophizing"] },
@@ -59,7 +56,6 @@ export default function InsightsScreen() {
     { id: 10, timestamp: new Date(Date.now() - 16 * 86400000), state: "confusion_effort_control", thought: "I prayed for this but nothing happened", distortions: ["all-or-nothing", "fortune-telling"] },
   ];
 
-  // Demo data derived from seeded reflections
   const demoPatterns: PatternData = {
     summary: "Across your reflections, responsibility often appears before rest. Effort is present, but trust arrives later. When outcomes feel uncertain, the mind reaches for control rather than patience.",
     assumptions: [
@@ -78,48 +74,43 @@ export default function InsightsScreen() {
     staleTime: 300000,
   });
 
-  // Use demo data when in demo mode, otherwise use fetched patterns
   const patterns = isDemo ? demoPatterns : fetchedPatterns;
 
   if (!isPaid && !isDemo) {
     return (
-      <ScrollView
-        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-        contentContainerStyle={[
-          styles.contentContainer,
-          styles.centerContent,
-          { paddingBottom: insets.bottom + Spacing["3xl"] },
-        ]}
-        showsVerticalScrollIndicator={false}
-      >
-        <Animated.View entering={FadeInUp.duration(500)} style={styles.lockedContainer}>
-          <View style={[styles.lockIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
-            <Feather name="lock" size={32} color={SiraatColors.indigo} />
-          </View>
-          <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, textAlign: "center", marginTop: Spacing.xl }}>
-            Unlock Your Patterns
-          </ThemedText>
-          <ThemedText type="body" style={[styles.lockedDescription, { color: theme.textSecondary }]}>
-            See what your reflections reveal about your thinking patterns and recurring assumptions.
-          </ThemedText>
-          <Button
-            onPress={() => navigation.navigate("Pricing")}
-            style={{ backgroundColor: SiraatColors.indigo, marginTop: Spacing.xl }}
-          >
-            Upgrade to Noor Plus
-          </Button>
-        </Animated.View>
-      </ScrollView>
+      <ScreenLayout title="Insights" showBack scrollable={false}>
+        <View style={styles.centerContent}>
+          <Animated.View entering={FadeInUp.duration(400)} style={styles.lockedContainer}>
+            <View style={[styles.lockIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
+              <Feather name="lock" size={28} color={SiraatColors.indigo} />
+            </View>
+            <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, textAlign: "center", marginTop: Spacing.xl }}>
+              Unlock Your Patterns
+            </ThemedText>
+            <ThemedText type="body" style={[styles.lockedDescription, { color: theme.textSecondary }]}>
+              See what your reflections reveal about your thinking patterns and recurring assumptions.
+            </ThemedText>
+            <Button
+              onPress={() => navigation.navigate("Pricing")}
+              style={{ backgroundColor: SiraatColors.indigo, marginTop: Spacing.xl }}
+            >
+              Upgrade to Noor Plus
+            </Button>
+          </Animated.View>
+        </View>
+      </ScreenLayout>
     );
   }
 
   if (isLoading) {
     return (
-      <View style={[styles.container, styles.centerContent, { backgroundColor: theme.backgroundRoot }]}>
-        <ThemedText type="body" style={{ color: theme.textSecondary }}>
-          Loading your patterns...
-        </ThemedText>
-      </View>
+      <ScreenLayout title="Insights" showBack scrollable={false}>
+        <View style={styles.centerContent}>
+          <ThemedText type="body" style={{ color: theme.textSecondary }}>
+            Loading your patterns...
+          </ThemedText>
+        </View>
+      </ScreenLayout>
     );
   }
 
@@ -127,207 +118,173 @@ export default function InsightsScreen() {
 
   if (!hasData) {
     return (
-      <ScrollView
-        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-        contentContainerStyle={[
-          styles.contentContainer,
-          styles.centerContent,
-          { paddingBottom: insets.bottom + Spacing["3xl"] },
-        ]}
-        showsVerticalScrollIndicator={false}
-      >
-        <Animated.View entering={FadeInUp.duration(500)} style={styles.emptyContainer}>
-          <View style={[styles.emptyIcon, { backgroundColor: theme.backgroundDefault }]}>
-            <Feather name="bar-chart-2" size={32} color={theme.textSecondary} />
-          </View>
-          <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, textAlign: "center", marginTop: Spacing.xl }}>
-            No patterns yet
-          </ThemedText>
-          <ThemedText type="body" style={[styles.emptyDescription, { color: theme.textSecondary }]}>
-            Complete a few reflections to start seeing your thinking patterns and recurring themes.
-          </ThemedText>
-          <Button
-            onPress={() => navigation.navigate("ThoughtCapture")}
-            style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
-          >
-            Start a Reflection
-          </Button>
-        </Animated.View>
-      </ScrollView>
+      <ScreenLayout title="Insights" showBack scrollable={false}>
+        <View style={styles.centerContent}>
+          <Animated.View entering={FadeInUp.duration(400)} style={styles.emptyContainer}>
+            <View style={[styles.emptyIcon, { backgroundColor: theme.backgroundDefault }]}>
+              <Feather name="bar-chart-2" size={28} color={theme.textSecondary} />
+            </View>
+            <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, textAlign: "center", marginTop: Spacing.xl }}>
+              No patterns yet
+            </ThemedText>
+            <ThemedText type="body" style={[styles.emptyDescription, { color: theme.textSecondary }]}>
+              Complete a few reflections to start seeing your thinking patterns.
+            </ThemedText>
+            <Button
+              onPress={() => navigation.navigate("ThoughtCapture")}
+              style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
+            >
+              Start a Reflection
+            </Button>
+          </Animated.View>
+        </View>
+      </ScreenLayout>
     );
   }
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-      contentContainerStyle={[
-        styles.contentContainer,
-        { paddingBottom: insets.bottom + Spacing["3xl"] },
-      ]}
-      showsVerticalScrollIndicator={false}
-    >
-      <Animated.View entering={FadeInDown.duration(400)} style={styles.intro}>
-        <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.sm }}>
-          Your Patterns
-        </ThemedText>
+    <ScreenLayout title="Insights" showBack>
+      <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
         <ThemedText type="body" style={{ color: theme.textSecondary }}>
           Based on your recent reflections.
         </ThemedText>
       </Animated.View>
 
       {patterns?.summary && (
-        <Animated.View 
-          entering={FadeInUp.duration(400).delay(100)}
-          style={styles.section}
-        >
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            Pattern Summary
-          </ThemedText>
-          <View style={[styles.summaryCard, { backgroundColor: theme.backgroundDefault }]}>
-            <ThemedText type="body" style={{ lineHeight: 24 }}>
-              {patterns.summary}
+        <ScreenSection>
+          <Animated.View entering={FadeInUp.duration(350).delay(100)}>
+            <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+              Pattern Summary
             </ThemedText>
-          </View>
-        </Animated.View>
+            <View style={[styles.summaryCard, { backgroundColor: theme.backgroundDefault }]}>
+              <ThemedText type="body" style={{ lineHeight: 22 }}>
+                {patterns.summary}
+              </ThemedText>
+            </View>
+          </Animated.View>
+        </ScreenSection>
       )}
 
       {patterns?.assumptions && patterns.assumptions.length > 0 && (
-        <Animated.View 
-          entering={FadeInUp.duration(400).delay(200)}
-          style={styles.section}
-        >
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            Recurring Assumptions
-          </ThemedText>
-          <View style={styles.assumptionsList}>
-            {patterns.assumptions.map((item, index) => (
-              <View 
-                key={index}
-                style={[styles.assumptionCard, { backgroundColor: theme.backgroundDefault }]}
-              >
-                <View style={styles.assumptionContent}>
-                  <ThemedText type="body" style={{ flex: 1, lineHeight: 22 }}>
+        <ScreenSection>
+          <Animated.View entering={FadeInUp.duration(350).delay(150)}>
+            <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+              Recurring Assumptions
+            </ThemedText>
+            <View style={styles.assumptionsList}>
+              {patterns.assumptions.map((item, index) => (
+                <View 
+                  key={index}
+                  style={[styles.assumptionCard, { backgroundColor: theme.backgroundDefault }]}
+                >
+                  <ThemedText type="body" style={{ flex: 1, lineHeight: 20 }}>
                     {item.text}
                   </ThemedText>
                   <View style={[styles.countBadge, { backgroundColor: theme.backgroundRoot }]}>
-                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                    <ThemedText type="caption" style={{ color: theme.textSecondary, fontSize: 11 }}>
                       {item.count}x
                     </ThemedText>
                   </View>
                 </View>
-              </View>
-            ))}
-          </View>
-        </Animated.View>
+              ))}
+            </View>
+          </Animated.View>
+        </ScreenSection>
       )}
 
       {isDemo && demoReflections.length > 0 && (
-        <Animated.View 
-          entering={FadeInUp.duration(400).delay(300)}
-          style={styles.section}
-        >
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            Recent Reflections
-          </ThemedText>
-          <View style={styles.reflectionsList}>
-            {demoReflections.slice(0, 4).map((reflection, index) => (
-              <View 
-                key={reflection.id}
-                style={[styles.reflectionCard, { backgroundColor: theme.backgroundDefault }]}
-              >
-                <ThemedText type="small" style={{ color: theme.textSecondary, marginBottom: 4 }}>
-                  {reflection.timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                </ThemedText>
-                <ThemedText type="body" style={{ lineHeight: 20 }} numberOfLines={2}>
-                  {reflection.thought}
-                </ThemedText>
-                <View style={styles.distortionTags}>
-                  {reflection.distortions.slice(0, 2).map((d, i) => (
-                    <View key={i} style={[styles.distortionTag, { backgroundColor: theme.backgroundRoot }]}>
-                      <ThemedText type="caption" style={{ color: theme.textSecondary, fontSize: 10 }}>
-                        {d}
-                      </ThemedText>
-                    </View>
-                  ))}
+        <ScreenSection>
+          <Animated.View entering={FadeInUp.duration(350).delay(200)}>
+            <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+              Recent Reflections
+            </ThemedText>
+            <View style={styles.reflectionsList}>
+              {demoReflections.slice(0, 4).map((reflection) => (
+                <View 
+                  key={reflection.id}
+                  style={[styles.reflectionCard, { backgroundColor: theme.backgroundDefault }]}
+                >
+                  <ThemedText type="caption" style={{ color: theme.textSecondary, marginBottom: 2 }}>
+                    {reflection.timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </ThemedText>
+                  <ThemedText type="body" style={{ lineHeight: 20, fontSize: 15 }} numberOfLines={2}>
+                    {reflection.thought}
+                  </ThemedText>
+                  <View style={styles.distortionTags}>
+                    {reflection.distortions.slice(0, 2).map((d, i) => (
+                      <View key={i} style={[styles.distortionTag, { backgroundColor: theme.backgroundRoot }]}>
+                        <ThemedText type="caption" style={{ color: theme.textSecondary, fontSize: 10 }}>
+                          {d}
+                        </ThemedText>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              </View>
-            ))}
-          </View>
-        </Animated.View>
+              ))}
+            </View>
+          </Animated.View>
+        </ScreenSection>
       )}
 
-      <Animated.View entering={FadeInUp.duration(400).delay(400)} style={styles.noteContainer}>
+      <Animated.View entering={FadeInUp.duration(350).delay(250)} style={styles.noteContainer}>
         <ThemedText type="caption" style={[styles.note, { color: theme.textSecondary }]}>
           Patterns are observations, not verdicts.
         </ThemedText>
       </Animated.View>
-    </ScrollView>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    paddingHorizontal: Spacing.xl,
-    paddingTop: Spacing.lg,
-  },
   centerContent: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   intro: {
-    marginBottom: Spacing["2xl"],
-  },
-  section: {
-    marginBottom: Spacing["2xl"],
+    marginBottom: Spacing.xl,
   },
   sectionLabel: {
     textTransform: "uppercase",
     letterSpacing: 1,
-    fontSize: 11,
-    marginBottom: Spacing.md,
+    fontSize: 10,
+    marginBottom: Spacing.sm,
   },
   summaryCard: {
-    padding: Spacing.xl,
-    borderRadius: BorderRadius.md,
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.sm,
   },
   assumptionsList: {
-    gap: Spacing.md,
+    gap: Spacing.sm,
   },
   assumptionCard: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
-  },
-  assumptionContent: {
     flexDirection: "row",
     alignItems: "center",
+    padding: Spacing.md,
+    borderRadius: BorderRadius.sm,
     gap: Spacing.md,
   },
   countBadge: {
     paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs,
+    paddingVertical: 2,
     borderRadius: BorderRadius.xs,
   },
   noteContainer: {
-    marginTop: "auto",
-    paddingTop: Spacing.xl,
+    paddingVertical: Spacing.lg,
   },
   note: {
     textAlign: "center",
     fontStyle: "italic",
-    lineHeight: 18,
+    fontSize: 12,
   },
   lockedContainer: {
     alignItems: "center",
     paddingHorizontal: Spacing.xl,
   },
   lockIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -341,9 +298,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
   },
   emptyIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -353,11 +310,11 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   reflectionsList: {
-    gap: Spacing.md,
+    gap: Spacing.sm,
   },
   reflectionCard: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
+    padding: Spacing.md,
+    borderRadius: BorderRadius.sm,
   },
   distortionTags: {
     flexDirection: "row",
