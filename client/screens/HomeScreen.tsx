@@ -47,9 +47,11 @@ export default function HomeScreen() {
 
   useEffect(() => {
     AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
-      if (name) setUserName(name);
-      else {
+      if (name && name.trim()) {
+        setUserName(name);
+      } else {
         AsyncStorage.setItem(USER_NAME_KEY, "Karim");
+        setUserName("Karim");
       }
     });
   }, []);
