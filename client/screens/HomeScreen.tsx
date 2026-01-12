@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Pressable, Alert, TextInput, Modal } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable, TextInput, Modal } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -43,6 +43,7 @@ export default function HomeScreen() {
   
   const [userName, setUserName] = useState<string>("Karim");
   const [showNameModal, setShowNameModal] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
 
   useEffect(() => {
@@ -86,14 +87,7 @@ export default function HomeScreen() {
 
   const handleBeginReflection = () => {
     if (!canReflect && !isPaid) {
-      Alert.alert(
-        "Daily Limit Reached",
-        "You have used your free daily reflection. Upgrade to Noor Plus for unlimited reflections.",
-        [
-          { text: "Maybe Later", style: "cancel" },
-          { text: "Upgrade", onPress: () => navigation.navigate("Pricing") }
-        ]
-      );
+      setShowLimitModal(true);
       return;
     }
     navigation.navigate("ThoughtCapture");
@@ -249,7 +243,7 @@ export default function HomeScreen() {
               styles.nameInput,
               { 
                 backgroundColor: theme.backgroundRoot,
-                color: theme.textPrimary,
+                color: theme.text,
                 borderColor: theme.textSecondary,
               }
             ]}
@@ -268,6 +262,41 @@ export default function HomeScreen() {
               style={[styles.modalButton, { backgroundColor: theme.primary }]}
             >
               <ThemedText type="body" style={{ color: "#fff" }}>Save</ThemedText>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </Modal>
+
+    <Modal
+      visible={showLimitModal}
+      transparent
+      animationType="fade"
+      onRequestClose={() => setShowLimitModal(false)}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={[styles.modalContent, { backgroundColor: theme.backgroundDefault }]}>
+          <ThemedText type="h3" style={{ marginBottom: Spacing.md }}>
+            Daily Limit Reached
+          </ThemedText>
+          <ThemedText type="body" style={{ color: theme.textSecondary, marginBottom: Spacing.xl }}>
+            You've used your free daily reflection. Upgrade to Noor Plus for unlimited reflections.
+          </ThemedText>
+          <View style={styles.modalButtons}>
+            <Pressable 
+              onPress={() => setShowLimitModal(false)}
+              style={[styles.modalButton, { backgroundColor: theme.backgroundRoot }]}
+            >
+              <ThemedText type="body">Maybe Later</ThemedText>
+            </Pressable>
+            <Pressable 
+              onPress={() => {
+                setShowLimitModal(false);
+                navigation.navigate("Pricing");
+              }}
+              style={[styles.modalButton, { backgroundColor: SiraatColors.indigo }]}
+            >
+              <ThemedText type="body" style={{ color: "#fff" }}>Upgrade</ThemedText>
             </Pressable>
           </View>
         </View>
