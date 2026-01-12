@@ -82,7 +82,7 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="Pricing"
         component={PricingScreen}
-        options={{ headerTitle: "Upgrade" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="BillingSuccess"

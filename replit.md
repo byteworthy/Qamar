@@ -41,7 +41,22 @@ Preferred communication style: Simple, everyday language.
 - **Visual Identity**: Earth tones inspired by Yemeni masjid geometry (sand, clay, indigo, emerald, charcoal)
 - **Typography**: Serif for headings (contemplative), sans-serif for body (readable)
 - **Motion**: Minimal, slow fades only - designed to support reflection, not distraction
-- **Components**: Custom Button, Card, ThemedText, ThemedView components with consistent theming
+- **Components**: Custom Button, Card, ThemedText, ThemedView, Screen components with consistent theming
+
+### Layout System (client/constants/layout.ts)
+Global layout constants for consistent spacing and sizing:
+- **Spacing**: xs:6, sm:10, md:14, lg:18, xl:24, xxl:32
+- **Border Radii**: sm:12, md:16, lg:20
+- **Container**: maxWidth:420, screenPad:16, cardPad:14
+- **Type Scale**: title:22, h2:18, body:14, small:12
+- **Hit Targets**: minRowHeight:56, minCardHeight:64
+
+### Screen Component (client/components/Screen.tsx)
+Wrapper component providing consistent screen layout:
+- Centered content with maxWidth 420px
+- Custom header with back button and title
+- Safe area handling for all platforms
+- Scrollable and non-scrollable modes
 
 ### Backend Architecture
 - **Runtime**: Express.js server with TypeScript

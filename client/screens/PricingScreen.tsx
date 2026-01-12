@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, TextInput, Alert, Platform, Linking } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, StyleSheet, TextInput, Alert, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useHeaderHeight } from "@react-navigation/elements";
 import { Feather } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Layout } from "@/constants/layout";
+import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/Button";
+import { Screen } from "@/components/Screen";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { createCheckoutSession, createPortalSession, getBillingStatus, isPaidStatus, syncBillingStatus } from "@/lib/billing";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -34,6 +33,8 @@ interface PlanCardProps {
   loading?: boolean;
 }
 
+const { spacing, radii, container, typeScale } = Layout;
+
 function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onSelect, loading }: PlanCardProps) {
   const { theme } = useTheme();
   
@@ -48,17 +49,17 @@ function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onS
     ]}>
       {isPremium ? (
         <View style={[styles.badge, { backgroundColor: SiraatColors.indigo }]}>
-          <ThemedText type="caption" style={{ color: "#fff" }}>RECOMMENDED</ThemedText>
+          <ThemedText style={styles.badgeText}>RECOMMENDED</ThemedText>
         </View>
       ) : null}
       
-      <ThemedText type="h3" style={[styles.planName, { fontFamily: Fonts?.serif }]}>
+      <ThemedText style={[styles.planName, { fontFamily: Fonts?.serif }]}>
         {name}
       </ThemedText>
       
       <View style={styles.priceContainer}>
-        <ThemedText type="h1" style={styles.price}>{price}</ThemedText>
-        {period ? <ThemedText type="body" style={{ color: theme.textSecondary }}>{period}</ThemedText> : null}
+        <ThemedText style={styles.price}>{price}</ThemedText>
+        {period ? <ThemedText style={[styles.period, { color: theme.textSecondary }]}>{period}</ThemedText> : null}
       </View>
       
       <View style={styles.featuresContainer}>
@@ -66,11 +67,10 @@ function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onS
           <View key={index} style={styles.featureRow}>
             <Feather 
               name={feature.included ? "check" : "x"} 
-              size={18} 
+              size={16} 
               color={feature.included ? SiraatColors.emerald : theme.textSecondary} 
             />
             <ThemedText 
-              type="body" 
               style={[
                 styles.featureText, 
                 { color: feature.included ? theme.text : theme.textSecondary }
@@ -84,7 +84,7 @@ function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onS
       
       {isCurrentPlan ? (
         <View style={[styles.currentPlanBadge, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="body" style={{ color: theme.textSecondary }}>Current Plan</ThemedText>
+          <ThemedText style={[styles.currentPlanText, { color: theme.textSecondary }]}>Current Plan</ThemedText>
         </View>
       ) : onSelect ? (
         <Button 
@@ -92,7 +92,7 @@ function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onS
           disabled={loading}
           style={{ 
             backgroundColor: isPremium ? SiraatColors.indigo : theme.backgroundDefault,
-            marginTop: Spacing.lg 
+            marginTop: spacing.lg 
           }}
         >
           {loading ? "Loading..." : (isPremium ? "Upgrade to Plus" : "Select")}
@@ -103,8 +103,6 @@ function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onS
 }
 
 export default function PricingScreen() {
-  const insets = useSafeAreaInsets();
-  const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const queryClient = useQueryClient();
@@ -199,22 +197,12 @@ export default function PricingScreen() {
   ];
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-      contentContainerStyle={[
-        styles.contentContainer,
-        {
-          paddingTop: headerHeight + Spacing.lg,
-          paddingBottom: insets.bottom + Spacing["4xl"],
-        },
-      ]}
-      showsVerticalScrollIndicator={false}
-    >
+    <Screen title="Upgrade" showBack>
       <View style={styles.header}>
-        <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+        <ThemedText style={[styles.title, { fontFamily: Fonts?.serif }]}>
           Deepen Your Practice
         </ThemedText>
-        <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
+        <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
           Noor Plus reveals patterns in your thoughts and offers guidance tailored to your heart.
         </ThemedText>
       </View>
@@ -241,7 +229,7 @@ export default function PricingScreen() {
 
       {!isPaid ? (
         <View style={[styles.emailContainer, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="body" style={[styles.emailLabel, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.emailLabel, { color: theme.textSecondary }]}>
             Enter your email to upgrade
           </ThemedText>
           <TextInput
@@ -262,7 +250,7 @@ export default function PricingScreen() {
             autoCorrect={false}
           />
           <View style={styles.restoreContainer}>
-            <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: "center", marginBottom: Spacing.sm }}>
+            <ThemedText style={[styles.restoreLabel, { color: theme.textSecondary }]}>
               Already purchased?
             </ThemedText>
             <Button
@@ -286,92 +274,112 @@ export default function PricingScreen() {
           </Button>
         </View>
       )}
-    </ScrollView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    paddingHorizontal: Spacing.xl,
-  },
   header: {
     alignItems: "center",
-    marginBottom: Spacing["2xl"],
+    marginBottom: spacing.xl,
   },
   title: {
-    marginBottom: Spacing.xs,
+    fontSize: typeScale.h2,
+    marginBottom: spacing.xs,
+    textAlign: "center",
   },
   subtitle: {
     textAlign: "center",
+    fontSize: typeScale.body,
+    lineHeight: 20,
   },
   plansContainer: {
-    gap: Spacing.lg,
-    marginBottom: Spacing["2xl"],
+    gap: spacing.lg,
+    marginBottom: spacing.xl,
   },
   planCard: {
-    padding: Spacing["2xl"],
-    borderRadius: BorderRadius.lg,
+    width: "100%",
+    padding: container.cardPad,
+    borderRadius: radii.lg,
     position: "relative",
   },
   badge: {
     position: "absolute",
     top: -12,
-    right: Spacing.lg,
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
-    borderRadius: BorderRadius.sm,
+    right: spacing.lg,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: radii.sm,
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: typeScale.small,
+    fontWeight: "600",
   },
   planName: {
-    marginBottom: Spacing.sm,
+    fontSize: typeScale.h2,
+    marginBottom: spacing.sm,
   },
   priceContainer: {
     flexDirection: "row",
     alignItems: "baseline",
-    marginBottom: Spacing.xl,
+    marginBottom: spacing.lg,
   },
   price: {
-    fontSize: 36,
+    fontSize: 22,
     fontWeight: "700",
   },
+  period: {
+    fontSize: typeScale.body,
+    marginLeft: 2,
+  },
   featuresContainer: {
-    gap: Spacing.md,
+    gap: spacing.sm,
   },
   featureRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: Spacing.sm,
+    gap: spacing.sm,
   },
   featureText: {
     flex: 1,
+    fontSize: 13,
   },
   currentPlanBadge: {
     alignItems: "center",
-    paddingVertical: Spacing.md,
-    borderRadius: BorderRadius.md,
-    marginTop: Spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: radii.md,
+    marginTop: spacing.lg,
+  },
+  currentPlanText: {
+    fontSize: typeScale.body,
   },
   emailContainer: {
-    padding: Spacing.xl,
-    borderRadius: BorderRadius.lg,
+    padding: container.cardPad,
+    borderRadius: radii.lg,
+    marginBottom: spacing.lg,
   },
   emailLabel: {
-    marginBottom: Spacing.sm,
+    marginBottom: spacing.sm,
+    fontSize: typeScale.body,
   },
   emailInput: {
-    padding: Spacing.md,
-    borderRadius: BorderRadius.md,
+    padding: spacing.md,
+    borderRadius: radii.md,
     borderWidth: 1,
     fontSize: 16,
   },
-  manageBillingContainer: {
+  restoreContainer: {
+    marginTop: spacing.lg,
     alignItems: "center",
   },
-  restoreContainer: {
-    marginTop: Spacing.xl,
+  restoreLabel: {
+    fontSize: typeScale.small,
+    textAlign: "center",
+    marginBottom: spacing.sm,
+  },
+  manageBillingContainer: {
     alignItems: "center",
+    marginBottom: spacing.lg,
   },
 });

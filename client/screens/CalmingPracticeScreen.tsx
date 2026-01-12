@@ -6,10 +6,11 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Layout } from "@/constants/layout";
+import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
-import { ScreenLayout, ScreenSection } from "@/components/ScreenLayout";
+import { Screen } from "@/components/Screen";
 import type { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 interface Practice {
@@ -86,6 +87,8 @@ const PRACTICES: Practice[] = [
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const { spacing, radii, container } = Layout;
+
 export default function CalmingPracticeScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
@@ -93,44 +96,42 @@ export default function CalmingPracticeScreen() {
 
   if (selectedPractice) {
     return (
-      <ScreenLayout 
+      <Screen 
         title={selectedPractice.title}
         showBack
         onBack={() => setSelectedPractice(null)}
       >
         <Animated.View entering={FadeInUp.duration(400).delay(100)}>
-          <ThemedText type="caption" style={[styles.duration, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.duration, { color: theme.textSecondary }]}>
             {selectedPractice.duration}
           </ThemedText>
         </Animated.View>
 
-        <ScreenSection>
-          <View style={styles.stepsContainer}>
-            {selectedPractice.steps.map((step, index) => (
-              <Animated.View
-                key={index}
-                entering={FadeInUp.duration(350).delay(150 + index * 80)}
-                style={[styles.stepCard, { backgroundColor: theme.backgroundDefault }]}
-              >
-                <View style={[styles.stepNumber, { backgroundColor: SiraatColors.emerald }]}>
-                  <ThemedText type="body" style={styles.stepNumberText}>
-                    {index + 1}
-                  </ThemedText>
-                </View>
-                <ThemedText type="body" style={styles.stepText}>
-                  {step}
+        <View style={styles.stepsContainer}>
+          {selectedPractice.steps.map((step, index) => (
+            <Animated.View
+              key={index}
+              entering={FadeInUp.duration(350).delay(150 + index * 80)}
+              style={[styles.stepCard, { backgroundColor: theme.backgroundDefault }]}
+            >
+              <View style={[styles.stepNumber, { backgroundColor: SiraatColors.emerald }]}>
+                <ThemedText style={styles.stepNumberText}>
+                  {index + 1}
                 </ThemedText>
-              </Animated.View>
-            ))}
-          </View>
-        </ScreenSection>
+              </View>
+              <ThemedText style={styles.stepText}>
+                {step}
+              </ThemedText>
+            </Animated.View>
+          ))}
+        </View>
 
         <Animated.View 
           entering={FadeInUp.duration(350).delay(400)}
           style={[styles.reminderCard, { backgroundColor: theme.backgroundDefault }]}
         >
           <View style={[styles.reminderAccent, { backgroundColor: SiraatColors.emerald }]} />
-          <ThemedText type="body" style={[styles.reminderText, { fontFamily: Fonts?.serif }]}>
+          <ThemedText style={[styles.reminderText, { fontFamily: Fonts?.serif }]}>
             {selectedPractice.reminder}
           </ThemedText>
         </Animated.View>
@@ -146,72 +147,75 @@ export default function CalmingPracticeScreen() {
             Done
           </Button>
         </Animated.View>
-      </ScreenLayout>
+      </Screen>
     );
   }
 
   return (
-    <ScreenLayout title="Calming Practice" showBack>
+    <Screen title="Calming Practice" showBack>
       <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
-        <ThemedText type="body" style={{ color: theme.textSecondary, lineHeight: 22 }}>
+        <ThemedText style={[styles.introText, { color: theme.textSecondary }]}>
           A moment to ground yourself.
         </ThemedText>
       </Animated.View>
 
-      <ScreenSection>
-        <View style={styles.practicesList}>
-          {PRACTICES.map((practice, index) => (
-            <Animated.View
-              key={practice.id}
-              entering={FadeInUp.duration(350).delay(100 + index * 60)}
+      <View style={styles.practicesList}>
+        {PRACTICES.map((practice, index) => (
+          <Animated.View
+            key={practice.id}
+            entering={FadeInUp.duration(350).delay(100 + index * 60)}
+          >
+            <Pressable
+              onPress={() => setSelectedPractice(practice)}
+              style={({ pressed }) => [
+                styles.practiceCard,
+                { 
+                  backgroundColor: theme.cardBackground,
+                  opacity: pressed ? 0.85 : 1,
+                },
+              ]}
             >
-              <Pressable
-                onPress={() => setSelectedPractice(practice)}
-                style={({ pressed }) => [
-                  styles.practiceCard,
-                  { 
-                    backgroundColor: theme.cardBackground,
-                    opacity: pressed ? 0.85 : 1,
-                  },
-                ]}
-              >
-                <View style={[styles.practiceAccent, { backgroundColor: SiraatColors.emerald }]} />
-                <View style={styles.practiceContent}>
-                  <View style={styles.practiceHeader}>
-                    <ThemedText type="h4" style={styles.practiceTitle}>
-                      {practice.title}
-                    </ThemedText>
-                    <ThemedText type="caption" style={[styles.practiceDuration, { color: theme.textSecondary }]}>
-                      {practice.duration}
-                    </ThemedText>
-                  </View>
-                  <ThemedText type="small" style={{ color: theme.textSecondary, lineHeight: 18 }}>
-                    {practice.description}
+              <View style={[styles.practiceAccent, { backgroundColor: SiraatColors.emerald }]} />
+              <View style={styles.practiceContent}>
+                <View style={styles.practiceHeader}>
+                  <ThemedText style={styles.practiceTitle}>
+                    {practice.title}
+                  </ThemedText>
+                  <ThemedText style={[styles.practiceDuration, { color: theme.textSecondary }]}>
+                    {practice.duration}
                   </ThemedText>
                 </View>
-                <Feather name="chevron-right" size={18} color={theme.textSecondary} />
-              </Pressable>
-            </Animated.View>
-          ))}
-        </View>
-      </ScreenSection>
-    </ScreenLayout>
+                <ThemedText style={[styles.practiceDescription, { color: theme.textSecondary }]}>
+                  {practice.description}
+                </ThemedText>
+              </View>
+              <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+            </Pressable>
+          </Animated.View>
+        ))}
+      </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   intro: {
-    marginBottom: Spacing.xl,
+    paddingBottom: spacing.md,
+  },
+  introText: {
+    fontSize: Layout.typeScale.body,
+    lineHeight: 20,
   },
   practicesList: {
-    gap: Spacing.sm,
+    gap: spacing.sm,
   },
   practiceCard: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.md,
-    paddingRight: Spacing.lg,
-    borderRadius: BorderRadius.sm,
+    minHeight: Layout.hitTargets.minCardHeight,
+    paddingHorizontal: container.cardPad,
+    paddingVertical: spacing.sm,
+    borderRadius: radii.sm,
     overflow: "hidden",
   },
   practiceAccent: {
@@ -223,7 +227,7 @@ const styles = StyleSheet.create({
   },
   practiceContent: {
     flex: 1,
-    marginLeft: Spacing.xs,
+    marginLeft: spacing.xs,
   },
   practiceHeader: {
     flexDirection: "row",
@@ -233,57 +237,66 @@ const styles = StyleSheet.create({
   },
   practiceTitle: {
     fontSize: 16,
+    fontWeight: "500",
   },
   practiceDuration: {
-    fontSize: 12,
+    fontSize: Layout.typeScale.small,
+  },
+  practiceDescription: {
+    fontSize: Layout.typeScale.small,
+    lineHeight: 16,
   },
   duration: {
     textAlign: "center",
-    marginBottom: Spacing.xl,
+    fontSize: Layout.typeScale.small,
+    marginBottom: spacing.lg,
   },
   stepsContainer: {
-    gap: Spacing.sm,
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
   },
   stepCard: {
     flexDirection: "row",
     alignItems: "flex-start",
-    padding: Spacing.md,
-    borderRadius: BorderRadius.sm,
-    gap: Spacing.md,
+    padding: container.cardPad,
+    borderRadius: radii.sm,
+    gap: spacing.sm,
   },
   stepNumber: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     alignItems: "center",
     justifyContent: "center",
   },
   stepNumberText: {
     color: "#fff",
     fontWeight: "600",
-    fontSize: 14,
+    fontSize: Layout.typeScale.body,
   },
   stepText: {
     flex: 1,
-    lineHeight: 22,
+    fontSize: Layout.typeScale.body,
+    lineHeight: 20,
   },
   reminderCard: {
     flexDirection: "row",
     alignItems: "stretch",
-    borderRadius: BorderRadius.sm,
+    borderRadius: radii.sm,
     overflow: "hidden",
-    marginTop: Spacing.lg,
   },
   reminderAccent: {
     width: 4,
   },
   reminderText: {
     flex: 1,
-    padding: Spacing.lg,
-    lineHeight: 22,
+    padding: container.cardPad,
+    fontSize: Layout.typeScale.body,
+    lineHeight: 20,
     fontStyle: "italic",
   },
   doneContainer: {
-    marginTop: Spacing["2xl"],
+    marginTop: spacing.lg,
+    marginBottom: spacing.lg,
   },
 });

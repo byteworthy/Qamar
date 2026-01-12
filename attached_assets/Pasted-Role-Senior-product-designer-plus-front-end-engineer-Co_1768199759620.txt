@@ -1,0 +1,221 @@
+Role
+Senior product designer plus front end engineer
+
+Context
+Noor CBT is functional. Do not add features. Do not change any flows. This task is pure UI and UX polish. Keep the palette, keep the logo, keep the copy. Only layout, spacing, typography, and component sizing.
+
+Goal
+Fix spacing and scale across Home, Calming Practice, Dua, Insights so everything fits cleanly on small screens. Remove cramped feeling. Make the Home screen feel centered and intentional, like a calm tool chest, not a list jammed at the top.
+
+Non negotiables
+Keep existing palette and logo
+Keep all existing copy and module set
+No new screens
+No new navigation
+No new feature work
+No new symbols or decorative religious motifs
+Do not rewrite any text
+Do not add extra text
+
+Part 1 Global layout system
+
+Create a single layout constants file and use it everywhere
+Create client theme layout constants, for example client theme layout.ts, and export:
+
+spacing
+xs 6
+sm 10
+md 14
+lg 18
+xl 24
+xxl 32
+
+radii
+sm 12
+md 16
+lg 20
+
+container
+maxWidth 420
+screenPad 16
+cardPad 14
+
+type scale
+title 22
+h2 18
+body 14
+small 12
+
+Add a Screen wrapper component and use it on every screen
+Create client components Screen.tsx that applies:
+
+Safe area friendly padding top and padding bottom
+Horizontal padding screenPad
+Max width container.maxWidth
+Align self center
+Flex 1
+Background color unchanged
+Content container style for scroll views with padding bottom 24
+
+Use it on HomeScreen, CalmingPracticeListScreen, CalmingPracticeDetailScreen, Dua screens, Insights, Upgrade screen, Reflection screens only if needed to fix clipping.
+
+Fix header clipping universally
+Wrap all screen content under the header in a View with paddingTop spacing.md.
+Ensure the topmost visible title never starts at y 0.
+If using React Navigation headers, also set headerTitleStyle and headerStyle to match spacing, but do not change copy.
+
+Part 2 Home screen centering and hierarchy
+
+Objective
+Home should sit visually centered with breathing room, not stuck to the top. Keep it scrollable, but make the primary block feel like it lives in the middle.
+
+Implement
+
+Add vertical rhythm
+In HomeScreen main container:
+
+Use flexGrow 1
+Add justifyContent center only when content height is less than screen height
+Implement with a wrapper that has flexGrow 1 and a child that has paddingVertical spacing.xl
+Do not hard center everything. Use a soft center, meaning content starts around upper middle.
+
+Brand block spacing
+Increase space between greeting row, logo lockup, and anchor card.
+
+Greeting row
+One line, left aligned, with small font and reduced opacity. Add bottom margin spacing.sm.
+
+Logo plus app name row
+Make logo 40 to 44 size, not larger. Keep aligned with title baseline. Add gap spacing.sm. Add bottom margin spacing.sm.
+
+Tagline
+Font small, opacity slightly reduced. Add bottom margin spacing.lg.
+
+Anchor card
+Make anchor card full width within maxWidth, with cardPad padding.
+Ensure text wraps nicely with lineHeight about 18 to 20.
+Add marginBottom spacing.lg.
+
+Module cards list
+Convert the 4 module cards into a consistent vertical stack with:
+
+Card height minimum 64
+Padding horizontal cardPad, padding vertical spacing.sm
+Icon column fixed width 28
+Title font 16, subtitle font 12
+Right chevron aligned center
+Gap between cards spacing.sm
+
+Primary pro button row
+The Unlock button should not float awkwardly. Add marginTop spacing.lg and marginBottom spacing.md. Keep width full.
+
+Footer disclaimer spacing
+Add marginTop spacing.lg and paddingBottom spacing.lg so it never kisses the bottom.
+
+Part 3 Calming Practice list and detail screens
+
+List screen
+The title area is currently cramped and the list feels top heavy.
+
+Add Screen wrapper
+Add a top title block with paddingBottom spacing.md
+Increase list item spacing to spacing.sm
+Increase hit area by setting minHeight 64
+
+Detail screen
+Ensure numbered steps card has:
+
+Padding cardPad
+Line height 18 to 20
+Each step row has gap spacing.sm and marginBottom spacing.sm
+The Done button sits above bottom safe area with marginBottom spacing.lg
+
+Part 4 Dua flow screens
+
+Category list screens
+The back button and title should not fight.
+
+Use Screen wrapper
+Add top title marginBottom spacing.lg
+Each row minHeight 56, paddingHorizontal cardPad
+Keep chevron aligned center
+
+Dua result screen
+Arabic block must be visually dominant without causing overflow.
+
+Arabic text
+Font size 22 to 26 depending on available width
+LineHeight 34 to 38
+TextAlign center
+Wrap in a card with padding cardPad and marginBottom spacing.md
+
+Transliteration and meaning
+Font 12 to 14 with increased lineHeight
+Keep them in separate blocks with spacing.sm
+
+Button
+Full width, marginTop spacing.lg, marginBottom spacing.lg
+
+Part 5 Insights screen layout fixes
+
+Issues
+Pattern summary and chips feel jammed, and the recent reflections area begins too close to the bottom.
+
+Implement
+
+Use Screen wrapper with ScrollView contentContainerStyle paddingBottom spacing.xxl
+Add consistent section spacing:
+
+Section label marginTop spacing.lg, marginBottom spacing.sm
+Cards marginBottom spacing.sm
+Chips wrap with gap spacing.sm and ensure they do not clip horizontally
+
+Recent reflections list
+Each row minHeight 64, padding cardPad, marginBottom spacing.sm
+Add bottom spacing so last item is never hidden behind home indicator
+
+Part 6 Upgrade screen polish
+
+Ensure the two plan cards have:
+
+Full width within maxWidth
+Padding cardPad
+Title 18, price 22, features 13
+Consistent feature row spacing
+Upgrade button full width and anchored with marginBottom spacing.lg
+
+Part 7 Remove web scrollbars without breaking mobile
+
+If this is Expo web, ensure the scrollbar hiding is applied globally, but do not rely only on body overflow hidden. Use:
+
+ScrollView showsVerticalScrollIndicator false on every ScrollView
+FlatList showsVerticalScrollIndicator false if used
+On web, set documentElement and body overflow hidden only if the app has internal scrolling handled correctly. Otherwise keep overflow auto but hide scrollbar via CSS.
+
+Part 8 Success criteria and verification steps
+
+Run the app on smallest viewport
+iPhone SE size and a standard iPhone size
+Confirm no header text is clipped on any screen
+
+Confirm Home looks centered
+Not stuck at top
+Not overly centered when content grows
+No weird empty space gaps
+
+Confirm all lists have consistent hit targets
+Nothing less than 56 height for rows
+Buttons never touch the bottom edge
+
+Confirm no copy changes occurred
+No text changed
+No new text
+No removed text
+
+Deliverables
+Updated global layout constants
+New Screen wrapper used across screens
+Home screen spacing and hierarchy improved
+Calming Practice, Dua, Insights, Upgrade spacing fixed
+No flow changes
+Build passes

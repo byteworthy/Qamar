@@ -7,10 +7,11 @@ import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Layout } from "@/constants/layout";
+import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
-import { ScreenLayout, ScreenSection } from "@/components/ScreenLayout";
+import { Screen } from "@/components/Screen";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { getApiUrl } from "@/lib/query-client";
@@ -29,6 +30,8 @@ async function fetchPatterns(): Promise<PatternData> {
   }
   return response.json();
 }
+
+const { spacing, radii, container, typeScale } = Layout;
 
 export default function InsightsScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -78,39 +81,39 @@ export default function InsightsScreen() {
 
   if (!isPaid && !isDemo) {
     return (
-      <ScreenLayout title="Insights" showBack scrollable={false}>
+      <Screen title="Insights" showBack scrollable={false}>
         <View style={styles.centerContent}>
           <Animated.View entering={FadeInUp.duration(400)} style={styles.lockedContainer}>
             <View style={[styles.lockIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
               <Feather name="lock" size={28} color={SiraatColors.indigo} />
             </View>
-            <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, textAlign: "center", marginTop: Spacing.xl }}>
+            <ThemedText style={[styles.lockedTitle, { fontFamily: Fonts?.serif }]}>
               Unlock Your Patterns
             </ThemedText>
-            <ThemedText type="body" style={[styles.lockedDescription, { color: theme.textSecondary }]}>
+            <ThemedText style={[styles.lockedDescription, { color: theme.textSecondary }]}>
               See what your reflections reveal about your thinking patterns and recurring assumptions.
             </ThemedText>
             <Button
               onPress={() => navigation.navigate("Pricing")}
-              style={{ backgroundColor: SiraatColors.indigo, marginTop: Spacing.xl }}
+              style={{ backgroundColor: SiraatColors.indigo, marginTop: spacing.xl }}
             >
               Upgrade to Noor Plus
             </Button>
           </Animated.View>
         </View>
-      </ScreenLayout>
+      </Screen>
     );
   }
 
   if (isLoading) {
     return (
-      <ScreenLayout title="Insights" showBack scrollable={false}>
+      <Screen title="Insights" showBack scrollable={false}>
         <View style={styles.centerContent}>
-          <ThemedText type="body" style={{ color: theme.textSecondary }}>
+          <ThemedText style={[styles.loadingText, { color: theme.textSecondary }]}>
             Loading your patterns...
           </ThemedText>
         </View>
-      </ScreenLayout>
+      </Screen>
     );
   }
 
@@ -118,120 +121,114 @@ export default function InsightsScreen() {
 
   if (!hasData) {
     return (
-      <ScreenLayout title="Insights" showBack scrollable={false}>
+      <Screen title="Insights" showBack scrollable={false}>
         <View style={styles.centerContent}>
           <Animated.View entering={FadeInUp.duration(400)} style={styles.emptyContainer}>
             <View style={[styles.emptyIcon, { backgroundColor: theme.backgroundDefault }]}>
               <Feather name="bar-chart-2" size={28} color={theme.textSecondary} />
             </View>
-            <ThemedText type="h3" style={{ fontFamily: Fonts?.serif, textAlign: "center", marginTop: Spacing.xl }}>
+            <ThemedText style={[styles.emptyTitle, { fontFamily: Fonts?.serif }]}>
               No patterns yet
             </ThemedText>
-            <ThemedText type="body" style={[styles.emptyDescription, { color: theme.textSecondary }]}>
+            <ThemedText style={[styles.emptyDescription, { color: theme.textSecondary }]}>
               Complete a few reflections to start seeing your thinking patterns.
             </ThemedText>
             <Button
               onPress={() => navigation.navigate("ThoughtCapture")}
-              style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
+              style={{ backgroundColor: theme.primary, marginTop: spacing.xl }}
             >
               Start a Reflection
             </Button>
           </Animated.View>
         </View>
-      </ScreenLayout>
+      </Screen>
     );
   }
 
   return (
-    <ScreenLayout title="Insights" showBack>
+    <Screen title="Insights" showBack contentStyle={{ paddingBottom: spacing.xxl }}>
       <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
-        <ThemedText type="body" style={{ color: theme.textSecondary }}>
+        <ThemedText style={[styles.introText, { color: theme.textSecondary }]}>
           Based on your recent reflections.
         </ThemedText>
       </Animated.View>
 
       {patterns?.summary && (
-        <ScreenSection>
-          <Animated.View entering={FadeInUp.duration(350).delay(100)}>
-            <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-              Pattern Summary
+        <Animated.View entering={FadeInUp.duration(350).delay(100)} style={styles.section}>
+          <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            Pattern Summary
+          </ThemedText>
+          <View style={[styles.summaryCard, { backgroundColor: theme.backgroundDefault }]}>
+            <ThemedText style={styles.summaryText}>
+              {patterns.summary}
             </ThemedText>
-            <View style={[styles.summaryCard, { backgroundColor: theme.backgroundDefault }]}>
-              <ThemedText type="body" style={{ lineHeight: 22 }}>
-                {patterns.summary}
-              </ThemedText>
-            </View>
-          </Animated.View>
-        </ScreenSection>
+          </View>
+        </Animated.View>
       )}
 
       {patterns?.assumptions && patterns.assumptions.length > 0 && (
-        <ScreenSection>
-          <Animated.View entering={FadeInUp.duration(350).delay(150)}>
-            <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-              Recurring Assumptions
-            </ThemedText>
-            <View style={styles.assumptionsList}>
-              {patterns.assumptions.map((item, index) => (
-                <View 
-                  key={index}
-                  style={[styles.assumptionCard, { backgroundColor: theme.backgroundDefault }]}
-                >
-                  <ThemedText type="body" style={{ flex: 1, lineHeight: 20 }}>
-                    {item.text}
+        <Animated.View entering={FadeInUp.duration(350).delay(150)} style={styles.section}>
+          <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            Recurring Assumptions
+          </ThemedText>
+          <View style={styles.assumptionsList}>
+            {patterns.assumptions.map((item, index) => (
+              <View 
+                key={index}
+                style={[styles.assumptionCard, { backgroundColor: theme.backgroundDefault }]}
+              >
+                <ThemedText style={styles.assumptionText}>
+                  {item.text}
+                </ThemedText>
+                <View style={[styles.countBadge, { backgroundColor: theme.backgroundRoot }]}>
+                  <ThemedText style={[styles.countText, { color: theme.textSecondary }]}>
+                    {item.count}x
                   </ThemedText>
-                  <View style={[styles.countBadge, { backgroundColor: theme.backgroundRoot }]}>
-                    <ThemedText type="caption" style={{ color: theme.textSecondary, fontSize: 11 }}>
-                      {item.count}x
-                    </ThemedText>
-                  </View>
                 </View>
-              ))}
-            </View>
-          </Animated.View>
-        </ScreenSection>
+              </View>
+            ))}
+          </View>
+        </Animated.View>
       )}
 
       {isDemo && demoReflections.length > 0 && (
-        <ScreenSection>
-          <Animated.View entering={FadeInUp.duration(350).delay(200)}>
-            <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-              Recent Reflections
-            </ThemedText>
-            <View style={styles.reflectionsList}>
-              {demoReflections.slice(0, 4).map((reflection) => (
-                <View 
-                  key={reflection.id}
-                  style={[styles.reflectionCard, { backgroundColor: theme.backgroundDefault }]}
-                >
-                  <ThemedText type="caption" style={{ color: theme.textSecondary, marginBottom: 2 }}>
-                    {reflection.timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                  </ThemedText>
-                  <ThemedText type="body" style={{ lineHeight: 20, fontSize: 15 }} numberOfLines={2}>
-                    {reflection.thought}
-                  </ThemedText>
-                  <View style={styles.distortionTags}>
-                    {reflection.distortions.slice(0, 2).map((d, i) => (
-                      <View key={i} style={[styles.distortionTag, { backgroundColor: theme.backgroundRoot }]}>
-                        <ThemedText type="caption" style={{ color: theme.textSecondary, fontSize: 10 }}>
-                          {d}
-                        </ThemedText>
-                      </View>
-                    ))}
-                  </View>
+        <Animated.View entering={FadeInUp.duration(350).delay(200)} style={styles.section}>
+          <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            Recent Reflections
+          </ThemedText>
+          <View style={styles.reflectionsList}>
+            {demoReflections.slice(0, 4).map((reflection) => (
+              <View 
+                key={reflection.id}
+                style={[styles.reflectionCard, { backgroundColor: theme.backgroundDefault }]}
+              >
+                <ThemedText style={[styles.reflectionDate, { color: theme.textSecondary }]}>
+                  {reflection.timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </ThemedText>
+                <ThemedText style={styles.reflectionThought} numberOfLines={2}>
+                  {reflection.thought}
+                </ThemedText>
+                <View style={styles.distortionTags}>
+                  {reflection.distortions.slice(0, 2).map((d, i) => (
+                    <View key={i} style={[styles.distortionTag, { backgroundColor: theme.backgroundRoot }]}>
+                      <ThemedText style={[styles.distortionTagText, { color: theme.textSecondary }]}>
+                        {d}
+                      </ThemedText>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </View>
-          </Animated.View>
-        </ScreenSection>
+              </View>
+            ))}
+          </View>
+        </Animated.View>
       )}
 
       <Animated.View entering={FadeInUp.duration(350).delay(250)} style={styles.noteContainer}>
-        <ThemedText type="caption" style={[styles.note, { color: theme.textSecondary }]}>
+        <ThemedText style={[styles.note, { color: theme.textSecondary }]}>
           Patterns are observations, not verdicts.
         </ThemedText>
       </Animated.View>
-    </ScreenLayout>
+    </Screen>
   );
 }
 
@@ -242,44 +239,67 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   intro: {
-    marginBottom: Spacing.xl,
+    marginBottom: spacing.lg,
+  },
+  introText: {
+    fontSize: typeScale.body,
+  },
+  section: {
+    marginTop: spacing.lg,
+    marginBottom: spacing.sm,
   },
   sectionLabel: {
     textTransform: "uppercase",
     letterSpacing: 1,
     fontSize: 10,
-    marginBottom: Spacing.sm,
+    marginBottom: spacing.sm,
   },
   summaryCard: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.sm,
+    padding: container.cardPad,
+    borderRadius: radii.sm,
+  },
+  summaryText: {
+    fontSize: typeScale.body,
+    lineHeight: 20,
   },
   assumptionsList: {
-    gap: Spacing.sm,
+    gap: spacing.sm,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   assumptionCard: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.md,
-    borderRadius: BorderRadius.sm,
-    gap: Spacing.md,
+    minHeight: Layout.hitTargets.minCardHeight,
+    padding: container.cardPad,
+    borderRadius: radii.sm,
+    gap: spacing.sm,
+    width: "100%",
+  },
+  assumptionText: {
+    flex: 1,
+    fontSize: typeScale.body,
+    lineHeight: 18,
   },
   countBadge: {
-    paddingHorizontal: Spacing.sm,
+    paddingHorizontal: spacing.sm,
     paddingVertical: 2,
-    borderRadius: BorderRadius.xs,
+    borderRadius: radii.sm,
+  },
+  countText: {
+    fontSize: 11,
   },
   noteContainer: {
-    paddingVertical: Spacing.lg,
+    paddingVertical: spacing.lg,
   },
   note: {
     textAlign: "center",
     fontStyle: "italic",
-    fontSize: 12,
+    fontSize: typeScale.small,
   },
   lockedContainer: {
     alignItems: "center",
-    paddingHorizontal: Spacing.xl,
+    paddingHorizontal: spacing.xl,
   },
   lockIcon: {
     width: 64,
@@ -288,14 +308,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  lockedTitle: {
+    fontSize: typeScale.title,
+    textAlign: "center",
+    marginTop: spacing.xl,
+  },
   lockedDescription: {
     textAlign: "center",
-    marginTop: Spacing.md,
-    lineHeight: 22,
+    marginTop: spacing.md,
+    fontSize: typeScale.body,
+    lineHeight: 20,
+  },
+  loadingText: {
+    fontSize: typeScale.body,
   },
   emptyContainer: {
     alignItems: "center",
-    paddingHorizontal: Spacing.xl,
+    paddingHorizontal: spacing.xl,
   },
   emptyIcon: {
     width: 64,
@@ -304,26 +333,45 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  emptyTitle: {
+    fontSize: typeScale.title,
+    textAlign: "center",
+    marginTop: spacing.xl,
+  },
   emptyDescription: {
     textAlign: "center",
-    marginTop: Spacing.md,
-    lineHeight: 22,
+    marginTop: spacing.md,
+    fontSize: typeScale.body,
+    lineHeight: 20,
   },
   reflectionsList: {
-    gap: Spacing.sm,
+    gap: spacing.sm,
   },
   reflectionCard: {
-    padding: Spacing.md,
-    borderRadius: BorderRadius.sm,
+    minHeight: Layout.hitTargets.minCardHeight,
+    padding: container.cardPad,
+    borderRadius: radii.sm,
+  },
+  reflectionDate: {
+    fontSize: typeScale.small,
+    marginBottom: 2,
+  },
+  reflectionThought: {
+    fontSize: typeScale.body,
+    lineHeight: 18,
   },
   distortionTags: {
     flexDirection: "row",
-    gap: Spacing.xs,
-    marginTop: Spacing.sm,
+    gap: spacing.xs,
+    marginTop: spacing.sm,
+    flexWrap: "wrap",
   },
   distortionTag: {
-    paddingHorizontal: Spacing.sm,
+    paddingHorizontal: spacing.sm,
     paddingVertical: 2,
-    borderRadius: BorderRadius.xs,
+    borderRadius: radii.sm,
+  },
+  distortionTagText: {
+    fontSize: 10,
   },
 });

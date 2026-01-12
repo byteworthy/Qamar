@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Layout } from "@/constants/layout";
+import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
-import { ScreenLayout, ScreenSection } from "@/components/ScreenLayout";
+import { Screen } from "@/components/Screen";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
+import type { RootStackParamList } from "@/navigation/RootStackNavigator";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface InnerState {
   id: string;
@@ -279,8 +284,10 @@ const DUAS: Record<string, Record<string, Dua>> = {
   },
 };
 
+const { spacing, radii, container, typeScale } = Layout;
+
 export default function DuaScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const [selectedState, setSelectedState] = useState<InnerState | null>(null);
   const [selectedContext, setSelectedContext] = useState<LifeContext | null>(null);
@@ -310,23 +317,23 @@ export default function DuaScreen() {
 
   if (selectedDua) {
     return (
-      <ScreenLayout title="Dua" showBack onBack={handleBack}>
+      <Screen title="Dua" showBack onBack={handleBack}>
         <Animated.View entering={FadeInUp.duration(400)}>
           <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault }]}>
-            <ThemedText type="h2" style={styles.arabicText}>
+            <ThemedText style={styles.arabicText}>
               {selectedDua.arabic}
             </ThemedText>
           </View>
         </Animated.View>
 
         <Animated.View entering={FadeInUp.duration(350).delay(100)} style={styles.translitContainer}>
-          <ThemedText type="body" style={[styles.transliteration, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
             {selectedDua.transliteration}
           </ThemedText>
         </Animated.View>
 
         <Animated.View entering={FadeInUp.duration(350).delay(150)} style={styles.englishContainer}>
-          <ThemedText type="bodyLarge" style={{ fontFamily: Fonts?.serif, lineHeight: 26 }}>
+          <ThemedText style={[styles.englishText, { fontFamily: Fonts?.serif }]}>
             {selectedDua.english}
           </ThemedText>
         </Animated.View>
@@ -336,7 +343,7 @@ export default function DuaScreen() {
           style={[styles.forStateCard, { backgroundColor: SiraatColors.indigo + "10" }]}
         >
           <View style={[styles.forStateAccent, { backgroundColor: SiraatColors.indigo }]} />
-          <ThemedText type="small" style={{ color: theme.textSecondary, fontStyle: "italic", padding: Spacing.md }}>
+          <ThemedText style={[styles.forStateText, { color: theme.textSecondary }]}>
             {selectedDua.forState}
           </ThemedText>
         </Animated.View>
@@ -349,120 +356,129 @@ export default function DuaScreen() {
             Done
           </Button>
         </Animated.View>
-      </ScreenLayout>
+      </Screen>
     );
   }
 
   if (selectedState) {
     return (
-      <ScreenLayout title="Dua" showBack onBack={handleBack}>
+      <Screen title="Dua" showBack onBack={handleBack}>
         <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
-          <ThemedText type="h4" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.xs }}>
+          <ThemedText style={[styles.introTitle, { fontFamily: Fonts?.serif }]}>
             What area of life?
           </ThemedText>
-          <ThemedText type="body" style={{ color: theme.textSecondary }}>
+          <ThemedText style={[styles.introSubtitle, { color: theme.textSecondary }]}>
             Choose the context that fits.
           </ThemedText>
         </Animated.View>
 
-        <ScreenSection>
-          <View style={styles.optionsList}>
-            {LIFE_CONTEXTS.map((context, index) => (
-              <Animated.View
-                key={context.id}
-                entering={FadeInUp.duration(350).delay(80 + index * 50)}
+        <View style={styles.optionsList}>
+          {LIFE_CONTEXTS.map((context, index) => (
+            <Animated.View
+              key={context.id}
+              entering={FadeInUp.duration(350).delay(80 + index * 50)}
+            >
+              <Pressable
+                onPress={() => setSelectedContext(context)}
+                style={({ pressed }) => [
+                  styles.optionCard,
+                  { 
+                    backgroundColor: theme.cardBackground,
+                    opacity: pressed ? 0.85 : 1,
+                  },
+                ]}
               >
-                <Pressable
-                  onPress={() => setSelectedContext(context)}
-                  style={({ pressed }) => [
-                    styles.optionCard,
-                    { 
-                      backgroundColor: theme.cardBackground,
-                      opacity: pressed ? 0.85 : 1,
-                    },
-                  ]}
-                >
-                  <ThemedText type="body">{context.label}</ThemedText>
-                  <Feather name="chevron-right" size={18} color={theme.textSecondary} />
-                </Pressable>
-              </Animated.View>
-            ))}
-          </View>
-        </ScreenSection>
-      </ScreenLayout>
+                <ThemedText style={styles.optionText}>{context.label}</ThemedText>
+                <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+              </Pressable>
+            </Animated.View>
+          ))}
+        </View>
+      </Screen>
     );
   }
 
   return (
-    <ScreenLayout title="Dua" showBack>
+    <Screen title="Dua" showBack>
       <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
-        <ThemedText type="h4" style={{ fontFamily: Fonts?.serif, marginBottom: Spacing.xs }}>
+        <ThemedText style={[styles.introTitle, { fontFamily: Fonts?.serif }]}>
           What are you carrying?
         </ThemedText>
-        <ThemedText type="body" style={{ color: theme.textSecondary }}>
+        <ThemedText style={[styles.introSubtitle, { color: theme.textSecondary }]}>
           Choose what fits closest.
         </ThemedText>
       </Animated.View>
 
-      <ScreenSection>
-        <View style={styles.optionsList}>
-          {INNER_STATES.map((state, index) => {
-            const isLocked = !isPaid && !isDemo && index > 2;
-            return (
-              <Animated.View
-                key={state.id}
-                entering={FadeInUp.duration(350).delay(80 + index * 50)}
+      <View style={styles.optionsList}>
+        {INNER_STATES.map((state, index) => {
+          const isLocked = !isPaid && !isDemo && index > 2;
+          return (
+            <Animated.View
+              key={state.id}
+              entering={FadeInUp.duration(350).delay(80 + index * 50)}
+            >
+              <Pressable
+                onPress={() => !isLocked && setSelectedState(state)}
+                style={({ pressed }) => [
+                  styles.stateCard,
+                  { 
+                    backgroundColor: theme.cardBackground,
+                    opacity: pressed && !isLocked ? 0.85 : isLocked ? 0.5 : 1,
+                  },
+                ]}
               >
-                <Pressable
-                  onPress={() => !isLocked && setSelectedState(state)}
-                  style={({ pressed }) => [
-                    styles.stateCard,
-                    { 
-                      backgroundColor: theme.cardBackground,
-                      opacity: pressed && !isLocked ? 0.85 : isLocked ? 0.5 : 1,
-                    },
-                  ]}
-                >
-                  <View style={[styles.stateAccent, { backgroundColor: SiraatColors.indigo }]} />
-                  <View style={[styles.stateIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
-                    <Feather name={state.icon} size={18} color={SiraatColors.indigo} />
-                  </View>
-                  <ThemedText type="body" style={{ flex: 1 }}>{state.label}</ThemedText>
-                  {isLocked ? (
-                    <Feather name="lock" size={14} color={theme.textSecondary} />
-                  ) : (
-                    <Feather name="chevron-right" size={18} color={theme.textSecondary} />
-                  )}
-                </Pressable>
-              </Animated.View>
-            );
-          })}
-        </View>
-      </ScreenSection>
-    </ScreenLayout>
+                <View style={[styles.stateAccent, { backgroundColor: SiraatColors.indigo }]} />
+                <View style={[styles.stateIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
+                  <Feather name={state.icon} size={16} color={SiraatColors.indigo} />
+                </View>
+                <ThemedText style={styles.stateLabel}>{state.label}</ThemedText>
+                {isLocked ? (
+                  <Feather name="lock" size={14} color={theme.textSecondary} />
+                ) : (
+                  <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+                )}
+              </Pressable>
+            </Animated.View>
+          );
+        })}
+      </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   intro: {
-    marginBottom: Spacing.xl,
+    marginBottom: spacing.lg,
+  },
+  introTitle: {
+    fontSize: typeScale.h2,
+    fontWeight: "500",
+    marginBottom: spacing.xs,
+  },
+  introSubtitle: {
+    fontSize: typeScale.body,
   },
   optionsList: {
-    gap: Spacing.sm,
+    gap: spacing.sm,
   },
   optionCard: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: Spacing.md,
-    borderRadius: BorderRadius.sm,
+    minHeight: Layout.hitTargets.minRowHeight,
+    paddingHorizontal: container.cardPad,
+    borderRadius: radii.sm,
+  },
+  optionText: {
+    fontSize: typeScale.body,
   },
   stateCard: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.md,
-    borderRadius: BorderRadius.sm,
-    gap: Spacing.md,
+    minHeight: Layout.hitTargets.minRowHeight,
+    paddingHorizontal: container.cardPad,
+    borderRadius: radii.sm,
+    gap: spacing.md,
     overflow: "hidden",
   },
   stateAccent: {
@@ -473,47 +489,64 @@ const styles = StyleSheet.create({
     width: 3,
   },
   stateIcon: {
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: Spacing.xs,
+    marginLeft: spacing.xs,
+  },
+  stateLabel: {
+    flex: 1,
+    fontSize: typeScale.body,
   },
   duaCard: {
-    padding: Spacing.xl,
-    borderRadius: BorderRadius.sm,
+    padding: container.cardPad,
+    borderRadius: radii.sm,
     alignItems: "center",
+    marginBottom: spacing.md,
   },
   arabicText: {
-    fontSize: 26,
-    lineHeight: 44,
+    fontSize: 24,
+    lineHeight: 38,
     textAlign: "center",
     fontFamily: "serif",
   },
   translitContainer: {
-    marginTop: Spacing.lg,
-    paddingHorizontal: Spacing.sm,
+    paddingHorizontal: spacing.sm,
+    marginBottom: spacing.sm,
   },
   transliteration: {
     textAlign: "center",
     fontStyle: "italic",
-    lineHeight: 22,
+    fontSize: typeScale.small,
+    lineHeight: 20,
   },
   englishContainer: {
-    marginTop: Spacing.lg,
-    paddingHorizontal: Spacing.sm,
+    paddingHorizontal: spacing.sm,
+  },
+  englishText: {
+    fontSize: typeScale.body,
+    lineHeight: 22,
+    textAlign: "center",
   },
   forStateCard: {
     flexDirection: "row",
-    borderRadius: BorderRadius.sm,
+    borderRadius: radii.sm,
     overflow: "hidden",
-    marginTop: Spacing.xl,
+    marginTop: spacing.lg,
   },
   forStateAccent: {
     width: 3,
   },
+  forStateText: {
+    flex: 1,
+    padding: container.cardPad,
+    fontStyle: "italic",
+    fontSize: typeScale.small,
+  },
   doneContainer: {
-    marginTop: Spacing["2xl"],
+    marginTop: spacing.lg,
+    marginBottom: spacing.lg,
   },
 });

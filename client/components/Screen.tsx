@@ -1,39 +1,40 @@
 import React, { ReactNode } from "react";
-import { View, StyleSheet, ScrollView, Pressable, Platform } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing } from "@/constants/theme";
+import { Layout } from "@/constants/layout";
 import { ThemedText } from "@/components/ThemedText";
 
-interface ScreenLayoutProps {
+interface ScreenProps {
   children: ReactNode;
   title?: string;
   showBack?: boolean;
   onBack?: () => void;
   headerRight?: ReactNode;
-  headerContent?: ReactNode;
   scrollable?: boolean;
   contentStyle?: object;
+  centered?: boolean;
 }
 
-const HEADER_HEIGHT = 56;
+const HEADER_HEIGHT = 52;
 
-export function ScreenLayout({
+export function Screen({
   children,
   title,
   showBack = false,
   onBack,
   headerRight,
-  headerContent,
   scrollable = true,
   contentStyle,
-}: ScreenLayoutProps) {
+  centered = false,
+}: ScreenProps) {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const { theme } = useTheme();
+  const { height: screenHeight } = useWindowDimensions();
 
   const handleBack = () => {
     if (onBack) {
@@ -43,33 +44,30 @@ export function ScreenLayout({
     }
   };
 
-  const hasHeader = title || showBack || headerRight || headerContent;
+  const hasHeader = title || showBack || headerRight;
+
+  const contentContainerStyle = [
+    styles.scrollContent,
+    {
+      paddingTop: hasHeader ? Layout.spacing.md : Layout.spacing.xl,
+      paddingBottom: insets.bottom + Layout.spacing.xl,
+      minHeight: scrollable ? undefined : screenHeight - insets.top - (hasHeader ? HEADER_HEIGHT : 0),
+    },
+    centered && styles.centeredContent,
+    contentStyle,
+  ];
 
   const content = scrollable ? (
     <ScrollView
       style={styles.scrollView}
-      contentContainerStyle={[
-        styles.scrollContent,
-        { 
-          paddingTop: hasHeader ? Spacing.lg : Spacing["2xl"],
-          paddingBottom: insets.bottom + Spacing["3xl"],
-        },
-        contentStyle,
-      ]}
+      contentContainerStyle={contentContainerStyle}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
     >
       {children}
     </ScrollView>
   ) : (
-    <View style={[
-      styles.content, 
-      { 
-        paddingTop: hasHeader ? Spacing.lg : Spacing["2xl"],
-        paddingBottom: insets.bottom + Spacing["3xl"],
-      }, 
-      contentStyle,
-    ]}>
+    <View style={[styles.content, contentContainerStyle]}>
       {children}
     </View>
   );
@@ -88,21 +86,22 @@ export function ScreenLayout({
                   styles.backButton,
                   { opacity: pressed ? 0.6 : 1 },
                 ]}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
               >
-                <Feather name="arrow-left" size={24} color={theme.text} />
+                <Feather name="arrow-left" size={22} color={theme.text} />
               </Pressable>
             )}
           </View>
           
           <View style={styles.headerCenter}>
-            {headerContent ? (
-              headerContent
-            ) : title ? (
-              <ThemedText type="h4" numberOfLines={1} style={styles.headerTitle}>
+            {title && (
+              <ThemedText 
+                numberOfLines={1} 
+                style={[styles.headerTitle, { fontSize: Layout.typeScale.h2 }]}
+              >
                 {title}
               </ThemedText>
-            ) : null}
+            )}
           </View>
           
           <View style={styles.headerRight}>
@@ -116,19 +115,10 @@ export function ScreenLayout({
   );
 }
 
-export function ScreenSection({
-  children,
-  style,
-}: {
-  children: ReactNode;
-  style?: object;
-}) {
-  return <View style={[styles.section, style]}>{children}</View>;
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
   safeTop: {
     width: "100%",
@@ -136,10 +126,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: Spacing.lg,
+    width: "100%",
+    maxWidth: Layout.container.maxWidth,
+    paddingHorizontal: Layout.container.screenPad,
   },
   headerLeft: {
-    width: 48,
+    width: 44,
     alignItems: "flex-start",
     justifyContent: "center",
   },
@@ -149,28 +141,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerRight: {
-    width: 48,
+    width: 44,
     alignItems: "flex-end",
     justifyContent: "center",
   },
   headerTitle: {
     textAlign: "center",
+    fontWeight: "500",
   },
   backButton: {
-    padding: Spacing.xs,
+    padding: Layout.spacing.xs,
   },
   scrollView: {
     flex: 1,
+    width: "100%",
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: Spacing.xl,
+    width: "100%",
+    maxWidth: Layout.container.maxWidth,
+    alignSelf: "center",
+    paddingHorizontal: Layout.container.screenPad,
   },
   content: {
     flex: 1,
-    paddingHorizontal: Spacing.xl,
+    width: "100%",
   },
-  section: {
-    marginBottom: Spacing["2xl"],
+  centeredContent: {
+    justifyContent: "center",
   },
 });

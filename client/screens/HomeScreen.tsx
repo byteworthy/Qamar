@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Pressable, TextInput, Modal, Platform } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable, TextInput, Modal, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -10,7 +10,8 @@ import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Layout } from "@/constants/layout";
+import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand } from "@/constants/brand";
@@ -46,25 +47,25 @@ function ModuleCard({ icon, title, description, onPress, accentColor, delay, loc
         ]}
       >
         <View style={[styles.moduleAccent, { backgroundColor: accentColor }]} />
-        <View style={[styles.moduleIconContainer, { backgroundColor: accentColor + "18" }]}>
-          <Feather name={icon} size={22} color={accentColor} />
+        <View style={styles.moduleIconContainer}>
+          <Feather name={icon} size={20} color={accentColor} />
         </View>
         <View style={styles.moduleTextContainer}>
           <View style={styles.moduleTitleRow}>
-            <ThemedText type="h4" style={styles.moduleTitle}>
+            <ThemedText style={styles.moduleTitle}>
               {title}
             </ThemedText>
             {locked && (
               <View style={[styles.proBadge, { backgroundColor: SiraatColors.indigo }]}>
-                <ThemedText type="caption" style={styles.proBadgeText}>PRO</ThemedText>
+                <ThemedText style={styles.proBadgeText}>PRO</ThemedText>
               </View>
             )}
           </View>
-          <ThemedText type="small" style={[styles.moduleDescription, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.moduleDescription, { color: theme.textSecondary }]}>
             {description}
           </ThemedText>
         </View>
-        <Feather name="chevron-right" size={18} color={theme.textSecondary} />
+        <Feather name="chevron-right" size={16} color={theme.textSecondary} />
       </Pressable>
     </Animated.View>
   );
@@ -89,6 +90,7 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const { height: screenHeight } = useWindowDimensions();
   
   const [userName, setUserName] = useState<string>("Karim");
   const [showNameModal, setShowNameModal] = useState(false);
@@ -131,104 +133,110 @@ export default function HomeScreen() {
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <View style={{ height: insets.top }} />
       
-      <View style={styles.fixedHeader}>
-        <View style={styles.headerRow}>
-          <View style={styles.brandSection}>
-            <Image
-              source={require("../../assets/images/icon.png")}
-              style={styles.logo}
-              contentFit="contain"
-            />
-            <View>
-              <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-                {Brand.name}
-              </ThemedText>
-            </View>
-          </View>
-          <Pressable
-            onPress={() => navigation.navigate("History")}
-            style={[styles.historyButton, { backgroundColor: theme.backgroundDefault }]}
-          >
-            <Feather name="clock" size={18} color={theme.textSecondary} />
-          </Pressable>
-        </View>
-        
-        <Pressable 
-          onPress={() => {
-            setNameInput(userName);
-            setShowNameModal(true);
-          }}
-          style={styles.greetingRow}
-        >
-          <ThemedText type="body" style={{ color: theme.textSecondary }}>
-            {greeting}
-          </ThemedText>
-          <Feather name="edit-2" size={11} color={theme.textSecondary} style={{ opacity: 0.5, marginLeft: 4 }} />
-        </Pressable>
-      </View>
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
           styles.scrollContent,
-          { paddingBottom: insets.bottom + Spacing["3xl"] },
+          { 
+            paddingBottom: insets.bottom + Layout.spacing.lg,
+            minHeight: screenHeight - insets.top,
+          },
         ]}
         showsVerticalScrollIndicator={false}
       >
-        <Animated.View 
-          entering={FadeInUp.duration(400).delay(100)} 
-          style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}
-        >
-          <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.emerald }]} />
-          <View style={styles.anchorContent}>
-            <ThemedText type="caption" style={[styles.anchorLabel, { color: theme.textSecondary }]}>
-              Today's anchor
-            </ThemedText>
-            <ThemedText type="body" style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
-              {dailyReminder}
-            </ThemedText>
-          </View>
-        </Animated.View>
+        <View style={styles.contentWrapper}>
+          <Animated.View entering={FadeInDown.duration(300)} style={styles.brandBlock}>
+            <Pressable 
+              onPress={() => {
+                setNameInput(userName);
+                setShowNameModal(true);
+              }}
+              style={styles.greetingRow}
+            >
+              <ThemedText style={[styles.greetingText, { color: theme.textSecondary }]}>
+                {greeting}
+              </ThemedText>
+              <Feather name="edit-2" size={10} color={theme.textSecondary} style={{ opacity: 0.5, marginLeft: 4 }} />
+            </Pressable>
+            
+            <View style={styles.logoRow}>
+              <Image
+                source={require("../../assets/images/icon.png")}
+                style={styles.logo}
+                contentFit="contain"
+              />
+              <ThemedText style={[styles.appTitle, { fontFamily: Fonts?.serif }]}>
+                {Brand.name}
+              </ThemedText>
+              <View style={{ flex: 1 }} />
+              <Pressable
+                onPress={() => navigation.navigate("History")}
+                style={[styles.historyButton, { backgroundColor: theme.backgroundDefault }]}
+              >
+                <Feather name="clock" size={16} color={theme.textSecondary} />
+              </Pressable>
+            </View>
 
-        <View style={styles.modulesSection}>
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            What do you need?
-          </ThemedText>
+            <ThemedText style={[styles.tagline, { color: theme.textSecondary }]}>
+              {Brand.tagline}
+            </ThemedText>
+          </Animated.View>
 
-          <View style={styles.modulesGrid}>
-            <ModuleCard
-              icon="edit-3"
-              title="Reflection"
-              description="Process a troubling thought with guided CBT"
-              onPress={() => navigation.navigate("ThoughtCapture")}
-              accentColor={SiraatColors.clay}
-              delay={150}
-            />
-            <ModuleCard
-              icon="wind"
-              title="Calming Practice"
-              description="Quick grounding exercises with dhikr"
-              onPress={() => navigation.navigate("CalmingPractice")}
-              accentColor={SiraatColors.emerald}
-              delay={200}
-            />
-            <ModuleCard
-              icon="heart"
-              title="Dua"
-              description="Find the right words for what you carry"
-              onPress={() => navigation.navigate("Dua")}
-              accentColor={SiraatColors.indigo}
-              delay={250}
-            />
-            <ModuleCard
-              icon="bar-chart-2"
-              title="Insights"
-              description="See patterns in your reflections"
-              onPress={() => navigation.navigate("Insights")}
-              accentColor={SiraatColors.clay}
-              delay={300}
-              locked={!isPaid}
-            />
+          <Animated.View 
+            entering={FadeInUp.duration(400).delay(100)} 
+            style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}
+          >
+            <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.emerald }]} />
+            <View style={styles.anchorContent}>
+              <ThemedText style={[styles.anchorLabel, { color: theme.textSecondary }]}>
+                Today's anchor
+              </ThemedText>
+              <ThemedText style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
+                {dailyReminder}
+              </ThemedText>
+            </View>
+          </Animated.View>
+
+          <View style={styles.modulesSection}>
+            <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+              What do you need?
+            </ThemedText>
+
+            <View style={styles.modulesGrid}>
+              <ModuleCard
+                icon="edit-3"
+                title="Reflection"
+                description="Process a troubling thought with guided CBT"
+                onPress={() => navigation.navigate("ThoughtCapture")}
+                accentColor={SiraatColors.clay}
+                delay={150}
+              />
+              <ModuleCard
+                icon="wind"
+                title="Calming Practice"
+                description="Quick grounding exercises with dhikr"
+                onPress={() => navigation.navigate("CalmingPractice")}
+                accentColor={SiraatColors.emerald}
+                delay={200}
+              />
+              <ModuleCard
+                icon="heart"
+                title="Dua"
+                description="Find the right words for what you carry"
+                onPress={() => navigation.navigate("Dua")}
+                accentColor={SiraatColors.indigo}
+                delay={250}
+              />
+              <ModuleCard
+                icon="bar-chart-2"
+                title="Insights"
+                description="See patterns in your reflections"
+                onPress={() => navigation.navigate("Insights")}
+                accentColor={SiraatColors.clay}
+                delay={300}
+                locked={!isPaid}
+              />
+            </View>
           </View>
         </View>
 
@@ -242,16 +250,16 @@ export default function HomeScreen() {
               ]}
             >
               <Feather name="star" size={14} color="#fff" />
-              <ThemedText type="small" style={styles.upgradeText}>
+              <ThemedText style={styles.upgradeText}>
                 Unlock everything with Noor Plus
               </ThemedText>
               <Feather name="chevron-right" size={14} color="#fff" />
             </Pressable>
           )}
-          <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.methodCallout, { color: theme.textSecondary }]}>
             {Brand.methodCallout}
           </ThemedText>
-          <ThemedText type="caption" style={[styles.disclaimer, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.disclaimer, { color: theme.textSecondary }]}>
             {Brand.disclaimer}
           </ThemedText>
         </Animated.View>
@@ -266,7 +274,7 @@ export default function HomeScreen() {
     >
       <View style={styles.modalOverlay}>
         <View style={[styles.modalContent, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="h3" style={{ marginBottom: Spacing.lg }}>
+          <ThemedText style={styles.modalTitle}>
             What's your name?
           </ThemedText>
           <TextInput
@@ -290,13 +298,13 @@ export default function HomeScreen() {
               onPress={() => setShowNameModal(false)}
               style={[styles.modalButton, { backgroundColor: theme.backgroundRoot }]}
             >
-              <ThemedText type="body">Cancel</ThemedText>
+              <ThemedText style={styles.modalButtonText}>Cancel</ThemedText>
             </Pressable>
             <Pressable 
               onPress={handleSaveName}
               style={[styles.modalButton, { backgroundColor: theme.primary }]}
             >
-              <ThemedText type="body" style={{ color: "#fff" }}>Save</ThemedText>
+              <ThemedText style={[styles.modalButtonText, { color: "#fff" }]}>Save</ThemedText>
             </Pressable>
           </View>
         </View>
@@ -306,54 +314,69 @@ export default function HomeScreen() {
   );
 }
 
+const { spacing, radii, container, typeScale } = Layout;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  fixedHeader: {
-    paddingHorizontal: Spacing.xl,
-    paddingBottom: Spacing.lg,
-  },
-  headerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: Spacing.sm,
-  },
-  brandSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.md,
-  },
-  logo: {
-    width: 44,
-    height: 44,
-  },
-  title: {
-    fontSize: 26,
-  },
-  historyButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  greetingRow: {
-    flexDirection: "row",
-    alignItems: "center",
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: Spacing.xl,
+    flexGrow: 1,
+    paddingHorizontal: container.screenPad,
+    maxWidth: container.maxWidth,
+    alignSelf: "center",
+    width: "100%",
+  },
+  contentWrapper: {
+    flexGrow: 1,
+    paddingVertical: spacing.xl,
+  },
+  brandBlock: {
+    marginBottom: spacing.sm,
+  },
+  greetingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: spacing.sm,
+  },
+  greetingText: {
+    fontSize: typeScale.small,
+    opacity: 0.8,
+  },
+  logoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  logo: {
+    width: 42,
+    height: 42,
+  },
+  appTitle: {
+    fontSize: typeScale.title,
+    fontWeight: "600",
+  },
+  historyButton: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tagline: {
+    fontSize: typeScale.small,
+    opacity: 0.7,
+    marginBottom: spacing.lg,
   },
   anchorCard: {
     flexDirection: "row",
     alignItems: "stretch",
-    borderRadius: BorderRadius.sm,
-    marginBottom: Spacing["2xl"],
+    borderRadius: radii.sm,
+    marginBottom: spacing.lg,
     overflow: "hidden",
   },
   anchorAccent: {
@@ -361,18 +384,17 @@ const styles = StyleSheet.create({
   },
   anchorContent: {
     flex: 1,
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.lg,
+    padding: container.cardPad,
   },
   anchorLabel: {
     textTransform: "uppercase",
     letterSpacing: 1,
     fontSize: 10,
-    marginBottom: Spacing.xs,
+    marginBottom: spacing.xs,
   },
   anchorText: {
-    lineHeight: 22,
-    fontSize: 15,
+    lineHeight: 20,
+    fontSize: typeScale.body,
   },
   modulesSection: {
     flex: 1,
@@ -381,18 +403,19 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 1,
     fontSize: 11,
-    marginBottom: Spacing.md,
+    marginBottom: spacing.md,
   },
   modulesGrid: {
-    gap: Spacing.sm,
+    gap: spacing.sm,
   },
   moduleCard: {
     flexDirection: "row",
     alignItems: "center",
-    padding: Spacing.md,
-    paddingRight: Spacing.lg,
-    borderRadius: BorderRadius.sm,
-    gap: Spacing.md,
+    minHeight: Layout.hitTargets.minCardHeight,
+    paddingHorizontal: container.cardPad,
+    paddingVertical: spacing.sm,
+    borderRadius: radii.sm,
+    gap: spacing.md,
     overflow: "hidden",
   },
   moduleAccent: {
@@ -403,12 +426,10 @@ const styles = StyleSheet.create({
     width: 3,
   },
   moduleIconContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 10,
+    width: 28,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: Spacing.xs,
+    marginLeft: spacing.xs,
   },
   moduleTextContainer: {
     flex: 1,
@@ -416,15 +437,16 @@ const styles = StyleSheet.create({
   moduleTitleRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: Spacing.sm,
+    gap: spacing.sm,
   },
   moduleTitle: {
     fontSize: 16,
+    fontWeight: "500",
     marginBottom: 2,
   },
   moduleDescription: {
-    fontSize: 13,
-    lineHeight: 17,
+    fontSize: typeScale.small,
+    lineHeight: 16,
   },
   proBadge: {
     paddingHorizontal: 6,
@@ -438,17 +460,22 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   footer: {
-    marginTop: Spacing["2xl"],
+    marginTop: spacing.lg,
+    marginBottom: spacing.md,
     alignItems: "center",
-    gap: Spacing.md,
+    gap: spacing.md,
+    paddingBottom: spacing.lg,
   },
   upgradeButton: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: Spacing.sm,
-    paddingHorizontal: Spacing.lg,
-    borderRadius: BorderRadius.sm,
-    gap: Spacing.sm,
+    width: "100%",
+    justifyContent: "center",
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radii.sm,
+    gap: spacing.sm,
+    marginBottom: spacing.md,
   },
   upgradeText: {
     color: "#fff",
@@ -458,43 +485,52 @@ const styles = StyleSheet.create({
   methodCallout: {
     textAlign: "center",
     fontStyle: "italic",
-    fontSize: 12,
+    fontSize: typeScale.small,
   },
   disclaimer: {
     textAlign: "center",
     lineHeight: 16,
-    paddingHorizontal: Spacing.md,
+    paddingHorizontal: spacing.md,
     fontSize: 10,
     opacity: 0.7,
+    paddingBottom: spacing.lg,
   },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
-    padding: Spacing.xl,
+    padding: spacing.xl,
   },
   modalContent: {
     width: "100%",
     maxWidth: 320,
-    borderRadius: BorderRadius.md,
-    padding: Spacing["2xl"],
+    borderRadius: radii.md,
+    padding: spacing.xxl,
+  },
+  modalTitle: {
+    fontSize: typeScale.h2,
+    fontWeight: "600",
+    marginBottom: spacing.lg,
   },
   nameInput: {
     borderWidth: 1,
-    borderRadius: BorderRadius.sm,
-    padding: Spacing.lg,
+    borderRadius: radii.sm,
+    padding: spacing.lg,
     fontSize: 16,
-    marginBottom: Spacing.xl,
+    marginBottom: spacing.xl,
   },
   modalButtons: {
     flexDirection: "row",
-    gap: Spacing.md,
+    gap: spacing.md,
   },
   modalButton: {
     flex: 1,
-    padding: Spacing.md,
-    borderRadius: BorderRadius.sm,
+    padding: spacing.md,
+    borderRadius: radii.sm,
     alignItems: "center",
+  },
+  modalButtonText: {
+    fontSize: typeScale.body,
   },
 });
