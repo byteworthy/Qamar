@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { View, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
+import React, { useMemo, useState, useEffect } from "react";
+import { View, StyleSheet, ScrollView, Pressable, Alert, TextInput, Modal } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -7,6 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useQuery } from "@tanstack/react-query";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -15,6 +16,8 @@ import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand, ScreenCopy } from "@/constants/brand";
 import { checkReflectionLimit, getBillingStatus, isPaidStatus } from "@/lib/billing";
+
+const USER_NAME_KEY = "@noor_user_name";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -38,7 +41,27 @@ export default function HomeScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   
-  const greeting = useMemo(() => getTimeBasedGreeting(), []);
+  const [userName, setUserName] = useState<string>("");
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [nameInput, setNameInput] = useState("");
+
+  useEffect(() => {
+    AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
+      if (name) setUserName(name);
+    });
+  }, []);
+
+  const handleSaveName = async () => {
+    const trimmedName = nameInput.trim();
+    if (trimmedName) {
+      await AsyncStorage.setItem(USER_NAME_KEY, trimmedName);
+      setUserName(trimmedName);
+    }
+    setShowNameModal(false);
+    setNameInput("");
+  };
+
+  const greeting = userName ? `Salaam, ${userName}` : "Salaam";
   const dailyReminder = useMemo(() => getDailyReminder(), []);
 
   const { data: billingStatus } = useQuery({
@@ -72,6 +95,7 @@ export default function HomeScreen() {
   };
 
   return (
+    <>
     <ScrollView
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={[
@@ -89,9 +113,23 @@ export default function HomeScreen() {
           style={styles.logo}
           contentFit="contain"
         />
-        <ThemedText type="h2" style={[styles.greeting, { color: theme.textSecondary }]}>
-          {greeting}
-        </ThemedText>
+        <Pressable 
+          onPress={() => {
+            setNameInput(userName);
+            setShowNameModal(true);
+          }}
+          style={styles.greetingContainer}
+        >
+          <ThemedText type="h2" style={[styles.greeting, { color: theme.textSecondary }]}>
+            {greeting}
+          </ThemedText>
+          <Feather 
+            name="edit-2" 
+            size={14} 
+            color={theme.textSecondary} 
+            style={styles.editIcon} 
+          />
+        </Pressable>
         <ThemedText type="h1" style={[styles.title, { fontFamily: Fonts?.serif }]}>
           {Brand.name}
         </ThemedText>
@@ -185,6 +223,52 @@ export default function HomeScreen() {
         ) : null}
       </View>
     </ScrollView>
+
+    <Modal
+      visible={showNameModal}
+      transparent
+      animationType="fade"
+      onRequestClose={() => setShowNameModal(false)}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={[styles.modalContent, { backgroundColor: theme.backgroundDefault }]}>
+          <ThemedText type="h3" style={{ marginBottom: Spacing.lg }}>
+            What's your name?
+          </ThemedText>
+          <TextInput
+            value={nameInput}
+            onChangeText={setNameInput}
+            placeholder="Enter your name"
+            placeholderTextColor={theme.textSecondary}
+            style={[
+              styles.nameInput,
+              { 
+                backgroundColor: theme.backgroundRoot,
+                color: theme.textPrimary,
+                borderColor: theme.textSecondary,
+              }
+            ]}
+            autoFocus
+            maxLength={20}
+          />
+          <View style={styles.modalButtons}>
+            <Pressable 
+              onPress={() => setShowNameModal(false)}
+              style={[styles.modalButton, { backgroundColor: theme.backgroundRoot }]}
+            >
+              <ThemedText type="body">Cancel</ThemedText>
+            </Pressable>
+            <Pressable 
+              onPress={handleSaveName}
+              style={[styles.modalButton, { backgroundColor: theme.primary }]}
+            >
+              <ThemedText type="body" style={{ color: "#fff" }}>Save</ThemedText>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </Modal>
+    </>
   );
 }
 
@@ -297,5 +381,43 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 18,
     paddingHorizontal: Spacing.md,
+  },
+  greetingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+  },
+  editIcon: {
+    opacity: 0.6,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: Spacing.xl,
+  },
+  modalContent: {
+    width: "100%",
+    maxWidth: 320,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing["2xl"],
+  },
+  nameInput: {
+    borderWidth: 1,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.lg,
+    fontSize: 16,
+    marginBottom: Spacing.xl,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    gap: Spacing.md,
+  },
+  modalButton: {
+    flex: 1,
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    alignItems: "center",
   },
 });
