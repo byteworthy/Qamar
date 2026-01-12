@@ -12,6 +12,15 @@ The core philosophy is that Islam provides the cognitive framework while CBT ser
 
 Preferred communication style: Simple, everyday language.
 
+**Target Audience**: American Muslims, particularly in Texas and across the US. The app speaks in an Americanized style with natural Islamic terminology woven in - conversational, relatable, and grounded in Islamic wisdom without being preachy.
+
+**Voice Guidelines**:
+- Speak like a friend at the masjid after Jummah - warm, real, grounded
+- Use everyday American English with Islamic terms Muslims know (dua, tawakkul, sabr, shukr)
+- Say "Allah" not "God" - the audience knows and prefers it
+- Be direct but gentle, like a wise older sibling
+- Never lecture or use "as Muslims we should..."
+
 ## System Architecture
 
 ### Frontend Architecture

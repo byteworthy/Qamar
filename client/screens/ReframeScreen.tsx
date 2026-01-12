@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -104,55 +105,67 @@ export default function ReframeScreen() {
         },
       ]}
     >
-      <View style={styles.block}>
+      <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.block}>
         <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
           {ScreenCopy.reframe.blocks.belief}
         </ThemedText>
         <ThemedText type="body" style={[styles.blockText, { fontFamily: Fonts?.serif }]}>
           {result.beliefTested}
         </ThemedText>
-      </View>
+      </Animated.View>
 
-      <View style={[styles.perspectiveCard, { backgroundColor: theme.backgroundDefault }]}>
-        <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
-          {ScreenCopy.reframe.blocks.perspective}
-        </ThemedText>
-        <ThemedText type="bodyLarge" style={[styles.perspectiveText, { fontFamily: Fonts?.serif }]}>
-          {result.perspective}
-        </ThemedText>
-      </View>
+      <Animated.View 
+        entering={FadeInUp.duration(400).delay(250)} 
+        style={[styles.perspectiveCard, { backgroundColor: theme.backgroundDefault }]}
+      >
+        <View style={[styles.perspectiveAccent, { backgroundColor: SiraatColors.emerald }]} />
+        <View style={styles.perspectiveContent}>
+          <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
+            {ScreenCopy.reframe.blocks.perspective}
+          </ThemedText>
+          <ThemedText type="bodyLarge" style={[styles.perspectiveText, { fontFamily: Fonts?.serif }]}>
+            {result.perspective}
+          </ThemedText>
+        </View>
+      </Animated.View>
 
-      <View style={styles.block}>
-        <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
-          {ScreenCopy.reframe.blocks.nextStep}
-        </ThemedText>
-        <ThemedText type="body" style={styles.blockText}>
+      <Animated.View entering={FadeInUp.duration(400).delay(400)} style={styles.block}>
+        <View style={styles.nextStepHeader}>
+          <View style={[styles.nextStepIcon, { backgroundColor: SiraatColors.clay }]}>
+            <ThemedText type="small" style={styles.nextStepIconText}>1</ThemedText>
+          </View>
+          <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary, marginBottom: 0 }]}>
+            {ScreenCopy.reframe.blocks.nextStep}
+          </ThemedText>
+        </View>
+        <ThemedText type="body" style={[styles.blockText, { marginLeft: Spacing["3xl"] }]}>
           {result.nextStep}
         </ThemedText>
-      </View>
+      </Animated.View>
 
-      <View style={styles.anchorsSection}>
+      <Animated.View entering={FadeInUp.duration(400).delay(500)} style={styles.anchorsSection}>
         <ThemedText type="caption" style={[styles.anchorsLabel, { color: theme.textSecondary }]}>
           {ScreenCopy.reframe.blocks.anchors}
         </ThemedText>
         <View style={styles.anchorsRow}>
           {result.anchors.map((anchor, index) => (
-            <ThemedText key={index} type="small" style={[styles.anchorText, { color: theme.accent }]}>
-              {anchor}
-              {index < result.anchors.length - 1 ? " · " : ""}
-            </ThemedText>
+            <View key={index} style={[styles.anchorPill, { backgroundColor: theme.backgroundDefault }]}>
+              <ThemedText type="small" style={[styles.anchorText, { color: theme.accent }]}>
+                {anchor}
+              </ThemedText>
+            </View>
           ))}
         </View>
-      </View>
+      </Animated.View>
 
-      <View style={styles.buttonSection}>
+      <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
         <Button
           onPress={handleContinue}
           style={{ backgroundColor: theme.primary }}
         >
           {ScreenCopy.reframe.continue}
         </Button>
-      </View>
+      </Animated.View>
     </KeyboardAwareScrollViewCompat>
   );
 }
@@ -190,10 +203,37 @@ const styles = StyleSheet.create({
   blockText: {
     lineHeight: 26,
   },
+  nextStepHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.md,
+    marginBottom: Spacing.sm,
+  },
+  nextStepIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  nextStepIconText: {
+    color: "#FFFFFF",
+    fontWeight: "600",
+    fontSize: 13,
+  },
   perspectiveCard: {
-    padding: Spacing["2xl"],
+    flexDirection: "row",
     borderRadius: BorderRadius.md,
     marginBottom: Spacing["2xl"],
+    overflow: "hidden",
+  },
+  perspectiveAccent: {
+    width: 4,
+    alignSelf: "stretch",
+  },
+  perspectiveContent: {
+    flex: 1,
+    padding: Spacing["2xl"],
   },
   perspectiveText: {
     lineHeight: 32,
@@ -203,16 +243,23 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xl,
   },
   anchorsLabel: {
-    marginBottom: Spacing.xs,
+    marginBottom: Spacing.sm,
     textTransform: "uppercase",
     letterSpacing: 1,
   },
   anchorsRow: {
     flexDirection: "row",
     flexWrap: "wrap",
+    gap: Spacing.sm,
+  },
+  anchorPill: {
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.full,
   },
   anchorText: {
     fontStyle: "italic",
+    fontSize: 13,
   },
   buttonSection: {
     marginTop: "auto",

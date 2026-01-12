@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import Animated, { FadeIn, FadeInUp, BounceIn } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -118,36 +119,54 @@ export default function SessionCompleteScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <View style={[styles.checkCircle, { backgroundColor: SiraatColors.emerald }]}>
+        <Animated.View 
+          entering={BounceIn.duration(600).delay(100)} 
+          style={[styles.checkCircle, { backgroundColor: SiraatColors.emerald }]}
+        >
           <Feather name="check" size={40} color={SiraatColors.cream} />
-        </View>
-        <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          {ScreenCopy.complete.title}
-        </ThemedText>
-        <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
-          {ScreenCopy.complete.subtitle}
-        </ThemedText>
+        </Animated.View>
+        <Animated.Text entering={FadeIn.duration(400).delay(300)}>
+          <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+            {ScreenCopy.complete.title}
+          </ThemedText>
+        </Animated.Text>
+        <Animated.View entering={FadeIn.duration(400).delay(400)}>
+          <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
+            {ScreenCopy.complete.subtitle}
+          </ThemedText>
+        </Animated.View>
+        <Animated.View entering={FadeIn.duration(400).delay(500)}>
+          <ThemedText type="body" style={[styles.encouragement, { color: theme.accent, fontFamily: Fonts?.serif }]}>
+            {ScreenCopy.complete.encouragement}
+          </ThemedText>
+        </Animated.View>
       </View>
 
-      <View style={styles.cardsSection}>
+      <Animated.View entering={FadeInUp.duration(400).delay(600)} style={styles.cardsSection}>
         <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-            {ScreenCopy.complete.cards.niyyah}
-          </ThemedText>
-          <ThemedText type="bodyLarge" style={[styles.cardText, { fontFamily: Fonts?.serif }]}>
-            {intention}
-          </ThemedText>
+          <View style={[styles.cardAccent, { backgroundColor: SiraatColors.clay }]} />
+          <View style={styles.cardContent}>
+            <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+              {ScreenCopy.complete.cards.niyyah}
+            </ThemedText>
+            <ThemedText type="bodyLarge" style={[styles.cardText, { fontFamily: Fonts?.serif }]}>
+              {intention}
+            </ThemedText>
+          </View>
         </View>
 
         <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-            {ScreenCopy.complete.cards.anchor}
-          </ThemedText>
-          <ThemedText type="body" style={[styles.cardText, { fontFamily: Fonts?.serif, fontStyle: "italic" }]}>
-            {anchor}
-          </ThemedText>
+          <View style={[styles.cardAccent, { backgroundColor: SiraatColors.emerald }]} />
+          <View style={styles.cardContent}>
+            <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+              {ScreenCopy.complete.cards.anchor}
+            </ThemedText>
+            <ThemedText type="body" style={[styles.cardText, { fontFamily: Fonts?.serif, fontStyle: "italic" }]}>
+              {anchor}
+            </ThemedText>
+          </View>
         </View>
-      </View>
+      </Animated.View>
 
       {isPaid && (dua || duaLoading || duaError) ? (
         <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault, borderColor: SiraatColors.indigo }]}>
@@ -244,13 +263,27 @@ const styles = StyleSheet.create({
   subtitle: {
     textAlign: "center",
   },
+  encouragement: {
+    textAlign: "center",
+    marginTop: Spacing.md,
+    fontStyle: "italic",
+  },
   cardsSection: {
-    gap: Spacing.xl,
-    marginBottom: Spacing["4xl"],
+    gap: Spacing.lg,
+    marginBottom: Spacing["3xl"],
   },
   card: {
-    padding: Spacing["2xl"],
+    flexDirection: "row",
     borderRadius: BorderRadius.md,
+    overflow: "hidden",
+  },
+  cardAccent: {
+    width: 4,
+    alignSelf: "stretch",
+  },
+  cardContent: {
+    flex: 1,
+    padding: Spacing["2xl"],
   },
   cardText: {
     marginTop: Spacing.md,

@@ -6,85 +6,95 @@ export const Brand = {
   disclaimer: "A guided reflection tool. Not a substitute for professional care.",
   methodCallout: "Powered by the Siraat Method",
   
-  anchorLine: "When the mind feels heavy, it is often carrying assumptions it has not examined.",
+  anchorLine: "When your mind feels heavy, it's usually carrying thoughts it hasn't questioned yet.",
+  
+  dailyReminders: [
+    "Your feelings are real. Your thoughts might need a second look.",
+    "Allah's mercy is wider than whatever you're worried about right now.",
+    "You don't have to figure it all out today. Just take the next step.",
+    "Struggle doesn't mean you're failing. It means you're human.",
+    "The door to return is always open. Always.",
+  ],
 };
 
 export const ScreenCopy = {
   home: {
-    cta: "Return to Clarity",
+    cta: "Start a Reflection",
     ctaSubcopyLines: [
-      "Examine the thought.",
-      "Realign your perspective.",
+      "Name what's on your mind.",
+      "See it clearly.",
       "Move forward with trust.",
     ],
     historyLink: "Past Reflections",
+    greeting: "Assalamu Alaykum",
   },
   
   thoughtCapture: {
-    title: "What is troubling you?",
-    subtitle: "Write freely. This is private.",
-    placeholder: "Describe the thought...",
+    title: "What's on your mind?",
+    subtitle: "Just write it out. No one else sees this.",
+    placeholder: "What's been weighing on you...",
     continue: "Continue",
-    hint: "Take your time",
+    hint: "Take your time. There's no rush.",
   },
   
   distortion: {
-    title: "Reflection",
+    title: "Let's Look at This",
     sections: {
-      happening: "What is happening",
-      pattern: "The thinking pattern",
-      matters: "What matters here",
+      happening: "What you're feeling",
+      pattern: "What the mind is doing",
+      matters: "What's actually true here",
     },
-    loading: "Reflecting...",
+    loading: "Taking a closer look...",
     continue: "Continue",
   },
   
   reframe: {
-    title: "Clearer Perspective",
+    title: "A Clearer View",
     blocks: {
-      belief: "The belief being tested",
-      perspective: "A truer perspective",
-      nextStep: "One small step",
-      anchors: "Grounding concepts",
+      belief: "The thought being tested",
+      perspective: "What's actually true",
+      nextStep: "One thing you can do today",
+      anchors: "Rooted in",
     },
-    loading: "Finding wisdom...",
+    loading: "Finding clarity...",
     continue: "Continue",
   },
   
   practice: {
-    title: "Calming Practice",
-    stepsLabel: "Practice",
-    reminderLabel: "Hold this",
+    title: "Take a Breath",
+    stepsLabel: "Follow along",
+    reminderLabel: "Remember this",
     begin: "Begin",
-    complete: "Complete",
+    complete: "Done",
     continue: "Continue",
-    loading: "Preparing...",
+    loading: "Getting ready...",
     completed: "Completed",
   },
   
   intention: {
     title: "Set Your Niyyah",
-    subtitle: "One small action. Sincere. Aligned.",
-    anchorLabel: "Your anchor",
+    subtitle: "One small, sincere action you'll take.",
+    anchorLabel: "Your anchor for this",
     placeholder: "I will...",
-    complete: "Complete Reflection",
+    complete: "Complete",
   },
   
   complete: {
-    title: "Clarity Chosen",
-    subtitle: "You paused. You reflected. You realigned.",
+    title: "Well Done",
+    subtitle: "You paused. You looked. You chose clarity.",
     cards: {
       niyyah: "Your Intention",
       anchor: "Your Anchor",
     },
     returnHome: "Return Home",
+    encouragement: "May Allah make it easy for you.",
   },
   
   history: {
     title: "Past Reflections",
     empty: {
       title: "No Reflections Yet",
-      subtitle: "Your completed reflections will appear here.",
+      subtitle: "Your completed reflections will show up here.",
     },
   },
 };

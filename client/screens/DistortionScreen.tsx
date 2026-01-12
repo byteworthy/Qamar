@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -99,16 +100,16 @@ export default function DistortionScreen() {
         },
       ]}
     >
-      <View style={styles.section}>
+      <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.section}>
         <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
           {ScreenCopy.distortion.sections.happening}
         </ThemedText>
         <ThemedText type="body" style={[styles.sectionText, { lineHeight: 26 }]}>
           {result.happening}
         </ThemedText>
-      </View>
+      </Animated.View>
 
-      <View style={styles.section}>
+      <Animated.View entering={FadeInUp.duration(400).delay(250)} style={styles.section}>
         <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
           {ScreenCopy.distortion.sections.pattern}
         </ThemedText>
@@ -123,31 +124,37 @@ export default function DistortionScreen() {
         </View>
         {result.pattern.map((item, index) => (
           <View key={index} style={styles.patternItem}>
-            <ThemedText type="body" style={{ color: theme.textSecondary }}>•</ThemedText>
+            <View style={[styles.patternBullet, { backgroundColor: SiraatColors.clay }]} />
             <ThemedText type="body" style={[styles.patternText, { color: theme.text }]}>
               {item}
             </ThemedText>
           </View>
         ))}
-      </View>
+      </Animated.View>
 
-      <View style={[styles.mattersCard, { backgroundColor: theme.backgroundDefault }]}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-          {ScreenCopy.distortion.sections.matters}
-        </ThemedText>
-        <ThemedText type="body" style={[styles.mattersText, { fontFamily: Fonts?.serif }]}>
-          {result.matters}
-        </ThemedText>
-      </View>
+      <Animated.View 
+        entering={FadeInUp.duration(400).delay(400)} 
+        style={[styles.mattersCard, { backgroundColor: theme.backgroundDefault }]}
+      >
+        <View style={[styles.mattersAccent, { backgroundColor: SiraatColors.emerald }]} />
+        <View style={styles.mattersContent}>
+          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            {ScreenCopy.distortion.sections.matters}
+          </ThemedText>
+          <ThemedText type="body" style={[styles.mattersText, { fontFamily: Fonts?.serif }]}>
+            {result.matters}
+          </ThemedText>
+        </View>
+      </Animated.View>
 
-      <View style={styles.buttonSection}>
+      <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
         <Button
           onPress={handleContinue}
           style={{ backgroundColor: theme.primary }}
         >
           {ScreenCopy.distortion.continue}
         </Button>
-      </View>
+      </Animated.View>
     </KeyboardAwareScrollViewCompat>
   );
 }
@@ -202,17 +209,33 @@ const styles = StyleSheet.create({
   },
   patternItem: {
     flexDirection: "row",
-    gap: Spacing.sm,
-    marginBottom: Spacing.xs,
+    alignItems: "flex-start",
+    gap: Spacing.md,
+    marginBottom: Spacing.sm,
+  },
+  patternBullet: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginTop: 9,
   },
   patternText: {
     flex: 1,
     lineHeight: 24,
   },
   mattersCard: {
-    padding: Spacing.xl,
+    flexDirection: "row",
     borderRadius: BorderRadius.md,
     marginBottom: Spacing.xl,
+    overflow: "hidden",
+  },
+  mattersAccent: {
+    width: 4,
+    alignSelf: "stretch",
+  },
+  mattersContent: {
+    flex: 1,
+    padding: Spacing.xl,
   },
   mattersText: {
     lineHeight: 26,
