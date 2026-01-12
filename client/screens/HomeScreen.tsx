@@ -83,7 +83,7 @@ export default function HomeScreen() {
   });
 
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-  const canReflect = limitStatus?.canReflect ?? true;
+  const canReflect = true; // Demo mode - bypass limits
 
   const handleBeginReflection = () => {
     if (!canReflect && !isPaid) {
