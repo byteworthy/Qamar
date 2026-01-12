@@ -2,7 +2,12 @@
 
 ## Overview
 
-Noor CBT is an Islamic cognitive behavioral therapy (CBT) mobile application built with React Native/Expo. Powered by "The Siraat Method," the app helps Muslim users process troubling thoughts through a structured 5-step flow: Thought Capture → Distortion Identification → Islamic Cognitive Reframe → Regulation Practice → Intention Reset. Sessions are designed to be completed in under 5 minutes.
+Noor CBT is an Islamic cognitive behavioral therapy (CBT) mobile application built with React Native/Expo. Powered by "The Siraat Method," the app provides a modular tool chest for Muslim mental wellness with four entry points:
+
+1. **Reflection** - 5-step CBT flow (under 5 minutes)
+2. **Calming Practice** - Standalone grounding exercises with dhikr
+3. **Dua** - Contextual duas based on inner state and life context
+4. **Insights** (Pro) - Pattern analysis and assumption library
 
 **Tagline**: "Light for the mind, rooted in Islam."
 
@@ -114,10 +119,33 @@ Shown on home screen, rotates daily:
 - Patience illuminates the path.
 - Gratitude opens unexpected doors.
 
-### Home Screen Features
-- Daily grounding reminder from anchor concepts
+### Home Screen Features (Modular Design)
+- Salaam greeting with daily anchor reminder
+- 4 module cards: Reflection, Calming Practice, Dua, Insights (Pro badge)
 - Disclaimer: "Noor CBT is a guided reflection tool. It does not diagnose, treat, or cure any condition."
 - "Powered by the Siraat Method" callout
+
+### Calming Practice Module
+5 standalone grounding exercises with Islamic integration:
+- Breath & Dhikr (2 min)
+- Grounding Presence (2 min)
+- Release Tension (3 min)
+- Heart Centering (3 min)
+- Morning Reset (5 min)
+
+Each practice has numbered steps and a grounding reminder.
+
+### Dua Module
+Two-step contextual dua selection:
+1. **Inner State** (10 options): Anxiety & worry, Provision pressure, Grief & sadness, Shame & regret, Anger & agitation, Feeling unseen, Overthinking, Decision uncertainty, Social unease, Gratitude & awe
+2. **Life Context** (6 options): Work & provision, Family & marriage, Health & body, Faith & practice, Social & community, Future & unknown
+
+Returns one dua with Arabic, transliteration, and English meaning.
+
+### Insights Module (Pro Only)
+- Pattern Summary: AI-generated analysis of recurring thinking patterns
+- Assumption Library: Tracked cognitive assumptions from reflections
+- Requires Noor Plus subscription
 
 ### History Screen
 - Shows date, distortion type tags, one-line intention preview (collapsed)
@@ -131,6 +159,27 @@ Shown on home screen, rotates daily:
 - **GET /api/reflection/can-reflect**: Checks if user can create a reflection (limit enforcement)
 - **POST /api/reflection/save**: Saves a completed reflection (with limit enforcement)
 - **GET /api/reflection/history**: Returns user's reflection history (limited for free tier)
+- **GET /api/reflection/patterns**: (Pro only) Returns pattern data for insights
+- **GET /api/insights/summary**: (Pro only) Returns AI-generated pattern summary
+- **GET /api/insights/assumptions**: (Pro only) Returns assumption library
+
+### State Detection (11 states in server/stateInference.ts)
+The AI adapts responses based on detected inner state:
+- tightness_around_provision
+- fear_of_loss
+- shame_after_sin
+- guilt_without_clarity
+- justified_anger
+- feeling_unseen
+- confusion_effort_control
+- decision_paralysis
+- grief_and_sadness
+- social_anxiety
+- overwhelming_gratitude
+
+### NLP Transforms (in SYSTEM_FOUNDATION prompt)
+1. **Defusion Rewrite**: Detects fused identity statements ("I am a failure" → internal reframe)
+2. **Frame Shift**: Control→Responsibility, Feeling→Conclusion, Test→Verdict, Effort→Outcome
 
 ### Path Aliases
 - `@/` maps to `./client/`
