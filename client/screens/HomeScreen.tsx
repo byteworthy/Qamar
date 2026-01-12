@@ -41,13 +41,16 @@ export default function HomeScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   
-  const [userName, setUserName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("Karim");
   const [showNameModal, setShowNameModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
 
   useEffect(() => {
     AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
       if (name) setUserName(name);
+      else {
+        AsyncStorage.setItem(USER_NAME_KEY, "Karim");
+      }
     });
   }, []);
 
