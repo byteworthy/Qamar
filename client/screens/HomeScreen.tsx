@@ -315,13 +315,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
   },
   header: {
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing["2xl"],
   },
   headerTop: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing["2xl"],
   },
   greetingContainer: {
     flexDirection: "row",
@@ -344,14 +344,15 @@ const styles = StyleSheet.create({
   brandRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: Spacing.md,
+    gap: Spacing.lg,
+    paddingVertical: Spacing.md,
   },
   logo: {
-    width: 48,
-    height: 48,
+    width: 52,
+    height: 52,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
   },
   reminderCard: {
     flexDirection: "row",

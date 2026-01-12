@@ -45,12 +45,41 @@ export default function InsightsScreen() {
   // Demo mode: Set to false for production to enforce Pro gating
   const isDemo = true;
 
-  const { data: patterns, isLoading } = useQuery({
+  // Seeded demo reflections - 10 realistic entries with timestamps and variation
+  const demoReflections = [
+    { id: 1, timestamp: new Date(Date.now() - 1 * 86400000), state: "tightness_around_provision", thought: "I'm behind on bills and can't stop thinking about it", distortions: ["catastrophizing", "fortune-telling"] },
+    { id: 2, timestamp: new Date(Date.now() - 2 * 86400000), state: "fear_of_loss", thought: "What if my spouse leaves me?", distortions: ["catastrophizing"] },
+    { id: 3, timestamp: new Date(Date.now() - 3 * 86400000), state: "confusion_effort_control", thought: "I worked so hard but nothing is changing", distortions: ["all-or-nothing", "should-statements"] },
+    { id: 4, timestamp: new Date(Date.now() - 5 * 86400000), state: "shame_after_sin", thought: "I keep falling into the same mistake", distortions: ["personalization", "labeling"] },
+    { id: 5, timestamp: new Date(Date.now() - 6 * 86400000), state: "guilt_without_clarity", thought: "I feel like I'm not doing enough for my parents", distortions: ["should-statements", "mind-reading"] },
+    { id: 6, timestamp: new Date(Date.now() - 8 * 86400000), state: "decision_paralysis", thought: "I don't know which job offer to take", distortions: ["fortune-telling", "all-or-nothing"] },
+    { id: 7, timestamp: new Date(Date.now() - 10 * 86400000), state: "social_anxiety", thought: "People at the masjid probably judge me", distortions: ["mind-reading", "personalization"] },
+    { id: 8, timestamp: new Date(Date.now() - 12 * 86400000), state: "tightness_around_provision", thought: "I should be earning more by now", distortions: ["should-statements", "comparison"] },
+    { id: 9, timestamp: new Date(Date.now() - 14 * 86400000), state: "feeling_unseen", thought: "No one notices how hard I'm trying", distortions: ["mind-reading", "emotional-reasoning"] },
+    { id: 10, timestamp: new Date(Date.now() - 16 * 86400000), state: "confusion_effort_control", thought: "I prayed for this but nothing happened", distortions: ["all-or-nothing", "fortune-telling"] },
+  ];
+
+  // Demo data derived from seeded reflections
+  const demoPatterns: PatternData = {
+    summary: "Across your reflections, responsibility often appears before rest. Effort is present, but trust arrives later. When outcomes feel uncertain, the mind reaches for control rather than patience.",
+    assumptions: [
+      { text: "Responsibility equals control", count: 4 },
+      { text: "Feeling anxious means danger is real", count: 3 },
+      { text: "Struggle means I am failing", count: 3 },
+      { text: "If I cannot fix it, I am the problem", count: 2 },
+      { text: "Other people's emotions are my responsibility", count: 2 },
+    ],
+  };
+
+  const { data: fetchedPatterns, isLoading } = useQuery({
     queryKey: ["/api/reflection/patterns"],
     queryFn: fetchPatterns,
-    enabled: isPaid || isDemo,
+    enabled: isPaid && !isDemo,
     staleTime: 300000,
   });
+
+  // Use demo data when in demo mode, otherwise use fetched patterns
+  const patterns = isDemo ? demoPatterns : fetchedPatterns;
 
   if (!isPaid && !isDemo) {
     return (
@@ -192,9 +221,44 @@ export default function InsightsScreen() {
         </Animated.View>
       )}
 
-      <Animated.View entering={FadeInUp.duration(400).delay(300)} style={styles.noteContainer}>
+      {isDemo && demoReflections.length > 0 && (
+        <Animated.View 
+          entering={FadeInUp.duration(400).delay(300)}
+          style={styles.section}
+        >
+          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            Recent Reflections
+          </ThemedText>
+          <View style={styles.reflectionsList}>
+            {demoReflections.slice(0, 4).map((reflection, index) => (
+              <View 
+                key={reflection.id}
+                style={[styles.reflectionCard, { backgroundColor: theme.backgroundDefault }]}
+              >
+                <ThemedText type="small" style={{ color: theme.textSecondary, marginBottom: 4 }}>
+                  {reflection.timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </ThemedText>
+                <ThemedText type="body" style={{ lineHeight: 20 }} numberOfLines={2}>
+                  {reflection.thought}
+                </ThemedText>
+                <View style={styles.distortionTags}>
+                  {reflection.distortions.slice(0, 2).map((d, i) => (
+                    <View key={i} style={[styles.distortionTag, { backgroundColor: theme.backgroundRoot }]}>
+                      <ThemedText type="caption" style={{ color: theme.textSecondary, fontSize: 10 }}>
+                        {d}
+                      </ThemedText>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </View>
+        </Animated.View>
+      )}
+
+      <Animated.View entering={FadeInUp.duration(400).delay(400)} style={styles.noteContainer}>
         <ThemedText type="caption" style={[styles.note, { color: theme.textSecondary }]}>
-          Patterns are observed, not judged. Use them as mirrors, not verdicts.
+          Patterns are observations, not verdicts.
         </ThemedText>
       </Animated.View>
     </ScrollView>
@@ -287,5 +351,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: Spacing.md,
     lineHeight: 22,
+  },
+  reflectionsList: {
+    gap: Spacing.md,
+  },
+  reflectionCard: {
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
+  },
+  distortionTags: {
+    flexDirection: "row",
+    gap: Spacing.xs,
+    marginTop: Spacing.sm,
+  },
+  distortionTag: {
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.xs,
   },
 });

@@ -9,11 +9,16 @@ export const Brand = {
   anchorLine: "When your mind feels heavy, it's usually carrying thoughts it hasn't questioned yet.",
   
   dailyReminders: [
-    "Your feelings are real. Your thoughts might need a second look.",
-    "Allah's mercy is wider than whatever you're worried about right now.",
-    "You don't have to figure it all out today. Just take the next step.",
-    "Struggle doesn't mean you're failing. It means you're human.",
-    "The door to return is always open. Always.",
+    "Mercy exceeds sin.",
+    "Effort is required, outcomes belong to Allah.",
+    "Hearts fluctuate and return remains open.",
+    "Hardship can carry wisdom you cannot yet see.",
+    "Trust does not cancel action.",
+    "No soul is burdened beyond capacity.",
+    "Delay is not denial.",
+    "Allah is closer than perceived distance.",
+    "Patience illuminates the path.",
+    "Gratitude opens unexpected doors.",
   ],
 };
 
@@ -23,28 +28,28 @@ export const ScreenCopy = {
     ctaSubcopyLines: [
       "Name what's on your mind.",
       "See it clearly.",
-      "Move forward with trust.",
+      "Move forward with clarity.",
     ],
     historyLink: "Past Reflections",
-    greeting: "Assalamu Alaykum",
+    greeting: "Salaam",
   },
   
   thoughtCapture: {
     title: "What's on your mind?",
-    subtitle: "Just write it out. No one else sees this.",
+    subtitle: "Write it out. This stays between you and your reflection.",
     placeholder: "What's been weighing on you...",
     continue: "Continue",
-    hint: "Take your time. There's no rush.",
+    hint: "Take your time.",
   },
   
   distortion: {
-    title: "Let's Look at This",
+    title: "Looking Closer",
     sections: {
-      happening: "What you're feeling",
+      happening: "What you're experiencing",
       pattern: "What the mind is doing",
-      matters: "What's actually true here",
+      matters: "What holds true",
     },
-    loading: "Taking a closer look...",
+    loading: "Looking closer...",
     continue: "Continue",
   },
   
@@ -52,8 +57,8 @@ export const ScreenCopy = {
     title: "A Clearer View",
     blocks: {
       belief: "The thought being tested",
-      perspective: "What's actually true",
-      nextStep: "One thing you can do today",
+      perspective: "A truer perspective",
+      nextStep: "One step for today",
       anchors: "Rooted in",
     },
     loading: "Finding clarity...",
@@ -61,9 +66,9 @@ export const ScreenCopy = {
   },
   
   practice: {
-    title: "Take a Breath",
+    title: "Settle",
     stepsLabel: "Follow along",
-    reminderLabel: "Remember this",
+    reminderLabel: "Grounding thought",
     begin: "Begin",
     complete: "Done",
     continue: "Continue",
@@ -73,14 +78,14 @@ export const ScreenCopy = {
   
   intention: {
     title: "Set Your Niyyah",
-    subtitle: "One small, sincere action you'll take.",
-    anchorLabel: "Your anchor for this",
+    subtitle: "One small, sincere action you can take.",
+    anchorLabel: "Your anchor",
     placeholder: "I will...",
     complete: "Complete",
   },
   
   complete: {
-    title: "Well Done",
+    title: "Reflection Complete",
     subtitle: "You paused. You looked. You chose clarity.",
     cards: {
       niyyah: "Your Intention",
@@ -94,7 +99,7 @@ export const ScreenCopy = {
     title: "Past Reflections",
     empty: {
       title: "No Reflections Yet",
-      subtitle: "Your completed reflections will show up here.",
+      subtitle: "Completed reflections will appear here.",
     },
   },
 };

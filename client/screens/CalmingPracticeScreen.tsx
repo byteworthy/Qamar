@@ -30,7 +30,7 @@ const PRACTICES: Practice[] = [
       "Hold gently for 2 counts, letting go of tension",
       "Breathe out for 6 counts, silently saying 'Alhamdulillah'",
     ],
-    reminder: "Your breath is a gift. Each one is a chance to return.",
+    reminder: "Breath steadies the body. Remembrance steadies the heart.",
   },
   {
     id: "grounding-presence",
@@ -40,21 +40,21 @@ const PRACTICES: Practice[] = [
     steps: [
       "Feel your feet on the ground. Notice their weight.",
       "Place your hand on your chest. Feel it rise and fall.",
-      "Name three things you can see. Thank Allah for sight.",
+      "Name three things you can see. Let yourself notice.",
     ],
-    reminder: "You are here, in this moment. That is enough for now.",
+    reminder: "Presence returns when you stop reaching for elsewhere.",
   },
   {
     id: "release-tension",
     title: "Release Tension",
     duration: "3 min",
-    description: "Physical release with tawakkul",
+    description: "Physical release with trust",
     steps: [
       "Clench your fists tight for 5 seconds. Feel the tension.",
       "Release completely. Let your hands rest open, palms up.",
-      "Repeat with shoulders: lift, hold, release. Trust the letting go.",
+      "Repeat with shoulders: lift, hold, release.",
     ],
-    reminder: "What you carry is not yours to hold forever.",
+    reminder: "Holding tightly does not keep things safe.",
   },
   {
     id: "heart-centering",
@@ -66,7 +66,7 @@ const PRACTICES: Practice[] = [
       "Breathe gently into that space. No forcing.",
       "Silently repeat: 'La hawla wa la quwwata illa billah' three times.",
     ],
-    reminder: "The heart finds rest in remembrance of Allah.",
+    reminder: "The heart finds rest in remembrance.",
   },
   {
     id: "morning-reset",
@@ -78,7 +78,7 @@ const PRACTICES: Practice[] = [
       "Ask yourself: What is one thing I want to carry well today?",
       "Say 'Bismillah' and begin.",
     ],
-    reminder: "Every morning is a fresh start. Allah renews your chance.",
+    reminder: "Start with intention. Let outcomes rest with Allah.",
   },
 ];
 
