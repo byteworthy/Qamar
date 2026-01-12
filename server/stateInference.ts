@@ -2,9 +2,13 @@ type InnerState =
   | "tightness_around_provision"
   | "fear_of_loss"
   | "shame_after_sin"
+  | "guilt_without_clarity"
   | "justified_anger"
   | "feeling_unseen"
   | "confusion_effort_control"
+  | "decision_paralysis"
+  | "grief_and_sadness"
+  | "social_anxiety"
   | "overwhelming_gratitude"
   | "unknown";
 
@@ -34,6 +38,13 @@ const STATE_PATTERNS: Record<InnerState, RegExp[]> = {
     /\b(how can I face|dirty|unclean|unworthy)\b/i,
     /\b(keep falling|can't stop|doing it again)\b/i,
   ],
+  guilt_without_clarity: [
+    /\b(feel bad|feeling bad|feel guilty|feeling guilty)\b/i,
+    /\b(not sure (what|if|why) I did wrong)\b/i,
+    /\b(something is off|something feels wrong)\b/i,
+    /\b(can't pinpoint|don't know why I feel)\b/i,
+    /\b(vague sense of|nagging feeling)\b/i,
+  ],
   justified_anger: [
     /\b(unfair|unjust|wrong|not right)\b/i,
     /\b(angry|anger|furious|rage|mad)\b/i,
@@ -56,6 +67,27 @@ const STATE_PATTERNS: Record<InnerState, RegExp[]> = {
     /\b(effort|work|struggle).*(not enough|useless|pointless)\b/i,
     /\b(why isn't|why won't|why doesn't).*(working|changing)\b/i,
   ],
+  decision_paralysis: [
+    /\b(can't decide|can't choose|don't know what to do)\b/i,
+    /\b(stuck|paralyzed|frozen|torn between)\b/i,
+    /\b(what if I (choose|pick|decide) wrong)\b/i,
+    /\b(istikhara|prayed for guidance|asking for signs)\b/i,
+    /\b(every option|all options|no good option)\b/i,
+  ],
+  grief_and_sadness: [
+    /\b(miss|missing|grief|grieving|mourn|mourning)\b/i,
+    /\b(passed away|died|death|gone forever)\b/i,
+    /\b(heartbroken|heart is heavy|aching|empty)\b/i,
+    /\b(lost (my|a) (parent|mother|father|child|spouse|friend))\b/i,
+    /\b(will never (see|hear|hold|be with) again)\b/i,
+  ],
+  social_anxiety: [
+    /\b(what (will|do) (people|they|others) think)\b/i,
+    /\b(judged|judging|embarrassed|embarrassing)\b/i,
+    /\b(awkward|nervous|anxious) (around|with|in front of) (people|others)\b/i,
+    /\b(don't fit in|don't belong|outsider)\b/i,
+    /\b(scared to (speak|talk|say|ask))\b/i,
+  ],
   overwhelming_gratitude: [
     /\b(so blessed|too blessed|don't deserve)\b/i,
     /\b(grateful but|thankful but|blessed but)\b/i,
@@ -74,9 +106,13 @@ export function inferInnerState(thought: string): StateInference {
     tightness_around_provision: 0,
     fear_of_loss: 0,
     shame_after_sin: 0,
+    guilt_without_clarity: 0,
     justified_anger: 0,
     feeling_unseen: 0,
     confusion_effort_control: 0,
+    decision_paralysis: 0,
+    grief_and_sadness: 0,
+    social_anxiety: 0,
     overwhelming_gratitude: 0,
     unknown: 0,
   };
@@ -126,6 +162,12 @@ export function getStatePromptModifier(state: InnerState): string {
 - Avoid moralizing or adding guilt
 - Do not minimize the struggle to change`,
 
+    guilt_without_clarity: `STATE AWARENESS: The user feels guilty but can't pinpoint why.
+- Acknowledge the discomfort of undefined guilt
+- Help separate vague unease from actual wrongdoing
+- Note that not all guilt has a valid source
+- Avoid adding to the guilt or dismissing it entirely`,
+
     justified_anger: `STATE AWARENESS: The user shows anger that feels justified.
 - Acknowledge that the situation may genuinely be unjust
 - Distinguish between the injustice and the response to it
@@ -140,6 +182,24 @@ export function getStatePromptModifier(state: InnerState): string {
 - Acknowledge the exhaustion of sustained effort
 - Clarify the boundary between responsibility and outcome
 - Avoid suggesting more effort or passive acceptance`,
+
+    decision_paralysis: `STATE AWARENESS: The user is paralyzed by a decision.
+- Acknowledge that important decisions carry real weight
+- Note that certainty is rare and action under uncertainty is valid
+- Reference istikhara as process, not magic answer
+- Avoid adding pressure or suggesting there's one "right" choice`,
+
+    grief_and_sadness: `STATE AWARENESS: The user is experiencing grief or deep sadness.
+- Acknowledge the weight of loss without rushing healing
+- Note that grief is not a problem to solve
+- Reference that sadness is human, not weakness
+- Avoid timeline suggestions or "moving on" language`,
+
+    social_anxiety: `STATE AWARENESS: The user shows anxiety about social perception.
+- Acknowledge that human connection matters and this fear is real
+- Gently distinguish between concern and catastrophizing
+- Note that others' opinions are data, not verdicts
+- Avoid dismissing the concern or suggesting they "shouldn't care"`,
 
     overwhelming_gratitude: `STATE AWARENESS: The user feels overwhelmed by blessing.
 - Acknowledge that gratitude can coexist with unworthiness feelings

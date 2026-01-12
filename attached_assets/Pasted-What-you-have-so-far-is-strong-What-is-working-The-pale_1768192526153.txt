@@ -1,0 +1,295 @@
+What you have so far is strong.
+
+What is working
+• The palette and restraint feel premium
+• The logo mark works at small size and feels scholarly
+• The end line “May Allah make it easy for you” lands hard and should stay
+• The flow produces clear cognition and a real next step, not generic comfort
+
+What is not working yet
+• It still feels like a linear wizard, not a modular tool you return to based on need
+• Some screens are text heavy, which forces scrolling and makes the experience feel like reading a long note
+• The right side scroll bar is visually noisy and makes it feel web first
+• The language is close, but it sometimes sounds like inspirational coaching, not disciplined CBT plus Islamic frame
+• The “Islamic quantum physics” vibe needs to be handled as intention, attention, repetition, state, and alignment, not physics claims. If you treat it like a practical spirituality layer, it stays credible and powerful
+
+Below is a comprehensive Replit prompt to implement exactly what you asked for.
+
+```text
+PROMPT START
+
+Role
+Senior product designer, front end engineer, and applied CBT plus NLP architect.
+
+Context
+Noor CBT is functional. Keep the current reflection journey intact as one option.
+Goal is to make the app modular so the user can enter different modes without always completing the full sequence.
+
+Hard constraints
+Do not remove or weaken the final completion line:
+“May Allah make it easy for you.”
+This is non negotiable and must appear on the completion screen.
+
+Keep
+• App name Noor CBT
+• Existing color palette and calm scholarly typography
+• Logo mark currently used
+• Siraat Method attribution line
+• Stripe billing that already exists
+• Existing reflection screens and their order inside the reflection journey
+
+Additions allowed
+• New modular home layout
+• New lightweight screens for modules if needed
+• New internal intelligence layers that shape responses
+• UI polish and spacing changes
+• Reducing scroll and removing the visible web scroll bar
+
+Primary goals
+1. Make home modular, not a single path funnel
+2. Improve UI and readability so fewer screens require scrolling
+3. Remove the right side scroll bar and reduce visible scrolling indicators
+4. Make responses more empathetic while staying disciplined CBT plus NLP
+5. Integrate Islamic spirituality concepts as state, intention, attention, repetition, alignment, without making scientific claims
+
+PART 1
+Modular Home Architecture
+
+Implement a modular home with four primary entry cards:
+1 Reflection
+2 Calming Practice
+3 Dua
+4 Insights
+
+Behavior
+• Reflection launches the existing reflection journey starting at Capture Your Thought
+• Calming Practice opens a standalone practice picker with 3 to 5 short practices
+• Dua opens a dua selector by inner state and life context
+• Insights opens Pro gated insights content
+
+Do not force the user into reflection every time.
+Home should feel like a tool chest, not a wizard.
+
+PART 2
+UI and UX polish
+
+General
+• Reduce long text blocks by using tighter structures
+• Use card widths, line height, and padding to improve readability
+• Avoid walls of text
+• Keep all screens visually consistent
+
+Remove right side scroll bar on web
+• Ensure the main web container does not show a browser scroll bar
+• Use overflow hidden on the body and root container
+• Ensure the app uses internal scrolling where needed, but keep it subtle
+
+Remove scroll indicators inside app
+• For React Native ScrollView, set showsVerticalScrollIndicator to false
+• For web equivalents, hide scroll bar while preserving scroll behavior
+
+Make text heavy screens less scroll dependent
+• Break content into smaller cards
+• Prefer 1 to 2 short paragraphs per card
+• Use section headers and spacing to create rhythm
+
+PART 3
+Response engine upgrades, CBT plus NLP plus Islamic frame
+
+This is the core intelligence upgrade. It must shape how responses are generated across the existing reflection journey and the new Dua module.
+
+A
+State detection first
+Before generating any response, infer the inner state from user input.
+States to support
+• Provision pressure
+• Fear of loss
+• Shame after sin
+• Guilt without clarity
+• Anger and agitation
+• Feeling unseen
+• Overthinking and control loop
+• Decision paralysis
+• Grief and sadness
+• Social anxiety
+
+Do not label the state to the user.
+Store it internally with the reflection.
+
+B
+CBT discipline, always present
+For reflection journey responses, enforce this structure consistently.
+
+Reflection screen
+• Validate emotion in one to two sentences
+• Identify one distortion pattern max two
+• Name the underlying assumption as one sentence
+No preaching.
+No verse dumps.
+
+Clearer Perspective screen
+• Thought being tested, one sentence
+• What is actually true, two to four sentences
+• One thing you can do today, one clear step
+• Rooted in, short anchor concepts list
+No more than 4 anchors.
+
+Calming Practice screen
+• Two minute practice
+• Numbered steps
+• Blend breath with dhikr style wording
+• Keep it gentle and grounded
+
+Set Intention screen
+• Keep simple
+• One sentence prompt
+• No long reframe pasted here
+
+Completion screen
+• Keep “May Allah make it easy for you.”
+Do not change it.
+Make it visually prominent and emotionally centered.
+
+C
+NLP practices that are actually useful and not fluffy
+Add two NLP style transforms inside the response engine.
+
+1 Defusion rewrite
+When user writes a fused identity statement, rewrite internally into:
+“I am having the thought that…”
+This is not shown as a lecture.
+It is used to generate clearer reframes.
+
+2 Frame shift
+Provide one alternative frame that changes meaning without denying reality.
+Examples
+• Control vs responsibility
+• Feeling vs conclusion
+• Test vs verdict
+• Effort vs outcome
+
+D
+Islamic spirituality layer that feels tech minded
+Integrate these concepts as disciplined language, not science claims.
+• Intention shapes attention
+• Attention amplifies state
+• Repetition engrains pathways
+• State has momentum
+• Alignment is return, not perfection
+Use this as background logic in wording.
+Do not use the phrase quantum physics in user facing copy.
+Keep it implicit.
+
+E
+American natural tone with Islamic frame
+Keep language plain, modern, and clear.
+Use Islamic terms lightly and correctly.
+Avoid archaic phrasing.
+Avoid motivational slogans.
+
+PART 4
+Dua module MVP
+
+Add a Dua module with two step selection:
+1 Choose what you are carrying
+Options map to the internal states above
+
+2 Choose context
+Examples
+• Work and provision
+• Family and marriage
+• Health and worry
+• Sin and return
+• Anxiety and fear
+• Gratitude and steadiness
+
+Output
+Return one dua only with:
+• Arabic
+• Transliteration
+• English
+• One line note: “For this state”
+Keep it short.
+No long lists.
+
+Gating
+Free users can view a small limited set, for example 5 total.
+Pro users unlock full set and personalized dua matching based on reflection state.
+
+PART 5
+Insights module MVP, Pro gated
+
+Show two Pro sections
+1 Pattern Summary
+One paragraph neutral observer, no advice, no encouragement language
+Based on recent reflections
+
+2 Assumption Library
+List top recurring assumptions with counts
+Neutral phrasing
+
+Do not add charts.
+Do not add streaks.
+Do not add scores.
+
+PART 6
+Stripe paywall integration checks
+
+Do not rebuild Stripe.
+Use existing billing status logic.
+
+Ensure the following gates are enforced server side:
+• Free reflection daily limit
+• Dua module limited set for Free
+• Insights module locked for Free
+• Pro unlocks unlimited reflections, full duas, insights
+
+After checkout success
+• Refresh billing status
+• Update entitlements immediately
+
+After cancel or downgrade
+• Entitlements revert according to your existing rules
+
+PART 7
+Quality pass and testing
+
+Implement a test checklist and run through it:
+
+Modular navigation
+• Home shows four module cards
+• Reflection launches existing journey unchanged
+• Calming Practice opens and completes without entering reflection flow
+• Dua module works and returns exactly one dua
+• Insights module locks for Free and opens for Pro
+
+Scroll bar removal
+• Web right side scroll bar is not visible
+• Content still scrolls smoothly where needed
+• No vertical scroll indicators in app ScrollViews
+
+Copy quality
+• Reflection responses are empathetic but structured
+• No long paragraphs that require excessive scrolling
+• No verse dumps
+• Completion screen still displays “May Allah make it easy for you.”
+
+Stripe
+• Free gating works
+• Pro unlock works
+• Cancel reverts correctly
+
+Deliverables
+• Updated modular home UI
+• New Dua and Calming modules
+• Pro gated Insights module
+• Response engine upgraded with state detection, CBT structure, and NLP transforms
+• Scroll bar hidden on web and scroll indicators removed
+• All builds pass
+
+Do not add any other features.
+Do not change the existing reflection sequence inside the reflection journey.
+Do not change palette, logo, or typography direction.
+
+PROMPT END
+```

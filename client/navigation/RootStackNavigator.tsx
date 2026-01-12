@@ -12,6 +12,9 @@ import SessionCompleteScreen from "@/screens/SessionCompleteScreen";
 import HistoryScreen from "@/screens/HistoryScreen";
 import PricingScreen from "@/screens/PricingScreen";
 import BillingSuccessScreen from "@/screens/BillingSuccessScreen";
+import CalmingPracticeScreen from "@/screens/CalmingPracticeScreen";
+import DuaScreen from "@/screens/DuaScreen";
+import InsightsScreen from "@/screens/InsightsScreen";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -24,6 +27,9 @@ export type RootStackParamList = {
   History: undefined;
   Pricing: undefined;
   BillingSuccess: undefined;
+  CalmingPractice: undefined;
+  Dua: undefined;
+  Insights: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -82,6 +88,21 @@ export default function RootStackNavigator() {
         name="BillingSuccess"
         component={BillingSuccessScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CalmingPractice"
+        component={CalmingPracticeScreen}
+        options={{ headerTitle: "Calming Practice" }}
+      />
+      <Stack.Screen
+        name="Dua"
+        component={DuaScreen}
+        options={{ headerTitle: "Dua" }}
+      />
+      <Stack.Screen
+        name="Insights"
+        component={InsightsScreen}
+        options={{ headerTitle: "Insights" }}
       />
     </Stack.Navigator>
   );

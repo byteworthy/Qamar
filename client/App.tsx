@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Platform } from "react-native";
 import { NavigationContainer, LinkingOptions } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -6,6 +6,32 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import * as Linking from "expo-linking";
+
+function useHideWebScrollbar() {
+  useEffect(() => {
+    if (Platform.OS === "web" && typeof document !== "undefined") {
+      const style = document.createElement("style");
+      style.textContent = `
+        html, body, #root {
+          overflow: hidden;
+          height: 100%;
+          width: 100%;
+        }
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        * {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+      `;
+      document.head.appendChild(style);
+      return () => {
+        document.head.removeChild(style);
+      };
+    }
+  }, []);
+}
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
@@ -38,11 +64,16 @@ const linking: LinkingOptions<RootStackParamList> = {
       History: "history",
       Pricing: "pricing",
       BillingSuccess: "billing/success",
+      CalmingPractice: "calming-practice",
+      Dua: "dua",
+      Insights: "insights",
     },
   },
 };
 
 export default function App() {
+  useHideWebScrollbar();
+  
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>

@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Pressable, TextInput, Modal } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable, TextInput, Modal, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -12,14 +12,62 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
-import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { Brand, ScreenCopy } from "@/constants/brand";
-import { checkReflectionLimit, getBillingStatus, isPaidStatus } from "@/lib/billing";
+import { Brand } from "@/constants/brand";
+import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 
 const USER_NAME_KEY = "@noor_user_name";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
+
+interface ModuleCardProps {
+  icon: keyof typeof Feather.glyphMap;
+  title: string;
+  description: string;
+  onPress: () => void;
+  accentColor: string;
+  delay: number;
+  locked?: boolean;
+}
+
+function ModuleCard({ icon, title, description, onPress, accentColor, delay, locked }: ModuleCardProps) {
+  const { theme } = useTheme();
+  
+  return (
+    <Animated.View entering={FadeInUp.duration(400).delay(delay)}>
+      <Pressable
+        onPress={onPress}
+        style={({ pressed }) => [
+          styles.moduleCard,
+          { 
+            backgroundColor: theme.cardBackground,
+            opacity: pressed ? 0.85 : 1,
+          },
+        ]}
+      >
+        <View style={[styles.moduleIconContainer, { backgroundColor: accentColor + "15" }]}>
+          <Feather name={icon} size={24} color={accentColor} />
+        </View>
+        <View style={styles.moduleTextContainer}>
+          <View style={styles.moduleTitleRow}>
+            <ThemedText type="h4" style={styles.moduleTitle}>
+              {title}
+            </ThemedText>
+            {locked && (
+              <View style={[styles.proBadge, { backgroundColor: SiraatColors.indigo }]}>
+                <ThemedText type="caption" style={styles.proBadgeText}>PRO</ThemedText>
+              </View>
+            )}
+          </View>
+          <ThemedText type="small" style={[styles.moduleDescription, { color: theme.textSecondary }]}>
+            {description}
+          </ThemedText>
+        </View>
+        <Feather name="chevron-right" size={20} color={theme.textSecondary} />
+      </Pressable>
+    </Animated.View>
+  );
+}
 
 function getTimeBasedGreeting(): string {
   const hour = new Date().getHours();
@@ -43,7 +91,6 @@ export default function HomeScreen() {
   
   const [userName, setUserName] = useState<string>("Karim");
   const [showNameModal, setShowNameModal] = useState(false);
-  const [showLimitModal, setShowLimitModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
 
   useEffect(() => {
@@ -76,22 +123,7 @@ export default function HomeScreen() {
     staleTime: 60000,
   });
 
-  const { data: limitStatus } = useQuery({
-    queryKey: ["/api/reflection/can-reflect"],
-    queryFn: checkReflectionLimit,
-    staleTime: 30000,
-  });
-
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-  const canReflect = true; // Demo mode - bypass limits
-
-  const handleBeginReflection = () => {
-    if (!canReflect && !isPaid) {
-      setShowLimitModal(true);
-      return;
-    }
-    navigation.navigate("ThoughtCapture");
-  };
 
   return (
     <>
@@ -100,48 +132,58 @@ export default function HomeScreen() {
       contentContainerStyle={[
         styles.contentContainer,
         {
-          paddingTop: insets.top + Spacing["3xl"],
-          paddingBottom: insets.bottom + Spacing["4xl"],
+          paddingTop: insets.top + Spacing["2xl"],
+          paddingBottom: insets.bottom + Spacing["3xl"],
         },
       ]}
       showsVerticalScrollIndicator={false}
     >
-      <Animated.View entering={FadeInDown.duration(600).delay(100)} style={styles.header}>
-        <Image
-          source={require("../../assets/images/icon.png")}
-          style={styles.logo}
-          contentFit="contain"
-        />
-        <Pressable 
-          onPress={() => {
-            setNameInput(userName);
-            setShowNameModal(true);
-          }}
-          style={styles.greetingContainer}
-        >
-          <ThemedText type="h2" style={[styles.greeting, { color: theme.textSecondary }]}>
-            {greeting}
-          </ThemedText>
-          <Feather 
-            name="edit-2" 
-            size={14} 
-            color={theme.textSecondary} 
-            style={styles.editIcon} 
+      <Animated.View entering={FadeInDown.duration(500).delay(100)} style={styles.header}>
+        <View style={styles.headerTop}>
+          <Pressable 
+            onPress={() => {
+              setNameInput(userName);
+              setShowNameModal(true);
+            }}
+            style={styles.greetingContainer}
+          >
+            <ThemedText type="body" style={[styles.greeting, { color: theme.textSecondary }]}>
+              {greeting}
+            </ThemedText>
+            <Feather 
+              name="edit-2" 
+              size={12} 
+              color={theme.textSecondary} 
+              style={styles.editIcon} 
+            />
+          </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate("History")}
+            style={[styles.historyIconButton, { backgroundColor: theme.backgroundDefault }]}
+          >
+            <Feather name="clock" size={18} color={theme.textSecondary} />
+          </Pressable>
+        </View>
+        <View style={styles.brandRow}>
+          <Image
+            source={require("../../assets/images/icon.png")}
+            style={styles.logo}
+            contentFit="contain"
           />
-        </Pressable>
-        <ThemedText type="h1" style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          {Brand.name}
-        </ThemedText>
+          <ThemedText type="h1" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+            {Brand.name}
+          </ThemedText>
+        </View>
       </Animated.View>
 
       <Animated.View 
-        entering={FadeInUp.duration(600).delay(300)} 
+        entering={FadeInUp.duration(500).delay(200)} 
         style={[styles.reminderCard, { backgroundColor: theme.backgroundDefault }]}
       >
         <View style={[styles.reminderAccent, { backgroundColor: SiraatColors.emerald }]} />
         <View style={styles.reminderContent}>
           <ThemedText type="caption" style={[styles.reminderLabel, { color: theme.textSecondary }]}>
-            Today's reminder
+            Today's anchor
           </ThemedText>
           <ThemedText type="body" style={[styles.reminderText, { fontFamily: Fonts?.serif }]}>
             {dailyReminder}
@@ -149,78 +191,71 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
 
-      <Animated.View 
-        entering={FadeInUp.duration(500).delay(500)} 
-        style={styles.mainContent}
-      >
-        <View style={[styles.card, { backgroundColor: theme.cardBackground }]}>
-          <Button
-            onPress={handleBeginReflection}
-            style={{ backgroundColor: theme.primary }}
-          >
-            {ScreenCopy.home.cta}
-          </Button>
-          <View style={styles.ctaSubcopyContainer}>
-            {ScreenCopy.home.ctaSubcopyLines.map((line, index) => (
-              <View key={index} style={styles.ctaSubcopyItem}>
-                <View style={[styles.ctaSubcopyDot, { backgroundColor: SiraatColors.emerald }]} />
-                <ThemedText 
-                  type="body" 
-                  style={[styles.ctaSubcopyLine, { color: theme.textSecondary }]}
-                >
-                  {line}
-                </ThemedText>
-              </View>
-            ))}
-          </View>
-          <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
-            {Brand.methodCallout}
-          </ThemedText>
+      <View style={styles.modulesSection}>
+        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+          What do you need?
+        </ThemedText>
+
+        <View style={styles.modulesGrid}>
+          <ModuleCard
+            icon="edit-3"
+            title="Reflection"
+            description="Process a troubling thought with guided CBT"
+            onPress={() => navigation.navigate("ThoughtCapture")}
+            accentColor={SiraatColors.clay}
+            delay={300}
+          />
+          <ModuleCard
+            icon="wind"
+            title="Calming Practice"
+            description="Quick grounding exercises with dhikr"
+            onPress={() => navigation.navigate("CalmingPractice")}
+            accentColor={SiraatColors.emerald}
+            delay={400}
+          />
+          <ModuleCard
+            icon="heart"
+            title="Dua"
+            description="Find the right words for what you carry"
+            onPress={() => navigation.navigate("Dua")}
+            accentColor={SiraatColors.indigo}
+            delay={500}
+          />
+          <ModuleCard
+            icon="bar-chart-2"
+            title="Insights"
+            description="See patterns in your reflections"
+            onPress={() => navigation.navigate("Insights")}
+            accentColor={SiraatColors.clay}
+            delay={600}
+            locked={!isPaid}
+          />
         </View>
+      </View>
 
-        <Pressable
-          onPress={() => navigation.navigate("History")}
-          style={({ pressed }) => [
-            styles.historyButton,
-            { backgroundColor: theme.backgroundDefault, opacity: pressed ? 0.7 : 1 },
-          ]}
-        >
-          <Feather name="clock" size={20} color={theme.textSecondary} />
-          <ThemedText type="body" style={{ marginLeft: Spacing.sm, color: theme.textSecondary }}>
-            {ScreenCopy.home.historyLink}
-          </ThemedText>
-          <Feather name="chevron-right" size={20} color={theme.textSecondary} style={{ marginLeft: "auto" }} />
-        </Pressable>
-
-        {!isPaid ? (
+      <Animated.View entering={FadeInUp.duration(400).delay(700)} style={styles.footer}>
+        {!isPaid && (
           <Pressable
             onPress={() => navigation.navigate("Pricing")}
             style={({ pressed }) => [
               styles.upgradeButton,
-              { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.7 : 0.85 },
+              { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.85 : 1 },
             ]}
           >
             <Feather name="star" size={16} color="#fff" />
-            <ThemedText type="caption" style={{ marginLeft: Spacing.sm, color: "#fff" }}>
-              Upgrade to Noor Plus
+            <ThemedText type="small" style={styles.upgradeText}>
+              Unlock everything with Noor Plus
             </ThemedText>
-            <Feather name="chevron-right" size={16} color="#fff" style={{ marginLeft: "auto" }} />
+            <Feather name="chevron-right" size={16} color="#fff" />
           </Pressable>
-        ) : null}
-      </Animated.View>
-
-      <View style={styles.footer}>
+        )}
+        <ThemedText type="caption" style={[styles.methodCallout, { color: theme.textSecondary }]}>
+          {Brand.methodCallout}
+        </ThemedText>
         <ThemedText type="caption" style={[styles.disclaimer, { color: theme.textSecondary }]}>
           {Brand.disclaimer}
         </ThemedText>
-        {!isPaid && limitStatus ? (
-          <ThemedText type="caption" style={[styles.limitHint, { color: theme.textSecondary }]}>
-            {limitStatus.remaining === 0 
-              ? "Daily reflection used" 
-              : `${limitStatus.remaining} free reflection${limitStatus.remaining === 1 ? '' : 's'} today`}
-          </ThemedText>
-        ) : null}
-      </View>
+      </Animated.View>
     </ScrollView>
 
     <Modal
@@ -267,41 +302,6 @@ export default function HomeScreen() {
         </View>
       </View>
     </Modal>
-
-    <Modal
-      visible={showLimitModal}
-      transparent
-      animationType="fade"
-      onRequestClose={() => setShowLimitModal(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={[styles.modalContent, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="h3" style={{ marginBottom: Spacing.md }}>
-            Daily Limit Reached
-          </ThemedText>
-          <ThemedText type="body" style={{ color: theme.textSecondary, marginBottom: Spacing.xl }}>
-            You've used your free daily reflection. Upgrade to Noor Plus for unlimited reflections.
-          </ThemedText>
-          <View style={styles.modalButtons}>
-            <Pressable 
-              onPress={() => setShowLimitModal(false)}
-              style={[styles.modalButton, { backgroundColor: theme.backgroundRoot }]}
-            >
-              <ThemedText type="body">Maybe Later</ThemedText>
-            </Pressable>
-            <Pressable 
-              onPress={() => {
-                setShowLimitModal(false);
-                navigation.navigate("Pricing");
-              }}
-              style={[styles.modalButton, { backgroundColor: SiraatColors.indigo }]}
-            >
-              <ThemedText type="body" style={{ color: "#fff" }}>Upgrade</ThemedText>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-    </Modal>
     </>
   );
 }
@@ -315,21 +315,43 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
   },
   header: {
+    marginBottom: Spacing.lg,
+  },
+  headerTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: Spacing.lg,
   },
+  greetingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.xs,
+  },
   greeting: {
-    marginBottom: Spacing.xs,
-    fontSize: 18,
-    fontWeight: "400",
+    fontSize: 15,
+  },
+  editIcon: {
+    opacity: 0.5,
+  },
+  historyIconButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  brandRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.md,
   },
   logo: {
-    width: 72,
-    height: 72,
-    marginBottom: Spacing.md,
+    width: 48,
+    height: 48,
   },
   title: {
-    marginBottom: Spacing.xs,
+    fontSize: 28,
   },
   reminderCard: {
     flexDirection: "row",
@@ -345,84 +367,98 @@ const styles = StyleSheet.create({
   reminderContent: {
     flex: 1,
     paddingVertical: Spacing.lg,
-    paddingHorizontal: Spacing.xl,
+    paddingHorizontal: Spacing.lg,
   },
   reminderLabel: {
     textTransform: "uppercase",
     letterSpacing: 1,
-    fontSize: 11,
+    fontSize: 10,
     marginBottom: Spacing.xs,
   },
   reminderText: {
-    lineHeight: 24,
-  },
-  mainContent: {
-    flex: 1,
-    justifyContent: "center",
-    gap: Spacing.lg,
-  },
-  card: {
-    padding: Spacing["2xl"],
-    borderRadius: BorderRadius.lg,
-  },
-  ctaSubcopyContainer: {
-    marginTop: Spacing.xl,
-    gap: Spacing.sm,
-  },
-  ctaSubcopyItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.sm,
-  },
-  ctaSubcopyDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-  ctaSubcopyLine: {
     lineHeight: 22,
+    fontSize: 15,
   },
-  methodCallout: {
-    textAlign: "center",
-    marginTop: Spacing.xl,
-    fontStyle: "italic",
+  modulesSection: {
+    flex: 1,
   },
-  historyButton: {
+  sectionLabel: {
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    fontSize: 11,
+    marginBottom: Spacing.lg,
+  },
+  modulesGrid: {
+    gap: Spacing.md,
+  },
+  moduleCard: {
     flexDirection: "row",
     alignItems: "center",
     padding: Spacing.lg,
     borderRadius: BorderRadius.md,
+    gap: Spacing.lg,
+  },
+  moduleIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  moduleTextContainer: {
+    flex: 1,
+  },
+  moduleTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+  },
+  moduleTitle: {
+    fontSize: 17,
+    marginBottom: 2,
+  },
+  moduleDescription: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  proBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  proBadgeText: {
+    color: "#fff",
+    fontSize: 9,
+    fontWeight: "600",
+    letterSpacing: 0.5,
+  },
+  footer: {
+    marginTop: Spacing["2xl"],
+    alignItems: "center",
+    gap: Spacing.lg,
   },
   upgradeButton: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: Spacing.xl,
     borderRadius: BorderRadius.md,
+    gap: Spacing.sm,
   },
-  limitHint: {
+  upgradeText: {
+    color: "#fff",
+    fontWeight: "500",
+  },
+  methodCallout: {
     textAlign: "center",
-    marginTop: Spacing.md,
-    opacity: 0.6,
-    fontSize: 11,
-  },
-  footer: {
-    alignItems: "center",
-    marginTop: Spacing["3xl"],
-    gap: Spacing.xs,
+    fontStyle: "italic",
   },
   disclaimer: {
     textAlign: "center",
     lineHeight: 18,
     paddingHorizontal: Spacing.md,
-  },
-  greetingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.sm,
-  },
-  editIcon: {
-    opacity: 0.6,
+    fontSize: 11,
+    opacity: 0.7,
   },
   modalOverlay: {
     flex: 1,

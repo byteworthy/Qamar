@@ -80,6 +80,32 @@ Sound like someone who gets it - not like a pamphlet.
 ISLAMIC CONCEPT WHITELIST (ONLY reference these concepts):
 ${ISLAMIC_CONCEPT_WHITELIST.map((c) => `- ${c}`).join("\n")}
 
+NLP TRANSFORMS TO APPLY INTERNALLY:
+
+1. DEFUSION REWRITE
+When the user writes a fused identity statement like "I am a failure" or "I am worthless", 
+internally reframe as: "I am having the thought that I am a failure."
+This is not shown as a lecture - it is used to generate clearer reframes.
+Fused statements to detect: "I am [negative identity]", "I'll never be", "I'm always"
+
+2. FRAME SHIFT
+Provide ONE alternative frame that changes meaning without denying reality.
+Common shifts:
+- Control → Responsibility (what you can control vs what happens)
+- Feeling → Conclusion (the emotion vs the meaning assigned to it)
+- Test → Verdict (ongoing process vs final judgment)
+- Effort → Outcome (what you do vs what results)
+
+Use these transforms to generate responses. Do not lecture about them.
+
+ISLAMIC SPIRITUALITY LAYER (implicit, not stated):
+- Intention shapes attention
+- Attention amplifies state
+- Repetition engrains pathways
+- State has momentum
+- Alignment is return, not perfection
+These inform wording. Never use "quantum" or pseudoscience claims.
+
 ABSOLUTE PROHIBITIONS:
 - Never claim healing, cure, or guarantees
 - Never override personal responsibility with destiny talk
@@ -403,7 +429,7 @@ Respond with a JSON object containing:
       const assumptionDetection = detectAssumptionPattern(thought);
       
       const detectedState = stateInference.state;
-      const keyAssumption = assumptionDetection.detected ? assumptionDetection.assumption : undefined;
+      const keyAssumption = assumptionDetection.detected && assumptionDetection.assumption ? assumptionDetection.assumption : undefined;
 
       await storage.saveReflection(userId, {
         thought,
@@ -481,6 +507,73 @@ Respond with a JSON object containing:
     } catch (error) {
       console.error("Error checking reflection limit:", error);
       res.status(500).json({ error: "Failed to check limit" });
+    }
+  });
+
+  // GET /api/reflection/patterns
+  // Returns pattern data for insights screen (works in demo mode)
+  app.get("/api/reflection/patterns", async (req, res) => {
+    try {
+      const userId = req.auth?.userId;
+
+      if (!userId) {
+        return res.json({
+          summary: "Complete a few reflections to start seeing your patterns emerge. Each reflection teaches you something about how you think.",
+          assumptions: [],
+        });
+      }
+
+      const reflectionCount = await storage.getReflectionCount(userId);
+      
+      if (reflectionCount < 3) {
+        return res.json({
+          summary: null,
+          assumptions: [],
+        });
+      }
+
+      const recentReflections = await storage.getRecentReflections(userId, 15);
+      
+      const assumptionCounts: Record<string, number> = {};
+      recentReflections.forEach(r => {
+        if (r.keyAssumption) {
+          assumptionCounts[r.keyAssumption] = (assumptionCounts[r.keyAssumption] || 0) + 1;
+        }
+      });
+
+      const assumptions = Object.entries(assumptionCounts)
+        .map(([text, count]) => ({ text, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
+
+      const states = recentReflections
+        .filter(r => r.detectedState)
+        .map(r => r.detectedState);
+      const distortions = recentReflections
+        .flatMap(r => r.distortions || []);
+
+      const mostCommonState = states.length > 0 
+        ? states.sort((a, b) => states.filter(v => v === b).length - states.filter(v => v === a).length)[0]
+        : null;
+
+      const mostCommonDistortion = distortions.length > 0
+        ? distortions.sort((a, b) => distortions.filter(v => v === b).length - distortions.filter(v => v === a).length)[0]
+        : null;
+
+      let summary = "";
+      if (mostCommonState && mostCommonDistortion) {
+        summary = `Your reflections often arise from feelings of ${mostCommonState}. The thinking pattern "${mostCommonDistortion}" appears frequently. This is observation, not judgment - just data to help you see yourself more clearly.`;
+      } else if (reflectionCount >= 3) {
+        summary = `You've completed ${reflectionCount} reflections. Patterns are still emerging. Keep reflecting - clarity comes with consistency.`;
+      }
+
+      res.json({
+        summary: summary || null,
+        assumptions,
+      });
+    } catch (error) {
+      console.error("Error fetching patterns:", error);
+      res.status(500).json({ error: "Failed to fetch patterns" });
     }
   });
 
