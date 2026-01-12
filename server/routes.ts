@@ -511,15 +511,25 @@ Respond with a JSON object containing:
   });
 
   // GET /api/reflection/patterns
-  // Returns pattern data for insights screen (works in demo mode)
+  // PRO ONLY: Returns pattern data for insights screen
   app.get("/api/reflection/patterns", async (req, res) => {
     try {
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.json({
-          summary: "Complete a few reflections to start seeing your patterns emerge. Each reflection teaches you something about how you think.",
-          assumptions: [],
+        return res.status(401).json({ 
+          error: "Authentication required",
+          code: "AUTH_REQUIRED"
+        });
+      }
+
+      const { status } = await billingService.getBillingStatus(userId);
+      const isPaid = billingService.isPaidUser(status);
+
+      if (!isPaid) {
+        return res.status(403).json({ 
+          error: "This feature requires Noor Plus",
+          code: "PRO_REQUIRED"
         });
       }
 

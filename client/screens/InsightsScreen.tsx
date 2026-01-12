@@ -42,7 +42,8 @@ export default function InsightsScreen() {
   });
 
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-  const isDemo = true; // Demo mode
+  // Demo mode: Set to false for production to enforce Pro gating
+  const isDemo = true;
 
   const { data: patterns, isLoading } = useQuery({
     queryKey: ["/api/reflection/patterns"],
