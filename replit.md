@@ -145,7 +145,22 @@ Returns one dua with Arabic, transliteration, and English meaning.
 ### Insights Module (Pro Only)
 - Pattern Summary: AI-generated analysis of recurring thinking patterns
 - Assumption Library: Tracked cognitive assumptions from reflections
+- Recent Reflections: Shows 4 most recent reflections with dates, thoughts, and distortion tags
 - Requires Noor Plus subscription
+- Demo mode (isDemo = true) available for development - bypasses Pro gating and uses seeded data
+
+### Daily Anchor Concepts (10 short phrases in brand.ts)
+Shown on home screen, rotates daily:
+- Mercy exceeds sin.
+- Effort is required, outcomes belong to Allah.
+- Hearts fluctuate and return remains open.
+- Hardship can carry wisdom you cannot yet see.
+- Trust does not cancel action.
+- No soul is burdened beyond capacity.
+- Delay is not denial.
+- Allah is closer than perceived distance.
+- Patience illuminates the path.
+- Gratitude opens unexpected doors.
 
 ### History Screen
 - Shows date, distortion type tags, one-line intention preview (collapsed)
