@@ -35,48 +35,37 @@ function ModuleCard({ icon, title, description, onPress, accentColor, delay, loc
   const { theme } = useTheme();
   
   return (
-    <Animated.View entering={FadeInUp.duration(350).delay(delay)}>
+    <Animated.View entering={FadeInUp.duration(300).delay(delay)}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => [
           styles.moduleCard,
           { 
             backgroundColor: theme.cardBackground,
-            opacity: pressed ? 0.85 : 1,
+            opacity: pressed ? 0.8 : 1,
+            transform: [{ scale: pressed ? 0.98 : 1 }],
           },
         ]}
       >
         <View style={[styles.moduleAccent, { backgroundColor: accentColor }]} />
-        <View style={styles.moduleIconContainer}>
-          <Feather name={icon} size={20} color={accentColor} />
-        </View>
+        <Feather name={icon} size={18} color={accentColor} style={styles.moduleIcon} />
         <View style={styles.moduleTextContainer}>
           <View style={styles.moduleTitleRow}>
-            <ThemedText style={styles.moduleTitle}>
-              {title}
-            </ThemedText>
+            <ThemedText style={styles.moduleTitle}>{title}</ThemedText>
             {locked && (
               <View style={[styles.proBadge, { backgroundColor: SiraatColors.indigo }]}>
                 <ThemedText style={styles.proBadgeText}>PRO</ThemedText>
               </View>
             )}
           </View>
-          <ThemedText style={[styles.moduleDescription, { color: theme.textSecondary }]}>
+          <ThemedText style={[styles.moduleDescription, { color: theme.textSecondary }]} numberOfLines={1}>
             {description}
           </ThemedText>
         </View>
-        <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+        <Feather name="chevron-right" size={14} color={theme.textSecondary} style={{ opacity: 0.5 }} />
       </Pressable>
     </Animated.View>
   );
-}
-
-function getTimeBasedGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  if (hour < 21) return "Good evening";
-  return "Peace be with you";
 }
 
 function getDailyReminder(): string {
@@ -138,14 +127,14 @@ export default function HomeScreen() {
         contentContainerStyle={[
           styles.scrollContent,
           { 
-            paddingBottom: insets.bottom + Layout.spacing.lg,
+            paddingBottom: insets.bottom + 20,
             minHeight: screenHeight - insets.top,
           },
         ]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.contentWrapper}>
-          <Animated.View entering={FadeInDown.duration(300)} style={styles.brandBlock}>
+          <Animated.View entering={FadeInDown.duration(250)} style={styles.header}>
             <Pressable 
               onPress={() => {
                 setNameInput(userName);
@@ -156,7 +145,7 @@ export default function HomeScreen() {
               <ThemedText style={[styles.greetingText, { color: theme.textSecondary }]}>
                 {greeting}
               </ThemedText>
-              <Feather name="edit-2" size={10} color={theme.textSecondary} style={{ opacity: 0.5, marginLeft: 4 }} />
+              <Feather name="edit-2" size={9} color={theme.textSecondary} style={{ opacity: 0.4, marginLeft: 4 }} />
             </Pressable>
             
             <View style={styles.logoRow}>
@@ -165,25 +154,28 @@ export default function HomeScreen() {
                 style={styles.logo}
                 contentFit="contain"
               />
-              <ThemedText style={[styles.appTitle, { fontFamily: Fonts?.serif }]}>
-                {Brand.name}
-              </ThemedText>
-              <View style={{ flex: 1 }} />
+              <View style={styles.titleBlock}>
+                <ThemedText style={[styles.appTitle, { fontFamily: Fonts?.serif }]}>
+                  {Brand.name}
+                </ThemedText>
+                <ThemedText style={[styles.tagline, { color: theme.textSecondary }]}>
+                  {Brand.tagline}
+                </ThemedText>
+              </View>
               <Pressable
                 onPress={() => navigation.navigate("History")}
-                style={[styles.historyButton, { backgroundColor: theme.backgroundDefault }]}
+                style={({ pressed }) => [
+                  styles.historyButton, 
+                  { backgroundColor: theme.backgroundDefault, opacity: pressed ? 0.7 : 1 }
+                ]}
               >
-                <Feather name="clock" size={16} color={theme.textSecondary} />
+                <Feather name="clock" size={15} color={theme.textSecondary} />
               </Pressable>
             </View>
-
-            <ThemedText style={[styles.tagline, { color: theme.textSecondary }]}>
-              {Brand.tagline}
-            </ThemedText>
           </Animated.View>
 
           <Animated.View 
-            entering={FadeInUp.duration(400).delay(100)} 
+            entering={FadeInUp.duration(350).delay(80)} 
             style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}
           >
             <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.emerald }]} />
@@ -209,7 +201,7 @@ export default function HomeScreen() {
                 description="Process a troubling thought with guided CBT"
                 onPress={() => navigation.navigate("ThoughtCapture")}
                 accentColor={SiraatColors.clay}
-                delay={150}
+                delay={120}
               />
               <ModuleCard
                 icon="wind"
@@ -217,7 +209,7 @@ export default function HomeScreen() {
                 description="Quick grounding exercises with dhikr"
                 onPress={() => navigation.navigate("CalmingPractice")}
                 accentColor={SiraatColors.emerald}
-                delay={200}
+                delay={160}
               />
               <ModuleCard
                 icon="heart"
@@ -225,7 +217,7 @@ export default function HomeScreen() {
                 description="Find the right words for what you carry"
                 onPress={() => navigation.navigate("Dua")}
                 accentColor={SiraatColors.indigo}
-                delay={250}
+                delay={200}
               />
               <ModuleCard
                 icon="bar-chart-2"
@@ -233,14 +225,14 @@ export default function HomeScreen() {
                 description="See patterns in your reflections"
                 onPress={() => navigation.navigate("Insights")}
                 accentColor={SiraatColors.clay}
-                delay={300}
+                delay={240}
                 locked={!isPaid}
               />
             </View>
           </View>
         </View>
 
-        <Animated.View entering={FadeInUp.duration(350).delay(400)} style={styles.footer}>
+        <Animated.View entering={FadeInUp.duration(300).delay(320)} style={styles.footer}>
           {!isPaid && (
             <Pressable
               onPress={() => navigation.navigate("Pricing")}
@@ -249,11 +241,11 @@ export default function HomeScreen() {
                 { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.85 : 1 },
               ]}
             >
-              <Feather name="star" size={14} color="#fff" />
+              <Feather name="star" size={12} color="#fff" />
               <ThemedText style={styles.upgradeText}>
                 Unlock everything with Noor Plus
               </ThemedText>
-              <Feather name="chevron-right" size={14} color="#fff" />
+              <Feather name="chevron-right" size={12} color="rgba(255,255,255,0.6)" />
             </Pressable>
           )}
           <ThemedText style={[styles.methodCallout, { color: theme.textSecondary }]}>
@@ -287,7 +279,7 @@ export default function HomeScreen() {
               { 
                 backgroundColor: theme.backgroundRoot,
                 color: theme.text,
-                borderColor: theme.textSecondary,
+                borderColor: theme.textSecondary + "30",
               }
             ]}
             autoFocus
@@ -325,97 +317,104 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: container.screenPad,
+    paddingHorizontal: 20,
     maxWidth: container.maxWidth,
     alignSelf: "center",
     width: "100%",
   },
   contentWrapper: {
     flexGrow: 1,
-    paddingVertical: spacing.xl,
+    justifyContent: "center",
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.md,
   },
-  brandBlock: {
-    marginBottom: spacing.sm,
+  header: {
+    marginBottom: spacing.lg,
   },
   greetingRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: spacing.sm,
+    marginBottom: 6,
   },
   greetingText: {
-    fontSize: typeScale.small,
+    fontSize: 12,
     opacity: 0.8,
   },
   logoRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
+    gap: 10,
   },
   logo: {
-    width: 42,
-    height: 42,
+    width: 36,
+    height: 36,
+  },
+  titleBlock: {
+    flex: 1,
   },
   appTitle: {
-    fontSize: typeScale.title,
+    fontSize: 20,
     fontWeight: "600",
-  },
-  historyButton: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: "center",
-    justifyContent: "center",
+    lineHeight: 24,
   },
   tagline: {
-    fontSize: typeScale.small,
-    opacity: 0.7,
-    marginBottom: spacing.lg,
+    fontSize: 11,
+    opacity: 0.6,
+    marginTop: 1,
+  },
+  historyButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
   },
   anchorCard: {
     flexDirection: "row",
     alignItems: "stretch",
-    borderRadius: radii.sm,
+    borderRadius: 10,
     marginBottom: spacing.lg,
     overflow: "hidden",
   },
   anchorAccent: {
-    width: 4,
+    width: 3,
   },
   anchorContent: {
     flex: 1,
-    padding: container.cardPad,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
   },
   anchorLabel: {
     textTransform: "uppercase",
-    letterSpacing: 1,
-    fontSize: 10,
-    marginBottom: spacing.xs,
+    letterSpacing: 0.8,
+    fontSize: 9,
+    marginBottom: 4,
+    opacity: 0.7,
   },
   anchorText: {
-    lineHeight: 20,
-    fontSize: typeScale.body,
+    lineHeight: 18,
+    fontSize: 13,
   },
   modulesSection: {
-    flex: 1,
+    marginTop: spacing.xs,
   },
   sectionLabel: {
     textTransform: "uppercase",
-    letterSpacing: 1,
-    fontSize: 11,
-    marginBottom: spacing.md,
+    letterSpacing: 0.8,
+    fontSize: 10,
+    marginBottom: 10,
+    opacity: 0.7,
   },
   modulesGrid: {
-    gap: spacing.sm,
+    gap: 8,
   },
   moduleCard: {
     flexDirection: "row",
     alignItems: "center",
-    minHeight: Layout.hitTargets.minCardHeight,
-    paddingHorizontal: container.cardPad,
-    paddingVertical: spacing.sm,
-    borderRadius: radii.sm,
-    gap: spacing.md,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    gap: 12,
     overflow: "hidden",
   },
   moduleAccent: {
@@ -425,11 +424,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: 3,
   },
-  moduleIconContainer: {
-    width: 28,
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: spacing.xs,
+  moduleIcon: {
+    marginLeft: 2,
   },
   moduleTextContainer: {
     flex: 1,
@@ -437,63 +433,60 @@ const styles = StyleSheet.create({
   moduleTitleRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: spacing.sm,
+    gap: 8,
   },
   moduleTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
-    marginBottom: 2,
   },
   moduleDescription: {
-    fontSize: typeScale.small,
-    lineHeight: 16,
+    fontSize: 12,
+    marginTop: 2,
+    opacity: 0.8,
   },
   proBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 3,
   },
   proBadgeText: {
     color: "#fff",
-    fontSize: 9,
-    fontWeight: "600",
-    letterSpacing: 0.5,
+    fontSize: 8,
+    fontWeight: "700",
+    letterSpacing: 0.3,
   },
   footer: {
-    marginTop: spacing.lg,
-    marginBottom: spacing.md,
     alignItems: "center",
-    gap: spacing.md,
-    paddingBottom: spacing.lg,
+    gap: 10,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.sm,
   },
   upgradeButton: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
     justifyContent: "center",
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radii.sm,
-    gap: spacing.sm,
-    marginBottom: spacing.md,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    gap: 8,
   },
   upgradeText: {
     color: "#fff",
     fontWeight: "500",
-    fontSize: 13,
+    fontSize: 12,
   },
   methodCallout: {
     textAlign: "center",
     fontStyle: "italic",
-    fontSize: typeScale.small,
+    fontSize: 11,
+    opacity: 0.7,
   },
   disclaimer: {
     textAlign: "center",
-    lineHeight: 16,
-    paddingHorizontal: spacing.md,
-    fontSize: 10,
-    opacity: 0.7,
-    paddingBottom: spacing.lg,
+    lineHeight: 14,
+    paddingHorizontal: 20,
+    fontSize: 9,
+    opacity: 0.5,
   },
   modalOverlay: {
     flex: 1,
@@ -504,33 +497,36 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "100%",
-    maxWidth: 320,
+    maxWidth: 300,
     borderRadius: radii.md,
-    padding: spacing.xxl,
+    padding: 24,
   },
   modalTitle: {
-    fontSize: typeScale.h2,
+    fontSize: 17,
     fontWeight: "600",
-    marginBottom: spacing.lg,
+    marginBottom: 16,
+    textAlign: "center",
   },
   nameInput: {
     borderWidth: 1,
-    borderRadius: radii.sm,
-    padding: spacing.lg,
+    borderRadius: 10,
+    padding: 14,
     fontSize: 16,
-    marginBottom: spacing.xl,
+    marginBottom: 20,
+    textAlign: "center",
   },
   modalButtons: {
     flexDirection: "row",
-    gap: spacing.md,
+    gap: 10,
   },
   modalButton: {
     flex: 1,
-    padding: spacing.md,
-    borderRadius: radii.sm,
+    paddingVertical: 12,
+    borderRadius: 10,
     alignItems: "center",
   },
   modalButtonText: {
-    fontSize: typeScale.body,
+    fontSize: 14,
+    fontWeight: "500",
   },
 });
