@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Linking, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
+import * as Haptics from "expo-haptics";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -19,11 +20,28 @@ import { ScreenCopy } from "@/constants/brand";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Distortion">;
 type RouteType = RouteProp<RootStackParamList, "Distortion">;
 
+interface CrisisResource {
+  name: string;
+  contact: string;
+  description: string;
+}
+
+interface CrisisData {
+  title: string;
+  message: string;
+  resources: CrisisResource[];
+  islamicContext: string;
+}
+
 interface AnalysisResult {
   distortions: string[];
   happening: string;
   pattern: string[];
   matters: string;
+  // Crisis detection fields
+  crisis?: boolean;
+  level?: 'emergency' | 'urgent' | 'concern';
+  resources?: CrisisData;
 }
 
 export default function DistortionScreen() {
@@ -36,14 +54,15 @@ export default function DistortionScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought } = route.params;
+  const { thought, emotionalIntensity, somaticAwareness } = route.params;
 
   useEffect(() => {
     const analyze = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await analyzeThought(thought);
+        // Pass emotional intensity for adaptive AI responses
+        const data = await analyzeThought(thought, emotionalIntensity, somaticAwareness);
         setResult(data);
       } catch (err) {
         setError("Unable to analyze your thought. Please try again.");
@@ -61,6 +80,106 @@ export default function DistortionScreen() {
       navigation.navigate("Reframe", { thought, distortions: result.distortions, analysis });
     }
   };
+
+  const handleCallResource = (contact: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    // Extract phone number or handle special cases
+    if (contact.includes('988')) {
+      Linking.openURL('tel:988');
+    } else if (contact.includes('911')) {
+      Linking.openURL('tel:911');
+    } else if (contact.includes('741741')) {
+      Linking.openURL('sms:741741&body=HOME');
+    } else if (contact.includes('1-800')) {
+      const phoneNumber = contact.replace(/[^0-9]/g, '');
+      Linking.openURL(`tel:${phoneNumber}`);
+    }
+  };
+
+  // CRISIS SCREEN - Shows when crisis language is detected
+  if (result?.crisis && result.resources) {
+    const isEmergency = result.level === 'emergency';
+    const crisisData = result.resources;
+    
+    return (
+      <KeyboardAwareScrollViewCompat
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+        contentContainerStyle={[
+          styles.crisisContainer,
+          {
+            paddingTop: headerHeight + Spacing.xl,
+            paddingBottom: insets.bottom + Spacing["3xl"],
+          },
+        ]}
+      >
+        <Animated.View entering={FadeInUp.duration(400)} style={styles.crisisHeader}>
+          <View style={[styles.crisisIcon, { backgroundColor: isEmergency ? SiraatColors.clay : SiraatColors.sand }]}>
+            <ThemedText type="h2" style={{ color: '#FFFFFF' }}>
+              {isEmergency ? '🆘' : '💛'}
+            </ThemedText>
+          </View>
+          
+          <ThemedText type="h3" style={[styles.crisisTitle, { fontFamily: Fonts?.serif }]}>
+            {crisisData.title}
+          </ThemedText>
+          
+          <ThemedText type="body" style={[styles.crisisMessage, { color: theme.textSecondary }]}>
+            {crisisData.message}
+          </ThemedText>
+        </Animated.View>
+
+        <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.resourcesSection}>
+          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            REACH OUT NOW
+          </ThemedText>
+          
+          {crisisData.resources.map((resource: CrisisResource, index: number) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleCallResource(resource.contact)}
+              style={[styles.resourceCard, { backgroundColor: theme.backgroundDefault }]}
+            >
+              <View style={styles.resourceContent}>
+                <ThemedText type="bodyBold" style={{ color: theme.text }}>
+                  {resource.name}
+                </ThemedText>
+                <ThemedText type="body" style={[styles.resourceContact, { color: theme.primary }]}>
+                  {resource.contact}
+                </ThemedText>
+                <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                  {resource.description}
+                </ThemedText>
+              </View>
+              <View style={[styles.resourceArrow, { backgroundColor: theme.primary }]}>
+                <ThemedText type="small" style={{ color: '#FFFFFF' }}>→</ThemedText>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </Animated.View>
+
+        <Animated.View 
+          entering={FadeInUp.duration(400).delay(400)} 
+          style={[styles.islamicCard, { backgroundColor: SiraatColors.indigoLight }]}
+        >
+          <ThemedText type="body" style={[styles.islamicText, { fontFamily: Fonts?.serif }]}>
+            {crisisData.islamicContext}
+          </ThemedText>
+        </Animated.View>
+
+        <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
+          <ThemedText type="small" style={[styles.continueNote, { color: theme.textSecondary }]}>
+            If you're safe and want to continue:
+          </ThemedText>
+          <Button
+            onPress={handleContinue}
+            style={{ backgroundColor: theme.border }}
+          >
+            Continue Reflection
+          </Button>
+        </Animated.View>
+      </KeyboardAwareScrollViewCompat>
+    );
+  }
 
   if (loading) {
     return (
@@ -167,6 +286,72 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: Spacing.xl,
   },
+  // Crisis Screen Styles
+  crisisContainer: {
+    flexGrow: 1,
+    paddingHorizontal: Spacing.xl,
+  },
+  crisisHeader: {
+    alignItems: "center",
+    marginBottom: Spacing["2xl"],
+  },
+  crisisIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: Spacing.xl,
+  },
+  crisisTitle: {
+    textAlign: "center",
+    marginBottom: Spacing.md,
+  },
+  crisisMessage: {
+    textAlign: "center",
+    lineHeight: 26,
+  },
+  resourcesSection: {
+    marginBottom: Spacing["2xl"],
+  },
+  resourceCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing.md,
+  },
+  resourceContent: {
+    flex: 1,
+  },
+  resourceContact: {
+    marginVertical: Spacing.xs,
+    fontWeight: "600",
+  },
+  resourceArrow: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: Spacing.md,
+  },
+  islamicCard: {
+    padding: Spacing.xl,
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing["2xl"],
+  },
+  islamicText: {
+    textAlign: "center",
+    lineHeight: 26,
+    fontStyle: "italic",
+    color: "#FFFFFF",
+  },
+  continueNote: {
+    textAlign: "center",
+    marginBottom: Spacing.md,
+  },
+  // Standard Screen Styles
   loadingContainer: {
     flex: 1,
     justifyContent: "center",

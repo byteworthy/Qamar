@@ -5,6 +5,7 @@ import { useScreenOptions } from "@/hooks/useScreenOptions";
 import TabNavigator from "@/navigation/TabNavigator";
 import ThoughtCaptureScreen from "@/screens/ThoughtCaptureScreen";
 import DistortionScreen from "@/screens/DistortionScreen";
+import BeliefInspectionScreen from "@/screens/BeliefInspectionScreen";
 import ReframeScreen from "@/screens/ReframeScreen";
 import RegulationScreen from "@/screens/RegulationScreen";
 import IntentionScreen from "@/screens/IntentionScreen";
@@ -20,16 +21,56 @@ export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
   ThoughtCapture: undefined;
-  Distortion: { thought: string };
-  Reframe: { thought: string; distortions: string[]; analysis: string };
-  Regulation: { thought: string; distortions: string[]; reframe: string; anchor: string };
-  Intention: { thought: string; distortions: string[]; reframe: string; practice: string; anchor: string; detectedState?: string };
-  SessionComplete: { thought: string; distortions: string[]; reframe: string; intention: string; practice: string; anchor: string; detectedState?: string };
+  Distortion: { 
+    thought: string; 
+    emotionalIntensity?: number;  // 1-5 scale from emotional anchoring
+    somaticAwareness?: string;    // Body sensation from somatic prompt
+  };
+  BeliefInspection: {
+    thought: string;
+    distortions: string[];
+    analysis: string;
+    emotionalIntensity?: number;
+  };
+  Reframe: { 
+    thought: string; 
+    distortions: string[]; 
+    analysis: string;
+    emotionalIntensity?: number;
+    beliefStrength?: number;      // 0-100% from belief inspection
+  };
+  Regulation: { 
+    thought: string; 
+    distortions: string[]; 
+    reframe: string; 
+    anchor: string;
+    emotionalIntensity?: number;
+  };
+  Intention: { 
+    thought: string; 
+    distortions: string[]; 
+    reframe: string; 
+    practice: string; 
+    anchor: string; 
+    detectedState?: string;
+    emotionalIntensity?: number;
+  };
+  SessionComplete: { 
+    thought: string; 
+    distortions: string[]; 
+    reframe: string; 
+    intention: string; 
+    practice: string; 
+    anchor: string; 
+    detectedState?: string;
+    emotionalIntensity?: number;
+    somaticAwareness?: string;
+  };
   History: undefined;
   Pricing: undefined;
   BillingSuccess: undefined;
   CalmingPractice: undefined;
-  Dua: undefined;
+  Dua: { state?: string };        // For contextual duas based on emotional state
   Insights: undefined;
 };
 
@@ -54,6 +95,11 @@ export default function RootStackNavigator() {
         name="Distortion"
         component={DistortionScreen}
         options={{ headerTitle: "Reflection", gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="BeliefInspection"
+        component={BeliefInspectionScreen}
+        options={{ headerTitle: "Examine Belief", gestureEnabled: false }}
       />
       <Stack.Screen
         name="Reframe"

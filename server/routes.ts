@@ -5,6 +5,27 @@ import { storage } from "./storage";
 import { billingService } from "./billing";
 import { classifyTone, getTonePromptModifier } from "./toneClassifier";
 import { inferInnerState, getStatePromptModifier, detectAssumptionPattern, getAssumptionPromptModifier } from "./stateInference";
+import { 
+  detectCrisis, 
+  validateAIOutput, 
+  CRISIS_RESOURCES, 
+  detectScrupulosity,
+  SCRUPULOSITY_RESPONSE,
+  createSafeLogEntry,
+  validateAndSanitizeInput
+} from "./ai-safety";
+import { 
+  EmotionalIntelligence, 
+  buildConversationalPromptModifier,
+  PatternDetector 
+} from "./conversational-ai";
+import { 
+  QURAN_BY_STATE, 
+  HADITH_BY_STATE,
+  DISTRESS_RESPONSE_MATRIX,
+  type EmotionalState,
+  type DistressLevel
+} from "../shared/islamic-framework";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -134,23 +155,102 @@ const DISTORTIONS = [
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/analyze", async (req, res) => {
     try {
-      const { thought } = req.body;
+      const { thought, emotionalIntensity } = req.body;
 
       if (!thought || typeof thought !== "string") {
         return res.status(400).json({ error: "Thought is required" });
       }
 
-      const toneClassification = classifyTone(thought);
+      // INPUT VALIDATION & SANITIZATION
+      const inputValidation = validateAndSanitizeInput(thought);
+      if (!inputValidation.valid) {
+        return res.status(400).json({ error: "Invalid input" });
+      }
+      const sanitizedThought = inputValidation.sanitized;
+
+      // SAFETY CHECK 1: Crisis Detection (HIGHEST PRIORITY)
+      const crisisCheck = detectCrisis(sanitizedThought);
+      if (crisisCheck.level === 'emergency') {
+        // Log crisis event for review (hashed, no raw content)
+        const userId = req.auth?.userId;
+        if (userId) {
+          console.log('[AI Safety] Crisis detected:', createSafeLogEntry(userId, 'crisis_detected', {
+            crisisLevel: crisisCheck.level,
+            safetyChecksPassed: false,
+          }));
+        }
+        
+        return res.json({
+          crisis: true,
+          level: crisisCheck.level,
+          resources: CRISIS_RESOURCES.emergency,
+          // Minimal analysis to not leave user hanging
+          distortions: [],
+          happening: "What you're going through sounds incredibly painful. Right now, the most important thing is getting you real support.",
+          pattern: [],
+          matters: CRISIS_RESOURCES.emergency.islamicContext,
+        });
+      }
+
+      if (crisisCheck.level === 'urgent') {
+        return res.json({
+          crisis: true,
+          level: crisisCheck.level,
+          resources: CRISIS_RESOURCES.urgent,
+          distortions: [],
+          happening: "This sounds really heavy. You don't have to carry this alone.",
+          pattern: [],
+          matters: CRISIS_RESOURCES.urgent.islamicContext,
+        });
+      }
+
+      // SAFETY CHECK 2: Religious Scrupulosity Detection
+      const hasScrupulosity = detectScrupulosity(sanitizedThought);
+      const scrupulosityModifier = hasScrupulosity 
+        ? `\n\nSCRUPULOSITY DETECTED: User shows signs of religious OCD (waswasa). DO NOT reinforce compulsive patterns. Emphasize Allah's mercy and ease. Gently suggest professional support.\n`
+        : '';
+
+      // ADAPTIVE INTELLIGENCE: Tone & Emotional State Detection
+      const toneClassification = classifyTone(sanitizedThought);
       const toneModifier = getTonePromptModifier(toneClassification.mode);
       
-      const stateInference = inferInnerState(thought);
+      const stateInference = inferInnerState(sanitizedThought);
       const stateModifier = getStatePromptModifier(stateInference.state);
+
+      // EMOTIONAL INTELLIGENCE: Detect intensity and suggest emotion
+      const detectedIntensity = emotionalIntensity || EmotionalIntelligence.detectIntensity(sanitizedThought);
+      const suggestedEmotion = EmotionalIntelligence.suggestEmotionalLabel(sanitizedThought);
+      
+      // Determine distress level
+      let distressLevel: DistressLevel = 'moderate';
+      if (detectedIntensity < 30) distressLevel = 'low';
+      else if (detectedIntensity < 60) distressLevel = 'moderate';
+      else if (detectedIntensity < 85) distressLevel = 'high';
+      else distressLevel = 'crisis';
+
+      // CONVERSATIONAL ADAPTATION: Build context-aware prompt modifier
+      const conversationalContext = buildConversationalPromptModifier({
+        mode: 'listening',
+        distressLevel,
+        emotionalState: suggestedEmotion === 'mixed' ? 'anxiety' : suggestedEmotion as EmotionalState,
+        repetitionDetected: false,
+        avoidanceDetected: PatternDetector.detectAvoidance(sanitizedThought),
+      });
+
+      // DISTRESS-LEVEL RESPONSE ADAPTATION
+      const distressResponse = DISTRESS_RESPONSE_MATRIX[distressLevel];
+      const distressModifier = `\n\nDISTRESS LEVEL: ${distressLevel}\nTone adjustment: ${distressResponse.toneAdjustment}\nResponse length: ${distressResponse.responseLength}\n`;
 
       // Developer-only logging for adaptive intelligence (not exposed to users)
       if (process.env.NODE_ENV === "development") {
         console.log("[Adaptive Intelligence] /api/analyze", {
           tone: { mode: toneClassification.mode, confidence: toneClassification.confidence.toFixed(2) },
           state: stateInference.state,
+          emotionalIntensity: detectedIntensity,
+          distressLevel,
+          suggestedEmotion,
+          crisisLevel: crisisCheck.level,
+          hasScrupulosity,
         });
       }
 
