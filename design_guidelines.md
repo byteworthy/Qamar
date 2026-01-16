@@ -1,158 +1,135 @@
-# Siraat Design Guidelines
+# Noor CBT Design Guidelines
 
 ## Visual Identity & Brand
 
 ### Aesthetic Foundation
-- **Design Inspiration**: Yemeni masjid geometry and Islamic manuscript tones
-- **Mood**: Stillness after Isha prayer, not Silicon Valley productivity
-- **Purpose**: Visual calm lowers cognitive load and increases reflection quality
+- **Design Inspiration**: Niyyah app warm brown aesthetic, cozy Islamic app feel
+- **Mood**: Warm evening after Maghrib, intimate and comforting
+- **Purpose**: Create a sanctuary for mental wellness rooted in Islam
 
-### Color Palette
-**Earth tones only:**
-- Sand
-- Clay  
-- Deep indigo
-- Muted emerald
-- Charcoal
+### Color Palette (Niyyah-Inspired Dark Theme)
 
-**Color Rules:**
-- Soft gradients only
-- NO neon colors
-- NO clinical white
-- Warm lighting feel throughout
+**Primary Background Colors:**
+- Background Root: `#1a1612` (deep warm brown)
+- Background Light: `#221e19` (slightly lighter brown)
+- Card Background: `#2d2820` (warm brown card surface)
+- Card Hover: `#3a3328` (lighter brown for interaction)
 
-### Pattern & Texture
-- Arabic geometric patterns used subtly in dividers or background texture
-- Never dominant, always supportive of content
+**Text Colors:**
+- Primary Text: `#f5f0e8` (warm cream)
+- Secondary Text: `#a89d8a` (muted cream)
+- Muted: `#d4c9b8` (darker cream for subtle elements)
+
+**Accent Colors:**
+- Primary Accent: `#4fd1a8` (teal/mint green - for CTAs)
+- Gold: `#c9a855` (warm gold for highlights)
+- Clay: `#9b7b5c` (warm brown accent)
+- Emerald: `#4a8a72` (muted green)
+- Indigo: `#4a6888` (muted blue)
+
+**Gradient Combinations for Cards:**
+- Reflection: `#6a5a4a → #4a3a2a` (warm brown)
+- Calming: `#4a6a5a → #2a4a3a` (forest green)
+- Dua: `#4a5a6a → #2a3a4a` (calm blue)
+- Insights: `#5a4a5a → #3a2a3a` (muted purple)
 
 ### Typography
-- **Headings**: Serif typeface (calm and grounded)
-- **Body**: Clean sans serif
-- Prioritize readability and contemplative feel
+- **Headings**: Georgia/Serif (contemplative, warm)
+- **Body**: System sans-serif (clean, readable)
+- **Title Scale**: 28px (screen titles), 22px (section headers)
+- **Body Scale**: 15-17px (readable body text)
+- **Small Scale**: 12-13px (labels, captions)
 
 ### Motion & Animation
-- Minimal and intentional only
-- Slow fades
-- NO flashy animations
-- Every motion should support reflection, not distraction
+- Duration: 250-350ms for most transitions
+- Style: Fade and scale (FadeInUp, FadeInDown)
+- Delay cascading: 40-80ms between staggered items
+- Press feedback: 0.98 scale transform on press
 
 ## Navigation & Architecture
 
-### Information Architecture
-**Single linear flow - NO branching**
-
-1. Thought Capture
-2. Distortion Identification  
-3. Islamic Cognitive Reframe
-4. Regulation Practice
-5. Intention Reset
-
-Total session time: Under 5 minutes
+### Tab-Based Navigation
+- 3 main tabs: Home, Explore, Profile
+- Blurred tab bar background (iOS) or solid dark (Android)
+- Tab icons: 22px Feather icons
+- Active state: Cream color, Inactive: Muted cream
 
 ### Screen Structure
-**Single page application**
-- Mobile-first responsive design
-- Clean, readable layout
-- Progressive disclosure as user moves through flow
+- Max content width: 420px (centered)
+- Screen padding: 20px horizontal
+- Safe area handling for all edges
+- Bottom padding: 100px + bottom inset (for tab bar)
 
-## Content & Interaction Design
+## Component Library
 
-### Core User Flow Screens
+### Cards
+- Border radius: 14-16px
+- Padding: 16-18px
+- Background: Card surface color
+- Subtle gradient overlays for featured cards
 
-**1. Thought Capture**
-- Text input asking user to write what is troubling their mind right now
-- Generous, calm input area
-- Non-judgmental framing
+### Module Cards (Home Screen)
+- Full gradient background
+- Icon in top-left (24px)
+- Title + description at bottom
+- PRO badge in top-right when applicable
+- Min height: 100px
 
-**2. Distortion Identification**
-- Display identified cognitive distortion(s)
-- Use Islamic-aligned language:
-  - Despair of mercy
-  - Over-attachment to dunya outcome
-  - Mind reading
-  - Catastrophizing
-  - Emotional reasoning
+### Menu Items (Profile Screen)
+- Horizontal layout with icon + text + chevron
+- 14px border radius
+- 16px internal padding
+- Gap between icon and text: 14px
 
-**3. Islamic Cognitive Reframe**
-- Present one concise reframe that:
-  - Corrects the belief error
-  - Grounds in Quran or authentic hadith meaning (no long quotations)
-  - Validates emotions without affirming distortion
-- Clear, readable typography
-- Generous spacing for absorption
+### Buttons
+- Primary: Teal accent with dark text
+- Secondary: Card background with cream text
+- Pill style: 20px border radius
+- Standard: 12-14px border radius
+- Padding: 14px vertical, 18px horizontal
 
-**4. Regulation Practice**
-- Provide one practice under 2 minutes:
-  - Slow breathing with dhikr count
-  - Grounded remembrance
-  - Gratitude recall
-- Simple, guided instructions
-- Calms nervous system so reframe can land
+### Input Fields
+- Background: Root background color
+- Border radius: 12px
+- Padding: 14px
+- Centered text for name inputs
 
-**5. Intention Reset**
-- Prompt user to set one simple niyyah (intention) aligned with reframe
-- Text input for personal intention
-- Session ends after intention is set
+## Content Patterns
 
-### Tone & Communication Principles
+### Greeting Pattern
+- "Salaam, [Name]" format
+- Secondary subtitle below
+- Edit icon (subtle) for name personalization
 
-**Never:**
-- Shame the user
-- Preach
-- Invalidate emotions
-- Use fatalistic language
-- Use self-blame language
+### Anchor/Daily Reminder
+- Badge icon + label header
+- Serif typography for the reminder text
+- Card-based presentation
 
-**Always:**
-- Separate feeling from truth claim
-- Anchor reframes in Islamic worldview
-- Offer behavioral micro-step or intention
-- Validate emotions while correcting distortions
-- Emphasize effort, trust, and return to Allah
+### Section Headers
+- Uppercase, letter-spaced (0.8)
+- 13px font size
+- Muted color
+- Margin bottom: 14px
 
-### Theological Boundaries
-- Use Quran and authentic hadith concepts only
-- No speculative metaphysics
-- No claims of healing or guarantees
-- Islam is the cognitive framework, CBT is the method
+## Accessibility
 
-## Accessibility & Usability
+### Touch Targets
+- Minimum: 44x44px
+- Card rows: 56px min height
 
-### Cognitive Load
-- Minimal interface elements
-- One clear action per screen
-- Generous white space (warm-toned, not clinical white)
-- Focus user attention on reflection, not navigation
+### Text Contrast
+- Primary text on dark: 7:1+ contrast
+- Secondary text: 4.5:1+ contrast
 
-### Responsive Design
-- Mobile-first approach
-- Touch-friendly interaction areas
-- Readable text sizes across devices
-- Maintain calm aesthetic on all screen sizes
-
-## Design System Components
-
-### Layout
-- Clean, centered content flow
-- Warm background tones
-- Subtle geometric accents as dividers
-- Generous padding and margins
-
-### Interactive Elements
-- Minimal, intention-focused buttons
-- Soft, calm state transitions
-- No aggressive call-to-actions
-- Progress indication that feels supportive, not rushed
-
-### Feedback
-- Gentle confirmations
-- Slow, purposeful transitions between flow stages
-- No jarring alerts or notifications
-- Affirmative, grounded micro-copy
+### Motion
+- Respect reduce-motion preference
+- Non-essential animations are subtle
 
 ## Key Constraints
 
-- **Scope**: Foundation, not finished cathedral - ready for rapid iteration
-- **Session Length**: Complete flow under 5 minutes
-- **Complexity**: NO branching, maintain single linear flow
-- **Purpose**: This is NOT a motivational app, NOT a reminder app, NOT Western CBT with Islamic quotes added
+- **Session Length**: Complete CBT flow under 5 minutes
+- **Complexity**: Simple navigation, no deep nesting
+- **Branding**: "Noor CBT" - Light for the mind, rooted in Islam
+- **Tagline**: Powered by the Siraat Method
+- **Theological safety**: Islam is the worldview, CBT is the method
