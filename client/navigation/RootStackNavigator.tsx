@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useScreenOptions } from "@/hooks/useScreenOptions";
 
-import HomeScreen from "@/screens/HomeScreen";
+import TabNavigator from "@/navigation/TabNavigator";
 import ThoughtCaptureScreen from "@/screens/ThoughtCaptureScreen";
 import DistortionScreen from "@/screens/DistortionScreen";
 import ReframeScreen from "@/screens/ReframeScreen";
@@ -17,6 +17,7 @@ import DuaScreen from "@/screens/DuaScreen";
 import InsightsScreen from "@/screens/InsightsScreen";
 
 export type RootStackParamList = {
+  Main: undefined;
   Home: undefined;
   ThoughtCapture: undefined;
   Distortion: { thought: string };
@@ -40,8 +41,8 @@ export default function RootStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Main"
+        component={TabNavigator}
         options={{ headerShown: false }}
       />
       <Stack.Screen
