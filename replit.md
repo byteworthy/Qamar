@@ -30,18 +30,26 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 - **Framework**: React Native with Expo SDK 54
-- **Navigation**: React Navigation with native stack navigator for a linear session flow
+- **Navigation**: React Navigation with bottom tab navigator (Home, Explore, Profile) + native stack for feature screens
 - **State Management**: TanStack React Query for server state, React useState for local UI state
-- **Styling**: StyleSheet-based theming with a custom theme system supporting light/dark modes
+- **Styling**: StyleSheet-based theming with Niyyah-inspired warm brown dark theme
 - **Animations**: React Native Reanimated for subtle, contemplative motion effects
+- **Gradients**: expo-linear-gradient for rich module card backgrounds
 - **Local Storage**: AsyncStorage for persisting completed session history
 - **Brand Copy**: Centralized in `client/constants/brand.ts`
 
-### Design System
-- **Visual Identity**: Earth tones inspired by Yemeni masjid geometry (sand, clay, indigo, emerald, charcoal)
+### Design System (Niyyah-Inspired)
+- **Visual Identity**: Warm brown dark theme with cream accents, inspired by Niyyah app aesthetic
+- **Color Palette**: Background #1a1612, Cards #2d2820, Accent teal #4fd1a8, Gold #c9a855
 - **Typography**: Serif for headings (contemplative), sans-serif for body (readable)
-- **Motion**: Minimal, slow fades only - designed to support reflection, not distraction
+- **Motion**: FadeInUp/FadeInDown animations, 250-350ms duration, press scale feedback
 - **Components**: Custom Button, Card, ThemedText, ThemedView, Screen components with consistent theming
+
+### Navigation Structure
+- **TabNavigator**: Bottom tabs with blurred background (Home, Explore, Profile)
+- **RootStackNavigator**: Contains TabNavigator + all feature screens as stack screens
+- **Tab Screens**: HomeScreen, ExploreScreen, ProfileScreen
+- **Stack Screens**: ThoughtCapture, Distortion, Reframe, Regulation, Intention, SessionComplete, History, Pricing, CalmingPractice, Dua, Insights
 
 ### Layout System (client/constants/layout.ts)
 Global layout constants for consistent spacing and sizing:
