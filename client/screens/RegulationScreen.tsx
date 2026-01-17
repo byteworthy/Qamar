@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { View, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
+import Animated, { FadeIn, FadeInUp, useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -15,6 +16,75 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { generatePractice } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { ScreenCopy } from "@/constants/brand";
+
+// Dhikr-based grounding options
+interface DhikrOption {
+  id: string;
+  arabic: string;
+  transliteration: string;
+  meaning: string;
+  count: number;
+}
+
+const DHIKR_OPTIONS: DhikrOption[] = [
+  {
+    id: "subhanallah",
+    arabic: "سُبْحَانَ اللَّهِ",
+    transliteration: "SubhanAllah",
+    meaning: "Glory be to Allah",
+    count: 33,
+  },
+  {
+    id: "alhamdulillah",
+    arabic: "الْحَمْدُ لِلَّهِ",
+    transliteration: "Alhamdulillah",
+    meaning: "All praise is due to Allah",
+    count: 33,
+  },
+  {
+    id: "allahuakbar",
+    arabic: "اللَّهُ أَكْبَرُ",
+    transliteration: "Allahu Akbar",
+    meaning: "Allah is the Greatest",
+    count: 33,
+  },
+  {
+    id: "astaghfirullah",
+    arabic: "أَسْتَغْفِرُ اللَّهَ",
+    transliteration: "Astaghfirullah",
+    meaning: "I seek forgiveness from Allah",
+    count: 10,
+  },
+];
+
+// Breathing pattern configurations
+interface BreathingPattern {
+  id: string;
+  name: string;
+  inhale: number;
+  hold: number;
+  exhale: number;
+  description: string;
+}
+
+const BREATHING_PATTERNS: BreathingPattern[] = [
+  {
+    id: "4-7-8",
+    name: "Calming Breath",
+    inhale: 4,
+    hold: 7,
+    exhale: 8,
+    description: "Activates the parasympathetic nervous system",
+  },
+  {
+    id: "box",
+    name: "Box Breathing",
+    inhale: 4,
+    hold: 4,
+    exhale: 4,
+    description: "Used by Navy SEALs for focus",
+  },
+];
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Regulation">;
 type RouteType = RouteProp<RootStackParamList, "Regulation">;
@@ -32,6 +102,14 @@ export default function RegulationScreen() {
   const [error, setError] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showDhikr, setShowDhikr] = useState(false);
+  const [selectedDhikr, setSelectedDhikr] = useState<DhikrOption | null>(null);
+  const [dhikrCount, setDhikrCount] = useState(0);
+  const [regulationType, setRegulationType] = useState<'practice' | 'dhikr' | 'breathing'>('practice');
+  
+  // Refs for interval timers
+  const hapticIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
@@ -57,15 +135,66 @@ export default function RegulationScreen() {
     generate();
   }, [reframe]);
 
+  // Enhanced haptic patterns for different actions
+  const playGroundingHaptic = useCallback(() => {
+    // Gentle pulsing pattern for grounding
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light), 200);
+    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium), 400);
+  }, []);
+
+  const playDhikrHaptic = useCallback(() => {
+    // Soft pulse for each dhikr count
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  }, []);
+
+  const playCompletionHaptic = useCallback(() => {
+    // Celebration pattern
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light), 300);
+    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light), 500);
+  }, []);
+
   const handleStartPractice = () => {
     setIsActive(true);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    playGroundingHaptic();
   };
 
   const handleCompletePractice = () => {
     setIsActive(false);
     setCompleted(true);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    playCompletionHaptic();
+    
+    // Clear any running haptic intervals
+    if (hapticIntervalRef.current) {
+      clearInterval(hapticIntervalRef.current);
+      hapticIntervalRef.current = null;
+    }
+  };
+
+  // Dhikr handling
+  const handleSelectDhikr = (dhikr: DhikrOption) => {
+    setSelectedDhikr(dhikr);
+    setDhikrCount(0);
+    setShowDhikr(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  };
+
+  const handleDhikrTap = () => {
+    if (selectedDhikr && dhikrCount < selectedDhikr.count) {
+      const newCount = dhikrCount + 1;
+      setDhikrCount(newCount);
+      playDhikrHaptic();
+      
+      // Complete dhikr
+      if (newCount >= selectedDhikr.count) {
+        playCompletionHaptic();
+        setTimeout(() => {
+          setShowDhikr(false);
+          setCompleted(true);
+        }, 1000);
+      }
+    }
   };
 
   const handleContinue = () => {
@@ -153,6 +282,63 @@ export default function RegulationScreen() {
           {practice.reminder}
         </ThemedText>
       </View>
+
+      {/* Dhikr Grounding Option */}
+      {!isActive && !completed && (
+        <Animated.View entering={FadeIn.duration(400)} style={styles.dhikrSection}>
+          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            OR GROUND YOURSELF WITH DHIKR
+          </ThemedText>
+          <View style={styles.dhikrGrid}>
+            {DHIKR_OPTIONS.map((dhikr) => (
+              <TouchableOpacity
+                key={dhikr.id}
+                onPress={() => handleSelectDhikr(dhikr)}
+                style={[styles.dhikrCard, { backgroundColor: theme.backgroundDefault, borderColor: theme.border }]}
+              >
+                <ThemedText type="body" style={styles.dhikrArabic}>
+                  {dhikr.arabic}
+                </ThemedText>
+                <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                  {dhikr.transliteration} • {dhikr.count}x
+                </ThemedText>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </Animated.View>
+      )}
+
+      {/* Dhikr Counter - Shows when dhikr is selected */}
+      {showDhikr && selectedDhikr && (
+        <Animated.View entering={FadeIn.duration(300)}>
+          <TouchableOpacity
+            onPress={handleDhikrTap}
+            style={[styles.dhikrCounter, { backgroundColor: SiraatColors.emerald }]}
+            activeOpacity={0.8}
+          >
+            <ThemedText type="caption" style={styles.dhikrCounterLabel}>
+              TAP TO COUNT
+            </ThemedText>
+            <ThemedText type="h1" style={styles.dhikrCounterArabic}>
+              {selectedDhikr.arabic}
+            </ThemedText>
+            <ThemedText type="body" style={styles.dhikrCounterTranslit}>
+              {selectedDhikr.transliteration}
+            </ThemedText>
+            <View style={styles.dhikrProgress}>
+              <ThemedText type="h2" style={styles.dhikrCountNumber}>
+                {dhikrCount}
+              </ThemedText>
+              <ThemedText type="body" style={styles.dhikrCountTotal}>
+                / {selectedDhikr.count}
+              </ThemedText>
+            </View>
+            <ThemedText type="small" style={styles.dhikrMeaning}>
+              {selectedDhikr.meaning}
+            </ThemedText>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
 
       <View style={styles.buttonSection}>
         {!isActive && !completed ? (
@@ -268,5 +454,75 @@ const styles = StyleSheet.create({
   completedText: {
     textAlign: "center",
     marginBottom: Spacing.sm,
+  },
+  // Dhikr Section
+  sectionLabel: {
+    marginBottom: Spacing.md,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    fontSize: 11,
+    textAlign: "center",
+  },
+  dhikrSection: {
+    marginBottom: Spacing.xl,
+  },
+  dhikrGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: Spacing.sm,
+  },
+  dhikrCard: {
+    width: "48%",
+    padding: Spacing.md,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+    alignItems: "center",
+  },
+  dhikrArabic: {
+    fontSize: 20,
+    marginBottom: Spacing.xs,
+    textAlign: "center",
+  },
+  // Dhikr Counter
+  dhikrCounter: {
+    padding: Spacing["2xl"],
+    borderRadius: BorderRadius.lg,
+    marginBottom: Spacing.xl,
+    alignItems: "center",
+  },
+  dhikrCounterLabel: {
+    color: "rgba(255,255,255,0.7)",
+    marginBottom: Spacing.md,
+    letterSpacing: 2,
+  },
+  dhikrCounterArabic: {
+    color: "#FFFFFF",
+    fontSize: 36,
+    marginBottom: Spacing.sm,
+    textAlign: "center",
+  },
+  dhikrCounterTranslit: {
+    color: "rgba(255,255,255,0.9)",
+    marginBottom: Spacing.lg,
+  },
+  dhikrProgress: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    marginBottom: Spacing.md,
+  },
+  dhikrCountNumber: {
+    color: "#FFFFFF",
+    fontSize: 48,
+    fontWeight: "700",
+  },
+  dhikrCountTotal: {
+    color: "rgba(255,255,255,0.7)",
+    fontSize: 20,
+    marginLeft: Spacing.xs,
+  },
+  dhikrMeaning: {
+    color: "rgba(255,255,255,0.8)",
+    fontStyle: "italic",
+    textAlign: "center",
   },
 });

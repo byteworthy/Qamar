@@ -54,8 +54,7 @@ export default function HistoryScreen() {
   const { data: insights, isLoading: insightsLoading, refetch: refetchInsights } = useQuery({
     queryKey: ["/api/insights/summary"],
     queryFn: async () => {
-      const url = new URL("/api/insights/summary", getApiUrl());
-      const response = await apiRequest(url.toString());
+      const response = await apiRequest("GET", "/api/insights/summary");
       return response.json() as Promise<InsightSummary>;
     },
     enabled: isPaid,
@@ -65,8 +64,7 @@ export default function HistoryScreen() {
   const { data: assumptions, isLoading: assumptionsLoading, refetch: refetchAssumptions } = useQuery({
     queryKey: ["/api/insights/assumptions"],
     queryFn: async () => {
-      const url = new URL("/api/insights/assumptions", getApiUrl());
-      const response = await apiRequest(url.toString());
+      const response = await apiRequest("GET", "/api/insights/assumptions");
       return response.json() as Promise<{ assumptions: Assumption[] }>;
     },
     enabled: isPaid && insightsExpanded,

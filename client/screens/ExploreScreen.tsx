@@ -101,7 +101,7 @@ export default function ExploreScreen() {
               title={journey.title}
               gradient={journey.gradient}
               icon={journey.icon}
-              onPress={() => navigation.navigate(journey.screen)}
+              onPress={() => navigation.navigate(journey.screen as any)}
               delay={100 + index * 80}
             />
           ))}

@@ -72,6 +72,14 @@ const NIYYAH_PURPOSES = [
   { id: "both", label: "Both", description: "Integrated intention" },
 ];
 
+// Niyyah sealing affirmations
+const SEALING_AFFIRMATIONS = [
+  "I make this intention solely for the pleasure of Allah",
+  "I commit to this intention with sincerity in my heart",
+  "I ask Allah to help me fulfill this intention",
+  "I begin this journey with trust in His plan",
+];
+
 export default function IntentionScreen() {
   const [intention, setIntention] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
@@ -305,6 +313,33 @@ export default function IntentionScreen() {
         </ThemedText>
       </Animated.View>
 
+      {/* Niyyah Preview - Shows complete intention before sealing */}
+      {canContinue && (
+        <Animated.View 
+          entering={FadeIn.duration(400)} 
+          style={[styles.niyyahPreview, { backgroundColor: SiraatColors.emerald + '15', borderColor: SiraatColors.emerald }]}
+        >
+          <View style={styles.niyyahPreviewHeader}>
+            <ThemedText type="small" style={{ color: SiraatColors.emerald, fontWeight: '600' }}>
+              🤲 YOUR SEALED NIYYAH
+            </ThemedText>
+          </View>
+          {showBismillah && (
+            <ThemedText type="body" style={styles.previewBismillah}>
+              بسم الله
+            </ThemedText>
+          )}
+          <ThemedText type="body" style={[styles.previewIntention, { fontFamily: Fonts?.serif }]}>
+            {intention.trim()}
+          </ThemedText>
+          <View style={[styles.previewPurpose, { backgroundColor: SiraatColors.emerald + '20' }]}>
+            <ThemedText type="caption" style={{ color: SiraatColors.emerald }}>
+              For {NIYYAH_PURPOSES.find(p => p.id === selectedPurpose)?.label.toLowerCase()} • {NIYYAH_PURPOSES.find(p => p.id === selectedPurpose)?.description}
+            </ThemedText>
+          </View>
+        </Animated.View>
+      )}
+
       {/* Complete Button */}
       <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
         <Button
@@ -456,5 +491,35 @@ const styles = StyleSheet.create({
   buttonSection: {
     marginTop: "auto",
     paddingTop: Spacing.lg,
+  },
+  // Niyyah Preview
+  niyyahPreview: {
+    padding: Spacing.xl,
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing.xl,
+    borderWidth: 2,
+    borderStyle: "dashed",
+  },
+  niyyahPreviewHeader: {
+    marginBottom: Spacing.md,
+    alignItems: "center",
+  },
+  previewBismillah: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: Spacing.md,
+    color: SiraatColors.emerald,
+  },
+  previewIntention: {
+    lineHeight: 28,
+    textAlign: "center",
+    marginBottom: Spacing.md,
+    fontStyle: "italic",
+  },
+  previewPurpose: {
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    borderRadius: BorderRadius.full,
+    alignSelf: "center",
   },
 });

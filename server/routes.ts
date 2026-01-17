@@ -26,6 +26,11 @@ import {
   type EmotionalState,
   type DistressLevel
 } from "../shared/islamic-framework";
+import { IslamicContentMapper } from "./islamic-content-mapper";
+import { encryptData, decryptData } from "./encryption";
+import { CanonicalOrchestrator, OrchestrationAuditLogger } from "./canonical-orchestrator";
+import { FailureLanguage } from "./failure-language";
+import { runManualCleanup } from "./data-retention";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -254,17 +259,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-5.1",
-        max_completion_tokens: 1024,
-        messages: [
-          {
-            role: "system",
-            content: `${SYSTEM_FOUNDATION}
+      // CANONICAL ORCHESTRATION ENFORCEMENT
+      const orchestrationResult = await CanonicalOrchestrator.orchestrate({
+        userInput: sanitizedThought,
+        context: {
+          emotionalState: suggestedEmotion === 'mixed' ? 'anxiety' : suggestedEmotion as EmotionalState,
+          distressLevel,
+          mode: 'analyze',
+          conversationState: 'listening',
+        },
+        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 1024,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
 
 ${toneModifier}
 
 ${stateModifier}
+
+${safetyGuidance}
 
 YOUR TASK: Answer ONE question only: What is happening and what is the thinking pattern?
 
@@ -316,8 +333,25 @@ Respond with a JSON object containing:
         response_format: { type: "json_object" },
       });
 
-      const content = response.choices[0]?.message?.content || "{}";
-      const result = JSON.parse(content);
+          return response.choices[0]?.message?.content || "{}";
+        },
+      });
+
+      // Log orchestration for audit
+      OrchestrationAuditLogger.log(orchestrationResult);
+
+      // Handle orchestration failure
+      if (!orchestrationResult.success) {
+        return res.json({
+          distortions: ["Emotional reasoning"],
+          happening: orchestrationResult.response,
+          pattern: ["We're taking a moment to ensure quality."],
+          matters: "Your reflection matters. Please try again.",
+        });
+      }
+
+      // Parse successful response
+      const result = JSON.parse(orchestrationResult.response);
 
       res.json({
         distortions: result.distortions || ["Emotional reasoning"],
@@ -333,7 +367,7 @@ Respond with a JSON object containing:
 
   app.post("/api/reframe", async (req, res) => {
     try {
-      const { thought, distortions, analysis } = req.body;
+      const { thought, distortions, analysis, emotionalIntensity } = req.body;
 
       if (!thought || !distortions) {
         return res.status(400).json({ error: "Thought and distortions are required" });
@@ -348,28 +382,51 @@ Respond with a JSON object containing:
       const assumptionDetection = detectAssumptionPattern(thought);
       const assumptionModifier = getAssumptionPromptModifier(assumptionDetection);
 
+      // Determine distress level for Islamic content selection
+      const detectedIntensity = emotionalIntensity || EmotionalIntelligence.detectIntensity(thought);
+      let distressLevel: DistressLevel = 'moderate';
+      if (detectedIntensity < 30) distressLevel = 'low';
+      else if (detectedIntensity < 60) distressLevel = 'moderate';
+      else if (detectedIntensity < 85) distressLevel = 'high';
+      else distressLevel = 'crisis';
+
+      const emotionalState = stateInference.state as EmotionalState;
+
       // Developer-only logging for adaptive intelligence (not exposed to users)
       if (process.env.NODE_ENV === "development") {
         console.log("[Adaptive Intelligence] /api/reframe", {
           tone: { mode: toneClassification.mode, confidence: toneClassification.confidence.toFixed(2) },
           state: stateInference.state,
+          distressLevel,
           assumptionDetected: assumptionDetection.detected ? assumptionDetection.assumption : null,
         });
       }
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-5.1",
-        max_completion_tokens: 1024,
-        messages: [
-          {
-            role: "system",
-            content: `${SYSTEM_FOUNDATION}
+      // CANONICAL ORCHESTRATION ENFORCEMENT
+      const orchestrationResult = await CanonicalOrchestrator.orchestrate({
+        userInput: thought,
+        context: {
+          emotionalState,
+          distressLevel,
+          mode: 'reframe',
+          conversationState: 'reframing',
+        },
+        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 1024,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
 
 ${toneModifier}
 
 ${stateModifier}
 
 ${assumptionModifier}
+
+${safetyGuidance}
 
 YOUR TASK: Answer ONE question only: What truth sits alongside this and what is the tested belief?
 
@@ -414,8 +471,25 @@ Respond with a JSON object containing:
         response_format: { type: "json_object" },
       });
 
-      const content = response.choices[0]?.message?.content || "{}";
-      const result = JSON.parse(content);
+          return response.choices[0]?.message?.content || "{}";
+        },
+      });
+
+      // Log orchestration for audit
+      OrchestrationAuditLogger.log(orchestrationResult);
+
+      // Handle orchestration failure
+      if (!orchestrationResult.success) {
+        return res.json({
+          beliefTested: orchestrationResult.response,
+          perspective: "We're ensuring this guidance aligns with what you need right now.",
+          nextStep: "Take a moment, then try again.",
+          anchors: ["Allah's mercy exceeds sin"],
+        });
+      }
+
+      // Parse successful response
+      const result = JSON.parse(orchestrationResult.response);
 
       res.json({
         beliefTested: result.beliefTested || "This thought assumes your feeling equals reality.",
@@ -437,13 +511,25 @@ Respond with a JSON object containing:
         return res.status(400).json({ error: "Reframe is required" });
       }
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-5.1",
-        max_completion_tokens: 512,
-        messages: [
-          {
-            role: "system",
-            content: `${SYSTEM_FOUNDATION}
+      // CANONICAL ORCHESTRATION ENFORCEMENT
+      const orchestrationResult = await CanonicalOrchestrator.orchestrate({
+        userInput: reframe,
+        context: {
+          emotionalState: 'anxiety',
+          distressLevel: 'low',
+          mode: 'practice',
+          conversationState: 'grounding',
+        },
+        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 512,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
+
+${safetyGuidance}
 
 YOUR TASK: Answer ONE question only: What is one practice to settle the heart and body?
 
@@ -481,8 +567,25 @@ Respond with a JSON object containing:
         response_format: { type: "json_object" },
       });
 
-      const content = response.choices[0]?.message?.content || "{}";
-      const result = JSON.parse(content);
+          return response.choices[0]?.message?.content || "{}";
+        },
+      });
+
+      // Log orchestration for audit
+      OrchestrationAuditLogger.log(orchestrationResult);
+
+      // Handle orchestration failure
+      if (!orchestrationResult.success) {
+        return res.json({
+          title: "Grounding Practice",
+          steps: [orchestrationResult.response],
+          reminder: "Take it one breath at a time.",
+          duration: "1-2 minutes",
+        });
+      }
+
+      // Parse successful response
+      const result = JSON.parse(orchestrationResult.response);
 
       res.json({
         title: result.title || "Dhikr Breathing",
@@ -502,6 +605,7 @@ Respond with a JSON object containing:
 
   // POST /api/reflection/save
   // SECURITY: userId is derived from server-side session, NOT from request body.
+  // ENCRYPTION: Sensitive fields are encrypted before storage
   app.post("/api/reflection/save", async (req, res) => {
     try {
       const userId = req.auth?.userId;
@@ -531,11 +635,16 @@ Respond with a JSON object containing:
       const detectedState = stateInference.state;
       const keyAssumption = assumptionDetection.detected && assumptionDetection.assumption ? assumptionDetection.assumption : undefined;
 
+      // ENCRYPT SENSITIVE FIELDS before saving
+      const encryptedThought = encryptData(thought);
+      const encryptedReframe = encryptData(reframe);
+      const encryptedIntention = intention ? encryptData(intention) : undefined;
+
       await storage.saveReflection(userId, {
-        thought,
+        thought: encryptedThought,
         distortions,
-        reframe,
-        intention,
+        reframe: encryptedReframe,
+        intention: encryptedIntention || '',
         practice,
         keyAssumption,
         detectedState,
@@ -554,6 +663,7 @@ Respond with a JSON object containing:
 
   // GET /api/reflection/history
   // SECURITY: userId is derived from server-side session, NOT from query params.
+  // DECRYPTION: Sensitive fields are decrypted before sending to client
   app.get("/api/reflection/history", async (req, res) => {
     try {
       const userId = req.auth?.userId;
@@ -568,8 +678,16 @@ Respond with a JSON object containing:
       const limit = isPaid ? undefined : FREE_HISTORY_LIMIT;
       const history = await storage.getReflectionHistory(userId, limit);
 
+      // DECRYPT SENSITIVE FIELDS before sending to client
+      const decryptedHistory = history.map(reflection => ({
+        ...reflection,
+        thought: decryptData(reflection.thought),
+        reframe: decryptData(reflection.reframe),
+        intention: reflection.intention ? decryptData(reflection.intention) : undefined,
+      }));
+
       res.json({ 
-        history, 
+        history: decryptedHistory, 
         isLimited: !isPaid,
         limit: isPaid ? null : FREE_HISTORY_LIMIT
       });
@@ -751,27 +869,46 @@ Write a 2-3 sentence insight summary that:
 
 Keep the tone warm, observational, not prescriptive. Do not give advice.`;
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-5.1",
-        max_completion_tokens: 256,
-        messages: [
-          {
-            role: "system",
-            content: `${SYSTEM_FOUNDATION}
+      // CANONICAL ORCHESTRATION ENFORCEMENT
+      const orchestrationResult = await CanonicalOrchestrator.orchestrate({
+        userInput: summaryPrompt,
+        context: {
+          emotionalState: 'anxiety',
+          distressLevel: 'low',
+          mode: 'dua',
+          conversationState: 'listening',
+        },
+        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 256,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
+
+${safetyGuidance}
             
 You are generating a brief pattern summary for someone who has completed multiple reflections. 
 Be warm, observational, and non-judgmental. Do not give advice or prescriptions.
 Respond with plain text, not JSON.`,
-          },
-          {
-            role: "user",
-            content: summaryPrompt,
-          },
-        ],
+              },
+              {
+                role: "user",
+                content: summaryPrompt,
+              },
+            ],
+          });
+
+          return response.choices[0]?.message?.content || "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity.";
+        },
       });
 
-      const summary = response.choices[0]?.message?.content || 
-        "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity.";
+      // Log orchestration for audit
+      OrchestrationAuditLogger.log(orchestrationResult);
+
+      // Use orchestration response (includes fallback language if failed)
+      const summary = orchestrationResult.response;
 
       await storage.saveInsightSummary(userId, summary, reflectionCount);
 
@@ -893,6 +1030,19 @@ Respond with plain text, not JSON.`,
     } catch (error) {
       console.error("Error fetching contextual dua:", error);
       res.status(500).json({ error: "Failed to fetch contextual dua" });
+    }
+  });
+
+  // ADMIN: Manual data retention cleanup trigger (for testing)
+  // This endpoint triggers data retention cleanup manually
+  app.post("/api/admin/cleanup", async (req, res) => {
+    try {
+      console.log('[Admin] Manual cleanup triggered');
+      await runManualCleanup();
+      res.json({ success: true, message: "Data retention cleanup completed" });
+    } catch (error) {
+      console.error('[Admin] Manual cleanup failed:', error);
+      res.status(500).json({ error: "Cleanup failed" });
     }
   });
 

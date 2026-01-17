@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TextInput, Platform, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
-import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeIn, FadeInDown } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Typography, Fonts, SiraatColors } from "@/constants/theme";
@@ -16,6 +16,14 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { ScreenCopy } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "ThoughtCapture">;
+
+// Niyyah (intention) prompts for spiritual grounding
+const NIYYAH_PROMPTS = [
+  "I begin seeking clarity for Allah's pleasure",
+  "I reflect to understand, not to dwell",
+  "I bring this thought to light with trust in Allah",
+  "I seek healing through the wisdom He has provided",
+];
 
 // Emotional intensity labels for human-readable display
 const INTENSITY_LABELS: Record<number, { label: string; color: string; description: string }> = {
@@ -43,6 +51,9 @@ export default function ThoughtCaptureScreen() {
   const [emotionalIntensity, setEmotionalIntensity] = useState(3);
   const [showSomaticPrompt, setShowSomaticPrompt] = useState(false);
   const [selectedSomatic, setSelectedSomatic] = useState<string | null>(null);
+  const [niyyahPrompt] = useState(() => 
+    NIYYAH_PROMPTS[Math.floor(Math.random() * NIYYAH_PROMPTS.length)]
+  );
   
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
@@ -88,6 +99,19 @@ export default function ThoughtCaptureScreen() {
         },
       ]}
     >
+      {/* Niyyah Banner - Spiritual grounding at the start */}
+      <Animated.View 
+        entering={FadeInDown.duration(500)} 
+        style={[styles.niyyahBanner, { backgroundColor: SiraatColors.indigoLight }]}
+      >
+        <ThemedText type="small" style={styles.bismillah}>
+          بِسْمِ اللَّهِ
+        </ThemedText>
+        <ThemedText type="small" style={styles.niyyahText}>
+          {niyyahPrompt}
+        </ThemedText>
+      </Animated.View>
+
       <View style={styles.introSection}>
         <ThemedText type="h3" style={[styles.heading, { fontFamily: Fonts?.serif }]}>
           {ScreenCopy.thoughtCapture.title}
@@ -289,5 +313,23 @@ const styles = StyleSheet.create({
   buttonSection: {
     paddingTop: Spacing.lg,
     marginTop: "auto",
+  },
+  // Niyyah Banner Styles
+  niyyahBanner: {
+    padding: Spacing.md,
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing.xl,
+    alignItems: "center",
+  },
+  bismillah: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: Spacing.xs,
+  },
+  niyyahText: {
+    color: "rgba(255,255,255,0.85)",
+    fontStyle: "italic",
+    textAlign: "center",
   },
 });

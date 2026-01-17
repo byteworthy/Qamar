@@ -189,18 +189,38 @@ const SCRUPULOSITY_PATTERNS = [
   'i can never pray perfectly',
   'my wudu is never valid',
   'every prayer is invalid',
+  'every prayer i make is invalid',
   'i\'ve committed shirk',
   'unforgivable sin',
   'repeat my salah',
+  'repeating my salah',
+  'can\'t stop repeating',
   'can\'t stop thinking about whether',
   'doubt every intention',
   'scared i\'m a kafir',
   'questioning if i\'m muslim',
+  'redo',
+  'redoing wudu',
+  'fear of acceptance',
+  'compulsive',
 ];
 
 export function detectScrupulosity(text: string): boolean {
   const lowerText = text.toLowerCase();
-  return SCRUPULOSITY_PATTERNS.some(pattern => lowerText.includes(pattern));
+  
+  // Check for direct pattern matches
+  const hasPattern = SCRUPULOSITY_PATTERNS.some(pattern => lowerText.includes(pattern));
+  
+  // Check for compound scrupulosity indicators (repeating + religious act)
+  const hasRepetition = lowerText.includes('repeat') || lowerText.includes('repeating') || lowerText.includes('redo') || lowerText.includes('redoing');
+  const hasReligiousAct = lowerText.includes('salah') || lowerText.includes('prayer') || lowerText.includes('wudu') || lowerText.includes('dua');
+  const hasInvalidityFear = lowerText.includes('invalid') || lowerText.includes('not valid') || lowerText.includes('not right') || lowerText.includes('not correct');
+  
+  if (hasRepetition && (hasReligiousAct || hasInvalidityFear)) {
+    return true;
+  }
+  
+  return hasPattern;
 }
 
 export const SCRUPULOSITY_RESPONSE = {
@@ -224,11 +244,19 @@ const THEOLOGICAL_PROHIBITIONS = [
   'you\'re destined to fail',
   'your dua won\'t be answered',
   
-  // False promises
+  // False promises and absolution
   'this will definitely work',
   'guaranteed healing',
+  'you will be healed',
   'you will never struggle again',
   'allah promises you will get what you want',
+  'you are forgiven',
+  'your sins are washed away',
+  'your sins are forgiven',
+  'you are definitely forgiven',
+  'allah has accepted your repentance',
+  'you are guaranteed paradise',
+  'guaranteed paradise',
   
   // Spiritual bypassing
   'just pray more and you\'ll feel better',
@@ -291,12 +319,15 @@ export function validateAIOutput(
     severity = 'critical';
   }
 
-  // Check for spiritual bypassing
+  // Check for spiritual bypassing (CRITICAL - never allow this)
   const bypassingIndicators = [
     'just trust allah',
     'just make dua',
+    'just pray more',
     'if you had more faith',
+    'if you had stronger iman',
     'you should be grateful',
+    'real muslims don\'t feel this way',
   ];
   
   const hasBypassing = bypassingIndicators.some(indicator => 
@@ -304,17 +335,21 @@ export function validateAIOutput(
   );
   
   if (hasBypassing) {
-    issues.push('Potential spiritual bypassing detected');
-    severity = severity === 'none' ? 'minor' : severity;
+    issues.push('Spiritual bypassing detected - CRITICAL');
+    severity = 'critical';
   }
 
-  // Check for judgmental language
+  // Check for judgmental language (MAJOR severity - make critical if severe enough)
   const judgmentalPatterns = [
-    'you should',
-    'you must',
+    'you should feel',
+    'you should be',
+    'you must do',
+    'you must try',
+    'you need to try',
     'you need to',
     'you have to',
     'real muslims',
+    'a good muslim',
   ];
 
   const hasJudgmental = judgmentalPatterns.some(pattern =>
@@ -323,7 +358,8 @@ export function validateAIOutput(
 
   if (hasJudgmental) {
     issues.push('Judgmental language detected');
-    severity = severity === 'none' ? 'minor' : severity;
+    // Judgmental language is CRITICAL (blocks output)
+    severity = 'critical';
   }
 
   // Check for appropriate length based on context

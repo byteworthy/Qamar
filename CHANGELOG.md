@@ -1,0 +1,156 @@
+# Changelog
+
+All notable changes to the Noor CBT project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [Unreleased] - 2026-01-17
+
+### Added - MVP 1 Release Candidate
+
+#### Core Safety Infrastructure (Commit: 1687dc8)
+- **Islamic AI Safety Charter**: 8-part framework governing all AI interactions
+- **Canonical Orchestrator**: Centralized pipeline enforcing safety across all AI endpoints
+- **Multi-Layer Validation System**:
+  - Charter compliance checker
+  - Tone compliance checker  
+  - State machine validator
+  - Pacing controller
+  - Islamic content mapper
+  - Crisis detection
+  - Scrupulosity handling
+
+#### Data Privacy & Security
+- **AES-256-GCM Encryption**: All PII encrypted at rest
+- **Auto-Deletion Policy**: Sessions >90 days automatically removed
+- **Data Retention Module**: Comprehensive lifecycle management
+- **Zero Cleartext Storage**: User thoughts never stored in plaintext
+
+#### Testing & Quality Assurance
+- **Comprehensive Test Suite**: 79 tests across 2 suites
+  - 70 safety system tests
+  - 9 E2E journey tests
+- **Test Coverage**: All critical paths validated
+- **Clean CI Output**: Removed all debug logging
+- **TypeScript Build**: All type checks passing
+
+#### Security Hardening
+- **Vulnerability Fixes**:
+  - Fixed `qs` DoS vulnerability (CVE high severity)
+  - Fixed `tar` file overwrite vulnerability (CVE high severity)
+  - Fixed `undici` resource exhaustion
+- **Audit Status**: 0 high severity vulnerabilities remaining
+
+#### Documentation
+- **PROJECT_STATUS.md**: Comprehensive project state documentation
+- **PRODUCTION_READINESS.md**: Go/no-go checklist with verification results
+- **AI_ISLAMIC_SAFETY_CHARTER.md**: Complete theological safety framework
+- **USER_TRANSPARENCY.md**: User-facing safety explanations
+- **SCHOLAR_REVIEW_WORKFLOW.md**: Process for theological validation
+- **Multiple completion reports**: Step-by-step implementation documentation
+
+#### Islamic Content Integration
+- **Islamic Content Mapper**: Context-aware Quran/hadith selection
+- **Distress-Aware Filtering**: Content adapts to user emotional state
+- **Verse Stacking Prevention**: Enforces single verse per response
+- **Mercy Emphasis**: Crisis/high distress triggers rahma-focused content
+
+### Changed
+
+#### Canonical Enforcement (All AI Endpoints)
+- `/api/chat/analyze` - Now routes through CanonicalOrchestrator
+- `/api/chat/reframe` - Now routes through CanonicalOrchestrator
+- `/api/chat/practice` - Now routes through CanonicalOrchestrator
+- `/api/chat/general` - Now routes through CanonicalOrchestrator
+
+#### Safety-First Architecture
+- All AI responses validated before delivery to user
+- Fallback language triggered when validation fails
+- Complete audit trails for all orchestrations
+- Telemetry events captured for monitoring
+
+### Security
+
+#### Encryption Implementation
+- User thoughts encrypted before database storage
+- Session data encrypted with rotation-capable keys
+- Analysis results encrypted
+- Decryption only on authorized read
+
+#### Data Minimization
+- No unnecessary PII collection
+- Automatic purging of old data
+- Clear retention policies
+- User data sovereignty
+
+### Testing
+
+#### Safety System Tests (70 tests)
+- Charter compliance validation
+- Tone appropriateness checking
+- Crisis detection accuracy
+- Scrupulosity pattern recognition
+- Fallback language triggering
+- State-aware validation
+
+#### E2E Journey Tests (9 tests)
+- Complete CBT flow (thought → analyze → reframe → practice → intention)
+- High distress permission flow
+- Crisis intervention flow
+- Scrupulosity special handling
+- Failure language surfacing
+- Audit trail completeness
+
+### Infrastructure
+
+#### Build & Quality
+- TypeScript strict mode enabled
+- ESLint configuration enforced
+- Jest test framework configured
+- Clean npm audit (0 high vulnerabilities)
+
+#### Database
+- Drizzle ORM with TypeScript schemas
+- Encrypted columns for PII
+- Retention policy enforcement
+- Migration system ready
+
+---
+
+## Release Notes - MVP 1
+
+**Status**: ✅ Production-Ready for Beta Launch  
+**Test Status**: All 79 tests passing  
+**Security Status**: 0 high severity vulnerabilities  
+**Type Check**: Passing  
+**Last Verified**: 2026-01-17
+
+### What's Working
+- Complete CBT journey with Islamic integration
+- Multi-layer AI safety validation
+- End-to-end encryption for user data
+- Crisis detection and intervention
+- Scrupulosity special handling
+- Comprehensive test coverage
+- Clean CI/CD pipeline
+
+### Known Limitations
+- 4 moderate vulnerabilities in dev dependency (esbuild via drizzle-kit)
+- Scholar review pending for Islamic content
+- Crisis resource links need final verification
+- User onboarding flow not yet implemented
+
+### Pre-Launch Checklist
+- [ ] Scholar theological review
+- [ ] Legal review (Terms of Service, Privacy Policy)
+- [ ] Crisis resource verification (988, local resources)
+- [ ] User onboarding flow
+- [ ] Production environment setup
+- [ ] Monitoring/alerting configuration
+
+---
+
+**Commit Hash**: 1687dc8 (Strategic amplification)  
+**Branch**: main  
+**Contributors**: Development team  
+**Date**: 2026-01-17

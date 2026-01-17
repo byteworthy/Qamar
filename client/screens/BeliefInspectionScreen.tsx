@@ -25,14 +25,56 @@ const INTERRUPTION_QUESTIONS = [
   "Is this thought helping you or hurting you?",
 ];
 
-// Belief types for user selection
+// Belief types with Islamic concept mapping
 const BELIEF_TYPES = [
-  { id: "worth", label: "My worth", icon: "🪞", description: "Thoughts about my value as a person" },
-  { id: "control", label: "My control", icon: "🎛️", description: "Thoughts about what I can/can't control" },
-  { id: "safety", label: "My safety", icon: "🛡️", description: "Thoughts about danger or threat" },
-  { id: "others", label: "Others' views", icon: "👥", description: "Thoughts about how others see me" },
-  { id: "allah", label: "Allah's view", icon: "🌙", description: "Thoughts about how Allah sees me" },
-  { id: "future", label: "The future", icon: "🔮", description: "Thoughts about what will happen" },
+  { 
+    id: "worth", 
+    label: "My worth", 
+    icon: "🪞", 
+    description: "Thoughts about my value as a person",
+    islamicConcept: "tawbah",
+    islamicInsight: "Your worth is not defined by your mistakes. Allah's mercy is greater than any shortcoming."
+  },
+  { 
+    id: "control", 
+    label: "My control", 
+    icon: "🎛️", 
+    description: "Thoughts about what I can/can't control",
+    islamicConcept: "tawakkul",
+    islamicInsight: "You are responsible for effort, not outcomes. What happens is Allah's territory."
+  },
+  { 
+    id: "safety", 
+    label: "My safety", 
+    icon: "🛡️", 
+    description: "Thoughts about danger or threat",
+    islamicConcept: "tawakkul",
+    islamicInsight: "Whoever relies upon Allah, He is sufficient for them. You are not alone in this."
+  },
+  { 
+    id: "others", 
+    label: "Others' views", 
+    icon: "👥", 
+    description: "Thoughts about how others see me",
+    islamicConcept: "ikhlas",
+    islamicInsight: "When your intention is for Allah, the opinions of others lose their power over you."
+  },
+  { 
+    id: "allah", 
+    label: "Allah's view", 
+    icon: "🌙", 
+    description: "Thoughts about how Allah sees me",
+    islamicConcept: "muraqaba",
+    islamicInsight: "Allah knows your struggles and sees your sincere efforts, even when you cannot."
+  },
+  { 
+    id: "future", 
+    label: "The future", 
+    icon: "🔮", 
+    description: "Thoughts about what will happen",
+    islamicConcept: "sabr",
+    islamicInsight: "The future is written, but your response to it is your choice. That is where your power lies."
+  },
 ];
 
 export default function BeliefInspectionScreen() {
@@ -143,6 +185,21 @@ export default function BeliefInspectionScreen() {
           })}
         </View>
       </Animated.View>
+
+      {/* Islamic Insight - appears when belief type is selected */}
+      {selectedBeliefType && (
+        <Animated.View 
+          entering={FadeIn.duration(300)} 
+          style={[styles.islamicInsightCard, { backgroundColor: SiraatColors.emerald + '20' }]}
+        >
+          <ThemedText type="small" style={[styles.islamicInsightLabel, { color: SiraatColors.emerald }]}>
+            💡 ISLAMIC PERSPECTIVE
+          </ThemedText>
+          <ThemedText type="body" style={[styles.islamicInsightText, { color: theme.text, fontFamily: Fonts?.serif }]}>
+            {BELIEF_TYPES.find(t => t.id === selectedBeliefType)?.islamicInsight}
+          </ThemedText>
+        </Animated.View>
+      )}
 
       {/* Underlying Belief Input */}
       <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.section}>
@@ -378,6 +435,24 @@ const styles = StyleSheet.create({
   hint: {
     textAlign: "center",
     marginTop: Spacing.md,
+    fontStyle: "italic",
+  },
+  // Islamic Insight Card
+  islamicInsightCard: {
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing.xl,
+    borderLeftWidth: 3,
+    borderLeftColor: SiraatColors.emerald,
+  },
+  islamicInsightLabel: {
+    fontSize: 11,
+    fontWeight: "600",
+    letterSpacing: 0.5,
+    marginBottom: Spacing.sm,
+  },
+  islamicInsightText: {
+    lineHeight: 24,
     fontStyle: "italic",
   },
 });

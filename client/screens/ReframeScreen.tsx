@@ -77,6 +77,40 @@ const ALTERNATIVE_PERSPECTIVES: Record<PerspectiveType, string> = {
   future: "In five years, how significant will this feel? What growth might come from navigating this moment?",
 };
 
+// Islamic wisdom references for the "Rooted" perspective
+interface IslamicReference {
+  text: string;
+  arabicText?: string;
+  source: string;
+  concept: string;
+}
+
+const ISLAMIC_REFERENCES: IslamicReference[] = [
+  {
+    text: "Allah does not burden a soul beyond that it can bear.",
+    arabicText: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+    source: "Quran 2:286",
+    concept: "Divine Wisdom in Trials"
+  },
+  {
+    text: "Verily, with hardship comes ease.",
+    arabicText: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+    source: "Quran 94:6",
+    concept: "Hope in Difficulty"
+  },
+  {
+    text: "And whoever relies upon Allah - then He is sufficient for them.",
+    arabicText: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+    source: "Quran 65:3",
+    concept: "Trust in Allah"
+  },
+  {
+    text: "How wonderful is the affair of the believer, for all of it is good.",
+    source: "Sahih Muslim",
+    concept: "Gratitude in All States"
+  },
+];
+
 export default function ReframeScreen() {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<ReframeResult | null>(null);
@@ -84,6 +118,9 @@ export default function ReframeScreen() {
   const [selectedPerspective, setSelectedPerspective] = useState<PerspectiveType>('empathic');
   const [showPerspectiveOptions, setShowPerspectiveOptions] = useState(false);
   const [postBeliefStrength, setPostBeliefStrength] = useState<number | null>(null);
+  const [islamicReference] = useState(() => 
+    ISLAMIC_REFERENCES[Math.floor(Math.random() * ISLAMIC_REFERENCES.length)]
+  );
 
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
@@ -208,7 +245,7 @@ export default function ReframeScreen() {
             <ThemedText type="body">{selectedOption?.icon}</ThemedText>
           </View>
           <View style={styles.perspectiveSelectorContent}>
-            <ThemedText type="bodyBold" style={{ color: theme.text }}>
+            <ThemedText type="body" style={{ color: theme.text, fontWeight: '600' }}>
               {selectedOption?.label} Perspective
             </ThemedText>
             <ThemedText type="small" style={{ color: theme.textSecondary }}>
@@ -265,6 +302,31 @@ export default function ReframeScreen() {
           </ThemedText>
         </View>
       </Animated.View>
+
+      {/* Islamic Reference Card - Shows when Rooted perspective selected */}
+      {selectedPerspective === 'islamic' && (
+        <Animated.View 
+          entering={FadeIn.duration(400)} 
+          style={[styles.islamicReferenceCard, { backgroundColor: SiraatColors.emerald + '15' }]}
+        >
+          <View style={styles.islamicReferenceHeader}>
+            <ThemedText type="small" style={{ color: SiraatColors.emerald, fontWeight: '600' }}>
+              📖 {islamicReference.concept}
+            </ThemedText>
+          </View>
+          {islamicReference.arabicText && (
+            <ThemedText type="body" style={styles.arabicText}>
+              {islamicReference.arabicText}
+            </ThemedText>
+          )}
+          <ThemedText type="body" style={[styles.islamicReferenceText, { fontFamily: Fonts?.serif }]}>
+            "{islamicReference.text}"
+          </ThemedText>
+          <ThemedText type="caption" style={styles.islamicSource}>
+            — {islamicReference.source}
+          </ThemedText>
+        </Animated.View>
+      )}
 
       {/* Next Step */}
       <Animated.View entering={FadeInUp.duration(400).delay(400)} style={styles.block}>
@@ -524,5 +586,34 @@ const styles = StyleSheet.create({
   buttonSection: {
     marginTop: "auto",
     paddingTop: Spacing.lg,
+  },
+  // Islamic Reference Card
+  islamicReferenceCard: {
+    padding: Spacing.xl,
+    borderRadius: BorderRadius.md,
+    marginBottom: Spacing["2xl"],
+    borderLeftWidth: 4,
+    borderLeftColor: SiraatColors.emerald,
+  },
+  islamicReferenceHeader: {
+    marginBottom: Spacing.md,
+  },
+  arabicText: {
+    fontSize: 22,
+    textAlign: "center",
+    marginBottom: Spacing.md,
+    color: SiraatColors.emerald,
+    lineHeight: 34,
+  },
+  islamicReferenceText: {
+    lineHeight: 28,
+    fontStyle: "italic",
+    textAlign: "center",
+    marginBottom: Spacing.sm,
+  },
+  islamicSource: {
+    textAlign: "center",
+    color: SiraatColors.emerald,
+    fontWeight: "500",
   },
 });

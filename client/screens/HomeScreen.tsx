@@ -19,6 +19,44 @@ import { Brand } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 
 const USER_NAME_KEY = "@noor_user_name";
+const JOURNEY_STATS_KEY = "@noor_journey_stats";
+
+// Journey tracking data
+interface JourneyStats {
+  totalReflections: number;
+  currentStreak: number;
+  longestStreak: number;
+  lastReflectionDate: string | null;
+  topDistortions: string[];
+  favoriteAnchors: string[];
+}
+
+// Spiritual journey levels based on reflections
+const JOURNEY_LEVELS = [
+  { level: 1, name: "Seedling", minReflections: 0, icon: "🌱", description: "Beginning your journey" },
+  { level: 2, name: "Growing", minReflections: 5, icon: "🌿", description: "Developing awareness" },
+  { level: 3, name: "Rooted", minReflections: 15, icon: "🌳", description: "Building resilience" },
+  { level: 4, name: "Flourishing", minReflections: 30, icon: "🌸", description: "Deepening understanding" },
+  { level: 5, name: "Illuminated", minReflections: 50, icon: "✨", description: "Radiating light" },
+];
+
+function getJourneyLevel(totalReflections: number) {
+  for (let i = JOURNEY_LEVELS.length - 1; i >= 0; i--) {
+    if (totalReflections >= JOURNEY_LEVELS[i].minReflections) {
+      return JOURNEY_LEVELS[i];
+    }
+  }
+  return JOURNEY_LEVELS[0];
+}
+
+function getNextLevel(totalReflections: number) {
+  const currentLevel = getJourneyLevel(totalReflections);
+  const nextIndex = JOURNEY_LEVELS.findIndex(l => l.level === currentLevel.level) + 1;
+  if (nextIndex < JOURNEY_LEVELS.length) {
+    return JOURNEY_LEVELS[nextIndex];
+  }
+  return null;
+}
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -81,6 +119,14 @@ export default function HomeScreen() {
   const [userName, setUserName] = useState<string>("Friend");
   const [showNameModal, setShowNameModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
+  const [journeyStats, setJourneyStats] = useState<JourneyStats>({
+    totalReflections: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    lastReflectionDate: null,
+    topDistortions: [],
+    favoriteAnchors: [],
+  });
 
   useEffect(() => {
     AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
@@ -88,7 +134,24 @@ export default function HomeScreen() {
         setUserName(name);
       }
     });
+    
+    // Load journey stats
+    AsyncStorage.getItem(JOURNEY_STATS_KEY).then((stats) => {
+      if (stats) {
+        try {
+          setJourneyStats(JSON.parse(stats));
+        } catch (e) {
+          console.log('Failed to parse journey stats');
+        }
+      }
+    });
   }, []);
+
+  const currentLevel = getJourneyLevel(journeyStats.totalReflections);
+  const nextLevel = getNextLevel(journeyStats.totalReflections);
+  const progressToNext = nextLevel 
+    ? ((journeyStats.totalReflections - currentLevel.minReflections) / (nextLevel.minReflections - currentLevel.minReflections)) * 100
+    : 100;
 
   const handleSaveName = async () => {
     const trimmedName = nameInput.trim();
@@ -162,6 +225,58 @@ export default function HomeScreen() {
           </ThemedText>
         </Animated.View>
 
+        {/* Journey Progress Card */}
+        <Animated.View 
+          entering={FadeInUp.duration(350).delay(100)} 
+          style={[styles.journeyCard, { backgroundColor: theme.cardBackground }]}
+        >
+          <View style={styles.journeyHeader}>
+            <View style={styles.journeyLevel}>
+              <ThemedText style={styles.journeyIcon}>{currentLevel.icon}</ThemedText>
+              <View>
+                <ThemedText style={[styles.journeyLevelName, { color: theme.text }]}>
+                  {currentLevel.name}
+                </ThemedText>
+                <ThemedText style={[styles.journeyLevelDesc, { color: theme.textSecondary }]}>
+                  {currentLevel.description}
+                </ThemedText>
+              </View>
+            </View>
+            <View style={styles.journeyStats}>
+              <ThemedText style={[styles.statNumber, { color: NiyyahColors.accent }]}>
+                {journeyStats.totalReflections}
+              </ThemedText>
+              <ThemedText style={[styles.statLabel, { color: theme.textSecondary }]}>
+                reflections
+              </ThemedText>
+            </View>
+          </View>
+          
+          {nextLevel && (
+            <View style={styles.progressSection}>
+              <View style={[styles.progressBar, { backgroundColor: theme.backgroundRoot }]}>
+                <View 
+                  style={[
+                    styles.progressFill, 
+                    { width: `${Math.min(progressToNext, 100)}%`, backgroundColor: NiyyahColors.accent }
+                  ]} 
+                />
+              </View>
+              <ThemedText style={[styles.progressText, { color: theme.textSecondary }]}>
+                {nextLevel.minReflections - journeyStats.totalReflections} more to reach {nextLevel.icon} {nextLevel.name}
+              </ThemedText>
+            </View>
+          )}
+          
+          {journeyStats.currentStreak > 0 && (
+            <View style={[styles.streakBadge, { backgroundColor: NiyyahColors.accent + "15" }]}>
+              <ThemedText style={styles.streakText}>
+                🔥 {journeyStats.currentStreak} day streak
+              </ThemedText>
+            </View>
+          )}
+        </Animated.View>
+
         <View style={styles.modulesSection}>
           <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
             Tools for Your Journey
@@ -188,7 +303,7 @@ export default function HomeScreen() {
               icon="heart"
               title="Dua"
               description="Find the right words for what you carry"
-              onPress={() => navigation.navigate("Dua")}
+              onPress={() => navigation.navigate("Dua" as any)}
               gradient={["#4a5a6a", "#2a3a4a"]}
               delay={200}
             />
@@ -466,5 +581,72 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: "center",
+  },
+  // Journey Card
+  journeyCard: {
+    padding: 18,
+    borderRadius: 16,
+    marginBottom: 20,
+  },
+  journeyHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  journeyLevel: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  journeyIcon: {
+    fontSize: 32,
+  },
+  journeyLevelName: {
+    fontSize: 17,
+    fontWeight: "600",
+  },
+  journeyLevelDesc: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  journeyStats: {
+    alignItems: "flex-end",
+  },
+  statNumber: {
+    fontSize: 24,
+    fontWeight: "700",
+  },
+  statLabel: {
+    fontSize: 11,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  progressSection: {
+    marginTop: 16,
+  },
+  progressBar: {
+    height: 6,
+    borderRadius: 3,
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: "100%",
+    borderRadius: 3,
+  },
+  progressText: {
+    fontSize: 12,
+    marginTop: 8,
+    textAlign: "center",
+  },
+  streakBadge: {
+    marginTop: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    alignSelf: "flex-start",
+  },
+  streakText: {
+    fontSize: 13,
+    fontWeight: "600",
   },
 });

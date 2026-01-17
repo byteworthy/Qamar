@@ -140,7 +140,7 @@ export default function DistortionScreen() {
               style={[styles.resourceCard, { backgroundColor: theme.backgroundDefault }]}
             >
               <View style={styles.resourceContent}>
-                <ThemedText type="bodyBold" style={{ color: theme.text }}>
+                <ThemedText type="body" style={{ color: theme.text, fontWeight: '600' }}>
                   {resource.name}
                 </ThemedText>
                 <ThemedText type="body" style={[styles.resourceContact, { color: theme.primary }]}>

@@ -5,6 +5,7 @@ import { registerRoutes } from "./routes";
 import { registerBillingWebhookRoute, registerBillingRoutes, getStripeSync } from "./billing";
 import { runMigrations } from "stripe-replit-sync";
 import { sessionMiddleware } from "./middleware/auth";
+import { initializeDataRetention, runManualCleanup } from "./data-retention";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -278,6 +279,11 @@ async function initStripe() {
   setupRequestLogging(app);
 
   await initStripe();
+
+  // Initialize data retention service (runs cleanup every 24 hours)
+  log('Initializing data retention service...');
+  initializeDataRetention();
+  log('Data retention service initialized');
 
   registerBillingRoutes(app);
 
