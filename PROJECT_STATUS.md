@@ -81,6 +81,17 @@ All AI endpoints route through the `CanonicalOrchestrator` which enforces the co
 - ✅ No unused imports
 - ✅ Consistent formatting
 
+## Mobile Release (EAS)
+See [RELEASE_MOBILE.md](./RELEASE_MOBILE.md) for the full mobile release workflow (development, preview, production).
+
+Key commands:
+```bash
+npm run verify:local
+npm run release:check
+npm run build:prod:android
+npm run build:prod:ios
+```
+
 ## Development Workflow
 
 ### Daily Development
