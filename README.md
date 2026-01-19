@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/images/noor-icon.svg" width="120" alt="Noor logo" />
+</p>
+
 # Noor
 
 **Structured thinking for Muslims seeking clarity, intention, and alignment.**
@@ -28,11 +32,27 @@ This process mirrors disciplined reasoning while staying grounded in faith, pati
 ## Reflection Workflow
 
 ```mermaid
-flowchart TB
-  A[Capture a Thought] --> B[Examine Carefully]
-  B --> C[Reframe with Clarity]
-  C --> D[Set Intention]
-  D --> E[Act with Alignment]
+flowchart LR
+  subgraph Step1[Capture]
+    A[Thought or Tension]
+  end
+  subgraph Step2[Examine]
+    B[Question Assumptions]
+  end
+  subgraph Step3[Reframe]
+    C[Restore Clarity]
+  end
+  subgraph Step4[Intend]
+    D[Set Niyyah]
+  end
+  subgraph Step5[Align]
+    E[Act with Alignment]
+  end
+
+  A --> B --> C --> D --> E
+
+  classDef step fill:#f8f3e8,stroke:#c9b99b,color:#3b2f1e;
+  class A,B,C,D,E step;
 ```
 
 ---
@@ -53,10 +73,14 @@ Noor includes a dedicated safety layer to keep responses respectful, grounded, a
 
 ```mermaid
 flowchart LR
-  U[User Input] --> S[Structured Prompt Flow]
-  S --> G[Guardrails & Safety Checks]
-  G --> R[Response Shaping]
+  U[User Input] --> P[Structured Prompt Flow]
+  P --> T[Tone & Faith Filters]
+  T --> C[Charter Compliance]
+  C --> R[Response Shaping]
   R --> O[Reflection Output]
+
+  classDef guard fill:#eef6f1,stroke:#9ac6b1,color:#1f3b2c;
+  class T,C guard;
 ```
 
 **Guardrail Priorities**
@@ -96,6 +120,9 @@ flowchart TD
   C --> D[Safety Filters]
   D --> E[Faith-Aligned Response]
   E --> F[Local Reflection Store]
+
+  classDef core fill:#f1f5fb,stroke:#9db2ce,color:#1f2d3d;
+  class A,B,C,D,E,F core;
 ```
 
 ---
