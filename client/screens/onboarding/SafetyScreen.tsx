@@ -79,7 +79,7 @@ export default function SafetyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: "#78350F" }]}>
-                If you're experiencing a mental health crisis or having thoughts
+                If you are experiencing a mental health crisis or having thoughts
                 of self-harm:
               </ThemedText>
               <Pressable
@@ -142,6 +142,9 @@ export default function SafetyScreen() {
                 • It does not provide religious rulings or scholarly guidance
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • AI can make theological mistakes—verify with scholars
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • For religious questions, consult qualified Islamic scholars
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
@@ -161,7 +164,7 @@ export default function SafetyScreen() {
             <ThemedText
               style={[styles.readyText, { color: theme.textSecondary }]}
             >
-              This is a tool for gentle self-reflection. Use it alongside, not
+              This is an AI companion for gentle self-reflection. Use it alongside, not
               instead of, professional care when needed.
             </ThemedText>
           </View>

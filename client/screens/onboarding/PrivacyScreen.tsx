@@ -67,13 +67,16 @@ export default function PrivacyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • All your reflections are stored on your device only
+                • Your reflections are stored on your device only
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • We don't send your thoughts or sessions to any server
+                • We do not send your thoughts or reflections to a server
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Your data never leaves your phone
+                • Your reflection content never leaves your phone
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Account data (email, subscription) stored separately for login
               </ThemedText>
             </View>
           </View>
@@ -87,13 +90,16 @@ export default function PrivacyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Basic app usage (screen views, feature use)
+                • Session metadata (duration, interactions, safety events)
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Crash reports to fix technical issues
+                • Account email for login
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • No personal information or reflection content
+                • Subscription status if you upgrade
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • No personal identifiers in your reflections
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • No tracking across other apps or websites
@@ -110,13 +116,16 @@ export default function PrivacyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Delete your reflections anytime from the app
+                • Delete reflections anytime from History
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Uninstalling removes all local data
+                • Export your data as JSON
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • No account required, no cloud backups
+                • Delete your account from settings
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Uninstalling removes all local reflection data
               </ThemedText>
             </View>
           </View>
@@ -127,7 +136,7 @@ export default function PrivacyScreen() {
             <ThemedText
               style={[styles.noteText, { color: theme.textSecondary }]}
             >
-              For full details, see our Privacy Policy in the app settings
+              For full details, see our Privacy Policy in Settings after you begin.
             </ThemedText>
           </View>
         </Animated.View>

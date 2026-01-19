@@ -65,16 +65,19 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Guides you through gentle reflection using CBT principles
+                • Guides you through reflection using CBT principles
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Uses an AI companion, not a human therapist
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Rooted in an Islamic framework of mercy and wisdom
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Helps you recognize thought patterns and find clarity
+                • Helps you examine thought patterns and find clarity
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • All your reflections stay private on your device
+                • Free tier available, with optional Noor Plus subscription
               </ThemedText>
             </View>
           </View>
@@ -93,16 +96,19 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This is not crisis intervention or emergency support
+                • This is not therapy or medical care
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This is not a replacement for professional therapy
+                • This is not crisis intervention or emergency support
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • This is not religious counseling or fatwa
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • For serious concerns, please seek qualified help
+                • AI can make mistakes—your discernment matters
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • For serious concerns, seek qualified professional help
               </ThemedText>
             </View>
           </View>
