@@ -12,7 +12,13 @@ import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { createCheckoutSession, createPortalSession, getBillingStatus, isPaidStatus, syncBillingStatus } from "@/lib/billing";
+import {
+  createCheckoutSession,
+  createPortalSession,
+  getBillingStatus,
+  isPaidStatus,
+  syncBillingStatus,
+} from "@/lib/billing";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -35,45 +41,62 @@ interface PlanCardProps {
 
 const { spacing, radii, container, typeScale } = Layout;
 
-function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onSelect, loading }: PlanCardProps) {
+function PlanCard({
+  name,
+  price,
+  period,
+  features,
+  isCurrentPlan,
+  isPremium,
+  onSelect,
+  loading,
+}: PlanCardProps) {
   const { theme } = useTheme();
-  
+
   return (
-    <View style={[
-      styles.planCard,
-      { 
-        backgroundColor: theme.cardBackground,
-        borderColor: isPremium ? SiraatColors.indigo : theme.border,
-        borderWidth: isPremium ? 2 : 1,
-      }
-    ]}>
+    <View
+      style={[
+        styles.planCard,
+        {
+          backgroundColor: theme.cardBackground,
+          borderColor: isPremium ? SiraatColors.indigo : theme.border,
+          borderWidth: isPremium ? 2 : 1,
+        },
+      ]}
+    >
       {isPremium ? (
         <View style={[styles.badge, { backgroundColor: SiraatColors.indigo }]}>
           <ThemedText style={styles.badgeText}>RECOMMENDED</ThemedText>
         </View>
       ) : null}
-      
+
       <ThemedText style={[styles.planName, { fontFamily: Fonts?.serif }]}>
         {name}
       </ThemedText>
-      
+
       <View style={styles.priceContainer}>
         <ThemedText style={styles.price}>{price}</ThemedText>
-        {period ? <ThemedText style={[styles.period, { color: theme.textSecondary }]}>{period}</ThemedText> : null}
+        {period ? (
+          <ThemedText style={[styles.period, { color: theme.textSecondary }]}>
+            {period}
+          </ThemedText>
+        ) : null}
       </View>
-      
+
       <View style={styles.featuresContainer}>
         {features.map((feature, index) => (
           <View key={index} style={styles.featureRow}>
-            <Feather 
-              name={feature.included ? "check" : "x"} 
-              size={16} 
-              color={feature.included ? SiraatColors.emerald : theme.textSecondary} 
+            <Feather
+              name={feature.included ? "check" : "x"}
+              size={16}
+              color={
+                feature.included ? SiraatColors.emerald : theme.textSecondary
+              }
             />
-            <ThemedText 
+            <ThemedText
               style={[
-                styles.featureText, 
-                { color: feature.included ? theme.text : theme.textSecondary }
+                styles.featureText,
+                { color: feature.included ? theme.text : theme.textSecondary },
               ]}
             >
               {feature.text}
@@ -81,21 +104,32 @@ function PlanCard({ name, price, period, features, isCurrentPlan, isPremium, onS
           </View>
         ))}
       </View>
-      
+
       {isCurrentPlan ? (
-        <View style={[styles.currentPlanBadge, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText style={[styles.currentPlanText, { color: theme.textSecondary }]}>Current Plan</ThemedText>
+        <View
+          style={[
+            styles.currentPlanBadge,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            style={[styles.currentPlanText, { color: theme.textSecondary }]}
+          >
+            Current Plan
+          </ThemedText>
         </View>
       ) : onSelect ? (
-        <Button 
-          onPress={onSelect} 
+        <Button
+          onPress={onSelect}
           disabled={loading}
-          style={{ 
-            backgroundColor: isPremium ? SiraatColors.indigo : theme.backgroundDefault,
-            marginTop: spacing.lg 
+          style={{
+            backgroundColor: isPremium
+              ? SiraatColors.indigo
+              : theme.backgroundDefault,
+            marginTop: spacing.lg,
           }}
         >
-          {loading ? "Loading..." : (isPremium ? "Upgrade to Plus" : "Select")}
+          {loading ? "Loading..." : isPremium ? "Upgrade to Plus" : "Select"}
         </Button>
       ) : null}
     </View>
@@ -106,7 +140,7 @@ export default function PricingScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const queryClient = useQueryClient();
-  
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [managingBilling, setManagingBilling] = useState(false);
@@ -124,11 +158,19 @@ export default function PricingScreen() {
     try {
       const result = await syncBillingStatus();
       queryClient.invalidateQueries({ queryKey: ["/api/billing/status"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/reflection/can-reflect"] });
+      queryClient.invalidateQueries({
+        queryKey: ["/api/reflection/can-reflect"],
+      });
       if (isPaidStatus(result.status)) {
-        Alert.alert("Subscription Restored", "Your Noor Plus subscription has been activated.");
+        Alert.alert(
+          "Subscription Restored",
+          "Your Noor Plus subscription has been activated.",
+        );
       } else {
-        Alert.alert("No Active Subscription", "We couldn't find an active subscription. If you recently purchased, please wait a moment and try again.");
+        Alert.alert(
+          "No Active Subscription",
+          "We couldn't find an active subscription. If you recently purchased, please wait a moment and try again.",
+        );
       }
     } catch (error: any) {
       Alert.alert("Error", error.message || "Failed to restore purchase");
@@ -203,7 +245,8 @@ export default function PricingScreen() {
           Deepen Your Practice
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Noor Plus reveals patterns in your thoughts and offers guidance tailored to your heart.
+          Noor Plus reveals patterns in your thoughts and offers guidance
+          tailored to your heart.
         </ThemedText>
       </View>
 
@@ -214,7 +257,7 @@ export default function PricingScreen() {
           features={freeFeatures}
           isCurrentPlan={!isPaid}
         />
-        
+
         <PlanCard
           name="Noor Plus"
           price="$9.99"
@@ -228,18 +271,25 @@ export default function PricingScreen() {
       </View>
 
       {!isPaid ? (
-        <View style={[styles.emailContainer, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText style={[styles.emailLabel, { color: theme.textSecondary }]}>
+        <View
+          style={[
+            styles.emailContainer,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            style={[styles.emailLabel, { color: theme.textSecondary }]}
+          >
             Enter your email to upgrade
           </ThemedText>
           <TextInput
             style={[
               styles.emailInput,
-              { 
-                backgroundColor: theme.cardBackground, 
+              {
+                backgroundColor: theme.cardBackground,
                 color: theme.text,
                 borderColor: theme.border,
-              }
+              },
             ]}
             placeholder="your@email.com"
             placeholderTextColor={theme.textSecondary}
@@ -250,7 +300,9 @@ export default function PricingScreen() {
             autoCorrect={false}
           />
           <View style={styles.restoreContainer}>
-            <ThemedText style={[styles.restoreLabel, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.restoreLabel, { color: theme.textSecondary }]}
+            >
               Already purchased?
             </ThemedText>
             <Button

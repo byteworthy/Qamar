@@ -92,11 +92,13 @@ const { spacing, radii, container } = Layout;
 export default function CalmingPracticeScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
-  const [selectedPractice, setSelectedPractice] = useState<Practice | null>(null);
+  const [selectedPractice, setSelectedPractice] = useState<Practice | null>(
+    null,
+  );
 
   if (selectedPractice) {
     return (
-      <Screen 
+      <Screen
         title={selectedPractice.title}
         showBack
         onBack={() => setSelectedPractice(null)}
@@ -112,31 +114,50 @@ export default function CalmingPracticeScreen() {
             <Animated.View
               key={index}
               entering={FadeInUp.duration(350).delay(150 + index * 80)}
-              style={[styles.stepCard, { backgroundColor: theme.backgroundDefault }]}
+              style={[
+                styles.stepCard,
+                { backgroundColor: theme.backgroundDefault },
+              ]}
             >
-              <View style={[styles.stepNumber, { backgroundColor: SiraatColors.emerald }]}>
+              <View
+                style={[
+                  styles.stepNumber,
+                  { backgroundColor: SiraatColors.emerald },
+                ]}
+              >
                 <ThemedText style={styles.stepNumberText}>
                   {index + 1}
                 </ThemedText>
               </View>
-              <ThemedText style={styles.stepText}>
-                {step}
-              </ThemedText>
+              <ThemedText style={styles.stepText}>{step}</ThemedText>
             </Animated.View>
           ))}
         </View>
 
-        <Animated.View 
+        <Animated.View
           entering={FadeInUp.duration(350).delay(400)}
-          style={[styles.reminderCard, { backgroundColor: theme.backgroundDefault }]}
+          style={[
+            styles.reminderCard,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
         >
-          <View style={[styles.reminderAccent, { backgroundColor: SiraatColors.emerald }]} />
-          <ThemedText style={[styles.reminderText, { fontFamily: Fonts?.serif }]}>
+          <View
+            style={[
+              styles.reminderAccent,
+              { backgroundColor: SiraatColors.emerald },
+            ]}
+          />
+          <ThemedText
+            style={[styles.reminderText, { fontFamily: Fonts?.serif }]}
+          >
             {selectedPractice.reminder}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(350).delay(450)} style={styles.doneContainer}>
+        <Animated.View
+          entering={FadeInUp.duration(350).delay(450)}
+          style={styles.doneContainer}
+        >
           <Button
             onPress={() => {
               setSelectedPractice(null);
@@ -169,27 +190,46 @@ export default function CalmingPracticeScreen() {
               onPress={() => setSelectedPractice(practice)}
               style={({ pressed }) => [
                 styles.practiceCard,
-                { 
+                {
                   backgroundColor: theme.cardBackground,
                   opacity: pressed ? 0.85 : 1,
                 },
               ]}
             >
-              <View style={[styles.practiceAccent, { backgroundColor: SiraatColors.emerald }]} />
+              <View
+                style={[
+                  styles.practiceAccent,
+                  { backgroundColor: SiraatColors.emerald },
+                ]}
+              />
               <View style={styles.practiceContent}>
                 <View style={styles.practiceHeader}>
                   <ThemedText style={styles.practiceTitle}>
                     {practice.title}
                   </ThemedText>
-                  <ThemedText style={[styles.practiceDuration, { color: theme.textSecondary }]}>
+                  <ThemedText
+                    style={[
+                      styles.practiceDuration,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
                     {practice.duration}
                   </ThemedText>
                 </View>
-                <ThemedText style={[styles.practiceDescription, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[
+                    styles.practiceDescription,
+                    { color: theme.textSecondary },
+                  ]}
+                >
                   {practice.description}
                 </ThemedText>
               </View>
-              <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+              <Feather
+                name="chevron-right"
+                size={16}
+                color={theme.textSecondary}
+              />
             </Pressable>
           </Animated.View>
         ))}

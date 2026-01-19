@@ -2,12 +2,14 @@ export const Brand = {
   name: "Noor CBT",
   method: "The Siraat Method",
   tagline: "Light for the mind, rooted in Islam.",
-  
-  disclaimer: "A guided reflection tool. Not a substitute for professional care.",
+
+  disclaimer:
+    "A guided reflection tool. Not a substitute for professional care.",
   methodCallout: "Powered by the Siraat Method",
-  
-  anchorLine: "When your mind feels heavy, it's usually carrying thoughts it hasn't questioned yet.",
-  
+
+  anchorLine:
+    "When your mind feels heavy, it's usually carrying thoughts it hasn't questioned yet.",
+
   dailyReminders: [
     "Mercy exceeds sin.",
     "Effort is required, outcomes belong to Allah.",
@@ -33,7 +35,7 @@ export const ScreenCopy = {
     historyLink: "Past Reflections",
     greeting: "Salaam",
   },
-  
+
   thoughtCapture: {
     title: "What's on your mind?",
     subtitle: "Write it out. This stays between you and your reflection.",
@@ -41,7 +43,7 @@ export const ScreenCopy = {
     continue: "Continue",
     hint: "Take your time.",
   },
-  
+
   distortion: {
     title: "Looking Closer",
     sections: {
@@ -52,7 +54,7 @@ export const ScreenCopy = {
     loading: "Looking closer...",
     continue: "Continue",
   },
-  
+
   reframe: {
     title: "A Clearer View",
     blocks: {
@@ -64,7 +66,7 @@ export const ScreenCopy = {
     loading: "Finding clarity...",
     continue: "Continue",
   },
-  
+
   practice: {
     title: "Settle",
     stepsLabel: "Follow along",
@@ -75,7 +77,7 @@ export const ScreenCopy = {
     loading: "Getting ready...",
     completed: "Completed",
   },
-  
+
   intention: {
     title: "Set Your Niyyah",
     subtitle: "One small, sincere action you can take.",
@@ -83,7 +85,7 @@ export const ScreenCopy = {
     placeholder: "I will...",
     complete: "Complete",
   },
-  
+
   complete: {
     title: "Reflection Complete",
     subtitle: "You paused. You looked. You chose clarity.",
@@ -94,7 +96,7 @@ export const ScreenCopy = {
     returnHome: "Return Home",
     encouragement: "May Allah make it easy for you.",
   },
-  
+
   history: {
     title: "Past Reflections",
     empty: {

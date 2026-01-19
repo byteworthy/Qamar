@@ -1,4 +1,4 @@
-type InnerState = 
+type InnerState =
   | "tightness_around_provision"
   | "fear_of_loss"
   | "shame_after_sin"
@@ -216,34 +216,45 @@ export function getStatePromptModifier(state: InnerState): string {
 
 const ASSUMPTION_PATTERNS = [
   {
-    pattern: /\b(suffer|pain|hardship|difficulty).*(Allah.*(displeased|angry|punish|upset))\b/i,
+    pattern:
+      /\b(suffer|pain|hardship|difficulty).*(Allah.*(displeased|angry|punish|upset))\b/i,
     assumption: "If I suffer, Allah is displeased with me",
-    reflection: "This thought assumes suffering signals divine displeasure, conflating hardship with punishment.",
+    reflection:
+      "This thought assumes suffering signals divine displeasure, conflating hardship with punishment.",
   },
   {
     pattern: /\b(fail|failure|failed).*(unworthy|worthless|not good enough)\b/i,
     assumption: "If I fail, I am unworthy",
-    reflection: "This thought ties worth to outcome, treating failure as identity rather than event.",
+    reflection:
+      "This thought ties worth to outcome, treating failure as identity rather than event.",
   },
   {
-    pattern: /\b(anxious|anxiety|worried).*(something bad|bad will happen|going wrong)\b/i,
+    pattern:
+      /\b(anxious|anxiety|worried).*(something bad|bad will happen|going wrong)\b/i,
     assumption: "If I feel anxious, something bad will happen",
-    reflection: "This thought treats anxiety as prophecy, confusing internal alarm with external reality.",
+    reflection:
+      "This thought treats anxiety as prophecy, confusing internal alarm with external reality.",
   },
   {
-    pattern: /\b(patient|patience|waited|waiting).*(should|deserve|entitled|owed).*(change|better|result)\b/i,
+    pattern:
+      /\b(patient|patience|waited|waiting).*(should|deserve|entitled|owed).*(change|better|result)\b/i,
     assumption: "If I am patient, outcomes should change",
-    reflection: "This thought frames patience as transaction, expecting specific return for endurance.",
+    reflection:
+      "This thought frames patience as transaction, expecting specific return for endurance.",
   },
   {
-    pattern: /\b(good|good deeds|pray|worship|try).*(Allah.*(owe|should|must|give|reward))\b/i,
+    pattern:
+      /\b(good|good deeds|pray|worship|try).*(Allah.*(owe|should|must|give|reward))\b/i,
     assumption: "If I do good, Allah owes me ease",
-    reflection: "This thought treats worship as exchange, expecting guaranteed worldly return for obedience.",
+    reflection:
+      "This thought treats worship as exchange, expecting guaranteed worldly return for obedience.",
   },
   {
-    pattern: /\b(dua|pray|prayed|asking).*(not answered|ignored|doesn't work)\b/i,
+    pattern:
+      /\b(dua|pray|prayed|asking).*(not answered|ignored|doesn't work)\b/i,
     assumption: "If my dua is not answered, I am not heard",
-    reflection: "This thought equates non-answer with non-hearing, conflating response timing with rejection.",
+    reflection:
+      "This thought equates non-answer with non-hearing, conflating response timing with rejection.",
   },
 ];
 
@@ -262,7 +273,9 @@ export function detectAssumptionPattern(thought: string): AssumptionDetection {
   return { detected: false, assumption: null, reflection: null };
 }
 
-export function getAssumptionPromptModifier(detection: AssumptionDetection): string {
+export function getAssumptionPromptModifier(
+  detection: AssumptionDetection,
+): string {
   if (!detection.detected) {
     return "";
   }

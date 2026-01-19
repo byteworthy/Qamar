@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Platform, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -14,7 +20,10 @@ import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "BeliefInspection">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "BeliefInspection"
+>;
 type RouteType = RouteProp<RootStackParamList, "BeliefInspection">;
 
 // Pattern interruption questions for different belief types
@@ -27,63 +36,73 @@ const INTERRUPTION_QUESTIONS = [
 
 // Belief types with Islamic concept mapping
 const BELIEF_TYPES = [
-  { 
-    id: "worth", 
-    label: "My worth", 
-    icon: "🪞", 
+  {
+    id: "worth",
+    label: "My worth",
+    icon: "🪞",
     description: "Thoughts about my value as a person",
     islamicConcept: "tawbah",
-    islamicInsight: "Your worth is not defined by your mistakes. Allah's mercy is greater than any shortcoming."
+    islamicInsight:
+      "Your worth is not defined by your mistakes. Allah's mercy is greater than any shortcoming.",
   },
-  { 
-    id: "control", 
-    label: "My control", 
-    icon: "🎛️", 
+  {
+    id: "control",
+    label: "My control",
+    icon: "🎛️",
     description: "Thoughts about what I can/can't control",
     islamicConcept: "tawakkul",
-    islamicInsight: "You are responsible for effort, not outcomes. What happens is Allah's territory."
+    islamicInsight:
+      "You are responsible for effort, not outcomes. What happens is Allah's territory.",
   },
-  { 
-    id: "safety", 
-    label: "My safety", 
-    icon: "🛡️", 
+  {
+    id: "safety",
+    label: "My safety",
+    icon: "🛡️",
     description: "Thoughts about danger or threat",
     islamicConcept: "tawakkul",
-    islamicInsight: "Whoever relies upon Allah, He is sufficient for them. You are not alone in this."
+    islamicInsight:
+      "Whoever relies upon Allah, He is sufficient for them. You are not alone in this.",
   },
-  { 
-    id: "others", 
-    label: "Others' views", 
-    icon: "👥", 
+  {
+    id: "others",
+    label: "Others' views",
+    icon: "👥",
     description: "Thoughts about how others see me",
     islamicConcept: "ikhlas",
-    islamicInsight: "When your intention is for Allah, the opinions of others lose their power over you."
+    islamicInsight:
+      "When your intention is for Allah, the opinions of others lose their power over you.",
   },
-  { 
-    id: "allah", 
-    label: "Allah's view", 
-    icon: "🌙", 
+  {
+    id: "allah",
+    label: "Allah's view",
+    icon: "🌙",
     description: "Thoughts about how Allah sees me",
     islamicConcept: "muraqaba",
-    islamicInsight: "Allah knows your struggles and sees your sincere efforts, even when you cannot."
+    islamicInsight:
+      "Allah knows your struggles and sees your sincere efforts, even when you cannot.",
   },
-  { 
-    id: "future", 
-    label: "The future", 
-    icon: "🔮", 
+  {
+    id: "future",
+    label: "The future",
+    icon: "🔮",
     description: "Thoughts about what will happen",
     islamicConcept: "sabr",
-    islamicInsight: "The future is written, but your response to it is your choice. That is where your power lies."
+    islamicInsight:
+      "The future is written, but your response to it is your choice. That is where your power lies.",
   },
 ];
 
 export default function BeliefInspectionScreen() {
   const [beliefStrength, setBeliefStrength] = useState(75);
   const [underlyingBelief, setUnderlyingBelief] = useState("");
-  const [selectedBeliefType, setSelectedBeliefType] = useState<string | null>(null);
+  const [selectedBeliefType, setSelectedBeliefType] = useState<string | null>(
+    null,
+  );
   const [interruptionAnswer, setInterruptionAnswer] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState(
-    INTERRUPTION_QUESTIONS[Math.floor(Math.random() * INTERRUPTION_QUESTIONS.length)]
+    INTERRUPTION_QUESTIONS[
+      Math.floor(Math.random() * INTERRUPTION_QUESTIONS.length)
+    ],
   );
 
   const insets = useSafeAreaInsets();
@@ -139,20 +158,32 @@ export default function BeliefInspectionScreen() {
     >
       {/* Header Section */}
       <Animated.View entering={FadeInUp.duration(400)} style={styles.section}>
-        <ThemedText type="h3" style={[styles.heading, { fontFamily: Fonts?.serif }]}>
+        <ThemedText
+          type="h3"
+          style={[styles.heading, { fontFamily: Fonts?.serif }]}
+        >
           What does this thought say about what you believe?
         </ThemedText>
-        <ThemedText type="body" style={[styles.description, { color: theme.textSecondary }]}>
-          Every distorted thought rests on a deeper belief. Let's find it.
+        <ThemedText
+          type="body"
+          style={[styles.description, { color: theme.textSecondary }]}
+        >
+          {"Every distorted thought rests on a deeper belief. Let's find it."}
         </ThemedText>
       </Animated.View>
 
       {/* Belief Type Selection */}
-      <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.section}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(100)}
+        style={styles.section}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           THIS THOUGHT IS ABOUT...
         </ThemedText>
-        
+
         <View style={styles.beliefTypesGrid}>
           {BELIEF_TYPES.map((type) => {
             const isSelected = selectedBeliefType === type.id;
@@ -163,7 +194,9 @@ export default function BeliefInspectionScreen() {
                 style={[
                   styles.beliefTypeCard,
                   {
-                    backgroundColor: isSelected ? theme.primary : theme.backgroundDefault,
+                    backgroundColor: isSelected
+                      ? theme.primary
+                      : theme.backgroundDefault,
                     borderColor: isSelected ? theme.primary : theme.border,
                   },
                 ]}
@@ -171,11 +204,11 @@ export default function BeliefInspectionScreen() {
                 <ThemedText type="h3" style={styles.beliefTypeIcon}>
                   {type.icon}
                 </ThemedText>
-                <ThemedText 
-                  type="small" 
+                <ThemedText
+                  type="small"
                   style={[
                     styles.beliefTypeLabel,
-                    { color: isSelected ? '#FFFFFF' : theme.text }
+                    { color: isSelected ? "#FFFFFF" : theme.text },
                   ]}
                 >
                   {type.label}
@@ -188,22 +221,46 @@ export default function BeliefInspectionScreen() {
 
       {/* Islamic Insight - appears when belief type is selected */}
       {selectedBeliefType && (
-        <Animated.View 
-          entering={FadeIn.duration(300)} 
-          style={[styles.islamicInsightCard, { backgroundColor: SiraatColors.emerald + '20' }]}
+        <Animated.View
+          entering={FadeIn.duration(300)}
+          style={[
+            styles.islamicInsightCard,
+            { backgroundColor: SiraatColors.emerald + "20" },
+          ]}
         >
-          <ThemedText type="small" style={[styles.islamicInsightLabel, { color: SiraatColors.emerald }]}>
+          <ThemedText
+            type="small"
+            style={[
+              styles.islamicInsightLabel,
+              { color: SiraatColors.emerald },
+            ]}
+          >
             💡 ISLAMIC PERSPECTIVE
           </ThemedText>
-          <ThemedText type="body" style={[styles.islamicInsightText, { color: theme.text, fontFamily: Fonts?.serif }]}>
-            {BELIEF_TYPES.find(t => t.id === selectedBeliefType)?.islamicInsight}
+          <ThemedText
+            type="body"
+            style={[
+              styles.islamicInsightText,
+              { color: theme.text, fontFamily: Fonts?.serif },
+            ]}
+          >
+            {
+              BELIEF_TYPES.find((t) => t.id === selectedBeliefType)
+                ?.islamicInsight
+            }
           </ThemedText>
         </Animated.View>
       )}
 
       {/* Underlying Belief Input */}
-      <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.section}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(200)}
+        style={styles.section}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           THE BELIEF UNDERNEATH THIS THOUGHT IS...
         </ThemedText>
         <TextInput
@@ -225,11 +282,17 @@ export default function BeliefInspectionScreen() {
       </Animated.View>
 
       {/* Belief Strength Slider */}
-      <Animated.View entering={FadeInUp.duration(400).delay(300)} style={styles.section}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(300)}
+        style={styles.section}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           HOW STRONGLY DO YOU BELIEVE THIS? ({beliefStrength}%)
         </ThemedText>
-        
+
         <View style={styles.sliderContainer}>
           <View style={styles.sliderLabels}>
             <ThemedText type="small" style={{ color: theme.textSecondary }}>
@@ -239,16 +302,16 @@ export default function BeliefInspectionScreen() {
               Completely
             </ThemedText>
           </View>
-          
+
           <View style={[styles.sliderTrack, { backgroundColor: theme.border }]}>
-            <Animated.View 
+            <Animated.View
               style={[
                 styles.sliderFill,
-                { 
+                {
                   width: `${beliefStrength}%`,
                   backgroundColor: getStrengthColor(),
-                }
-              ]} 
+                },
+              ]}
             />
             {[0, 25, 50, 75, 100].map((mark) => (
               <TouchableOpacity
@@ -256,33 +319,53 @@ export default function BeliefInspectionScreen() {
                 onPress={() => handleStrengthChange(mark)}
                 style={[
                   styles.sliderMark,
-                  { 
+                  {
                     left: `${mark}%`,
-                    backgroundColor: beliefStrength >= mark ? getStrengthColor() : theme.border,
-                  }
+                    backgroundColor:
+                      beliefStrength >= mark
+                        ? getStrengthColor()
+                        : theme.border,
+                  },
                 ]}
               />
             ))}
           </View>
-          
-          <ThemedText type="small" style={[styles.strengthLabel, { color: getStrengthColor() }]}>
+
+          <ThemedText
+            type="small"
+            style={[styles.strengthLabel, { color: getStrengthColor() }]}
+          >
             {beliefStrength <= 30 && "This belief has cracks. Good."}
-            {beliefStrength > 30 && beliefStrength <= 60 && "Some doubt is present. Work with that."}
-            {beliefStrength > 60 && beliefStrength <= 80 && "This belief feels solid but may not be."}
-            {beliefStrength > 80 && "This belief feels like truth. Let's examine it."}
+            {beliefStrength > 30 &&
+              beliefStrength <= 60 &&
+              "Some doubt is present. Work with that."}
+            {beliefStrength > 60 &&
+              beliefStrength <= 80 &&
+              "This belief feels solid but may not be."}
+            {beliefStrength > 80 &&
+              "This belief feels like truth. Let's examine it."}
           </ThemedText>
         </View>
       </Animated.View>
 
       {/* Pattern Interruption Question */}
-      <Animated.View 
-        entering={FadeIn.duration(400).delay(400)} 
-        style={[styles.interruptionCard, { backgroundColor: SiraatColors.indigoLight }]}
+      <Animated.View
+        entering={FadeIn.duration(400).delay(400)}
+        style={[
+          styles.interruptionCard,
+          { backgroundColor: SiraatColors.indigoLight },
+        ]}
       >
-        <ThemedText type="caption" style={[styles.interruptionLabel, { color: 'rgba(255,255,255,0.7)' }]}>
+        <ThemedText
+          type="caption"
+          style={[styles.interruptionLabel, { color: "rgba(255,255,255,0.7)" }]}
+        >
           PAUSE AND CONSIDER
         </ThemedText>
-        <ThemedText type="body" style={[styles.interruptionQuestion, { fontFamily: Fonts?.serif }]}>
+        <ThemedText
+          type="body"
+          style={[styles.interruptionQuestion, { fontFamily: Fonts?.serif }]}
+        >
           {currentQuestion}
         </ThemedText>
         <TextInput
@@ -297,16 +380,24 @@ export default function BeliefInspectionScreen() {
       </Animated.View>
 
       {/* Continue Button */}
-      <Animated.View entering={FadeIn.duration(300).delay(500)} style={styles.buttonSection}>
+      <Animated.View
+        entering={FadeIn.duration(300).delay(500)}
+        style={styles.buttonSection}
+      >
         <Button
           onPress={handleContinue}
           disabled={!canContinue}
-          style={{ backgroundColor: canContinue ? theme.primary : theme.border }}
+          style={{
+            backgroundColor: canContinue ? theme.primary : theme.border,
+          }}
         >
           Continue to Reframe
         </Button>
-        
-        <ThemedText type="small" style={[styles.hint, { color: theme.textSecondary }]}>
+
+        <ThemedText
+          type="small"
+          style={[styles.hint, { color: theme.textSecondary }]}
+        >
           The clearer you see the belief, the easier it is to reframe.
         </ThemedText>
       </Animated.View>

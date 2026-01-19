@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator, Linking, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -17,7 +23,10 @@ import { analyzeThought } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { ScreenCopy } from "@/constants/brand";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Distortion">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Distortion"
+>;
 type RouteType = RouteProp<RootStackParamList, "Distortion">;
 
 interface CrisisResource {
@@ -40,7 +49,7 @@ interface AnalysisResult {
   matters: string;
   // Crisis detection fields
   crisis?: boolean;
-  level?: 'emergency' | 'urgent' | 'concern';
+  level?: "emergency" | "urgent" | "concern";
   resources?: CrisisData;
 }
 
@@ -62,7 +71,11 @@ export default function DistortionScreen() {
         setLoading(true);
         setError(null);
         // Pass emotional intensity for adaptive AI responses
-        const data = await analyzeThought(thought, emotionalIntensity, somaticAwareness);
+        const data = await analyzeThought(
+          thought,
+          emotionalIntensity,
+          somaticAwareness,
+        );
         setResult(data);
       } catch (err) {
         setError("Unable to analyze your thought. Please try again.");
@@ -77,30 +90,34 @@ export default function DistortionScreen() {
   const handleContinue = () => {
     if (result) {
       const analysis = `${result.happening} ${result.pattern.join(" ")} ${result.matters}`;
-      navigation.navigate("Reframe", { thought, distortions: result.distortions, analysis });
+      navigation.navigate("Reframe", {
+        thought,
+        distortions: result.distortions,
+        analysis,
+      });
     }
   };
 
   const handleCallResource = (contact: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     // Extract phone number or handle special cases
-    if (contact.includes('988')) {
-      Linking.openURL('tel:988');
-    } else if (contact.includes('911')) {
-      Linking.openURL('tel:911');
-    } else if (contact.includes('741741')) {
-      Linking.openURL('sms:741741&body=HOME');
-    } else if (contact.includes('1-800')) {
-      const phoneNumber = contact.replace(/[^0-9]/g, '');
+    if (contact.includes("988")) {
+      Linking.openURL("tel:988");
+    } else if (contact.includes("911")) {
+      Linking.openURL("tel:911");
+    } else if (contact.includes("741741")) {
+      Linking.openURL("sms:741741&body=HOME");
+    } else if (contact.includes("1-800")) {
+      const phoneNumber = contact.replace(/[^0-9]/g, "");
       Linking.openURL(`tel:${phoneNumber}`);
     }
   };
 
   // CRISIS SCREEN - Shows when crisis language is detected
   if (result?.crisis && result.resources) {
-    const isEmergency = result.level === 'emergency';
+    const isEmergency = result.level === "emergency";
     const crisisData = result.resources;
-    
+
     return (
       <KeyboardAwareScrollViewCompat
         style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
@@ -112,63 +129,120 @@ export default function DistortionScreen() {
           },
         ]}
       >
-        <Animated.View entering={FadeInUp.duration(400)} style={styles.crisisHeader}>
-          <View style={[styles.crisisIcon, { backgroundColor: isEmergency ? SiraatColors.clay : SiraatColors.sand }]}>
-            <ThemedText type="h2" style={{ color: '#FFFFFF' }}>
-              {isEmergency ? '🆘' : '💛'}
+        <Animated.View
+          entering={FadeInUp.duration(400)}
+          style={styles.crisisHeader}
+        >
+          <View
+            style={[
+              styles.crisisIcon,
+              {
+                backgroundColor: isEmergency
+                  ? SiraatColors.clay
+                  : SiraatColors.sand,
+              },
+            ]}
+          >
+            <ThemedText type="h2" style={{ color: "#FFFFFF" }}>
+              {isEmergency ? "🆘" : "💛"}
             </ThemedText>
           </View>
-          
-          <ThemedText type="h3" style={[styles.crisisTitle, { fontFamily: Fonts?.serif }]}>
+
+          <ThemedText
+            type="h3"
+            style={[styles.crisisTitle, { fontFamily: Fonts?.serif }]}
+          >
             {crisisData.title}
           </ThemedText>
-          
-          <ThemedText type="body" style={[styles.crisisMessage, { color: theme.textSecondary }]}>
+
+          <ThemedText
+            type="body"
+            style={[styles.crisisMessage, { color: theme.textSecondary }]}
+          >
             {crisisData.message}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.resourcesSection}>
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(200)}
+          style={styles.resourcesSection}
+        >
+          <ThemedText
+            type="caption"
+            style={[styles.sectionLabel, { color: theme.textSecondary }]}
+          >
             REACH OUT NOW
           </ThemedText>
-          
-          {crisisData.resources.map((resource: CrisisResource, index: number) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleCallResource(resource.contact)}
-              style={[styles.resourceCard, { backgroundColor: theme.backgroundDefault }]}
-            >
-              <View style={styles.resourceContent}>
-                <ThemedText type="body" style={{ color: theme.text, fontWeight: '600' }}>
-                  {resource.name}
-                </ThemedText>
-                <ThemedText type="body" style={[styles.resourceContact, { color: theme.primary }]}>
-                  {resource.contact}
-                </ThemedText>
-                <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {resource.description}
-                </ThemedText>
-              </View>
-              <View style={[styles.resourceArrow, { backgroundColor: theme.primary }]}>
-                <ThemedText type="small" style={{ color: '#FFFFFF' }}>→</ThemedText>
-              </View>
-            </TouchableOpacity>
-          ))}
+
+          {crisisData.resources.map(
+            (resource: CrisisResource, index: number) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleCallResource(resource.contact)}
+                style={[
+                  styles.resourceCard,
+                  { backgroundColor: theme.backgroundDefault },
+                ]}
+              >
+                <View style={styles.resourceContent}>
+                  <ThemedText
+                    type="body"
+                    style={{ color: theme.text, fontWeight: "600" }}
+                  >
+                    {resource.name}
+                  </ThemedText>
+                  <ThemedText
+                    type="body"
+                    style={[styles.resourceContact, { color: theme.primary }]}
+                  >
+                    {resource.contact}
+                  </ThemedText>
+                  <ThemedText
+                    type="small"
+                    style={{ color: theme.textSecondary }}
+                  >
+                    {resource.description}
+                  </ThemedText>
+                </View>
+                <View
+                  style={[
+                    styles.resourceArrow,
+                    { backgroundColor: theme.primary },
+                  ]}
+                >
+                  <ThemedText type="small" style={{ color: "#FFFFFF" }}>
+                    →
+                  </ThemedText>
+                </View>
+              </TouchableOpacity>
+            ),
+          )}
         </Animated.View>
 
-        <Animated.View 
-          entering={FadeInUp.duration(400).delay(400)} 
-          style={[styles.islamicCard, { backgroundColor: SiraatColors.indigoLight }]}
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(400)}
+          style={[
+            styles.islamicCard,
+            { backgroundColor: SiraatColors.indigoLight },
+          ]}
         >
-          <ThemedText type="body" style={[styles.islamicText, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="body"
+            style={[styles.islamicText, { fontFamily: Fonts?.serif }]}
+          >
             {crisisData.islamicContext}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
-          <ThemedText type="small" style={[styles.continueNote, { color: theme.textSecondary }]}>
-            If you're safe and want to continue:
+        <Animated.View
+          entering={FadeIn.duration(300).delay(600)}
+          style={styles.buttonSection}
+        >
+          <ThemedText
+            type="small"
+            style={[styles.continueNote, { color: theme.textSecondary }]}
+          >
+            {"If you're safe and want to continue:"}
           </ThemedText>
           <Button
             onPress={handleContinue}
@@ -183,9 +257,14 @@ export default function DistortionScreen() {
 
   if (loading) {
     return (
-      <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
+      <ThemedView
+        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      >
         <ActivityIndicator size="large" color={theme.primary} />
-        <ThemedText type="body" style={[styles.loadingText, { color: theme.textSecondary }]}>
+        <ThemedText
+          type="body"
+          style={[styles.loadingText, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.distortion.loading}
         </ThemedText>
       </ThemedView>
@@ -194,8 +273,13 @@ export default function DistortionScreen() {
 
   if (error || !result) {
     return (
-      <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
-        <ThemedText type="body" style={[styles.errorText, { color: theme.error }]}>
+      <ThemedView
+        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      >
+        <ThemedText
+          type="body"
+          style={[styles.errorText, { color: theme.error }]}
+        >
           {error || "Something went wrong"}
         </ThemedText>
         <Button
@@ -219,22 +303,43 @@ export default function DistortionScreen() {
         },
       ]}
     >
-      <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.section}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(100)}
+        style={styles.section}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.distortion.sections.happening}
         </ThemedText>
-        <ThemedText type="body" style={[styles.sectionText, { lineHeight: 26 }]}>
+        <ThemedText
+          type="body"
+          style={[styles.sectionText, { lineHeight: 26 }]}
+        >
           {result.happening}
         </ThemedText>
       </Animated.View>
 
-      <Animated.View entering={FadeInUp.duration(400).delay(250)} style={styles.section}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(250)}
+        style={styles.section}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.distortion.sections.pattern}
         </ThemedText>
         <View style={styles.distortionsRow}>
           {result.distortions.map((distortion, index) => (
-            <View key={index} style={[styles.distortionPill, { backgroundColor: SiraatColors.indigo }]}>
+            <View
+              key={index}
+              style={[
+                styles.distortionPill,
+                { backgroundColor: SiraatColors.indigo },
+              ]}
+            >
               <ThemedText type="small" style={styles.distortionText}>
                 {distortion}
               </ThemedText>
@@ -243,30 +348,55 @@ export default function DistortionScreen() {
         </View>
         {result.pattern.map((item, index) => (
           <View key={index} style={styles.patternItem}>
-            <View style={[styles.patternBullet, { backgroundColor: SiraatColors.clay }]} />
-            <ThemedText type="body" style={[styles.patternText, { color: theme.text }]}>
+            <View
+              style={[
+                styles.patternBullet,
+                { backgroundColor: SiraatColors.clay },
+              ]}
+            />
+            <ThemedText
+              type="body"
+              style={[styles.patternText, { color: theme.text }]}
+            >
               {item}
             </ThemedText>
           </View>
         ))}
       </Animated.View>
 
-      <Animated.View 
-        entering={FadeInUp.duration(400).delay(400)} 
-        style={[styles.mattersCard, { backgroundColor: theme.backgroundDefault }]}
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(400)}
+        style={[
+          styles.mattersCard,
+          { backgroundColor: theme.backgroundDefault },
+        ]}
       >
-        <View style={[styles.mattersAccent, { backgroundColor: SiraatColors.emerald }]} />
+        <View
+          style={[
+            styles.mattersAccent,
+            { backgroundColor: SiraatColors.emerald },
+          ]}
+        />
         <View style={styles.mattersContent}>
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="caption"
+            style={[styles.sectionLabel, { color: theme.textSecondary }]}
+          >
             {ScreenCopy.distortion.sections.matters}
           </ThemedText>
-          <ThemedText type="body" style={[styles.mattersText, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="body"
+            style={[styles.mattersText, { fontFamily: Fonts?.serif }]}
+          >
             {result.matters}
           </ThemedText>
         </View>
       </Animated.View>
 
-      <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
+      <Animated.View
+        entering={FadeIn.duration(300).delay(600)}
+        style={styles.buttonSection}
+      >
         <Button
           onPress={handleContinue}
           style={{ backgroundColor: theme.primary }}

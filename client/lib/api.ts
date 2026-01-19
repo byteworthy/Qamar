@@ -28,14 +28,14 @@ export interface AnalysisResult {
   matters: string;
   // Crisis detection fields
   crisis?: boolean;
-  level?: 'emergency' | 'urgent' | 'concern';
+  level?: "emergency" | "urgent" | "concern";
   resources?: CrisisData;
 }
 
 export interface AnalyzeParams {
   thought: string;
-  emotionalIntensity?: number;  // 1-5 scale from emotional anchoring
-  somaticAwareness?: string;    // Body sensation from somatic prompt
+  emotionalIntensity?: number; // 1-5 scale from emotional anchoring
+  somaticAwareness?: string; // Body sensation from somatic prompt
 }
 
 // =============================================================================
@@ -110,9 +110,9 @@ export interface AssumptionResult {
 export async function analyzeThought(
   thought: string,
   emotionalIntensity?: number,
-  somaticAwareness?: string
+  somaticAwareness?: string,
 ): Promise<AnalysisResult> {
-  const response = await apiRequest("POST", "/api/analyze", { 
+  const response = await apiRequest("POST", "/api/analyze", {
     thought,
     emotionalIntensity,
     somaticAwareness,
@@ -128,7 +128,7 @@ export async function generateReframe(
   distortions: string[],
   analysis: string,
   emotionalIntensity?: number,
-  emotionalState?: string
+  emotionalState?: string,
 ): Promise<ReframeResult> {
   const response = await apiRequest("POST", "/api/reframe", {
     thought,
@@ -143,7 +143,9 @@ export async function generateReframe(
 /**
  * Generate a calming practice based on the reframe
  */
-export async function generatePractice(reframe: string): Promise<PracticeResult> {
+export async function generatePractice(
+  reframe: string,
+): Promise<PracticeResult> {
   const response = await apiRequest("POST", "/api/practice", { reframe });
   return response.json();
 }
@@ -167,7 +169,10 @@ export async function getInsightSummary(): Promise<InsightSummaryResult> {
 /**
  * Get assumption library for the user (PRO ONLY)
  */
-export async function getAssumptionLibrary(): Promise<{ assumptions: AssumptionResult[]; total: number }> {
+export async function getAssumptionLibrary(): Promise<{
+  assumptions: AssumptionResult[];
+  total: number;
+}> {
   const response = await apiRequest("GET", "/api/insights/assumptions");
   return response.json();
 }
@@ -175,7 +180,11 @@ export async function getAssumptionLibrary(): Promise<{ assumptions: AssumptionR
 /**
  * Check if user can reflect today (free tier limits)
  */
-export async function canReflectToday(): Promise<{ canReflect: boolean; remaining: number | null; isPaid: boolean }> {
+export async function canReflectToday(): Promise<{
+  canReflect: boolean;
+  remaining: number | null;
+  isPaid: boolean;
+}> {
   const response = await apiRequest("GET", "/api/reflection/can-reflect");
   return response.json();
 }

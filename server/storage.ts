@@ -1,6 +1,6 @@
-import { db } from './db';
-import { users } from '@shared/schema';
-import { eq, sql } from 'drizzle-orm';
+import { db } from "./db";
+import { users } from "@shared/schema";
+import { eq, sql } from "drizzle-orm";
 
 export interface SessionRecord {
   id: string;
@@ -36,15 +36,18 @@ export class Storage {
 
   async getOrCreateUser(userId: string, email?: string) {
     let [user] = await db.select().from(users).where(eq(users.id, userId));
-    
+
     if (!user) {
-      [user] = await db.insert(users).values({
-        id: userId,
-        email: email || null,
-        subscriptionStatus: 'free',
-      }).returning();
+      [user] = await db
+        .insert(users)
+        .values({
+          id: userId,
+          email: email || null,
+          subscriptionStatus: "free",
+        })
+        .returning();
     }
-    
+
     return user;
   }
 
@@ -54,14 +57,17 @@ export class Storage {
       WHERE user_id = ${userId} 
       AND DATE(created_at) = CURRENT_DATE
     `);
-    return parseInt((result.rows[0] as any)?.count || '0', 10);
+    return parseInt((result.rows[0] as any)?.count || "0", 10);
   }
 
-  async getReflectionHistory(userId: string, limit?: number): Promise<SessionRecord[]> {
-    const query = limit 
+  async getReflectionHistory(
+    userId: string,
+    limit?: number,
+  ): Promise<SessionRecord[]> {
+    const query = limit
       ? sql`SELECT * FROM sessions WHERE user_id = ${userId} ORDER BY created_at DESC LIMIT ${limit}`
       : sql`SELECT * FROM sessions WHERE user_id = ${userId} ORDER BY created_at DESC`;
-    
+
     const result = await db.execute(query);
     return result.rows.map((row: any) => ({
       id: row.id,
@@ -78,16 +84,19 @@ export class Storage {
     }));
   }
 
-  async saveReflection(userId: string, data: {
-    thought: string;
-    distortions: string[];
-    reframe: string;
-    intention: string;
-    practice: string;
-    keyAssumption?: string;
-    detectedState?: string;
-    anchor?: string;
-  }): Promise<void> {
+  async saveReflection(
+    userId: string,
+    data: {
+      thought: string;
+      distortions: string[];
+      reframe: string;
+      intention: string;
+      practice: string;
+      keyAssumption?: string;
+      detectedState?: string;
+      anchor?: string;
+    },
+  ): Promise<void> {
     await db.execute(sql`
       INSERT INTO sessions (user_id, thought, distortions, reframe, intention, practice, key_assumption, detected_state, anchor)
       VALUES (${userId}, ${data.thought}, ${JSON.stringify(data.distortions)}, ${data.reframe}, ${data.intention}, ${data.practice}, ${data.keyAssumption || null}, ${data.detectedState || null}, ${data.anchor || null})
@@ -98,7 +107,10 @@ export class Storage {
     }
   }
 
-  async getRecentReflections(userId: string, count: number = 15): Promise<SessionRecord[]> {
+  async getRecentReflections(
+    userId: string,
+    count: number = 15,
+  ): Promise<SessionRecord[]> {
     const result = await db.execute(sql`
       SELECT * FROM sessions WHERE user_id = ${userId} ORDER BY created_at DESC LIMIT ${count}
     `);
@@ -121,10 +133,12 @@ export class Storage {
     const result = await db.execute(sql`
       SELECT COUNT(*) as count FROM sessions WHERE user_id = ${userId}
     `);
-    return parseInt((result.rows[0] as any)?.count || '0', 10);
+    return parseInt((result.rows[0] as any)?.count || "0", 10);
   }
 
-  async getLatestInsightSummary(userId: string): Promise<InsightSummary | null> {
+  async getLatestInsightSummary(
+    userId: string,
+  ): Promise<InsightSummary | null> {
     const result = await db.execute(sql`
       SELECT * FROM insight_summaries WHERE user_id = ${userId} ORDER BY generated_at DESC LIMIT 1
     `);
@@ -137,14 +151,21 @@ export class Storage {
     };
   }
 
-  async saveInsightSummary(userId: string, summary: string, reflectionCount: number): Promise<void> {
+  async saveInsightSummary(
+    userId: string,
+    summary: string,
+    reflectionCount: number,
+  ): Promise<void> {
     await db.execute(sql`
       INSERT INTO insight_summaries (user_id, summary, reflection_count)
       VALUES (${userId}, ${summary}, ${reflectionCount})
     `);
   }
 
-  async updateAssumptionLibrary(userId: string, assumption: string): Promise<void> {
+  async updateAssumptionLibrary(
+    userId: string,
+    assumption: string,
+  ): Promise<void> {
     const existing = await db.execute(sql`
       SELECT * FROM assumption_library WHERE user_id = ${userId} AND assumption_label = ${assumption}
     `);

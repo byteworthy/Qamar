@@ -18,7 +18,7 @@ const openai = new OpenAI({
 });
 
 export async function generateReturnSummary(
-  reflections: ReflectionSummaryData[]
+  reflections: ReflectionSummaryData[],
 ): Promise<ThemeSummary | null> {
   if (reflections.length < 3) {
     return null;
@@ -26,9 +26,12 @@ export async function generateReturnSummary(
 
   const recentReflections = reflections.slice(-7);
 
-  const thoughtSummaries = recentReflections.map((r, i) => 
-    `Reflection ${i + 1}: "${r.thought.slice(0, 200)}..." | Patterns: ${r.distortions.join(", ")}`
-  ).join("\n");
+  const thoughtSummaries = recentReflections
+    .map(
+      (r, i) =>
+        `Reflection ${i + 1}: "${r.thought.slice(0, 200)}..." | Patterns: ${r.distortions.join(", ")}`,
+    )
+    .join("\n");
 
   try {
     const response = await openai.chat.completions.create({
@@ -84,7 +87,10 @@ Respond with a JSON object containing:
   }
 }
 
-export function shouldGenerateSummary(reflectionCount: number, lastSummaryDate?: Date): boolean {
+export function shouldGenerateSummary(
+  reflectionCount: number,
+  lastSummaryDate?: Date,
+): boolean {
   if (reflectionCount < 5) {
     return false;
   }
@@ -93,6 +99,7 @@ export function shouldGenerateSummary(reflectionCount: number, lastSummaryDate?:
     return true;
   }
 
-  const daysSinceLastSummary = (Date.now() - lastSummaryDate.getTime()) / (1000 * 60 * 60 * 24);
+  const daysSinceLastSummary =
+    (Date.now() - lastSummaryDate.getTime()) / (1000 * 60 * 60 * 24);
   return daysSinceLastSummary >= 7 && reflectionCount >= 5;
 }

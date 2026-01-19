@@ -2,7 +2,11 @@ import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import { registerRoutes } from "./routes";
-import { registerBillingWebhookRoute, registerBillingRoutes, getStripeSync } from "./billing";
+import {
+  registerBillingWebhookRoute,
+  registerBillingRoutes,
+  getStripeSync,
+} from "./billing";
 import { runMigrations } from "stripe-replit-sync";
 import { sessionMiddleware } from "./middleware/auth";
 import { initializeDataRetention, runManualCleanup } from "./data-retention";
@@ -224,66 +228,67 @@ function setupErrorHandler(app: express.Application) {
 async function initStripe() {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
-    log('DATABASE_URL not set, skipping Stripe initialization');
+    log("DATABASE_URL not set, skipping Stripe initialization");
     return;
   }
 
   try {
-    log('Initializing Stripe schema...');
+    log("Initializing Stripe schema...");
     await runMigrations({ databaseUrl });
-    log('Stripe schema ready');
+    log("Stripe schema ready");
 
     const stripeSync = await getStripeSync();
 
-    log('Setting up managed webhook...');
-    const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
+    log("Setting up managed webhook...");
+    const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(",")[0]}`;
     try {
       const result = await stripeSync.findOrCreateManagedWebhook(
-        `${webhookBaseUrl}/api/billing/webhook`
+        `${webhookBaseUrl}/api/billing/webhook`,
       );
       if (result?.webhook?.url) {
         log(`Webhook configured: ${result.webhook.url}`);
       } else {
-        log('Webhook setup returned without URL, continuing...');
+        log("Webhook setup returned without URL, continuing...");
       }
     } catch (webhookError: any) {
-      log('Webhook setup error (non-fatal):', webhookError.message);
+      log("Webhook setup error (non-fatal):", webhookError.message);
     }
 
-    log('Syncing Stripe data in background...');
-    stripeSync.syncBackfill()
-      .then(() => log('Stripe data synced'))
-      .catch((err: any) => log('Error syncing Stripe data:', err.message));
+    log("Syncing Stripe data in background...");
+    stripeSync
+      .syncBackfill()
+      .then(() => log("Stripe data synced"))
+      .catch((err: any) => log("Error syncing Stripe data:", err.message));
   } catch (error: any) {
-    log('Stripe initialization error:', error.message);
+    log("Stripe initialization error:", error.message);
   }
 }
 
 (async () => {
   setupCors(app);
-  
+
   // CRITICAL: Webhook route MUST be registered BEFORE body parsing middleware.
   // Stripe webhook verification requires the raw request body as a Buffer.
   // If express.json() runs first, it will parse the body and break signature verification.
   registerBillingWebhookRoute(app);
-  
+
   setupBodyParsing(app);
-  
+
   // Cookie parser must come before session middleware
   app.use(cookieParser());
-  
+
   // Session middleware creates/validates signed session cookies for user identity
   // All subsequent routes can access req.auth.userId instead of trusting client input
   app.use(sessionMiddleware);
-  
+
   setupRequestLogging(app);
 
   await initStripe();
 
   // Initialize data retention service (runs cleanup every 24 hours)
-  log('Initializing data retention service...');
+  log("Initializing data retention service...");
   initializeDataRetention();
-  log('Data retention service initialized');
+  log("Data retention service initialized");
 
   registerBillingRoutes(app);
 

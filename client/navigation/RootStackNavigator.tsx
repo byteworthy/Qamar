@@ -21,10 +21,10 @@ export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
   ThoughtCapture: undefined;
-  Distortion: { 
-    thought: string; 
-    emotionalIntensity?: number;  // 1-5 scale from emotional anchoring
-    somaticAwareness?: string;    // Body sensation from somatic prompt
+  Distortion: {
+    thought: string;
+    emotionalIntensity?: number; // 1-5 scale from emotional anchoring
+    somaticAwareness?: string; // Body sensation from somatic prompt
   };
   BeliefInspection: {
     thought: string;
@@ -32,36 +32,36 @@ export type RootStackParamList = {
     analysis: string;
     emotionalIntensity?: number;
   };
-  Reframe: { 
-    thought: string; 
-    distortions: string[]; 
+  Reframe: {
+    thought: string;
+    distortions: string[];
     analysis: string;
     emotionalIntensity?: number;
-    beliefStrength?: number;      // 0-100% from belief inspection
+    beliefStrength?: number; // 0-100% from belief inspection
   };
-  Regulation: { 
-    thought: string; 
-    distortions: string[]; 
-    reframe: string; 
+  Regulation: {
+    thought: string;
+    distortions: string[];
+    reframe: string;
     anchor: string;
     emotionalIntensity?: number;
   };
-  Intention: { 
-    thought: string; 
-    distortions: string[]; 
-    reframe: string; 
-    practice: string; 
-    anchor: string; 
+  Intention: {
+    thought: string;
+    distortions: string[];
+    reframe: string;
+    practice: string;
+    anchor: string;
     detectedState?: string;
     emotionalIntensity?: number;
   };
-  SessionComplete: { 
-    thought: string; 
-    distortions: string[]; 
-    reframe: string; 
-    intention: string; 
-    practice: string; 
-    anchor: string; 
+  SessionComplete: {
+    thought: string;
+    distortions: string[];
+    reframe: string;
+    intention: string;
+    practice: string;
+    anchor: string;
     detectedState?: string;
     emotionalIntensity?: number;
     somaticAwareness?: string;
@@ -70,7 +70,7 @@ export type RootStackParamList = {
   Pricing: undefined;
   BillingSuccess: undefined;
   CalmingPractice: undefined;
-  Dua: { state?: string };        // For contextual duas based on emotional state
+  Dua: { state?: string }; // For contextual duas based on emotional state
   Insights: undefined;
 };
 

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Pressable, ScrollView, TextInput, Modal, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  TextInput,
+  Modal,
+  Alert,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -28,9 +36,16 @@ interface MenuItemProps {
   showChevron?: boolean;
 }
 
-function MenuItem({ icon, title, subtitle, onPress, delay, showChevron = true }: MenuItemProps) {
+function MenuItem({
+  icon,
+  title,
+  subtitle,
+  onPress,
+  delay,
+  showChevron = true,
+}: MenuItemProps) {
   const { theme } = useTheme();
-  
+
   return (
     <Animated.View entering={FadeInUp.duration(300).delay(delay)}>
       <Pressable
@@ -44,13 +59,20 @@ function MenuItem({ icon, title, subtitle, onPress, delay, showChevron = true }:
         <View style={styles.menuItemContent}>
           <ThemedText style={styles.menuItemTitle}>{title}</ThemedText>
           {subtitle && (
-            <ThemedText style={[styles.menuItemSubtitle, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.menuItemSubtitle, { color: theme.textSecondary }]}
+            >
               {subtitle}
             </ThemedText>
           )}
         </View>
         {showChevron && (
-          <Feather name="chevron-right" size={18} color={theme.textSecondary} style={{ opacity: 0.5 }} />
+          <Feather
+            name="chevron-right"
+            size={18}
+            color={theme.textSecondary}
+            style={{ opacity: 0.5 }}
+          />
         )}
       </Pressable>
     </Animated.View>
@@ -98,21 +120,32 @@ export default function ProfileScreen() {
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 16, paddingBottom: 100 + insets.bottom }]}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingTop: insets.top + 16, paddingBottom: 100 + insets.bottom },
+        ]}
         showsVerticalScrollIndicator={false}
       >
-        <Animated.View entering={FadeInDown.duration(300)} style={styles.header}>
+        <Animated.View
+          entering={FadeInDown.duration(300)}
+          style={styles.header}
+        >
           <ThemedText style={styles.headerTitle}>Profile</ThemedText>
         </Animated.View>
 
-        <Animated.View 
+        <Animated.View
           entering={FadeInUp.duration(350).delay(100)}
-          style={[styles.profileCard, { backgroundColor: theme.cardBackground }]}
+          style={[
+            styles.profileCard,
+            { backgroundColor: theme.cardBackground },
+          ]}
         >
           <View style={styles.profileInfo}>
             <ThemedText style={styles.profileName}>{userName}</ThemedText>
             {userEmail ? (
-              <ThemedText style={[styles.profileEmail, { color: theme.textSecondary }]}>
+              <ThemedText
+                style={[styles.profileEmail, { color: theme.textSecondary }]}
+              >
                 {userEmail}
               </ThemedText>
             ) : null}
@@ -122,7 +155,10 @@ export default function ProfileScreen() {
               setNameInput(userName);
               setShowEditModal(true);
             }}
-            style={[styles.editButton, { backgroundColor: theme.backgroundDefault }]}
+            style={[
+              styles.editButton,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
           >
             <ThemedText style={styles.editButtonText}>Edit</ThemedText>
           </Pressable>
@@ -137,7 +173,9 @@ export default function ProfileScreen() {
                 { opacity: pressed ? 0.9 : 1 },
               ]}
             >
-              <ThemedText style={styles.upgradeText}>Upgrade to Noor Plus</ThemedText>
+              <ThemedText style={styles.upgradeText}>
+                Upgrade to Noor Plus
+              </ThemedText>
               <View style={styles.upgradeIcon}>
                 <ThemedText style={{ fontSize: 20 }}>*</ThemedText>
               </View>
@@ -181,7 +219,12 @@ export default function ProfileScreen() {
         onRequestClose={() => setShowEditModal(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.backgroundDefault }]}>
+          <View
+            style={[
+              styles.modalContent,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
             <ThemedText style={styles.modalTitle}>Edit Profile</ThemedText>
             <TextInput
               value={nameInput}
@@ -190,7 +233,7 @@ export default function ProfileScreen() {
               placeholderTextColor={theme.textSecondary}
               style={[
                 styles.nameInput,
-                { backgroundColor: theme.backgroundRoot, color: theme.text }
+                { backgroundColor: theme.backgroundRoot, color: theme.text },
               ]}
               autoFocus
               maxLength={20}
@@ -198,7 +241,10 @@ export default function ProfileScreen() {
             <View style={styles.modalButtons}>
               <Pressable
                 onPress={() => setShowEditModal(false)}
-                style={[styles.modalButton, { backgroundColor: theme.backgroundRoot }]}
+                style={[
+                  styles.modalButton,
+                  { backgroundColor: theme.backgroundRoot },
+                ]}
               >
                 <ThemedText>Cancel</ThemedText>
               </Pressable>
@@ -206,7 +252,9 @@ export default function ProfileScreen() {
                 onPress={handleSaveName}
                 style={[styles.modalButton, { backgroundColor: theme.primary }]}
               >
-                <ThemedText style={{ color: NiyyahColors.background }}>Save</ThemedText>
+                <ThemedText style={{ color: NiyyahColors.background }}>
+                  Save
+                </ThemedText>
               </Pressable>
             </View>
           </View>

@@ -1,5 +1,11 @@
 import React, { ReactNode } from "react";
-import { View, StyleSheet, ScrollView, Pressable, useWindowDimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
@@ -51,7 +57,9 @@ export function Screen({
     {
       paddingTop: hasHeader ? Layout.spacing.md : Layout.spacing.xl,
       paddingBottom: insets.bottom + Layout.spacing.xl,
-      minHeight: scrollable ? undefined : screenHeight - insets.top - (hasHeader ? HEADER_HEIGHT : 0),
+      minHeight: scrollable
+        ? undefined
+        : screenHeight - insets.top - (hasHeader ? HEADER_HEIGHT : 0),
     },
     centered && styles.centeredContent,
     contentStyle,
@@ -67,17 +75,25 @@ export function Screen({
       {children}
     </ScrollView>
   ) : (
-    <View style={[styles.content, contentContainerStyle]}>
-      {children}
-    </View>
+    <View style={[styles.content, contentContainerStyle]}>{children}</View>
   );
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
-      <View style={[styles.safeTop, { height: insets.top, backgroundColor: theme.backgroundRoot }]} />
-      
+      <View
+        style={[
+          styles.safeTop,
+          { height: insets.top, backgroundColor: theme.backgroundRoot },
+        ]}
+      />
+
       {hasHeader && (
-        <View style={[styles.header, { height: HEADER_HEIGHT, backgroundColor: theme.backgroundRoot }]}>
+        <View
+          style={[
+            styles.header,
+            { height: HEADER_HEIGHT, backgroundColor: theme.backgroundRoot },
+          ]}
+        >
           <View style={styles.headerLeft}>
             {showBack && (
               <Pressable
@@ -92,24 +108,22 @@ export function Screen({
               </Pressable>
             )}
           </View>
-          
+
           <View style={styles.headerCenter}>
             {title && (
-              <ThemedText 
-                numberOfLines={1} 
+              <ThemedText
+                numberOfLines={1}
                 style={[styles.headerTitle, { fontSize: Layout.typeScale.h2 }]}
               >
                 {title}
               </ThemedText>
             )}
           </View>
-          
-          <View style={styles.headerRight}>
-            {headerRight}
-          </View>
+
+          <View style={styles.headerRight}>{headerRight}</View>
         </View>
       )}
-      
+
       {content}
     </View>
   );

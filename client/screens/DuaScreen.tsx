@@ -62,15 +62,21 @@ const DUAS: Record<string, Record<string, Dua>> = {
       forState: "When work weighs heavy on your heart",
     },
     family: {
-      arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
-      transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yun",
-      english: "Our Lord, grant us from our spouses and offspring comfort to our eyes",
+      arabic:
+        "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+      transliteration:
+        "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yun",
+      english:
+        "Our Lord, grant us from our spouses and offspring comfort to our eyes",
       forState: "When family matters create unease",
     },
     health: {
-      arabic: "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي",
-      transliteration: "Allahumma Rabban-nas, adhhibil-ba's, ishfi antash-Shafi",
-      english: "O Allah, Lord of mankind, remove the hardship and heal, You are the Healer",
+      arabic:
+        "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي",
+      transliteration:
+        "Allahumma Rabban-nas, adhhibil-ba's, ishfi antash-Shafi",
+      english:
+        "O Allah, Lord of mankind, remove the hardship and heal, You are the Healer",
       forState: "When health concerns create worry",
     },
     return: {
@@ -82,26 +88,34 @@ const DUAS: Record<string, Record<string, Dua>> = {
     fear: {
       arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
       transliteration: "Hasbunallahu wa ni'mal-wakeel",
-      english: "Allah is sufficient for us, and He is the best disposer of affairs",
+      english:
+        "Allah is sufficient for us, and He is the best disposer of affairs",
       forState: "When fear clouds your vision",
     },
     gratitude: {
-      arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
-      transliteration: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik",
+      arabic:
+        "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+      transliteration:
+        "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik",
       english: "O Allah, help me remember You, thank You, and worship You well",
       forState: "When you want to anchor in gratitude",
     },
   },
   provision: {
     work: {
-      arabic: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
-      transliteration: "Allahumma-kfini bihalalika 'an haramik, wa aghnini bifadlika 'amman siwak",
-      english: "O Allah, suffice me with what is lawful over what is forbidden, and enrich me by Your favor over all others",
+      arabic:
+        "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+      transliteration:
+        "Allahumma-kfini bihalalika 'an haramik, wa aghnini bifadlika 'amman siwak",
+      english:
+        "O Allah, suffice me with what is lawful over what is forbidden, and enrich me by Your favor over all others",
       forState: "When provision feels tight",
     },
     family: {
-      arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ",
-      transliteration: "Rabbi awzi'ni an ashkura ni'matakal-lati an'amta 'alayya",
+      arabic:
+        "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ",
+      transliteration:
+        "Rabbi awzi'ni an ashkura ni'matakal-lati an'amta 'alayya",
       english: "My Lord, enable me to be grateful for Your favor upon me",
       forState: "When you need to see the blessing in what you have",
     },
@@ -114,7 +128,8 @@ const DUAS: Record<string, Record<string, Dua>> = {
     return: {
       arabic: "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا",
       transliteration: "Rabbana la tu'akhidhna in nasina aw akhta'na",
-      english: "Our Lord, do not take us to account if we forget or make mistakes",
+      english:
+        "Our Lord, do not take us to account if we forget or make mistakes",
       forState: "When you've erred in pursuit of provision",
     },
     fear: {
@@ -124,9 +139,12 @@ const DUAS: Record<string, Record<string, Dua>> = {
       forState: "When fear of scarcity grips you",
     },
     gratitude: {
-      arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
-      transliteration: "Alhamdulillahil-ladhi at'amana wa saqana wa ja'alana muslimeen",
-      english: "Praise be to Allah who fed us, gave us drink, and made us Muslims",
+      arabic:
+        "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
+      transliteration:
+        "Alhamdulillahil-ladhi at'amana wa saqana wa ja'alana muslimeen",
+      english:
+        "Praise be to Allah who fed us, gave us drink, and made us Muslims",
       forState: "When you want to ground in what you already have",
     },
   },
@@ -138,9 +156,11 @@ const DUAS: Record<string, Record<string, Dua>> = {
       forState: "When loss touches your work life",
     },
     family: {
-      arabic: "اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
+      arabic:
+        "اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
       transliteration: "Allahumma'jurni fi musibati wa akhlif li khayran minha",
-      english: "O Allah, reward me in my affliction and replace it with something better",
+      english:
+        "O Allah, reward me in my affliction and replace it with something better",
       forState: "When grief touches your family",
     },
     health: {
@@ -152,13 +172,16 @@ const DUAS: Record<string, Record<string, Dua>> = {
     return: {
       arabic: "رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ خَيْرُ الرَّاحِمِينَ",
       transliteration: "Rabbighfir warham wa anta khayrur-rahimeen",
-      english: "My Lord, forgive and have mercy, and You are the best of the merciful",
+      english:
+        "My Lord, forgive and have mercy, and You are the best of the merciful",
       forState: "When grief mingles with regret",
     },
     fear: {
-      arabic: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+      arabic:
+        "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
       transliteration: "La ilaha illa anta subhanaka inni kuntu minaz-zalimeen",
-      english: "There is no god but You, glory be to You, indeed I was among the wrongdoers",
+      english:
+        "There is no god but You, glory be to You, indeed I was among the wrongdoers",
       forState: "When grief brings fear of what's next",
     },
     gratitude: {
@@ -176,8 +199,10 @@ const DUAS: Record<string, Record<string, Dua>> = {
       forState: "When work led you astray",
     },
     family: {
-      arabic: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ",
-      transliteration: "Rabbana-ghfir lana wa li-ikhwaninal-ladhina sabaquna bil-iman",
+      arabic:
+        "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ",
+      transliteration:
+        "Rabbana-ghfir lana wa li-ikhwaninal-ladhina sabaquna bil-iman",
       english: "Our Lord, forgive us and our brothers who preceded us in faith",
       forState: "When sin affects those you love",
     },
@@ -188,15 +213,21 @@ const DUAS: Record<string, Record<string, Dua>> = {
       forState: "When sin weighs on your body and soul",
     },
     return: {
-      arabic: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
-      transliteration: "Rabbana dhalamna anfusana wa in lam taghfir lana wa tarhamna lanakoonanna minal-khasireen",
-      english: "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers",
+      arabic:
+        "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+      transliteration:
+        "Rabbana dhalamna anfusana wa in lam taghfir lana wa tarhamna lanakoonanna minal-khasireen",
+      english:
+        "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers",
       forState: "When you need to return fully",
     },
     fear: {
-      arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ",
-      transliteration: "Rabbighfir li wa tub 'alayya innaka antat-Tawwabur-Raheem",
-      english: "My Lord, forgive me and accept my repentance, You are the Accepting of repentance, the Merciful",
+      arabic:
+        "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ",
+      transliteration:
+        "Rabbighfir li wa tub 'alayya innaka antat-Tawwabur-Raheem",
+      english:
+        "My Lord, forgive me and accept my repentance, You are the Accepting of repentance, the Merciful",
       forState: "When fear of consequences grips you",
     },
     gratitude: {
@@ -214,9 +245,12 @@ const DUAS: Record<string, Record<string, Dua>> = {
       forState: "When workplace frustrations boil over",
     },
     family: {
-      arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
-      transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yun",
-      english: "Our Lord, grant us from our spouses and offspring comfort to our eyes",
+      arabic:
+        "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+      transliteration:
+        "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yun",
+      english:
+        "Our Lord, grant us from our spouses and offspring comfort to our eyes",
       forState: "When family conflicts stir anger",
     },
     health: {
@@ -248,13 +282,15 @@ const DUAS: Record<string, Record<string, Dua>> = {
     work: {
       arabic: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ",
       transliteration: "Hasbiyallahu la ilaha illa huwa 'alayhi tawakkaltu",
-      english: "Allah is sufficient for me, there is no god but Him, in Him I place my trust",
+      english:
+        "Allah is sufficient for me, there is no god but Him, in Him I place my trust",
       forState: "When your work goes unrecognized",
     },
     family: {
       arabic: "رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنتَ خَيْرُ الْوَارِثِينَ",
       transliteration: "Rabbi la tadharniy fardan wa anta khayrul-waritheen",
-      english: "My Lord, do not leave me alone, and You are the best of inheritors",
+      english:
+        "My Lord, do not leave me alone, and You are the best of inheritors",
       forState: "When you feel unseen by those closest to you",
     },
     health: {
@@ -290,7 +326,9 @@ export default function DuaScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const [selectedState, setSelectedState] = useState<InnerState | null>(null);
-  const [selectedContext, setSelectedContext] = useState<LifeContext | null>(null);
+  const [selectedContext, setSelectedContext] = useState<LifeContext | null>(
+    null,
+  );
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],
@@ -311,44 +349,73 @@ export default function DuaScreen() {
     }
   };
 
-  const selectedDua = selectedState && selectedContext 
-    ? DUAS[selectedState.id]?.[selectedContext.id] 
-    : null;
+  const selectedDua =
+    selectedState && selectedContext
+      ? DUAS[selectedState.id]?.[selectedContext.id]
+      : null;
 
   if (selectedDua) {
     return (
       <Screen title="Dua" showBack onBack={handleBack}>
         <Animated.View entering={FadeInUp.duration(400)}>
-          <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault }]}>
+          <View
+            style={[
+              styles.duaCard,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
             <ThemedText style={styles.arabicText}>
               {selectedDua.arabic}
             </ThemedText>
           </View>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(350).delay(100)} style={styles.translitContainer}>
-          <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
+        <Animated.View
+          entering={FadeInUp.duration(350).delay(100)}
+          style={styles.translitContainer}
+        >
+          <ThemedText
+            style={[styles.transliteration, { color: theme.textSecondary }]}
+          >
             {selectedDua.transliteration}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(350).delay(150)} style={styles.englishContainer}>
-          <ThemedText style={[styles.englishText, { fontFamily: Fonts?.serif }]}>
+        <Animated.View
+          entering={FadeInUp.duration(350).delay(150)}
+          style={styles.englishContainer}
+        >
+          <ThemedText
+            style={[styles.englishText, { fontFamily: Fonts?.serif }]}
+          >
             {selectedDua.english}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View 
+        <Animated.View
           entering={FadeInUp.duration(350).delay(200)}
-          style={[styles.forStateCard, { backgroundColor: SiraatColors.indigo + "10" }]}
+          style={[
+            styles.forStateCard,
+            { backgroundColor: SiraatColors.indigo + "10" },
+          ]}
         >
-          <View style={[styles.forStateAccent, { backgroundColor: SiraatColors.indigo }]} />
-          <ThemedText style={[styles.forStateText, { color: theme.textSecondary }]}>
+          <View
+            style={[
+              styles.forStateAccent,
+              { backgroundColor: SiraatColors.indigo },
+            ]}
+          />
+          <ThemedText
+            style={[styles.forStateText, { color: theme.textSecondary }]}
+          >
             {selectedDua.forState}
           </ThemedText>
         </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(350).delay(250)} style={styles.doneContainer}>
+        <Animated.View
+          entering={FadeInUp.duration(350).delay(250)}
+          style={styles.doneContainer}
+        >
           <Button
             onPress={() => navigation.goBack()}
             style={{ backgroundColor: theme.primary }}
@@ -367,7 +434,9 @@ export default function DuaScreen() {
           <ThemedText style={[styles.introTitle, { fontFamily: Fonts?.serif }]}>
             What area of life?
           </ThemedText>
-          <ThemedText style={[styles.introSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.introSubtitle, { color: theme.textSecondary }]}
+          >
             Choose the context that fits.
           </ThemedText>
         </Animated.View>
@@ -382,14 +451,20 @@ export default function DuaScreen() {
                 onPress={() => setSelectedContext(context)}
                 style={({ pressed }) => [
                   styles.optionCard,
-                  { 
+                  {
                     backgroundColor: theme.cardBackground,
                     opacity: pressed ? 0.85 : 1,
                   },
                 ]}
               >
-                <ThemedText style={styles.optionText}>{context.label}</ThemedText>
-                <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+                <ThemedText style={styles.optionText}>
+                  {context.label}
+                </ThemedText>
+                <Feather
+                  name="chevron-right"
+                  size={16}
+                  color={theme.textSecondary}
+                />
               </Pressable>
             </Animated.View>
           ))}
@@ -404,7 +479,9 @@ export default function DuaScreen() {
         <ThemedText style={[styles.introTitle, { fontFamily: Fonts?.serif }]}>
           What are you carrying?
         </ThemedText>
-        <ThemedText style={[styles.introSubtitle, { color: theme.textSecondary }]}>
+        <ThemedText
+          style={[styles.introSubtitle, { color: theme.textSecondary }]}
+        >
           Choose what fits closest.
         </ThemedText>
       </Animated.View>
@@ -421,21 +498,39 @@ export default function DuaScreen() {
                 onPress={() => !isLocked && setSelectedState(state)}
                 style={({ pressed }) => [
                   styles.stateCard,
-                  { 
+                  {
                     backgroundColor: theme.cardBackground,
                     opacity: pressed && !isLocked ? 0.85 : isLocked ? 0.5 : 1,
                   },
                 ]}
               >
-                <View style={[styles.stateAccent, { backgroundColor: SiraatColors.indigo }]} />
-                <View style={[styles.stateIcon, { backgroundColor: SiraatColors.indigo + "15" }]}>
-                  <Feather name={state.icon} size={16} color={SiraatColors.indigo} />
+                <View
+                  style={[
+                    styles.stateAccent,
+                    { backgroundColor: SiraatColors.indigo },
+                  ]}
+                />
+                <View
+                  style={[
+                    styles.stateIcon,
+                    { backgroundColor: SiraatColors.indigo + "15" },
+                  ]}
+                >
+                  <Feather
+                    name={state.icon}
+                    size={16}
+                    color={SiraatColors.indigo}
+                  />
                 </View>
                 <ThemedText style={styles.stateLabel}>{state.label}</ThemedText>
                 {isLocked ? (
                   <Feather name="lock" size={14} color={theme.textSecondary} />
                 ) : (
-                  <Feather name="chevron-right" size={16} color={theme.textSecondary} />
+                  <Feather
+                    name="chevron-right"
+                    size={16}
+                    color={theme.textSecondary}
+                  />
                 )}
               </Pressable>
             </Animated.View>

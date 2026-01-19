@@ -27,9 +27,13 @@ export default function BillingSuccessScreen() {
         if (isPaidStatus(result.status)) {
           setSuccess(true);
           queryClient.invalidateQueries({ queryKey: ["/api/billing/status"] });
-          queryClient.invalidateQueries({ queryKey: ["/api/reflection/can-reflect"] });
+          queryClient.invalidateQueries({
+            queryKey: ["/api/reflection/can-reflect"],
+          });
         } else {
-          setError("Your subscription is still being processed. Please try again in a moment.");
+          setError(
+            "Your subscription is still being processed. Please try again in a moment.",
+          );
         }
       } catch (err) {
         setError("Unable to verify subscription. Please try again.");
@@ -46,7 +50,7 @@ export default function BillingSuccessScreen() {
       CommonActions.reset({
         index: 0,
         routes: [{ name: "Home" }],
-      })
+      }),
     );
   };
 
@@ -58,9 +62,13 @@ export default function BillingSuccessScreen() {
       if (isPaidStatus(result.status)) {
         setSuccess(true);
         queryClient.invalidateQueries({ queryKey: ["/api/billing/status"] });
-        queryClient.invalidateQueries({ queryKey: ["/api/reflection/can-reflect"] });
+        queryClient.invalidateQueries({
+          queryKey: ["/api/reflection/can-reflect"],
+        });
       } else {
-        setError("Your subscription is still being processed. Please try again in a moment.");
+        setError(
+          "Your subscription is still being processed. Please try again in a moment.",
+        );
       }
     } catch (err) {
       setError("Unable to verify subscription. Please try again.");
@@ -70,24 +78,47 @@ export default function BillingSuccessScreen() {
   };
 
   return (
-    <ThemedView style={[styles.container, { paddingTop: insets.top + Spacing["4xl"], paddingBottom: insets.bottom + Spacing["4xl"] }]}>
+    <ThemedView
+      style={[
+        styles.container,
+        {
+          paddingTop: insets.top + Spacing["4xl"],
+          paddingBottom: insets.bottom + Spacing["4xl"],
+        },
+      ]}
+    >
       {syncing ? (
         <View style={styles.content}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <ThemedText type="body" style={[styles.message, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="body"
+            style={[styles.message, { color: theme.textSecondary }]}
+          >
             Verifying your subscription...
           </ThemedText>
         </View>
       ) : success ? (
         <View style={styles.content}>
-          <View style={[styles.checkCircle, { backgroundColor: SiraatColors.emerald }]}>
+          <View
+            style={[
+              styles.checkCircle,
+              { backgroundColor: SiraatColors.emerald },
+            ]}
+          >
             <Feather name="check" size={48} color="#fff" />
           </View>
-          <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="h2"
+            style={[styles.title, { fontFamily: Fonts?.serif }]}
+          >
             Welcome to Noor Plus
           </ThemedText>
-          <ThemedText type="body" style={[styles.message, { color: theme.textSecondary }]}>
-            You now have unlimited reflections, full history access, pattern insights, and contextual duas.
+          <ThemedText
+            type="body"
+            style={[styles.message, { color: theme.textSecondary }]}
+          >
+            You now have unlimited reflections, full history access, pattern
+            insights, and contextual duas.
           </ThemedText>
           <View style={styles.buttonContainer}>
             <Button onPress={handleContinue} variant="primary">
@@ -97,13 +128,21 @@ export default function BillingSuccessScreen() {
         </View>
       ) : (
         <View style={styles.content}>
-          <View style={[styles.checkCircle, { backgroundColor: SiraatColors.clay }]}>
+          <View
+            style={[styles.checkCircle, { backgroundColor: SiraatColors.clay }]}
+          >
             <Feather name="clock" size={48} color="#fff" />
           </View>
-          <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="h2"
+            style={[styles.title, { fontFamily: Fonts?.serif }]}
+          >
             Almost There
           </ThemedText>
-          <ThemedText type="body" style={[styles.message, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="body"
+            style={[styles.message, { color: theme.textSecondary }]}
+          >
             {error}
           </ThemedText>
           <View style={styles.buttonContainer}>

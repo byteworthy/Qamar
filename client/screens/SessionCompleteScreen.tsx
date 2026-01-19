@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Pressable, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation, useRoute, RouteProp, CommonActions } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  RouteProp,
+  CommonActions,
+} from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -18,7 +29,10 @@ import { ScreenCopy } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { apiRequest } from "@/lib/query-client";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "SessionComplete">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "SessionComplete"
+>;
 type RouteType = RouteProp<RootStackParamList, "SessionComplete">;
 
 interface ContextualDua {
@@ -27,7 +41,9 @@ interface ContextualDua {
   meaning: string;
 }
 
-async function fetchContextualDua(state: string): Promise<{ dua: ContextualDua }> {
+async function fetchContextualDua(
+  state: string,
+): Promise<{ dua: ContextualDua }> {
   const response = await apiRequest("POST", "/api/duas/contextual", { state });
   return response.json();
 }
@@ -37,7 +53,8 @@ export default function SessionCompleteScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe, intention, practice, anchor } = route.params;
+  const { thought, distortions, reframe, intention, practice, anchor } =
+    route.params;
 
   const [detectedState, setDetectedState] = useState<string | null>(null);
   const [dua, setDua] = useState<ContextualDua | null>(null);
@@ -54,7 +71,7 @@ export default function SessionCompleteScreen() {
 
   useEffect(() => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    
+
     saveSession({
       thought,
       distortions,
@@ -66,7 +83,14 @@ export default function SessionCompleteScreen() {
 
     const saveToServer = async () => {
       try {
-        const response = await apiRequest("POST", "/api/reflection/save", { thought, distortions, reframe, intention, practice, anchor });
+        const response = await apiRequest("POST", "/api/reflection/save", {
+          thought,
+          distortions,
+          reframe,
+          intention,
+          practice,
+          anchor,
+        });
         const data = await response.json();
         if (data.detectedState) {
           setDetectedState(data.detectedState);
@@ -102,7 +126,7 @@ export default function SessionCompleteScreen() {
       CommonActions.reset({
         index: 0,
         routes: [{ name: "Home" }],
-      })
+      }),
     );
   };
 
@@ -119,49 +143,87 @@ export default function SessionCompleteScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <Animated.View 
-          entering={BounceIn.duration(600).delay(100)} 
-          style={[styles.checkCircle, { backgroundColor: SiraatColors.emerald }]}
+        <Animated.View
+          entering={BounceIn.duration(600).delay(100)}
+          style={[
+            styles.checkCircle,
+            { backgroundColor: SiraatColors.emerald },
+          ]}
         >
           <Feather name="check" size={40} color={SiraatColors.cream} />
         </Animated.View>
         <Animated.Text entering={FadeIn.duration(400).delay(300)}>
-          <ThemedText type="h2" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="h2"
+            style={[styles.title, { fontFamily: Fonts?.serif }]}
+          >
             {ScreenCopy.complete.title}
           </ThemedText>
         </Animated.Text>
         <Animated.View entering={FadeIn.duration(400).delay(400)}>
-          <ThemedText type="body" style={[styles.subtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="body"
+            style={[styles.subtitle, { color: theme.textSecondary }]}
+          >
             {ScreenCopy.complete.subtitle}
           </ThemedText>
         </Animated.View>
         <Animated.View entering={FadeIn.duration(400).delay(500)}>
-          <ThemedText type="body" style={[styles.encouragement, { color: theme.accent, fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="body"
+            style={[
+              styles.encouragement,
+              { color: theme.accent, fontFamily: Fonts?.serif },
+            ]}
+          >
             {ScreenCopy.complete.encouragement}
           </ThemedText>
         </Animated.View>
       </View>
 
-      <Animated.View entering={FadeInUp.duration(400).delay(600)} style={styles.cardsSection}>
-        <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-          <View style={[styles.cardAccent, { backgroundColor: SiraatColors.clay }]} />
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(600)}
+        style={styles.cardsSection}
+      >
+        <View
+          style={[styles.card, { backgroundColor: theme.backgroundDefault }]}
+        >
+          <View
+            style={[styles.cardAccent, { backgroundColor: SiraatColors.clay }]}
+          />
           <View style={styles.cardContent}>
             <ThemedText type="caption" style={{ color: theme.textSecondary }}>
               {ScreenCopy.complete.cards.niyyah}
             </ThemedText>
-            <ThemedText type="bodyLarge" style={[styles.cardText, { fontFamily: Fonts?.serif }]}>
+            <ThemedText
+              type="bodyLarge"
+              style={[styles.cardText, { fontFamily: Fonts?.serif }]}
+            >
               {intention}
             </ThemedText>
           </View>
         </View>
 
-        <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-          <View style={[styles.cardAccent, { backgroundColor: SiraatColors.emerald }]} />
+        <View
+          style={[styles.card, { backgroundColor: theme.backgroundDefault }]}
+        >
+          <View
+            style={[
+              styles.cardAccent,
+              { backgroundColor: SiraatColors.emerald },
+            ]}
+          />
           <View style={styles.cardContent}>
             <ThemedText type="caption" style={{ color: theme.textSecondary }}>
               {ScreenCopy.complete.cards.anchor}
             </ThemedText>
-            <ThemedText type="body" style={[styles.cardText, { fontFamily: Fonts?.serif, fontStyle: "italic" }]}>
+            <ThemedText
+              type="body"
+              style={[
+                styles.cardText,
+                { fontFamily: Fonts?.serif, fontStyle: "italic" },
+              ]}
+            >
               {anchor}
             </ThemedText>
           </View>
@@ -169,29 +231,64 @@ export default function SessionCompleteScreen() {
       </Animated.View>
 
       {isPaid && (dua || duaLoading || duaError) ? (
-        <View style={[styles.duaCard, { backgroundColor: theme.backgroundDefault, borderColor: SiraatColors.indigo }]}>
-          <View style={[styles.duaProBadge, { backgroundColor: SiraatColors.indigo }]}>
+        <View
+          style={[
+            styles.duaCard,
+            {
+              backgroundColor: theme.backgroundDefault,
+              borderColor: SiraatColors.indigo,
+            },
+          ]}
+        >
+          <View
+            style={[
+              styles.duaProBadge,
+              { backgroundColor: SiraatColors.indigo },
+            ]}
+          >
             <Feather name="star" size={12} color="#fff" />
-            <ThemedText type="caption" style={{ color: "#fff", marginLeft: 4 }}>Noor Plus</ThemedText>
+            <ThemedText type="caption" style={{ color: "#fff", marginLeft: 4 }}>
+              Noor Plus
+            </ThemedText>
           </View>
           <ThemedText type="caption" style={{ color: theme.textSecondary }}>
             Dua for Your Heart
           </ThemedText>
           {duaLoading ? (
-            <ActivityIndicator size="small" color={theme.primary} style={{ marginTop: Spacing.lg }} />
+            <ActivityIndicator
+              size="small"
+              color={theme.primary}
+              style={{ marginTop: Spacing.lg }}
+            />
           ) : duaError ? (
-            <ThemedText type="small" style={[styles.duaFallback, { color: theme.textSecondary }]}>
-              Your reflection has been saved. May Allah bring you clarity and peace.
+            <ThemedText
+              type="small"
+              style={[styles.duaFallback, { color: theme.textSecondary }]}
+            >
+              Your reflection has been saved. May Allah bring you clarity and
+              peace.
             </ThemedText>
           ) : dua ? (
             <>
-              <ThemedText type="bodyLarge" style={[styles.duaArabic, { fontFamily: Fonts?.serif }]}>
+              <ThemedText
+                type="bodyLarge"
+                style={[styles.duaArabic, { fontFamily: Fonts?.serif }]}
+              >
                 {dua.arabic}
               </ThemedText>
-              <ThemedText type="body" style={[styles.duaTransliteration, { color: theme.textSecondary }]}>
+              <ThemedText
+                type="body"
+                style={[
+                  styles.duaTransliteration,
+                  { color: theme.textSecondary },
+                ]}
+              >
                 {dua.transliteration}
               </ThemedText>
-              <ThemedText type="body" style={[styles.duaMeaning, { fontFamily: Fonts?.serif }]}>
+              <ThemedText
+                type="body"
+                style={[styles.duaMeaning, { fontFamily: Fonts?.serif }]}
+              >
                 {dua.meaning}
               </ThemedText>
             </>
@@ -209,25 +306,42 @@ export default function SessionCompleteScreen() {
       </View>
 
       {!isPaid ? (
-        <View style={[styles.upgradeCard, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText type="bodyLarge" style={[styles.upgradeTitle, { fontFamily: Fonts?.serif }]}>
+        <View
+          style={[
+            styles.upgradeCard,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            type="bodyLarge"
+            style={[styles.upgradeTitle, { fontFamily: Fonts?.serif }]}
+          >
             Continue with Noor Plus
           </ThemedText>
-          <ThemedText type="body" style={[styles.upgradeBody, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="body"
+            style={[styles.upgradeBody, { color: theme.textSecondary }]}
+          >
             More reflections, deeper pattern recognition, and calmer continuity.
           </ThemedText>
           <Pressable
             onPress={() => navigation.navigate("Pricing")}
             style={({ pressed }) => [
               styles.upgradeButton,
-              { backgroundColor: SiraatColors.indigo, opacity: pressed ? 0.8 : 1 },
+              {
+                backgroundColor: SiraatColors.indigo,
+                opacity: pressed ? 0.8 : 1,
+              },
             ]}
           >
             <ThemedText type="body" style={{ color: "#fff" }}>
               Upgrade to Noor Plus
             </ThemedText>
           </Pressable>
-          <ThemedText type="caption" style={[styles.upgradeFootnote, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="caption"
+            style={[styles.upgradeFootnote, { color: theme.textSecondary }]}
+          >
             Free plan includes 1 reflection per day.
           </ThemedText>
         </View>

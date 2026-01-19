@@ -6,26 +6,109 @@ interface ToneClassification {
 }
 
 const EMOTIONAL_MARKERS = [
-  "feel", "feeling", "felt", "hurts", "hurt", "pain", "painful",
-  "scared", "afraid", "fear", "anxious", "anxiety", "worried", "worry",
-  "sad", "sadness", "angry", "anger", "frustrated", "frustration",
-  "overwhelmed", "exhausted", "tired", "lost", "alone", "lonely",
-  "hopeless", "helpless", "worthless", "ashamed", "shame", "guilt",
-  "heart", "soul", "heavy", "burden", "weight", "drowning", "suffocating",
-  "crying", "tears", "broken", "crushed", "devastated", "miserable",
-  "love", "miss", "missing", "longing", "yearn", "ache", "aching"
+  "feel",
+  "feeling",
+  "felt",
+  "hurts",
+  "hurt",
+  "pain",
+  "painful",
+  "scared",
+  "afraid",
+  "fear",
+  "anxious",
+  "anxiety",
+  "worried",
+  "worry",
+  "sad",
+  "sadness",
+  "angry",
+  "anger",
+  "frustrated",
+  "frustration",
+  "overwhelmed",
+  "exhausted",
+  "tired",
+  "lost",
+  "alone",
+  "lonely",
+  "hopeless",
+  "helpless",
+  "worthless",
+  "ashamed",
+  "shame",
+  "guilt",
+  "heart",
+  "soul",
+  "heavy",
+  "burden",
+  "weight",
+  "drowning",
+  "suffocating",
+  "crying",
+  "tears",
+  "broken",
+  "crushed",
+  "devastated",
+  "miserable",
+  "love",
+  "miss",
+  "missing",
+  "longing",
+  "yearn",
+  "ache",
+  "aching",
 ];
 
 const ANALYTICAL_MARKERS = [
-  "think", "thought", "thinking", "believe", "belief", "understand",
-  "reason", "reasoning", "logic", "logical", "analyze", "analysis",
-  "consider", "considering", "evaluate", "evaluating", "assess",
-  "conclude", "conclusion", "assume", "assumption", "hypothesis",
-  "because", "therefore", "however", "although", "despite",
-  "evidence", "proof", "pattern", "structure", "system", "process",
-  "question", "questioning", "wonder", "wondering", "curious",
-  "decide", "decision", "choice", "option", "alternative",
-  "cause", "effect", "consequence", "result", "outcome"
+  "think",
+  "thought",
+  "thinking",
+  "believe",
+  "belief",
+  "understand",
+  "reason",
+  "reasoning",
+  "logic",
+  "logical",
+  "analyze",
+  "analysis",
+  "consider",
+  "considering",
+  "evaluate",
+  "evaluating",
+  "assess",
+  "conclude",
+  "conclusion",
+  "assume",
+  "assumption",
+  "hypothesis",
+  "because",
+  "therefore",
+  "however",
+  "although",
+  "despite",
+  "evidence",
+  "proof",
+  "pattern",
+  "structure",
+  "system",
+  "process",
+  "question",
+  "questioning",
+  "wonder",
+  "wondering",
+  "curious",
+  "decide",
+  "decision",
+  "choice",
+  "option",
+  "alternative",
+  "cause",
+  "effect",
+  "consequence",
+  "result",
+  "outcome",
 ];
 
 function countMarkers(text: string, markers: string[]): number {
@@ -42,9 +125,12 @@ function countMarkers(text: string, markers: string[]): number {
 }
 
 function getAverageSentenceLength(text: string): number {
-  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
   if (sentences.length === 0) return 0;
-  const totalWords = sentences.reduce((sum, s) => sum + s.trim().split(/\s+/).length, 0);
+  const totalWords = sentences.reduce(
+    (sum, s) => sum + s.trim().split(/\s+/).length,
+    0,
+  );
   return totalWords / sentences.length;
 }
 
@@ -53,9 +139,9 @@ function hasAbstractLanguage(text: string): boolean {
     /\b(concept|idea|notion|principle|theory|philosophy)\b/i,
     /\b(always|never|everything|nothing|everyone|no one)\b/i,
     /\b(means|meaning|purpose|reason why)\b/i,
-    /\b(should|must|ought|supposed to)\b/i
+    /\b(should|must|ought|supposed to)\b/i,
   ];
-  return abstractPatterns.some(pattern => pattern.test(text));
+  return abstractPatterns.some((pattern) => pattern.test(text));
 }
 
 function hasConcreteLanguage(text: string): boolean {
@@ -63,12 +149,15 @@ function hasConcreteLanguage(text: string): boolean {
     /\b(today|yesterday|this morning|last night|right now)\b/i,
     /\b(said|told|did|happened|went|came)\b/i,
     /\b(my (husband|wife|mother|father|child|friend|boss))\b/i,
-    /\b(at work|at home|in the|when I)\b/i
+    /\b(at work|at home|in the|when I)\b/i,
   ];
-  return concretePatterns.some(pattern => pattern.test(text));
+  return concretePatterns.some((pattern) => pattern.test(text));
 }
 
-export function classifyTone(text: string, previousReflections?: string[]): ToneClassification {
+export function classifyTone(
+  text: string,
+  previousReflections?: string[],
+): ToneClassification {
   if (!text || text.trim().length === 0) {
     return { mode: "balanced", confidence: 0 };
   }
@@ -108,7 +197,7 @@ export function classifyTone(text: string, previousReflections?: string[]): Tone
   }
 
   const total = emotionalScore + analyticalScore;
-  
+
   if (total < 2) {
     return { mode: "balanced", confidence: 0.3 };
   }

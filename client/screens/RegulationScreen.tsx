@@ -1,11 +1,24 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { View, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
-import Animated, { FadeIn, FadeInUp, useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInUp,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withRepeat,
+  withSequence,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -86,7 +99,10 @@ const BREATHING_PATTERNS: BreathingPattern[] = [
   },
 ];
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Regulation">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Regulation"
+>;
 type RouteType = RouteProp<RootStackParamList, "Regulation">;
 
 interface PracticeResult {
@@ -106,8 +122,10 @@ export default function RegulationScreen() {
   const [showDhikr, setShowDhikr] = useState(false);
   const [selectedDhikr, setSelectedDhikr] = useState<DhikrOption | null>(null);
   const [dhikrCount, setDhikrCount] = useState(0);
-  const [regulationType, setRegulationType] = useState<'practice' | 'dhikr' | 'breathing'>('practice');
-  
+  const [regulationType, setRegulationType] = useState<
+    "practice" | "dhikr" | "breathing"
+  >("practice");
+
   // Refs for interval timers
   const hapticIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -139,8 +157,14 @@ export default function RegulationScreen() {
   const playGroundingHaptic = useCallback(() => {
     // Gentle pulsing pattern for grounding
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light), 200);
-    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium), 400);
+    setTimeout(
+      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+      200,
+    );
+    setTimeout(
+      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium),
+      400,
+    );
   }, []);
 
   const playDhikrHaptic = useCallback(() => {
@@ -151,8 +175,14 @@ export default function RegulationScreen() {
   const playCompletionHaptic = useCallback(() => {
     // Celebration pattern
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light), 300);
-    setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light), 500);
+    setTimeout(
+      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+      300,
+    );
+    setTimeout(
+      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+      500,
+    );
   }, []);
 
   const handleStartPractice = () => {
@@ -164,7 +194,7 @@ export default function RegulationScreen() {
     setIsActive(false);
     setCompleted(true);
     playCompletionHaptic();
-    
+
     // Clear any running haptic intervals
     if (hapticIntervalRef.current) {
       clearInterval(hapticIntervalRef.current);
@@ -185,7 +215,7 @@ export default function RegulationScreen() {
       const newCount = dhikrCount + 1;
       setDhikrCount(newCount);
       playDhikrHaptic();
-      
+
       // Complete dhikr
       if (newCount >= selectedDhikr.count) {
         playCompletionHaptic();
@@ -198,10 +228,10 @@ export default function RegulationScreen() {
   };
 
   const handleContinue = () => {
-    navigation.navigate("Intention", { 
-      thought, 
-      distortions, 
-      reframe, 
+    navigation.navigate("Intention", {
+      thought,
+      distortions,
+      reframe,
       practice: practice?.title || "",
       anchor: anchor || "",
     });
@@ -209,9 +239,14 @@ export default function RegulationScreen() {
 
   if (loading) {
     return (
-      <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
+      <ThemedView
+        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      >
         <ActivityIndicator size="large" color={theme.primary} />
-        <ThemedText type="body" style={[styles.loadingText, { color: theme.textSecondary }]}>
+        <ThemedText
+          type="body"
+          style={[styles.loadingText, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.practice.loading}
         </ThemedText>
       </ThemedView>
@@ -220,8 +255,13 @@ export default function RegulationScreen() {
 
   if (error || !practice) {
     return (
-      <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
-        <ThemedText type="body" style={[styles.errorText, { color: theme.error }]}>
+      <ThemedView
+        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      >
+        <ThemedText
+          type="body"
+          style={[styles.errorText, { color: theme.error }]}
+        >
           {error || "Something went wrong"}
         </ThemedText>
         <Button
@@ -246,38 +286,91 @@ export default function RegulationScreen() {
       ]}
     >
       <View style={styles.header}>
-        <ThemedText type="h3" style={[styles.title, { fontFamily: Fonts?.serif }]}>
+        <ThemedText
+          type="h3"
+          style={[styles.title, { fontFamily: Fonts?.serif }]}
+        >
           {practice.title}
         </ThemedText>
-        <ThemedText type="small" style={[styles.duration, { color: theme.accent }]}>
+        <ThemedText
+          type="small"
+          style={[styles.duration, { color: theme.accent }]}
+        >
           {practice.duration}
         </ThemedText>
       </View>
 
-      <View style={[styles.practiceCard, { backgroundColor: isActive ? SiraatColors.emeraldDark : theme.backgroundDefault }]}>
-        <ThemedText type="caption" style={[styles.stepsLabel, { color: isActive ? SiraatColors.cream : theme.textSecondary }]}>
+      <View
+        style={[
+          styles.practiceCard,
+          {
+            backgroundColor: isActive
+              ? SiraatColors.emeraldDark
+              : theme.backgroundDefault,
+          },
+        ]}
+      >
+        <ThemedText
+          type="caption"
+          style={[
+            styles.stepsLabel,
+            { color: isActive ? SiraatColors.cream : theme.textSecondary },
+          ]}
+        >
           {ScreenCopy.practice.stepsLabel}
         </ThemedText>
         {practice.steps.map((step, index) => (
           <View key={index} style={styles.stepRow}>
-            <View style={[styles.stepNumber, { backgroundColor: isActive ? SiraatColors.cream : theme.primary }]}>
-              <ThemedText type="small" style={{ color: isActive ? SiraatColors.emeraldDark : "#FFFFFF", fontWeight: "700" }}>
+            <View
+              style={[
+                styles.stepNumber,
+                {
+                  backgroundColor: isActive
+                    ? SiraatColors.cream
+                    : theme.primary,
+                },
+              ]}
+            >
+              <ThemedText
+                type="small"
+                style={{
+                  color: isActive ? SiraatColors.emeraldDark : "#FFFFFF",
+                  fontWeight: "700",
+                }}
+              >
                 {index + 1}
               </ThemedText>
             </View>
-            <ThemedText 
-              type="body" 
-              style={[styles.stepText, { color: isActive ? SiraatColors.cream : theme.text }]}
+            <ThemedText
+              type="body"
+              style={[
+                styles.stepText,
+                { color: isActive ? SiraatColors.cream : theme.text },
+              ]}
             >
               {step}
             </ThemedText>
           </View>
         ))}
-        
-        <View style={[styles.reminderBar, { backgroundColor: isActive ? SiraatColors.cream : theme.border, opacity: 0.3 }]} />
-        <ThemedText 
-          type="small" 
-          style={[styles.reminderText, { color: isActive ? SiraatColors.cream : theme.textSecondary, fontFamily: Fonts?.serif }]}
+
+        <View
+          style={[
+            styles.reminderBar,
+            {
+              backgroundColor: isActive ? SiraatColors.cream : theme.border,
+              opacity: 0.3,
+            },
+          ]}
+        />
+        <ThemedText
+          type="small"
+          style={[
+            styles.reminderText,
+            {
+              color: isActive ? SiraatColors.cream : theme.textSecondary,
+              fontFamily: Fonts?.serif,
+            },
+          ]}
         >
           {practice.reminder}
         </ThemedText>
@@ -285,8 +378,14 @@ export default function RegulationScreen() {
 
       {/* Dhikr Grounding Option */}
       {!isActive && !completed && (
-        <Animated.View entering={FadeIn.duration(400)} style={styles.dhikrSection}>
-          <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+        <Animated.View
+          entering={FadeIn.duration(400)}
+          style={styles.dhikrSection}
+        >
+          <ThemedText
+            type="caption"
+            style={[styles.sectionLabel, { color: theme.textSecondary }]}
+          >
             OR GROUND YOURSELF WITH DHIKR
           </ThemedText>
           <View style={styles.dhikrGrid}>
@@ -294,12 +393,21 @@ export default function RegulationScreen() {
               <TouchableOpacity
                 key={dhikr.id}
                 onPress={() => handleSelectDhikr(dhikr)}
-                style={[styles.dhikrCard, { backgroundColor: theme.backgroundDefault, borderColor: theme.border }]}
+                style={[
+                  styles.dhikrCard,
+                  {
+                    backgroundColor: theme.backgroundDefault,
+                    borderColor: theme.border,
+                  },
+                ]}
               >
                 <ThemedText type="body" style={styles.dhikrArabic}>
                   {dhikr.arabic}
                 </ThemedText>
-                <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                <ThemedText
+                  type="caption"
+                  style={{ color: theme.textSecondary }}
+                >
                   {dhikr.transliteration} • {dhikr.count}x
                 </ThemedText>
               </TouchableOpacity>
@@ -313,7 +421,10 @@ export default function RegulationScreen() {
         <Animated.View entering={FadeIn.duration(300)}>
           <TouchableOpacity
             onPress={handleDhikrTap}
-            style={[styles.dhikrCounter, { backgroundColor: SiraatColors.emerald }]}
+            style={[
+              styles.dhikrCounter,
+              { backgroundColor: SiraatColors.emerald },
+            ]}
             activeOpacity={0.8}
           >
             <ThemedText type="caption" style={styles.dhikrCounterLabel}>
@@ -349,7 +460,7 @@ export default function RegulationScreen() {
             {ScreenCopy.practice.begin}
           </Button>
         ) : null}
-        
+
         {isActive ? (
           <Button
             onPress={handleCompletePractice}
@@ -361,7 +472,10 @@ export default function RegulationScreen() {
 
         {completed ? (
           <>
-            <ThemedText type="body" style={[styles.completedText, { color: theme.success }]}>
+            <ThemedText
+              type="body"
+              style={[styles.completedText, { color: theme.success }]}
+            >
               {ScreenCopy.practice.completed}
             </ThemedText>
             <Button

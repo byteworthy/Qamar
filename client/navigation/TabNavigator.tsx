@@ -22,23 +22,19 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 function TabBarBackground() {
   const { theme } = useTheme();
-  
+
   if (Platform.OS === "ios") {
     return (
-      <BlurView
-        intensity={80}
-        tint="dark"
-        style={StyleSheet.absoluteFill}
-      />
+      <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill} />
     );
   }
-  
+
   return (
-    <View 
+    <View
       style={[
-        StyleSheet.absoluteFill, 
-        { backgroundColor: NiyyahColors.backgroundLight }
-      ]} 
+        StyleSheet.absoluteFill,
+        { backgroundColor: NiyyahColors.backgroundLight },
+      ]}
     />
   );
 }

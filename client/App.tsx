@@ -36,7 +36,9 @@ function useHideWebScrollbar() {
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
 
-import RootStackNavigator, { RootStackParamList } from "@/navigation/RootStackNavigator";
+import RootStackNavigator, {
+  RootStackParamList,
+} from "@/navigation/RootStackNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const prefix = Linking.createURL("/");
@@ -73,7 +75,7 @@ const linking: LinkingOptions<RootStackParamList> = {
 
 export default function App() {
   useHideWebScrollbar();
-  
+
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>

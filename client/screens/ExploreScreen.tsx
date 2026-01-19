@@ -22,14 +22,23 @@ interface ExploreCardProps {
   delay: number;
 }
 
-function ExploreCard({ title, gradient, icon, onPress, delay }: ExploreCardProps) {
+function ExploreCard({
+  title,
+  gradient,
+  icon,
+  onPress,
+  delay,
+}: ExploreCardProps) {
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(delay)}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => [
           styles.exploreCard,
-          { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
+          {
+            opacity: pressed ? 0.9 : 1,
+            transform: [{ scale: pressed ? 0.98 : 1 }],
+          },
         ]}
       >
         <LinearGradient
@@ -38,7 +47,12 @@ function ExploreCard({ title, gradient, icon, onPress, delay }: ExploreCardProps
           end={{ x: 1, y: 1 }}
           style={styles.cardGradient}
         >
-          <Feather name={icon} size={28} color="rgba(255,255,255,0.9)" style={styles.cardIcon} />
+          <Feather
+            name={icon}
+            size={28}
+            color="rgba(255,255,255,0.9)"
+            style={styles.cardIcon}
+          />
           <ThemedText style={styles.cardTitle}>{title}</ThemedText>
         </LinearGradient>
       </Pressable>
@@ -83,7 +97,9 @@ export default function ExploreScreen() {
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
           <ThemedText style={styles.headerTitle}>Explore</ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             Practical tools for daily life
           </ThemedText>
         </Animated.View>
@@ -91,7 +107,10 @@ export default function ExploreScreen() {
 
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: 100 + insets.bottom }]}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: 100 + insets.bottom },
+        ]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.cardsGrid}>

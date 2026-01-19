@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -21,7 +26,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Reframe">;
 type RouteType = RouteProp<RootStackParamList, "Reframe">;
 
 // Perspective types for multi-lens reframing
-type PerspectiveType = 'empathic' | 'logical' | 'islamic' | 'future';
+type PerspectiveType = "empathic" | "logical" | "islamic" | "future";
 
 interface PerspectiveOption {
   id: PerspectiveType;
@@ -32,33 +37,33 @@ interface PerspectiveOption {
 }
 
 const PERSPECTIVE_OPTIONS: PerspectiveOption[] = [
-  { 
-    id: 'empathic', 
-    label: 'Compassionate', 
-    icon: '💛', 
-    description: 'What would a loving friend say?',
-    color: SiraatColors.sand 
+  {
+    id: "empathic",
+    label: "Compassionate",
+    icon: "💛",
+    description: "What would a loving friend say?",
+    color: SiraatColors.sand,
   },
-  { 
-    id: 'logical', 
-    label: 'Balanced', 
-    icon: '⚖️', 
-    description: 'What does the evidence show?',
-    color: SiraatColors.indigo 
+  {
+    id: "logical",
+    label: "Balanced",
+    icon: "⚖️",
+    description: "What does the evidence show?",
+    color: SiraatColors.indigo,
   },
-  { 
-    id: 'islamic', 
-    label: 'Rooted', 
-    icon: '🌙', 
-    description: 'What does our tradition say?',
-    color: SiraatColors.emerald 
+  {
+    id: "islamic",
+    label: "Rooted",
+    icon: "🌙",
+    description: "What does our tradition say?",
+    color: SiraatColors.emerald,
   },
-  { 
-    id: 'future', 
-    label: 'Zoomed Out', 
-    icon: '🔭', 
-    description: 'How will this look in a year?',
-    color: SiraatColors.clay 
+  {
+    id: "future",
+    label: "Zoomed Out",
+    icon: "🔭",
+    description: "How will this look in a year?",
+    color: SiraatColors.clay,
   },
 ];
 
@@ -71,10 +76,14 @@ interface ReframeResult {
 
 // Sample alternative perspectives (in production, these would come from API)
 const ALTERNATIVE_PERSPECTIVES: Record<PerspectiveType, string> = {
-  empathic: "You're carrying a heavy burden. It's okay to struggle with this. The fact that you're reflecting shows strength, not weakness.",
-  logical: "Let's examine the evidence. Has this always been true? What exceptions exist? What would a neutral observer notice?",
-  islamic: "Allah does not burden a soul beyond what it can bear. This trial may be shaping you for something greater.",
-  future: "In five years, how significant will this feel? What growth might come from navigating this moment?",
+  empathic:
+    "You're carrying a heavy burden. It's okay to struggle with this. The fact that you're reflecting shows strength, not weakness.",
+  logical:
+    "Let's examine the evidence. Has this always been true? What exceptions exist? What would a neutral observer notice?",
+  islamic:
+    "Allah does not burden a soul beyond what it can bear. This trial may be shaping you for something greater.",
+  future:
+    "In five years, how significant will this feel? What growth might come from navigating this moment?",
 };
 
 // Islamic wisdom references for the "Rooted" perspective
@@ -90,24 +99,24 @@ const ISLAMIC_REFERENCES: IslamicReference[] = [
     text: "Allah does not burden a soul beyond that it can bear.",
     arabicText: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
     source: "Quran 2:286",
-    concept: "Divine Wisdom in Trials"
+    concept: "Divine Wisdom in Trials",
   },
   {
     text: "Verily, with hardship comes ease.",
     arabicText: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
     source: "Quran 94:6",
-    concept: "Hope in Difficulty"
+    concept: "Hope in Difficulty",
   },
   {
     text: "And whoever relies upon Allah - then He is sufficient for them.",
     arabicText: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     source: "Quran 65:3",
-    concept: "Trust in Allah"
+    concept: "Trust in Allah",
   },
   {
     text: "How wonderful is the affair of the believer, for all of it is good.",
     source: "Sahih Muslim",
-    concept: "Gratitude in All States"
+    concept: "Gratitude in All States",
   },
 ];
 
@@ -115,11 +124,15 @@ export default function ReframeScreen() {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<ReframeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPerspective, setSelectedPerspective] = useState<PerspectiveType>('empathic');
+  const [selectedPerspective, setSelectedPerspective] =
+    useState<PerspectiveType>("empathic");
   const [showPerspectiveOptions, setShowPerspectiveOptions] = useState(false);
-  const [postBeliefStrength, setPostBeliefStrength] = useState<number | null>(null);
-  const [islamicReference] = useState(() => 
-    ISLAMIC_REFERENCES[Math.floor(Math.random() * ISLAMIC_REFERENCES.length)]
+  const [postBeliefStrength, setPostBeliefStrength] = useState<number | null>(
+    null,
+  );
+  const [islamicReference] = useState(
+    () =>
+      ISLAMIC_REFERENCES[Math.floor(Math.random() * ISLAMIC_REFERENCES.length)],
   );
 
   const insets = useSafeAreaInsets();
@@ -127,14 +140,20 @@ export default function ReframeScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, analysis, emotionalIntensity, beliefStrength } = route.params;
+  const { thought, distortions, analysis, emotionalIntensity, beliefStrength } =
+    route.params;
 
   useEffect(() => {
     const generate = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await generateReframe(thought, distortions, analysis, emotionalIntensity);
+        const data = await generateReframe(
+          thought,
+          distortions,
+          analysis,
+          emotionalIntensity,
+        );
         setResult(data);
       } catch (err) {
         setError("Unable to generate reframe. Please try again.");
@@ -166,9 +185,9 @@ export default function ReframeScreen() {
     if (result) {
       const reframeSummary = `${result.beliefTested} ${result.perspective}`;
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      navigation.navigate("Regulation", { 
-        thought, 
-        distortions, 
+      navigation.navigate("Regulation", {
+        thought,
+        distortions,
         reframe: reframeSummary,
         anchor: result.perspective,
         emotionalIntensity,
@@ -177,15 +196,21 @@ export default function ReframeScreen() {
   };
 
   // Calculate belief shift if both values present
-  const beliefShift = beliefStrength && postBeliefStrength 
-    ? beliefStrength - postBeliefStrength 
-    : null;
+  const beliefShift =
+    beliefStrength && postBeliefStrength
+      ? beliefStrength - postBeliefStrength
+      : null;
 
   if (loading) {
     return (
-      <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
+      <ThemedView
+        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      >
         <ActivityIndicator size="large" color={theme.primary} />
-        <ThemedText type="body" style={[styles.loadingText, { color: theme.textSecondary }]}>
+        <ThemedText
+          type="body"
+          style={[styles.loadingText, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.reframe.loading}
         </ThemedText>
       </ThemedView>
@@ -194,8 +219,13 @@ export default function ReframeScreen() {
 
   if (error || !result) {
     return (
-      <ThemedView style={[styles.loadingContainer, { paddingTop: headerHeight }]}>
-        <ThemedText type="body" style={[styles.errorText, { color: theme.error }]}>
+      <ThemedView
+        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      >
+        <ThemedText
+          type="body"
+          style={[styles.errorText, { color: theme.error }]}
+        >
           {error || "Something went wrong"}
         </ThemedText>
         <Button
@@ -208,7 +238,9 @@ export default function ReframeScreen() {
     );
   }
 
-  const selectedOption = PERSPECTIVE_OPTIONS.find(p => p.id === selectedPerspective);
+  const selectedOption = PERSPECTIVE_OPTIONS.find(
+    (p) => p.id === selectedPerspective,
+  );
 
   return (
     <KeyboardAwareScrollViewCompat
@@ -222,30 +254,59 @@ export default function ReframeScreen() {
       ]}
     >
       {/* Belief Being Tested */}
-      <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.block}>
-        <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(100)}
+        style={styles.block}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.blockLabel, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.reframe.blocks.belief}
         </ThemedText>
-        <ThemedText type="body" style={[styles.blockText, { fontFamily: Fonts?.serif }]}>
+        <ThemedText
+          type="body"
+          style={[styles.blockText, { fontFamily: Fonts?.serif }]}
+        >
           {result.beliefTested}
         </ThemedText>
       </Animated.View>
 
       {/* Perspective Selector */}
-      <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.perspectiveSelectorSection}>
-        <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(200)}
+        style={styles.perspectiveSelectorSection}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.blockLabel, { color: theme.textSecondary }]}
+        >
           VIEW THROUGH A DIFFERENT LENS
         </ThemedText>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           onPress={handleTogglePerspectives}
-          style={[styles.perspectiveSelector, { backgroundColor: theme.backgroundDefault, borderColor: theme.border }]}
+          style={[
+            styles.perspectiveSelector,
+            {
+              backgroundColor: theme.backgroundDefault,
+              borderColor: theme.border,
+            },
+          ]}
         >
-          <View style={[styles.perspectiveIcon, { backgroundColor: selectedOption?.color }]}>
+          <View
+            style={[
+              styles.perspectiveIcon,
+              { backgroundColor: selectedOption?.color },
+            ]}
+          >
             <ThemedText type="body">{selectedOption?.icon}</ThemedText>
           </View>
           <View style={styles.perspectiveSelectorContent}>
-            <ThemedText type="body" style={{ color: theme.text, fontWeight: '600' }}>
+            <ThemedText
+              type="body"
+              style={{ color: theme.text, fontWeight: "600" }}
+            >
               {selectedOption?.label} Perspective
             </ThemedText>
             <ThemedText type="small" style={{ color: theme.textSecondary }}>
@@ -253,13 +314,17 @@ export default function ReframeScreen() {
             </ThemedText>
           </View>
           <ThemedText type="body" style={{ color: theme.textSecondary }}>
-            {showPerspectiveOptions ? '▲' : '▼'}
+            {showPerspectiveOptions ? "▲" : "▼"}
           </ThemedText>
         </TouchableOpacity>
 
         {/* Expandable Perspective Options */}
         {showPerspectiveOptions && (
-          <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(150)} style={styles.perspectiveOptions}>
+          <Animated.View
+            entering={FadeIn.duration(200)}
+            exiting={FadeOut.duration(150)}
+            style={styles.perspectiveOptions}
+          >
             {PERSPECTIVE_OPTIONS.map((option) => {
               const isSelected = selectedPerspective === option.id;
               return (
@@ -269,14 +334,22 @@ export default function ReframeScreen() {
                   style={[
                     styles.perspectiveOptionItem,
                     {
-                      backgroundColor: isSelected ? option.color : theme.backgroundDefault,
+                      backgroundColor: isSelected
+                        ? option.color
+                        : theme.backgroundDefault,
                       borderColor: isSelected ? option.color : theme.border,
                     },
                   ]}
                 >
                   <ThemedText type="body">{option.icon}</ThemedText>
                   <View style={styles.perspectiveOptionText}>
-                    <ThemedText type="small" style={{ color: isSelected ? '#FFFFFF' : theme.text, fontWeight: '600' }}>
+                    <ThemedText
+                      type="small"
+                      style={{
+                        color: isSelected ? "#FFFFFF" : theme.text,
+                        fontWeight: "600",
+                      }}
+                    >
                       {option.label}
                     </ThemedText>
                   </View>
@@ -288,29 +361,49 @@ export default function ReframeScreen() {
       </Animated.View>
 
       {/* Main Perspective Card */}
-      <Animated.View 
-        entering={FadeInUp.duration(400).delay(300)} 
-        style={[styles.perspectiveCard, { backgroundColor: theme.backgroundDefault }]}
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(300)}
+        style={[
+          styles.perspectiveCard,
+          { backgroundColor: theme.backgroundDefault },
+        ]}
       >
-        <View style={[styles.perspectiveAccent, { backgroundColor: selectedOption?.color || SiraatColors.emerald }]} />
+        <View
+          style={[
+            styles.perspectiveAccent,
+            { backgroundColor: selectedOption?.color || SiraatColors.emerald },
+          ]}
+        />
         <View style={styles.perspectiveContent}>
-          <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
+          <ThemedText
+            type="caption"
+            style={[styles.blockLabel, { color: theme.textSecondary }]}
+          >
             {ScreenCopy.reframe.blocks.perspective}
           </ThemedText>
-          <ThemedText type="bodyLarge" style={[styles.perspectiveText, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="bodyLarge"
+            style={[styles.perspectiveText, { fontFamily: Fonts?.serif }]}
+          >
             {result.perspective}
           </ThemedText>
         </View>
       </Animated.View>
 
       {/* Islamic Reference Card - Shows when Rooted perspective selected */}
-      {selectedPerspective === 'islamic' && (
-        <Animated.View 
-          entering={FadeIn.duration(400)} 
-          style={[styles.islamicReferenceCard, { backgroundColor: SiraatColors.emerald + '15' }]}
+      {selectedPerspective === "islamic" && (
+        <Animated.View
+          entering={FadeIn.duration(400)}
+          style={[
+            styles.islamicReferenceCard,
+            { backgroundColor: SiraatColors.emerald + "15" },
+          ]}
         >
           <View style={styles.islamicReferenceHeader}>
-            <ThemedText type="small" style={{ color: SiraatColors.emerald, fontWeight: '600' }}>
+            <ThemedText
+              type="small"
+              style={{ color: SiraatColors.emerald, fontWeight: "600" }}
+            >
               📖 {islamicReference.concept}
             </ThemedText>
           </View>
@@ -319,8 +412,11 @@ export default function ReframeScreen() {
               {islamicReference.arabicText}
             </ThemedText>
           )}
-          <ThemedText type="body" style={[styles.islamicReferenceText, { fontFamily: Fonts?.serif }]}>
-            "{islamicReference.text}"
+          <ThemedText
+            type="body"
+            style={[styles.islamicReferenceText, { fontFamily: Fonts?.serif }]}
+          >
+            &ldquo;{islamicReference.text}&rdquo;
           </ThemedText>
           <ThemedText type="caption" style={styles.islamicSource}>
             — {islamicReference.source}
@@ -329,27 +425,52 @@ export default function ReframeScreen() {
       )}
 
       {/* Next Step */}
-      <Animated.View entering={FadeInUp.duration(400).delay(400)} style={styles.block}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(400)}
+        style={styles.block}
+      >
         <View style={styles.nextStepHeader}>
-          <View style={[styles.nextStepIcon, { backgroundColor: SiraatColors.clay }]}>
-            <ThemedText type="small" style={styles.nextStepIconText}>1</ThemedText>
+          <View
+            style={[
+              styles.nextStepIcon,
+              { backgroundColor: SiraatColors.clay },
+            ]}
+          >
+            <ThemedText type="small" style={styles.nextStepIconText}>
+              1
+            </ThemedText>
           </View>
-          <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary, marginBottom: 0 }]}>
+          <ThemedText
+            type="caption"
+            style={[
+              styles.blockLabel,
+              { color: theme.textSecondary, marginBottom: 0 },
+            ]}
+          >
             {ScreenCopy.reframe.blocks.nextStep}
           </ThemedText>
         </View>
-        <ThemedText type="body" style={[styles.blockText, { marginLeft: Spacing["3xl"] }]}>
+        <ThemedText
+          type="body"
+          style={[styles.blockText, { marginLeft: Spacing["3xl"] }]}
+        >
           {result.nextStep}
         </ThemedText>
       </Animated.View>
 
       {/* Post-Reframe Belief Check */}
       {beliefStrength && (
-        <Animated.View entering={FadeInUp.duration(400).delay(500)} style={styles.beliefCheckSection}>
-          <ThemedText type="caption" style={[styles.blockLabel, { color: theme.textSecondary }]}>
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(500)}
+          style={styles.beliefCheckSection}
+        >
+          <ThemedText
+            type="caption"
+            style={[styles.blockLabel, { color: theme.textSecondary }]}
+          >
             AFTER THIS REFLECTION, HOW STRONG IS THE BELIEF NOW?
           </ThemedText>
-          
+
           <View style={styles.beliefButtons}>
             {[0, 25, 50, 75, 100].map((value) => {
               const isSelected = postBeliefStrength === value;
@@ -365,14 +486,19 @@ export default function ReframeScreen() {
                   style={[
                     styles.beliefButton,
                     {
-                      backgroundColor: isSelected ? getColor() : theme.backgroundDefault,
+                      backgroundColor: isSelected
+                        ? getColor()
+                        : theme.backgroundDefault,
                       borderColor: isSelected ? getColor() : theme.border,
                     },
                   ]}
                 >
-                  <ThemedText 
-                    type="small" 
-                    style={{ color: isSelected ? '#FFFFFF' : theme.textSecondary, fontWeight: '600' }}
+                  <ThemedText
+                    type="small"
+                    style={{
+                      color: isSelected ? "#FFFFFF" : theme.textSecondary,
+                      fontWeight: "600",
+                    }}
                   >
                     {value}%
                   </ThemedText>
@@ -383,9 +509,18 @@ export default function ReframeScreen() {
 
           {/* Belief Shift Feedback */}
           {beliefShift !== null && beliefShift > 0 && (
-            <Animated.View entering={FadeIn.duration(300)} style={styles.beliefShiftFeedback}>
-              <ThemedText type="small" style={[styles.beliefShiftText, { color: SiraatColors.emerald }]}>
-                ✓ The belief softened by {beliefShift}%. That's progress.
+            <Animated.View
+              entering={FadeIn.duration(300)}
+              style={styles.beliefShiftFeedback}
+            >
+              <ThemedText
+                type="small"
+                style={[
+                  styles.beliefShiftText,
+                  { color: SiraatColors.emerald },
+                ]}
+              >
+                ✓ The belief softened by {beliefShift}%. That’s progress.
               </ThemedText>
             </Animated.View>
           )}
@@ -393,14 +528,29 @@ export default function ReframeScreen() {
       )}
 
       {/* Anchors Section */}
-      <Animated.View entering={FadeInUp.duration(400).delay(600)} style={styles.anchorsSection}>
-        <ThemedText type="caption" style={[styles.anchorsLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(600)}
+        style={styles.anchorsSection}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.anchorsLabel, { color: theme.textSecondary }]}
+        >
           {ScreenCopy.reframe.blocks.anchors}
         </ThemedText>
         <View style={styles.anchorsRow}>
           {result.anchors.map((anchor, index) => (
-            <View key={index} style={[styles.anchorPill, { backgroundColor: theme.backgroundDefault }]}>
-              <ThemedText type="small" style={[styles.anchorText, { color: theme.accent }]}>
+            <View
+              key={index}
+              style={[
+                styles.anchorPill,
+                { backgroundColor: theme.backgroundDefault },
+              ]}
+            >
+              <ThemedText
+                type="small"
+                style={[styles.anchorText, { color: theme.accent }]}
+              >
                 {anchor}
               </ThemedText>
             </View>
@@ -409,7 +559,10 @@ export default function ReframeScreen() {
       </Animated.View>
 
       {/* Continue Button */}
-      <Animated.View entering={FadeIn.duration(300).delay(700)} style={styles.buttonSection}>
+      <Animated.View
+        entering={FadeIn.duration(300).delay(700)}
+        style={styles.buttonSection}
+      >
         <Button
           onPress={handleContinue}
           style={{ backgroundColor: theme.primary }}
@@ -552,7 +705,7 @@ const styles = StyleSheet.create({
   beliefShiftFeedback: {
     marginTop: Spacing.md,
     padding: Spacing.md,
-    backgroundColor: 'rgba(107, 142, 35, 0.1)',
+    backgroundColor: "rgba(107, 142, 35, 0.1)",
     borderRadius: BorderRadius.sm,
   },
   beliefShiftText: {

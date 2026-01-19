@@ -4,31 +4,39 @@ import OpenAI from "openai";
 import { storage } from "./storage";
 import { billingService } from "./billing";
 import { classifyTone, getTonePromptModifier } from "./toneClassifier";
-import { inferInnerState, getStatePromptModifier, detectAssumptionPattern, getAssumptionPromptModifier } from "./stateInference";
-import { 
-  detectCrisis, 
-  validateAIOutput, 
-  CRISIS_RESOURCES, 
+import {
+  inferInnerState,
+  getStatePromptModifier,
+  detectAssumptionPattern,
+  getAssumptionPromptModifier,
+} from "./stateInference";
+import {
+  detectCrisis,
+  validateAIOutput,
+  CRISIS_RESOURCES,
   detectScrupulosity,
   SCRUPULOSITY_RESPONSE,
   createSafeLogEntry,
-  validateAndSanitizeInput
+  validateAndSanitizeInput,
 } from "./ai-safety";
-import { 
-  EmotionalIntelligence, 
+import {
+  EmotionalIntelligence,
   buildConversationalPromptModifier,
-  PatternDetector 
+  PatternDetector,
 } from "./conversational-ai";
-import { 
-  QURAN_BY_STATE, 
+import {
+  QURAN_BY_STATE,
   HADITH_BY_STATE,
   DISTRESS_RESPONSE_MATRIX,
   type EmotionalState,
-  type DistressLevel
+  type DistressLevel,
 } from "../shared/islamic-framework";
 import { IslamicContentMapper } from "./islamic-content-mapper";
 import { encryptData, decryptData } from "./encryption";
-import { CanonicalOrchestrator, OrchestrationAuditLogger } from "./canonical-orchestrator";
+import {
+  CanonicalOrchestrator,
+  OrchestrationAuditLogger,
+} from "./canonical-orchestrator";
 import { FailureLanguage } from "./failure-language";
 import { runManualCleanup } from "./data-retention";
 
@@ -175,35 +183,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // SAFETY CHECK 1: Crisis Detection (HIGHEST PRIORITY)
       const crisisCheck = detectCrisis(sanitizedThought);
-      if (crisisCheck.level === 'emergency') {
+      if (crisisCheck.level === "emergency") {
         // Log crisis event for review (hashed, no raw content)
         const userId = req.auth?.userId;
         if (userId) {
-          console.log('[AI Safety] Crisis detected:', createSafeLogEntry(userId, 'crisis_detected', {
-            crisisLevel: crisisCheck.level,
-            safetyChecksPassed: false,
-          }));
+          console.log(
+            "[AI Safety] Crisis detected:",
+            createSafeLogEntry(userId, "crisis_detected", {
+              crisisLevel: crisisCheck.level,
+              safetyChecksPassed: false,
+            }),
+          );
         }
-        
+
         return res.json({
           crisis: true,
           level: crisisCheck.level,
           resources: CRISIS_RESOURCES.emergency,
           // Minimal analysis to not leave user hanging
           distortions: [],
-          happening: "What you're going through sounds incredibly painful. Right now, the most important thing is getting you real support.",
+          happening:
+            "What you're going through sounds incredibly painful. Right now, the most important thing is getting you real support.",
           pattern: [],
           matters: CRISIS_RESOURCES.emergency.islamicContext,
         });
       }
 
-      if (crisisCheck.level === 'urgent') {
+      if (crisisCheck.level === "urgent") {
         return res.json({
           crisis: true,
           level: crisisCheck.level,
           resources: CRISIS_RESOURCES.urgent,
           distortions: [],
-          happening: "This sounds really heavy. You don't have to carry this alone.",
+          happening:
+            "This sounds really heavy. You don't have to carry this alone.",
           pattern: [],
           matters: CRISIS_RESOURCES.urgent.islamicContext,
         });
@@ -211,33 +224,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // SAFETY CHECK 2: Religious Scrupulosity Detection
       const hasScrupulosity = detectScrupulosity(sanitizedThought);
-      const scrupulosityModifier = hasScrupulosity 
+      const scrupulosityModifier = hasScrupulosity
         ? `\n\nSCRUPULOSITY DETECTED: User shows signs of religious OCD (waswasa). DO NOT reinforce compulsive patterns. Emphasize Allah's mercy and ease. Gently suggest professional support.\n`
-        : '';
+        : "";
 
       // ADAPTIVE INTELLIGENCE: Tone & Emotional State Detection
       const toneClassification = classifyTone(sanitizedThought);
       const toneModifier = getTonePromptModifier(toneClassification.mode);
-      
+
       const stateInference = inferInnerState(sanitizedThought);
       const stateModifier = getStatePromptModifier(stateInference.state);
 
       // EMOTIONAL INTELLIGENCE: Detect intensity and suggest emotion
-      const detectedIntensity = emotionalIntensity || EmotionalIntelligence.detectIntensity(sanitizedThought);
-      const suggestedEmotion = EmotionalIntelligence.suggestEmotionalLabel(sanitizedThought);
-      
+      const detectedIntensity =
+        emotionalIntensity ||
+        EmotionalIntelligence.detectIntensity(sanitizedThought);
+      const suggestedEmotion =
+        EmotionalIntelligence.suggestEmotionalLabel(sanitizedThought);
+
       // Determine distress level
-      let distressLevel: DistressLevel = 'moderate';
-      if (detectedIntensity < 30) distressLevel = 'low';
-      else if (detectedIntensity < 60) distressLevel = 'moderate';
-      else if (detectedIntensity < 85) distressLevel = 'high';
-      else distressLevel = 'crisis';
+      let distressLevel: DistressLevel = "moderate";
+      if (detectedIntensity < 30) distressLevel = "low";
+      else if (detectedIntensity < 60) distressLevel = "moderate";
+      else if (detectedIntensity < 85) distressLevel = "high";
+      else distressLevel = "crisis";
 
       // CONVERSATIONAL ADAPTATION: Build context-aware prompt modifier
       const conversationalContext = buildConversationalPromptModifier({
-        mode: 'listening',
+        mode: "listening",
         distressLevel,
-        emotionalState: suggestedEmotion === 'mixed' ? 'anxiety' : suggestedEmotion as EmotionalState,
+        emotionalState:
+          suggestedEmotion === "mixed"
+            ? "anxiety"
+            : (suggestedEmotion as EmotionalState),
         repetitionDetected: false,
         avoidanceDetected: PatternDetector.detectAvoidance(sanitizedThought),
       });
@@ -249,7 +268,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Developer-only logging for adaptive intelligence (not exposed to users)
       if (process.env.NODE_ENV === "development") {
         console.log("[Adaptive Intelligence] /api/analyze", {
-          tone: { mode: toneClassification.mode, confidence: toneClassification.confidence.toFixed(2) },
+          tone: {
+            mode: toneClassification.mode,
+            confidence: toneClassification.confidence.toFixed(2),
+          },
           state: stateInference.state,
           emotionalIntensity: detectedIntensity,
           distressLevel,
@@ -263,10 +285,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const orchestrationResult = await CanonicalOrchestrator.orchestrate({
         userInput: sanitizedThought,
         context: {
-          emotionalState: suggestedEmotion === 'mixed' ? 'anxiety' : suggestedEmotion as EmotionalState,
+          emotionalState:
+            suggestedEmotion === "mixed"
+              ? "anxiety"
+              : (suggestedEmotion as EmotionalState),
           distressLevel,
-          mode: 'analyze',
-          conversationState: 'listening',
+          mode: "analyze",
+          conversationState: "listening",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
           const response = await openai.chat.completions.create({
@@ -324,14 +349,14 @@ Respond with a JSON object containing:
 - happening: one short paragraph validating the emotional experience
 - pattern: array of 2 strings, each a one-sentence explanation of one distortion
 - matters: one short paragraph that validates without affirming the distortion`,
-          },
-          {
-            role: "user",
-            content: thought,
-          },
-        ],
-        response_format: { type: "json_object" },
-      });
+              },
+              {
+                role: "user",
+                content: thought,
+              },
+            ],
+            response_format: { type: "json_object" },
+          });
 
           return response.choices[0]?.message?.content || "{}";
         },
@@ -355,9 +380,15 @@ Respond with a JSON object containing:
 
       res.json({
         distortions: result.distortions || ["Emotional reasoning"],
-        happening: result.happening || "The pain you feel is real and deserves acknowledgment.",
-        pattern: result.pattern || ["This thought pattern involves interpreting feelings as facts."],
-        matters: result.matters || "Your emotions are valid, but they may not reflect the full truth of your situation.",
+        happening:
+          result.happening ||
+          "The pain you feel is real and deserves acknowledgment.",
+        pattern: result.pattern || [
+          "This thought pattern involves interpreting feelings as facts.",
+        ],
+        matters:
+          result.matters ||
+          "Your emotions are valid, but they may not reflect the full truth of your situation.",
       });
     } catch (error) {
       console.error("Error analyzing thought:", error);
@@ -370,35 +401,44 @@ Respond with a JSON object containing:
       const { thought, distortions, analysis, emotionalIntensity } = req.body;
 
       if (!thought || !distortions) {
-        return res.status(400).json({ error: "Thought and distortions are required" });
+        return res
+          .status(400)
+          .json({ error: "Thought and distortions are required" });
       }
 
       const toneClassification = classifyTone(thought);
       const toneModifier = getTonePromptModifier(toneClassification.mode);
-      
+
       const stateInference = inferInnerState(thought);
       const stateModifier = getStatePromptModifier(stateInference.state);
-      
+
       const assumptionDetection = detectAssumptionPattern(thought);
-      const assumptionModifier = getAssumptionPromptModifier(assumptionDetection);
+      const assumptionModifier =
+        getAssumptionPromptModifier(assumptionDetection);
 
       // Determine distress level for Islamic content selection
-      const detectedIntensity = emotionalIntensity || EmotionalIntelligence.detectIntensity(thought);
-      let distressLevel: DistressLevel = 'moderate';
-      if (detectedIntensity < 30) distressLevel = 'low';
-      else if (detectedIntensity < 60) distressLevel = 'moderate';
-      else if (detectedIntensity < 85) distressLevel = 'high';
-      else distressLevel = 'crisis';
+      const detectedIntensity =
+        emotionalIntensity || EmotionalIntelligence.detectIntensity(thought);
+      let distressLevel: DistressLevel = "moderate";
+      if (detectedIntensity < 30) distressLevel = "low";
+      else if (detectedIntensity < 60) distressLevel = "moderate";
+      else if (detectedIntensity < 85) distressLevel = "high";
+      else distressLevel = "crisis";
 
       const emotionalState = stateInference.state as EmotionalState;
 
       // Developer-only logging for adaptive intelligence (not exposed to users)
       if (process.env.NODE_ENV === "development") {
         console.log("[Adaptive Intelligence] /api/reframe", {
-          tone: { mode: toneClassification.mode, confidence: toneClassification.confidence.toFixed(2) },
+          tone: {
+            mode: toneClassification.mode,
+            confidence: toneClassification.confidence.toFixed(2),
+          },
           state: stateInference.state,
           distressLevel,
-          assumptionDetected: assumptionDetection.detected ? assumptionDetection.assumption : null,
+          assumptionDetected: assumptionDetection.detected
+            ? assumptionDetection.assumption
+            : null,
         });
       }
 
@@ -408,8 +448,8 @@ Respond with a JSON object containing:
         context: {
           emotionalState,
           distressLevel,
-          mode: 'reframe',
-          conversationState: 'reframing',
+          mode: "reframe",
+          conversationState: "reframing",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
           const response = await openai.chat.completions.create({
@@ -462,14 +502,14 @@ Respond with a JSON object containing:
 - perspective: 2-3 sentences with the truer perspective
 - nextStep: one simple action for today
 - anchors: array of 2-4 concept names from the whitelist`,
-          },
-          {
-            role: "user",
-            content: `Original thought: ${thought}\n\nReflection: ${analysis}`,
-          },
-        ],
-        response_format: { type: "json_object" },
-      });
+              },
+              {
+                role: "user",
+                content: `Original thought: ${thought}\n\nReflection: ${analysis}`,
+              },
+            ],
+            response_format: { type: "json_object" },
+          });
 
           return response.choices[0]?.message?.content || "{}";
         },
@@ -482,7 +522,8 @@ Respond with a JSON object containing:
       if (!orchestrationResult.success) {
         return res.json({
           beliefTested: orchestrationResult.response,
-          perspective: "We're ensuring this guidance aligns with what you need right now.",
+          perspective:
+            "We're ensuring this guidance aligns with what you need right now.",
           nextStep: "Take a moment, then try again.",
           anchors: ["Allah's mercy exceeds sin"],
         });
@@ -492,10 +533,18 @@ Respond with a JSON object containing:
       const result = JSON.parse(orchestrationResult.response);
 
       res.json({
-        beliefTested: result.beliefTested || "This thought assumes your feeling equals reality.",
-        perspective: result.perspective || "Feelings fluctuate. Your role is effort; the outcome belongs to Allah.",
-        nextStep: result.nextStep || "Take one small step of effort today, trusting the outcome to Allah.",
-        anchors: result.anchors || ["Effort is required, outcomes belong to Allah"],
+        beliefTested:
+          result.beliefTested ||
+          "This thought assumes your feeling equals reality.",
+        perspective:
+          result.perspective ||
+          "Feelings fluctuate. Your role is effort; the outcome belongs to Allah.",
+        nextStep:
+          result.nextStep ||
+          "Take one small step of effort today, trusting the outcome to Allah.",
+        anchors: result.anchors || [
+          "Effort is required, outcomes belong to Allah",
+        ],
       });
     } catch (error) {
       console.error("Error generating reframe:", error);
@@ -515,10 +564,10 @@ Respond with a JSON object containing:
       const orchestrationResult = await CanonicalOrchestrator.orchestrate({
         userInput: reframe,
         context: {
-          emotionalState: 'anxiety',
-          distressLevel: 'low',
-          mode: 'practice',
-          conversationState: 'grounding',
+          emotionalState: "anxiety",
+          distressLevel: "low",
+          mode: "practice",
+          conversationState: "grounding",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
           const response = await openai.chat.completions.create({
@@ -558,14 +607,14 @@ Respond with a JSON object containing:
 - steps: array of exactly 3 strings (one sentence each)
 - reminder: one short sentence
 - duration: string`,
-          },
-          {
-            role: "user",
-            content: `Reframe to help land: ${reframe}`,
-          },
-        ],
-        response_format: { type: "json_object" },
-      });
+              },
+              {
+                role: "user",
+                content: `Reframe to help land: ${reframe}`,
+              },
+            ],
+            response_format: { type: "json_object" },
+          });
 
           return response.choices[0]?.message?.content || "{}";
         },
@@ -592,9 +641,10 @@ Respond with a JSON object containing:
         steps: result.steps || [
           "Close your eyes and breathe in slowly for 4 counts.",
           "Hold gently for 4 counts, silently saying 'SubhanAllah.'",
-          "Release for 4 counts, letting tension leave with the breath."
+          "Release for 4 counts, letting tension leave with the breath.",
         ],
-        reminder: result.reminder || "Let each breath remind you that you are held.",
+        reminder:
+          result.reminder || "Let each breath remind you that you are held.",
         duration: result.duration || "1-2 minutes",
       });
     } catch (error) {
@@ -609,7 +659,8 @@ Respond with a JSON object containing:
   app.post("/api/reflection/save", async (req, res) => {
     try {
       const userId = req.auth?.userId;
-      const { thought, distortions, reframe, intention, practice, anchor } = req.body;
+      const { thought, distortions, reframe, intention, practice, anchor } =
+        req.body;
 
       if (!userId) {
         return res.status(401).json({ error: "Authentication required" });
@@ -622,18 +673,21 @@ Respond with a JSON object containing:
       if (!isPaid) {
         const todayCount = await storage.getTodayReflectionCount(userId);
         if (todayCount >= FREE_DAILY_LIMIT) {
-          return res.status(402).json({ 
+          return res.status(402).json({
             error: "Upgrade to Noor Plus for unlimited reflections",
-            code: "LIMIT_EXCEEDED"
+            code: "LIMIT_EXCEEDED",
           });
         }
       }
 
       const stateInference = inferInnerState(thought);
       const assumptionDetection = detectAssumptionPattern(thought);
-      
+
       const detectedState = stateInference.state;
-      const keyAssumption = assumptionDetection.detected && assumptionDetection.assumption ? assumptionDetection.assumption : undefined;
+      const keyAssumption =
+        assumptionDetection.detected && assumptionDetection.assumption
+          ? assumptionDetection.assumption
+          : undefined;
 
       // ENCRYPT SENSITIVE FIELDS before saving
       const encryptedThought = encryptData(thought);
@@ -644,14 +698,14 @@ Respond with a JSON object containing:
         thought: encryptedThought,
         distortions,
         reframe: encryptedReframe,
-        intention: encryptedIntention || '',
+        intention: encryptedIntention || "",
         practice,
         keyAssumption,
         detectedState,
         anchor,
       });
 
-      res.json({ 
+      res.json({
         success: true,
         detectedState: isPaid ? detectedState : undefined,
       });
@@ -679,17 +733,19 @@ Respond with a JSON object containing:
       const history = await storage.getReflectionHistory(userId, limit);
 
       // DECRYPT SENSITIVE FIELDS before sending to client
-      const decryptedHistory = history.map(reflection => ({
+      const decryptedHistory = history.map((reflection) => ({
         ...reflection,
         thought: decryptData(reflection.thought),
         reframe: decryptData(reflection.reframe),
-        intention: reflection.intention ? decryptData(reflection.intention) : undefined,
+        intention: reflection.intention
+          ? decryptData(reflection.intention)
+          : undefined,
       }));
 
-      res.json({ 
-        history: decryptedHistory, 
+      res.json({
+        history: decryptedHistory,
         isLimited: !isPaid,
-        limit: isPaid ? null : FREE_HISTORY_LIMIT
+        limit: isPaid ? null : FREE_HISTORY_LIMIT,
       });
     } catch (error) {
       console.error("Error fetching history:", error);
@@ -717,10 +773,10 @@ Respond with a JSON object containing:
       const todayCount = await storage.getTodayReflectionCount(userId);
       const remaining = Math.max(0, FREE_DAILY_LIMIT - todayCount);
 
-      res.json({ 
-        canReflect: remaining > 0, 
+      res.json({
+        canReflect: remaining > 0,
         remaining,
-        isPaid: false
+        isPaid: false,
       });
     } catch (error) {
       console.error("Error checking reflection limit:", error);
@@ -735,9 +791,9 @@ Respond with a JSON object containing:
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({ 
+        return res.status(401).json({
           error: "Authentication required",
-          code: "AUTH_REQUIRED"
+          code: "AUTH_REQUIRED",
         });
       }
 
@@ -745,14 +801,14 @@ Respond with a JSON object containing:
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({ 
+        return res.status(403).json({
           error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED"
+          code: "PRO_REQUIRED",
         });
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
-      
+
       if (reflectionCount < 3) {
         return res.json({
           summary: null,
@@ -761,11 +817,12 @@ Respond with a JSON object containing:
       }
 
       const recentReflections = await storage.getRecentReflections(userId, 15);
-      
+
       const assumptionCounts: Record<string, number> = {};
-      recentReflections.forEach(r => {
+      recentReflections.forEach((r) => {
         if (r.keyAssumption) {
-          assumptionCounts[r.keyAssumption] = (assumptionCounts[r.keyAssumption] || 0) + 1;
+          assumptionCounts[r.keyAssumption] =
+            (assumptionCounts[r.keyAssumption] || 0) + 1;
         }
       });
 
@@ -775,18 +832,27 @@ Respond with a JSON object containing:
         .slice(0, 5);
 
       const states = recentReflections
-        .filter(r => r.detectedState)
-        .map(r => r.detectedState);
-      const distortions = recentReflections
-        .flatMap(r => r.distortions || []);
+        .filter((r) => r.detectedState)
+        .map((r) => r.detectedState);
+      const distortions = recentReflections.flatMap((r) => r.distortions || []);
 
-      const mostCommonState = states.length > 0 
-        ? states.sort((a, b) => states.filter(v => v === b).length - states.filter(v => v === a).length)[0]
-        : null;
+      const mostCommonState =
+        states.length > 0
+          ? states.sort(
+              (a, b) =>
+                states.filter((v) => v === b).length -
+                states.filter((v) => v === a).length,
+            )[0]
+          : null;
 
-      const mostCommonDistortion = distortions.length > 0
-        ? distortions.sort((a, b) => distortions.filter(v => v === b).length - distortions.filter(v => v === a).length)[0]
-        : null;
+      const mostCommonDistortion =
+        distortions.length > 0
+          ? distortions.sort(
+              (a, b) =>
+                distortions.filter((v) => v === b).length -
+                distortions.filter((v) => v === a).length,
+            )[0]
+          : null;
 
       let summary = "";
       if (mostCommonState && mostCommonDistortion) {
@@ -819,14 +885,14 @@ Respond with a JSON object containing:
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({ 
+        return res.status(403).json({
           error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED"
+          code: "PRO_REQUIRED",
         });
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
-      
+
       if (reflectionCount < 5) {
         return res.json({
           available: false,
@@ -837,8 +903,11 @@ Respond with a JSON object containing:
       }
 
       const existingSummary = await storage.getLatestInsightSummary(userId);
-      
-      if (existingSummary && existingSummary.reflectionCount === reflectionCount) {
+
+      if (
+        existingSummary &&
+        existingSummary.reflectionCount === reflectionCount
+      ) {
         return res.json({
           available: true,
           summary: existingSummary.summary,
@@ -849,13 +918,12 @@ Respond with a JSON object containing:
 
       const recentReflections = await storage.getRecentReflections(userId, 15);
       const assumptions = recentReflections
-        .filter(r => r.keyAssumption)
-        .map(r => r.keyAssumption);
+        .filter((r) => r.keyAssumption)
+        .map((r) => r.keyAssumption);
       const states = recentReflections
-        .filter(r => r.detectedState)
-        .map(r => r.detectedState);
-      const distortions = recentReflections
-        .flatMap(r => r.distortions || []);
+        .filter((r) => r.detectedState)
+        .map((r) => r.detectedState);
+      const distortions = recentReflections.flatMap((r) => r.distortions || []);
 
       const summaryPrompt = `Based on these patterns from ${reflectionCount} reflections:
 - Recurring assumptions: ${assumptions.join(", ") || "None detected yet"}
@@ -873,10 +941,10 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
       const orchestrationResult = await CanonicalOrchestrator.orchestrate({
         userInput: summaryPrompt,
         context: {
-          emotionalState: 'anxiety',
-          distressLevel: 'low',
-          mode: 'dua',
-          conversationState: 'listening',
+          emotionalState: "anxiety",
+          distressLevel: "low",
+          mode: "dua",
+          conversationState: "listening",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
           const response = await openai.chat.completions.create({
@@ -900,7 +968,10 @@ Respond with plain text, not JSON.`,
             ],
           });
 
-          return response.choices[0]?.message?.content || "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity.";
+          return (
+            response.choices[0]?.message?.content ||
+            "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity."
+          );
         },
       });
 
@@ -938,9 +1009,9 @@ Respond with plain text, not JSON.`,
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({ 
+        return res.status(403).json({
           error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED"
+          code: "PRO_REQUIRED",
         });
       }
 
@@ -958,7 +1029,10 @@ Respond with plain text, not JSON.`,
 
   // POST /api/duas/contextual
   // PRO ONLY: Returns a contextual dua based on the user's inner state
-  const DUA_BY_STATE: Record<string, { arabic: string; transliteration: string; meaning: string }> = {
+  const DUA_BY_STATE: Record<
+    string,
+    { arabic: string; transliteration: string; meaning: string }
+  > = {
     grief: {
       arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ",
       transliteration: "Inna lillahi wa inna ilayhi raji'un",
@@ -967,7 +1041,8 @@ Respond with plain text, not JSON.`,
     fear: {
       arabic: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ",
       transliteration: "Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu",
-      meaning: "Sufficient for me is Allah; there is no deity except Him. On Him I rely.",
+      meaning:
+        "Sufficient for me is Allah; there is no deity except Him. On Him I rely.",
     },
     shame: {
       arabic: "رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي",
@@ -980,9 +1055,12 @@ Respond with plain text, not JSON.`,
       meaning: "I seek refuge in Allah from the accursed Satan.",
     },
     loneliness: {
-      arabic: "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
-      transliteration: "La ilaha illa anta subhanaka inni kuntu min adh-dhalimin",
-      meaning: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+      arabic:
+        "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+      transliteration:
+        "La ilaha illa anta subhanaka inni kuntu min adh-dhalimin",
+      meaning:
+        "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
     },
     doubt: {
       arabic: "رَبِّ زِدْنِي عِلْمًا",
@@ -1014,9 +1092,9 @@ Respond with plain text, not JSON.`,
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({ 
+        return res.status(403).json({
           error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED"
+          code: "PRO_REQUIRED",
         });
       }
 
@@ -1037,11 +1115,11 @@ Respond with plain text, not JSON.`,
   // This endpoint triggers data retention cleanup manually
   app.post("/api/admin/cleanup", async (req, res) => {
     try {
-      console.log('[Admin] Manual cleanup triggered');
+      console.log("[Admin] Manual cleanup triggered");
       await runManualCleanup();
       res.json({ success: true, message: "Data retention cleanup completed" });
     } catch (error) {
-      console.error('[Admin] Manual cleanup failed:', error);
+      console.error("[Admin] Manual cleanup failed:", error);
       res.status(500).json({ error: "Cleanup failed" });
     }
   });

@@ -1,5 +1,12 @@
 import { z } from "zod";
-import { pgTable, text, timestamp, serial, jsonb, integer } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  serial,
+  jsonb,
+  integer,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey(),

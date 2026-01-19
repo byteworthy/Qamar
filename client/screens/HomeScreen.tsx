@@ -1,5 +1,13 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Pressable, TextInput, Modal, useWindowDimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  TextInput,
+  Modal,
+  useWindowDimensions,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -33,11 +41,41 @@ interface JourneyStats {
 
 // Spiritual journey levels based on reflections
 const JOURNEY_LEVELS = [
-  { level: 1, name: "Seedling", minReflections: 0, icon: "🌱", description: "Beginning your journey" },
-  { level: 2, name: "Growing", minReflections: 5, icon: "🌿", description: "Developing awareness" },
-  { level: 3, name: "Rooted", minReflections: 15, icon: "🌳", description: "Building resilience" },
-  { level: 4, name: "Flourishing", minReflections: 30, icon: "🌸", description: "Deepening understanding" },
-  { level: 5, name: "Illuminated", minReflections: 50, icon: "✨", description: "Radiating light" },
+  {
+    level: 1,
+    name: "Seedling",
+    minReflections: 0,
+    icon: "🌱",
+    description: "Beginning your journey",
+  },
+  {
+    level: 2,
+    name: "Growing",
+    minReflections: 5,
+    icon: "🌿",
+    description: "Developing awareness",
+  },
+  {
+    level: 3,
+    name: "Rooted",
+    minReflections: 15,
+    icon: "🌳",
+    description: "Building resilience",
+  },
+  {
+    level: 4,
+    name: "Flourishing",
+    minReflections: 30,
+    icon: "🌸",
+    description: "Deepening understanding",
+  },
+  {
+    level: 5,
+    name: "Illuminated",
+    minReflections: 50,
+    icon: "✨",
+    description: "Radiating light",
+  },
 ];
 
 function getJourneyLevel(totalReflections: number) {
@@ -51,7 +89,8 @@ function getJourneyLevel(totalReflections: number) {
 
 function getNextLevel(totalReflections: number) {
   const currentLevel = getJourneyLevel(totalReflections);
-  const nextIndex = JOURNEY_LEVELS.findIndex(l => l.level === currentLevel.level) + 1;
+  const nextIndex =
+    JOURNEY_LEVELS.findIndex((l) => l.level === currentLevel.level) + 1;
   if (nextIndex < JOURNEY_LEVELS.length) {
     return JOURNEY_LEVELS[nextIndex];
   }
@@ -70,14 +109,25 @@ interface ModuleCardProps {
   locked?: boolean;
 }
 
-function ModuleCard({ icon, title, description, onPress, gradient, delay, locked }: ModuleCardProps) {
+function ModuleCard({
+  icon,
+  title,
+  description,
+  onPress,
+  gradient,
+  delay,
+  locked,
+}: ModuleCardProps) {
   return (
     <Animated.View entering={FadeInUp.duration(300).delay(delay)}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => [
           styles.moduleCard,
-          { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
+          {
+            opacity: pressed ? 0.9 : 1,
+            transform: [{ scale: pressed ? 0.98 : 1 }],
+          },
         ]}
       >
         <LinearGradient
@@ -96,7 +146,9 @@ function ModuleCard({ icon, title, description, onPress, gradient, delay, locked
           </View>
           <View style={styles.moduleContent}>
             <ThemedText style={styles.moduleTitle}>{title}</ThemedText>
-            <ThemedText style={styles.moduleDescription}>{description}</ThemedText>
+            <ThemedText style={styles.moduleDescription}>
+              {description}
+            </ThemedText>
           </View>
         </LinearGradient>
       </Pressable>
@@ -106,7 +158,8 @@ function ModuleCard({ icon, title, description, onPress, gradient, delay, locked
 
 function getDailyReminder(): string {
   const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) /
+      86400000,
   );
   return Brand.dailyReminders[dayOfYear % Brand.dailyReminders.length];
 }
@@ -115,7 +168,7 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
-  
+
   const [userName, setUserName] = useState<string>("Friend");
   const [showNameModal, setShowNameModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
@@ -134,14 +187,14 @@ export default function HomeScreen() {
         setUserName(name);
       }
     });
-    
+
     // Load journey stats
     AsyncStorage.getItem(JOURNEY_STATS_KEY).then((stats) => {
       if (stats) {
         try {
           setJourneyStats(JSON.parse(stats));
         } catch (e) {
-          console.log('Failed to parse journey stats');
+          console.log("Failed to parse journey stats");
         }
       }
     });
@@ -149,8 +202,10 @@ export default function HomeScreen() {
 
   const currentLevel = getJourneyLevel(journeyStats.totalReflections);
   const nextLevel = getNextLevel(journeyStats.totalReflections);
-  const progressToNext = nextLevel 
-    ? ((journeyStats.totalReflections - currentLevel.minReflections) / (nextLevel.minReflections - currentLevel.minReflections)) * 100
+  const progressToNext = nextLevel
+    ? ((journeyStats.totalReflections - currentLevel.minReflections) /
+        (nextLevel.minReflections - currentLevel.minReflections)) *
+      100
     : 100;
 
   const handleSaveName = async () => {
@@ -175,217 +230,310 @@ export default function HomeScreen() {
 
   return (
     <>
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={[
-          styles.scrollContent,
-          { 
-            paddingTop: insets.top + 20,
-            paddingBottom: 100 + insets.bottom,
-          },
-        ]}
-        showsVerticalScrollIndicator={false}
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       >
-        <Animated.View entering={FadeInDown.duration(300)} style={styles.header}>
-          <Pressable 
-            onPress={() => {
-              setNameInput(userName);
-              setShowNameModal(true);
-            }}
-            style={styles.greetingRow}
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={[
+            styles.scrollContent,
+            {
+              paddingTop: insets.top + 20,
+              paddingBottom: 100 + insets.bottom,
+            },
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
+          <Animated.View
+            entering={FadeInDown.duration(300)}
+            style={styles.header}
           >
-            <View style={styles.greetingContent}>
-              <ThemedText style={[styles.salaamText, { color: theme.textSecondary }]}>
-                Salaam,
-              </ThemedText>
-              <ThemedText style={styles.nameText}> {userName}</ThemedText>
-            </View>
-            <Feather name="edit-2" size={12} color={theme.textSecondary} style={{ opacity: 0.4 }} />
-          </Pressable>
-          <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-            What's on your mind today?
-          </ThemedText>
-        </Animated.View>
-
-        <Animated.View 
-          entering={FadeInUp.duration(350).delay(80)} 
-          style={[styles.anchorCard, { backgroundColor: theme.cardBackground }]}
-        >
-          <View style={styles.anchorHeader}>
-            <View style={[styles.anchorBadge, { backgroundColor: NiyyahColors.accent + "20" }]}>
-              <Feather name="anchor" size={14} color={NiyyahColors.accent} />
-            </View>
-            <ThemedText style={[styles.anchorLabel, { color: theme.textSecondary }]}>
-              Today's Anchor
-            </ThemedText>
-          </View>
-          <ThemedText style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
-            {dailyReminder}
-          </ThemedText>
-        </Animated.View>
-
-        {/* Journey Progress Card */}
-        <Animated.View 
-          entering={FadeInUp.duration(350).delay(100)} 
-          style={[styles.journeyCard, { backgroundColor: theme.cardBackground }]}
-        >
-          <View style={styles.journeyHeader}>
-            <View style={styles.journeyLevel}>
-              <ThemedText style={styles.journeyIcon}>{currentLevel.icon}</ThemedText>
-              <View>
-                <ThemedText style={[styles.journeyLevelName, { color: theme.text }]}>
-                  {currentLevel.name}
-                </ThemedText>
-                <ThemedText style={[styles.journeyLevelDesc, { color: theme.textSecondary }]}>
-                  {currentLevel.description}
-                </ThemedText>
-              </View>
-            </View>
-            <View style={styles.journeyStats}>
-              <ThemedText style={[styles.statNumber, { color: NiyyahColors.accent }]}>
-                {journeyStats.totalReflections}
-              </ThemedText>
-              <ThemedText style={[styles.statLabel, { color: theme.textSecondary }]}>
-                reflections
-              </ThemedText>
-            </View>
-          </View>
-          
-          {nextLevel && (
-            <View style={styles.progressSection}>
-              <View style={[styles.progressBar, { backgroundColor: theme.backgroundRoot }]}>
-                <View 
-                  style={[
-                    styles.progressFill, 
-                    { width: `${Math.min(progressToNext, 100)}%`, backgroundColor: NiyyahColors.accent }
-                  ]} 
-                />
-              </View>
-              <ThemedText style={[styles.progressText, { color: theme.textSecondary }]}>
-                {nextLevel.minReflections - journeyStats.totalReflections} more to reach {nextLevel.icon} {nextLevel.name}
-              </ThemedText>
-            </View>
-          )}
-          
-          {journeyStats.currentStreak > 0 && (
-            <View style={[styles.streakBadge, { backgroundColor: NiyyahColors.accent + "15" }]}>
-              <ThemedText style={styles.streakText}>
-                🔥 {journeyStats.currentStreak} day streak
-              </ThemedText>
-            </View>
-          )}
-        </Animated.View>
-
-        <View style={styles.modulesSection}>
-          <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            Tools for Your Journey
-          </ThemedText>
-
-          <View style={styles.modulesGrid}>
-            <ModuleCard
-              icon="edit-3"
-              title="Reflection"
-              description="Process a troubling thought with guided CBT"
-              onPress={() => navigation.navigate("ThoughtCapture")}
-              gradient={["#6a5a4a", "#4a3a2a"]}
-              delay={120}
-            />
-            <ModuleCard
-              icon="wind"
-              title="Calming Practice"
-              description="Quick grounding exercises with dhikr"
-              onPress={() => navigation.navigate("CalmingPractice")}
-              gradient={["#4a6a5a", "#2a4a3a"]}
-              delay={160}
-            />
-            <ModuleCard
-              icon="heart"
-              title="Dua"
-              description="Find the right words for what you carry"
-              onPress={() => navigation.navigate("Dua" as any)}
-              gradient={["#4a5a6a", "#2a3a4a"]}
-              delay={200}
-            />
-            <ModuleCard
-              icon="bar-chart-2"
-              title="Insights"
-              description="See patterns in your reflections"
-              onPress={() => navigation.navigate("Insights")}
-              gradient={["#5a4a5a", "#3a2a3a"]}
-              delay={240}
-              locked={!isPaid}
-            />
-          </View>
-        </View>
-
-        {!isPaid && (
-          <Animated.View entering={FadeInUp.duration(300).delay(320)} style={styles.upgradeSection}>
             <Pressable
-              onPress={() => navigation.navigate("Pricing")}
-              style={({ pressed }) => [
-                styles.upgradeButton,
-                { opacity: pressed ? 0.9 : 1 },
-              ]}
+              onPress={() => {
+                setNameInput(userName);
+                setShowNameModal(true);
+              }}
+              style={styles.greetingRow}
             >
-              <View style={styles.upgradeContent}>
-                <Feather name="star" size={16} color={NiyyahColors.background} />
-                <ThemedText style={styles.upgradeText}>Upgrade to Noor Plus</ThemedText>
+              <View style={styles.greetingContent}>
+                <ThemedText
+                  style={[styles.salaamText, { color: theme.textSecondary }]}
+                >
+                  Salaam,
+                </ThemedText>
+                <ThemedText style={styles.nameText}> {userName}</ThemedText>
               </View>
-              <Feather name="chevron-right" size={18} color={NiyyahColors.background} style={{ opacity: 0.6 }} />
+              <Feather
+                name="edit-2"
+                size={12}
+                color={theme.textSecondary}
+                style={{ opacity: 0.4 }}
+              />
             </Pressable>
+            <ThemedText
+              style={[styles.subtitle, { color: theme.textSecondary }]}
+            >
+              {"What's on your mind today?"}
+            </ThemedText>
           </Animated.View>
-        )}
 
-        <Animated.View entering={FadeInUp.duration(300).delay(380)} style={styles.footer}>
-          <ThemedText style={[styles.methodCallout, { color: theme.textSecondary }]}>
-            {Brand.methodCallout}
-          </ThemedText>
-          <ThemedText style={[styles.disclaimer, { color: theme.textSecondary }]}>
-            {Brand.disclaimer}
-          </ThemedText>
-        </Animated.View>
-      </ScrollView>
-    </View>
-
-    <Modal
-      visible={showNameModal}
-      transparent
-      animationType="fade"
-      onRequestClose={() => setShowNameModal(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={[styles.modalContent, { backgroundColor: theme.backgroundDefault }]}>
-          <ThemedText style={styles.modalTitle}>What's your name?</ThemedText>
-          <TextInput
-            value={nameInput}
-            onChangeText={setNameInput}
-            placeholder="Enter your name"
-            placeholderTextColor={theme.textSecondary}
+          <Animated.View
+            entering={FadeInUp.duration(350).delay(80)}
             style={[
-              styles.nameInput,
-              { backgroundColor: theme.backgroundRoot, color: theme.text }
+              styles.anchorCard,
+              { backgroundColor: theme.cardBackground },
             ]}
-            autoFocus
-            maxLength={20}
-          />
-          <View style={styles.modalButtons}>
-            <Pressable 
-              onPress={() => setShowNameModal(false)}
-              style={[styles.modalButton, { backgroundColor: theme.backgroundRoot }]}
+          >
+            <View style={styles.anchorHeader}>
+              <View
+                style={[
+                  styles.anchorBadge,
+                  { backgroundColor: NiyyahColors.accent + "20" },
+                ]}
+              >
+                <Feather name="anchor" size={14} color={NiyyahColors.accent} />
+              </View>
+              <ThemedText
+                style={[styles.anchorLabel, { color: theme.textSecondary }]}
+              >
+                {"Today’s Anchor"}
+              </ThemedText>
+            </View>
+            <ThemedText
+              style={[styles.anchorText, { fontFamily: Fonts?.serif }]}
             >
-              <ThemedText>Cancel</ThemedText>
-            </Pressable>
-            <Pressable 
-              onPress={handleSaveName}
-              style={[styles.modalButton, { backgroundColor: theme.primary }]}
+              {dailyReminder}
+            </ThemedText>
+          </Animated.View>
+
+          {/* Journey Progress Card */}
+          <Animated.View
+            entering={FadeInUp.duration(350).delay(100)}
+            style={[
+              styles.journeyCard,
+              { backgroundColor: theme.cardBackground },
+            ]}
+          >
+            <View style={styles.journeyHeader}>
+              <View style={styles.journeyLevel}>
+                <ThemedText style={styles.journeyIcon}>
+                  {currentLevel.icon}
+                </ThemedText>
+                <View>
+                  <ThemedText
+                    style={[styles.journeyLevelName, { color: theme.text }]}
+                  >
+                    {currentLevel.name}
+                  </ThemedText>
+                  <ThemedText
+                    style={[
+                      styles.journeyLevelDesc,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
+                    {currentLevel.description}
+                  </ThemedText>
+                </View>
+              </View>
+              <View style={styles.journeyStats}>
+                <ThemedText
+                  style={[styles.statNumber, { color: NiyyahColors.accent }]}
+                >
+                  {journeyStats.totalReflections}
+                </ThemedText>
+                <ThemedText
+                  style={[styles.statLabel, { color: theme.textSecondary }]}
+                >
+                  reflections
+                </ThemedText>
+              </View>
+            </View>
+
+            {nextLevel && (
+              <View style={styles.progressSection}>
+                <View
+                  style={[
+                    styles.progressBar,
+                    { backgroundColor: theme.backgroundRoot },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.progressFill,
+                      {
+                        width: `${Math.min(progressToNext, 100)}%`,
+                        backgroundColor: NiyyahColors.accent,
+                      },
+                    ]}
+                  />
+                </View>
+                <ThemedText
+                  style={[styles.progressText, { color: theme.textSecondary }]}
+                >
+                  {nextLevel.minReflections - journeyStats.totalReflections}{" "}
+                  more to reach {nextLevel.icon} {nextLevel.name}
+                </ThemedText>
+              </View>
+            )}
+
+            {journeyStats.currentStreak > 0 && (
+              <View
+                style={[
+                  styles.streakBadge,
+                  { backgroundColor: NiyyahColors.accent + "15" },
+                ]}
+              >
+                <ThemedText style={styles.streakText}>
+                  🔥 {journeyStats.currentStreak} day streak
+                </ThemedText>
+              </View>
+            )}
+          </Animated.View>
+
+          <View style={styles.modulesSection}>
+            <ThemedText
+              style={[styles.sectionLabel, { color: theme.textSecondary }]}
             >
-              <ThemedText style={{ color: NiyyahColors.background }}>Save</ThemedText>
-            </Pressable>
+              Tools for Your Journey
+            </ThemedText>
+
+            <View style={styles.modulesGrid}>
+              <ModuleCard
+                icon="edit-3"
+                title="Reflection"
+                description="Process a troubling thought with guided CBT"
+                onPress={() => navigation.navigate("ThoughtCapture")}
+                gradient={["#6a5a4a", "#4a3a2a"]}
+                delay={120}
+              />
+              <ModuleCard
+                icon="wind"
+                title="Calming Practice"
+                description="Quick grounding exercises with dhikr"
+                onPress={() => navigation.navigate("CalmingPractice")}
+                gradient={["#4a6a5a", "#2a4a3a"]}
+                delay={160}
+              />
+              <ModuleCard
+                icon="heart"
+                title="Dua"
+                description="Find the right words for what you carry"
+                onPress={() => navigation.navigate("Dua" as any)}
+                gradient={["#4a5a6a", "#2a3a4a"]}
+                delay={200}
+              />
+              <ModuleCard
+                icon="bar-chart-2"
+                title="Insights"
+                description="See patterns in your reflections"
+                onPress={() => navigation.navigate("Insights")}
+                gradient={["#5a4a5a", "#3a2a3a"]}
+                delay={240}
+                locked={!isPaid}
+              />
+            </View>
+          </View>
+
+          {!isPaid && (
+            <Animated.View
+              entering={FadeInUp.duration(300).delay(320)}
+              style={styles.upgradeSection}
+            >
+              <Pressable
+                onPress={() => navigation.navigate("Pricing")}
+                style={({ pressed }) => [
+                  styles.upgradeButton,
+                  { opacity: pressed ? 0.9 : 1 },
+                ]}
+              >
+                <View style={styles.upgradeContent}>
+                  <Feather
+                    name="star"
+                    size={16}
+                    color={NiyyahColors.background}
+                  />
+                  <ThemedText style={styles.upgradeText}>
+                    Upgrade to Noor Plus
+                  </ThemedText>
+                </View>
+                <Feather
+                  name="chevron-right"
+                  size={18}
+                  color={NiyyahColors.background}
+                  style={{ opacity: 0.6 }}
+                />
+              </Pressable>
+            </Animated.View>
+          )}
+
+          <Animated.View
+            entering={FadeInUp.duration(300).delay(380)}
+            style={styles.footer}
+          >
+            <ThemedText
+              style={[styles.methodCallout, { color: theme.textSecondary }]}
+            >
+              {Brand.methodCallout}
+            </ThemedText>
+            <ThemedText
+              style={[styles.disclaimer, { color: theme.textSecondary }]}
+            >
+              {Brand.disclaimer}
+            </ThemedText>
+          </Animated.View>
+        </ScrollView>
+      </View>
+
+      <Modal
+        visible={showNameModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowNameModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View
+            style={[
+              styles.modalContent,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
+            <ThemedText style={styles.modalTitle}>
+              {"What’s your name?"}
+            </ThemedText>
+            <TextInput
+              value={nameInput}
+              onChangeText={setNameInput}
+              placeholder="Enter your name"
+              placeholderTextColor={theme.textSecondary}
+              style={[
+                styles.nameInput,
+                { backgroundColor: theme.backgroundRoot, color: theme.text },
+              ]}
+              autoFocus
+              maxLength={20}
+            />
+            <View style={styles.modalButtons}>
+              <Pressable
+                onPress={() => setShowNameModal(false)}
+                style={[
+                  styles.modalButton,
+                  { backgroundColor: theme.backgroundRoot },
+                ]}
+              >
+                <ThemedText>Cancel</ThemedText>
+              </Pressable>
+              <Pressable
+                onPress={handleSaveName}
+                style={[styles.modalButton, { backgroundColor: theme.primary }]}
+              >
+                <ThemedText style={{ color: NiyyahColors.background }}>
+                  Save
+                </ThemedText>
+              </Pressable>
+            </View>
           </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
     </>
   );
 }

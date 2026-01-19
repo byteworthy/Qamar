@@ -1,33 +1,43 @@
 /**
  * Safety Telemetry System for Noor CBT
- * 
+ *
  * PRIORITY 3: Internal metrics only - NO behavioral tracking
- * 
+ *
  * Metrics Tracked:
  * - Number of violations by category
  * - Average distress state duration
  * - Frequency of reframing permission declines
  * - Crisis escalation counts
- * 
+ *
  * Purpose: System health, NOT user manipulation
- * 
+ *
  * Last Updated: 2026-01-17
  */
 
-import type { DistressLevel } from '../shared/islamic-framework';
-import type { ViolationSeverity } from './charter-compliance';
+import type { DistressLevel } from "../shared/islamic-framework";
+import type { ViolationSeverity } from "./charter-compliance";
 
 // =============================================================================
 // TELEMETRY EVENT TYPES
 // =============================================================================
 
 export type TelemetryEvent =
-  | { type: 'violation'; category: string; severity: ViolationSeverity; timestamp: number }
-  | { type: 'crisis_detected'; level: string; timestamp: number }
-  | { type: 'reframing_declined'; timestamp: number }
-  | { type: 'distress_state_change'; from: DistressLevel; to: DistressLevel; timestamp: number }
-  | { type: 'system_failure'; category: string; timestamp: number }
-  | { type: 'response_approved'; timestamp: number };
+  | {
+      type: "violation";
+      category: string;
+      severity: ViolationSeverity;
+      timestamp: number;
+    }
+  | { type: "crisis_detected"; level: string; timestamp: number }
+  | { type: "reframing_declined"; timestamp: number }
+  | {
+      type: "distress_state_change";
+      from: DistressLevel;
+      to: DistressLevel;
+      timestamp: number;
+    }
+  | { type: "system_failure"; category: string; timestamp: number }
+  | { type: "response_approved"; timestamp: number };
 
 // =============================================================================
 // TELEMETRY STORAGE
@@ -83,8 +93,14 @@ interface SystemHealthMetrics {
 
 export class SafetyTelemetry {
   private static violations: Map<string, ViolationMetrics> = new Map();
-  private static distressStates: Map<DistressLevel, DistressMetrics> = new Map();
-  private static distressTransitions: Array<{ from: DistressLevel; to: DistressLevel; timestamp: number; duration: number }> = [];
+  private static distressStates: Map<DistressLevel, DistressMetrics> =
+    new Map();
+  private static distressTransitions: Array<{
+    from: DistressLevel;
+    to: DistressLevel;
+    timestamp: number;
+    duration: number;
+  }> = [];
   private static crisisMetrics: CrisisMetrics = {
     totalEvents: 0,
     emergencyLevel: 0,
@@ -104,7 +120,10 @@ export class SafetyTelemetry {
     successRate: 100,
     failures: [],
   };
-  private static currentDistressStart: Map<string, { level: DistressLevel; timestamp: number }> = new Map();
+  private static currentDistressStart: Map<
+    string,
+    { level: DistressLevel; timestamp: number }
+  > = new Map();
 
   // ===========================================================================
   // VIOLATION TRACKING
@@ -129,12 +148,17 @@ export class SafetyTelemetry {
     return Array.from(this.violations.values());
   }
 
-  static getViolationsByCategory(category: string): ViolationMetrics | undefined {
+  static getViolationsByCategory(
+    category: string,
+  ): ViolationMetrics | undefined {
     return this.violations.get(category);
   }
 
   static getTotalViolations(): number {
-    return Array.from(this.violations.values()).reduce((sum, v) => sum + v.count, 0);
+    return Array.from(this.violations.values()).reduce(
+      (sum, v) => sum + v.count,
+      0,
+    );
   }
 
   // ===========================================================================
@@ -153,7 +177,7 @@ export class SafetyTelemetry {
     if (!start) return;
 
     const duration = Date.now() - start.timestamp;
-    
+
     // Update distress metrics
     const existing = this.distressStates.get(start.level) || {
       level: start.level,
@@ -188,14 +212,18 @@ export class SafetyTelemetry {
     });
   }
 
-  static getDistressMetrics(level?: DistressLevel): DistressMetrics | DistressMetrics[] {
+  static getDistressMetrics(
+    level?: DistressLevel,
+  ): DistressMetrics | DistressMetrics[] {
     if (level) {
-      return this.distressStates.get(level) || {
-        level,
-        totalDuration: 0,
-        occurrences: 0,
-        averageDuration: 0,
-      };
+      return (
+        this.distressStates.get(level) || {
+          level,
+          totalDuration: 0,
+          occurrences: 0,
+          averageDuration: 0,
+        }
+      );
     }
     return Array.from(this.distressStates.values());
   }
@@ -209,18 +237,20 @@ export class SafetyTelemetry {
   // CRISIS TRACKING
   // ===========================================================================
 
-  static recordCrisisEvent(level: 'none' | 'concern' | 'urgent' | 'emergency'): void {
+  static recordCrisisEvent(
+    level: "none" | "concern" | "urgent" | "emergency",
+  ): void {
     this.crisisMetrics.totalEvents++;
     this.crisisMetrics.lastCrisisTimestamp = Date.now();
 
     switch (level) {
-      case 'emergency':
+      case "emergency":
         this.crisisMetrics.emergencyLevel++;
         break;
-      case 'urgent':
+      case "urgent":
         this.crisisMetrics.urgentLevel++;
         break;
-      case 'concern':
+      case "concern":
         this.crisisMetrics.watchLevel++;
         break;
     }
@@ -233,8 +263,9 @@ export class SafetyTelemetry {
   static getCrisisEscalationRate(): number {
     const total = this.crisisMetrics.totalEvents;
     if (total === 0) return 0;
-    
-    const escalated = this.crisisMetrics.emergencyLevel + this.crisisMetrics.urgentLevel;
+
+    const escalated =
+      this.crisisMetrics.emergencyLevel + this.crisisMetrics.urgentLevel;
     return (escalated / total) * 100;
   }
 
@@ -257,9 +288,11 @@ export class SafetyTelemetry {
   }
 
   private static updateReframingRate(): void {
-    const total = this.reframingMetrics.declines + this.reframingMetrics.accepts;
+    const total =
+      this.reframingMetrics.declines + this.reframingMetrics.accepts;
     if (total > 0) {
-      this.reframingMetrics.declineRate = (this.reframingMetrics.declines / total) * 100;
+      this.reframingMetrics.declineRate =
+        (this.reframingMetrics.declines / total) * 100;
     }
   }
 
@@ -284,7 +317,9 @@ export class SafetyTelemetry {
   }
 
   static recordSystemFailure(category: string): void {
-    const existing = this.systemHealth.failures.find(f => f.category === category);
+    const existing = this.systemHealth.failures.find(
+      (f) => f.category === category,
+    );
     if (existing) {
       existing.count++;
     } else {
@@ -295,8 +330,10 @@ export class SafetyTelemetry {
 
   private static updateSuccessRate(): void {
     if (this.systemHealth.totalResponses > 0) {
-      this.systemHealth.successRate = 
-        (this.systemHealth.successfulResponses / this.systemHealth.totalResponses) * 100;
+      this.systemHealth.successRate =
+        (this.systemHealth.successfulResponses /
+          this.systemHealth.totalResponses) *
+        100;
     }
   }
 
@@ -324,8 +361,8 @@ export class SafetyTelemetry {
   } {
     const violations = this.getViolationMetrics();
     const criticalViolations = violations.reduce(
-      (sum, v) => sum + v.severityBreakdown.critical, 
-      0
+      (sum, v) => sum + v.severityBreakdown.critical,
+      0,
     );
 
     return {
@@ -344,15 +381,19 @@ export class SafetyTelemetry {
     };
   }
 
-  static getAlerts(): Array<{ severity: 'warning' | 'critical'; message: string }> {
-    const alerts: Array<{ severity: 'warning' | 'critical'; message: string }> = [];
+  static getAlerts(): Array<{
+    severity: "warning" | "critical";
+    message: string;
+  }> {
+    const alerts: Array<{ severity: "warning" | "critical"; message: string }> =
+      [];
 
     // Check for critical violations
     const violations = this.getViolationMetrics();
     for (const violation of violations) {
       if (violation.severityBreakdown.critical > 0) {
         alerts.push({
-          severity: 'critical',
+          severity: "critical",
           message: `${violation.category}: ${violation.severityBreakdown.critical} critical violation(s)`,
         });
       }
@@ -362,7 +403,7 @@ export class SafetyTelemetry {
     const crisisRate = this.getCrisisEscalationRate();
     if (crisisRate > 20) {
       alerts.push({
-        severity: 'warning',
+        severity: "warning",
         message: `High crisis escalation rate: ${crisisRate.toFixed(1)}%`,
       });
     }
@@ -370,15 +411,18 @@ export class SafetyTelemetry {
     // Check system success rate
     if (this.systemHealth.successRate < 90) {
       alerts.push({
-        severity: 'critical',
+        severity: "critical",
         message: `Low system success rate: ${this.systemHealth.successRate.toFixed(1)}%`,
       });
     }
 
     // Check reframing decline rate
-    if (this.reframingMetrics.declineRate > 50 && this.reframingMetrics.totalRequests > 10) {
+    if (
+      this.reframingMetrics.declineRate > 50 &&
+      this.reframingMetrics.totalRequests > 10
+    ) {
       alerts.push({
-        severity: 'warning',
+        severity: "warning",
         message: `High reframing decline rate: ${this.reframingMetrics.declineRate.toFixed(1)}%`,
       });
     }
@@ -431,12 +475,12 @@ export class TelemetryMiddleware {
    */
   static wrap<T extends (...args: any[]) => any>(
     fn: T,
-    category: string
+    category: string,
   ): (...args: Parameters<T>) => ReturnType<T> {
     return (...args: Parameters<T>): ReturnType<T> => {
       try {
         const result = fn(...args);
-        
+
         // If it's a promise, handle async
         if (result instanceof Promise) {
           return result.catch((error) => {
@@ -444,7 +488,7 @@ export class TelemetryMiddleware {
             throw error;
           }) as ReturnType<T>;
         }
-        
+
         return result;
       } catch (error) {
         SafetyTelemetry.recordSystemFailure(category);

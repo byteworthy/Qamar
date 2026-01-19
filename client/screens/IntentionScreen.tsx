@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Platform, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -15,7 +21,10 @@ import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollV
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { ScreenCopy } from "@/constants/brand";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Intention">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Intention"
+>;
 type RouteType = RouteProp<RootStackParamList, "Intention">;
 
 // Niyyah (intention) templates based on emotional states
@@ -85,13 +94,21 @@ export default function IntentionScreen() {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [selectedPurpose, setSelectedPurpose] = useState<string>("both");
   const [showBismillah, setShowBismillah] = useState(true);
-  
+
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
-  const { thought, distortions, reframe, practice, anchor, detectedState, emotionalIntensity } = route.params;
+  const {
+    thought,
+    distortions,
+    reframe,
+    practice,
+    anchor,
+    detectedState,
+    emotionalIntensity,
+  } = route.params;
 
   const canContinue = intention.trim().length > 3;
 
@@ -114,16 +131,16 @@ export default function IntentionScreen() {
   const handleComplete = () => {
     if (canContinue) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      
+
       // Format intention with bismillah if enabled
-      const finalIntention = showBismillah 
+      const finalIntention = showBismillah
         ? `بسم الله\n\n${intention.trim()}`
         : intention.trim();
-        
-      navigation.navigate("SessionComplete", { 
-        thought, 
-        distortions, 
-        reframe, 
+
+      navigation.navigate("SessionComplete", {
+        thought,
+        distortions,
+        reframe,
         intention: finalIntention,
         practice,
         anchor,
@@ -146,25 +163,43 @@ export default function IntentionScreen() {
     >
       {/* Header Section */}
       <Animated.View entering={FadeInUp.duration(400)} style={styles.section}>
-        <ThemedText type="h3" style={[styles.heading, { fontFamily: Fonts?.serif }]}>
+        <ThemedText
+          type="h3"
+          style={[styles.heading, { fontFamily: Fonts?.serif }]}
+        >
           {ScreenCopy.intention.title}
         </ThemedText>
-        <ThemedText type="body" style={[styles.description, { color: theme.textSecondary }]}>
-          In Islam, every action begins with intention (niyyah). What will you carry forward from this reflection?
+        <ThemedText
+          type="body"
+          style={[styles.description, { color: theme.textSecondary }]}
+        >
+          In Islam, every action begins with intention (niyyah). What will you
+          carry forward from this reflection?
         </ThemedText>
       </Animated.View>
 
       {/* Anchor Card - What you're building on */}
-      <Animated.View 
-        entering={FadeInUp.duration(400).delay(100)} 
-        style={[styles.anchorCard, { backgroundColor: theme.backgroundDefault }]}
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(100)}
+        style={[
+          styles.anchorCard,
+          { backgroundColor: theme.backgroundDefault },
+        ]}
       >
-        <View style={[styles.anchorAccent, { backgroundColor: SiraatColors.indigo }]} />
+        <View
+          style={[
+            styles.anchorAccent,
+            { backgroundColor: SiraatColors.indigo },
+          ]}
+        />
         <View style={styles.anchorContent}>
           <ThemedText type="caption" style={{ color: theme.textSecondary }}>
             {ScreenCopy.intention.anchorLabel}
           </ThemedText>
-          <ThemedText type="small" style={[styles.anchorText, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="small"
+            style={[styles.anchorText, { fontFamily: Fonts?.serif }]}
+          >
             {anchor}
           </ThemedText>
         </View>
@@ -177,7 +212,10 @@ export default function IntentionScreen() {
             setShowBismillah(!showBismillah);
             Haptics.selectionAsync();
           }}
-          style={[styles.bismillahToggle, { backgroundColor: theme.backgroundDefault }]}
+          style={[
+            styles.bismillahToggle,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
         >
           <View style={styles.bismillahContent}>
             <ThemedText type="body" style={styles.bismillahArabic}>
@@ -187,25 +225,37 @@ export default function IntentionScreen() {
               Begin with the Name of Allah
             </ThemedText>
           </View>
-          <View style={[
-            styles.toggleIndicator,
-            { 
-              backgroundColor: showBismillah ? SiraatColors.emerald : theme.border,
-            }
-          ]}>
+          <View
+            style={[
+              styles.toggleIndicator,
+              {
+                backgroundColor: showBismillah
+                  ? SiraatColors.emerald
+                  : theme.border,
+              },
+            ]}
+          >
             {showBismillah && (
-              <ThemedText type="small" style={{ color: '#FFFFFF' }}>✓</ThemedText>
+              <ThemedText type="small" style={{ color: "#FFFFFF" }}>
+                ✓
+              </ThemedText>
             )}
           </View>
         </TouchableOpacity>
       </Animated.View>
 
       {/* Niyyah Templates */}
-      <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.templatesSection}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(200)}
+        style={styles.templatesSection}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           CHOOSE AN INTENTION SEED
         </ThemedText>
-        
+
         <View style={styles.templatesGrid}>
           {NIYYAH_TEMPLATES.map((template) => {
             const isSelected = selectedTemplate === template.id;
@@ -216,19 +266,23 @@ export default function IntentionScreen() {
                 style={[
                   styles.templateCard,
                   {
-                    backgroundColor: isSelected ? SiraatColors.emerald : theme.backgroundDefault,
-                    borderColor: isSelected ? SiraatColors.emerald : theme.border,
+                    backgroundColor: isSelected
+                      ? SiraatColors.emerald
+                      : theme.backgroundDefault,
+                    borderColor: isSelected
+                      ? SiraatColors.emerald
+                      : theme.border,
                   },
                 ]}
               >
                 <ThemedText type="h3" style={styles.templateIcon}>
                   {template.icon}
                 </ThemedText>
-                <ThemedText 
-                  type="small" 
+                <ThemedText
+                  type="small"
                   style={[
                     styles.templateLabel,
-                    { color: isSelected ? '#FFFFFF' : theme.text }
+                    { color: isSelected ? "#FFFFFF" : theme.text },
                   ]}
                 >
                   {template.description}
@@ -240,8 +294,14 @@ export default function IntentionScreen() {
       </Animated.View>
 
       {/* Intention Input */}
-      <Animated.View entering={FadeInUp.duration(400).delay(300)} style={styles.inputSection}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(300)}
+        style={styles.inputSection}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           YOUR INTENTION
         </ThemedText>
         <TextInput
@@ -263,8 +323,14 @@ export default function IntentionScreen() {
       </Animated.View>
 
       {/* Purpose Selection */}
-      <Animated.View entering={FadeIn.duration(300).delay(400)} style={styles.purposeSection}>
-        <ThemedText type="caption" style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+      <Animated.View
+        entering={FadeIn.duration(300).delay(400)}
+        style={styles.purposeSection}
+      >
+        <ThemedText
+          type="caption"
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
+        >
           THIS INTENTION IS FOR
         </ThemedText>
         <View style={styles.purposeRow}>
@@ -277,20 +343,29 @@ export default function IntentionScreen() {
                 style={[
                   styles.purposeButton,
                   {
-                    backgroundColor: isSelected ? theme.primary : theme.backgroundDefault,
+                    backgroundColor: isSelected
+                      ? theme.primary
+                      : theme.backgroundDefault,
                     borderColor: isSelected ? theme.primary : theme.border,
                   },
                 ]}
               >
-                <ThemedText 
-                  type="small" 
-                  style={{ color: isSelected ? '#FFFFFF' : theme.text, fontWeight: '600' }}
+                <ThemedText
+                  type="small"
+                  style={{
+                    color: isSelected ? "#FFFFFF" : theme.text,
+                    fontWeight: "600",
+                  }}
                 >
                   {purpose.label}
                 </ThemedText>
-                <ThemedText 
-                  type="caption" 
-                  style={{ color: isSelected ? 'rgba(255,255,255,0.7)' : theme.textSecondary }}
+                <ThemedText
+                  type="caption"
+                  style={{
+                    color: isSelected
+                      ? "rgba(255,255,255,0.7)"
+                      : theme.textSecondary,
+                  }}
                 >
                   {purpose.description}
                 </ThemedText>
@@ -301,12 +376,16 @@ export default function IntentionScreen() {
       </Animated.View>
 
       {/* Prophetic Reminder */}
-      <Animated.View 
-        entering={FadeIn.duration(300).delay(500)} 
-        style={[styles.reminderCard, { backgroundColor: SiraatColors.indigoLight }]}
+      <Animated.View
+        entering={FadeIn.duration(300).delay(500)}
+        style={[
+          styles.reminderCard,
+          { backgroundColor: SiraatColors.indigoLight },
+        ]}
       >
         <ThemedText type="small" style={styles.reminderText}>
-          "Actions are judged by intentions, and everyone will be rewarded according to their intention."
+          &ldquo;Actions are judged by intentions, and everyone will be rewarded
+          according to their intention.&rdquo;
         </ThemedText>
         <ThemedText type="caption" style={styles.reminderSource}>
           — Prophet Muhammad ﷺ (Bukhari & Muslim)
@@ -315,12 +394,21 @@ export default function IntentionScreen() {
 
       {/* Niyyah Preview - Shows complete intention before sealing */}
       {canContinue && (
-        <Animated.View 
-          entering={FadeIn.duration(400)} 
-          style={[styles.niyyahPreview, { backgroundColor: SiraatColors.emerald + '15', borderColor: SiraatColors.emerald }]}
+        <Animated.View
+          entering={FadeIn.duration(400)}
+          style={[
+            styles.niyyahPreview,
+            {
+              backgroundColor: SiraatColors.emerald + "15",
+              borderColor: SiraatColors.emerald,
+            },
+          ]}
         >
           <View style={styles.niyyahPreviewHeader}>
-            <ThemedText type="small" style={{ color: SiraatColors.emerald, fontWeight: '600' }}>
+            <ThemedText
+              type="small"
+              style={{ color: SiraatColors.emerald, fontWeight: "600" }}
+            >
               🤲 YOUR SEALED NIYYAH
             </ThemedText>
           </View>
@@ -329,23 +417,44 @@ export default function IntentionScreen() {
               بسم الله
             </ThemedText>
           )}
-          <ThemedText type="body" style={[styles.previewIntention, { fontFamily: Fonts?.serif }]}>
+          <ThemedText
+            type="body"
+            style={[styles.previewIntention, { fontFamily: Fonts?.serif }]}
+          >
             {intention.trim()}
           </ThemedText>
-          <View style={[styles.previewPurpose, { backgroundColor: SiraatColors.emerald + '20' }]}>
+          <View
+            style={[
+              styles.previewPurpose,
+              { backgroundColor: SiraatColors.emerald + "20" },
+            ]}
+          >
             <ThemedText type="caption" style={{ color: SiraatColors.emerald }}>
-              For {NIYYAH_PURPOSES.find(p => p.id === selectedPurpose)?.label.toLowerCase()} • {NIYYAH_PURPOSES.find(p => p.id === selectedPurpose)?.description}
+              For{" "}
+              {NIYYAH_PURPOSES.find(
+                (p) => p.id === selectedPurpose,
+              )?.label.toLowerCase()}{" "}
+              •{" "}
+              {
+                NIYYAH_PURPOSES.find((p) => p.id === selectedPurpose)
+                  ?.description
+              }
             </ThemedText>
           </View>
         </Animated.View>
       )}
 
       {/* Complete Button */}
-      <Animated.View entering={FadeIn.duration(300).delay(600)} style={styles.buttonSection}>
+      <Animated.View
+        entering={FadeIn.duration(300).delay(600)}
+        style={styles.buttonSection}
+      >
         <Button
           onPress={handleComplete}
           disabled={!canContinue}
-          style={{ backgroundColor: canContinue ? theme.primary : theme.border }}
+          style={{
+            backgroundColor: canContinue ? theme.primary : theme.border,
+          }}
         >
           {ScreenCopy.intention.complete}
         </Button>

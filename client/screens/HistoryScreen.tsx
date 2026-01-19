@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, StyleSheet, FlatList, RefreshControl, Pressable, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -51,7 +58,11 @@ export default function HistoryScreen() {
 
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
 
-  const { data: insights, isLoading: insightsLoading, refetch: refetchInsights } = useQuery({
+  const {
+    data: insights,
+    isLoading: insightsLoading,
+    refetch: refetchInsights,
+  } = useQuery({
     queryKey: ["/api/insights/summary"],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/insights/summary");
@@ -61,7 +72,11 @@ export default function HistoryScreen() {
     staleTime: 300000,
   });
 
-  const { data: assumptions, isLoading: assumptionsLoading, refetch: refetchAssumptions } = useQuery({
+  const {
+    data: assumptions,
+    isLoading: assumptionsLoading,
+    refetch: refetchAssumptions,
+  } = useQuery({
     queryKey: ["/api/insights/assumptions"],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/insights/assumptions");
@@ -79,7 +94,7 @@ export default function HistoryScreen() {
   useFocusEffect(
     useCallback(() => {
       loadSessions();
-    }, [])
+    }, []),
   );
 
   const handleRefresh = async () => {
@@ -98,17 +113,38 @@ export default function HistoryScreen() {
     if (!isPaid) return null;
 
     return (
-      <View style={[styles.insightsCard, { backgroundColor: theme.backgroundDefault, borderColor: SiraatColors.indigo }]}>
+      <View
+        style={[
+          styles.insightsCard,
+          {
+            backgroundColor: theme.backgroundDefault,
+            borderColor: SiraatColors.indigo,
+          },
+        ]}
+      >
         <Pressable
           onPress={() => setInsightsExpanded(!insightsExpanded)}
           style={styles.insightsHeader}
         >
           <View style={styles.insightsHeaderLeft}>
-            <View style={[styles.proBadge, { backgroundColor: SiraatColors.indigo }]}>
+            <View
+              style={[
+                styles.proBadge,
+                { backgroundColor: SiraatColors.indigo },
+              ]}
+            >
               <Feather name="star" size={12} color="#fff" />
-              <ThemedText type="caption" style={{ color: "#fff", marginLeft: 4 }}>Noor Plus</ThemedText>
+              <ThemedText
+                type="caption"
+                style={{ color: "#fff", marginLeft: 4 }}
+              >
+                Noor Plus
+              </ThemedText>
             </View>
-            <ThemedText type="bodyLarge" style={[styles.insightsTitle, { fontFamily: Fonts?.serif }]}>
+            <ThemedText
+              type="bodyLarge"
+              style={[styles.insightsTitle, { fontFamily: Fonts?.serif }]}
+            >
               Your Patterns
             </ThemedText>
           </View>
@@ -122,13 +158,20 @@ export default function HistoryScreen() {
         {insightsExpanded ? (
           <View style={styles.insightsContent}>
             <View style={[styles.divider, { backgroundColor: theme.border }]} />
-            
+
             {insightsLoading ? (
-              <ActivityIndicator size="small" color={theme.primary} style={{ marginVertical: Spacing.lg }} />
+              <ActivityIndicator
+                size="small"
+                color={theme.primary}
+                style={{ marginVertical: Spacing.lg }}
+              />
             ) : insights ? (
               <>
                 <View style={styles.insightSection}>
-                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                  <ThemedText
+                    type="caption"
+                    style={{ color: theme.textSecondary }}
+                  >
                     Total Reflections
                   </ThemedText>
                   <ThemedText type="h3" style={{ fontFamily: Fonts?.serif }}>
@@ -138,14 +181,20 @@ export default function HistoryScreen() {
 
                 {insights.topDistortions.length > 0 ? (
                   <View style={styles.insightSection}>
-                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                    <ThemedText
+                      type="caption"
+                      style={{ color: theme.textSecondary }}
+                    >
                       Common Patterns
                     </ThemedText>
                     <View style={styles.distortionsList}>
                       {insights.topDistortions.map((d, i) => (
                         <View key={i} style={styles.distortionRow}>
                           <ThemedText type="body">{d.name}</ThemedText>
-                          <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                          <ThemedText
+                            type="caption"
+                            style={{ color: theme.textSecondary }}
+                          >
                             {d.count}x
                           </ThemedText>
                         </View>
@@ -156,39 +205,77 @@ export default function HistoryScreen() {
 
                 {insights.summary ? (
                   <View style={styles.insightSection}>
-                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                    <ThemedText
+                      type="caption"
+                      style={{ color: theme.textSecondary }}
+                    >
                       Pattern Summary
                     </ThemedText>
-                    <ThemedText type="body" style={[styles.summaryText, { fontFamily: Fonts?.serif }]}>
+                    <ThemedText
+                      type="body"
+                      style={[styles.summaryText, { fontFamily: Fonts?.serif }]}
+                    >
                       {insights.summary}
                     </ThemedText>
                   </View>
                 ) : insights.totalReflections < 5 ? (
                   <View style={styles.insightSection}>
-                    <ThemedText type="small" style={{ color: theme.textSecondary, fontStyle: "italic" }}>
-                      Complete {5 - insights.totalReflections} more reflection{5 - insights.totalReflections !== 1 ? "s" : ""} to unlock your pattern summary.
+                    <ThemedText
+                      type="small"
+                      style={{
+                        color: theme.textSecondary,
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Complete {5 - insights.totalReflections} more reflection
+                      {5 - insights.totalReflections !== 1 ? "s" : ""} to unlock
+                      your pattern summary.
                     </ThemedText>
                   </View>
                 ) : null}
 
-                {assumptions?.assumptions && assumptions.assumptions.length > 0 ? (
+                {assumptions?.assumptions &&
+                assumptions.assumptions.length > 0 ? (
                   <View style={styles.insightSection}>
-                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                    <ThemedText
+                      type="caption"
+                      style={{ color: theme.textSecondary }}
+                    >
                       Your Assumptions
                     </ThemedText>
                     {assumptions.assumptions.slice(0, 3).map((a, i) => (
-                      <View key={i} style={[styles.assumptionCard, { backgroundColor: theme.backgroundSecondary }]}>
-                        <ThemedText type="body" style={{ fontFamily: Fonts?.serif }}>
+                      <View
+                        key={i}
+                        style={[
+                          styles.assumptionCard,
+                          { backgroundColor: theme.backgroundSecondary },
+                        ]}
+                      >
+                        <ThemedText
+                          type="body"
+                          style={{ fontFamily: Fonts?.serif }}
+                        >
                           {a.assumption}
                         </ThemedText>
-                        <ThemedText type="caption" style={{ color: theme.textSecondary, marginTop: Spacing.xs }}>
-                          Appeared {a.frequency} time{a.frequency !== 1 ? "s" : ""}
+                        <ThemedText
+                          type="caption"
+                          style={{
+                            color: theme.textSecondary,
+                            marginTop: Spacing.xs,
+                          }}
+                        >
+                          Appeared {a.frequency} time
+                          {a.frequency !== 1 ? "s" : ""}
                         </ThemedText>
                       </View>
                     ))}
                   </View>
                 ) : assumptionsLoading ? (
-                  <ActivityIndicator size="small" color={theme.primary} style={{ marginVertical: Spacing.sm }} />
+                  <ActivityIndicator
+                    size="small"
+                    color={theme.primary}
+                    style={{ marginVertical: Spacing.sm }}
+                  />
                 ) : null}
               </>
             ) : null}
@@ -215,7 +302,7 @@ export default function HistoryScreen() {
 
   const renderSession = ({ item, index }: { item: Session; index: number }) => {
     const isExpanded = expandedId === item.timestamp;
-    
+
     return (
       <Pressable
         onPress={() => toggleExpand(item.timestamp)}
@@ -231,7 +318,13 @@ export default function HistoryScreen() {
             </ThemedText>
             <View style={styles.distortionTags}>
               {item.distortions.slice(0, 2).map((d, i) => (
-                <View key={i} style={[styles.tag, { backgroundColor: theme.backgroundSecondary }]}>
+                <View
+                  key={i}
+                  style={[
+                    styles.tag,
+                    { backgroundColor: theme.backgroundSecondary },
+                  ]}
+                >
                   <ThemedText type="caption" style={{ color: theme.primary }}>
                     {d}
                   </ThemedText>
@@ -239,17 +332,21 @@ export default function HistoryScreen() {
               ))}
             </View>
           </View>
-          <Feather 
-            name={isExpanded ? "chevron-up" : "chevron-down"} 
-            size={20} 
-            color={theme.textSecondary} 
+          <Feather
+            name={isExpanded ? "chevron-up" : "chevron-down"}
+            size={20}
+            color={theme.textSecondary}
           />
         </View>
 
         {isExpanded ? null : (
           <View style={styles.intentionPreview}>
             <Feather name="target" size={14} color={theme.textSecondary} />
-            <ThemedText type="small" numberOfLines={1} style={[styles.intentionText, { color: theme.textSecondary }]}>
+            <ThemedText
+              type="small"
+              numberOfLines={1}
+              style={[styles.intentionText, { color: theme.textSecondary }]}
+            >
               {item.intention}
             </ThemedText>
           </View>
@@ -258,12 +355,15 @@ export default function HistoryScreen() {
         {isExpanded ? (
           <View style={styles.expandedContent}>
             <View style={[styles.divider, { backgroundColor: theme.border }]} />
-            
+
             <View style={styles.expandedSection}>
               <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                 Reframe
               </ThemedText>
-              <ThemedText type="small" style={[styles.reframeText, { fontFamily: Fonts?.serif }]}>
+              <ThemedText
+                type="small"
+                style={[styles.reframeText, { fontFamily: Fonts?.serif }]}
+              >
                 {item.reframe}
               </ThemedText>
             </View>
@@ -281,7 +381,10 @@ export default function HistoryScreen() {
               <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                 Original Thought
               </ThemedText>
-              <ThemedText type="small" style={{ fontStyle: "italic", marginTop: Spacing.xs }}>
+              <ThemedText
+                type="small"
+                style={{ fontStyle: "italic", marginTop: Spacing.xs }}
+              >
                 {item.thought}
               </ThemedText>
             </View>
@@ -303,10 +406,16 @@ export default function HistoryScreen() {
   const renderEmpty = () => (
     <View style={styles.emptyContainer}>
       <Feather name="book-open" size={48} color={theme.textSecondary} />
-      <ThemedText type="h4" style={[styles.emptyTitle, { fontFamily: Fonts?.serif }]}>
+      <ThemedText
+        type="h4"
+        style={[styles.emptyTitle, { fontFamily: Fonts?.serif }]}
+      >
         No Reflections Yet
       </ThemedText>
-      <ThemedText type="body" style={[styles.emptyText, { color: theme.textSecondary }]}>
+      <ThemedText
+        type="body"
+        style={[styles.emptyText, { color: theme.textSecondary }]}
+      >
         Your completed reflections will appear here
       </ThemedText>
     </View>
