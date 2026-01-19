@@ -43,13 +43,20 @@ Islamic CBT, Muslim mental wellness, anxiety support, reflection, grounding, dua
 **Rationale**: App contains mental health reflection content and crisis resource information. Suitable for teens and adults seeking emotional wellness support.
 
 ## Support URL
-[Placeholder - to be provided]
+https://example.com/support (PLACEHOLDER - to be replaced with actual URL)
 
 ## Marketing URL
-[Placeholder - to be provided]
+https://example.com (PLACEHOLDER - to be replaced with actual URL)
 
 ## Privacy Policy URL
-[Placeholder - to be provided]
+https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
+
+**Draft Legal Documents Available:**
+- Terms of Service: `legal/TERMS_OF_SERVICE_DRAFT.md`
+- Privacy Policy: `legal/PRIVACY_POLICY_DRAFT.md`
+- Disclaimers: `legal/DISCLAIMERS_DRAFT.md`
+
+⚠️ **Legal documents are DRAFTS and require review by qualified legal counsel before publication.**
 
 ## In-App Purchases (Apple In-App Purchase)
 

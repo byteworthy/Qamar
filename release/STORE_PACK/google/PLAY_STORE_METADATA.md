@@ -110,4 +110,20 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 
 ---
 
+## Legal Documents
+
+**Draft legal documents available in `legal/` folder:**
+- Terms of Service: `legal/TERMS_OF_SERVICE_DRAFT.md`
+- Privacy Policy: `legal/PRIVACY_POLICY_DRAFT.md`
+- Disclaimers: `legal/DISCLAIMERS_DRAFT.md`
+
+**Placeholder URLs for Play Console:**
+- Terms of Service: https://example.com/terms (PLACEHOLDER)
+- Privacy Policy: https://example.com/privacy (PLACEHOLDER)
+- Support/Contact: https://example.com/support (PLACEHOLDER)
+
+⚠️ **Legal documents are DRAFTS and require review by qualified legal counsel before publication.**
+
+---
+
 **Last Updated**: 2026-01-19
