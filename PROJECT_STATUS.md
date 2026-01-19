@@ -43,9 +43,9 @@ All AI endpoints route through the `CanonicalOrchestrator` which enforces the co
 **Fallback Language**: When AI responses fail validation, theologically-safe fallback language is used instead.
 
 ### Data Privacy & Security
-- **Encryption at Rest**: All PII encrypted with AES-256-GCM
-- **Automatic Deletion**: Sessions older than 90 days auto-deleted
-- **Retention Policy**: Clear documented data lifecycle
+- **Encryption at Rest**: All PII encrypted with AES-256-GCM (app-layer)
+- **Retention Service**: Configured for 30-day retention (service runs, deletion not implemented)
+- **Retention Policy**: Documented, but automation incomplete
 - **No Cleartext Storage**: User thoughts, sessions, and analysis never stored in plaintext
 
 ### Subscription & Billing
@@ -80,73 +80,6 @@ All AI endpoints route through the `CanonicalOrchestrator` which enforces the co
 - ✅ ESLint compliant
 - ✅ No unused imports
 - ✅ Consistent formatting
-
-## Mobile Release (EAS)
-See [RELEASE_MOBILE.md](./RELEASE_MOBILE.md) for the full mobile release workflow (development, preview, production).
-
-Key commands:
-```bash
-npm run verify:local
-npm run release:check
-npm run build:prod:android
-npm run build:prod:ios
-```
-
-## Development Workflow
-
-### Daily Development
-```bash
-# Always work from C:\Dev\Noor-CBT (not OneDrive)
-cd C:\Dev\Noor-CBT
-
-# Pull latest changes
-git pull origin main
-
-# Install dependencies if needed
-npm install
-
-# Make your changes
-# ... edit code ...
-
-# Verify locally before committing
-npm run verify:local
-```
-
-### Before Commit (Automatic)
-A **pre-commit hook** automatically runs `npm run verify:local` before every commit:
-- ✅ TypeScript type checking (`npm run check:types`)
-- ✅ All tests pass (`npm test` - 79 tests)
-
-If verification fails, the commit is blocked. Fix issues then retry.
-
-**To bypass** (emergency only, not recommended):
-```bash
-git commit --no-verify -m "message"
-```
-
-### Continuous Integration (GitHub Actions)
-**Triggers**: Every push and pull request to `main`
-
-**CI Pipeline** (`.github/workflows/ci.yml`):
-1. Checkout code
-2. Setup Node.js 20 with npm caching
-3. Run `npm ci` (clean install)
-4. Run `npm run verify:local`
-   - TypeScript compilation
-   - Full test suite (79 tests)
-
-**Result**: Pull requests cannot merge until CI passes ✅
-
-### Quality Gate Summary
-| Check | Local (Pre-commit) | CI (GitHub Actions) |
-|-------|-------------------|---------------------|
-| TypeScript | ✅ Enforced | ✅ Enforced |
-| Tests (79) | ✅ Enforced | ✅ Enforced |
-| When | Before every commit | On push/PR to main |
-
-**One Command**: `npm run verify:local` - same gate locally and in CI
-
----
 
 ## How to Run
 
@@ -206,7 +139,7 @@ npm run db:push
 - **Mitigation**: Crisis detection, 988 resource surfacing, clear limitations on app's scope
 
 ### Data Privacy Risks
-- **Mitigation**: End-to-end encryption, auto-deletion, minimal data collection
+- **Mitigation**: App-layer encryption at rest, retention service configured (deletion pending), minimal data collection
 
 ### AI Reliability Risks
 - **Mitigation**: Fallback language when validation fails, audit trails, telemetry for monitoring
@@ -215,4 +148,4 @@ npm run db:push
 
 **Last Updated**: 2026-01-17  
 **Version**: MVP 1 (Release Candidate)  
-**Status**: ✅ Production-Ready for Beta Launch
+**Status**: ⚠️ Internal alpha only (not production-ready)

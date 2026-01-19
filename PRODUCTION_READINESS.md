@@ -31,7 +31,7 @@ npm run server:dev
 
 **Expected output:**
 - Server starts on port 5000
-- Data retention service initializes
+- Data retention service initializes (deletion not implemented)
 - Stripe initialization (if DATABASE_URL is set)
 - No errors in console
 
@@ -95,7 +95,7 @@ curl -X POST http://localhost:5000/api/admin/cleanup
 {"success": true, "message": "Data retention cleanup completed"}
 ```
 
-**Automatic schedule:** Runs every 24 hours automatically when server starts.
+**Automatic schedule:** Runs every 24 hours automatically when server starts (deletion implementation pending).
 
 ## Verify Orchestrator Enforcement
 

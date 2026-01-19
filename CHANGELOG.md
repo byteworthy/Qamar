@@ -21,9 +21,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Scrupulosity handling
 
 #### Data Privacy & Security
-- **AES-256-GCM Encryption**: All PII encrypted at rest
-- **Auto-Deletion Policy**: Sessions >90 days automatically removed
-- **Data Retention Module**: Comprehensive lifecycle management
+- **AES-256-GCM Encryption**: All PII encrypted at rest (app-layer)
+- **Retention Service**: Configured for 30-day retention (deletion implementation pending)
+- **Data Retention Module**: Service present; storage deletion not implemented
 - **Zero Cleartext Storage**: User thoughts never stored in plaintext
 
 #### Testing & Quality Assurance
@@ -119,7 +119,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Release Notes - MVP 1
 
-**Status**: ✅ Production-Ready for Beta Launch  
+**Status**: ⚠️ Internal alpha only (not production-ready)  
 **Test Status**: All 79 tests passing  
 **Security Status**: 0 high severity vulnerabilities  
 **Type Check**: Passing  
@@ -128,11 +128,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### What's Working
 - Complete CBT journey with Islamic integration
 - Multi-layer AI safety validation
-- End-to-end encryption for user data
+- App-layer encryption at rest for user data
 - Crisis detection and intervention
 - Scrupulosity special handling
 - Comprehensive test coverage
-- Clean CI/CD pipeline
+- CI/CD pipeline defined (currently failing due to missing release:check)
 
 ### Known Limitations
 - 4 moderate vulnerabilities in dev dependency (esbuild via drizzle-kit)

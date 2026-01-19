@@ -102,7 +102,7 @@ Noor CBT dissolves the false dichotomy between **secular mental health tools** a
 | `/api/analyze` | 🟢 90% | Crisis detection, adaptive tone | Full output validation |
 | `/api/reframe` | 🟡 75% | Multi-perspective | Contextual Quran/Hadith selection |
 | `/api/practice` | 🟢 85% | Grounding practices | Haptic timing integration |
-| `/api/reflection/save` | 🟢 90% | State inference, assumption detection | Encryption |
+| `/api/reflection/save` | 🟢 90% | State inference, assumption detection | Retention deletion + logging coverage |
 | `/api/insights/summary` | 🟢 85% | Pattern analysis | More personalization |
 | `/api/duas/contextual` | 🟢 90% | State-based dua selection | Expand dua library |
 
@@ -113,10 +113,10 @@ Noor CBT dissolves the false dichotomy between **secular mental health tools** a
 #### 6. Data Security & Privacy
 | Component | Status | Priority |
 |-----------|--------|----------|
-| Encryption Layer | 🔴 Not Started | HIGH |
-| Auto-Deletion Cron | 🔴 Not Started | HIGH |
-| User Data Export | 🔴 Not Started | MEDIUM |
-| Hash User IDs | 🟡 Partial | LOW |
+| Encryption Layer | ✅ Implemented | HIGH |
+| Retention Service (30-day) | 🟡 Partial (deletion pending) | HIGH |
+| User Data Export | 🟡 Partial (API exists) | MEDIUM |
+| Hash User IDs | 🟡 Partial (safety logs only) | LOW |
 
 #### 7. Testing & Validation
 | Component | Status | Priority |
@@ -254,8 +254,8 @@ Create `IslamicContentMapper` class that:
 - [ ] Add personalization based on user patterns
 
 ### Week 4: Security & Testing
-- [ ] Implement encryption layer (AES-256)
-- [ ] Add auto-deletion cron job (30-day retention)
+- [x] Implement encryption layer (AES-256)
+- [ ] Implement retention deletion (30-day service configured; deletion pending)
 - [ ] Conduct Islamic content review
 - [ ] Run user acceptance testing
 - [ ] Performance optimization
@@ -294,7 +294,7 @@ Create `IslamicContentMapper` class that:
 **Mitigation**: Clear AI boundaries, regular professional help prompts, no authority claims
 
 ### Risk 4: Data Breach
-**Mitigation**: Encryption at rest and in transit, minimal retention (30 days), hashed user IDs
+**Mitigation**: Encryption at rest and in transit, minimal retention (30-day service configured; deletion pending), hashed user IDs in safety logs
 
 ### Risk 5: Cultural Insensitivity
 **Mitigation**: Diverse user testing, scholar review panel, tone guidelines enforcement

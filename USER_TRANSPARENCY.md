@@ -15,7 +15,7 @@ Noor CBT is an **AI-assisted Islamic CBT companion** that helps you work through
 - **AI-Assisted:** Your conversations are with an AI, not a human therapist
 - **Islamic CBT:** We combine evidence-based CBT with Islamic concepts (sabr, tawakkul, etc.)
 - **Companion:** We're here to support your process, not replace professional help
-- **Privacy-First:** Your reflections are private and encrypted
+- **Privacy-First:** Your reflections are private and encrypted at rest
 
 ---
 
@@ -96,7 +96,7 @@ Noor CBT is an **AI-assisted Islamic CBT companion** that helps you work through
 ### How We Protect Your Data
 
 1. **Encryption**
-   - End-to-end encryption for thought entries
+   - App-layer encryption at rest for thought entries
    - Encrypted database storage
    - Secure transmission (HTTPS/TLS)
 
@@ -106,8 +106,8 @@ Noor CBT is an **AI-assisted Islamic CBT companion** that helps you work through
    - No selling of data to third parties
 
 3. **Data Retention**
-   - Thought entries: Retained until you delete them
-   - Session logs: 90 days for safety monitoring
+   - Thought entries: Retained until you delete them (retention deletion not automated yet)
+   - Session logs: Retention service configured for 30 days (deletion not automated yet)
    - Account data: Until account deletion
 
 ### Your Data Rights
