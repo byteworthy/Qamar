@@ -1,6 +1,6 @@
 # Validation Distribution Runbook
 
-**Purpose**: How to build and distribute Noor CBT to internal testers  
+**Purpose**: How to build and distribute Noor to internal testers
 **Audience**: Engineers, QA, product team  
 **Scope**: Controlled distribution only — not App Store or Play Store submission
 
@@ -100,7 +100,7 @@ npx eas build --profile preview --platform android
 
 ### Preferred Method: GitHub Issues
 
-1. Go to: https://github.com/byteworthy/Noor-CBT/issues
+1. Go to: https://github.com/byteworthy/Noor/issues
 2. Click "New Issue"
 3. Include:
    - Device and OS version

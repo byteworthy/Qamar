@@ -101,12 +101,8 @@ export default function DistortionScreen() {
   const handleCallResource = (contact: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     // Extract phone number or handle special cases
-    if (contact.includes("988")) {
-      Linking.openURL("tel:988");
-    } else if (contact.includes("911")) {
+    if (contact.includes("911")) {
       Linking.openURL("tel:911");
-    } else if (contact.includes("741741")) {
-      Linking.openURL("sms:741741&body=HOME");
     } else if (contact.includes("1-800")) {
       const phoneNumber = contact.replace(/[^0-9]/g, "");
       Linking.openURL(`tel:${phoneNumber}`);

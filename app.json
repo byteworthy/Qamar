@@ -1,16 +1,16 @@
 {
   "expo": {
     "name": "Noor",
-    "slug": "noor-cbt",
+    "slug": "noor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "noor-cbt",
+    "scheme": "noor",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noorcbt.app"
+      "bundleIdentifier": "com.noor.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "package": "com.noorcbt.app",
+      "package": "com.noor.app",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },

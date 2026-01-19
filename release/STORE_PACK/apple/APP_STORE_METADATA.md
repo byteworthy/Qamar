@@ -69,7 +69,7 @@ https://CHANGEME/privacy
 - Local storage only
 
 ### Noor Plus - Monthly
-- **Product ID**: `com.noorcbt.plus.monthly`
+- **Product ID**: `com.noor.plus.monthly`
 - **Price**: $9.99/month
 - **Type**: Auto-renewing subscription
 - **Features**:
@@ -80,13 +80,13 @@ https://CHANGEME/privacy
   - Journey progress tracking
 
 ### Noor Plus - Yearly
-- **Product ID**: `com.noorcbt.plus.yearly`
+- **Product ID**: `com.noor.plus.yearly`
 - **Price**: $79.99/year (save 33%)
 - **Type**: Auto-renewing subscription
 - **Features**: Same as monthly, billed annually
 
 ### Noor Premium - Monthly
-- **Product ID**: `com.noorcbt.premium.monthly`
+- **Product ID**: `com.noor.premium.monthly`
 - **Price**: $19.99/month
 - **Type**: Auto-renewing subscription
 - **Features**:
@@ -97,7 +97,7 @@ https://CHANGEME/privacy
   - Export reflection data (JSON)
 
 ### Noor Premium - Yearly
-- **Product ID**: `com.noorcbt.premium.yearly`
+- **Product ID**: `com.noor.premium.yearly`
 - **Price**: $159.99/year (save 33%)
 - **Type**: Auto-renewing subscription
 - **Features**: Same as monthly, billed annually

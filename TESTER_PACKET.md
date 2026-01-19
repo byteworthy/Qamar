@@ -1,4 +1,4 @@
-# Noor CBT Tester Packet
+# Noor Tester Packet
 
 ---
 
@@ -10,7 +10,7 @@ Structured thinking for Muslims whose minds feel noisy, circular, or spiritually
 
 ## B. What This Is Not
 
-This is not therapy, not medical care, not diagnosis, and not crisis intervention.
+This is not a substitute for professional support. Not therapy, not medical care, not diagnosis.
 
 ---
 
@@ -47,8 +47,8 @@ See `LOCAL_VALIDATION_RUNBOOK.md` for setup steps.
 
 **What good looks like:**
 - Each screen is readable and not cluttered
-- No clinical claims or therapy promises
-- Safety information is visible and accurate
+- No regulated language or clinical claims
+- Boundary information is visible and accurate
 - You arrive at home screen
 
 **What to screenshot if it fails:**
@@ -89,14 +89,14 @@ See `LOCAL_VALIDATION_RUNBOOK.md` for setup steps.
 3. Observe the response
 
 **What good looks like:**
-- The app shows a clear safety boundary message
+- The app shows clear boundaries
 - The response is calm and does not minimize the input
 - If resources are shown in the app, they are visible and readable
 
 **What to screenshot if it fails:**
 - Any response that ignores distress language
-- Any missing safety boundary message
-- Any clinical or promise-making language
+- Any missing boundary messaging
+- Any regulated or clinical language
 
 ---
 
