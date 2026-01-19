@@ -2,10 +2,10 @@ export const Brand = {
   name: "Noor",
   method: "The Siraat Method",
   tagline:
-    "Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.",
+    "A structured reflection practice for Muslims who want clarity before action.",
 
   disclaimer:
-    "A guided reflection tool. Not a substitute for professional care.",
+    "Not therapy. Not medical care. Not diagnosis. Not religious authority.",
   methodCallout: "Powered by the Siraat Method",
 
   anchorLine:

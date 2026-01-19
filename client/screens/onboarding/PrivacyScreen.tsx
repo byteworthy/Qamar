@@ -60,17 +60,16 @@ export default function PrivacyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Reflections are stored locally on your device
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Your text is processed by AI to generate responses
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This processing may occur on secure servers
+                • Processing may occur on secure servers
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Your reflections may be stored securely and encrypted to
-                support app functionality
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • We do not sell your data or use it for advertising
+                • You control your data and can delete it anytime
               </ThemedText>
             </View>
           </View>
@@ -120,6 +119,9 @@ export default function PrivacyScreen() {
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Not diagnosis
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Not religious authority
               </ThemedText>
             </View>
           </View>

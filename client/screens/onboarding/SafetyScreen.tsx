@@ -64,21 +64,19 @@ export default function SafetyScreen() {
             <View style={styles.cardHeader}>
               <Feather name="compass" size={20} color={NiyyahColors.accent} />
               <ThemedText style={styles.cardTitle}>
-                Theological Boundaries
+                Faith and Grounding
               </ThemedText>
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This app uses Islamic concepts as anchors for reflection
+                • Islamic values are used as grounding lenses for reflection
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • It does not provide religious rulings or scholarly guidance
+                • Concepts include intention, patience, accountability, and
+                trust
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • AI can make theological mistakes—verify with scholars
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • For religious questions, consult qualified Islamic scholars
+                • This is not religious authority or instruction
               </ThemedText>
             </View>
           </View>
@@ -104,6 +102,9 @@ export default function SafetyScreen() {
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Not diagnosis
               </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Not religious authority
+              </ThemedText>
             </View>
           </View>
 
@@ -124,8 +125,8 @@ export default function SafetyScreen() {
             <ThemedText
               style={[styles.readyText, { color: theme.textSecondary }]}
             >
-              This is an AI companion for structured reflection. Use your own
-              discernment and consult professionals when needed.
+              Noor is a structured reflection practice. Use your own discernment
+              and seek professional help for urgent needs.
             </ThemedText>
           </View>
         </Animated.View>

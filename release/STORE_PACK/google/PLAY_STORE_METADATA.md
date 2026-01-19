@@ -4,37 +4,40 @@
 Noor
 
 ## Short Description
-Structured thinking for Muslims, rooted in Islam.
+Structured reflection for Muslims before action.
 
 ## Full Description
-Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.
+Noor is a structured reflection practice for Muslims who want clarity before action.
 
-Noor is a reflection companion that helps you slow down your thoughts, examine them intentionally, and build clarity through guided prompts rooted in everyday reasoning and Islamic perspective.
+Noor helps users slow down their thinking, examine inner dialogue with discipline, and reconnect intention with action using calm, guided reflection rooted in Islamic values.
 
-The app guides you through a gentle reflection flow:
-• Capture what's on your mind with emotional awareness
-• Identify patterns in your thinking with AI assistance
-• Reframe perspectives using Islamic principles
-• Ground yourself with dhikr-based calming practices
-• Set meaningful intentions (niyyah) for moving forward
+What Noor helps with:
+• Slowing repetitive or circular thinking
+• Clarifying intention before decisions
+• Examining assumptions without judgment
+• Practicing disciplined inner dialogue
 
-Key features:
-• AI companion for structured reflection guidance
-• Islamic framework woven throughout (sabr, tawakkul, tawbah)
-• Privacy-first: reflections stored locally on your device
-• Free tier with optional premium subscriptions
-• No account required, no social features, no ads
+How Noor works:
+Noor guides users through short, structured reflection sessions. Each session helps capture a thought, examine it carefully, reframe perspective, and set a grounded intention for action.
 
-Clear boundaries:
+Faith and grounding:
+Noor is designed with Islamic values at its core. Concepts such as intention, patience, accountability, and trust are used as grounding lenses for reflection rather than as instruction or religious authority.
+
+AI use and boundaries:
+Noor uses AI carefully. Responses are constrained by a defined safety charter and an Islamic content framework designed to prevent overreach, moralizing, or theological drift.
+
+What Noor is not:
 • Not therapy
 • Not medical care
 • Not diagnosis
-• Not religious counseling or fatwa
-• AI can make mistakes—your discernment matters
+• Not religious authority
+
+Privacy:
+Reflections are stored locally on device. Users control their data and can delete it at any time.
 
 ## Category & Tags
 - Category: Lifestyle
-- Tags: Mindfulness, Religion & Spirituality, Productivity, Self-Improvement
+- Tags: Productivity, Religion & Spirituality, Self-Improvement
 
 ## Content Rating Notes
 Recommended: Everyone. Final rating to be set in Play Console.
@@ -43,7 +46,6 @@ Recommended: Everyone. Final rating to be set in Play Console.
 
 ### Data Collected
 - Reflection content submitted for AI processing
-- Emotional state indicators
 - Session metadata (duration, interaction count)
 - Subscription status (via Google Play Billing)
 
@@ -84,29 +86,30 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 ### Subscription Tiers
 
 **Free Tier**
-- 1 reflection per day
-- Basic reflection journey
-- Dhikr-based grounding
+- 1 full reflection session
+- Full 5-stage flow
+- Islamic reflection framing
+- Local on-device storage
+- No session history
+- No insights or trends
 
-**Noor Plus - Monthly**
-- Product ID: `noor_plus_monthly`
-- Price: $9.99/month
-- Unlimited reflections, full history, pattern insights
-
-**Noor Plus - Yearly**
-- Product ID: `noor_plus_yearly`
-- Price: $79.99/year
-- Same features as monthly
+**Noor Pro - Monthly**
+- Product ID: `noor_pro_monthly`
+- Price: $3.99/month
+- Unlimited reflection sessions
+- Full session history
+- Session summaries
+- Basic insights
+- Save intentions for later review
 
 **Noor Premium - Monthly**
 - Product ID: `noor_premium_monthly`
-- Price: $19.99/month
-- Advanced insights, assumption library, data export
-
-**Noor Premium - Yearly**
-- Product ID: `noor_premium_yearly`
-- Price: $159.99/year
-- Same features as monthly
+- Price: $7.99/month
+- Everything in Pro
+- Repeating thought patterns
+- Intention follow-through review
+- Weekly reflection summaries
+- Monthly clarity snapshot
 
 ---
 

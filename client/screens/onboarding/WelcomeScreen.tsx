@@ -64,19 +64,19 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Guides you through structured thinking patterns
+                • Guides short, structured reflection sessions
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Uses an AI companion for reflection guidance
+                • Helps slow repetitive or circular thinking
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Rooted in an Islamic framework of mercy and wisdom
+                • Clarifies intention before decisions
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Helps you examine thought patterns and find clarity
+                • Examines assumptions without judgment
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Free tier available, with optional Noor Plus subscription
+                • Grounds reflection in Islamic values
               </ThemedText>
             </View>
           </View>
@@ -91,7 +91,7 @@ export default function WelcomeScreen() {
                 color={theme.textSecondary}
               />
               <ThemedText style={styles.cardTitle}>
-                Important Boundaries
+                What This App Is Not
               </ThemedText>
             </View>
             <View style={styles.cardContent}>
@@ -105,10 +105,7 @@ export default function WelcomeScreen() {
                 • Not diagnosis
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not religious counseling or fatwa
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • AI can make mistakes—your discernment matters
+                • Not religious authority
               </ThemedText>
             </View>
           </View>

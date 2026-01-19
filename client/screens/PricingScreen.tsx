@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Alert, Platform } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -72,10 +72,6 @@ function PlanCard({
       {comingSoon ? (
         <View style={[styles.badge, { backgroundColor: theme.textSecondary }]}>
           <ThemedText style={styles.badgeText}>COMING SOON</ThemedText>
-        </View>
-      ) : isPremium ? (
-        <View style={[styles.badge, { backgroundColor: SiraatColors.indigo }]}>
-          <ThemedText style={styles.badgeText}>RECOMMENDED</ThemedText>
         </View>
       ) : null}
 
@@ -151,7 +147,7 @@ function PlanCard({
             marginTop: spacing.lg,
           }}
         >
-          {loading ? "Loading..." : isPremium ? "Upgrade to Plus" : "Select"}
+          {loading ? "Loading..." : `Select ${name}`}
         </Button>
       ) : null}
     </View>
@@ -163,7 +159,6 @@ export default function PricingScreen() {
   const navigation = useNavigation<NavigationProp>();
   const queryClient = useQueryClient();
 
-  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [managingBilling, setManagingBilling] = useState(false);
   const [syncing, setSyncing] = useState(false);
@@ -235,27 +230,29 @@ export default function PricingScreen() {
   };
 
   const freeFeatures: PlanFeature[] = [
-    { text: "1 reflection per day", included: true },
-    { text: "View last 3 reflections", included: true },
-    { text: "Unlimited reflections", included: false },
-    { text: "Full history access", included: false },
-    { text: "Pattern insights", included: false },
-    { text: "Contextual duas", included: false },
+    { text: "1 full reflection session", included: true },
+    { text: "Full 5-stage flow", included: true },
+    { text: "Islamic reflection framing", included: true },
+    { text: "Local on-device storage", included: true },
+    { text: "Session history", included: false },
+    { text: "Insights or trends", included: false },
   ];
 
   const proFeatures: PlanFeature[] = [
-    { text: "Unlimited reflections", included: true },
-    { text: "Full reflection history", included: true },
-    { text: "Pattern insights and summaries", included: true },
-    { text: "Personal assumption library", included: true },
-    { text: "Contextual duas by inner state", included: true },
+    { text: "Unlimited reflection sessions", included: true },
+    { text: "Full session history", included: true },
+    { text: "Session summaries", included: true },
+    { text: "Basic insights", included: true },
+    { text: "Save intentions for later review", included: true },
     { text: "Cancel anytime", included: true },
   ];
 
   const premiumFeatures: PlanFeature[] = [
     { text: "Everything in Pro", included: true },
-    { text: "Priority support", included: true },
-    { text: "Early access to new modules", included: true },
+    { text: "Repeating thought patterns", included: true },
+    { text: "Intention follow-through review", included: true },
+    { text: "Weekly reflection summaries", included: true },
+    { text: "Monthly clarity snapshot", included: true },
     { text: "Cancel anytime", included: true },
   ];
 
@@ -263,11 +260,10 @@ export default function PricingScreen() {
     <Screen title="Upgrade" showBack>
       <View style={styles.header}>
         <ThemedText style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Deepen Your Practice
+          Support Your Practice
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Choose the plan that fits your pace. Purchases are handled in the app
-          store.
+          Choose the plan that fits your pace.
         </ThemedText>
       </View>
 
@@ -297,11 +293,10 @@ export default function PricingScreen() {
 
         <PlanCard
           name="Pro"
-          price="$9.99"
+          price="$3.99"
           period="/month"
           features={proFeatures}
           isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "pro"}
-          isPremium={!VALIDATION_MODE}
           comingSoon={VALIDATION_MODE}
           onSelect={
             VALIDATION_MODE || isPaid
@@ -313,10 +308,11 @@ export default function PricingScreen() {
 
         <PlanCard
           name="Premium"
-          price="$19.99"
+          price="$7.99"
           period="/month"
           features={premiumFeatures}
           isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "premium"}
+          isPremium={!VALIDATION_MODE}
           comingSoon={VALIDATION_MODE}
           onSelect={
             VALIDATION_MODE || isPremium

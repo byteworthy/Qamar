@@ -4,36 +4,39 @@
 Noor
 
 ## Subtitle
-Structured thinking rooted in Islam
+Structured reflection before action
 
 ## Description
-Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.
+Noor is a structured reflection practice for Muslims who want clarity before action.
 
-Noor is a reflection companion that helps you slow down your thoughts, examine them intentionally, and build clarity through guided prompts rooted in everyday reasoning and Islamic perspective.
+Noor helps users slow down their thinking, examine inner dialogue with discipline, and reconnect intention with action using calm, guided reflection rooted in Islamic values.
 
-The app guides you through a gentle reflection flow:
-• Capture what's on your mind with emotional awareness
-• Identify patterns in your thinking with AI assistance
-• Reframe perspectives using Islamic principles
-• Ground yourself with dhikr-based calming practices  
-• Set meaningful intentions (niyyah) for moving forward
+What Noor helps with:
+• Slowing repetitive or circular thinking
+• Clarifying intention before decisions
+• Examining assumptions without judgment
+• Practicing disciplined inner dialogue
 
-Key features:
-• AI companion for structured reflection guidance
-• Islamic framework woven throughout (sabr, tawakkul, tawbah)
-• Privacy-first: reflections stored locally on your device
-• Free tier with optional premium subscriptions
-• No account required, no social features, no ads
+How Noor works:
+Noor guides users through short, structured reflection sessions. Each session helps capture a thought, examine it carefully, reframe perspective, and set a grounded intention for action.
 
-Clear boundaries:
+Faith and grounding:
+Noor is designed with Islamic values at its core. Concepts such as intention, patience, accountability, and trust are used as grounding lenses for reflection rather than as instruction or religious authority.
+
+AI use and boundaries:
+Noor uses AI carefully. Responses are constrained by a defined safety charter and an Islamic content framework designed to prevent overreach, moralizing, or theological drift.
+
+What Noor is not:
 • Not therapy
 • Not medical care
 • Not diagnosis
-• Not religious counseling or fatwa
-• AI can make mistakes—your discernment matters
+• Not religious authority
+
+Privacy:
+Reflections are stored locally on device. Users control their data and can delete it at any time.
 
 ## Keywords
-Islamic reflection, Muslim, structured thinking, grounding, dua, niyyah, mindfulness, emotional awareness, dhikr, sabr, tawakkul
+Islamic reflection, Muslim, structured reflection, intention, clarity, reflection practice, guided reflection
 
 ## Categories
 - Primary: Lifestyle
@@ -63,44 +66,34 @@ https://CHANGEME/privacy
 ## In-App Purchases (Apple In-App Purchase)
 
 ### Free Tier (No Purchase)
-- 1 reflection per day
-- Basic reflection journey
-- Dhikr-based grounding
-- Local storage only
+- 1 full reflection session
+- Full 5-stage flow
+- Islamic reflection framing
+- Local on-device storage
+- No session history
+- No insights or trends
 
-### Noor Plus - Monthly
-- **Product ID**: `com.noor.plus.monthly`
-- **Price**: $9.99/month
+### Noor Pro - Monthly
+- **Product ID**: `com.noor.pro.monthly`
+- **Price**: $3.99/month
 - **Type**: Auto-renewing subscription
 - **Features**:
-  - Unlimited reflections
-  - Full history access
-  - Pattern insights
-  - Contextual duas
-  - Journey progress tracking
-
-### Noor Plus - Yearly
-- **Product ID**: `com.noor.plus.yearly`
-- **Price**: $79.99/year (save 33%)
-- **Type**: Auto-renewing subscription
-- **Features**: Same as monthly, billed annually
+  - Unlimited reflection sessions
+  - Full session history
+  - Session summaries
+  - Basic insights
+  - Save intentions for later review
 
 ### Noor Premium - Monthly
 - **Product ID**: `com.noor.premium.monthly`
-- **Price**: $19.99/month
+- **Price**: $7.99/month
 - **Type**: Auto-renewing subscription
 - **Features**:
-  - All Noor Plus features
-  - Advanced insights dashboard
-  - Personal assumption library
-  - Priority AI processing
-  - Export reflection data (JSON)
-
-### Noor Premium - Yearly
-- **Product ID**: `com.noor.premium.yearly`
-- **Price**: $159.99/year (save 33%)
-- **Type**: Auto-renewing subscription
-- **Features**: Same as monthly, billed annually
+  - Everything in Pro
+  - Repeating thought patterns
+  - Intention follow-through review
+  - Weekly reflection summaries
+  - Monthly clarity snapshot
 
 **Note**: All subscriptions managed through Apple In-App Purchase. No external payment processing.
 
@@ -113,16 +106,16 @@ https://CHANGEME/privacy
 **Introductory Offer**: None (to be configured if desired)
 
 **Subscription Display Name (User-Facing)**:
-- "Noor Plus Monthly" / "Noor Plus Yearly"
-- "Noor Premium Monthly" / "Noor Premium Yearly"
+- "Noor Pro" ($3.99/month)
+- "Noor Premium" ($7.99/month)
 
 **Subscription Description**:
-"Unlock unlimited reflections, insights, and advanced features to deepen your journey of self-awareness and spiritual grounding."
+"Support your reflection practice with unlimited sessions and insights."
 
 ## Notes for App Review
 
 ### App Purpose & Functionality
-Noor is a structured reflection app that combines everyday reasoning with Islamic spiritual principles. The app helps Muslim users process difficult thoughts through guided reflection, using AI to identify thought patterns and suggest reframes rooted in Islamic values like patience (sabr), trust (tawakkul), and mercy (rahma).
+Noor is a structured reflection app for Muslim users, designed to help slow thinking, examine assumptions, and set grounded intentions using guided sessions rooted in Islamic values.
 
 ### Boundaries
 
@@ -130,48 +123,29 @@ Noor is a structured reflection app that combines everyday reasoning with Islami
 - Not therapy
 - Not medical care
 - Not diagnosis
-- Not religious counseling or fatwa
-- AI companion explicitly disclosed (not a human)
-
-**Theological Boundaries**:
-- App does NOT provide religious rulings (fatwas) or scholarly guidance
-- Islamic content used as reflection anchors, not comprehensive religious education
-- AI fallibility acknowledged: "AI can make theological mistakes—verify with scholars"
-- No claims of religious authority
+- Not religious authority
 
 ### Content & AI Disclosure
 
 **AI Usage**:
-- All reflection responses generated by AI (OpenAI GPT-4)
-- User explicitly informed: "Uses an AI companion for reflection guidance"
-- Multi-layer safety validation before content delivery
-- Fallback to safe language if AI output fails validation
+- Reflection responses generated by AI
+- Uses an AI companion for reflection guidance
+- Responses constrained by a defined safety charter and Islamic content framework
 
 **Islamic Content**:
-- Quran verses from Sahih International translation
-- Hadith from authenticated collections (Sahih Bukhari, Sahih Muslim)
-- Content whitelist approach (only pre-approved material)
-- Ongoing scholar review workflow in place
+- Islamic concepts used as grounding lenses for reflection
+- No religious rulings or scholarly guidance
 
 ### Privacy & Data Handling
 
 **Local-First Storage**:
-- User reflections stored locally on device only
-- No server-side storage of thought content
+- Reflections stored locally on device only
+- No server-side storage of reflection content
 - No cloud backups or syncing of reflections
-- Uninstalling app removes all local data
 
 **No Login Required**:
-- App fully functional without account creation
-- No email, no password, no authentication
-- Subscription managed entirely through Apple In-App Purchase
-- Anonymous usage (no user tracking or profiling)
-
-**Data Collection** (minimal):
-- Session metadata (duration, count)
-- Subscription status (via StoreKit)
-- No personal identifiers linked to reflections
-- No cross-app tracking
+- App functional without account creation
+- Subscription managed through Apple In-App Purchase
 
 ### Testing Instructions
 
@@ -218,7 +192,7 @@ Noor is a structured reflection app that combines everyday reasoning with Islami
 - [ ] Test with Sandbox account
 - [ ] Age rating questionnaire completed
 - [ ] Export compliance documentation
-- [ ] Content rights verified (Quran translations, hadith sources)
+- [ ] Content rights verified
 
 ---
 
