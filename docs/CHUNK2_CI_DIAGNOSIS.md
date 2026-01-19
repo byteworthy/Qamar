@@ -11,7 +11,7 @@
 **Exact Error:**
 ```
 Run npm run release:check
-npm error Missing script: "release:check"
+npm ERR! Missing script: "release:check"
 ```
 
 ## Root Cause
