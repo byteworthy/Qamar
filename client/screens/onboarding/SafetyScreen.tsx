@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Pressable, Linking } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -28,10 +28,6 @@ export default function SafetyScreen() {
     });
   };
 
-  const handleCrisisLink = () => {
-    Linking.openURL("tel:988");
-  };
-
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScrollView
@@ -50,11 +46,11 @@ export default function SafetyScreen() {
           style={styles.header}
         >
           <View style={styles.iconContainer}>
-            <Feather name="heart" size={48} color={NiyyahColors.accent} />
+            <Feather name="book-open" size={48} color={NiyyahColors.accent} />
           </View>
-          <ThemedText style={styles.title}>Your Safety Comes First</ThemedText>
+          <ThemedText style={styles.title}>Before You Begin</ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Please read this carefully before beginning
+            Please read this carefully
           </ThemedText>
         </Animated.View>
 
@@ -62,68 +58,13 @@ export default function SafetyScreen() {
           entering={FadeInUp.duration(400).delay(100)}
           style={styles.content}
         >
-          <View style={[styles.crisisCard, { backgroundColor: "#FEF3E2" }]}>
-            <View style={styles.cardHeader}>
-              <Feather name="phone" size={20} color="#D97706" />
-              <ThemedText style={[styles.cardTitle, { color: "#92400E" }]}>
-                Need Support? Resources Available
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: "#78350F" }]}>
-                If you are in distress or having thoughts of self-harm:
-              </ThemedText>
-              <Pressable onPress={handleCrisisLink} style={styles.crisisButton}>
-                <ThemedText style={styles.crisisButtonText}>
-                  Call 988 - Suicide & Crisis Lifeline
-                </ThemedText>
-                <Feather name="external-link" size={16} color="#FFFFFF" />
-              </Pressable>
-              <ThemedText style={[styles.cardText, { color: "#78350F" }]}>
-                Or call 911 for immediate emergency assistance
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather
-                name="alert-triangle"
-                size={20}
-                color={NiyyahColors.accent}
-              />
-              <ThemedText style={styles.cardTitle}>
-                When to Reach Out for Support
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Persistent feelings of hopelessness or despair
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Thoughts of harming yourself or others
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Ongoing distress that disrupts daily life
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Struggles interfering with work, relationships, or health
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Any time you feel you need more support
-              </ThemedText>
-            </View>
-          </View>
-
           <View
             style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
               <Feather name="compass" size={20} color={NiyyahColors.accent} />
               <ThemedText style={styles.cardTitle}>
-                Theological Safety
+                Theological Boundaries
               </ThemedText>
             </View>
             <View style={styles.cardContent}>
@@ -139,9 +80,29 @@ export default function SafetyScreen() {
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • For religious questions, consult qualified Islamic scholars
               </ThemedText>
+            </View>
+          </View>
+
+          <View
+            style={[styles.card, { backgroundColor: theme.cardBackground }]}
+          >
+            <View style={styles.cardHeader}>
+              <Feather
+                name="alert-circle"
+                size={20}
+                color={theme.textSecondary}
+              />
+              <ThemedText style={styles.cardTitle}>What This Is Not</ThemedText>
+            </View>
+            <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Emotional and spiritual care work together, not instead of
-                each other
+                • Not therapy
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Not medical care
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Not diagnosis
               </ThemedText>
             </View>
           </View>
@@ -163,8 +124,8 @@ export default function SafetyScreen() {
             <ThemedText
               style={[styles.readyText, { color: theme.textSecondary }]}
             >
-              This is an AI companion for gentle self-reflection. Use it
-              alongside, not instead of, professional care when needed.
+              This is an AI companion for structured reflection. Use your own
+              discernment and consult professionals when needed.
             </ThemedText>
           </View>
         </Animated.View>
@@ -256,10 +217,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
   },
-  crisisCard: {
-    borderRadius: 16,
-    padding: 20,
-  },
   cardHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -276,21 +233,6 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 15,
     lineHeight: 22,
-  },
-  crisisButton: {
-    backgroundColor: "#D97706",
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  crisisButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
   },
   readyCard: {
     borderRadius: 16,

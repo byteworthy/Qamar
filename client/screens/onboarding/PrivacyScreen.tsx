@@ -40,7 +40,7 @@ export default function PrivacyScreen() {
           </View>
           <ThemedText style={styles.title}>Your Privacy Matters</ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Noor CBT is designed to respect your privacy while still working
+            Noor is designed to respect your privacy while still working
             properly
           </ThemedText>
         </Animated.View>
@@ -113,10 +113,13 @@ export default function PrivacyScreen() {
                 • This app uses AI and may make mistakes
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • It is not therapy or medical care
+                • Not therapy
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • It is not a replacement for professional help
+                • Not medical care
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Not diagnosis
               </ThemedText>
             </View>
           </View>

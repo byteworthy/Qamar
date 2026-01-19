@@ -7,42 +7,44 @@ Noor
 Structured thinking for Muslims, rooted in Islam.
 
 ## Full Description
-Noor is an AI-assisted reflection companion designed to help Muslims work through difficult thoughts using structured thinking prompts grounded in Islamic values.
+Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.
+
+Noor is a reflection companion that helps you slow down your thoughts, examine them intentionally, and build clarity through guided prompts rooted in everyday reasoning and Islamic perspective.
 
 The app guides you through a gentle reflection flow:
-• Capture troubling thoughts with emotional awareness
-• Identify cognitive patterns with AI assistance
+• Capture what's on your mind with emotional awareness
+• Identify patterns in your thinking with AI assistance
 • Reframe perspectives using Islamic principles
 • Ground yourself with dhikr-based calming practices
 • Set meaningful intentions (niyyah) for moving forward
 
 Key features:
-• AI companion for structured reflection (not a human therapist)
+• AI companion for structured reflection guidance
 • Islamic framework woven throughout (sabr, tawakkul, tawbah)
-• Safety resources available (988 Lifeline)
 • Privacy-first: reflections stored locally on your device
 • Free tier with optional premium subscriptions
 • No account required, no social features, no ads
 
 Clear boundaries:
-• Not therapy or medical care
-• Not crisis intervention or emergency support
+• Not therapy
+• Not medical care
+• Not diagnosis
 • Not religious counseling or fatwa
 • AI can make mistakes—your discernment matters
 
 ## Category & Tags
-- Category: Health & Fitness
-- Tags: Mindfulness, Religion & Spirituality, Wellness, Self-Improvement
+- Category: Lifestyle
+- Tags: Mindfulness, Religion & Spirituality, Productivity, Self-Improvement
 
 ## Content Rating Notes
-Recommended: Teen (reflection themes, safety resources). Final rating to be set in Play Console.
+Recommended: Everyone. Final rating to be set in Play Console.
 
-## Data Safety Draft (Aligned to USER_TRANSPARENCY.md)
+## Data Safety Draft
 
 ### Data Collected
 - Reflection content submitted for AI processing
 - Emotional state indicators
-- Session metadata (duration, interaction count, safety events)
+- Session metadata (duration, interaction count)
 - Subscription status (via Google Play Billing)
 
 ### Data Not Collected
@@ -54,7 +56,6 @@ Recommended: Teen (reflection themes, safety resources). Final rating to be set 
 
 ### Data Use Purposes
 - Provide core reflection functionality
-- Safety monitoring (crisis, scrupulosity, high-distress pacing)
 - Subscription entitlement validation
 - Support and data rights requests
 
@@ -65,11 +66,11 @@ Recommended: Teen (reflection themes, safety resources). Final rating to be set 
 
 ### Security Practices
 - Encrypted transmission (HTTPS/TLS)
-- Encrypted storage at rest (per USER_TRANSPARENCY.md)
+- Encrypted storage at rest
 
 ### Data Retention & Deletion
 - Reflection content retained until user deletes
-- Session logs retained per retention service (30 days; deletion automation pending)
+- Session logs retained per retention service (30 days)
 - Subscription status managed by Google Play
 
 ### Data Deletion Requests
@@ -85,7 +86,6 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 **Free Tier**
 - 1 reflection per day
 - Basic reflection journey
-- Safety resources
 - Dhikr-based grounding
 
 **Noor Plus - Monthly**
@@ -118,9 +118,9 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - Disclaimers: `legal/DISCLAIMERS_DRAFT.md`
 
 **Placeholder URLs for Play Console:**
-- Terms of Service: https://example.com/terms (PLACEHOLDER)
-- Privacy Policy: https://example.com/privacy (PLACEHOLDER)
-- Support/Contact: https://example.com/support (PLACEHOLDER)
+- Terms of Service: https://CHANGEME/terms
+- Privacy Policy: https://CHANGEME/privacy
+- Support/Contact: https://CHANGEME/support
 
 ⚠️ **Legal documents are DRAFTS and require review by qualified legal counsel before publication.**
 

@@ -7,49 +7,51 @@ Noor
 Structured thinking rooted in Islam
 
 ## Description
-Noor is an AI-assisted reflection companion designed to help Muslims work through difficult thoughts with structured thinking prompts grounded in Islamic values.
+Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.
+
+Noor is a reflection companion that helps you slow down your thoughts, examine them intentionally, and build clarity through guided prompts rooted in everyday reasoning and Islamic perspective.
 
 The app guides you through a gentle reflection flow:
-• Capture troubling thoughts with emotional awareness
-• Identify cognitive patterns with AI assistance
+• Capture what's on your mind with emotional awareness
+• Identify patterns in your thinking with AI assistance
 • Reframe perspectives using Islamic principles
 • Ground yourself with dhikr-based calming practices  
 • Set meaningful intentions (niyyah) for moving forward
 
 Key features:
-• AI companion for structured reflection (not a human therapist)
+• AI companion for structured reflection guidance
 • Islamic framework woven throughout (sabr, tawakkul, tawbah)
-• Safety resources available (988 Lifeline)
 • Privacy-first: reflections stored locally on your device
 • Free tier with optional premium subscriptions
 • No account required, no social features, no ads
 
 Clear boundaries:
-• Not therapy or medical care
-• Not crisis intervention or emergency support
+• Not therapy
+• Not medical care
+• Not diagnosis
 • Not religious counseling or fatwa
 • AI can make mistakes—your discernment matters
 
 ## Keywords
-Islamic reflection, Muslim wellness, structured thinking, grounding, dua, niyyah, mindfulness, emotional awareness, dhikr, sabr, tawakkul
+Islamic reflection, Muslim, structured thinking, grounding, dua, niyyah, mindfulness, emotional awareness, dhikr, sabr, tawakkul
 
 ## Categories
-- Primary: Health & Fitness
-- Secondary: Lifestyle
+- Primary: Lifestyle
+- Secondary: Productivity
 
 ## Age Rating
-**Recommended**: 12+ (Infrequent/Mild Medical/Treatment Information)
+**Recommended**: 4+ (No objectionable content)
 
-**Rationale**: App contains reflection content with safety resources. Suitable for teens and adults seeking structured thinking support.
+**Rationale**: App provides structured reflection guidance. No clinical, medical, or mature content.
 
 ## Support URL
-https://example.com/support (PLACEHOLDER - to be replaced with actual URL)
+https://CHANGEME/support
 
 ## Marketing URL
-https://example.com (PLACEHOLDER - to be replaced with actual URL)
+https://CHANGEME
 
 ## Privacy Policy URL
-https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
+https://CHANGEME/privacy
 
 **Draft Legal Documents Available:**
 - Terms of Service: `legal/TERMS_OF_SERVICE_DRAFT.md`
@@ -63,7 +65,6 @@ https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
 ### Free Tier (No Purchase)
 - 1 reflection per day
 - Basic reflection journey
-- Safety resources
 - Dhikr-based grounding
 - Local storage only
 
@@ -105,7 +106,7 @@ https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
 
 ## Subscription Details for App Store Connect
 
-**Subscription Group Name**: Noor CBT Subscriptions
+**Subscription Group Name**: Noor Subscriptions
 
 **Free Trial**: None (to be configured if desired)
 
@@ -121,34 +122,28 @@ https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
 ## Notes for App Review
 
 ### App Purpose & Functionality
-Noor is a structured reflection app that combines evidence-based thinking patterns with Islamic spiritual principles. The app helps Muslim users process difficult thoughts through guided reflection, using AI to identify cognitive patterns and suggest reframes rooted in Islamic values like patience (sabr), trust (tawakkul), and mercy (rahma).
+Noor is a structured reflection app that combines everyday reasoning with Islamic spiritual principles. The app helps Muslim users process difficult thoughts through guided reflection, using AI to identify thought patterns and suggest reframes rooted in Islamic values like patience (sabr), trust (tawakkul), and mercy (rahma).
 
-### Safety & Theological Boundaries
+### Boundaries
 
-**Mental Health Safety**:
-- App is NOT therapy, medical care, or crisis intervention
-- AI companion explicitly disclosed (not a human therapist)
-- Crisis detection triggers immediate resource display (988 Suicide & Crisis Lifeline)
-- Clear disclaimers on Welcome screen during onboarding
-- "Get Help" resources visible throughout app
+**What This App Is Not**:
+- Not therapy
+- Not medical care
+- Not diagnosis
+- Not religious counseling or fatwa
+- AI companion explicitly disclosed (not a human)
 
-**Theological Safety**:
+**Theological Boundaries**:
 - App does NOT provide religious rulings (fatwas) or scholarly guidance
-- Islamic content used as therapeutic anchors, not comprehensive religious education
+- Islamic content used as reflection anchors, not comprehensive religious education
 - AI fallibility acknowledged: "AI can make theological mistakes—verify with scholars"
 - No claims of religious authority
-
-**User Safety Flow**:
-1. Three-screen onboarding explains boundaries before first use
-2. Distress language detection pauses reflection flow and surfaces 988 lifeline
-3. High distress pacing slows interactions and offers exit options
-4. Professional help recommended for persistent symptoms
 
 ### Content & AI Disclosure
 
 **AI Usage**:
 - All reflection responses generated by AI (OpenAI GPT-4)
-- User explicitly informed: "Uses an AI companion, not a human therapist"
+- User explicitly informed: "Uses an AI companion for reflection guidance"
 - Multi-layer safety validation before content delivery
 - Fallback to safe language if AI output fails validation
 
@@ -173,7 +168,7 @@ Noor is a structured reflection app that combines evidence-based thinking patter
 - Anonymous usage (no user tracking or profiling)
 
 **Data Collection** (minimal):
-- Session metadata (duration, count, safety events)
+- Session metadata (duration, count)
 - Subscription status (via StoreKit)
 - No personal identifiers linked to reflections
 - No cross-app tracking
@@ -182,10 +177,9 @@ Noor is a structured reflection app that combines evidence-based thinking patter
 
 **Test Scenarios**:
 1. **Free Tier Flow**: Complete one reflection → see daily limit message
-2. **Crisis Detection**: Enter "I want to hurt myself" → 988 resources display immediately
-3. **Onboarding**: Fresh install shows 3-screen flow (Welcome → Privacy → Safety)
-4. **Subscription**: Tap upgrade → native iOS paywall → purchase simulation
-5. **Offline**: Disable network → app still functional (local-only)
+2. **Onboarding**: Fresh install shows 3-screen flow (Welcome → Privacy → Boundaries)
+3. **Subscription**: Tap upgrade → native iOS paywall → purchase simulation
+4. **Offline**: Disable network → app still functional (local-only)
 
 **Test Account**: Not applicable (no login system)
 
@@ -194,23 +188,15 @@ Noor is a structured reflection app that combines evidence-based thinking patter
 ### Compliance Notes
 
 **App Store Guidelines Compliance**:
-- **1.4.1 (Controversial Content)**: Clear mental health disclaimers, not therapy
 - **2.3.8 (Metadata)**: Accurate description, no misleading claims
 - **2.5.2 (Software Requirements)**: Uses In-App Purchase, no external payments
 - **3.1.1 (In-App Purchase)**: All subscriptions via Apple IAP
 - **5.1.1 (Privacy)**: Transparent data handling, privacy policy provided
 
-**Health App Guidelines**:
-- Not a medical device or diagnostic tool
-- No treatment claims or outcome guarantees
-- Crisis resources for immediate danger situations
-- Recommends professional help for serious symptoms
-
 **Religious Content**:
 - Respectful treatment of Islamic texts
 - No proselytizing or conversion attempts
 - Cultural sensitivity maintained
-- Theological safety guardrails active
 
 ### Technical Details
 
@@ -219,13 +205,6 @@ Noor is a structured reflection app that combines evidence-based thinking patter
 - **Device Support**: iPhone, iPad compatible
 - **Orientation**: Portrait
 - **Languages**: English
-
-### Post-Approval Monitoring
-
-- Crash analytics enabled (no PII collection)
-- AI safety telemetry for validation failures
-- User feedback encouraged via support email
-- Quarterly scholar review of Islamic content
 
 ---
 

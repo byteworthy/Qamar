@@ -67,7 +67,7 @@ export default function WelcomeScreen() {
                 • Guides you through structured thinking patterns
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Uses an AI companion, not a human therapist
+                • Uses an AI companion for reflection guidance
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Rooted in an Islamic framework of mercy and wisdom
@@ -96,19 +96,19 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This is not therapy or medical care
+                • Not therapy
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This is not crisis intervention or emergency support
+                • Not medical care
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This is not religious counseling or fatwa
+                • Not diagnosis
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Not religious counseling or fatwa
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • AI can make mistakes—your discernment matters
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • For serious concerns, seek qualified professional help
               </ThemedText>
             </View>
           </View>
