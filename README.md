@@ -1,18 +1,18 @@
 # Noor
 
-Structured thinking for Muslims seeking clarity, intention, and alignment.
+**Structured thinking for Muslims seeking clarity, intention, and alignment.**
 
-Noor is a faith aligned thinking companion designed to help Muslims slow down their thoughts, examine them carefully, and move forward with intention.
+Noor is a faith-aligned thinking companion built to help Muslims slow down their thoughts, examine them carefully, and move forward with intention. It is a structured reflection practice rooted in accountability of thought, clarity of intention, and alignment with Islamic values.
 
-It is not a wellness app.
-It is not therapy.
-It is not self help content with Islamic quotes layered on top.
+---
 
-Noor is a structured reflection practice rooted in accountability of thought, clarity of intention, and alignment with Islamic values.
+## Why Noor Exists
 
-## What Noor Is
+Modern life accelerates reaction. Noor creates space between thought and action. That space is where accountability lives.
 
-Noor helps users create space between thought and action.
+---
+
+## Core Experience
 
 Through guided sessions, users:
 
@@ -21,70 +21,56 @@ Through guided sessions, users:
 - Reframe it with clarity and perspective
 - Close with a deliberate intention
 
-This process mirrors timeless reasoning disciplines while remaining grounded in faith, patience, and responsibility.
+This process mirrors disciplined reasoning while staying grounded in faith, patience, and responsibility.
 
-No labels.
-No diagnoses.
-No fixing.
+---
 
-Only clarity, reflection, and intention.
+## Reflection Workflow
 
-## What Noor Is Not
+```mermaid
+flowchart TB
+  A[Capture a Thought] --> B[Examine Carefully]
+  B --> C[Reframe with Clarity]
+  C --> D[Set Intention]
+  D --> E[Act with Alignment]
+```
 
-To be explicit:
+---
 
-- Noor does not provide medical or mental health services
-- Noor does not diagnose or treat conditions
-- Noor does not intervene in crises
-- Noor does not replace scholars, counselors, or professionals
+## Faith-Aligned Thinking Practice
 
-All content is reflective, educational, and user driven.
+Noor operationalizes responsibility for thought, intention, and action.
 
-## Philosophy
+- Thoughts are examined, not indulged.
+- Clarity comes before reaction.
+- Intention comes before action.
 
-Islam places responsibility on thought, intention, and action.
+---
 
-Noor operationalizes that responsibility.
+## AI Safety and Guardrails
 
-Reflection in Noor is not emotional venting or self expression for its own sake.
-It is examination with purpose.
+Noor includes a dedicated safety layer to keep responses respectful, grounded, and aligned with Islamic values. The system is intentionally conservative by design, prioritizing clarity over novelty.
 
-Thoughts are treated as something to be understood, not indulged.
-Clarity comes before reaction.
-Intention comes before action.
+```mermaid
+flowchart LR
+  U[User Input] --> S[Structured Prompt Flow]
+  S --> G[Guardrails & Safety Checks]
+  G --> R[Response Shaping]
+  R --> O[Reflection Output]
+```
 
-## Core Experience
+**Guardrail Priorities**
 
-A typical Noor session follows a simple rhythm:
+- Faith-aligned tone and language
+- Clear boundaries on scope and authority
+- Calm, neutral, non-directive responses
+- No open-ended generation loops
 
-**Notice**
-Capture the thought, concern, or internal friction.
-
-**Examine**
-Gently question assumptions and emotional noise.
-
-**Reframe**
-Restore clarity and proportion.
-
-**Intend**
-Set a conscious intention for the next step.
-
-Sessions are private, calm, and intentionally minimal.
-
-## Design and Aesthetic
-
-Noor is designed to feel:
-
-- Quiet rather than stimulating
-- Grounded rather than motivational
-- Structured rather than free form
-- Intentional rather than gamified
-
-Visual design favors neutral tones, generous spacing, and restrained motion to support reflection rather than distraction.
+---
 
 ## Technology Overview
 
-Noor is built as a modern mobile first application with a strong emphasis on reliability, privacy, and clarity.
+Noor is built as a modern mobile-first application with a strong emphasis on reliability, privacy, and clarity.
 
 ### Tech Stack
 
@@ -92,83 +78,74 @@ Noor is built as a modern mobile first application with a strong emphasis on rel
 | --- | --- |
 | Mobile App | React Native with Expo |
 | Backend | Node.js with TypeScript |
-| Database | SQLite for local development, Postgres ready |
+| Data | Local-first storage, Postgres-ready services |
 | API Layer | RESTful services |
-| Authentication | Token based auth |
+| Auth | Token-based auth |
 | AI Layer | Controlled prompt orchestration |
-| Testing | Jest end to end and unit tests |
+| Testing | Jest end-to-end and unit tests |
 | Tooling | TypeScript, ESLint, Prettier |
 
-### Architecture at a Glance
+---
 
-High level flow:
+## Architecture at a Glance
 
-User Input
-   ↓
-Structured Prompt Flow
-   ↓
-Controlled Reasoning Layer
-   ↓
-Response Shaping and Guardrails
-   ↓
-Reflection Output
-   ↓
-Intention Capture
+```mermaid
+flowchart TD
+  A[Mobile Client] --> B[API Layer]
+  B --> C[Orchestration Layer]
+  C --> D[Safety Filters]
+  D --> E[Faith-Aligned Response]
+  E --> F[Local Reflection Store]
+```
 
-The system is intentionally conservative by design.
-No autonomous generation.
-No open ended content loops.
+---
 
-## AI Safety and Faith Alignment
+## Applications
 
-Noor includes a dedicated content safety layer to ensure responses remain:
+Noor supports disciplined reflection across everyday situations:
 
-- Respectful of Islamic values
-- Free from explicit medical or therapeutic framing
-- Calm, neutral, and non directive
+- Clarifying a difficult decision before acting
+- Interrupting circular thinking loops
+- Reframing assumptions with faith and reason
+- Closing a moment of tension with a clear intention
 
-The system avoids authoritative claims and prioritizes reflection over instruction.
-
-AI is used to support structure and clarity, not to replace human judgment or religious authority.
+---
 
 ## Who Noor Is For
 
-Noor is built for Muslims who:
+Muslims who:
 
 - Want to think more clearly before acting
-- Feel overwhelmed by constant mental noise
-- Value faith aligned accountability
+- Value faith-aligned accountability
 - Prefer structure over endless journaling
 - Want intention to guide action
 
-## Who Noor Is Not For
+---
 
-Noor may not be a fit for users seeking:
+## Privacy
 
-- Crisis support or intervention
-- Clinical mental health tools
-- Habit tracking or productivity systems
-- Social features or community discussion
+- Local-first storage by default
+- User-controlled deletion
+- Minimal data exposure
+
+---
 
 ## Project Status
 
-Noor is currently in active development with a focus on:
+Noor is in active development with a focus on:
 
 - Core reflection flows
 - Stability and testing
 - Clean, intentional language
-- App store compliance
+- App store readiness
 - Private validation builds
 
-Future development prioritizes depth and refinement over feature expansion.
+---
 
 ## Closing
 
-Noor is intentionally narrow.
-
-That focus is its strength.
+Noor is intentionally narrow. That focus is its strength.
 
 It exists to help Muslims think more truthfully, act more deliberately, and carry intention into daily life.
 
-Nothing more.
-Nothing less.
+**Nothing more. Nothing less.**
