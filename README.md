@@ -1,22 +1,38 @@
 # Noor
 
-Noor is a calm, disciplined thinking companion for Muslims. It helps you slow down thought, examine your inner dialogue, and act with intention. Through guided reflection sessions, Noor creates space between feeling and action—space where clarity, perspective, and grounded choice can emerge.
+Noor is a faith-aligned thinking companion built for Muslims who want to examine their thoughts before acting on them. It provides a structured way to reflect, clarify assumptions, and set intention using calm prompts rooted in everyday reasoning and Islamic values.
 
-Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.
+**Structured thinking for Muslims seeking clarity, intention, and alignment.**
+
+## Why Noor Exists
+
+Modern life accelerates reaction.
+
+Noor creates space between thought and action.
+
+That space is where accountability lives.
+
+## Philosophy
+
+Islam places responsibility on thought, intention, and action.
+
+Noor operationalizes that responsibility.
+
+Reflection in Noor is not about expression or emotional release. It is about clarity, alignment, and intention. Thoughts are treated as something to examine, not indulge. Every session closes with niyyah—an intention that guides your next action.
 
 ## What Noor Does
 
-**Guided reflection sessions**  
-Walk through focused prompts that help you articulate what you're experiencing and why it matters.
+**Structured reflection sessions**  
+Walk through focused prompts that help you examine what you're thinking and whether it is true, useful, and aligned.
 
 **Thought examination**  
-Look carefully at your inner dialogue without rushing to conclusions or getting lost in cycles.
+Look carefully at your inner dialogue. Question assumptions. Test against reality and Islamic values.
 
-**Reframing perspective**  
-Shift how you view a situation by considering alternative explanations, Islamic principles, and broader context.
+**Reframing with clarity**  
+Consider alternative explanations, Islamic principles, and broader context to shift understanding.
 
-**Setting intention before action**  
-Close each session with a clear, grounded commitment to what you'll do next.
+**Closing with intention**  
+End each session with a clear niyyah—a commitment to what you'll do next.
 
 ## How It Works
 
@@ -24,7 +40,7 @@ Close each session with a clear, grounded commitment to what you'll do next.
    Write down what's on your mind—an anxious loop, a frustration, a spiritual tension.
 
 2. **Examine it carefully**  
-   Answer questions that help you see the thought from different angles.
+   Answer questions that help you see the thought from different angles and test its truth.
 
 3. **Reframe with clarity**  
    Consider how Islamic values, alternative perspectives, or simple logic might shift your understanding.
@@ -55,6 +71,12 @@ Reflections are saved to your device, not transmitted elsewhere.
 **User-controlled deletion**  
 Remove all your data anytime from the profile screen.
 
+## What Noor Is Not
+
+Noor is not therapy. It does not diagnose, treat, or intervene.
+
+It is a thinking practice designed to help you reflect before reacting, align intention before action, and carry clarity into daily life.
+
 ## Audience
 
-Muslims seeking clarity, discipline, and intentional reflection.
+Muslims seeking clarity, intention, and alignment.
