@@ -58,27 +58,36 @@ npx eas secret:create --name EXPO_PUBLIC_DOMAIN --value "api.yourdomain.com" --t
 ## Build and distribute
 ### Development client builds
 ```bash
-npm run build:dev:android
-npm run build:dev:ios
+npm run eas:build:dev
 ```
 
 ### Preview (internal distribution) builds
 ```bash
-npm run build:preview:android
-npm run build:preview:ios
+npm run eas:build:preview
 ```
 
 ### Production store builds
 ```bash
-npm run build:prod:android
-npm run build:prod:ios
+npm run eas:build:prod
 ```
 
 ## Submit to app stores
 ```bash
-npm run submit:android
-npm run submit:ios
+npm run eas:submit:prod
+npm run eas:submit:ios
+npm run eas:submit:android
 ```
+
+## Offline vs login-required actions
+- **Offline now:** update scripts, review configs, run typecheck/tests.
+- **Login required later:** `eas build` and `eas submit` will require EAS login/EXPO_TOKEN.
+
+## Store readiness checklist
+- [ ] App Store/Play Store metadata and screenshots
+- [ ] Privacy manifest strings (iOS)
+- [ ] Store listing content and assets
+- [ ] Production API domain set in `EXPO_PUBLIC_DOMAIN`
+- [ ] EAS project linked (`eas init`)
 
 ## Troubleshooting
 - **Missing bundle ID / package**: verify `app.json` has `com.noorcbt.app` for iOS and Android.
