@@ -81,6 +81,62 @@ All AI endpoints route through the `CanonicalOrchestrator` which enforces the co
 - ✅ No unused imports
 - ✅ Consistent formatting
 
+## Development Workflow
+
+### Daily Development
+```bash
+# Always work from C:\Dev\Noor-CBT (not OneDrive)
+cd C:\Dev\Noor-CBT
+
+# Pull latest changes
+git pull origin main
+
+# Install dependencies if needed
+npm install
+
+# Make your changes
+# ... edit code ...
+
+# Verify locally before committing
+npm run verify:local
+```
+
+### Before Commit (Automatic)
+A **pre-commit hook** automatically runs `npm run verify:local` before every commit:
+- ✅ TypeScript type checking (`npm run check:types`)
+- ✅ All tests pass (`npm test` - 79 tests)
+
+If verification fails, the commit is blocked. Fix issues then retry.
+
+**To bypass** (emergency only, not recommended):
+```bash
+git commit --no-verify -m "message"
+```
+
+### Continuous Integration (GitHub Actions)
+**Triggers**: Every push and pull request to `main`
+
+**CI Pipeline** (`.github/workflows/ci.yml`):
+1. Checkout code
+2. Setup Node.js 20 with npm caching
+3. Run `npm ci` (clean install)
+4. Run `npm run verify:local`
+   - TypeScript compilation
+   - Full test suite (79 tests)
+
+**Result**: Pull requests cannot merge until CI passes ✅
+
+### Quality Gate Summary
+| Check | Local (Pre-commit) | CI (GitHub Actions) |
+|-------|-------------------|---------------------|
+| TypeScript | ✅ Enforced | ✅ Enforced |
+| Tests (79) | ✅ Enforced | ✅ Enforced |
+| When | Before every commit | On push/PR to main |
+
+**One Command**: `npm run verify:local` - same gate locally and in CI
+
+---
+
 ## How to Run
 
 ### Installation
