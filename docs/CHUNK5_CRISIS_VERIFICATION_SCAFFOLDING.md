@@ -7,7 +7,7 @@
 
 ## Summary
 
-Crisis resource verification infrastructure has been established. The app currently contains NO crisis resources in code, but scaffolding is now in place for when they are added.
+Crisis resource verification infrastructure has been established. Crisis resources are **present in code** (`server/ai-safety.ts`) and referenced in docs, but **verification is still pending**. Evidence log remains unfilled.
 
 ---
 
@@ -44,17 +44,17 @@ Detailed instructions for:
 - All `.ts`, `.tsx`, `.md` files
 - Client and server directories
 
-**Result:** No crisis resources found in codebase
+**Result:** Crisis resources found in `server/ai-safety.ts` (988, Crisis Text Line, 911, SAMHSA, local imam). Verification remains pending.
 
 ---
 
-## Next Steps (When Crisis Resources Are Added)
+## Next Steps (Now That Crisis Resources Exist)
 
-1. Add resource data to code
-2. Use `CRISIS_RESOURCES_EVIDENCE_LOG.md` template to record verification
-3. Follow `CRISIS_RESOURCES_VERIFICATION_PLAN.md` procedures
-4. Verify resources every 6 months
-5. Update evidence log with each verification cycle
+1. Complete `CRISIS_RESOURCES_EVIDENCE_LOG.md` for each resource in code
+2. Follow `CRISIS_RESOURCES_VERIFICATION_PLAN.md` procedures
+3. Verify resources quarterly
+4. Update evidence log with each verification cycle
+5. Update any resource mismatches in code/docs after verification
 
 ---
 

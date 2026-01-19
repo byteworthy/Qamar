@@ -12,7 +12,7 @@
 
 Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 development**. The backend safety infrastructure is world-class with 79 passing tests, canonical orchestration, and encryption. The React Native client has 14 screens and a complete CBT journey flow. The billing system is operational with Stripe integration.
 
-**Current State:** Core therapeutic engine is strong. Safety systems are comprehensive. **Encryption is implemented; data retention deletion is not.** Mobile app structure exists. **However:** CI is broken due to missing npm script. Mobile release pipeline exists and store metadata drafts are in place, but submission requirements remain incomplete. Scholar review is pending. User onboarding is missing.
+**Current State:** Core therapeutic engine is strong. Safety systems are comprehensive. **Encryption is implemented; data retention deletion is not.** Mobile app structure exists. **However:** CI is now fixed (release:check present). Mobile release pipeline exists and store metadata drafts are in place, but submission requirements remain incomplete. Scholar review is pending. **Onboarding is implemented.**
 
 **Reality Check:** This is **not** production-ready for public beta despite claims in docs. It is ready for **internal alpha testing only**. Critical gaps remain in release infrastructure, legal compliance, and mobile store requirements.
 
@@ -120,7 +120,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 - **Hash-based Logging:** **Safety event logs only** (crisis logs via `createSafeLogEntry`)
 
 ### ✅ Comprehensive Test Suite (85% Complete)
-**Evidence:** npm test output shows 79 tests passing in 5.7s
+**Evidence:** npm test output shows 79 tests passing (see docs/CHUNK1_VERIFICATION.md)
 
 - **Safety System Tests** - 70 tests covering:
   - Crisis detection accuracy
@@ -136,7 +136,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
   - Scrupulosity special handling
   - Audit trail completeness
 
-**Gap:** CI workflow broken (calls non-existent release:check script)
+**Gap:** CI workflow present and now aligned to release:check (no known breakage)
 
 ### ✅ Billing System (90% Complete)
 **Evidence:** billing/ directory exists, routes.ts has tier checks, Stripe integration
@@ -163,8 +163,8 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 ## D. What is Partially Done
 
-### 🟡 CI/CD Pipeline (40% Complete)
-**Evidence:** .github/workflows/ci.yml exists but calls missing script
+### 🟡 CI/CD Pipeline (60% Complete)
+**Evidence:** .github/workflows/ci.yml exists and calls release:check; package.json includes release:check
 
 **What Exists:**
 - GitHub Actions workflow defined
@@ -172,19 +172,14 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 - TypeScript checks pass
 - Tests pass locally
 
-**What's Broken:**
-- CI workflow calls `npm run release:check` which **does not exist in package.json**
-- This means every push/PR to main **fails CI**
-- CI has never successfully run
+**What's Missing:**
+- CI results not confirmed in this report (no CI run evidence logged)
 
 **Fix Required:**
-```json
-// Add to package.json scripts:
-"release:check": "npm run check:types && npm test"
-```
+- Ensure release:check stays aligned to lint/types/tests
 
-### 🟡 Mobile Release Pipeline (35% Complete)
-**Evidence:** eas.json configured, RELEASE_MOBILE.md documents process, EAS project linked
+### 🟡 Mobile Release Pipeline (45% Complete)
+**Evidence:** eas.json configured, RELEASE_MOBILE.md documents process, EAS project linked, npm scripts for EAS builds present
 
 **What Exists:**
 - EAS build profiles (dev, preview, production)
@@ -195,13 +190,11 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 **What's Missing:**
 - Privacy manifest strings (iOS requirement)
-- NSUserTrackingUsageDescription
-- NSLocationWhenInUseUsageDescription (if needed)
-- Store listing metadata drafted in release/STORE_PACK
+- Store listing metadata drafted in release/STORE_PACK (still draft)
 - Screenshots and preview videos
 - App Store Connect setup unknown
 - Google Play Console setup unknown
-- Build scripts referenced in RELEASE_MOBILE.md don't exist in package.json
+- Production API domain configuration for builds
 
 **Can Do:** Internal testing via TestFlight/Google Play Internal  
 **Cannot Do:** Public store submission
@@ -225,17 +218,12 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 ## E. What is Missing
 
-### ❌ User Onboarding Flow (0% Complete)
-**Evidence:** No onboarding screens in navigation, no welcome flow
+### ✅ User Onboarding Flow (100% Complete)
+**Evidence:** onboarding screens exist and are gated in RootStackNavigator; storage flag implemented
 
-**Required:**
-- Welcome screen explaining Islamic CBT approach
-- Permission requests (if any)
-- Tutorial on app flow
-- Expectation setting (not therapy, not religious authority)
-- First-time user guidance
+**Status:** Welcome, Privacy, and Safety onboarding screens implemented; first-launch gating via AsyncStorage.
 
-**Impact:** Users land on Home with no context
+**Impact:** Users receive boundaries and privacy context before Home.
 
 ### ❌ Legal Documentation (0% Complete)
 **Evidence:** No ToS, Privacy Policy, or disclaimers in repo
@@ -393,13 +381,13 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 ### 🟡 MEDIUM (Quality/UX Impact)
 
-**7. User Onboarding Missing**
-- **Risk:** Users don't understand app purpose or limitations
-- **Evidence:** No welcome flow or tutorial screens
-- **Impact:** Confusion, misuse, support burden, low retention
-- **Fix:** Design and implement 3-screen onboarding flow
-- **Time:** 1 week
-- **Owner:** Product + Engineering
+**7. User Onboarding**
+- **Risk:** Copy/content accuracy and legal alignment
+- **Evidence:** Onboarding screens exist; ensure copy matches final legal disclaimers
+- **Impact:** Lower if aligned; still a risk until legal review complete
+- **Fix:** Legal review of onboarding copy
+- **Time:** 1 week (legal)
+- **Owner:** Product + Legal
 
 **8. Crisis Resource Links Unverified**
 - **Risk:** Directing users in crisis to outdated/broken resources

@@ -159,7 +159,7 @@ noor-cbt/
 | **Backend** | Express.js | Mature ecosystem, team familiarity |
 | **Database** | PostgreSQL + Drizzle | Type-safe ORM, lightweight |
 | **AI** | OpenAI GPT-4 | Best quality + custom safety layer |
-| **Payments** | Stripe | Reliable, well-documented |
+| **Payments** | Apple/Google IAP (mobile) + Stripe scaffolding | Store-compliant billing for mobile with server-side billing scaffolding |
 | **Animation** | Reanimated 3 | Smooth 60fps animations |
 
 ## 🛡️ Safety Architecture
@@ -189,6 +189,12 @@ graph TD
 - ✅ Adapt AI tone to emotional state
 - ✅ Never provide reassurance that feeds OCD cycles
 - ✅ Log with PII redaction (HIPAA-compliant)
+
+## ✅ Current Status (2026-01-19)
+
+- **Release stage**: Internal alpha only.
+- **Completed**: Core CBT journey, onboarding flow, AI safety orchestration, encryption at rest for reflections, E2E + safety tests (79 passing), EAS build profiles.
+- **Pending before public launch**: Legal docs finalized/published URLs, crisis resource verification, data retention deletion implementation, production hosting + monitoring, store assets/screenshots + console setup.
 
 ## 🗺️ Roadmap
 
