@@ -16,7 +16,8 @@
     "check:format": "prettier --check \"**/*.{js,ts,tsx,css,json}\"",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json}\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "verify:local": "npm run check:types && npm test"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
