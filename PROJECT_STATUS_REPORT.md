@@ -1,5 +1,6 @@
 # Noor CBT Project Status Report
 **Report Date:** January 18, 2026  
+**Last Updated:** January 18, 2026
 **Repo Location:** C:\Dev\Noor-CBT  
 **Branch:** main  
 **Last Commit:** 861b6ec - "chore:fix-eas-env-config-and-mobile-release-docs"  

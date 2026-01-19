@@ -1,7 +1,7 @@
 # Noor CBT: User Transparency & Trust Document
 
 **Version:** 1.0  
-**Last Updated:** January 17, 2026  
+**Last Updated:** January 18, 2026  
 **Charter Reference:** AI_ISLAMIC_SAFETY_CHARTER.md v1.0
 
 ---
@@ -466,5 +466,5 @@ If something feels wrong, it probably is. Tell us. We'll listen.
 
 *This transparency document is governed by our AI and Islamic Safety Charter v1.0. For the full Charter, see: AI_ISLAMIC_SAFETY_CHARTER.md*
 
-**Last Review:** January 17, 2026  
-**Next Review:** April 1, 2026 (Quarterly)
+**Last Review:** January 18, 2026  
+**Next Review:** April 18, 2026 (Quarterly)

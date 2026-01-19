@@ -117,57 +117,6 @@ graph LR
 </table>
 </div>
 
-## 🛠️ Installation
-
-### Prerequisites
-
-- Node.js 18+
-- npm 9+
-- Expo CLI (`npm install -g expo-cli`)
-
-### Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/byteworthy/Noor-CBT.git
-cd Noor-CBT
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp .env.example .env
-```
-
-### Environment Variables
-
-```env
-# Required
-OPENAI_API_KEY=sk-...
-DATABASE_URL=postgresql://...
-
-# Optional (for billing)
-STRIPE_SECRET_KEY=sk_...
-STRIPE_PUBLISHABLE_KEY=pk_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-```
-
-### Running Locally
-
-```bash
-# Start the development server
-npm run dev
-
-# iOS Simulator
-npm run ios
-
-# Android Emulator
-npm run android
-
-# Web (experimental)
-npm run web
-```
-
 ## 🏗️ Architecture
 
 ```

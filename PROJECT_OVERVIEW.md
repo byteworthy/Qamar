@@ -1,7 +1,7 @@
 # 🌙 Noor CBT - Comprehensive Project Overview
 
 > **Where Psychology Meets Spirituality**  
-> Last Updated: January 16, 2026
+> Last Updated: January 18, 2026
 
 ---
 
