@@ -1,5 +1,5 @@
 # 🌙 Noor CBT - Comprehensive Progress Summary
-> Updated: January 17, 2026
+> Updated: January 19, 2026
 
 ---
 
@@ -154,6 +154,12 @@ Your Noor CBT app is in an excellent state with world-class Islamic psychologica
 - ✅ Pro-only route guards
 
 **Status**: Monetization ready.
+
+### 5. 🟡 STORE SUBMISSION PACK (50% Complete)
+- ✅ Drafted App Store and Play Store metadata (release/STORE_PACK)
+- ✅ Drafted privacy strings and data handling summary
+- ✅ Screenshot shot list prepared
+- ⏳ Screenshots, console setup, and privacy manifest still pending
 
 ---
 

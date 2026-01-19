@@ -146,6 +146,6 @@ npm run db:push
 
 ---
 
-**Last Updated**: 2026-01-18  
+**Last Updated**: 2026-01-19  
 **Version**: MVP 1 (Release Candidate)  
 **Status**: ⚠️ Internal alpha only (not production-ready)

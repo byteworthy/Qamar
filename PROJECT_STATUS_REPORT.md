@@ -1,9 +1,9 @@
 # Noor CBT Project Status Report
-**Report Date:** January 18, 2026  
-**Last Updated:** January 18, 2026
+**Report Date:** January 19, 2026  
+**Last Updated:** January 19, 2026
 **Repo Location:** C:\Dev\Noor-CBT  
 **Branch:** main  
-**Last Commit:** 861b6ec - "chore:fix-eas-env-config-and-mobile-release-docs"  
+**Last Commit:** 91c1e13 - "docs chunk4 store pack offline"  
 **Reporting Mode:** Evidence-based, no hype, zero optimistic guessing
 
 ---
@@ -12,7 +12,7 @@
 
 Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 development**. The backend safety infrastructure is world-class with 79 passing tests, canonical orchestration, and encryption. The React Native client has 14 screens and a complete CBT journey flow. The billing system is operational with Stripe integration.
 
-**Current State:** Core therapeutic engine is strong. Safety systems are comprehensive. **Encryption is implemented; data retention deletion is not.** Mobile app structure exists. **However:** CI is broken due to missing npm script. Mobile release pipeline exists but store submission metadata is incomplete. Scholar review is pending. User onboarding is missing.
+**Current State:** Core therapeutic engine is strong. Safety systems are comprehensive. **Encryption is implemented; data retention deletion is not.** Mobile app structure exists. **However:** CI is broken due to missing npm script. Mobile release pipeline exists and store metadata drafts are in place, but submission requirements remain incomplete. Scholar review is pending. User onboarding is missing.
 
 **Reality Check:** This is **not** production-ready for public beta despite claims in docs. It is ready for **internal alpha testing only**. Critical gaps remain in release infrastructure, legal compliance, and mobile store requirements.
 
@@ -25,7 +25,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 **Critical Gaps:**
 - CI completely broken (release:check script missing)
-- Mobile store submission requirements incomplete
+- Mobile store submission requirements incomplete (screenshots + console setup pending)
 - No user onboarding flow
 - Scholar review pending
 - Legal docs (ToS, Privacy Policy) missing
@@ -35,7 +35,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 ## B. Completion Scoring
 
-### MVP 1 Completion: **78%**
+### MVP 1 Completion: **79%**
 
 | Category | Weight | Score | Evidence | Blockers |
 |----------|--------|-------|----------|----------|
@@ -45,19 +45,19 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 | **Data Security** | 15% | 70% | AES-256-GCM encryption, retention service present, deletion not implemented | Data retention deletion missing |
 | **Testing & QA** | 10% | 85% | 79 tests pass, types pass, **but CI broken** | CI missing release:check |
 | **Billing** | 5% | 90% | Stripe integration working, webhooks, tier limits | Minor edge cases |
-| **Mobile Build** | 5% | 40% | EAS config exists, icons exist, **no store metadata** | Privacy strings, descriptions |
+| **Mobile Build** | 5% | 60% | EAS config exists, icons exist, store pack drafted | Screenshots, app store setup |
 | **Docs & Governance** | 5% | 70% | Charter, transparency doc exist, **scholar review pending** | Islamic content validation |
 | **Observability** | 3% | 20% | Audit logging exists, **no monitoring/alerting** | Production metrics |
 | **Legal Compliance** | 2% | 0% | **ToS and Privacy Policy missing** | Legal review needed |
 
-**Weighted MVP 1 Score: 78.15%**
+**Weighted MVP 1 Score: 79.15%**
 
-### V1 Launch Completion: **62%**
+### V1 Launch Completion: **66%**
 
 | Category | Weight | Score | Evidence | Blockers |
 |----------|--------|-------|----------|----------|
 | **MVP 1 Base** | 35% | 78% | See MVP 1 rubric above | See MVP 1 blockers |
-| **Mobile Store Ready** | 20% | 30% | Bundle IDs exist, **no privacy strings or metadata** | App Store Connect setup |
+| **Mobile Store Ready** | 20% | 50% | Bundle IDs exist, store metadata/privacy strings drafted | App Store Connect setup, screenshots |
 | **Production Deploy** | 15% | 0% | **No production infrastructure documented** | Server deployment |
 | **User Onboarding** | 10% | 0% | **Onboarding flow missing** | Welcome screens |
 | **Legal Foundation** | 10% | 0% | **ToS, Privacy Policy, disclaimers missing** | Legal review |
@@ -65,7 +65,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 | **Crisis Resources** | 3% | 50% | Resources defined in code, **not verified** | Verify 988, local links |
 | **Monitoring** | 2% | 0% | **No production monitoring** | APM, error tracking |
 
-**Weighted V1 Launch Score: 62.3%**
+**Weighted V1 Launch Score: 66.3%**
 
 ---
 
@@ -157,7 +157,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 - **Icons & Splash:** Assets exist in assets/images/
 - **Expo Configuration:** React Native 0.81.5, Expo 54
 
-**Missing:** Privacy strings, store descriptions, screenshots, build scripts in package.json
+**Missing:** Screenshots, store account setup, build scripts in package.json
 
 ---
 
@@ -197,7 +197,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 - Privacy manifest strings (iOS requirement)
 - NSUserTrackingUsageDescription
 - NSLocationWhenInUseUsageDescription (if needed)
-- Store listing metadata (descriptions, keywords, categories)
+- Store listing metadata drafted in release/STORE_PACK
 - Screenshots and preview videos
 - App Store Connect setup unknown
 - Google Play Console setup unknown
@@ -299,13 +299,11 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 **Risk:** Directing users in crisis to outdated resources
 
-### ❌ App Store Submission Requirements (30% Complete)
-**Evidence:** Basic config exists, metadata missing
+### 🟡 App Store Submission Requirements (55% Complete)
+**Evidence:** Basic config exists, metadata/privacy drafts in release/STORE_PACK
 
 **iOS Missing:**
 - Privacy manifest (required since iOS 17)
-- App Store description (4000 char limit)
-- Keywords and categories
 - Screenshots (6.5", 6.7", 12.9" sizes)
 - App preview video
 - Age rating justification
@@ -313,7 +311,6 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 - TestFlight beta tester group setup
 
 **Android Missing:**
-- Play Store listing description
 - Screenshots (phone, tablet, TV)
 - Feature graphic (1024x500)
 - Age rating content declaration
@@ -372,7 +369,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 **4. Mobile Store Metadata Incomplete**
 - **Risk:** Cannot submit to App Store or Google Play
-- **Evidence:** No privacy strings, descriptions, screenshots
+- **Evidence:** Draft privacy strings/descriptions exist; screenshots missing
 - **Impact:** Delayed launch, manual rework required
 - **Fix:** Complete app.json with privacy manifest, create store assets
 - **Time:** 1 week (design + copy)
@@ -681,8 +678,8 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 **E2E Tests:** 9  
 **Lines of Safety Infrastructure:** ~6,600  
 
-**MVP 1 Score:** 78%  
-**V1 Launch Score:** 62%  
+**MVP 1 Score:** 79%  
+**V1 Launch Score:** 66%  
 
 **Blockers to Alpha:** 3 critical tasks (CI fix, crisis verification, onboarding)  
 **Blockers to Beta:** Add legal docs, scholar review, store metadata  
