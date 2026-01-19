@@ -3,11 +3,11 @@
 ## Visual Identity & Brand
 
 ### Aesthetic Foundation
-- **Design Inspiration**: Niyyah app warm brown aesthetic, cozy Islamic app feel
+- **Design Inspiration**: Warm brown aesthetic, cozy Islamic app feel
 - **Mood**: Warm evening after Maghrib, intimate and comforting
-- **Purpose**: Create a sanctuary for mental wellness rooted in Islam
+- **Purpose**: Create a sanctuary for structured thinking rooted in Islam
 
-### Color Palette (Niyyah-Inspired Dark Theme)
+### Color Palette (Warm Dark Theme)
 
 **Primary Background Colors:**
 - Background Root: `#1a1612` (deep warm brown)

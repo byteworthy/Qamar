@@ -19,9 +19,7 @@ export default function PrivacyScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-    >
+    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
@@ -41,10 +39,9 @@ export default function PrivacyScreen() {
             <Feather name="shield" size={48} color={NiyyahColors.accent} />
           </View>
           <ThemedText style={styles.title}>Your Privacy Matters</ThemedText>
-          <ThemedText
-            style={[styles.subtitle, { color: theme.textSecondary }]}
-          >
-            We believe your thoughts should stay yours
+          <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
+            Noor CBT is designed to respect your privacy while still working
+            properly
           </ThemedText>
         </Animated.View>
 
@@ -56,88 +53,72 @@ export default function PrivacyScreen() {
             style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
+              <Feather name="lock" size={20} color={NiyyahColors.accent} />
+              <ThemedText style={styles.cardTitle}>
+                What Happens to Your Reflections
+              </ThemedText>
+            </View>
+            <View style={styles.cardContent}>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Your text is processed by AI to generate responses
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • This processing may occur on secure servers
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • Your reflections may be stored securely and encrypted to
+                support app functionality
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • We do not sell your data or use it for advertising
+              </ThemedText>
+            </View>
+          </View>
+
+          <View
+            style={[styles.card, { backgroundColor: theme.cardBackground }]}
+          >
+            <View style={styles.cardHeader}>
+              <Feather name="shield" size={20} color={NiyyahColors.accent} />
+              <ThemedText style={styles.cardTitle}>
+                What We Do Not Do
+              </ThemedText>
+            </View>
+            <View style={styles.cardContent}>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • We do not require an account
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • We do not collect your contacts or location
+              </ThemedText>
+              <ThemedText style={[styles.cardText, { color: theme.text }]}>
+                • We do not track you across other apps or websites
+              </ThemedText>
+            </View>
+          </View>
+
+          <View
+            style={[styles.card, { backgroundColor: theme.cardBackground }]}
+          >
+            <View style={styles.cardHeader}>
               <Feather
-                name="smartphone"
+                name="alert-circle"
                 size={20}
                 color={NiyyahColors.accent}
               />
-              <ThemedText style={styles.cardTitle}>
-                Local-First Storage
-              </ThemedText>
+              <ThemedText style={styles.cardTitle}>Important Limits</ThemedText>
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Your reflections are stored on your device only
+                • This app uses AI and may make mistakes
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • We do not send your thoughts or reflections to a server
+                • It is not therapy or medical care
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Your reflection content never leaves your phone
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Account data (email, subscription) stored separately for login
+                • It is not a replacement for professional help
               </ThemedText>
             </View>
-          </View>
-
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather name="lock" size={20} color={NiyyahColors.accent} />
-              <ThemedText style={styles.cardTitle}>What We Collect</ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Session metadata (duration, interactions, safety events)
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Account email for login
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Subscription status if you upgrade
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • No personal identifiers in your reflections
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • No tracking across other apps or websites
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather name="user-check" size={20} color={NiyyahColors.accent} />
-              <ThemedText style={styles.cardTitle}>Your Control</ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Delete reflections anytime from History
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Export your data as JSON
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Delete your account from settings
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Uninstalling removes all local reflection data
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[styles.noteBox, { backgroundColor: theme.backgroundRoot }]}
-          >
-            <ThemedText
-              style={[styles.noteText, { color: theme.textSecondary }]}
-            >
-              For full details, see our Privacy Policy in Settings after you begin.
-            </ThemedText>
           </View>
         </Animated.View>
       </ScrollView>
@@ -177,9 +158,7 @@ export default function PrivacyScreen() {
               },
             ]}
           >
-            <ThemedText style={styles.continueButtonText}>
-              Continue
-            </ThemedText>
+            <ThemedText style={styles.continueButtonText}>Continue</ThemedText>
             <Feather
               name="arrow-right"
               size={20}

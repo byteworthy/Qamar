@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 
 import { useTheme } from "@/hooks/useTheme";
+import { VALIDATION_MODE } from "@/lib/config";
 import { Layout } from "@/constants/layout";
 import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
@@ -39,6 +40,7 @@ interface PlanCardProps {
   isPremium?: boolean;
   onSelect?: () => void;
   loading?: boolean;
+  comingSoon?: boolean;
 }
 
 const { spacing, radii, container, typeScale } = Layout;
@@ -52,6 +54,7 @@ function PlanCard({
   isPremium,
   onSelect,
   loading,
+  comingSoon,
 }: PlanCardProps) {
   const { theme } = useTheme();
 
@@ -66,7 +69,11 @@ function PlanCard({
         },
       ]}
     >
-      {isPremium ? (
+      {comingSoon ? (
+        <View style={[styles.badge, { backgroundColor: theme.textSecondary }]}>
+          <ThemedText style={styles.badgeText}>COMING SOON</ThemedText>
+        </View>
+      ) : isPremium ? (
         <View style={[styles.badge, { backgroundColor: SiraatColors.indigo }]}>
           <ThemedText style={styles.badgeText}>RECOMMENDED</ThemedText>
         </View>
@@ -107,7 +114,20 @@ function PlanCard({
         ))}
       </View>
 
-      {isCurrentPlan ? (
+      {comingSoon ? (
+        <View
+          style={[
+            styles.currentPlanBadge,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            style={[styles.currentPlanText, { color: theme.textSecondary }]}
+          >
+            Available at launch
+          </ThemedText>
+        </View>
+      ) : isCurrentPlan ? (
         <View
           style={[
             styles.currentPlanBadge,
@@ -154,9 +174,7 @@ export default function PricingScreen() {
   });
 
   const isPaid = billingProfile ? isPaidTier(billingProfile.tier) : false;
-  const isPremium = billingProfile
-    ? isPremiumTier(billingProfile.tier)
-    : false;
+  const isPremium = billingProfile ? isPremiumTier(billingProfile.tier) : false;
 
   const handleRestorePurchase = async () => {
     setSyncing(true);
@@ -253,6 +271,22 @@ export default function PricingScreen() {
         </ThemedText>
       </View>
 
+      {/* VALIDATION MODE banner */}
+      {VALIDATION_MODE ? (
+        <View
+          style={[
+            styles.validationBanner,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            style={[styles.validationText, { color: theme.textSecondary }]}
+          >
+            Validation Build — Paid tiers coming soon
+          </ThemedText>
+        </View>
+      ) : null}
+
       <View style={styles.plansContainer}>
         <PlanCard
           name="Free"
@@ -266,9 +300,14 @@ export default function PricingScreen() {
           price="$9.99"
           period="/month"
           features={proFeatures}
-          isCurrentPlan={billingProfile?.tier === "pro"}
-          isPremium
-          onSelect={isPaid ? undefined : () => handleUpgrade("pro", "monthly")}
+          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "pro"}
+          isPremium={!VALIDATION_MODE}
+          comingSoon={VALIDATION_MODE}
+          onSelect={
+            VALIDATION_MODE || isPaid
+              ? undefined
+              : () => handleUpgrade("pro", "monthly")
+          }
           loading={loading}
         />
 
@@ -277,44 +316,52 @@ export default function PricingScreen() {
           price="$19.99"
           period="/month"
           features={premiumFeatures}
-          isCurrentPlan={billingProfile?.tier === "premium"}
+          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "premium"}
+          comingSoon={VALIDATION_MODE}
           onSelect={
-            isPremium ? undefined : () => handleUpgrade("premium", "monthly")
+            VALIDATION_MODE || isPremium
+              ? undefined
+              : () => handleUpgrade("premium", "monthly")
           }
           loading={loading}
         />
       </View>
 
-      <View
-        style={[
-          styles.restoreContainer,
-          { backgroundColor: theme.backgroundDefault },
-        ]}
-      >
-        <ThemedText
-          style={[styles.restoreLabel, { color: theme.textSecondary }]}
-        >
-          Already purchased?
-        </ThemedText>
-        <Button
-          onPress={handleRestorePurchase}
-          disabled={syncing}
-          variant="secondary"
-          style={{ backgroundColor: "transparent" }}
-        >
-          {syncing ? "Checking..." : "Restore Purchase"}
-        </Button>
-      </View>
+      {/* Hide billing actions in validation mode */}
+      {!VALIDATION_MODE ? (
+        <>
+          <View
+            style={[
+              styles.restoreContainer,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
+            <ThemedText
+              style={[styles.restoreLabel, { color: theme.textSecondary }]}
+            >
+              Already purchased?
+            </ThemedText>
+            <Button
+              onPress={handleRestorePurchase}
+              disabled={syncing}
+              variant="secondary"
+              style={{ backgroundColor: "transparent" }}
+            >
+              {syncing ? "Checking..." : "Restore Purchase"}
+            </Button>
+          </View>
 
-      <View style={styles.manageBillingContainer}>
-        <Button
-          onPress={handleManageBilling}
-          disabled={managingBilling}
-          style={{ backgroundColor: theme.backgroundDefault }}
-        >
-          {managingBilling ? "Loading..." : "Manage Subscriptions"}
-        </Button>
-      </View>
+          <View style={styles.manageBillingContainer}>
+            <Button
+              onPress={handleManageBilling}
+              disabled={managingBilling}
+              style={{ backgroundColor: theme.backgroundDefault }}
+            >
+              {managingBilling ? "Loading..." : "Manage Subscriptions"}
+            </Button>
+          </View>
+        </>
+      ) : null}
     </Screen>
   );
 }
@@ -409,5 +456,15 @@ const styles = StyleSheet.create({
   manageBillingContainer: {
     alignItems: "center",
     marginBottom: spacing.lg,
+  },
+  validationBanner: {
+    padding: spacing.md,
+    borderRadius: radii.md,
+    marginBottom: spacing.lg,
+    alignItems: "center",
+  },
+  validationText: {
+    fontSize: typeScale.small,
+    textAlign: "center",
   },
 });

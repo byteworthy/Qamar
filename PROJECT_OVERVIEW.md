@@ -25,8 +25,7 @@ Noor CBT dissolves the false dichotomy between **secular mental health tools** a
 | Cognitive distortions mistaken for faith issues | Spiritual bypassing is normalized |
 
 ### Our Differentiation
-- **Niyyah App**: Beautiful UI/UX - we're replicating their design excellence
-- **Noor CBT**: Deep CBT + NLP + Islamic Psychology - we're innovating in therapeutic depth
+- **Noor CBT**: Deep CBT-inspired prompts + NLP + Islamic Psychology - an untapped market space
 - **Competitive Edge**: Safety systems, adaptive AI, theological validation
 
 ---
@@ -179,9 +178,9 @@ Noor CBT dissolves the false dichotomy between **secular mental health tools** a
 
 ## 🎨 Design Enhancement Opportunities
 
-### Niyyah App UI/UX Replication Status
-| Element | Niyyah Reference | Our Status |
-|---------|------------------|------------|
+### UI/UX Design Status
+| Element | Reference | Our Status |
+|---------|-----------|------------|
 | Warm brown palette | Deep browns, warm cream | ✅ Implemented |
 | Cozy Islamic feel | Evening after Maghrib | ✅ Captured |
 | Serif typography | Georgia for headings | ✅ Implemented |
@@ -309,14 +308,6 @@ Create `IslamicContentMapper` class that:
 3. **Safety-First Islamic App**: Our crisis detection + theological validation is industry-leading
 4. **Adaptive Conversational AI**: No Islamic app has this level of emotional intelligence
 
-### Future Features (Post-MVP)
-- Arabic language support
-- Offline mode (local-first)
-- Family/community features
-- Imam consultation integration
-- Clinical outcome research
-- Wearable integration (Apple Watch)
-- White-label for organizations
 
 ---
 

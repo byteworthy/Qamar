@@ -41,7 +41,7 @@ const NIYYAH_PROMPTS = [
   "I begin seeking clarity for Allah's pleasure",
   "I reflect to understand, not to dwell",
   "I bring this thought to light with trust in Allah",
-  "I seek healing through the wisdom He has provided",
+  "I seek clarity through the wisdom He has provided",
 ];
 
 // Emotional intensity labels for human-readable display

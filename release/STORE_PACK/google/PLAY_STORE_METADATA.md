@@ -1,13 +1,13 @@
 # Play Store Metadata (Android)
 
 ## App Name
-Noor CBT
+Noor
 
 ## Short Description
-Islamic CBT reflections with calm, grounded guidance.
+Structured thinking for Muslims, rooted in Islam.
 
 ## Full Description
-Noor CBT is an AI-assisted Islamic CBT companion designed to help Muslims work through difficult thoughts using evidence-based CBT techniques grounded in Islamic values.
+Noor is an AI-assisted reflection companion designed to help Muslims work through difficult thoughts using structured thinking prompts grounded in Islamic values.
 
 The app guides you through a gentle reflection flow:
 • Capture troubling thoughts with emotional awareness
@@ -17,9 +17,9 @@ The app guides you through a gentle reflection flow:
 • Set meaningful intentions (niyyah) for moving forward
 
 Key features:
-• AI companion for CBT reflection (not a human therapist)
+• AI companion for structured reflection (not a human therapist)
 • Islamic framework woven throughout (sabr, tawakkul, tawbah)
-• Crisis resources prominently featured (988 Suicide & Crisis Lifeline)
+• Safety resources available (988 Lifeline)
 • Privacy-first: reflections stored locally on your device
 • Free tier with optional premium subscriptions
 • No account required, no social features, no ads
@@ -32,10 +32,10 @@ Clear boundaries:
 
 ## Category & Tags
 - Category: Health & Fitness
-- Tags: Mental Health, Mindfulness, Religion & Spirituality, Wellness
+- Tags: Mindfulness, Religion & Spirituality, Wellness, Self-Improvement
 
 ## Content Rating Notes
-Recommended: Teen (mental health themes, crisis resources). Final rating to be set in Play Console.
+Recommended: Teen (reflection themes, safety resources). Final rating to be set in Play Console.
 
 ## Data Safety Draft (Aligned to USER_TRANSPARENCY.md)
 
@@ -84,8 +84,8 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 
 **Free Tier**
 - 1 reflection per day
-- Basic CBT journey
-- Crisis resources
+- Basic reflection journey
+- Safety resources
 - Dhikr-based grounding
 
 **Noor Plus - Monthly**

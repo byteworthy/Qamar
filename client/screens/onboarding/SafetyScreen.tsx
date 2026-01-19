@@ -33,9 +33,7 @@ export default function SafetyScreen() {
   };
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-    >
+    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
@@ -54,12 +52,8 @@ export default function SafetyScreen() {
           <View style={styles.iconContainer}>
             <Feather name="heart" size={48} color={NiyyahColors.accent} />
           </View>
-          <ThemedText style={styles.title}>
-            Your Safety Comes First
-          </ThemedText>
-          <ThemedText
-            style={[styles.subtitle, { color: theme.textSecondary }]}
-          >
+          <ThemedText style={styles.title}>Your Safety Comes First</ThemedText>
+          <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
             Please read this carefully before beginning
           </ThemedText>
         </Animated.View>
@@ -68,24 +62,18 @@ export default function SafetyScreen() {
           entering={FadeInUp.duration(400).delay(100)}
           style={styles.content}
         >
-          <View
-            style={[styles.crisisCard, { backgroundColor: "#FEF3E2" }]}
-          >
+          <View style={[styles.crisisCard, { backgroundColor: "#FEF3E2" }]}>
             <View style={styles.cardHeader}>
               <Feather name="phone" size={20} color="#D97706" />
               <ThemedText style={[styles.cardTitle, { color: "#92400E" }]}>
-                In Crisis? Get Help Now
+                Need Support? Resources Available
               </ThemedText>
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: "#78350F" }]}>
-                If you are experiencing a mental health crisis or having thoughts
-                of self-harm:
+                If you are in distress or having thoughts of self-harm:
               </ThemedText>
-              <Pressable
-                onPress={handleCrisisLink}
-                style={styles.crisisButton}
-              >
+              <Pressable onPress={handleCrisisLink} style={styles.crisisButton}>
                 <ThemedText style={styles.crisisButtonText}>
                   Call 988 - Suicide & Crisis Lifeline
                 </ThemedText>
@@ -101,9 +89,13 @@ export default function SafetyScreen() {
             style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
-              <Feather name="alert-triangle" size={20} color={NiyyahColors.accent} />
+              <Feather
+                name="alert-triangle"
+                size={20}
+                color={NiyyahColors.accent}
+              />
               <ThemedText style={styles.cardTitle}>
-                When to Seek Professional Help
+                When to Reach Out for Support
               </ThemedText>
             </View>
             <View style={styles.cardContent}>
@@ -114,10 +106,10 @@ export default function SafetyScreen() {
                 • Thoughts of harming yourself or others
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Severe anxiety or panic that disrupts daily life
+                • Ongoing distress that disrupts daily life
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Symptoms interfering with work, relationships, or health
+                • Struggles interfering with work, relationships, or health
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Any time you feel you need more support
@@ -148,24 +140,31 @@ export default function SafetyScreen() {
                 • For religious questions, consult qualified Islamic scholars
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Mental health and spiritual care work together, not instead of
+                • Emotional and spiritual care work together, not instead of
                 each other
               </ThemedText>
             </View>
           </View>
 
           <View
-            style={[styles.readyCard, { backgroundColor: theme.cardBackground }]}
+            style={[
+              styles.readyCard,
+              { backgroundColor: theme.cardBackground },
+            ]}
           >
-            <Feather name="check-circle" size={32} color={NiyyahColors.accent} />
+            <Feather
+              name="check-circle"
+              size={32}
+              color={NiyyahColors.accent}
+            />
             <ThemedText style={[styles.readyTitle, { color: theme.text }]}>
               Ready to Begin?
             </ThemedText>
             <ThemedText
               style={[styles.readyText, { color: theme.textSecondary }]}
             >
-              This is an AI companion for gentle self-reflection. Use it alongside, not
-              instead of, professional care when needed.
+              This is an AI companion for gentle self-reflection. Use it
+              alongside, not instead of, professional care when needed.
             </ThemedText>
           </View>
         </Animated.View>

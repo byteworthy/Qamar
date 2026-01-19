@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -14,23 +14,52 @@ import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { getApiUrl } from "@/lib/query-client";
+import { getSessions, Session } from "@/lib/storage";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-interface PatternData {
-  summary: string;
-  assumptions: { text: string; count: number }[];
+interface LocalStats {
+  totalSessions: number;
+  lastSessionDate: Date | null;
+  topDistortion: string | null;
+  weeklyCount: number;
 }
 
-async function fetchPatterns(): Promise<PatternData> {
-  const response = await fetch(
-    new URL("/api/reflection/patterns", getApiUrl()).toString(),
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch patterns");
+function computeLocalStats(sessions: Session[]): LocalStats {
+  if (!sessions || sessions.length === 0) {
+    return {
+      totalSessions: 0,
+      lastSessionDate: null,
+      topDistortion: null,
+      weeklyCount: 0,
+    };
   }
-  return response.json();
+
+  const sorted = [...sessions].sort((a, b) => b.timestamp - a.timestamp);
+  const lastSessionDate = new Date(sorted[0].timestamp);
+
+  // Count distortions
+  const distortionCounts: Record<string, number> = {};
+  sessions.forEach((s) => {
+    s.distortions?.forEach((d) => {
+      distortionCounts[d] = (distortionCounts[d] || 0) + 1;
+    });
+  });
+
+  const topDistortion =
+    Object.entries(distortionCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
+    null;
+
+  // Weekly count
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const weeklyCount = sessions.filter((s) => s.timestamp > weekAgo).length;
+
+  return {
+    totalSessions: sessions.length,
+    lastSessionDate,
+    topDistortion,
+    weeklyCount,
+  };
 }
 
 const { spacing, radii, container, typeScale } = Layout;
@@ -38,6 +67,9 @@ const { spacing, radii, container, typeScale } = Layout;
 export default function InsightsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [stats, setStats] = useState<LocalStats | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],
@@ -46,103 +78,24 @@ export default function InsightsScreen() {
   });
 
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-  const isDemo = true;
 
-  const demoReflections = [
-    {
-      id: 1,
-      timestamp: new Date(Date.now() - 1 * 86400000),
-      state: "tightness_around_provision",
-      thought: "I'm behind on bills and can't stop thinking about it",
-      distortions: ["catastrophizing", "fortune-telling"],
-    },
-    {
-      id: 2,
-      timestamp: new Date(Date.now() - 2 * 86400000),
-      state: "fear_of_loss",
-      thought: "What if my spouse leaves me?",
-      distortions: ["catastrophizing"],
-    },
-    {
-      id: 3,
-      timestamp: new Date(Date.now() - 3 * 86400000),
-      state: "confusion_effort_control",
-      thought: "I worked so hard but nothing is changing",
-      distortions: ["all-or-nothing", "should-statements"],
-    },
-    {
-      id: 4,
-      timestamp: new Date(Date.now() - 5 * 86400000),
-      state: "shame_after_sin",
-      thought: "I keep falling into the same mistake",
-      distortions: ["personalization", "labeling"],
-    },
-    {
-      id: 5,
-      timestamp: new Date(Date.now() - 6 * 86400000),
-      state: "guilt_without_clarity",
-      thought: "I feel like I'm not doing enough for my parents",
-      distortions: ["should-statements", "mind-reading"],
-    },
-    {
-      id: 6,
-      timestamp: new Date(Date.now() - 8 * 86400000),
-      state: "decision_paralysis",
-      thought: "I don't know which job offer to take",
-      distortions: ["fortune-telling", "all-or-nothing"],
-    },
-    {
-      id: 7,
-      timestamp: new Date(Date.now() - 10 * 86400000),
-      state: "social_anxiety",
-      thought: "People at the masjid probably judge me",
-      distortions: ["mind-reading", "personalization"],
-    },
-    {
-      id: 8,
-      timestamp: new Date(Date.now() - 12 * 86400000),
-      state: "tightness_around_provision",
-      thought: "I should be earning more by now",
-      distortions: ["should-statements", "comparison"],
-    },
-    {
-      id: 9,
-      timestamp: new Date(Date.now() - 14 * 86400000),
-      state: "feeling_unseen",
-      thought: "No one notices how hard I'm trying",
-      distortions: ["mind-reading", "emotional-reasoning"],
-    },
-    {
-      id: 10,
-      timestamp: new Date(Date.now() - 16 * 86400000),
-      state: "confusion_effort_control",
-      thought: "I prayed for this but nothing happened",
-      distortions: ["all-or-nothing", "fortune-telling"],
-    },
-  ];
+  // Load real sessions from local storage
+  useEffect(() => {
+    async function loadSessions() {
+      try {
+        const storedSessions = await getSessions();
+        setSessions(storedSessions);
+        setStats(computeLocalStats(storedSessions));
+      } catch (error) {
+        console.error("Error loading sessions:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadSessions();
+  }, []);
 
-  const demoPatterns: PatternData = {
-    summary:
-      "Across your reflections, responsibility often appears before rest. Effort is present, but trust arrives later. When outcomes feel uncertain, the mind reaches for control rather than patience.",
-    assumptions: [
-      { text: "Responsibility equals control", count: 4 },
-      { text: "Feeling anxious means danger is real", count: 3 },
-      { text: "Struggle means I am failing", count: 3 },
-      { text: "If I cannot fix it, I am the problem", count: 2 },
-      { text: "Other people's emotions are my responsibility", count: 2 },
-    ],
-  };
-
-  const { data: fetchedPatterns, isLoading } = useQuery({
-    queryKey: ["/api/reflection/patterns"],
-    queryFn: fetchPatterns,
-    enabled: isPaid && !isDemo,
-    staleTime: 300000,
-  });
-
-  const patterns = isDemo ? demoPatterns : fetchedPatterns;
-
-  if (!isPaid && !isDemo) {
+  if (!isPaid) {
     return (
       <Screen title="Insights" showBack scrollable={false}>
         <View style={styles.centerContent}>
@@ -184,22 +137,21 @@ export default function InsightsScreen() {
     );
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <Screen title="Insights" showBack scrollable={false}>
         <View style={styles.centerContent}>
           <ThemedText
             style={[styles.loadingText, { color: theme.textSecondary }]}
           >
-            Loading your patterns...
+            Loading your insights...
           </ThemedText>
         </View>
       </Screen>
     );
   }
 
-  const hasData =
-    patterns && (patterns.summary || patterns.assumptions?.length > 0);
+  const hasData = stats && stats.totalSessions > 0;
 
   if (!hasData) {
     return (
@@ -251,74 +203,92 @@ export default function InsightsScreen() {
     >
       <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
         <ThemedText style={[styles.introText, { color: theme.textSecondary }]}>
-          Based on your recent reflections.
+          Based on your stored reflections.
         </ThemedText>
       </Animated.View>
 
-      {patterns?.summary && (
-        <Animated.View
-          entering={FadeInUp.duration(350).delay(100)}
-          style={styles.section}
+      {/* Stats Section - REAL DATA */}
+      <Animated.View
+        entering={FadeInUp.duration(350).delay(100)}
+        style={styles.section}
+      >
+        <ThemedText
+          style={[styles.sectionLabel, { color: theme.textSecondary }]}
         >
-          <ThemedText
-            style={[styles.sectionLabel, { color: theme.textSecondary }]}
-          >
-            Pattern Summary
-          </ThemedText>
+          Your Statistics
+        </ThemedText>
+        <View style={styles.statsGrid}>
           <View
             style={[
-              styles.summaryCard,
+              styles.statCard,
               { backgroundColor: theme.backgroundDefault },
             ]}
           >
-            <ThemedText style={styles.summaryText}>
-              {patterns.summary}
+            <ThemedText style={styles.statValue}>
+              {stats!.totalSessions}
+            </ThemedText>
+            <ThemedText
+              style={[styles.statLabel, { color: theme.textSecondary }]}
+            >
+              Total Sessions
             </ThemedText>
           </View>
-        </Animated.View>
-      )}
-
-      {patterns?.assumptions && patterns.assumptions.length > 0 && (
-        <Animated.View
-          entering={FadeInUp.duration(350).delay(150)}
-          style={styles.section}
+          <View
+            style={[
+              styles.statCard,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
+            <ThemedText style={styles.statValue}>
+              {stats!.weeklyCount}
+            </ThemedText>
+            <ThemedText
+              style={[styles.statLabel, { color: theme.textSecondary }]}
+            >
+              This Week
+            </ThemedText>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.infoCard,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
         >
           <ThemedText
-            style={[styles.sectionLabel, { color: theme.textSecondary }]}
+            style={[styles.infoLabel, { color: theme.textSecondary }]}
           >
-            Recurring Assumptions
+            Last Session
           </ThemedText>
-          <View style={styles.assumptionsList}>
-            {patterns.assumptions.map((item, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.assumptionCard,
-                  { backgroundColor: theme.backgroundDefault },
-                ]}
-              >
-                <ThemedText style={styles.assumptionText}>
-                  {item.text}
-                </ThemedText>
-                <View
-                  style={[
-                    styles.countBadge,
-                    { backgroundColor: theme.backgroundRoot },
-                  ]}
-                >
-                  <ThemedText
-                    style={[styles.countText, { color: theme.textSecondary }]}
-                  >
-                    {item.count}x
-                  </ThemedText>
-                </View>
-              </View>
-            ))}
-          </View>
-        </Animated.View>
-      )}
+          <ThemedText style={styles.infoValue}>
+            {stats!.lastSessionDate
+              ? stats!.lastSessionDate.toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "Not available"}
+          </ThemedText>
+        </View>
+        <View
+          style={[
+            styles.infoCard,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            style={[styles.infoLabel, { color: theme.textSecondary }]}
+          >
+            Most Common Pattern
+          </ThemedText>
+          <ThemedText style={styles.infoValue}>
+            {stats!.topDistortion || "Not enough data yet"}
+          </ThemedText>
+        </View>
+      </Animated.View>
 
-      {isDemo && demoReflections.length > 0 && (
+      {/* Recent Reflections - REAL DATA */}
+      {sessions.length > 0 && (
         <Animated.View
           entering={FadeInUp.duration(350).delay(200)}
           style={styles.section}
@@ -329,9 +299,9 @@ export default function InsightsScreen() {
             Recent Reflections
           </ThemedText>
           <View style={styles.reflectionsList}>
-            {demoReflections.slice(0, 4).map((reflection) => (
+            {sessions.slice(0, 4).map((session, index) => (
               <View
-                key={reflection.id}
+                key={index}
                 style={[
                   styles.reflectionCard,
                   { backgroundColor: theme.backgroundDefault },
@@ -343,34 +313,36 @@ export default function InsightsScreen() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {reflection.timestamp.toLocaleDateString("en-US", {
+                  {new Date(session.timestamp).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                   })}
                 </ThemedText>
                 <ThemedText style={styles.reflectionThought} numberOfLines={2}>
-                  {reflection.thought}
+                  {session.thought}
                 </ThemedText>
-                <View style={styles.distortionTags}>
-                  {reflection.distortions.slice(0, 2).map((d, i) => (
-                    <View
-                      key={i}
-                      style={[
-                        styles.distortionTag,
-                        { backgroundColor: theme.backgroundRoot },
-                      ]}
-                    >
-                      <ThemedText
+                {session.distortions && session.distortions.length > 0 && (
+                  <View style={styles.distortionTags}>
+                    {session.distortions.slice(0, 2).map((d, i) => (
+                      <View
+                        key={i}
                         style={[
-                          styles.distortionTagText,
-                          { color: theme.textSecondary },
+                          styles.distortionTag,
+                          { backgroundColor: theme.backgroundRoot },
                         ]}
                       >
-                        {d}
-                      </ThemedText>
-                    </View>
-                  ))}
-                </View>
+                        <ThemedText
+                          style={[
+                            styles.distortionTagText,
+                            { color: theme.textSecondary },
+                          ]}
+                        >
+                          {d}
+                        </ThemedText>
+                      </View>
+                    ))}
+                  </View>
+                )}
               </View>
             ))}
           </View>
@@ -382,7 +354,7 @@ export default function InsightsScreen() {
         style={styles.noteContainer}
       >
         <ThemedText style={[styles.note, { color: theme.textSecondary }]}>
-          Patterns are observations, not verdicts.
+          Insights update as you complete sessions.
         </ThemedText>
       </Animated.View>
     </Screen>
@@ -411,40 +383,37 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginBottom: spacing.sm,
   },
-  summaryCard: {
-    padding: container.cardPad,
-    borderRadius: radii.sm,
-  },
-  summaryText: {
-    fontSize: typeScale.body,
-    lineHeight: 20,
-  },
-  assumptionsList: {
-    gap: spacing.sm,
+  statsGrid: {
     flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  assumptionCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    minHeight: Layout.hitTargets.minCardHeight,
-    padding: container.cardPad,
-    borderRadius: radii.sm,
     gap: spacing.sm,
-    width: "100%",
+    marginBottom: spacing.sm,
   },
-  assumptionText: {
+  statCard: {
     flex: 1,
-    fontSize: typeScale.body,
-    lineHeight: 18,
-  },
-  countBadge: {
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
+    padding: container.cardPad,
     borderRadius: radii.sm,
+    alignItems: "center",
   },
-  countText: {
+  statValue: {
+    fontSize: 28,
+    fontWeight: "700",
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 12,
+  },
+  infoCard: {
+    padding: container.cardPad,
+    borderRadius: radii.sm,
+    marginBottom: spacing.sm,
+  },
+  infoLabel: {
     fontSize: 11,
+    marginBottom: 4,
+  },
+  infoValue: {
+    fontSize: typeScale.body,
+    fontWeight: "500",
   },
   noteContainer: {
     paddingVertical: spacing.lg,

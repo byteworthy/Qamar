@@ -401,7 +401,7 @@ export default function HomeScreen() {
               <ModuleCard
                 icon="edit-3"
                 title="Reflection"
-                description="Process a troubling thought with guided CBT"
+                description="Process a troubling thought with structured prompts"
                 onPress={() => navigation.navigate("ThoughtCapture")}
                 gradient={["#6a5a4a", "#4a3a2a"]}
                 delay={120}

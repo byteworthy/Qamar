@@ -12,7 +12,7 @@
 
 1. **Onboarding Welcome** — "A calm, guided start"
 2. **Onboarding Privacy** — "Your reflections stay on your device"
-3. **Onboarding Safety** — "Crisis resources always accessible"
+3. **Onboarding Safety** — "Safety resources available"
 4. **Home Screen** — "Light for the mind, rooted in Islam"
 5. **Thought Capture** — "Name the thought, rate the intensity"
 6. **Distortion Insight** — "Understand your thinking pattern"

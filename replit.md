@@ -32,14 +32,14 @@ Preferred communication style: Simple, everyday language.
 - **Framework**: React Native with Expo SDK 54
 - **Navigation**: React Navigation with bottom tab navigator (Home, Explore, Profile) + native stack for feature screens
 - **State Management**: TanStack React Query for server state, React useState for local UI state
-- **Styling**: StyleSheet-based theming with Niyyah-inspired warm brown dark theme
+- **Styling**: StyleSheet-based theming with warm brown dark theme
 - **Animations**: React Native Reanimated for subtle, contemplative motion effects
 - **Gradients**: expo-linear-gradient for rich module card backgrounds
 - **Local Storage**: AsyncStorage for persisting completed session history
 - **Brand Copy**: Centralized in `client/constants/brand.ts`
 
-### Design System (Niyyah-Inspired)
-- **Visual Identity**: Warm brown dark theme with cream accents, inspired by Niyyah app aesthetic
+### Design System
+- **Visual Identity**: Warm brown dark theme with cream accents
 - **Color Palette**: Background #1a1612, Cards #2d2820, Accent teal #4fd1a8, Gold #c9a855
 - **Typography**: Serif for headings (contemplative), sans-serif for body (readable)
 - **Motion**: FadeInUp/FadeInDown animations, 250-350ms duration, press scale feedback

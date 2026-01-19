@@ -15,12 +15,15 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
+import Constants from "expo-constants";
 
 import { useTheme } from "@/hooks/useTheme";
+import { VALIDATION_MODE, config } from "@/lib/config";
 import { NiyyahColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
+import { clearSessions } from "@/lib/storage";
 
 const USER_NAME_KEY = "@noor_user_name";
 const USER_EMAIL_KEY = "@noor_user_email";
@@ -209,6 +212,57 @@ export default function ProfileScreen() {
             onPress={() => Alert.alert("FAQs", "Coming soon")}
             delay={350}
           />
+          <MenuItem
+            icon="trash-2"
+            title="Delete My Reflections"
+            subtitle="Permanently remove all local data"
+            onPress={() =>
+              Alert.alert(
+                "Delete All Reflections",
+                "This will permanently delete all your reflections from this device. This cannot be undone.",
+                [
+                  { text: "Cancel", style: "cancel" },
+                  {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: async () => {
+                      await clearSessions();
+                      Alert.alert("Done", "All reflections have been deleted.");
+                    },
+                  },
+                ],
+              )
+            }
+            delay={400}
+          />
+        </View>
+
+        {/* Build Info for testers */}
+        <View style={styles.buildInfoSection}>
+          <ThemedText
+            style={[styles.buildInfoText, { color: theme.textSecondary }]}
+          >
+            Build: {Constants.expoConfig?.version || "dev"}
+          </ThemedText>
+          <ThemedText
+            style={[styles.buildInfoText, { color: theme.textSecondary }]}
+          >
+            iOS Build: {Constants.expoConfig?.ios?.buildNumber || "unknown"} |
+            Android Code:{" "}
+            {Constants.expoConfig?.android?.versionCode || "unknown"}
+          </ThemedText>
+          <ThemedText
+            style={[styles.buildInfoText, { color: theme.textSecondary }]}
+          >
+            Validation Mode: {VALIDATION_MODE ? "on" : "off"}
+          </ThemedText>
+          {config.apiDomain ? (
+            <ThemedText
+              style={[styles.buildInfoText, { color: theme.textSecondary }]}
+            >
+              Server: {config.apiDomain}
+            </ThemedText>
+          ) : null}
         </View>
       </ScrollView>
 
@@ -386,5 +440,13 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: "center",
+  },
+  buildInfoSection: {
+    marginTop: 24,
+    alignItems: "center",
+    gap: 4,
+  },
+  buildInfoText: {
+    fontSize: 11,
   },
 });

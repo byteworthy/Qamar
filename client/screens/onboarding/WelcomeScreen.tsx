@@ -20,9 +20,7 @@ export default function WelcomeScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-    >
+    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
@@ -42,9 +40,7 @@ export default function WelcomeScreen() {
             <Feather name="sun" size={48} color={NiyyahColors.accent} />
           </View>
           <ThemedText style={styles.title}>Welcome to {Brand.name}</ThemedText>
-          <ThemedText
-            style={[styles.tagline, { color: theme.textSecondary }]}
-          >
+          <ThemedText style={[styles.tagline, { color: theme.textSecondary }]}>
             {Brand.tagline}
           </ThemedText>
         </Animated.View>
@@ -54,18 +50,21 @@ export default function WelcomeScreen() {
           style={styles.content}
         >
           <View
-            style={[
-              styles.card,
-              { backgroundColor: theme.cardBackground },
-            ]}
+            style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
-              <Feather name="check-circle" size={20} color={NiyyahColors.accent} />
-              <ThemedText style={styles.cardTitle}>What This App Does</ThemedText>
+              <Feather
+                name="check-circle"
+                size={20}
+                color={NiyyahColors.accent}
+              />
+              <ThemedText style={styles.cardTitle}>
+                What This App Does
+              </ThemedText>
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Guides you through reflection using CBT principles
+                • Guides you through structured thinking patterns
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Uses an AI companion, not a human therapist
@@ -83,13 +82,14 @@ export default function WelcomeScreen() {
           </View>
 
           <View
-            style={[
-              styles.card,
-              { backgroundColor: theme.cardBackground },
-            ]}
+            style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
-              <Feather name="alert-circle" size={20} color={theme.textSecondary} />
+              <Feather
+                name="alert-circle"
+                size={20}
+                color={theme.textSecondary}
+              />
               <ThemedText style={styles.cardTitle}>
                 Important Boundaries
               </ThemedText>
@@ -113,7 +113,12 @@ export default function WelcomeScreen() {
             </View>
           </View>
 
-          <View style={[styles.disclaimerBox, { backgroundColor: theme.backgroundRoot }]}>
+          <View
+            style={[
+              styles.disclaimerBox,
+              { backgroundColor: theme.backgroundRoot },
+            ]}
+          >
             <ThemedText
               style={[styles.disclaimer, { color: theme.textSecondary }]}
             >
@@ -137,11 +142,18 @@ export default function WelcomeScreen() {
           onPress={() => navigation.navigate("Onboarding_Privacy")}
           style={({ pressed }) => [
             styles.continueButton,
-            { backgroundColor: NiyyahColors.accent, opacity: pressed ? 0.9 : 1 },
+            {
+              backgroundColor: NiyyahColors.accent,
+              opacity: pressed ? 0.9 : 1,
+            },
           ]}
         >
           <ThemedText style={styles.continueButtonText}>Continue</ThemedText>
-          <Feather name="arrow-right" size={20} color={NiyyahColors.background} />
+          <Feather
+            name="arrow-right"
+            size={20}
+            color={NiyyahColors.background}
+          />
         </Pressable>
       </Animated.View>
     </View>

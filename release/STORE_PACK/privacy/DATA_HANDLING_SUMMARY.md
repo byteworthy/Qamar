@@ -1,7 +1,7 @@
 # Data Handling Summary (Aligned to USER_TRANSPARENCY.md)
 
 ## Overview
-This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md and the Chunk 1 Truth Audit. Noor CBT is a privacy-first app that stores reflections locally on device and uses minimal data for safety and subscription entitlement.
+This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md and the Chunk 1 Truth Audit. Noor is a privacy-first app that stores reflections locally on device and uses minimal data for safety and subscription entitlement.
 
 ## What We Collect
 - Reflection content submitted for AI processing
@@ -18,7 +18,7 @@ This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md a
 - Cross-app tracking identifiers
 
 ## How Data Is Used
-- Provide CBT reflection flow and core features
+- Provide reflection flow and core features
 - Safety monitoring (crisis, scrupulosity, high-distress pacing)
 - Subscription entitlement validation
 - Support and data rights requests

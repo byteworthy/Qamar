@@ -3,6 +3,14 @@ import { createServer, type Server } from "node:http";
 import OpenAI from "openai";
 import { storage } from "./storage";
 import { billingService } from "./billing";
+import {
+  VALIDATION_MODE,
+  isOpenAIConfigured,
+  getValidationModeAnalyzeResponse,
+  getValidationModeReframeResponse,
+  getValidationModePracticeResponse,
+  getValidationModeInsightSummary,
+} from "./config";
 import { classifyTone, getTonePromptModifier } from "./toneClassifier";
 import {
   inferInnerState,
@@ -172,6 +180,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       if (!thought || typeof thought !== "string") {
         return res.status(400).json({ error: "Thought is required" });
+      }
+
+      // VALIDATION MODE GUARD: Return placeholder if AI not configured
+      if (VALIDATION_MODE && !isOpenAIConfigured()) {
+        console.log(
+          "[VALIDATION MODE] /api/analyze - returning placeholder response",
+        );
+        return res.json(getValidationModeAnalyzeResponse());
+      }
+
+      // OPENAI CONFIGURATION GUARD: Fail clearly if not in validation mode
+      if (!isOpenAIConfigured()) {
+        return res.status(503).json({
+          error: "AI service not configured",
+          code: "CONFIG_MISSING",
+          message:
+            "AI_INTEGRATIONS_OPENAI_API_KEY is missing or placeholder. Set VALIDATION_MODE=true for testing.",
+        });
       }
 
       // INPUT VALIDATION & SANITIZATION
@@ -406,6 +432,17 @@ Respond with a JSON object containing:
           .json({ error: "Thought and distortions are required" });
       }
 
+      // VALIDATION MODE GUARD
+      if (VALIDATION_MODE && !isOpenAIConfigured()) {
+        return res.json(getValidationModeReframeResponse());
+      }
+      if (!isOpenAIConfigured()) {
+        return res.status(503).json({
+          error: "AI service not configured",
+          code: "CONFIG_MISSING",
+        });
+      }
+
       const toneClassification = classifyTone(thought);
       const toneModifier = getTonePromptModifier(toneClassification.mode);
 
@@ -558,6 +595,17 @@ Respond with a JSON object containing:
 
       if (!reframe) {
         return res.status(400).json({ error: "Reframe is required" });
+      }
+
+      // VALIDATION MODE GUARD
+      if (VALIDATION_MODE && !isOpenAIConfigured()) {
+        return res.json(getValidationModePracticeResponse());
+      }
+      if (!isOpenAIConfigured()) {
+        return res.status(503).json({
+          error: "AI service not configured",
+          code: "CONFIG_MISSING",
+        });
       }
 
       // CANONICAL ORCHESTRATION ENFORCEMENT

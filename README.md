@@ -18,7 +18,7 @@
 
 ---
 
-*A thoughtful companion for Muslims navigating anxious thoughts—blending evidence-based CBT with the wisdom of Islamic tradition.*
+*Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted—blending CBT-inspired prompts with the wisdom of Islamic tradition.*
 
 </div>
 
@@ -27,21 +27,21 @@
 > *"Verily, in the remembrance of Allah do hearts find rest."*  
 > — Quran 13:28
 
-For too long, Muslim communities have faced a false choice: **seek help** or **keep your faith**. 
+For too long, Muslim communities have faced a false choice: **seek support** or **keep your faith**. 
 
-Noor dissolves this dichotomy. We don't ask you to leave your deen at the door of healing. We invite you to bring it in.
+Noor dissolves this dichotomy. We don't ask you to leave your deen at the door of clarity. We invite you to bring it in.
 
 ## 📊 The Problem
 
 | The Gap | The Reality |
 |---------|-------------|
-| Most mental health apps are secular by design, culturally blind, and spiritually empty | **40%** of Muslims with mental health needs don't seek help |
-| Many Muslims feel they must choose between therapy or faith | **Religious scrupulosity (waswasa)** goes unaddressed |
+| Most wellness apps are secular by design, culturally blind, and spiritually empty | Many Muslims with personal struggles don't seek support |
+| Many Muslims feel they must choose between support or faith | **Religious scrupulosity (waswasa)** goes unaddressed |
 | | **Cognitive distortions** are often mistaken for faith issues |
 
 ## ✨ Features
 
-### 🧠 Evidence-Based CBT
+### 🧠 CBT-Inspired Reflection
 - Cognitive distortion identification
 - Belief examination and reframing
 - Somatic awareness integration
@@ -208,16 +208,7 @@ graph TD
 - [x] Belief examination screen
 
 ### 🚧 In Progress
-- [ ] Offline mode (local-first)
-- [ ] Arabic language support
 - [ ] Session insights & patterns
-
-### 🔮 Future
-- [ ] Family/community features
-- [ ] Imam consultation integration
-- [ ] Clinical outcome research
-- [ ] Wearable integration (Apple Watch)
-- [ ] White-label for organizations
 
 ## 🤝 Contributing
 
@@ -259,9 +250,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- The Muslim mental health community for sharing their experiences
+- The Muslim community for sharing their experiences
 - Islamic scholars who reviewed our theological content
-- Mental health professionals who guided our CBT implementation
+- Professionals who guided our reflection approach
 - Open source contributors who made this possible
 
 ---

@@ -1,7 +1,8 @@
 export const Brand = {
-  name: "Noor CBT",
+  name: "Noor",
   method: "The Siraat Method",
-  tagline: "Light for the mind, rooted in Islam.",
+  tagline:
+    "Structured thinking for Muslims whose minds feel noisy, circular, or spiritually conflicted.",
 
   disclaimer:
     "A guided reflection tool. Not a substitute for professional care.",

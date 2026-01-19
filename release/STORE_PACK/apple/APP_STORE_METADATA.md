@@ -1,13 +1,13 @@
 # App Store Metadata (iOS)
 
 ## App Name
-Noor CBT
+Noor
 
 ## Subtitle
-Islamic CBT companion for mindful reflection
+Structured thinking rooted in Islam
 
 ## Description
-Noor CBT is an AI-assisted Islamic CBT companion designed to help Muslims work through difficult thoughts with evidence-based cognitive behavioral techniques grounded in Islamic values.
+Noor is an AI-assisted reflection companion designed to help Muslims work through difficult thoughts with structured thinking prompts grounded in Islamic values.
 
 The app guides you through a gentle reflection flow:
 • Capture troubling thoughts with emotional awareness
@@ -17,9 +17,9 @@ The app guides you through a gentle reflection flow:
 • Set meaningful intentions (niyyah) for moving forward
 
 Key features:
-• AI companion for CBT reflection (not a human therapist)
+• AI companion for structured reflection (not a human therapist)
 • Islamic framework woven throughout (sabr, tawakkul, tawbah)
-• Crisis resources prominently featured (988 Suicide & Crisis Lifeline)
+• Safety resources available (988 Lifeline)
 • Privacy-first: reflections stored locally on your device
 • Free tier with optional premium subscriptions
 • No account required, no social features, no ads
@@ -31,7 +31,7 @@ Clear boundaries:
 • AI can make mistakes—your discernment matters
 
 ## Keywords
-Islamic CBT, Muslim mental wellness, anxiety support, reflection, grounding, dua, niyyah, mindfulness, emotional regulation, dhikr, sabr, tawakkul
+Islamic reflection, Muslim wellness, structured thinking, grounding, dua, niyyah, mindfulness, emotional awareness, dhikr, sabr, tawakkul
 
 ## Categories
 - Primary: Health & Fitness
@@ -40,7 +40,7 @@ Islamic CBT, Muslim mental wellness, anxiety support, reflection, grounding, dua
 ## Age Rating
 **Recommended**: 12+ (Infrequent/Mild Medical/Treatment Information)
 
-**Rationale**: App contains mental health reflection content and crisis resource information. Suitable for teens and adults seeking emotional wellness support.
+**Rationale**: App contains reflection content with safety resources. Suitable for teens and adults seeking structured thinking support.
 
 ## Support URL
 https://example.com/support (PLACEHOLDER - to be replaced with actual URL)
@@ -62,8 +62,8 @@ https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
 
 ### Free Tier (No Purchase)
 - 1 reflection per day
-- Basic CBT journey
-- Crisis resources
+- Basic reflection journey
+- Safety resources
 - Dhikr-based grounding
 - Local storage only
 
@@ -121,7 +121,7 @@ https://example.com/privacy (PLACEHOLDER - to be replaced with actual URL)
 ## Notes for App Review
 
 ### App Purpose & Functionality
-Noor CBT is a mental wellness app that combines evidence-based cognitive behavioral therapy (CBT) techniques with Islamic spiritual principles. The app helps Muslim users process difficult thoughts through guided reflection, using AI to identify cognitive distortions and suggest reframes rooted in Islamic values like patience (sabr), trust (tawakkul), and mercy (rahma).
+Noor is a structured reflection app that combines evidence-based thinking patterns with Islamic spiritual principles. The app helps Muslim users process difficult thoughts through guided reflection, using AI to identify cognitive patterns and suggest reframes rooted in Islamic values like patience (sabr), trust (tawakkul), and mercy (rahma).
 
 ### Safety & Theological Boundaries
 
@@ -140,7 +140,7 @@ Noor CBT is a mental wellness app that combines evidence-based cognitive behavio
 
 **User Safety Flow**:
 1. Three-screen onboarding explains boundaries before first use
-2. Crisis language detection pauses CBT flow and surfaces 988 lifeline
+2. Distress language detection pauses reflection flow and surfaces 988 lifeline
 3. High distress pacing slows interactions and offers exit options
 4. Professional help recommended for persistent symptoms
 
@@ -218,7 +218,7 @@ Noor CBT is a mental wellness app that combines evidence-based cognitive behavio
 - **Minimum iOS**: 13.0 (or per Expo SDK requirements)
 - **Device Support**: iPhone, iPad compatible
 - **Orientation**: Portrait
-- **Languages**: English (Arabic planned for future)
+- **Languages**: English
 
 ### Post-Approval Monitoring
 

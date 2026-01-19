@@ -10,6 +10,12 @@ import {
 import { runMigrations } from "stripe-replit-sync";
 import { sessionMiddleware } from "./middleware/auth";
 import { initializeDataRetention, runManualCleanup } from "./data-retention";
+import {
+  VALIDATION_MODE,
+  logConfigStatus,
+  validateProductionConfig,
+  isStripeConfigured,
+} from "./config";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -265,6 +271,10 @@ async function initStripe() {
 }
 
 (async () => {
+  // Log configuration status and validate for production
+  logConfigStatus();
+  validateProductionConfig();
+
   setupCors(app);
 
   // CRITICAL: Webhook route MUST be registered BEFORE body parsing middleware.
