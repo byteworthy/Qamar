@@ -1,10 +1,16 @@
 <p align="center">
-  <img src="assets/images/noor-icon.svg" width="120" alt="Noor logo" />
+  <img src="assets/images/noor-icon.svg" width="140" alt="Noor logo" />
 </p>
 
-# Noor
+<h1 align="center">Noor</h1>
 
-**Structured thinking for Muslims seeking clarity, intention, and alignment.**
+<p align="center"><strong>Structured thinking for Muslims seeking clarity, intention, and alignment.</strong></p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-React%20Native-2d6cdf?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/AI-Safety%20First-0f766e?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Data-Local%20First-7c3aed?style=for-the-badge" />
+</p>
 
 Noor is a faith-aligned thinking companion built to help Muslims slow down their thoughts, examine them carefully, and move forward with intention. It is a structured reflection practice rooted in accountability of thought, clarity of intention, and alignment with Islamic values.
 
@@ -51,8 +57,10 @@ flowchart LR
 
   A --> B --> C --> D --> E
 
-  classDef step fill:#f8f3e8,stroke:#c9b99b,color:#3b2f1e;
-  class A,B,C,D,E step;
+  classDef step fill:#1f2937,stroke:#93c5fd,color:#f8fafc;
+  classDef accent fill:#0f766e,stroke:#5eead4,color:#ecfeff;
+  class A,B,C,E step;
+  class D accent;
 ```
 
 ---
@@ -79,7 +87,9 @@ flowchart LR
   C --> R[Response Shaping]
   R --> O[Reflection Output]
 
-  classDef guard fill:#eef6f1,stroke:#9ac6b1,color:#1f3b2c;
+  classDef guard fill:#0f766e,stroke:#5eead4,color:#ecfeff;
+  classDef base fill:#111827,stroke:#60a5fa,color:#f8fafc;
+  class U,P,R,O base;
   class T,C guard;
 ```
 
@@ -121,8 +131,10 @@ flowchart TD
   D --> E[Faith-Aligned Response]
   E --> F[Local Reflection Store]
 
-  classDef core fill:#f1f5fb,stroke:#9db2ce,color:#1f2d3d;
-  class A,B,C,D,E,F core;
+  classDef core fill:#111827,stroke:#60a5fa,color:#f8fafc;
+  classDef safe fill:#0f766e,stroke:#5eead4,color:#ecfeff;
+  class A,B,C,F core;
+  class D,E safe;
 ```
 
 ---
