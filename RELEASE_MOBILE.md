@@ -12,15 +12,16 @@ This repo supports three Expo EAS build tracks so releases are consistent and re
 npm ci
 ```
 
-2) Install Expo tooling (if needed)
+2) Install Expo + EAS tooling (no global install required)
 ```bash
-npm install -g expo-cli eas-cli
+npx expo --version
+npx eas --version
 ```
 
 3) Log in to EAS
 ```bash
-npm run eas:login
-npm run eas:whoami
+npx eas login
+npx eas whoami
 ```
 
 4) Confirm the project is linked
