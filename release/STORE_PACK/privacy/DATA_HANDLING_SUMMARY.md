@@ -1,40 +1,50 @@
 # Data Handling Summary (Aligned to USER_TRANSPARENCY.md)
 
+## Overview
+This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md and the Chunk 1 Truth Audit. Noor CBT is a privacy-first app that stores reflections locally on device and uses minimal data for safety and subscription entitlement.
+
 ## What We Collect
-- Thought entries and reflection responses
+- Reflection content submitted for AI processing
 - Emotional state indicators
 - Session metadata (duration, interaction count, safety events)
-- Account email (login)
-- Subscription status (if Noor Plus)
+- Subscription status (via app store billing)
 
 ## What We Do NOT Collect
 - Precise location
 - Contacts
 - Social media data
-- Device identifiers beyond login
+- Device identifiers beyond basic app diagnostics
 - Third-party advertising data
+- Cross-app tracking identifiers
 
 ## How Data Is Used
-- Provide CBT reflection flow and app features
+- Provide CBT reflection flow and core features
 - Safety monitoring (crisis, scrupulosity, high-distress pacing)
-- Subscription enforcement and account management
+- Subscription entitlement validation
 - Support and data rights requests
 
-## Data Security
-- Encrypted transmission (HTTPS/TLS)
+## Data Storage & Security
+- Reflection content stored locally on device
+- Encrypted transmission (HTTPS/TLS) for API calls
 - Encrypted storage at rest (per USER_TRANSPARENCY.md)
+- No third-party advertising or behavioral data sharing
 
 ## Retention & Deletion
-- Thought entries: retained until user deletes
-- Session logs: retention configured for 30 days (deletion automation pending)
-- Account data: retained until account deletion
+- Reflection content retained until user deletes
+- Session logs retained per retention service (30 days; deletion automation pending)
+- Subscription status retained via app store
 
 ## User Rights
-- Export data (JSON)
-- Delete specific entries
-- Delete account
-- Request data correction
+- Delete reflections locally from History
+- Export data as JSON (feature planned for Premium tier)
+- Cancel subscription in App Store / Play Store
 
-## Known Placeholders / To Verify
-- External AI provider name: placeholder
-- Support contact emails for privacy requests: placeholder (if different from USER_TRANSPARENCY.md)
+## Known Truth Audit Notes
+- Data retention service exists but deletion automation is not implemented yet
+- Hashed logging is limited to safety events only (not system-wide)
+
+## Support & Privacy Contacts
+- Support email: [placeholder]
+- Privacy requests: [placeholder]
+
+**Last Updated:** 2026-01-19

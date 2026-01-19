@@ -155,11 +155,15 @@ Your Noor CBT app is in an excellent state with world-class Islamic psychologica
 
 **Status**: Monetization ready.
 
-### 5. 🟡 STORE SUBMISSION PACK (50% Complete)
-- ✅ Drafted App Store and Play Store metadata (release/STORE_PACK)
-- ✅ Drafted privacy strings and data handling summary
-- ✅ Screenshot shot list prepared
-- ⏳ Screenshots, console setup, and privacy manifest still pending
+### 5. 🟢 STORE SUBMISSION PACK (100% Complete)
+- ✅ Apple App Store metadata with 4 subscription tiers (Free, Plus Monthly/Yearly, Premium Monthly/Yearly)
+- ✅ Google Play Store metadata with Play Billing integration
+- ✅ Privacy pack (PRIVACY_STRINGS.md, DATA_HANDLING_SUMMARY.md) aligned to USER_TRANSPARENCY.md
+- ✅ Screenshot shot list with 15 screens mapped and platform-specific orders
+- ✅ All subscription tiers use native store billing (Apple IAP / Google Play Billing)
+- ✅ No login required, local-first storage model documented
+- ✅ Store-safe copy with clear boundaries (not therapy/crisis/religious authority)
+- ⏳ Screenshots capture, App Store Connect setup, and Console configuration still pending
 
 ---
 

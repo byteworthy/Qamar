@@ -15,6 +15,12 @@ If any of the following are added in the future, update this file with user-faci
 No runtime permissions are requested by the current codebase.
 
 Implicit/normal permissions (no prompt):
-- INTERNET: Required to access the backend API.
+- INTERNET: Required to access the backend API and AI services.
 
-If any runtime permission is added later, document the reason here.
+## Privacy Disclosure Notes
+- No tracking permission requested (no ATT prompt)
+- No background location
+- No contact or calendar access
+- No camera or microphone access
+
+**Last Updated:** 2026-01-19

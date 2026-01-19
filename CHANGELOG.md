@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased] - 2026-01-19
 
+### Added - Store Submission Pack (Chunk 4)
+
+#### Complete Store Metadata Files (Commit: TBD)
+- **Apple App Store Metadata** (`release/STORE_PACK/apple/APP_STORE_METADATA.md`)
+  - Full app description with Islamic CBT positioning
+  - 4 subscription tiers: Free, Noor Plus (Monthly/Yearly), Noor Premium (Monthly/Yearly)
+  - Product IDs for Apple In-App Purchase
+  - Comprehensive App Review notes with safety/theological boundaries
+  - Testing instructions and compliance checklist
+  - No external payment processing (Apple IAP only)
+
+- **Google Play Store Metadata** (`release/STORE_PACK/google/PLAY_STORE_METADATA.md`)
+  - Short and full descriptions
+  - Data safety draft aligned to USER_TRANSPARENCY.md
+  - Product IDs for Google Play Billing
+  - Category and content rating guidance
+  - Subscription disclosure (Play Billing only)
+
+- **Privacy Pack** (`release/STORE_PACK/privacy/`)
+  - `PRIVACY_STRINGS.md`: Permission disclosure (currently none required)
+  - `DATA_HANDLING_SUMMARY.md`: Truth-aligned data collection summary
+  - No login required, local-first storage documented
+  - Retention and deletion policies clearly stated
+
+- **Screenshot Shot List** (`release/STORE_PACK/screenshots/SCREENSHOT_SHOTLIST.md`)
+  - 15 screens mapped with captions
+  - Platform-specific orders (Apple: 10 screenshots, Google: 8 screenshots)
+  - Includes onboarding screens
+  - Source files referenced for each screen
+
+#### Key Store Pack Features
+- **No Stripe references** in mobile store documentation
+- **Local-first architecture**: Reflections stored on device only
+- **Clear boundaries**: Not therapy, not crisis intervention, not religious authority
+- **AI disclosure**: Explicit mention of AI companion usage
+- **Native billing**: Apple IAP and Google Play Billing (no external payment)
+- **Subscription tiers**: Free, Plus ($9.99/mo or $79.99/yr), Premium ($19.99/mo or $159.99/yr)
+
 ### Added - Onboarding Flow & Copy Refinement
 
 #### Chunk 6: Onboarding Flow (Commit: e849d72)
