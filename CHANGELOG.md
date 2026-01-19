@@ -137,7 +137,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Known Limitations
 - 4 moderate vulnerabilities in dev dependency (esbuild via drizzle-kit)
 - Scholar review pending for Islamic content
-- Crisis resource links need final verification
+- Crisis resource links need final verification (pending verification; evidence log template added)
 - User onboarding flow not yet implemented
 
 ### Pre-Launch Checklist

@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SESSIONS_KEY = "@siraat_sessions";
+const ONBOARDING_KEY = "@noor_onboarding_completed";
 
 export interface Session {
   thought: string;
@@ -39,5 +40,23 @@ export async function clearSessions(): Promise<void> {
     await AsyncStorage.removeItem(SESSIONS_KEY);
   } catch (error) {
     console.error("Error clearing sessions:", error);
+  }
+}
+
+export async function getOnboardingCompleted(): Promise<boolean> {
+  try {
+    const value = await AsyncStorage.getItem(ONBOARDING_KEY);
+    return value === "true";
+  } catch (error) {
+    console.error("Error getting onboarding status:", error);
+    return false;
+  }
+}
+
+export async function setOnboardingCompleted(): Promise<void> {
+  try {
+    await AsyncStorage.setItem(ONBOARDING_KEY, "true");
+  } catch (error) {
+    console.error("Error setting onboarding status:", error);
   }
 }

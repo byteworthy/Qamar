@@ -3,7 +3,6 @@ import { View, StyleSheet, TextInput, Alert, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import * as WebBrowser from "expo-web-browser";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Layout } from "@/constants/layout";
@@ -13,12 +12,15 @@ import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import {
-  createCheckoutSession,
-  createPortalSession,
-  getBillingStatus,
-  isPaidStatus,
-  syncBillingStatus,
-} from "@/lib/billing";
+  BILLING_QUERY_KEY,
+  BillingTier,
+  getBillingProfile,
+  isPaidTier,
+  isPremiumTier,
+  openManageSubscriptions,
+  purchaseTier,
+  restorePurchases,
+} from "@/lib/billingProvider";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -146,25 +148,28 @@ export default function PricingScreen() {
   const [managingBilling, setManagingBilling] = useState(false);
   const [syncing, setSyncing] = useState(false);
 
-  const { data: billingStatus } = useQuery({
-    queryKey: ["/api/billing/status"],
-    queryFn: getBillingStatus,
+  const { data: billingProfile } = useQuery({
+    queryKey: BILLING_QUERY_KEY,
+    queryFn: getBillingProfile,
   });
 
-  const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
+  const isPaid = billingProfile ? isPaidTier(billingProfile.tier) : false;
+  const isPremium = billingProfile
+    ? isPremiumTier(billingProfile.tier)
+    : false;
 
   const handleRestorePurchase = async () => {
     setSyncing(true);
     try {
-      const result = await syncBillingStatus();
-      queryClient.invalidateQueries({ queryKey: ["/api/billing/status"] });
+      const result = await restorePurchases();
+      queryClient.invalidateQueries({ queryKey: BILLING_QUERY_KEY });
       queryClient.invalidateQueries({
         queryKey: ["/api/reflection/can-reflect"],
       });
-      if (isPaidStatus(result.status)) {
+      if (isPaidTier(result.tier)) {
         Alert.alert(
           "Subscription Restored",
-          "Your Noor Plus subscription has been activated.",
+          "Your subscription has been activated.",
         );
       } else {
         Alert.alert(
@@ -179,24 +184,22 @@ export default function PricingScreen() {
     }
   };
 
-  const handleUpgrade = async () => {
-    if (!email) {
-      Alert.alert("Email Required", "Please enter your email to continue.");
-      return;
-    }
-
+  const handleUpgrade = async (
+    tier: BillingTier,
+    period: "monthly" | "yearly",
+  ) => {
     setLoading(true);
     try {
-      const { checkoutUrl } = await createCheckoutSession(email);
-      if (checkoutUrl) {
-        if (Platform.OS === "web") {
-          window.location.href = checkoutUrl;
-        } else {
-          await WebBrowser.openBrowserAsync(checkoutUrl);
-        }
+      const result = await purchaseTier(tier, period);
+      queryClient.invalidateQueries({ queryKey: BILLING_QUERY_KEY });
+      queryClient.invalidateQueries({
+        queryKey: ["/api/reflection/can-reflect"],
+      });
+      if (isPaidTier(result.tier)) {
+        Alert.alert("Subscription Activated", "Your subscription is active.");
       }
     } catch (error: any) {
-      Alert.alert("Error", error.message || "Failed to start checkout");
+      Alert.alert("Error", error.message || "Failed to start purchase");
     } finally {
       setLoading(false);
     }
@@ -205,16 +208,9 @@ export default function PricingScreen() {
   const handleManageBilling = async () => {
     setManagingBilling(true);
     try {
-      const { portalUrl } = await createPortalSession();
-      if (portalUrl) {
-        if (Platform.OS === "web") {
-          window.location.href = portalUrl;
-        } else {
-          await WebBrowser.openBrowserAsync(portalUrl);
-        }
-      }
+      await openManageSubscriptions();
     } catch (error: any) {
-      Alert.alert("Error", error.message || "Failed to open billing portal");
+      Alert.alert("Error", error.message || "Failed to open subscriptions");
     } finally {
       setManagingBilling(false);
     }
@@ -229,12 +225,19 @@ export default function PricingScreen() {
     { text: "Contextual duas", included: false },
   ];
 
-  const plusFeatures: PlanFeature[] = [
+  const proFeatures: PlanFeature[] = [
     { text: "Unlimited reflections", included: true },
     { text: "Full reflection history", included: true },
     { text: "Pattern insights and summaries", included: true },
     { text: "Personal assumption library", included: true },
     { text: "Contextual duas by inner state", included: true },
+    { text: "Cancel anytime", included: true },
+  ];
+
+  const premiumFeatures: PlanFeature[] = [
+    { text: "Everything in Pro", included: true },
+    { text: "Priority support", included: true },
+    { text: "Early access to new modules", included: true },
     { text: "Cancel anytime", included: true },
   ];
 
@@ -245,8 +248,8 @@ export default function PricingScreen() {
           Deepen Your Practice
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Noor Plus reveals patterns in your thoughts and offers guidance
-          tailored to your heart.
+          Choose the plan that fits your pace. Purchases are handled in the app
+          store.
         </ThemedText>
       </View>
 
@@ -259,73 +262,59 @@ export default function PricingScreen() {
         />
 
         <PlanCard
-          name="Noor Plus"
+          name="Pro"
           price="$9.99"
           period="/month"
-          features={plusFeatures}
-          isCurrentPlan={isPaid}
+          features={proFeatures}
+          isCurrentPlan={billingProfile?.tier === "pro"}
           isPremium
-          onSelect={isPaid ? undefined : handleUpgrade}
+          onSelect={isPaid ? undefined : () => handleUpgrade("pro", "monthly")}
+          loading={loading}
+        />
+
+        <PlanCard
+          name="Premium"
+          price="$19.99"
+          period="/month"
+          features={premiumFeatures}
+          isCurrentPlan={billingProfile?.tier === "premium"}
+          onSelect={
+            isPremium ? undefined : () => handleUpgrade("premium", "monthly")
+          }
           loading={loading}
         />
       </View>
 
-      {!isPaid ? (
-        <View
-          style={[
-            styles.emailContainer,
-            { backgroundColor: theme.backgroundDefault },
-          ]}
+      <View
+        style={[
+          styles.restoreContainer,
+          { backgroundColor: theme.backgroundDefault },
+        ]}
+      >
+        <ThemedText
+          style={[styles.restoreLabel, { color: theme.textSecondary }]}
         >
-          <ThemedText
-            style={[styles.emailLabel, { color: theme.textSecondary }]}
-          >
-            Enter your email to upgrade
-          </ThemedText>
-          <TextInput
-            style={[
-              styles.emailInput,
-              {
-                backgroundColor: theme.cardBackground,
-                color: theme.text,
-                borderColor: theme.border,
-              },
-            ]}
-            placeholder="your@email.com"
-            placeholderTextColor={theme.textSecondary}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <View style={styles.restoreContainer}>
-            <ThemedText
-              style={[styles.restoreLabel, { color: theme.textSecondary }]}
-            >
-              Already purchased?
-            </ThemedText>
-            <Button
-              onPress={handleRestorePurchase}
-              disabled={syncing}
-              variant="secondary"
-              style={{ backgroundColor: "transparent" }}
-            >
-              {syncing ? "Checking..." : "Restore Purchase"}
-            </Button>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.manageBillingContainer}>
-          <Button
-            onPress={handleManageBilling}
-            disabled={managingBilling}
-            style={{ backgroundColor: theme.backgroundDefault }}
-          >
-            {managingBilling ? "Loading..." : "Manage Billing"}
-          </Button>
-        </View>
-      )}
+          Already purchased?
+        </ThemedText>
+        <Button
+          onPress={handleRestorePurchase}
+          disabled={syncing}
+          variant="secondary"
+          style={{ backgroundColor: "transparent" }}
+        >
+          {syncing ? "Checking..." : "Restore Purchase"}
+        </Button>
+      </View>
+
+      <View style={styles.manageBillingContainer}>
+        <Button
+          onPress={handleManageBilling}
+          disabled={managingBilling}
+          style={{ backgroundColor: theme.backgroundDefault }}
+        >
+          {managingBilling ? "Loading..." : "Manage Subscriptions"}
+        </Button>
+      </View>
     </Screen>
   );
 }
@@ -406,23 +395,10 @@ const styles = StyleSheet.create({
   currentPlanText: {
     fontSize: typeScale.body,
   },
-  emailContainer: {
+  restoreContainer: {
     padding: container.cardPad,
     borderRadius: radii.lg,
     marginBottom: spacing.lg,
-  },
-  emailLabel: {
-    marginBottom: spacing.sm,
-    fontSize: typeScale.body,
-  },
-  emailInput: {
-    padding: spacing.md,
-    borderRadius: radii.md,
-    borderWidth: 1,
-    fontSize: 16,
-  },
-  restoreContainer: {
-    marginTop: spacing.lg,
     alignItems: "center",
   },
   restoreLabel: {

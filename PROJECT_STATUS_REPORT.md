@@ -62,7 +62,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 | **User Onboarding** | 10% | 0% | **Onboarding flow missing** | Welcome screens |
 | **Legal Foundation** | 10% | 0% | **ToS, Privacy Policy, disclaimers missing** | Legal review |
 | **Scholar Validation** | 5% | 0% | **Islamic content not reviewed by scholar** | Scholar partnership |
-| **Crisis Resources** | 3% | 50% | Resources defined in code, **not verified** | Verify 988, local links |
+| **Crisis Resources** | 3% | 50% | Resources defined in code, **pending verification** (evidence log template added) | Verify per evidence log |
 | **Monitoring** | 2% | 0% | **No production monitoring** | APM, error tracking |
 
 **Weighted V1 Launch Score: 66.3%**
@@ -283,7 +283,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 **Unknown:** Where will the production API be hosted?
 
 ### ❌ Crisis Resource Verification (50% Complete)
-**Evidence:** Resources defined in ai-safety.ts but marked "not verified" in docs
+**Evidence:** Resources defined in ai-safety.ts and pending verification. Evidence log template created.
 
 **What Exists:**
 - 988 Suicide & Crisis Lifeline listed
@@ -403,7 +403,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 **8. Crisis Resource Links Unverified**
 - **Risk:** Directing users in crisis to outdated/broken resources
-- **Evidence:** CHANGELOG notes "Crisis resource links need final verification"
+- **Evidence:** CHANGELOG notes "Crisis resource links need final verification"; evidence log template added and status is pending verification
 - **Impact:** Potential harm to users in critical mental health crisis
 - **Fix:** Verify all crisis links are current and functional
 - **Time:** 1 day

@@ -30,7 +30,7 @@ Your Noor CBT app is in an excellent state with world-class Islamic psychologica
 #### AI Safety & Guardrails
 - ✅ Crisis detection (3 levels: emergency, urgent, concern)
 - ✅ Self-harm monitoring with keyword detection
-- ✅ Crisis resources integration (988, Crisis Text Line)
+- 🟡 Crisis resources integration (988, Crisis Text Line) - pending verification
 - ✅ Scrupulosity (waswasa) detection
 - ✅ Theological validation & prohibited content filtering
 - ✅ Output validation (4 severity levels)

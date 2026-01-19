@@ -55,7 +55,7 @@ Noor CBT dissolves the false dichotomy between **secular mental health tools** a
 |-----------|--------|-------|
 | Crisis Detection | ✅ Complete | 3 levels: emergency, urgent, concern |
 | Self-Harm Monitoring | ✅ Complete | High precision keyword detection |
-| Crisis Resources | ✅ Complete | 988, Crisis Text Line, emergency |
+| Crisis Resources | 🟡 Pending verification | 988, Crisis Text Line, emergency (see evidence log) |
 | Scrupulosity Detection | ✅ Complete | Waswasa pattern detection |
 | Theological Validation | ✅ Complete | Prohibited content filtering |
 | Output Validation | ✅ Complete | 4 severity levels |
