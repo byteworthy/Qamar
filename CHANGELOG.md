@@ -4,7 +4,47 @@ All notable changes to the Noor CBT project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased] - 2026-01-17
+## [Unreleased] - 2026-01-19
+
+### Added - Onboarding Flow & Copy Refinement
+
+#### Chunk 6: Onboarding Flow (Commit: e849d72)
+- **Three-screen onboarding flow**: Welcome, Privacy, Safety
+- **Smart gating system**: AsyncStorage flag (`@noor_onboarding_completed`)
+- **First-launch detection**: Shows onboarding once, bypasses on subsequent launches
+- **Crisis resources**: 988 Suicide & Crisis Lifeline with tap-to-call integration
+- **Store-safe boundaries**: Clear disclaimers (not therapy/crisis/religious authority)
+- **Navigation integration**: Conditional routing in RootStackNavigator
+- **Manual test checklist**: Comprehensive testing procedures (CHUNK6_ONBOARDING_TEST_CHECKLIST.md)
+
+#### Chunk 6B: Onboarding Copy Refinement (Commit: 9466c1f)
+- **AI disclosure**: "Uses an AI companion, not a human therapist"
+- **Subscription disclosure**: "Free tier available, with optional Noor Plus subscription"
+- **Data accuracy**: Updated to match USER_TRANSPARENCY.md exactly
+- **Theological safety**: "AI can make theological mistakes—verify with scholars"
+- **Formal language**: Removed contractions, short clear sentences throughout
+- **No outcome claims**: Only descriptive language (helps examine, find clarity)
+- **Copy documentation**: CHUNK6B_ONBOARDING_COPY.md with full rationale
+
+### Changed
+
+#### Onboarding Screen Copy Updates
+- **WelcomeScreen**: Added AI companion disclosure, subscription info, refined boundaries
+- **PrivacyScreen**: Accurate data collection language, account data separation noted
+- **SafetyScreen**: Enhanced theological safety messaging, AI fallibility acknowledged
+
+### Pre-Launch Checklist Updates
+- [x] User onboarding flow ✅ Complete
+- [x] Store-safe copy aligned with transparency docs ✅ Complete
+- [ ] Scholar theological review
+- [ ] Legal review (Terms of Service, Privacy Policy)
+- [ ] Crisis resource verification (988, local resources)
+- [ ] Production environment setup
+- [ ] Monitoring/alerting configuration
+
+---
+
+## [Previous] - 2026-01-17
 
 ### Added - MVP 1 Release Candidate
 
@@ -142,9 +182,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Pre-Launch Checklist
 - [ ] Scholar theological review
-- [ ] Legal review (Terms of Service, Privacy Policy)
+- [ ] Legal review (Terms of Service, Privacy Policy)  
 - [ ] Crisis resource verification (988, local resources)
-- [ ] User onboarding flow
+- [x] User onboarding flow ✅ Complete (2026-01-19)
 - [ ] Production environment setup
 - [ ] Monitoring/alerting configuration
 
