@@ -1,16 +1,16 @@
 import type { Express } from "express";
 import { createServer, type Server } from "node:http";
+import OpenAI from "openai";
 import { storage } from "./storage";
 import { billingService } from "./billing";
 import {
   VALIDATION_MODE,
-  isAIConfigured,
+  isOpenAIConfigured,
   getValidationModeAnalyzeResponse,
   getValidationModeReframeResponse,
   getValidationModePracticeResponse,
   getValidationModeInsightSummary,
 } from "./config";
-import { generateAIResponse, logAIMetrics } from "./ai-provider";
 import { classifyTone, getTonePromptModifier } from "./toneClassifier";
 import {
   inferInnerState,
@@ -48,7 +48,10 @@ import {
 import { FailureLanguage } from "./failure-language";
 import { runManualCleanup } from "./data-retention";
 
-// AI provider is now handled by ai-provider.ts with Claude adapter
+const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
 
 const FREE_DAILY_LIMIT = 1;
 const FREE_HISTORY_LIMIT = 3;
@@ -180,20 +183,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // VALIDATION MODE GUARD: Return placeholder if AI not configured
-      if (VALIDATION_MODE && !isAIConfigured()) {
+      if (VALIDATION_MODE && !isOpenAIConfigured()) {
         console.log(
           "[VALIDATION MODE] /api/analyze - returning placeholder response",
         );
         return res.json(getValidationModeAnalyzeResponse());
       }
 
-      // AI CONFIGURATION GUARD: Fail clearly if not in validation mode
-      if (!isAIConfigured()) {
+      // OPENAI CONFIGURATION GUARD: Fail clearly if not in validation mode
+      if (!isOpenAIConfigured()) {
         return res.status(503).json({
           error: "AI service not configured",
           code: "CONFIG_MISSING",
           message:
-            "ANTHROPIC_API_KEY is missing or placeholder. Set VALIDATION_MODE=true for testing.",
+            "AI_INTEGRATIONS_OPENAI_API_KEY is missing or placeholder. Set VALIDATION_MODE=true for testing.",
         });
       }
 
@@ -317,8 +320,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           conversationState: "listening",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const result = await generateAIResponse({
-            systemPrompt: `${SYSTEM_FOUNDATION}
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 1024,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
 
 ${toneModifier}
 
@@ -367,12 +375,16 @@ Respond with a JSON object containing:
 - happening: one short paragraph validating the emotional experience
 - pattern: array of 2 strings, each a one-sentence explanation of one distortion
 - matters: one short paragraph that validates without affirming the distortion`,
-            userMessage: thought,
-            maxTokens: 1024,
-            jsonMode: true,
+              },
+              {
+                role: "user",
+                content: thought,
+              },
+            ],
+            response_format: { type: "json_object" },
           });
 
-          return result.content || "{}";
+          return response.choices[0]?.message?.content || "{}";
         },
       });
 
@@ -421,10 +433,10 @@ Respond with a JSON object containing:
       }
 
       // VALIDATION MODE GUARD
-      if (VALIDATION_MODE && !isAIConfigured()) {
+      if (VALIDATION_MODE && !isOpenAIConfigured()) {
         return res.json(getValidationModeReframeResponse());
       }
-      if (!isAIConfigured()) {
+      if (!isOpenAIConfigured()) {
         return res.status(503).json({
           error: "AI service not configured",
           code: "CONFIG_MISSING",
@@ -477,8 +489,13 @@ Respond with a JSON object containing:
           conversationState: "reframing",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const result = await generateAIResponse({
-            systemPrompt: `${SYSTEM_FOUNDATION}
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 1024,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
 
 ${toneModifier}
 
@@ -522,12 +539,16 @@ Respond with a JSON object containing:
 - perspective: 2-3 sentences with the truer perspective
 - nextStep: one simple action for today
 - anchors: array of 2-4 concept names from the whitelist`,
-            userMessage: `Original thought: ${thought}\n\nReflection: ${analysis}`,
-            maxTokens: 1024,
-            jsonMode: true,
+              },
+              {
+                role: "user",
+                content: `Original thought: ${thought}\n\nReflection: ${analysis}`,
+              },
+            ],
+            response_format: { type: "json_object" },
           });
 
-          return result.content || "{}";
+          return response.choices[0]?.message?.content || "{}";
         },
       });
 
@@ -577,10 +598,10 @@ Respond with a JSON object containing:
       }
 
       // VALIDATION MODE GUARD
-      if (VALIDATION_MODE && !isAIConfigured()) {
+      if (VALIDATION_MODE && !isOpenAIConfigured()) {
         return res.json(getValidationModePracticeResponse());
       }
-      if (!isAIConfigured()) {
+      if (!isOpenAIConfigured()) {
         return res.status(503).json({
           error: "AI service not configured",
           code: "CONFIG_MISSING",
@@ -597,8 +618,13 @@ Respond with a JSON object containing:
           conversationState: "grounding",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const result = await generateAIResponse({
-            systemPrompt: `${SYSTEM_FOUNDATION}
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 512,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
 
 ${safetyGuidance}
 
@@ -629,12 +655,16 @@ Respond with a JSON object containing:
 - steps: array of exactly 3 strings (one sentence each)
 - reminder: one short sentence
 - duration: string`,
-            userMessage: `Reframe to help land: ${reframe}`,
-            maxTokens: 512,
-            jsonMode: true,
+              },
+              {
+                role: "user",
+                content: `Reframe to help land: ${reframe}`,
+              },
+            ],
+            response_format: { type: "json_object" },
           });
 
-          return result.content || "{}";
+          return response.choices[0]?.message?.content || "{}";
         },
       });
 
@@ -965,20 +995,29 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
           conversationState: "listening",
         },
         aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const result = await generateAIResponse({
-            systemPrompt: `${SYSTEM_FOUNDATION}
+          const response = await openai.chat.completions.create({
+            model: "gpt-5.1",
+            max_completion_tokens: 256,
+            messages: [
+              {
+                role: "system",
+                content: `${SYSTEM_FOUNDATION}
 
 ${safetyGuidance}
             
 You are generating a brief pattern summary for someone who has completed multiple reflections. 
 Be warm, observational, and non-judgmental. Do not give advice or prescriptions.
 Respond with plain text, not JSON.`,
-            userMessage: summaryPrompt,
-            maxTokens: 256,
+              },
+              {
+                role: "user",
+                content: summaryPrompt,
+              },
+            ],
           });
 
           return (
-            result.content ||
+            response.choices[0]?.message?.content ||
             "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity."
           );
         },

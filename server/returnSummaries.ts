@@ -1,4 +1,4 @@
-import { generateAIResponse } from "./ai-provider";
+import OpenAI from "openai";
 
 interface ReflectionSummaryData {
   thought: string;
@@ -11,6 +11,11 @@ interface ThemeSummary {
   patterns: string[];
   generatedAt: Date;
 }
+
+const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
 
 export async function generateReturnSummary(
   reflections: ReflectionSummaryData[],
@@ -29,8 +34,13 @@ export async function generateReturnSummary(
     .join("\n");
 
   try {
-    const result = await generateAIResponse({
-      systemPrompt: `You are a neutral observer reviewing a user's recent reflections.
+    const response = await openai.chat.completions.create({
+      model: "gpt-5.1",
+      max_completion_tokens: 512,
+      messages: [
+        {
+          role: "system",
+          content: `You are a neutral observer reviewing a user's recent reflections.
 
 YOUR TASK: Generate a brief summary paragraph that observes patterns across their reflections.
 
@@ -54,16 +64,21 @@ EXAMPLE OUTPUT:
 Respond with a JSON object containing:
 - summary: one paragraph observing patterns
 - patterns: array of 2-4 short pattern names observed`,
-      userMessage: thoughtSummaries,
-      maxTokens: 512,
-      jsonMode: true,
+        },
+        {
+          role: "user",
+          content: thoughtSummaries,
+        },
+      ],
+      response_format: { type: "json_object" },
     });
 
-    const parsed = JSON.parse(result.content || "{}");
+    const content = response.choices[0]?.message?.content || "{}";
+    const result = JSON.parse(content);
 
     return {
-      summary: parsed.summary || "",
-      patterns: parsed.patterns || [],
+      summary: result.summary || "",
+      patterns: result.patterns || [],
       generatedAt: new Date(),
     };
   } catch (error) {
