@@ -63,7 +63,7 @@ Recommended: Everyone. Final rating to be set in Play Console.
 
 ### Data Sharing
 - No third-party advertising or behavioral sharing
-- AI processing uses external AI service (provider name: OpenAI)
+- AI processing uses third-party AI service (disclosed in privacy policy)
 - No sale of personal data
 
 ### Security Practices
@@ -86,30 +86,40 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 ### Subscription Tiers
 
 **Free Tier**
-- 1 full reflection session
-- Full 5-stage flow
-- Islamic reflection framing
-- Local on-device storage
-- No session history
-- No insights or trends
+- Basic journaling
+- Limited sessions
+- Limited rooms
+- No history depth
+- Purpose: Onboarding and dawah
+
+**Noor Plus - Monthly**
+- Product ID: `noor_plus_monthly`
+- Price: $6.99/month
+- All rooms
+- Full journaling
+- Full history
+- Basic insights
+- One persona
+
+**Noor Plus - Yearly**
+- Product ID: `noor_plus_yearly`
+- Price: $69/year (save $14.88)
+- Same features as monthly
 
 **Noor Pro - Monthly**
 - Product ID: `noor_pro_monthly`
-- Price: $3.99/month
-- Unlimited reflection sessions
-- Full session history
-- Session summaries
-- Basic insights
-- Save intentions for later review
+- Price: $11.99/month
+- Everything in Plus
+- All personas
+- Advanced insights
+- Deeper pattern tracking
+- Export data
+- Priority features
 
-**Noor Premium - Monthly**
-- Product ID: `noor_premium_monthly`
-- Price: $7.99/month
-- Everything in Pro
-- Repeating thought patterns
-- Intention follow-through review
-- Weekly reflection summaries
-- Monthly clarity snapshot
+**Noor Pro - Yearly**
+- Product ID: `noor_pro_yearly`
+- Price: $119/year (save $24.88)
+- Same features as monthly
 
 ---
 
