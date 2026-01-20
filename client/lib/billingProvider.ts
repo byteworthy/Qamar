@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type BillingTier = "free" | "pro" | "premium";
+export type BillingTier = "free" | "plus" | "pro";
 export type BillingStatus = "free" | "active" | "past_due" | "canceled";
 
 export interface BillingProfile {
@@ -33,8 +33,8 @@ const defaultProfile: BillingProfile = {
 };
 
 const getPlanName = (tier: BillingTier) => {
-  if (tier === "premium") return "Premium";
-  if (tier === "pro") return "Pro";
+  if (tier === "pro") return "Noor Pro";
+  if (tier === "plus") return "Noor Plus";
   return "Free";
 };
 
@@ -106,5 +106,5 @@ export const restorePurchases = () => billingProvider.restore();
 export const openManageSubscriptions = () => billingProvider.manage();
 
 export const isPaidTier = (tier: BillingTier) =>
-  tier === "pro" || tier === "premium";
-export const isPremiumTier = (tier: BillingTier) => tier === "premium";
+  tier === "plus" || tier === "pro";
+export const isProTier = (tier: BillingTier) => tier === "pro";

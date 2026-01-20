@@ -17,7 +17,7 @@ import {
   BillingTier,
   getBillingProfile,
   isPaidTier,
-  isPremiumTier,
+  isProTier,
   openManageSubscriptions,
   purchaseTier,
   restorePurchases,
@@ -169,7 +169,7 @@ export default function PricingScreen() {
   });
 
   const isPaid = billingProfile ? isPaidTier(billingProfile.tier) : false;
-  const isPremium = billingProfile ? isPremiumTier(billingProfile.tier) : false;
+  const isPro = billingProfile ? isProTier(billingProfile.tier) : false;
 
   const handleRestorePurchase = async () => {
     setSyncing(true);
@@ -230,30 +230,30 @@ export default function PricingScreen() {
   };
 
   const freeFeatures: PlanFeature[] = [
-    { text: "1 full reflection session", included: true },
-    { text: "Full 5-stage flow", included: true },
-    { text: "Islamic reflection framing", included: true },
-    { text: "Local on-device storage", included: true },
+    { text: "Basic journaling", included: true },
+    { text: "Limited sessions", included: true },
+    { text: "Limited rooms", included: true },
+    { text: "No history depth", included: false },
     { text: "Session history", included: false },
     { text: "Insights or trends", included: false },
   ];
 
-  const proFeatures: PlanFeature[] = [
-    { text: "Unlimited reflection sessions", included: true },
-    { text: "Full session history", included: true },
-    { text: "Session summaries", included: true },
+  const plusFeatures: PlanFeature[] = [
+    { text: "All rooms", included: true },
+    { text: "Full journaling", included: true },
+    { text: "Full history", included: true },
     { text: "Basic insights", included: true },
-    { text: "Save intentions for later review", included: true },
+    { text: "One persona", included: true },
     { text: "Cancel anytime", included: true },
   ];
 
-  const premiumFeatures: PlanFeature[] = [
-    { text: "Everything in Pro", included: true },
-    { text: "Repeating thought patterns", included: true },
-    { text: "Intention follow-through review", included: true },
-    { text: "Weekly reflection summaries", included: true },
-    { text: "Monthly clarity snapshot", included: true },
-    { text: "Cancel anytime", included: true },
+  const proFeatures: PlanFeature[] = [
+    { text: "Everything in Plus", included: true },
+    { text: "All personas", included: true },
+    { text: "Advanced insights", included: true },
+    { text: "Deeper pattern tracking", included: true },
+    { text: "Export data", included: true },
+    { text: "Priority features", included: true },
   ];
 
   return (
@@ -292,32 +292,32 @@ export default function PricingScreen() {
         />
 
         <PlanCard
-          name="Pro"
-          price="$3.99"
+          name="Noor Plus"
+          price="$6.99"
           period="/month"
-          features={proFeatures}
-          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "pro"}
+          features={plusFeatures}
+          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "plus"}
           comingSoon={VALIDATION_MODE}
           onSelect={
             VALIDATION_MODE || isPaid
               ? undefined
-              : () => handleUpgrade("pro", "monthly")
+              : () => handleUpgrade("plus", "monthly")
           }
           loading={loading}
         />
 
         <PlanCard
-          name="Premium"
-          price="$7.99"
+          name="Noor Pro"
+          price="$11.99"
           period="/month"
-          features={premiumFeatures}
-          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "premium"}
+          features={proFeatures}
+          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "pro"}
           isPremium={!VALIDATION_MODE}
           comingSoon={VALIDATION_MODE}
           onSelect={
-            VALIDATION_MODE || isPremium
+            VALIDATION_MODE || isPro
               ? undefined
-              : () => handleUpgrade("premium", "monthly")
+              : () => handleUpgrade("pro", "monthly")
           }
           loading={loading}
         />

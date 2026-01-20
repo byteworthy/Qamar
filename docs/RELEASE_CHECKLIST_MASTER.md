@@ -11,15 +11,15 @@
 ### Pre-Alpha Preparation
 
 **Backend Deployment:**
-- [ ] Backend deployed to production environment (Railway/Heroku/etc.)
+- [ ] Backend deployed to production on Google Cloud (Cloud Run)
 - [ ] HTTPS enabled with valid SSL certificate
 - [ ] Health endpoint responding: `curl https://api.noorcbt.com/health`
-- [ ] Database migrations run successfully
-- [ ] All environment variables set correctly
-- [ ] OpenAI API key configured (production tier)
+- [ ] Database migrations run successfully (Cloud SQL Postgres)
+- [ ] All secrets stored in Secret Manager (not environment files)
+- [ ] AI provider key configured in production
 - [ ] Rate limiting enabled
-- [ ] Error tracking configured (Sentry)
-- [ ] Uptime monitoring configured (UptimeRobot)
+- [ ] Error tracking configured (Cloud Error Reporting or Sentry)
+- [ ] Uptime monitoring configured (Cloud Monitoring)
 
 **Mobile Build:**
 - [ ] All tests passing (`npm test` - 79/79 tests)
@@ -90,12 +90,12 @@
 - [ ] Category set: Health & Fitness
 
 **In-App Purchases (Subscriptions):**
-- [ ] Subscription group created: "Noor CBT Subscriptions"
+- [ ] Subscription group created: "Noor Subscriptions"
 - [ ] Product IDs created in App Store Connect:
-  - [ ] `com.noorcbt.plus.monthly` ($9.99/month)
-  - [ ] `com.noorcbt.plus.yearly` ($79.99/year)
-  - [ ] `com.noorcbt.premium.monthly` ($19.99/month)
-  - [ ] `com.noorcbt.premium.yearly` ($159.99/year)
+  - [ ] `com.noor.plus.monthly` ($6.99/month)
+  - [ ] `com.noor.plus.yearly` ($69/year)
+  - [ ] `com.noor.pro.monthly` ($11.99/month)
+  - [ ] `com.noor.pro.yearly` ($119/year)
 - [ ] Subscription descriptions written
 - [ ] Pricing configured for all regions
 - [ ] Subscription reviewed and approved (may take 24-48 hours)
@@ -186,10 +186,10 @@
 
 **In-App Products (Subscriptions):**
 - [ ] Subscription products created in Play Console:
-  - [ ] `noor_plus_monthly` ($9.99/month)
-  - [ ] `noor_plus_yearly` ($79.99/year)
-  - [ ] `noor_premium_monthly` ($19.99/month)
-  - [ ] `noor_premium_yearly` ($159.99/year)
+  - [ ] `noor_plus_monthly` ($6.99/month)
+  - [ ] `noor_plus_yearly` ($69/year)
+  - [ ] `noor_pro_monthly` ($11.99/month)
+  - [ ] `noor_pro_yearly` ($119/year)
 - [ ] Base plans configured
 - [ ] Pricing set for all countries
 - [ ] Subscription activated
@@ -212,7 +212,7 @@
 **Data Safety:**
 - [ ] Data safety form completed (see release/STORE_PACK/google/PLAY_STORE_METADATA.md)
 - [ ] Data collection disclosed accurately
-- [ ] Data sharing disclosed (OpenAI for AI processing)
+- [ ] Data sharing disclosed (third-party AI processing partner)
 - [ ] Data security practices documented
 - [ ] Data retention disclosed
 
@@ -338,11 +338,11 @@
 - [ ] Database access restricted
 
 **Data Sharing:**
-- [ ] OpenAI processing disclosed
+- [ ] Third-party AI processing disclosed
 - [ ] No data sold to third parties
 - [ ] No data shared with advertisers
 - [ ] Apple/Google billing only (no external payments)
-- [ ] Privacy Policy lists all third parties
+- [ ] Privacy Policy lists all third parties accurately
 
 **User Rights:**
 - [ ] Users can delete reflections locally
@@ -421,14 +421,14 @@
 - [ ] Verify daily limit resets next day
 - [ ] Upgrade prompt shows correct pricing
 
-### Noor Plus (Monthly: $9.99/mo, Yearly: $79.99/yr)
+### Noor Plus (Monthly: $6.99/mo, Yearly: $69/yr)
 
 **Features:**
-- [ ] Unlimited reflections
+- [ ] All rooms accessible
+- [ ] Full journaling
 - [ ] Full history access
-- [ ] Pattern insights available
-- [ ] Contextual duas accessible
-- [ ] Journey progress tracking visible
+- [ ] Basic insights available
+- [ ] One persona
 
 **Purchase Flow:**
 - [ ] Tap "Upgrade" from free tier limit screen
@@ -447,26 +447,27 @@
 - [ ] Test subscription renewal (sandbox)
 - [ ] Test subscription cancellation
 
-### Noor Premium (Monthly: $19.99/mo, Yearly: $159.99/yr)
+### Noor Pro (Monthly: $11.99/mo, Yearly: $119/yr)
 
 **Features:**
 - [ ] All Plus features included
+- [ ] All personas accessible
 - [ ] Advanced insights dashboard
-- [ ] Personal assumption library
-- [ ] Priority AI processing (faster)
+- [ ] Deeper pattern tracking
 - [ ] Export reflection data (JSON)
+- [ ] Priority features
 
 **Purchase Flow:**
-- [ ] Can upgrade from Free → Premium directly
-- [ ] Can upgrade from Plus → Premium
+- [ ] Can upgrade from Free → Pro directly
+- [ ] Can upgrade from Plus → Pro
 - [ ] Price difference handled correctly (proration)
-- [ ] All Premium features unlock after purchase
+- [ ] All Pro features unlock after purchase
 
 **Testing:**
-- [ ] Purchase Premium Monthly in sandbox
-- [ ] Verify all Premium features accessible
+- [ ] Purchase Pro Monthly in sandbox
+- [ ] Verify all Pro features accessible
 - [ ] Test export data functionality
-- [ ] Test assumption library
+- [ ] Test all personas
 - [ ] Verify Plus features still work
 
 ### Subscription Management
@@ -512,20 +513,13 @@
 
 ### Backend Rollback
 
-**If using Git-based platform (Railway, Heroku):**
-- [ ] Identify last known good commit: `git log --oneline`
-- [ ] Revert to commit: `git revert HEAD` or `git reset --hard <commit>`
-- [ ] Push changes: `git push origin main` or `git push --force`
+**Google Cloud Rollback:**
+- [ ] Identify last known good container revision in Cloud Run
+- [ ] Roll back to previous revision via Console or CLI
 - [ ] Verify deployment: `curl https://api.noorcbt.com/health`
-- [ ] Monitor logs for errors
+- [ ] Monitor Cloud Logging for errors
 - [ ] Run smoke tests
-
-**If using container deployment:**
-- [ ] Identify last known good image
-- [ ] Tag image as latest
-- [ ] Push to registry
-- [ ] Restart service
-- [ ] Verify deployment
+- [ ] If database issue: restore from Cloud SQL automated backup
 
 ### Mobile Rollback
 

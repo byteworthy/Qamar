@@ -66,34 +66,46 @@ https://CHANGEME/privacy
 ## In-App Purchases (Apple In-App Purchase)
 
 ### Free Tier (No Purchase)
-- 1 full reflection session
-- Full 5-stage flow
-- Islamic reflection framing
-- Local on-device storage
-- No session history
-- No insights or trends
+- Basic journaling
+- Limited sessions
+- Limited rooms
+- No history depth
+- Purpose: Onboarding and dawah
+
+### Noor Plus - Monthly
+- **Product ID**: `com.noor.plus.monthly`
+- **Price**: $6.99/month
+- **Type**: Auto-renewing subscription
+- **Features**:
+  - All rooms
+  - Full journaling
+  - Full history
+  - Basic insights
+  - One persona
+
+### Noor Plus - Yearly
+- **Product ID**: `com.noor.plus.yearly`
+- **Price**: $69/year (save $14.88)
+- **Type**: Auto-renewing subscription
+- **Features**: Same as monthly
 
 ### Noor Pro - Monthly
 - **Product ID**: `com.noor.pro.monthly`
-- **Price**: $3.99/month
+- **Price**: $11.99/month
 - **Type**: Auto-renewing subscription
 - **Features**:
-  - Unlimited reflection sessions
-  - Full session history
-  - Session summaries
-  - Basic insights
-  - Save intentions for later review
+  - Everything in Plus
+  - All personas
+  - Advanced insights
+  - Deeper pattern tracking
+  - Export data
+  - Priority features
 
-### Noor Premium - Monthly
-- **Product ID**: `com.noor.premium.monthly`
-- **Price**: $7.99/month
+### Noor Pro - Yearly
+- **Product ID**: `com.noor.pro.yearly`
+- **Price**: $119/year (save $24.88)
 - **Type**: Auto-renewing subscription
-- **Features**:
-  - Everything in Pro
-  - Repeating thought patterns
-  - Intention follow-through review
-  - Weekly reflection summaries
-  - Monthly clarity snapshot
+- **Features**: Same as monthly
 
 **Note**: All subscriptions managed through Apple In-App Purchase. No external payment processing.
 
@@ -106,8 +118,8 @@ https://CHANGEME/privacy
 **Introductory Offer**: None (to be configured if desired)
 
 **Subscription Display Name (User-Facing)**:
-- "Noor Pro" ($3.99/month)
-- "Noor Premium" ($7.99/month)
+- "Noor Plus" ($6.99/month or $69/year)
+- "Noor Pro" ($11.99/month or $119/year)
 
 **Subscription Description**:
 "Support your reflection practice with unlimited sessions and insights."
