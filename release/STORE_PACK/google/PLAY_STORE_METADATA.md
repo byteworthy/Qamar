@@ -33,7 +33,7 @@ What Noor is not:
 • Not religious authority
 
 Privacy:
-Reflections are stored locally on device. Users control their data and can delete it at any time.
+Reflections are stored securely on our servers (encrypted in transit and at rest). Data is retained for 30 days, then automatically deleted. Users control their data and can delete it at any time.
 
 ## Category & Tags
 - Category: Lifestyle

@@ -33,7 +33,7 @@ What Noor is not:
 • Not religious authority
 
 Privacy:
-Reflections are stored locally on device. Users control their data and can delete it at any time.
+Reflections are stored securely on our servers (encrypted in transit and at rest). Data is retained for 30 days, then automatically deleted. Users control their data and can delete it at any time.
 
 ## Keywords
 Islamic reflection, Muslim, structured reflection, intention, clarity, reflection practice, guided reflection
@@ -150,10 +150,10 @@ Noor is a structured reflection app for Muslim users, designed to help slow thin
 
 ### Privacy & Data Handling
 
-**Local-First Storage**:
-- Reflections stored locally on device only
-- No server-side storage of reflection content
-- No cloud backups or syncing of reflections
+**Data Storage**:
+- Reflections stored securely on our servers (encrypted in transit and at rest)
+- Data retained for 30 days, then automatically deleted
+- Users can delete their data at any time from the Profile screen
 
 **No Login Required**:
 - App functional without account creation

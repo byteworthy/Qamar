@@ -24,7 +24,7 @@ Noor is a structured reflection practice for Muslims who want clarity before act
 
 ## Privacy
 
-Reflections are stored locally on your device. You can delete your data at any time.
+Reflections are stored securely on our servers (encrypted). Data is retained for 30 days, then automatically deleted. You can delete your data at any time.
 
 ## Subscriptions
 

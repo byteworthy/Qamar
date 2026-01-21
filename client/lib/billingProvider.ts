@@ -10,6 +10,7 @@ import {
   isBillingConfiguredForPlatform,
   getBillingConfigStatus,
   getConfigurationMessage,
+  getProductIds,
 } from "./billingConfig";
 
 // =============================================================================
@@ -148,49 +149,174 @@ class MockBillingProvider implements BillingProvider {
 // =============================================================================
 
 class StoreBillingProvider implements BillingProvider {
+  private cachedProfile: BillingProfile | null = null;
+
   async getProfile(): Promise<BillingProfile> {
-    // TODO: Implement real store billing
-    // - Check subscription status with App Store / Play Store
-    // - Validate receipts with backend if needed
-    // For now, return free profile
+    // Return cached if available
+    if (this.cachedProfile) {
+      return this.cachedProfile;
+    }
+
+    // Try to restore from AsyncStorage
+    const stored = await AsyncStorage.getItem(MOCK_PROFILE_KEY);
+    if (stored) {
+      try {
+        this.cachedProfile = JSON.parse(stored) as BillingProfile;
+        return this.cachedProfile;
+      } catch {
+        // Invalid stored data, continue to check store
+      }
+    }
+
+    // No cached profile, return free
     return defaultProfile;
   }
 
   async purchase(
-    _tier: BillingTier,
-    _period: "monthly" | "yearly",
+    tier: BillingTier,
+    period: "monthly" | "yearly",
   ): Promise<BillingProfile> {
-    // TODO: Implement real IAP purchase flow
-    // - Call expo-in-app-purchases or react-native-iap
-    // - Process purchase
-    // - Validate receipt
-    // - Update profile
+    const { Platform } = await import("react-native");
+    const iap = await import("react-native-iap");
 
-    // Safe fallback: inform that store billing needs implementation
-    const message = `Store billing not implemented yet. ${getConfigurationMessage()}`;
-    console.warn("[Billing]", message);
+    try {
+      await iap.initConnection();
 
-    // Return current profile without changes
-    return defaultProfile;
+      // Get product ID
+      const productKey =
+        tier === "pro"
+          ? period === "monthly"
+            ? "proMonthly"
+            : "proYearly"
+          : period === "monthly"
+            ? "plusMonthly"
+            : "plusYearly";
+
+      const productIds = getProductIds();
+      const productId = productIds[productKey];
+
+      console.log("[Billing] Purchasing:", productId);
+
+      // Request purchase - use object with sku property
+      const purchaseResult = await iap.requestPurchase({
+        sku: productId,
+      } as any);
+
+      console.log("[Billing] Purchase successful:", purchaseResult);
+
+      // Update profile
+      const status: BillingStatus = "active";
+      const updatedProfile: BillingProfile = {
+        tier,
+        status,
+        planName: getPlanName(tier),
+        updatedAt: Date.now(),
+      };
+
+      await AsyncStorage.setItem(
+        MOCK_PROFILE_KEY,
+        JSON.stringify(updatedProfile),
+      );
+      this.cachedProfile = updatedProfile;
+
+      await iap.endConnection();
+      return updatedProfile;
+    } catch (error: any) {
+      console.error("[Billing] Purchase error:", error);
+      await iap.endConnection().catch(() => {});
+
+      // User cancelled
+      if (error.code === "E_USER_CANCELLED") {
+        throw new Error("Purchase cancelled");
+      }
+
+      throw new Error("Purchase failed. Please try again.");
+    }
   }
 
   async restore(): Promise<BillingProfile> {
-    // TODO: Implement restore purchases
-    // - Call restore API from IAP library
-    // - Check valid subscriptions
-    // - Update profile
+    const { initConnection, endConnection, getAvailablePurchases } =
+      await import("react-native-iap");
 
-    console.warn("[Billing] Restore purchases not implemented yet.");
-    return defaultProfile;
+    try {
+      await initConnection();
+
+      const purchases = await getAvailablePurchases();
+      console.log("[Billing] Available purchases:", purchases);
+
+      if (!purchases || purchases.length === 0) {
+        await endConnection();
+        throw new Error("No purchases found");
+      }
+
+      // Find highest tier subscription
+      const productIds = getProductIds();
+      let highestTier: BillingTier = "free";
+
+      for (const purchase of purchases) {
+        const productId = purchase.productId;
+
+        // Check if Pro tier
+        if (
+          productId === productIds.proMonthly ||
+          productId === productIds.proYearly
+        ) {
+          highestTier = "pro";
+          break; // Pro is highest, stop searching
+        }
+
+        // Check if Plus tier
+        if (
+          productId === productIds.plusMonthly ||
+          productId === productIds.plusYearly
+        ) {
+          highestTier = "plus";
+        }
+      }
+
+      const status: BillingStatus = highestTier === "free" ? "free" : "active";
+      const updatedProfile: BillingProfile = {
+        tier: highestTier,
+        status,
+        planName: getPlanName(highestTier),
+        updatedAt: Date.now(),
+      };
+
+      await AsyncStorage.setItem(
+        MOCK_PROFILE_KEY,
+        JSON.stringify(updatedProfile),
+      );
+      this.cachedProfile = updatedProfile;
+
+      await endConnection();
+      return updatedProfile;
+    } catch (error: any) {
+      console.error("[Billing] Restore error:", error);
+      await endConnection().catch(() => {});
+      throw new Error(
+        error.message || "Failed to restore purchases. Please try again.",
+      );
+    }
   }
 
   async manage(): Promise<void> {
-    // TODO: Open subscription management
-    // - iOS: Open Settings app subscription page
-    // - Android: Open Play Store subscription page
+    const { Platform, Linking } = await import("react-native");
 
-    console.warn("[Billing] Manage subscriptions not implemented yet.");
-    return;
+    try {
+      if (Platform.OS === "ios") {
+        // iOS: Open Settings > Subscriptions
+        await Linking.openURL("https://apps.apple.com/account/subscriptions");
+      } else if (Platform.OS === "android") {
+        // Android: Open Play Store subscriptions
+        const packageName = "com.noor.app";
+        await Linking.openURL(
+          `https://play.google.com/store/account/subscriptions?package=${packageName}`,
+        );
+      }
+    } catch (error) {
+      console.error("[Billing] Failed to open manage subscriptions:", error);
+      throw new Error("Failed to open subscription management");
+    }
   }
 }
 

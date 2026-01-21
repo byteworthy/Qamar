@@ -33,13 +33,13 @@ You must be at least 13 years old to use this App (or the minimum age required i
 
 **No Account Required:**
 - The App functions without user registration or login
-- Your reflections are stored locally on your device only
-- No personal account data is collected or stored on our servers
+- Your reflections are stored securely on our servers (encrypted in transit and at rest)
+- Data is retained for 30 days, then automatically deleted
 
 **Your Data:**
 - You own your reflection content
-- Reflections remain on your device unless you delete them
-- Uninstalling the App removes all local data
+- You can delete your reflections at any time from the Profile screen
+- Data is automatically deleted after 30 days (server-side retention policy)
 
 ## 4. AI Companion Disclosure
 
@@ -114,15 +114,15 @@ You may not:
 ## 9. Privacy and Data
 
 **Data Collection:**
-- Minimal data collection (session metadata only)
-- Reflections stored locally on your device
+- Minimal data collection (reflection content and session metadata)
+- Reflections stored securely on our servers (encrypted)
 - No tracking or behavioral profiling
 - See Privacy Policy for details: [PLACEHOLDER: https://example.com/privacy]
 
 **Data Retention:**
-- Session logs retained for 30 days
-- No cloud backup of reflection content
-- You can delete data anytime
+- Reflections and session logs retained for 30 days maximum
+- Automatic deletion after 30 days
+- You can delete data anytime from the Profile screen
 
 ## 10. Changes to Terms
 

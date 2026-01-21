@@ -15,8 +15,9 @@ This is a draft placeholder document for internal review purposes only. This doc
 This Privacy Policy explains how Noor ("we," "our," "the App") handles your information. We are committed to protecting your privacy and being transparent about our data practices.
 
 **Key Principles:**
-- Reflections are stored locally on device
+- Reflections are stored securely on our servers (encrypted in transit and at rest)
 - Users control their data and can delete it at any time
+- Data is retained for 30 days, then automatically deleted
 - Minimal data collection
 - No behavioral tracking or profiling
 - No account required

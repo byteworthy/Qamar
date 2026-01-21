@@ -12,10 +12,25 @@
  * - AI responses may be placeholders from server
  * - Safe for tester validation without real payments
  *
+ * PRODUCTION GUARD: EXPO_PUBLIC_VALIDATION_MODE must be explicitly set to "false" in production builds.
+ * This prevents accidentally shipping validation mode to production where real purchases are required.
+ *
  * Defaults to true unless explicitly set to "false"
  */
 export const VALIDATION_MODE =
   process.env.EXPO_PUBLIC_VALIDATION_MODE !== "false";
+
+// PRODUCTION GUARD: Ensure validation mode is explicitly disabled in production
+if (process.env.NODE_ENV === "production" && VALIDATION_MODE) {
+  console.error(
+    "FATAL: EXPO_PUBLIC_VALIDATION_MODE is not set to 'false' in production build. " +
+      "Purchases will be disabled. Set EXPO_PUBLIC_VALIDATION_MODE=false in EAS production profile.",
+  );
+  // In production, fail loudly so this is caught in build/review
+  throw new Error(
+    "Production build cannot use VALIDATION_MODE. Set EXPO_PUBLIC_VALIDATION_MODE=false in eas.json production profile.",
+  );
+}
 
 /**
  * Check if a string contains validation mode placeholder markers

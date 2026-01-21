@@ -24,7 +24,7 @@ This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md a
 - Support and data rights requests
 
 ## Data Storage & Security
-- Reflection content stored locally on device
+- Reflection content stored securely on our servers (encrypted)
 - Encrypted transmission (HTTPS/TLS) for API calls
 - Encrypted storage at rest (per USER_TRANSPARENCY.md)
 - No third-party advertising or behavioral data sharing

@@ -53,7 +53,7 @@ Noor uses AI carefully. Responses are constrained by a defined safety charter an
 
 ## Privacy
 
-Reflections are stored locally on device. Users control their data and can delete it at any time.
+Reflections are stored securely on our servers (encrypted in transit and at rest). Data is retained for 30 days, then automatically deleted. Users control their data and can delete it at any time.
 
 ---
 

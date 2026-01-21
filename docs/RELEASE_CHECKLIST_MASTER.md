@@ -331,8 +331,8 @@
 - [ ] No unnecessary permissions requested
 
 **Data Storage:**
-- [ ] Reflections stored locally only (not server)
-- [ ] Session metadata stored for 30 days max
+- [x] Reflections stored on server (encrypted, 30-day retention)
+- [x] Session metadata stored for 30 days max
 - [ ] No PII in server logs
 - [ ] Encryption at rest for server data
 - [ ] Database access restricted

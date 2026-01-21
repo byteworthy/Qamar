@@ -65,7 +65,7 @@ export default function PrivacyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Reflections are stored locally on your device
+                • Reflections are stored securely on our servers (encrypted)
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Your text is processed by AI to generate responses

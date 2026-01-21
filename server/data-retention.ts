@@ -20,10 +20,23 @@ const CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
 /**
  * Check if dry run mode is enabled.
  * Default: true (safe mode - only logs, no deletions)
+ *
+ * PRODUCTION GUARD: In production, DATA_RETENTION_DRY_RUN must be explicitly set.
+ * This prevents accidental dry-run mode in production where real deletions are required.
  */
 export function isDryRunMode(): boolean {
+  const isProduction = process.env.NODE_ENV === "production";
   const dryRun = process.env.DATA_RETENTION_DRY_RUN;
-  // Default to true for safety - only delete when explicitly set to "false"
+
+  // PRODUCTION GUARD: Fail if DATA_RETENTION_DRY_RUN is not explicitly configured in production
+  if (isProduction && dryRun === undefined) {
+    throw new Error(
+      "DATA_RETENTION_DRY_RUN must be explicitly set in production environment. " +
+        "Set to 'false' to enable real deletions, or 'true' for dry-run mode.",
+    );
+  }
+
+  // Default to true for safety in non-production - only delete when explicitly set to "false"
   return dryRun !== "false";
 }
 
