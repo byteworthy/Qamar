@@ -19,6 +19,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "verify": "npm run check:types && npm test",
+    "verify:local": "npm run check:types && npm test",
     "ship": "node tools/ship.mjs",
     "release:check": "npm run check:types && npm run lint && npm test",
     "eas:build:dev": "eas build --profile development",
