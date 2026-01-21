@@ -10,6 +10,7 @@ import Animated, {
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { BorderRadius, Spacing } from "@/constants/theme";
+import { hapticMedium } from "@/lib/haptics";
 
 interface ButtonProps {
   onPress?: () => void;
@@ -46,6 +47,7 @@ export function Button({
   const handlePressIn = () => {
     if (!disabled) {
       scale.value = withSpring(0.97, springConfig);
+      hapticMedium(); // Medium haptic for primary button actions
     }
   };
 

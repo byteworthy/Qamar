@@ -1,0 +1,50 @@
+# Noor CBT Local Development
+# Usage: docker-compose up -d
+# This sets up PostgreSQL database for local development
+
+version: "3.8"
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: noor-cbt-db
+    environment:
+      POSTGRES_USER: noor
+      POSTGRES_PASSWORD: noor_dev_password
+      POSTGRES_DB: noor_cbt
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noor -d noor_cbt"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: API server (use for full containerized setup)
+  # Uncomment to run server in Docker instead of local npm
+  # api:
+  #   build: .
+  #   container_name: noor-cbt-api
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     DATABASE_URL: postgresql://noor:noor_dev_password@postgres:5432/noor_cbt
+  #     NODE_ENV: development
+  #     PORT: 5000
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+volumes:
+  postgres_data:
+
+# Usage Notes:
+# 1. Start database: docker-compose up -d postgres
+# 2. Run server locally: DATABASE_URL="postgresql://noor:noor_dev_password@localhost:5432/noor_cbt" npm run dev
+# 3. Stop database: docker-compose down
+# 4. Reset database: docker-compose down -v

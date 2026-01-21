@@ -15,12 +15,12 @@ import {
 } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import * as Haptics from "expo-haptics";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { hapticSuccess } from "@/lib/haptics";
+import { useQuery } from "@tanstack/react-query";
 import Animated, { FadeIn, FadeInUp, BounceIn } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -70,7 +70,7 @@ export default function SessionCompleteScreen() {
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
 
   useEffect(() => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    hapticSuccess(); // Success haptic for session completion
 
     saveSession({
       thought,
@@ -147,10 +147,10 @@ export default function SessionCompleteScreen() {
           entering={BounceIn.duration(600).delay(100)}
           style={[
             styles.checkCircle,
-            { backgroundColor: SiraatColors.emerald },
+            { backgroundColor: theme.highlightAccent },
           ]}
         >
-          <Feather name="check" size={40} color={SiraatColors.cream} />
+          <Feather name="check" size={40} color={theme.onPrimary} />
         </Animated.View>
         <Animated.Text entering={FadeIn.duration(400).delay(300)}>
           <ThemedText
@@ -171,6 +171,14 @@ export default function SessionCompleteScreen() {
         <Animated.View entering={FadeIn.duration(400).delay(500)}>
           <ThemedText
             type="body"
+            style={[styles.affirmation, { color: theme.text }]}
+          >
+            {ScreenCopy.complete.affirmation}
+          </ThemedText>
+        </Animated.View>
+        <Animated.View entering={FadeIn.duration(400).delay(600)}>
+          <ThemedText
+            type="body"
             style={[
               styles.encouragement,
               { color: theme.accent, fontFamily: Fonts?.serif },
@@ -189,7 +197,10 @@ export default function SessionCompleteScreen() {
           style={[styles.card, { backgroundColor: theme.backgroundDefault }]}
         >
           <View
-            style={[styles.cardAccent, { backgroundColor: SiraatColors.clay }]}
+            style={[
+              styles.cardAccent,
+              { backgroundColor: theme.intensityHeavy },
+            ]}
           />
           <View style={styles.cardContent}>
             <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -210,7 +221,7 @@ export default function SessionCompleteScreen() {
           <View
             style={[
               styles.cardAccent,
-              { backgroundColor: SiraatColors.emerald },
+              { backgroundColor: theme.highlightAccent },
             ]}
           />
           <View style={styles.cardContent}>
@@ -236,18 +247,21 @@ export default function SessionCompleteScreen() {
             styles.duaCard,
             {
               backgroundColor: theme.backgroundDefault,
-              borderColor: SiraatColors.indigo,
+              borderColor: theme.pillBackground,
             },
           ]}
         >
           <View
             style={[
               styles.duaProBadge,
-              { backgroundColor: SiraatColors.indigo },
+              { backgroundColor: theme.pillBackground },
             ]}
           >
-            <Feather name="star" size={12} color="#fff" />
-            <ThemedText type="caption" style={{ color: "#fff", marginLeft: 4 }}>
+            <Feather name="star" size={12} color={theme.onPrimary} />
+            <ThemedText
+              type="caption"
+              style={{ color: theme.onPrimary, marginLeft: 4 }}
+            >
               Noor Plus
             </ThemedText>
           </View>
@@ -329,12 +343,12 @@ export default function SessionCompleteScreen() {
             style={({ pressed }) => [
               styles.upgradeButton,
               {
-                backgroundColor: SiraatColors.indigo,
+                backgroundColor: theme.pillBackground,
                 opacity: pressed ? 0.8 : 1,
               },
             ]}
           >
-            <ThemedText type="body" style={{ color: "#fff" }}>
+            <ThemedText type="body" style={{ color: theme.onPrimary }}>
               Upgrade to Noor Plus
             </ThemedText>
           </Pressable>
@@ -365,7 +379,7 @@ const styles = StyleSheet.create({
   checkCircle: {
     width: 80,
     height: 80,
-    borderRadius: 40,
+    borderRadius: BorderRadius["3xl"],
     justifyContent: "center",
     alignItems: "center",
     marginBottom: Spacing.xl,
@@ -376,6 +390,11 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: "center",
+  },
+  affirmation: {
+    textAlign: "center",
+    marginTop: Spacing.md,
+    fontStyle: "italic",
   },
   encouragement: {
     textAlign: "center",

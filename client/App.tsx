@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Platform } from "react-native";
+import { initSentry } from "@/lib/sentry";
+
+// Initialize Sentry (no-op if EXPO_PUBLIC_SENTRY_DSN not configured)
+initSentry();
 import { NavigationContainer, LinkingOptions } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";

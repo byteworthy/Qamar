@@ -8,6 +8,13 @@ interface UseScreenOptionsParams {
   transparent?: boolean;
 }
 
+// Gentle transition timing for calm navigation feel
+const TRANSITION_CONFIG = {
+  // Slower, more intentional animations
+  animation: "fade_from_bottom" as const,
+  animationDuration: 350, // Slower than default (~250ms)
+};
+
 export function useScreenOptions({
   transparent = true,
 }: UseScreenOptionsParams = {}): NativeStackNavigationOptions {
@@ -31,5 +38,8 @@ export function useScreenOptions({
     contentStyle: {
       backgroundColor: theme.backgroundRoot,
     },
+    // Gentle vertical transitions with opacity fade
+    animation: TRANSITION_CONFIG.animation,
+    animationDuration: TRANSITION_CONFIG.animationDuration,
   };
 }

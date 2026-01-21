@@ -52,8 +52,10 @@ export const ScreenCopy = {
       pattern: "What the mind is doing",
       matters: "What holds true",
     },
-    loading: "Looking closer...",
+    loading: "Sitting with your thought...",
     continue: "Continue",
+    error: "This reflection couldn't complete. You can try again when ready.",
+    errorFallback: "Something got in the way. Take a breath and try again.",
   },
 
   reframe: {
@@ -64,8 +66,10 @@ export const ScreenCopy = {
       nextStep: "One step for today",
       anchors: "Rooted in",
     },
-    loading: "Finding clarity...",
+    loading: "Gathering a clearer view...",
     continue: "Continue",
+    error: "This reflection couldn't complete. You can try again when ready.",
+    errorFallback: "Something got in the way. Take a breath and try again.",
   },
 
   practice: {
@@ -90,6 +94,7 @@ export const ScreenCopy = {
   complete: {
     title: "Reflection Complete",
     subtitle: "You paused. You looked. You chose clarity.",
+    affirmation: "This is enough for now.",
     cards: {
       niyyah: "Your Intention",
       anchor: "Your Anchor",

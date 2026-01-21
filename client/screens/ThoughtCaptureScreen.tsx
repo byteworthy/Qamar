@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,7 +10,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import * as Haptics from "expo-haptics";
+import {
+  hapticLightThrottled,
+  hapticSelection,
+  hapticMedium,
+} from "@/lib/haptics";
 import Animated, {
   FadeInUp,
   FadeIn,
@@ -18,13 +22,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import {
-  Spacing,
-  BorderRadius,
-  Typography,
-  Fonts,
-  SiraatColors,
-} from "@/constants/theme";
+import { Spacing, BorderRadius, Typography, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
@@ -43,34 +41,6 @@ const NIYYAH_PROMPTS = [
   "I bring this thought to light with trust in Allah",
   "I seek clarity through the wisdom He has provided",
 ];
-
-// Emotional intensity labels for human-readable display
-const INTENSITY_LABELS: Record<
-  number,
-  { label: string; color: string; description: string }
-> = {
-  1: {
-    label: "Mild",
-    color: SiraatColors.emerald,
-    description: "A whisper of discomfort",
-  },
-  2: {
-    label: "Light",
-    color: SiraatColors.emerald,
-    description: "Noticeable but manageable",
-  },
-  3: {
-    label: "Moderate",
-    color: SiraatColors.sand,
-    description: "Weighing on you",
-  },
-  4: { label: "Heavy", color: SiraatColors.clay, description: "Hard to carry" },
-  5: {
-    label: "Intense",
-    color: SiraatColors.clayDark,
-    description: "Overwhelming",
-  },
-};
 
 // Somatic awareness prompts
 const SOMATIC_PROMPTS = [
@@ -100,9 +70,46 @@ export default function ThoughtCaptureScreen() {
 
   const canContinue = thought.trim().length > 10;
 
+  // Emotional intensity labels using theme tokens
+  const INTENSITY_LABELS: Record<
+    number,
+    { label: string; colorKey: string; description: string }
+  > = {
+    1: {
+      label: "Mild",
+      colorKey: "intensityMild",
+      description: "A whisper of discomfort",
+    },
+    2: {
+      label: "Light",
+      colorKey: "intensityMild",
+      description: "Noticeable but manageable",
+    },
+    3: {
+      label: "Moderate",
+      colorKey: "intensityModerate",
+      description: "Weighing on you",
+    },
+    4: {
+      label: "Heavy",
+      colorKey: "intensityHeavy",
+      description: "Hard to carry",
+    },
+    5: {
+      label: "Intense",
+      colorKey: "intensityIntense",
+      description: "Overwhelming",
+    },
+  };
+
+  const getIntensityColor = (level: number) => {
+    const key = INTENSITY_LABELS[level].colorKey as keyof typeof theme;
+    return theme[key] as string;
+  };
+
   const handleIntensityChange = (value: number) => {
     setEmotionalIntensity(value);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    hapticLightThrottled(); // Throttled haptic prevents rapid tapping feedback
 
     // Show somatic prompt for higher intensity
     if (value >= 4 && !showSomaticPrompt) {
@@ -112,12 +119,12 @@ export default function ThoughtCaptureScreen() {
 
   const handleSomaticSelect = (somatic: string) => {
     setSelectedSomatic(somatic === selectedSomatic ? null : somatic);
-    Haptics.selectionAsync();
+    hapticSelection();
   };
 
   const handleContinue = () => {
     if (canContinue) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      hapticMedium();
       navigation.navigate("Distortion", {
         thought: thought.trim(),
         emotionalIntensity,
@@ -140,15 +147,18 @@ export default function ThoughtCaptureScreen() {
       {/* Niyyah Banner - Spiritual grounding at the start */}
       <Animated.View
         entering={FadeInDown.duration(500)}
-        style={[
-          styles.niyyahBanner,
-          { backgroundColor: SiraatColors.indigoLight },
-        ]}
+        style={[styles.niyyahBanner, { backgroundColor: theme.bannerBackground }]}
       >
-        <ThemedText type="small" style={styles.bismillah}>
+        <ThemedText
+          type="small"
+          style={[styles.bismillah, { color: theme.onPrimary }]}
+        >
           بِسْمِ اللَّهِ
         </ThemedText>
-        <ThemedText type="small" style={styles.niyyahText}>
+        <ThemedText
+          type="small"
+          style={[styles.niyyahText, { color: theme.textOnBanner }]}
+        >
           {niyyahPrompt}
         </ThemedText>
       </Animated.View>
@@ -213,7 +223,7 @@ export default function ThoughtCaptureScreen() {
         <View style={styles.intensityRow}>
           {[1, 2, 3, 4, 5].map((level) => {
             const isSelected = emotionalIntensity === level;
-            const labelInfo = INTENSITY_LABELS[level];
+            const levelColor = getIntensityColor(level);
             return (
               <TouchableOpacity
                 key={level}
@@ -222,9 +232,9 @@ export default function ThoughtCaptureScreen() {
                   styles.intensityButton,
                   {
                     backgroundColor: isSelected
-                      ? labelInfo.color
+                      ? levelColor
                       : theme.backgroundDefault,
-                    borderColor: isSelected ? labelInfo.color : theme.border,
+                    borderColor: isSelected ? levelColor : theme.border,
                   },
                 ]}
               >
@@ -232,7 +242,7 @@ export default function ThoughtCaptureScreen() {
                   type="small"
                   style={[
                     styles.intensityNumber,
-                    { color: isSelected ? "#FFFFFF" : theme.textSecondary },
+                    { color: isSelected ? theme.onPrimary : theme.textSecondary },
                   ]}
                 >
                   {level}
@@ -246,7 +256,7 @@ export default function ThoughtCaptureScreen() {
           type="small"
           style={[
             styles.intensityDescription,
-            { color: INTENSITY_LABELS[emotionalIntensity].color },
+            { color: getIntensityColor(emotionalIntensity) },
           ]}
         >
           {INTENSITY_LABELS[emotionalIntensity].label}:{" "}
@@ -287,7 +297,7 @@ export default function ThoughtCaptureScreen() {
                   <ThemedText
                     type="small"
                     style={{
-                      color: isSelected ? "#FFFFFF" : theme.textSecondary,
+                      color: isSelected ? theme.onPrimary : theme.textSecondary,
                     }}
                   >
                     {somatic}
@@ -404,13 +414,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bismillah: {
-    color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "600",
     marginBottom: Spacing.xs,
   },
   niyyahText: {
-    color: "rgba(255,255,255,0.85)",
     fontStyle: "italic",
     textAlign: "center",
   },

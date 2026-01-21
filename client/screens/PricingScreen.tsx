@@ -18,6 +18,7 @@ import {
   getBillingProfile,
   isPaidTier,
   isProTier,
+  isStoreBillingActive,
   openManageSubscriptions,
   purchaseTier,
   restorePurchases,
@@ -25,6 +26,78 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+/**
+ * Returns a user-friendly billing error message.
+ * Never exposes raw SDK errors to users.
+ */
+function getBillingUserMessage(
+  err: unknown,
+  context: "purchase" | "restore" | "manage",
+): { title: string; message: string } {
+  // Extract message safely
+  const rawMessage =
+    err instanceof Error
+      ? err.message.toLowerCase()
+      : String(err).toLowerCase();
+
+  // Log for debugging (dev only shows in console)
+  if (__DEV__) {
+    console.error(`[Billing ${context}] Raw error:`, err);
+  }
+
+  // Detect user cancellation patterns
+  const isCanceled =
+    rawMessage.includes("cancel") ||
+    rawMessage.includes("cancelled") ||
+    rawMessage.includes("user canceled") ||
+    rawMessage.includes("user cancelled") ||
+    rawMessage.includes("sku_error_cancelled") ||
+    rawMessage.includes("e_user_cancelled");
+
+  if (isCanceled) {
+    return {
+      title: "Purchase Canceled",
+      message: "Purchase was canceled.",
+    };
+  }
+
+  // Detect not available patterns
+  const isNotAvailable =
+    rawMessage.includes("not available") ||
+    rawMessage.includes("unavailable") ||
+    rawMessage.includes("billing_unavailable") ||
+    rawMessage.includes("service_disconnected");
+
+  if (isNotAvailable) {
+    return {
+      title: "Not Available",
+      message:
+        "Subscriptions are not available right now. Please try again in a moment.",
+    };
+  }
+
+  // Context-specific fallback messages
+  switch (context) {
+    case "restore":
+      return {
+        title: "Unable to Restore",
+        message: "Unable to restore purchases. Please try again.",
+      };
+    case "manage":
+      return {
+        title: "Unable to Open Settings",
+        message:
+          "We couldn't open your subscription settings. Please try again.",
+      };
+    case "purchase":
+    default:
+      return {
+        title: "Unable to Complete Purchase",
+        message: "Unable to complete purchase. Please try again.",
+      };
+  }
+}
 
 interface PlanFeature {
   text: string;
@@ -171,6 +244,9 @@ export default function PricingScreen() {
   const isPaid = billingProfile ? isPaidTier(billingProfile.tier) : false;
   const isPro = billingProfile ? isProTier(billingProfile.tier) : false;
 
+  // Billing is disabled if in validation mode OR store billing is not configured
+  const billingDisabled = VALIDATION_MODE || !isStoreBillingActive();
+
   const handleRestorePurchase = async () => {
     setSyncing(true);
     try {
@@ -190,8 +266,9 @@ export default function PricingScreen() {
           "We couldn't find an active subscription. If you recently purchased, please wait a moment and try again.",
         );
       }
-    } catch (error: any) {
-      Alert.alert("Error", error.message || "Failed to restore purchase");
+    } catch (error: unknown) {
+      const { title, message } = getBillingUserMessage(error, "restore");
+      Alert.alert(title, message);
     } finally {
       setSyncing(false);
     }
@@ -211,8 +288,9 @@ export default function PricingScreen() {
       if (isPaidTier(result.tier)) {
         Alert.alert("Subscription Activated", "Your subscription is active.");
       }
-    } catch (error: any) {
-      Alert.alert("Error", error.message || "Failed to start purchase");
+    } catch (error: unknown) {
+      const { title, message } = getBillingUserMessage(error, "purchase");
+      Alert.alert(title, message);
     } finally {
       setLoading(false);
     }
@@ -222,8 +300,9 @@ export default function PricingScreen() {
     setManagingBilling(true);
     try {
       await openManageSubscriptions();
-    } catch (error: any) {
-      Alert.alert("Error", error.message || "Failed to open subscriptions");
+    } catch (error: unknown) {
+      const { title, message } = getBillingUserMessage(error, "manage");
+      Alert.alert(title, message);
     } finally {
       setManagingBilling(false);
     }
@@ -267,8 +346,8 @@ export default function PricingScreen() {
         </ThemedText>
       </View>
 
-      {/* VALIDATION MODE banner */}
-      {VALIDATION_MODE ? (
+      {/* Show banner when billing is disabled (validation mode or not configured) */}
+      {billingDisabled ? (
         <View
           style={[
             styles.validationBanner,
@@ -278,7 +357,9 @@ export default function PricingScreen() {
           <ThemedText
             style={[styles.validationText, { color: theme.textSecondary }]}
           >
-            Validation Build — Paid tiers coming soon
+            {VALIDATION_MODE
+              ? "Validation Build — Paid tiers coming soon"
+              : "Subscriptions coming soon"}
           </ThemedText>
         </View>
       ) : null}
@@ -296,10 +377,10 @@ export default function PricingScreen() {
           price="$6.99"
           period="/month"
           features={plusFeatures}
-          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "plus"}
-          comingSoon={VALIDATION_MODE}
+          isCurrentPlan={!billingDisabled && billingProfile?.tier === "plus"}
+          comingSoon={billingDisabled}
           onSelect={
-            VALIDATION_MODE || isPaid
+            billingDisabled || isPaid
               ? undefined
               : () => handleUpgrade("plus", "monthly")
           }
@@ -311,11 +392,11 @@ export default function PricingScreen() {
           price="$11.99"
           period="/month"
           features={proFeatures}
-          isCurrentPlan={!VALIDATION_MODE && billingProfile?.tier === "pro"}
-          isPremium={!VALIDATION_MODE}
-          comingSoon={VALIDATION_MODE}
+          isCurrentPlan={!billingDisabled && billingProfile?.tier === "pro"}
+          isPremium={!billingDisabled}
+          comingSoon={billingDisabled}
           onSelect={
-            VALIDATION_MODE || isPro
+            billingDisabled || isPro
               ? undefined
               : () => handleUpgrade("pro", "monthly")
           }
@@ -323,8 +404,8 @@ export default function PricingScreen() {
         />
       </View>
 
-      {/* Hide billing actions in validation mode */}
-      {!VALIDATION_MODE ? (
+      {/* Hide billing actions when billing is disabled */}
+      {!billingDisabled ? (
         <>
           <View
             style={[

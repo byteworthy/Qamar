@@ -11,10 +11,10 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
-import * as Haptics from "expo-haptics";
+import { hapticMedium } from "@/lib/haptics";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/Button";
@@ -78,7 +78,7 @@ export default function DistortionScreen() {
         );
         setResult(data);
       } catch (err) {
-        setError("Unable to analyze your thought. Please try again.");
+        setError(ScreenCopy.distortion.error);
         console.error(err);
       } finally {
         setLoading(false);
@@ -99,7 +99,7 @@ export default function DistortionScreen() {
   };
 
   const handleCallResource = (contact: string) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    hapticMedium();
     // Extract phone number or handle special cases
     if (contact.includes("911")) {
       Linking.openURL("tel:911");
@@ -134,12 +134,12 @@ export default function DistortionScreen() {
               styles.crisisIcon,
               {
                 backgroundColor: isEmergency
-                  ? SiraatColors.clay
-                  : SiraatColors.sand,
+                  ? theme.intensityHeavy
+                  : theme.intensityModerate,
               },
             ]}
           >
-            <ThemedText type="h2" style={{ color: "#FFFFFF" }}>
+            <ThemedText type="h2" style={{ color: theme.onPrimary }}>
               {isEmergency ? "🆘" : "💛"}
             </ThemedText>
           </View>
@@ -206,7 +206,7 @@ export default function DistortionScreen() {
                     { backgroundColor: theme.primary },
                   ]}
                 >
-                  <ThemedText type="small" style={{ color: "#FFFFFF" }}>
+                  <ThemedText type="small" style={{ color: theme.onPrimary }}>
                     →
                   </ThemedText>
                 </View>
@@ -219,12 +219,15 @@ export default function DistortionScreen() {
           entering={FadeInUp.duration(400).delay(400)}
           style={[
             styles.islamicCard,
-            { backgroundColor: SiraatColors.indigoLight },
+            { backgroundColor: theme.bannerBackground },
           ]}
         >
           <ThemedText
             type="body"
-            style={[styles.islamicText, { fontFamily: Fonts?.serif }]}
+            style={[
+              styles.islamicText,
+              { fontFamily: Fonts?.serif, color: theme.onPrimary },
+            ]}
           >
             {crisisData.islamicContext}
           </ThemedText>
@@ -274,9 +277,9 @@ export default function DistortionScreen() {
       >
         <ThemedText
           type="body"
-          style={[styles.errorText, { color: theme.error }]}
+          style={[styles.errorText, { color: theme.textSecondary }]}
         >
-          {error || "Something went wrong"}
+          {error || ScreenCopy.distortion.errorFallback}
         </ThemedText>
         <Button
           onPress={() => navigation.goBack()}
@@ -333,10 +336,13 @@ export default function DistortionScreen() {
               key={index}
               style={[
                 styles.distortionPill,
-                { backgroundColor: SiraatColors.indigo },
+                { backgroundColor: theme.pillBackground },
               ]}
             >
-              <ThemedText type="small" style={styles.distortionText}>
+              <ThemedText
+                type="small"
+                style={[styles.distortionText, { color: theme.onPrimary }]}
+              >
                 {distortion}
               </ThemedText>
             </View>
@@ -347,7 +353,7 @@ export default function DistortionScreen() {
             <View
               style={[
                 styles.patternBullet,
-                { backgroundColor: SiraatColors.clay },
+                { backgroundColor: theme.intensityHeavy },
               ]}
             />
             <ThemedText
@@ -370,7 +376,7 @@ export default function DistortionScreen() {
         <View
           style={[
             styles.mattersAccent,
-            { backgroundColor: SiraatColors.emerald },
+            { backgroundColor: theme.highlightAccent },
           ]}
         />
         <View style={styles.mattersContent}>
@@ -424,7 +430,7 @@ const styles = StyleSheet.create({
   crisisIcon: {
     width: 80,
     height: 80,
-    borderRadius: 40,
+    borderRadius: BorderRadius["3xl"],
     justifyContent: "center",
     alignItems: "center",
     marginBottom: Spacing.xl,
@@ -457,7 +463,7 @@ const styles = StyleSheet.create({
   resourceArrow: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: BorderRadius.lg,
     justifyContent: "center",
     alignItems: "center",
     marginLeft: Spacing.md,
@@ -471,7 +477,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 26,
     fontStyle: "italic",
-    color: "#FFFFFF",
   },
   continueNote: {
     textAlign: "center",
@@ -515,7 +520,6 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.full,
   },
   distortionText: {
-    color: "#FFFFFF",
     fontWeight: "600",
   },
   patternItem: {

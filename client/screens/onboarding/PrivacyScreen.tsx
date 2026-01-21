@@ -7,9 +7,9 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
+import { Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { NiyyahColors } from "@/constants/theme";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -25,8 +25,8 @@ export default function PrivacyScreen() {
         contentContainerStyle={[
           styles.scrollContent,
           {
-            paddingTop: insets.top + 40,
-            paddingBottom: insets.bottom + 40,
+            paddingTop: insets.top + Spacing["4xl"],
+            paddingBottom: insets.bottom + Spacing["4xl"],
           },
         ]}
         showsVerticalScrollIndicator={false}
@@ -35,8 +35,13 @@ export default function PrivacyScreen() {
           entering={FadeInDown.duration(400)}
           style={styles.header}
         >
-          <View style={styles.iconContainer}>
-            <Feather name="shield" size={48} color={NiyyahColors.accent} />
+          <View
+            style={[
+              styles.iconContainer,
+              { backgroundColor: theme.highlightAccentSubtle },
+            ]}
+          >
+            <Feather name="shield" size={48} color={theme.highlightAccent} />
           </View>
           <ThemedText style={styles.title}>Your Privacy Matters</ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -53,7 +58,7 @@ export default function PrivacyScreen() {
             style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
-              <Feather name="lock" size={20} color={NiyyahColors.accent} />
+              <Feather name="lock" size={20} color={theme.highlightAccent} />
               <ThemedText style={styles.cardTitle}>
                 What Happens to Your Reflections
               </ThemedText>
@@ -78,7 +83,7 @@ export default function PrivacyScreen() {
             style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
-              <Feather name="shield" size={20} color={NiyyahColors.accent} />
+              <Feather name="shield" size={20} color={theme.highlightAccent} />
               <ThemedText style={styles.cardTitle}>
                 What We Do Not Do
               </ThemedText>
@@ -103,7 +108,7 @@ export default function PrivacyScreen() {
               <Feather
                 name="alert-circle"
                 size={20}
-                color={NiyyahColors.accent}
+                color={theme.highlightAccent}
               />
               <ThemedText style={styles.cardTitle}>Important Limits</ThemedText>
             </View>
@@ -133,8 +138,9 @@ export default function PrivacyScreen() {
         style={[
           styles.footer,
           {
-            paddingBottom: insets.bottom + 20,
+            paddingBottom: insets.bottom + Spacing.xl,
             backgroundColor: theme.backgroundRoot,
+            borderTopColor: theme.overlayLight,
           },
         ]}
       >
@@ -158,17 +164,17 @@ export default function PrivacyScreen() {
             style={({ pressed }) => [
               styles.continueButton,
               {
-                backgroundColor: NiyyahColors.accent,
+                backgroundColor: theme.primary,
                 opacity: pressed ? 0.9 : 1,
               },
             ]}
           >
-            <ThemedText style={styles.continueButtonText}>Continue</ThemedText>
-            <Feather
-              name="arrow-right"
-              size={20}
-              color={NiyyahColors.background}
-            />
+            <ThemedText
+              style={[styles.continueButtonText, { color: theme.onPrimary }]}
+            >
+              Continue
+            </ThemedText>
+            <Feather name="arrow-right" size={20} color={theme.onPrimary} />
           </Pressable>
         </View>
       </Animated.View>
@@ -184,84 +190,71 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: Spacing["2xl"],
   },
   header: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: Spacing["3xl"],
   },
   iconContainer: {
     width: 80,
     height: 80,
-    borderRadius: 40,
-    backgroundColor: NiyyahColors.accent + "15",
+    borderRadius: BorderRadius["3xl"],
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: Spacing.xl,
   },
   title: {
     fontSize: 28,
     fontWeight: "700",
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: Spacing.sm,
   },
   subtitle: {
     fontSize: 16,
     textAlign: "center",
   },
   content: {
-    gap: 16,
+    gap: Spacing.lg,
   },
   card: {
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.xl,
   },
   cardHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    marginBottom: 16,
+    gap: Spacing.sm,
+    marginBottom: Spacing.lg,
   },
   cardTitle: {
     fontSize: 17,
     fontWeight: "600",
   },
   cardContent: {
-    gap: 12,
+    gap: Spacing.md,
   },
   cardText: {
     fontSize: 15,
     lineHeight: 22,
   },
-  noteBox: {
-    padding: 16,
-    borderRadius: 12,
-    marginTop: 8,
-  },
-  noteText: {
-    fontSize: 13,
-    textAlign: "center",
-    lineHeight: 20,
-    fontStyle: "italic",
-  },
   footer: {
-    paddingHorizontal: 24,
-    paddingTop: 16,
+    paddingHorizontal: Spacing["2xl"],
+    paddingTop: Spacing.lg,
     borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.05)",
   },
   buttonRow: {
     flexDirection: "row",
-    gap: 12,
+    gap: Spacing.md,
   },
   backButton: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
-    borderRadius: 14,
-    gap: 8,
+    paddingVertical: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    gap: Spacing.sm,
   },
   backButtonText: {
     fontSize: 17,
@@ -272,13 +265,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
-    borderRadius: 14,
-    gap: 8,
+    paddingVertical: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    gap: Spacing.sm,
   },
   continueButtonText: {
     fontSize: 17,
     fontWeight: "600",
-    color: NiyyahColors.background,
   },
 });

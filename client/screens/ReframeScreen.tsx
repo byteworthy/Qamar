@@ -10,10 +10,15 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Animated, { FadeInUp, FadeIn, FadeOut } from "react-native-reanimated";
-import * as Haptics from "expo-haptics";
+import {
+  hapticLight,
+  hapticMedium,
+  hapticSelection,
+  hapticSuccess,
+} from "@/lib/haptics";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/Button";
@@ -33,39 +38,8 @@ interface PerspectiveOption {
   label: string;
   icon: string;
   description: string;
-  color: string;
+  colorKey: string; // Theme key for color
 }
-
-const PERSPECTIVE_OPTIONS: PerspectiveOption[] = [
-  {
-    id: "empathic",
-    label: "Compassionate",
-    icon: "💛",
-    description: "What would a loving friend say?",
-    color: SiraatColors.sand,
-  },
-  {
-    id: "logical",
-    label: "Balanced",
-    icon: "⚖️",
-    description: "What does the evidence show?",
-    color: SiraatColors.indigo,
-  },
-  {
-    id: "islamic",
-    label: "Rooted",
-    icon: "🌙",
-    description: "What does our tradition say?",
-    color: SiraatColors.emerald,
-  },
-  {
-    id: "future",
-    label: "Zoomed Out",
-    icon: "🔭",
-    description: "How will this look in a year?",
-    color: SiraatColors.clay,
-  },
-];
 
 interface ReframeResult {
   beliefTested: string;
@@ -73,18 +47,6 @@ interface ReframeResult {
   nextStep: string;
   anchors: string[];
 }
-
-// Sample alternative perspectives (in production, these would come from API)
-const ALTERNATIVE_PERSPECTIVES: Record<PerspectiveType, string> = {
-  empathic:
-    "You're carrying a heavy burden. It's okay to struggle with this. The fact that you're reflecting shows strength, not weakness.",
-  logical:
-    "Let's examine the evidence. Has this always been true? What exceptions exist? What would a neutral observer notice?",
-  islamic:
-    "Allah does not burden a soul beyond what it can bear. This trial may be shaping you for something greater.",
-  future:
-    "In five years, how significant will this feel? What growth might come from navigating this moment?",
-};
 
 // Islamic wisdom references for the "Rooted" perspective
 interface IslamicReference {
@@ -143,6 +105,42 @@ export default function ReframeScreen() {
   const { thought, distortions, analysis, emotionalIntensity, beliefStrength } =
     route.params;
 
+  // Perspective options using theme color keys
+  const PERSPECTIVE_OPTIONS: PerspectiveOption[] = [
+    {
+      id: "empathic",
+      label: "Compassionate",
+      icon: "💛",
+      description: "What would a loving friend say?",
+      colorKey: "intensityModerate",
+    },
+    {
+      id: "logical",
+      label: "Balanced",
+      icon: "⚖️",
+      description: "What does the evidence show?",
+      colorKey: "pillBackground",
+    },
+    {
+      id: "islamic",
+      label: "Rooted",
+      icon: "🌙",
+      description: "What does our tradition say?",
+      colorKey: "highlightAccent",
+    },
+    {
+      id: "future",
+      label: "Zoomed Out",
+      icon: "🔭",
+      description: "How will this look in a year?",
+      colorKey: "intensityHeavy",
+    },
+  ];
+
+  const getPerspectiveColor = (colorKey: string) => {
+    return theme[colorKey as keyof typeof theme] as string;
+  };
+
   useEffect(() => {
     const generate = async () => {
       try {
@@ -156,7 +154,7 @@ export default function ReframeScreen() {
         );
         setResult(data);
       } catch (err) {
-        setError("Unable to generate reframe. Please try again.");
+        setError(ScreenCopy.reframe.error);
         console.error(err);
       } finally {
         setLoading(false);
@@ -167,24 +165,24 @@ export default function ReframeScreen() {
 
   const handlePerspectiveSelect = (perspective: PerspectiveType) => {
     setSelectedPerspective(perspective);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    hapticLight();
     setShowPerspectiveOptions(false);
   };
 
   const handleTogglePerspectives = () => {
     setShowPerspectiveOptions(!showPerspectiveOptions);
-    Haptics.selectionAsync();
+    hapticSelection();
   };
 
   const handleBeliefStrengthTap = (value: number) => {
     setPostBeliefStrength(value);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    hapticMedium();
   };
 
   const handleContinue = () => {
     if (result) {
       const reframeSummary = `${result.beliefTested} ${result.perspective}`;
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      hapticSuccess();
       navigation.navigate("Regulation", {
         thought,
         distortions,
@@ -200,6 +198,13 @@ export default function ReframeScreen() {
     beliefStrength && postBeliefStrength
       ? beliefStrength - postBeliefStrength
       : null;
+
+  // Get belief button color based on value
+  const getBeliefColor = (value: number) => {
+    if (value <= 30) return theme.highlightAccent;
+    if (value <= 60) return theme.intensityModerate;
+    return theme.intensityHeavy;
+  };
 
   if (loading) {
     return (
@@ -224,9 +229,9 @@ export default function ReframeScreen() {
       >
         <ThemedText
           type="body"
-          style={[styles.errorText, { color: theme.error }]}
+          style={[styles.errorText, { color: theme.textSecondary }]}
         >
-          {error || "Something went wrong"}
+          {error || ScreenCopy.reframe.errorFallback}
         </ThemedText>
         <Button
           onPress={() => navigation.goBack()}
@@ -241,6 +246,9 @@ export default function ReframeScreen() {
   const selectedOption = PERSPECTIVE_OPTIONS.find(
     (p) => p.id === selectedPerspective,
   );
+  const selectedColor = selectedOption
+    ? getPerspectiveColor(selectedOption.colorKey)
+    : theme.highlightAccent;
 
   return (
     <KeyboardAwareScrollViewCompat
@@ -295,10 +303,7 @@ export default function ReframeScreen() {
           ]}
         >
           <View
-            style={[
-              styles.perspectiveIcon,
-              { backgroundColor: selectedOption?.color },
-            ]}
+            style={[styles.perspectiveIcon, { backgroundColor: selectedColor }]}
           >
             <ThemedText type="body">{selectedOption?.icon}</ThemedText>
           </View>
@@ -327,6 +332,7 @@ export default function ReframeScreen() {
           >
             {PERSPECTIVE_OPTIONS.map((option) => {
               const isSelected = selectedPerspective === option.id;
+              const optionColor = getPerspectiveColor(option.colorKey);
               return (
                 <TouchableOpacity
                   key={option.id}
@@ -335,9 +341,9 @@ export default function ReframeScreen() {
                     styles.perspectiveOptionItem,
                     {
                       backgroundColor: isSelected
-                        ? option.color
+                        ? optionColor
                         : theme.backgroundDefault,
-                      borderColor: isSelected ? option.color : theme.border,
+                      borderColor: isSelected ? optionColor : theme.border,
                     },
                   ]}
                 >
@@ -346,7 +352,7 @@ export default function ReframeScreen() {
                     <ThemedText
                       type="small"
                       style={{
-                        color: isSelected ? "#FFFFFF" : theme.text,
+                        color: isSelected ? theme.onPrimary : theme.text,
                         fontWeight: "600",
                       }}
                     >
@@ -369,10 +375,7 @@ export default function ReframeScreen() {
         ]}
       >
         <View
-          style={[
-            styles.perspectiveAccent,
-            { backgroundColor: selectedOption?.color || SiraatColors.emerald },
-          ]}
+          style={[styles.perspectiveAccent, { backgroundColor: selectedColor }]}
         />
         <View style={styles.perspectiveContent}>
           <ThemedText
@@ -396,19 +399,25 @@ export default function ReframeScreen() {
           entering={FadeIn.duration(400)}
           style={[
             styles.islamicReferenceCard,
-            { backgroundColor: SiraatColors.emerald + "15" },
+            {
+              backgroundColor: theme.highlightAccentSubtle,
+              borderLeftColor: theme.highlightAccent,
+            },
           ]}
         >
           <View style={styles.islamicReferenceHeader}>
             <ThemedText
               type="small"
-              style={{ color: SiraatColors.emerald, fontWeight: "600" }}
+              style={{ color: theme.highlightAccent, fontWeight: "600" }}
             >
               📖 {islamicReference.concept}
             </ThemedText>
           </View>
           {islamicReference.arabicText && (
-            <ThemedText type="body" style={styles.arabicText}>
+            <ThemedText
+              type="body"
+              style={[styles.arabicText, { color: theme.highlightAccent }]}
+            >
               {islamicReference.arabicText}
             </ThemedText>
           )}
@@ -418,7 +427,10 @@ export default function ReframeScreen() {
           >
             &ldquo;{islamicReference.text}&rdquo;
           </ThemedText>
-          <ThemedText type="caption" style={styles.islamicSource}>
+          <ThemedText
+            type="caption"
+            style={[styles.islamicSource, { color: theme.highlightAccent }]}
+          >
             — {islamicReference.source}
           </ThemedText>
         </Animated.View>
@@ -433,10 +445,13 @@ export default function ReframeScreen() {
           <View
             style={[
               styles.nextStepIcon,
-              { backgroundColor: SiraatColors.clay },
+              { backgroundColor: theme.intensityHeavy },
             ]}
           >
-            <ThemedText type="small" style={styles.nextStepIconText}>
+            <ThemedText
+              type="small"
+              style={[styles.nextStepIconText, { color: theme.onPrimary }]}
+            >
               1
             </ThemedText>
           </View>
@@ -474,11 +489,7 @@ export default function ReframeScreen() {
           <View style={styles.beliefButtons}>
             {[0, 25, 50, 75, 100].map((value) => {
               const isSelected = postBeliefStrength === value;
-              const getColor = () => {
-                if (value <= 30) return SiraatColors.emerald;
-                if (value <= 60) return SiraatColors.sand;
-                return SiraatColors.clay;
-              };
+              const buttonColor = getBeliefColor(value);
               return (
                 <TouchableOpacity
                   key={value}
@@ -487,16 +498,16 @@ export default function ReframeScreen() {
                     styles.beliefButton,
                     {
                       backgroundColor: isSelected
-                        ? getColor()
+                        ? buttonColor
                         : theme.backgroundDefault,
-                      borderColor: isSelected ? getColor() : theme.border,
+                      borderColor: isSelected ? buttonColor : theme.border,
                     },
                   ]}
                 >
                   <ThemedText
                     type="small"
                     style={{
-                      color: isSelected ? "#FFFFFF" : theme.textSecondary,
+                      color: isSelected ? theme.onPrimary : theme.textSecondary,
                       fontWeight: "600",
                     }}
                   >
@@ -511,16 +522,19 @@ export default function ReframeScreen() {
           {beliefShift !== null && beliefShift > 0 && (
             <Animated.View
               entering={FadeIn.duration(300)}
-              style={styles.beliefShiftFeedback}
+              style={[
+                styles.beliefShiftFeedback,
+                { backgroundColor: theme.highlightAccentSubtle },
+              ]}
             >
               <ThemedText
                 type="small"
                 style={[
                   styles.beliefShiftText,
-                  { color: SiraatColors.emerald },
+                  { color: theme.highlightAccent },
                 ]}
               >
-                ✓ The belief softened by {beliefShift}%. That’s progress.
+                ✓ The belief softened by {beliefShift}%. That's progress.
               </ThemedText>
             </Animated.View>
           )}
@@ -622,7 +636,7 @@ const styles = StyleSheet.create({
   perspectiveIcon: {
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: BorderRadius.xl,
     justifyContent: "center",
     alignItems: "center",
     marginRight: Spacing.md,
@@ -677,12 +691,11 @@ const styles = StyleSheet.create({
   nextStepIcon: {
     width: 24,
     height: 24,
-    borderRadius: 12,
+    borderRadius: BorderRadius.md,
     justifyContent: "center",
     alignItems: "center",
   },
   nextStepIconText: {
-    color: "#FFFFFF",
     fontWeight: "600",
     fontSize: 13,
   },
@@ -705,7 +718,6 @@ const styles = StyleSheet.create({
   beliefShiftFeedback: {
     marginTop: Spacing.md,
     padding: Spacing.md,
-    backgroundColor: "rgba(107, 142, 35, 0.1)",
     borderRadius: BorderRadius.sm,
   },
   beliefShiftText: {
@@ -746,7 +758,6 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     marginBottom: Spacing["2xl"],
     borderLeftWidth: 4,
-    borderLeftColor: SiraatColors.emerald,
   },
   islamicReferenceHeader: {
     marginBottom: Spacing.md,
@@ -755,7 +766,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "center",
     marginBottom: Spacing.md,
-    color: SiraatColors.emerald,
     lineHeight: 34,
   },
   islamicReferenceText: {
@@ -766,7 +776,6 @@ const styles = StyleSheet.create({
   },
   islamicSource: {
     textAlign: "center",
-    color: SiraatColors.emerald,
     fontWeight: "500",
   },
 });

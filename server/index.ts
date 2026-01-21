@@ -16,6 +16,12 @@ import {
   validateProductionConfig,
   isStripeConfigured,
 } from "./config";
+import { initSentry, setupSentryErrorHandler, captureException } from "./sentry";
+import { registerHealthRoute } from "./health";
+import {
+  requestIdMiddleware,
+  rateLimiterMiddleware,
+} from "./middleware/production";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -78,6 +84,7 @@ function setupRequestLogging(app: express.Application) {
   app.use((req, res, next) => {
     const start = Date.now();
     const path = req.path;
+    const requestId = req.requestId || "-";
     let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
 
     const originalResJson = res.json;
@@ -91,13 +98,13 @@ function setupRequestLogging(app: express.Application) {
 
       const duration = Date.now() - start;
 
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+      let logLine = `[${requestId}] ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
+      if (logLine.length > 100) {
+        logLine = logLine.slice(0, 99) + "…";
       }
 
       log(logLine);
@@ -215,19 +222,28 @@ function configureExpoAndLanding(app: express.Application) {
 }
 
 function setupErrorHandler(app: express.Application) {
-  app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-    const error = err as {
+  // Sentry error handler (captures errors if Sentry is configured)
+  setupSentryErrorHandler(app);
+
+  // Custom error handler for logging and response
+  app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
+    const error = err as Error & {
       status?: number;
       statusCode?: number;
-      message?: string;
     };
 
     const status = error.status || error.statusCode || 500;
     const message = error.message || "Internal Server Error";
+    const requestId = req.requestId || "-";
 
-    res.status(status).json({ message });
+    log(`[${requestId}] ERROR ${status}: ${message}`);
 
-    throw err;
+    // Capture exception in Sentry with requestId correlation
+    captureException(error, { requestId, status, path: req.path });
+
+    if (!res.headersSent) {
+      res.status(status).json({ message, requestId });
+    }
   });
 }
 
@@ -271,11 +287,21 @@ async function initStripe() {
 }
 
 (async () => {
+  // Initialize Sentry error tracking (no-op if SENTRY_DSN not configured)
+  initSentry();
+
   // Log configuration status and validate for production
   logConfigStatus();
   validateProductionConfig();
 
   setupCors(app);
+
+  // Production middleware: request ID and rate limiting
+  app.use(requestIdMiddleware);
+  app.use(rateLimiterMiddleware);
+
+  // Health check endpoint (before other routes)
+  registerHealthRoute(app);
 
   // CRITICAL: Webhook route MUST be registered BEFORE body parsing middleware.
   // Stripe webhook verification requires the raw request body as a Buffer.
@@ -306,17 +332,20 @@ async function initStripe() {
 
   const server = await registerRoutes(app);
 
+  // 404 handler for unmatched routes
+  app.use((req: Request, res: Response) => {
+    const requestId = req.requestId || "-";
+    res.status(404).json({
+      error: "Not Found",
+      path: req.path,
+      requestId,
+    });
+  });
+
   setupErrorHandler(app);
 
   const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`express server serving on port ${port}`);
-    },
-  );
+  server.listen(port, "0.0.0.0", () => {
+    log(`express server serving on port ${port}`);
+  });
 })();

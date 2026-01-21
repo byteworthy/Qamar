@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-01-21T02:29:51.409Z",
+  "nodeVersion": "v24.12.0",
+  "verifyTypesResult": "passed",
+  "verifyTestsResult": "passed",
+  "serverBootResult": "ready",
+  "healthResponse": {
+    "headers": {
+      "x-powered-by": "Express",
+      "x-request-id": "dbb8a330-cc7e-4266-8fa0-b8f2ce1afc71",
+      "content-type": "application/json; charset=utf-8",
+      "content-length": "241",
+      "etag": "W/\"f1-BPmNQogUDAyCD7GAZm8fiAUW0mM\"",
+      "date": "Wed, 21 Jan 2026 02:30:06 GMT",
+      "connection": "keep-alive",
+      "keep-alive": "timeout=5"
+    },
+    "body": "{\"status\":\"ok\",\"timestamp\":\"2026-01-21T02:30:06.571Z\",\"version\":\"1.0.0\",\"uptime\":73677.3054969,\"checks\":{\"database\":{\"configured\":false,\"connected\":false},\"ai\":{\"configured\":true},\"sentry\":{\"configured\":false},\"rateLimit\":{\"enabled\":false}}}",
+    "requestId": "dbb8a330-cc7e-4266-8fa0-b8f2ce1afc71"
+  },
+  "notFoundResponse": {
+    "headers": {
+      "x-powered-by": "Express",
+      "x-request-id": "49023d6b-7fbf-42fa-961b-c7fd07e5b929",
+      "set-cookie": [
+        "noor_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+      ],
+      "content-type": "application/json; charset=utf-8",
+      "content-length": "98",
+      "etag": "W/\"62-zxo6CZonOjgvO6rXT3pWDXLGmCE\"",
+      "date": "Wed, 21 Jan 2026 02:30:06 GMT",
+      "connection": "keep-alive",
+      "keep-alive": "timeout=5"
+    },
+    "body": "{\"error\":\"Not Found\",\"path\":\"/api/nonexistent\",\"requestId\":\"49023d6b-7fbf-42fa-961b-c7fd07e5b929\"}",
+    "requestId": "49023d6b-7fbf-42fa-961b-c7fd07e5b929"
+  },
+  "storePackFilesCheck": {
+    "passed": true,
+    "missing": [],
+    "found": [
+      "APP_STORE_DESCRIPTION_FINAL.md",
+      "APP_STORE_REVIEW_NOTES.md",
+      "APP_STORE_CONNECT_FIELDS.md",
+      "UPLOAD_ORDER_CHECKLIST.md",
+      "FINAL_SUBMISSION_CHECKLIST.md",
+      "SCREENSHOT_CAPTIONS.md",
+      "LEGAL_URLS.md",
+      "privacy-policy.md",
+      "terms-of-service.md"
+    ]
+  },
+  "metadataLimitsCheck": {
+    "passed": true,
+    "issues": [],
+    "values": {
+      "Subtitle": {
+        "value": "AI Journaling for Clarity",
+        "length": 25,
+        "limit": 30
+      },
+      "Promotional Text": {
+        "value": "Write freely. Get AI-powered reflections. Noor helps you organize your thoughts and gain perspective—not therapy, just clarity.",
+        "length": 127,
+        "limit": 170
+      },
+      "Keywords": {
+        "value": "journaling,reflection,mindfulness,clarity,thoughts,writing,self reflection,mental clarity",
+        "length": 89,
+        "limit": 100
+      }
+    }
+  },
+  "screenshotCheck": {
+    "folderExists": true,
+    "pngCount": 0,
+    "uniqueCount": 0,
+    "skipped": true,
+    "skipReason": "Folder exists but contains no PNG files",
+    "files": []
+  },
+  "warnings": [],
+  "overallPass": true
+}

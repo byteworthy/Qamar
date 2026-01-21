@@ -1,0 +1,48 @@
+{
+  "$schema": "./STORE_IDENTIFIERS.schema.json",
+  "_comment": "Single source of truth for all store identifiers. Fill values after creating accounts.",
+  "_lastUpdated": null,
+  
+  "apple": {
+    "teamId": null,
+    "appStoreConnectAppId": null,
+    "subscriptionGroupId": null,
+    "subscriptionGroupName": "Noor Subscriptions",
+    "productIds": {
+      "plusMonthly": "com.noor.plus.monthly",
+      "plusYearly": "com.noor.plus.yearly",
+      "proMonthly": "com.noor.pro.monthly",
+      "proYearly": "com.noor.pro.yearly"
+    },
+    "sandboxTesterEmail": null
+  },
+  
+  "google": {
+    "playConsoleAppId": null,
+    "productIds": {
+      "plusMonthly": "noor_plus_monthly",
+      "plusYearly": "noor_plus_yearly",
+      "proMonthly": "noor_pro_monthly",
+      "proYearly": "noor_pro_yearly"
+    },
+    "basePlanIds": {
+      "plusMonthly": "plus-monthly",
+      "plusYearly": "plus-yearly",
+      "proMonthly": "pro-monthly",
+      "proYearly": "pro-yearly"
+    },
+    "licenseTesterEmail": null
+  },
+  
+  "eas": {
+    "account": null,
+    "projectId": null
+  },
+  
+  "app": {
+    "iosBundleId": "com.noor.app",
+    "androidPackage": "com.noor.app",
+    "appName": "Noor",
+    "version": "1.0.0"
+  }
+}

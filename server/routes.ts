@@ -46,7 +46,11 @@ import {
   OrchestrationAuditLogger,
 } from "./canonical-orchestrator";
 import { FailureLanguage } from "./failure-language";
-import { runManualCleanup } from "./data-retention";
+import {
+  runManualCleanup,
+  verifyAdminToken,
+  isAdminEndpointEnabled,
+} from "./data-retention";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -1159,16 +1163,40 @@ Respond with plain text, not JSON.`,
     }
   });
 
-  // ADMIN: Manual data retention cleanup trigger (for testing)
-  // This endpoint triggers data retention cleanup manually
-  app.post("/api/admin/cleanup", async (req, res) => {
+  // ADMIN: Manual data retention cleanup trigger
+  // Protected by ADMIN_TOKEN - disabled unless env var is set
+  app.post("/api/admin/retention/run", async (req, res) => {
+    // Check if admin endpoint is enabled
+    if (!isAdminEndpointEnabled()) {
+      return res.status(404).json({
+        error: "Not found",
+        code: "ENDPOINT_DISABLED",
+      });
+    }
+
+    // Verify admin token
+    const token = req.headers["x-admin-token"] as string | undefined;
+    if (!verifyAdminToken(token)) {
+      return res.status(401).json({
+        error: "Unauthorized",
+        code: "INVALID_ADMIN_TOKEN",
+      });
+    }
+
     try {
-      console.log("[Admin] Manual cleanup triggered");
-      await runManualCleanup();
-      res.json({ success: true, message: "Data retention cleanup completed" });
+      console.log("[Admin] Manual retention cleanup triggered");
+      const result = await runManualCleanup();
+      res.json({
+        success: true,
+        message: "Data retention cleanup completed",
+        result,
+      });
     } catch (error) {
       console.error("[Admin] Manual cleanup failed:", error);
-      res.status(500).json({ error: "Cleanup failed" });
+      res.status(500).json({
+        error: "Cleanup failed",
+        code: "CLEANUP_ERROR",
+      });
     }
   });
 

@@ -3,6 +3,9 @@
  *
  * Handles automatic deletion of expired user data.
  * Ensures compliance with data retention policies.
+ *
+ * DRY RUN MODE: By default, deletions are simulated (DATA_RETENTION_DRY_RUN=true).
+ * Set DATA_RETENTION_DRY_RUN=false to perform actual deletions.
  */
 
 import { storage } from "./storage";
@@ -13,6 +16,35 @@ import { storage } from "./storage";
 
 const RETENTION_DAYS = 30;
 const CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+/**
+ * Check if dry run mode is enabled.
+ * Default: true (safe mode - only logs, no deletions)
+ */
+export function isDryRunMode(): boolean {
+  const dryRun = process.env.DATA_RETENTION_DRY_RUN;
+  // Default to true for safety - only delete when explicitly set to "false"
+  return dryRun !== "false";
+}
+
+// =============================================================================
+// CLEANUP RESULT TYPES
+// =============================================================================
+
+export interface CleanupResult {
+  dryRun: boolean;
+  cutoffDate: string;
+  reflections: {
+    count: number;
+    deleted: boolean;
+  };
+  insightSummaries: {
+    count: number;
+    deleted: boolean;
+  };
+  durationMs: number;
+  timestamp: string;
+}
 
 // =============================================================================
 // DATA RETENTION SERVICE
@@ -34,6 +66,7 @@ export class DataRetentionService {
 
     console.log("[Data Retention] Starting data retention service");
     console.log(`[Data Retention] Retention period: ${RETENTION_DAYS} days`);
+    console.log(`[Data Retention] Dry run mode: ${isDryRunMode()}`);
     console.log(
       `[Data Retention] Cleanup interval: ${CLEANUP_INTERVAL_MS / (60 * 60 * 1000)} hours`,
     );
@@ -66,82 +99,72 @@ export class DataRetentionService {
 
   /**
    * Run a single cleanup cycle
+   * Returns the result for logging/admin purposes
    */
-  async runCleanup(): Promise<void> {
+  async runCleanup(): Promise<CleanupResult> {
     const startTime = Date.now();
-    console.log("[Data Retention] Running cleanup...");
+    const dryRun = isDryRunMode();
+
+    console.log(`[Data Retention] Running cleanup (dry run: ${dryRun})...`);
+
+    // Calculate cutoff date
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - RETENTION_DAYS);
+
+    let reflectionCount = 0;
+    let reflectionsDeleted = false;
+    let summaryCount = 0;
+    let summariesDeleted = false;
 
     try {
-      // Calculate cutoff date
-      const cutoffDate = new Date();
-      cutoffDate.setDate(cutoffDate.getDate() - RETENTION_DAYS);
+      // Count/delete expired reflections
+      if (dryRun) {
+        reflectionCount = await storage.countExpiredReflections(cutoffDate);
+        console.log(
+          `[Data Retention] DRY RUN: Would delete ${reflectionCount} reflections older than ${cutoffDate.toISOString()}`,
+        );
+      } else {
+        reflectionCount = await storage.deleteExpiredReflections(cutoffDate);
+        reflectionsDeleted = true;
+        console.log(
+          `[Data Retention] Deleted ${reflectionCount} expired reflections`,
+        );
+      }
 
-      // Delete expired reflections
-      const deletedCount = await this.deleteExpiredReflections(cutoffDate);
-
-      // Delete expired insight summaries
-      const deletedSummaries =
-        await this.deleteExpiredInsightSummaries(cutoffDate);
-
-      const duration = Date.now() - startTime;
-      console.log(`[Data Retention] Cleanup complete in ${duration}ms`);
-      console.log(
-        `[Data Retention] Deleted ${deletedCount} reflections, ${deletedSummaries} summaries`,
-      );
+      // Count/delete expired insight summaries
+      if (dryRun) {
+        summaryCount = await storage.countExpiredInsightSummaries(cutoffDate);
+        console.log(
+          `[Data Retention] DRY RUN: Would delete ${summaryCount} summaries older than ${cutoffDate.toISOString()}`,
+        );
+      } else {
+        summaryCount = await storage.deleteExpiredInsightSummaries(cutoffDate);
+        summariesDeleted = true;
+        console.log(
+          `[Data Retention] Deleted ${summaryCount} expired insight summaries`,
+        );
+      }
     } catch (error) {
       console.error("[Data Retention] Cleanup failed:", error);
     }
-  }
 
-  /**
-   * Delete reflections older than the cutoff date
-   */
-  private async deleteExpiredReflections(cutoffDate: Date): Promise<number> {
-    try {
-      // Note: This requires adding a deleteExpiredReflections method to storage
-      // For now, we'll just log the intention
-      console.log(
-        `[Data Retention] Would delete reflections older than ${cutoffDate.toISOString()}`,
-      );
+    const duration = Date.now() - startTime;
+    console.log(`[Data Retention] Cleanup complete in ${duration}ms`);
 
-      // TODO: Implement actual deletion when storage method is available
-      // const deleted = await storage.deleteExpiredReflections(cutoffDate);
-      // return deleted;
-
-      return 0;
-    } catch (error) {
-      console.error(
-        "[Data Retention] Failed to delete expired reflections:",
-        error,
-      );
-      return 0;
-    }
-  }
-
-  /**
-   * Delete insight summaries older than the cutoff date
-   */
-  private async deleteExpiredInsightSummaries(
-    cutoffDate: Date,
-  ): Promise<number> {
-    try {
-      // Note: This requires adding a deleteExpiredInsightSummaries method to storage
-      console.log(
-        `[Data Retention] Would delete insight summaries older than ${cutoffDate.toISOString()}`,
-      );
-
-      // TODO: Implement actual deletion when storage method is available
-      // const deleted = await storage.deleteExpiredInsightSummaries(cutoffDate);
-      // return deleted;
-
-      return 0;
-    } catch (error) {
-      console.error(
-        "[Data Retention] Failed to delete expired insight summaries:",
-        error,
-      );
-      return 0;
-    }
+    return {
+      dryRun,
+      cutoffDate: cutoffDate.toISOString(),
+      reflections: {
+        count: reflectionCount,
+        deleted: reflectionsDeleted,
+      },
+      insightSummaries: {
+        count: summaryCount,
+        deleted: summariesDeleted,
+      },
+      durationMs: duration,
+      timestamp: new Date().toISOString(),
+    };
   }
 
   /**
@@ -151,6 +174,7 @@ export class DataRetentionService {
     retentionDays: number;
     nextCleanup: Date | null;
     isRunning: boolean;
+    dryRunMode: boolean;
   }> {
     return {
       retentionDays: RETENTION_DAYS,
@@ -158,6 +182,7 @@ export class DataRetentionService {
         ? new Date(Date.now() + CLEANUP_INTERVAL_MS)
         : null,
       isRunning: this.isRunning,
+      dryRunMode: isDryRunMode(),
     };
   }
 }
@@ -174,8 +199,7 @@ export const dataRetentionService = new DataRetentionService();
 
 export function initializeDataRetention(): void {
   // Only start if explicitly enabled via environment variable
-  // Check window or global for environment flags
-  const shouldRun = typeof window !== "undefined" ? false : true; // In Node.js context, enable by default
+  const shouldRun = typeof window !== "undefined" ? false : true;
 
   if (shouldRun) {
     dataRetentionService.start();
@@ -188,9 +212,9 @@ export function initializeDataRetention(): void {
 // MANUAL CLEANUP (for admin use)
 // =============================================================================
 
-export async function runManualCleanup(): Promise<void> {
+export async function runManualCleanup(): Promise<CleanupResult> {
   console.log("[Data Retention] Running manual cleanup...");
-  await dataRetentionService.runCleanup();
+  return dataRetentionService.runCleanup();
 }
 
 // =============================================================================
@@ -260,22 +284,67 @@ export async function exportUserData(userId: string): Promise<UserDataExport> {
 /**
  * Delete all user data (right to be forgotten)
  */
-export async function deleteAllUserData(userId: string): Promise<boolean> {
+export async function deleteAllUserData(userId: string): Promise<{
+  success: boolean;
+  reflectionsDeleted: number;
+  summariesDeleted: number;
+  assumptionsDeleted: number;
+}> {
   console.log(
     `[Data Retention] Deleting all data for user ${userId.substring(0, 8)}...`,
   );
 
   try {
-    // TODO: Implement deletion methods in storage
-    // await storage.deleteAllUserReflections(userId);
-    // await storage.deleteAllUserInsights(userId);
+    const reflectionsDeleted = await storage.deleteAllUserReflections(userId);
+    const summariesDeleted =
+      await storage.deleteAllUserInsightSummaries(userId);
+    const assumptionsDeleted = await storage.deleteAllUserAssumptions(userId);
 
     console.log(
-      `[Data Retention] Deleted all data for user ${userId.substring(0, 8)}`,
+      `[Data Retention] Deleted all data for user ${userId.substring(0, 8)}: ` +
+        `${reflectionsDeleted} reflections, ${summariesDeleted} summaries, ${assumptionsDeleted} assumptions`,
     );
-    return true;
+
+    return {
+      success: true,
+      reflectionsDeleted,
+      summariesDeleted,
+      assumptionsDeleted,
+    };
   } catch (error) {
     console.error("[Data Retention] Failed to delete user data:", error);
+    return {
+      success: false,
+      reflectionsDeleted: 0,
+      summariesDeleted: 0,
+      assumptionsDeleted: 0,
+    };
+  }
+}
+
+// =============================================================================
+// ADMIN TOKEN VERIFICATION
+// =============================================================================
+
+/**
+ * Verify admin token for protected endpoints.
+ * Returns true if ADMIN_TOKEN is set and matches the provided token.
+ */
+export function verifyAdminToken(token: string | undefined): boolean {
+  const adminToken = process.env.ADMIN_TOKEN;
+
+  // If ADMIN_TOKEN is not set, deny all requests
+  if (!adminToken) {
     return false;
   }
+
+  // Compare tokens
+  return token === adminToken;
+}
+
+/**
+ * Check if admin endpoint is enabled (ADMIN_TOKEN is set).
+ */
+export function isAdminEndpointEnabled(): boolean {
+  return Boolean(process.env.ADMIN_TOKEN);
 }

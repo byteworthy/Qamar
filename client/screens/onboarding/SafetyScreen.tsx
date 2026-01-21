@@ -7,9 +7,9 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
+import { Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { NiyyahColors } from "@/constants/theme";
 import { setOnboardingCompleted } from "@/lib/storage";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -35,8 +35,8 @@ export default function SafetyScreen() {
         contentContainerStyle={[
           styles.scrollContent,
           {
-            paddingTop: insets.top + 40,
-            paddingBottom: insets.bottom + 40,
+            paddingTop: insets.top + Spacing["4xl"],
+            paddingBottom: insets.bottom + Spacing["4xl"],
           },
         ]}
         showsVerticalScrollIndicator={false}
@@ -45,8 +45,13 @@ export default function SafetyScreen() {
           entering={FadeInDown.duration(400)}
           style={styles.header}
         >
-          <View style={styles.iconContainer}>
-            <Feather name="book-open" size={48} color={NiyyahColors.accent} />
+          <View
+            style={[
+              styles.iconContainer,
+              { backgroundColor: theme.highlightAccentSubtle },
+            ]}
+          >
+            <Feather name="book-open" size={48} color={theme.highlightAccent} />
           </View>
           <ThemedText style={styles.title}>Before You Begin</ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -62,7 +67,7 @@ export default function SafetyScreen() {
             style={[styles.card, { backgroundColor: theme.cardBackground }]}
           >
             <View style={styles.cardHeader}>
-              <Feather name="compass" size={20} color={NiyyahColors.accent} />
+              <Feather name="compass" size={20} color={theme.highlightAccent} />
               <ThemedText style={styles.cardTitle}>
                 Faith and Grounding
               </ThemedText>
@@ -117,7 +122,7 @@ export default function SafetyScreen() {
             <Feather
               name="check-circle"
               size={32}
-              color={NiyyahColors.accent}
+              color={theme.highlightAccent}
             />
             <ThemedText style={[styles.readyTitle, { color: theme.text }]}>
               Ready to Begin?
@@ -137,8 +142,9 @@ export default function SafetyScreen() {
         style={[
           styles.footer,
           {
-            paddingBottom: insets.bottom + 20,
+            paddingBottom: insets.bottom + Spacing.xl,
             backgroundColor: theme.backgroundRoot,
+            borderTopColor: theme.overlayLight,
           },
         ]}
       >
@@ -162,15 +168,17 @@ export default function SafetyScreen() {
             style={({ pressed }) => [
               styles.getStartedButton,
               {
-                backgroundColor: NiyyahColors.accent,
+                backgroundColor: theme.primary,
                 opacity: pressed ? 0.9 : 1,
               },
             ]}
           >
-            <ThemedText style={styles.getStartedButtonText}>
+            <ThemedText
+              style={[styles.getStartedButtonText, { color: theme.onPrimary }]}
+            >
               Get Started
             </ThemedText>
-            <Feather name="check" size={20} color={NiyyahColors.background} />
+            <Feather name="check" size={20} color={theme.onPrimary} />
           </Pressable>
         </View>
       </Animated.View>
@@ -186,61 +194,60 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: Spacing["2xl"],
   },
   header: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: Spacing["3xl"],
   },
   iconContainer: {
     width: 80,
     height: 80,
-    borderRadius: 40,
-    backgroundColor: NiyyahColors.accent + "15",
+    borderRadius: BorderRadius["3xl"],
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: Spacing.xl,
   },
   title: {
     fontSize: 28,
     fontWeight: "700",
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: Spacing.sm,
   },
   subtitle: {
     fontSize: 16,
     textAlign: "center",
   },
   content: {
-    gap: 16,
+    gap: Spacing.lg,
   },
   card: {
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.xl,
   },
   cardHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    marginBottom: 16,
+    gap: Spacing.sm,
+    marginBottom: Spacing.lg,
   },
   cardTitle: {
     fontSize: 17,
     fontWeight: "600",
   },
   cardContent: {
-    gap: 12,
+    gap: Spacing.md,
   },
   cardText: {
     fontSize: 15,
     lineHeight: 22,
   },
   readyCard: {
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing["2xl"],
     alignItems: "center",
-    gap: 12,
-    marginTop: 8,
+    gap: Spacing.md,
+    marginTop: Spacing.sm,
   },
   readyTitle: {
     fontSize: 20,
@@ -253,23 +260,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   footer: {
-    paddingHorizontal: 24,
-    paddingTop: 16,
+    paddingHorizontal: Spacing["2xl"],
+    paddingTop: Spacing.lg,
     borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.05)",
   },
   buttonRow: {
     flexDirection: "row",
-    gap: 12,
+    gap: Spacing.md,
   },
   backButton: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
-    borderRadius: 14,
-    gap: 8,
+    paddingVertical: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    gap: Spacing.sm,
   },
   backButtonText: {
     fontSize: 17,
@@ -280,13 +286,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
-    borderRadius: 14,
-    gap: 8,
+    paddingVertical: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    gap: Spacing.sm,
   },
   getStartedButtonText: {
     fontSize: 17,
     fontWeight: "600",
-    color: NiyyahColors.background,
   },
 });

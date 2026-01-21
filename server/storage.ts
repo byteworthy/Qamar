@@ -193,6 +193,86 @@ export class Storage {
       lastSeenAt: row.last_seen_at,
     }));
   }
+
+  // ==========================================================================
+  // DATA RETENTION METHODS
+  // ==========================================================================
+
+  /**
+   * Count reflections older than the cutoff date (for dry run mode).
+   */
+  async countExpiredReflections(cutoffDate: Date): Promise<number> {
+    const result = await db.execute(sql`
+      SELECT COUNT(*) as count FROM sessions 
+      WHERE created_at < ${cutoffDate.toISOString()}
+    `);
+    return parseInt((result.rows[0] as any)?.count || "0", 10);
+  }
+
+  /**
+   * Delete reflections older than the cutoff date.
+   * Returns the number of deleted rows.
+   */
+  async deleteExpiredReflections(cutoffDate: Date): Promise<number> {
+    const result = await db.execute(sql`
+      DELETE FROM sessions 
+      WHERE created_at < ${cutoffDate.toISOString()}
+    `);
+    return result.rowCount || 0;
+  }
+
+  /**
+   * Count insight summaries older than the cutoff date (for dry run mode).
+   */
+  async countExpiredInsightSummaries(cutoffDate: Date): Promise<number> {
+    const result = await db.execute(sql`
+      SELECT COUNT(*) as count FROM insight_summaries 
+      WHERE generated_at < ${cutoffDate.toISOString()}
+    `);
+    return parseInt((result.rows[0] as any)?.count || "0", 10);
+  }
+
+  /**
+   * Delete insight summaries older than the cutoff date.
+   * Returns the number of deleted rows.
+   */
+  async deleteExpiredInsightSummaries(cutoffDate: Date): Promise<number> {
+    const result = await db.execute(sql`
+      DELETE FROM insight_summaries 
+      WHERE generated_at < ${cutoffDate.toISOString()}
+    `);
+    return result.rowCount || 0;
+  }
+
+  /**
+   * Delete all reflections for a specific user (GDPR right to be forgotten).
+   */
+  async deleteAllUserReflections(userId: string): Promise<number> {
+    const result = await db.execute(sql`
+      DELETE FROM sessions WHERE user_id = ${userId}
+    `);
+    return result.rowCount || 0;
+  }
+
+  /**
+   * Delete all insight summaries for a specific user (GDPR right to be forgotten).
+   */
+  async deleteAllUserInsightSummaries(userId: string): Promise<number> {
+    const result = await db.execute(sql`
+      DELETE FROM insight_summaries WHERE user_id = ${userId}
+    `);
+    return result.rowCount || 0;
+  }
+
+  /**
+   * Delete all assumptions for a specific user (GDPR right to be forgotten).
+   */
+  async deleteAllUserAssumptions(userId: string): Promise<number> {
+    const result = await db.execute(sql`
+      DELETE FROM assumption_library WHERE user_id = ${userId}
+    `);
+    return result.rowCount || 0;
+  }
 }
 
 export const storage = new Storage();
