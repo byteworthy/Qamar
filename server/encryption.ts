@@ -5,8 +5,34 @@
 
 import crypto from "crypto";
 
+// =============================================================================
+// PRODUCTION GUARD: Encryption key validation
+// =============================================================================
+
+const isProduction = process.env.NODE_ENV === "production";
+
+// In production, ENCRYPTION_KEY is required - fail closed
+if (isProduction && !process.env.ENCRYPTION_KEY) {
+  console.error(
+    "FATAL: ENCRYPTION_KEY not configured in production. " +
+      "Data encryption will fail. Server refusing to start.",
+  );
+  throw new Error(
+    "ENCRYPTION_KEY environment variable is required in production.",
+  );
+}
+
+// In development, allow random key fallback (data not persistent across restarts)
 const ENCRYPTION_KEY =
   process.env.ENCRYPTION_KEY || crypto.randomBytes(32).toString("hex");
+
+if (!process.env.ENCRYPTION_KEY && !isProduction) {
+  console.warn(
+    "[Encryption] WARNING: Using random encryption key. " +
+      "Data will not be decryptable after restart. Set ENCRYPTION_KEY for persistence.",
+  );
+}
+
 const ALGORITHM = "aes-256-gcm";
 
 export interface EncryptedData {
