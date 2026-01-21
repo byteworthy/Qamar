@@ -55,9 +55,19 @@ const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
 const RATE_LIMIT_MAX_REQUESTS = 100; // 100 requests per minute per IP
 
 /**
- * Check if rate limiting is enabled via environment variable.
+ * Check if rate limiting is enabled.
+ * - Production: enabled by default (set RATE_LIMIT_ENABLED=false to disable)
+ * - Development: disabled by default (set RATE_LIMIT_ENABLED=true to enable)
  */
 export function isRateLimitEnabled(): boolean {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  if (isProduction) {
+    // In production, enabled unless explicitly disabled
+    return process.env.RATE_LIMIT_ENABLED !== "false";
+  }
+
+  // In development, disabled unless explicitly enabled
   return process.env.RATE_LIMIT_ENABLED === "true";
 }
 
