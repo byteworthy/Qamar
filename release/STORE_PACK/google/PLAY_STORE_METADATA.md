@@ -32,6 +32,8 @@ What Noor is not:
 • Not diagnosis
 • Not religious authority
 
+If you are experiencing a mental health crisis, contact emergency services or call 988 (US Suicide & Crisis Lifeline).
+
 Privacy:
 Reflections are stored securely on our servers (encrypted in transit and at rest). Data is retained for 30 days, then automatically deleted. Users control their data and can delete it at any time.
 
@@ -130,10 +132,10 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - Privacy Policy: `legal/PRIVACY_POLICY_DRAFT.md`
 - Disclaimers: `legal/DISCLAIMERS_DRAFT.md`
 
-**Placeholder URLs for Play Console:**
-- Terms of Service: https://CHANGEME/terms
-- Privacy Policy: https://CHANGEME/privacy
-- Support/Contact: https://CHANGEME/support
+**URLs for Play Console:**
+- Terms of Service: https://byteworthy.github.io/noor-legal/terms-of-service
+- Privacy Policy: https://byteworthy.github.io/noor-legal/privacy-policy
+- Support/Contact: support@byteworthy.com
 
 ⚠️ **Legal documents are DRAFTS and require review by qualified legal counsel before publication.**
 

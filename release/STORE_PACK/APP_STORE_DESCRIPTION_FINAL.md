@@ -56,6 +56,16 @@ You can request deletion of your data at any time.
 • People who want clarity without labels
 • People who want a calm, private space to reflect
 
+### Subscription Options
+
+Noor offers a free tier with basic journaling features.
+
+Optional paid plans unlock more:
+• Noor Plus ($6.99/month or $69/year) - Full history, all rooms, basic insights
+• Noor Pro ($11.99/month or $119/year) - Advanced insights, export, all personas
+
+Manage subscriptions anytime in your device settings.
+
 ### AI transparency
 
 Noor uses artificial intelligence to generate reflective responses. AI-generated content may occasionally be inaccurate or incomplete. Use your own judgment when reading any response.
