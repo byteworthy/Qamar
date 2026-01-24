@@ -423,7 +423,8 @@ ${analyzePrompt}`,
             ],
           });
 
-          return response.content[0]?.text || "{}";
+          const firstBlock = response.content[0];
+          return firstBlock?.type === "text" ? firstBlock.text : "{}";
         },
       });
 
@@ -592,7 +593,8 @@ ${reframePrompt}`,
             ],
           });
 
-          return response.content[0]?.text || "{}";
+          const firstBlock = response.content[0];
+          return firstBlock?.type === "text" ? firstBlock.text : "{}";
         },
       });
 
@@ -692,7 +694,8 @@ ${practicePrompt}`,
             ],
           });
 
-          return response.content[0]?.text || "{}";
+          const firstBlock = response.content[0];
+          return firstBlock?.type === "text" ? firstBlock.text : "{}";
         },
       });
 
