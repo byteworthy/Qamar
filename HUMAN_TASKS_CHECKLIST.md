@@ -35,35 +35,33 @@
 
 ---
 
-### 2. Attorney Review of Legal Documents
+### 2. ✅ COMPLETED - Finalize Legal Documents (No Attorney Needed!)
 
-**Why**: Legally binding ToS and Privacy Policy required for store submission.
+**Why**: ToS and Privacy Policy required for store submission.
 
-**Status**: Drafts only in [legal/](legal/) directory with `[PLACEHOLDER]` tags
+**Status**: ✅ COMPLETE - Finalized and ready for hosting
 
-**Action Steps**:
-- [ ] Find attorney specializing in:
-  - Digital health/wellness apps
-  - GDPR compliance (if serving EU users)
-  - CCPA compliance (if serving CA users)
-  - App store compliance
-- [ ] Send attorney:
-  - [ ] [legal/PRIVACY_POLICY_DRAFT.md](legal/PRIVACY_POLICY_DRAFT.md)
-  - [ ] [legal/TERMS_OF_SERVICE_DRAFT.md](legal/TERMS_OF_SERVICE_DRAFT.md)
-  - [ ] [legal/DISCLAIMERS_DRAFT.md](legal/DISCLAIMERS_DRAFT.md)
-  - [ ] App functionality description
-  - [ ] [POSITIONING_DISCIPLINE.md](POSITIONING_DISCIPLINE.md) (explains "not therapy" positioning)
-- [ ] Attorney reviews and finalizes all `[PLACEHOLDER]` sections
-- [ ] Purchase domain (e.g., noorapp.com) if not owned
-- [ ] Host finalized docs on permanent URLs:
-  - https://noorapp.com/privacy
-  - https://noorapp.com/terms
-- [ ] Update [app.json](app.json) with final URLs
-- [ ] Verify URLs return 200 (stores check this)
+**Completed Steps**:
+- [x] Finalized Privacy Policy (legal/PRIVACY_POLICY.md)
+- [x] Finalized Terms of Service (legal/TERMS_OF_SERVICE.md)
+- [x] Removed all `[PLACEHOLDER]` tags
+- [x] Added ByteWorthy LLC details
+- [x] Added CCPA compliance for California users
+- [x] Created HTML versions for web hosting
+- [x] Updated app.json with legal URLs
+- [x] Prepared GitHub Pages deployment
 
-**Time**: 2-4 weeks
-**Cost**: $2,000-$5,000
-**Blocks**: Store submission, closed beta (TestFlight requires legal URLs)
+**Remaining Steps**:
+- [ ] Deploy to GitHub Pages (5 minutes - see [docs/DEPLOY_GITHUB_PAGES.md](docs/DEPLOY_GITHUB_PAGES.md))
+- [ ] Verify URLs return 200 status
+- [ ] Update App Store Connect with URLs
+- [ ] Update Google Play Console with URLs
+
+**Time**: 5 minutes (just deployment)
+**Cost**: $0 (GitHub Pages is free)
+**Legal URLs**:
+  - Privacy: https://byteworthy.github.io/Noor/legal/privacy.html
+  - Terms: https://byteworthy.github.io/Noor/legal/terms.html
 
 ---
 
@@ -406,7 +404,7 @@ const systemPrompt = loadPrompt('analyze-distortions.txt');
 | Task | Priority | Time | Cost | Blocks | Status |
 |------|----------|------|------|--------|--------|
 | 1. Scholar Review | CRITICAL | 2-6 weeks | $500-2k | Public launch | 🔄 Pending |
-| 2. Legal Review | CRITICAL | 2-4 weeks | $2k-5k | Store submission | 🔄 Pending |
+| 2. Legal Documents | CRITICAL | 5 min | $0 | Store submission | ✅ Complete (deploy only) |
 | 3. Backend Deployment | CRITICAL | 1 week | $15-30/mo | All testing | 🔄 Pending |
 | 4. Export Reflections | HIGH | 2-3 hours | $0 | - | ✅ Complete |
 | 5. Cancel/Exit Buttons | HIGH | 3-4 hours | $0 | - | ✅ Complete |
@@ -414,9 +412,9 @@ const systemPrompt = loadPrompt('analyze-distortions.txt');
 | 7. Loading Timeouts | MEDIUM | 2-3 hours | $0 | - | ✅ Complete |
 | 8. Extract AI Prompts | MEDIUM | 1-2 days | $0 | - | ✅ Complete |
 
-**Total One-Time Cost**: $2,500-$7,000
-**Total Monthly Cost**: $15-30
-**Total Development Time**: ~2-3 weeks (excluding reviews)
+**Total One-Time Cost**: $500-$2,000 (scholar review only)
+**Total Monthly Cost**: $15-30 (backend hosting only)
+**Total Development Time**: ~1-2 weeks (excluding scholar review)
 
 ---
 

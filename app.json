@@ -54,6 +54,14 @@
     ],
     "experiments": {
       "reactCompiler": true
+    },
+    "privacy": "public",
+    "primaryColor": "#D4C4A8",
+    "description": "Islamic reflection journaling for spiritual clarity. Not therapy, not a substitute for professional care.",
+    "extra": {
+      "privacyPolicyUrl": "https://byteworthy.github.io/Noor/legal/privacy.html",
+      "termsOfServiceUrl": "https://byteworthy.github.io/Noor/legal/terms.html",
+      "supportEmail": "scale@getbyteworthy.com"
     }
   }
 }
