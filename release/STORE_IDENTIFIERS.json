@@ -2,7 +2,7 @@
   "$schema": "./STORE_IDENTIFIERS.schema.json",
   "_comment": "Single source of truth for all store identifiers. Fill values after creating accounts.",
   "_lastUpdated": null,
-  
+
   "apple": {
     "teamId": null,
     "appStoreConnectAppId": null,
@@ -16,7 +16,7 @@
     },
     "sandboxTesterEmail": null
   },
-  
+
   "google": {
     "playConsoleAppId": null,
     "productIds": {
@@ -33,12 +33,12 @@
     },
     "licenseTesterEmail": null
   },
-  
+
   "eas": {
     "account": null,
     "projectId": null
   },
-  
+
   "app": {
     "iosBundleId": "com.noor.app",
     "androidPackage": "com.noor.app",

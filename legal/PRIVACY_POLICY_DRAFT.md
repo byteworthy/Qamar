@@ -10,6 +10,16 @@ This is a draft placeholder document for internal review purposes only. This doc
 
 ---
 
+## What Noor Is (and Isn't)
+
+Noor is a self-reflection journaling tool rooted in Islamic principles. It is NOT:
+- A substitute for professional counseling or medical care
+- A diagnostic tool for mental health conditions
+- Emergency support for crisis situations
+- Licensed therapy or healthcare
+
+For professional support, please consult a licensed counselor, therapist, or healthcare provider.
+
 ## Introduction
 
 This Privacy Policy explains how Noor ("we," "our," "the App") handles your information. We are committed to protecting your privacy and being transparent about our data practices.

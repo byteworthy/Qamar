@@ -83,7 +83,9 @@ function runCmd(cmd, args, opts = {}) {
       if (code === 0) resolve({ code, stdout, stderr });
       else
         reject(
-          new Error(`Command ${cmd} ${args.join(" ")} exited with code ${code}`)
+          new Error(
+            `Command ${cmd} ${args.join(" ")} exited with code ${code}`,
+          ),
         );
     });
     proc.on("error", reject);
@@ -130,7 +132,7 @@ function httpGet(urlPath) {
         res.on("end", () => {
           resolve({ statusCode: res.statusCode, headers: res.headers, body });
         });
-      }
+      },
     );
     req.on("error", reject);
     req.setTimeout(5000, () => {
@@ -198,8 +200,7 @@ async function runServerChecks() {
     const healthRes = await httpGet("/health");
     report.healthResponse.headers = healthRes.headers;
     report.healthResponse.body = healthRes.body;
-    report.healthResponse.requestId =
-      healthRes.headers["x-request-id"] || null;
+    report.healthResponse.requestId = healthRes.headers["x-request-id"] || null;
 
     // GET /api/nonexistent
     log("Checking /api/nonexistent (expect 404)...");
@@ -225,14 +226,14 @@ async function runServerChecks() {
     } catch {
       cleanup();
       fail(
-        `/api/nonexistent returned non-JSON. First 200 chars: ${notFoundRes.body.slice(0, 200)}`
+        `/api/nonexistent returned non-JSON. First 200 chars: ${notFoundRes.body.slice(0, 200)}`,
       );
     }
 
     if (notFoundJson.requestId !== report.notFoundResponse.requestId) {
       cleanup();
       fail(
-        `/api/nonexistent JSON requestId (${notFoundJson.requestId}) does not match header (${report.notFoundResponse.requestId}).`
+        `/api/nonexistent JSON requestId (${notFoundJson.requestId}) does not match header (${report.notFoundResponse.requestId}).`,
       );
     }
 
@@ -270,7 +271,7 @@ function checkStorePackFiles() {
   if (report.storePackFilesCheck.missing.length > 0) {
     report.storePackFilesCheck.passed = false;
     fail(
-      `Missing STORE_PACK files: ${report.storePackFilesCheck.missing.join(", ")}`
+      `Missing STORE_PACK files: ${report.storePackFilesCheck.missing.join(", ")}`,
     );
   }
   report.storePackFilesCheck.passed = true;
@@ -279,10 +280,7 @@ function checkStorePackFiles() {
 
 function parseFieldValue(content, sectionHeader) {
   // Match section like "## B. Subtitle (30 characters max)" then find triple-backtick block
-  const headerPattern = new RegExp(
-    `##\\s*[A-Z]\\.\\s*${sectionHeader}`,
-    "i"
-  );
+  const headerPattern = new RegExp(`##\\s*[A-Z]\\.\\s*${sectionHeader}`, "i");
   const headerMatch = content.match(headerPattern);
   if (!headerMatch) return null;
 
@@ -296,7 +294,7 @@ function checkMetadataLimits() {
   const fieldsPath = path.join(STORE_PACK, "APP_STORE_CONNECT_FIELDS.md");
   if (!fs.existsSync(fieldsPath)) {
     report.warnings.push(
-      "APP_STORE_CONNECT_FIELDS.md not found for limit check."
+      "APP_STORE_CONNECT_FIELDS.md not found for limit check.",
     );
     report.metadataLimitsCheck.passed = false;
     return;
@@ -318,7 +316,7 @@ function checkMetadataLimits() {
     fs.writeFileSync(fieldsPath, content, "utf8");
     log("Fixed encoding artifacts in APP_STORE_CONNECT_FIELDS.md");
     report.warnings.push(
-      "Fixed encoding artifacts in APP_STORE_CONNECT_FIELDS.md"
+      "Fixed encoding artifacts in APP_STORE_CONNECT_FIELDS.md",
     );
   }
 
@@ -332,7 +330,7 @@ function checkMetadataLimits() {
     const val = parseFieldValue(content, name);
     if (val === null) {
       report.warnings.push(
-        `Could not parse ${name} from APP_STORE_CONNECT_FIELDS.md`
+        `Could not parse ${name} from APP_STORE_CONNECT_FIELDS.md`,
       );
       continue;
     }
@@ -343,7 +341,7 @@ function checkMetadataLimits() {
     };
     if (val.length > max) {
       report.metadataLimitsCheck.issues.push(
-        `${name} exceeds limit: ${val.length}/${max}`
+        `${name} exceeds limit: ${val.length}/${max}`,
       );
     }
   }
@@ -351,7 +349,7 @@ function checkMetadataLimits() {
   if (report.metadataLimitsCheck.issues.length > 0) {
     report.metadataLimitsCheck.passed = false;
     fail(
-      `Metadata limit violations: ${report.metadataLimitsCheck.issues.join("; ")}`
+      `Metadata limit violations: ${report.metadataLimitsCheck.issues.join("; ")}`,
     );
   }
   report.metadataLimitsCheck.passed = true;
@@ -397,7 +395,7 @@ function checkScreenshots() {
   if (uniqueNames.size !== pngFiles.length) {
     report.screenshotCheck.skipped = false;
     fail(
-      `Screenshot filenames are not unique: ${pngFiles.length} files, ${uniqueNames.size} unique`
+      `Screenshot filenames are not unique: ${pngFiles.length} files, ${uniqueNames.size} unique`,
     );
     return;
   }
@@ -406,7 +404,7 @@ function checkScreenshots() {
   if (pngFiles.length < 4) {
     report.screenshotCheck.skipped = false;
     report.warnings.push(
-      `Only ${pngFiles.length} PNG screenshots found (expected at least 4).`
+      `Only ${pngFiles.length} PNG screenshots found (expected at least 4).`,
     );
     log(`Warning: Only ${pngFiles.length} PNG screenshots found.`);
     return;

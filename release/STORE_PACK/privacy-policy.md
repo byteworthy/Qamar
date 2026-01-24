@@ -2,6 +2,16 @@
 
 **Last Updated: January 2026**
 
+## What Noor Is (and Isn't)
+
+Noor is a self-reflection journaling tool rooted in Islamic principles. It is NOT:
+- A substitute for professional counseling or medical care
+- A diagnostic tool for mental health conditions
+- Emergency support for crisis situations
+- Licensed therapy or healthcare
+
+For professional support, please consult a licensed counselor, therapist, or healthcare provider.
+
 ## What We Collect
 
 Noor collects the following information when you use the app:
@@ -37,7 +47,7 @@ Noor uses artificial intelligence to generate reflective responses based on what
 
 ## Data Retention
 
-Your data is retained while your account is active. Inactive accounts and their associated data are automatically deleted after 12 months of no activity.
+Your data is retained for 30 days, then automatically deleted. Reflections are stored securely on our servers (encrypted in transit and at rest).
 
 ## Your Rights
 

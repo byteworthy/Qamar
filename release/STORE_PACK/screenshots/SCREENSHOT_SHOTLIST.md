@@ -8,23 +8,51 @@
 - Android Phone (1080 × 1920)
 - Android Tablet (1600 × 2560)
 
-## Order & Captions (App Store + Play Store)
+## Order & Captions (App Store + Play Store - SAFE LANGUAGE)
 
-1. **Onboarding Welcome** — "A calm, guided start"
-2. **Onboarding Privacy** — "Your reflections stay on your device"
-3. **Onboarding Safety** — "Safety resources available"
-4. **Home Screen** — "Light for the mind, rooted in Islam"
-5. **Thought Capture** — "Name the thought, rate the intensity"
-6. **Distortion Insight** — "Understand your thinking pattern"
-7. **Belief Inspection** — "Explore the belief underneath"
-8. **Reframe** — "Gentle, grounded perspective shifts"
-9. **Regulation Practice** — "Short calming steps for the body"
-10. **Intention Setting** — "Set a niyyah for what comes next"
-11. **Session Complete** — "Leave with a clear, compassionate anchor"
-12. **Calming Practice List** — "Standalone grounding with dhikr"
-13. **Dua Selection** — "Contextual duas for your inner state"
-14. **Insights (Noor Plus)** — "Patterns and progress over time"
-15. **Pricing / Upgrade** — "Choose Noor Plus or Premium"
+1. **Welcome Screen**
+   - Title: "A Sacred Space to Reflect"
+   - Caption: "Your thoughts, your faith, your clarity"
+
+2. **Privacy Screen**
+   - Title: "Your Words Stay Yours"
+   - Caption: "End-to-end encrypted. Auto-deleted after 30 days. No sharing, ever."
+
+3. **Safety Screen**
+   - Title: "When You Need More Than This App"
+   - Caption: "Noor is for reflection, not crises. If you're in immediate danger, please reach out."
+
+4. **Home Screen**
+   - Title: "Light for the Mind, Rooted in Faith"
+   - Caption: "A private space to untangle your thoughts"
+
+5. **Thought Capture**
+   - Title: "Write What Weighs on You"
+   - Caption: "Private journaling rooted in your tradition"
+
+6. **Pattern Recognition**
+   - Title: "See Your Thought Patterns"
+   - Caption: "Recognize how your mind works"
+
+7. **Reframe**
+   - Title: "Gain Quranic Perspective"
+   - Caption: "Timeless wisdom for modern struggles"
+
+8. **Grounding Practice**
+   - Title: "Ground Yourself"
+   - Caption: "Short calming steps with dhikr"
+
+9. **Intention Setting**
+   - Title: "Set Your Niyyah"
+   - Caption: "Choose a meaningful action forward"
+
+10. **History**
+    - Title: "Track Your Journey"
+    - Caption: "Encrypted, private, automatically deleted"
+
+11. **Pricing**
+    - Title: "Invest in Your Inner Peace"
+    - Caption: "Unlimited reflections, pattern insights, duas"
 
 ## Screen Sources (for capture)
 - Onboarding Welcome: `client/screens/onboarding/WelcomeScreen.tsx`

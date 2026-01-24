@@ -96,6 +96,13 @@ You may not:
 
 ## 8. Disclaimers and Limitations
 
+Noor is a reflective journaling tool for spiritual growth and self-awareness. By using Noor, you acknowledge that:
+
+1. Noor does not provide medical advice, diagnosis, or treatment
+2. Noor is not a substitute for professional mental health care
+3. In case of emergency, contact 988 Lifeline or emergency services
+4. The developers are not licensed healthcare providers
+
 **No Warranties:**
 - The App is provided "as is" without warranties of any kind
 - We do not guarantee specific outcomes
