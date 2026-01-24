@@ -56,3 +56,7 @@ app-example
 
 # IDE configs
 .vscode/
+
+# Reference materials and archives
+anthropic-cookbook/
+archive/
