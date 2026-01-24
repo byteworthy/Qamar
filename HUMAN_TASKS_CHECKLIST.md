@@ -1,0 +1,486 @@
+# 🧑 HUMAN TASKS CHECKLIST
+
+**Status**: 7 tasks requiring human action (besides credentials/APIs/placeholders)
+**Priority**: Organized by criticality and dependencies
+
+---
+
+## ⚠️ CRITICAL - BLOCKING LAUNCH
+
+### 1. Scholar Review of Islamic Content
+
+**Why**: Theological validation required before public launch.
+
+**Status**: [server/islamic-content-mapper.ts:869](server/islamic-content-mapper.ts#L869) shows `reviewStatus: "PENDING_INITIAL_REVIEW"`
+
+**Action Steps**:
+- [ ] Identify qualified Islamic scholar (credentials in aqeedah, fiqh, contemporary issues)
+- [ ] Compile review packet:
+  - [ ] All Quran ayat from [shared/islamic-framework.ts](shared/islamic-framework.ts)
+  - [ ] All Hadith references
+  - [ ] Reframing logic examples
+  - [ ] Scrupulosity handling approach
+  - [ ] Crisis intervention framework
+- [ ] Send packet to scholar for review
+- [ ] Schedule follow-up meeting to answer questions
+- [ ] Incorporate feedback into code
+- [ ] Get written approval/sign-off
+- [ ] Update code: `reviewStatus: "APPROVED"`, add `reviewedBy` with scholar credentials
+
+**Time**: 2-6 weeks (depends on scholar availability)
+**Cost**: $500-$2,000
+**Blocks**: Public launch, closed beta (TestFlight okay without this)
+
+---
+
+### 2. Attorney Review of Legal Documents
+
+**Why**: Legally binding ToS and Privacy Policy required for store submission.
+
+**Status**: Drafts only in [legal/](legal/) directory with `[PLACEHOLDER]` tags
+
+**Action Steps**:
+- [ ] Find attorney specializing in:
+  - Digital health/wellness apps
+  - GDPR compliance (if serving EU users)
+  - CCPA compliance (if serving CA users)
+  - App store compliance
+- [ ] Send attorney:
+  - [ ] [legal/PRIVACY_POLICY_DRAFT.md](legal/PRIVACY_POLICY_DRAFT.md)
+  - [ ] [legal/TERMS_OF_SERVICE_DRAFT.md](legal/TERMS_OF_SERVICE_DRAFT.md)
+  - [ ] [legal/DISCLAIMERS_DRAFT.md](legal/DISCLAIMERS_DRAFT.md)
+  - [ ] App functionality description
+  - [ ] [POSITIONING_DISCIPLINE.md](POSITIONING_DISCIPLINE.md) (explains "not therapy" positioning)
+- [ ] Attorney reviews and finalizes all `[PLACEHOLDER]` sections
+- [ ] Purchase domain (e.g., noorapp.com) if not owned
+- [ ] Host finalized docs on permanent URLs:
+  - https://noorapp.com/privacy
+  - https://noorapp.com/terms
+- [ ] Update [app.json](app.json) with final URLs
+- [ ] Verify URLs return 200 (stores check this)
+
+**Time**: 2-4 weeks
+**Cost**: $2,000-$5,000
+**Blocks**: Store submission, closed beta (TestFlight requires legal URLs)
+
+---
+
+### 3. Backend Deployment to Production
+
+**Why**: App cannot function without live backend API.
+
+**Recommended Host**: Railway or Render (fastest MVP deployment)
+
+**Action Steps**:
+- [ ] **Select hosting provider**: Create account on Railway or Render
+- [ ] **Add payment method**: Credit card for billing
+- [ ] **Provision PostgreSQL database**:
+  - [ ] Choose smallest tier ($7-10/month)
+  - [ ] Note connection string (DATABASE_URL)
+- [ ] **Deploy backend**:
+  - [ ] Connect GitHub repo
+  - [ ] Set build command: `npm run server:build`
+  - [ ] Set start command: `npm run server:prod`
+- [ ] **Set environment variables** (20+ vars from [docs/SECRETS_AND_CONFIG.md](docs/SECRETS_AND_CONFIG.md)):
+  - [ ] `NODE_ENV=production`
+  - [ ] `DATABASE_URL=<postgres-connection-string>`
+  - [ ] `ENCRYPTION_KEY=<generate-32-byte-hex>` (CRITICAL - use `openssl rand -hex 32`)
+  - [ ] `SESSION_SECRET=<generate-secret>` (use `openssl rand -hex 32`)
+  - [ ] `DATA_RETENTION_DRY_RUN=false` (enables actual deletion)
+  - [ ] Skip `AI_INTEGRATIONS_OPENAI_API_KEY` for now (set later)
+  - [ ] Skip `STRIPE_SECRET_KEY` for now (set later)
+- [ ] **Apply database schema**:
+  - [ ] Connect to prod DB via Railway/Render shell
+  - [ ] Run: `npm run db:push`
+  - [ ] Verify tables created: `\dt` in psql
+  - [ ] Verify foreign keys: `\d sessions` in psql
+  - [ ] Verify indexes: `\di` in psql
+- [ ] **Configure custom domain** (optional but recommended):
+  - [ ] Purchase domain (e.g., api.noorapp.com)
+  - [ ] Add DNS records
+  - [ ] Enable managed SSL/TLS
+- [ ] **Verify deployment**:
+  - [ ] Visit backend URL in browser
+  - [ ] Should see "Cannot GET /" (expected - no root route)
+  - [ ] Check logs for startup errors
+
+**Time**: 1 week
+**Cost**: $15-30/month (hosting + database)
+**Blocks**: All user testing, internal alpha, closed beta
+
+---
+
+## 🔴 HIGH PRIORITY - IMPROVES UX
+
+### 4. Implement Export Reflections UI
+
+**Why**: Users expect to export their data (GDPR/CCPA requirement).
+
+**Status**: Backend supports data export via history API, need client UI.
+
+**Action Steps**:
+- [ ] Install React Native Share: `npm install react-native-share`
+- [ ] Add export button to HistoryScreen header
+- [ ] Implement export logic:
+
+```typescript
+// In client/screens/HistoryScreen.tsx
+import Share from 'react-native-share';
+
+const handleExport = async () => {
+  // Format as markdown
+  const markdown = sessions.map(s =>
+    `## ${new Date(s.timestamp).toLocaleDateString()}\n\n` +
+    `**Thought**: ${s.thought}\n\n` +
+    `**Reframe**: ${s.reframe}\n\n` +
+    `**Intention**: ${s.intention}\n\n` +
+    `---\n\n`
+  ).join('');
+
+  // Share via native share sheet
+  await Share.open({
+    message: markdown,
+    title: 'My Noor Reflections',
+    subject: 'Noor Reflections Export',
+  });
+};
+```
+
+- [ ] Add export button UI:
+
+```typescript
+<Pressable
+  onPress={handleExport}
+  style={styles.exportButton}
+>
+  <Feather name="download" size={20} />
+  <ThemedText>Export</ThemedText>
+</Pressable>
+```
+
+- [ ] Test on iOS and Android
+- [ ] Verify share sheet appears with markdown content
+
+**Time**: 2-3 hours
+**Impact**: GDPR/CCPA compliance, user trust
+
+---
+
+### 5. Implement Cancel/Exit Buttons in Reflection Flow
+
+**Why**: Users should be able to exit mid-flow without force-quitting app.
+
+**Action Steps**:
+- [ ] Add cancel button to each reflection screen:
+  - [ ] ThoughtCaptureScreen
+  - [ ] DistortionScreen
+  - [ ] ReframeScreen
+  - [ ] RegulationScreen
+  - [ ] IntentionScreen
+- [ ] Implement confirmation modal (shared component):
+
+```typescript
+// Create client/components/ExitConfirmationModal.tsx
+export const ExitConfirmationModal = ({ visible, onConfirm, onCancel }) => (
+  <Modal visible={visible} transparent>
+    <View style={styles.overlay}>
+      <View style={styles.modal}>
+        <ThemedText type="h4">Exit reflection?</ThemedText>
+        <ThemedText>Progress will be lost.</ThemedText>
+        <View style={styles.buttons}>
+          <Button onPress={onCancel}>Stay</Button>
+          <Button onPress={onConfirm} destructive>Exit</Button>
+        </View>
+      </View>
+    </View>
+  </Modal>
+);
+```
+
+- [ ] Add to each reflection screen:
+
+```typescript
+// Example: ThoughtCaptureScreen.tsx
+const [showExitModal, setShowExitModal] = useState(false);
+
+useLayoutEffect(() => {
+  navigation.setOptions({
+    headerRight: () => (
+      <Pressable onPress={() => setShowExitModal(true)}>
+        <ThemedText>Cancel</ThemedText>
+      </Pressable>
+    ),
+  });
+}, [navigation]);
+
+const handleExit = () => {
+  setShowExitModal(false);
+  navigation.navigate('Home');
+};
+
+// In render:
+<ExitConfirmationModal
+  visible={showExitModal}
+  onConfirm={handleExit}
+  onCancel={() => setShowExitModal(false)}
+/>
+```
+
+- [ ] Test on each screen
+- [ ] Verify navigation returns to Home
+- [ ] Verify state is cleared (no stale data)
+
+**Time**: 3-4 hours
+**Impact**: Prevents user frustration, better UX
+
+---
+
+### 6. Set Up Sentry Error Tracking
+
+**Why**: Cannot debug production issues without error tracking.
+
+**Action Steps**:
+- [ ] Create Sentry account at https://sentry.io (free tier: 5k events/month)
+- [ ] Create two Sentry projects:
+  - [ ] **Backend** (Node.js)
+  - [ ] **Mobile** (React Native)
+- [ ] Get DSN from each project dashboard
+- [ ] **Backend integration** ([server/index.ts](server/index.ts)):
+
+```typescript
+import * as Sentry from "@sentry/node";
+
+if (process.env.NODE_ENV === 'production' && process.env.SENTRY_DSN_BACKEND) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN_BACKEND,
+    environment: process.env.NODE_ENV,
+    tracesSampleRate: 0.1, // 10% of requests
+  });
+}
+```
+
+- [ ] **Mobile integration** ([client/index.js](client/index.js)):
+
+```typescript
+import * as Sentry from "@sentry/react-native";
+
+if (process.env.EXPO_PUBLIC_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+    enableNative: true,
+  });
+}
+```
+
+- [ ] Add to backend deployment env vars:
+  - [ ] `SENTRY_DSN_BACKEND=<backend-dsn>`
+- [ ] Add to EAS secrets:
+  - [ ] `npx eas secret:create --name EXPO_PUBLIC_SENTRY_DSN --value "<mobile-dsn>"`
+- [ ] Test error capture:
+  - [ ] Trigger test error in backend: `throw new Error('Test error');`
+  - [ ] Check Sentry dashboard for event
+  - [ ] Trigger test crash in mobile
+  - [ ] Check Sentry dashboard for event
+- [ ] Configure source maps for mobile (in eas.json)
+- [ ] Set up Sentry alerts (email when error spike)
+
+**Time**: 1 day
+**Cost**: $0 (free tier)
+**Impact**: Production debugging capability
+
+---
+
+## 🟡 MEDIUM PRIORITY - NICE TO HAVE
+
+### 7. Implement Loading Timeouts
+
+**Why**: Users shouldn't wait indefinitely for AI responses.
+
+**Action Steps**:
+- [ ] Add timeout state to DistortionScreen and ReframeScreen:
+
+```typescript
+const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
+
+useEffect(() => {
+  let warningTimeout: NodeJS.Timeout;
+  let abortTimeout: NodeJS.Timeout;
+
+  if (loading) {
+    // Show warning after 15 seconds
+    warningTimeout = setTimeout(() => {
+      setShowTimeoutWarning(true);
+    }, 15000);
+
+    // Abort after 30 seconds
+    abortTimeout = setTimeout(() => {
+      setError(ScreenCopy.distortion.errorTimeout);
+      setLoading(false);
+    }, 30000);
+  }
+
+  return () => {
+    clearTimeout(warningTimeout);
+    clearTimeout(abortTimeout);
+  };
+}, [loading]);
+```
+
+- [ ] Update loading UI to show timeout warning:
+
+```typescript
+{loading && (
+  <View>
+    <ActivityIndicator />
+    <ThemedText>{ScreenCopy.distortion.loading}</ThemedText>
+    {showTimeoutWarning && (
+      <ThemedText style={{ color: theme.warning }}>
+        This is taking longer than expected. Still working...
+      </ThemedText>
+    )}
+  </View>
+)}
+```
+
+- [ ] Test with slow network (Chrome DevTools throttling)
+- [ ] Verify warning appears at 15s
+- [ ] Verify error appears at 30s
+
+**Time**: 2-3 hours
+**Impact**: Better user feedback, prevents confusion
+
+---
+
+### 8. Extract AI Prompts to Separate Files
+
+**Why**: Easier to review, version control, and get scholar approval.
+
+**Action Steps**:
+- [ ] Create `server/prompts/` directory
+- [ ] Find all OpenAI calls:
+  - [ ] Search codebase for `openai.chat.completions.create`
+  - [ ] List files: (already found [server/returnSummaries.ts](server/returnSummaries.ts))
+- [ ] Extract system prompts to files:
+  - [ ] `server/prompts/analyze-distortions.txt`
+  - [ ] `server/prompts/generate-reframe.txt`
+  - [ ] `server/prompts/suggest-practice.txt`
+  - [ ] `server/prompts/generate-summary.txt`
+- [ ] Update code to read from files:
+
+```typescript
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+const PROMPT_DIR = join(__dirname, 'prompts');
+
+function loadPrompt(filename: string): string {
+  return readFileSync(join(PROMPT_DIR, filename), 'utf-8');
+}
+
+// In OpenAI call:
+const systemPrompt = loadPrompt('analyze-distortions.txt');
+```
+
+- [ ] Review each prompt for quality:
+  - [ ] Clear instructions?
+  - [ ] Appropriate constraints?
+  - [ ] Islamic sensitivity?
+- [ ] Send prompts to scholar for review (part of Scholar Review task)
+- [ ] Commit prompts to version control
+
+**Time**: 1-2 days (includes prompt quality review)
+**Impact**: Easier prompt management, scholar can review in plain text
+
+---
+
+## 📋 SUMMARY
+
+| Task | Priority | Time | Cost | Blocks |
+|------|----------|------|------|--------|
+| 1. Scholar Review | CRITICAL | 2-6 weeks | $500-2k | Public launch |
+| 2. Legal Review | CRITICAL | 2-4 weeks | $2k-5k | Store submission |
+| 3. Backend Deployment | CRITICAL | 1 week | $15-30/mo | All testing |
+| 4. Export Reflections | HIGH | 2-3 hours | $0 | - |
+| 5. Cancel/Exit Buttons | HIGH | 3-4 hours | $0 | - |
+| 6. Sentry Setup | HIGH | 1 day | $0 | - |
+| 7. Loading Timeouts | MEDIUM | 2-3 hours | $0 | - |
+| 8. Extract AI Prompts | MEDIUM | 1-2 days | $0 | - |
+
+**Total One-Time Cost**: $2,500-$7,000
+**Total Monthly Cost**: $15-30
+**Total Development Time**: ~2-3 weeks (excluding reviews)
+
+---
+
+## ✅ QUICK WIN TASKS (Do These First)
+
+If you want quick progress while waiting on legal/scholar reviews:
+
+**Week 1 Quick Wins** (5-8 hours total):
+1. **Day 1**: Export reflections (2-3 hours)
+2. **Day 2**: Cancel/exit buttons (3-4 hours)
+3. **Day 3**: Sentry setup (1 day)
+
+**Week 2 While Waiting on Reviews**:
+4. Backend deployment (1 week)
+5. Loading timeouts (2-3 hours)
+6. Extract AI prompts (1-2 days)
+
+---
+
+## 🚦 DEPENDENCY CHAIN
+
+```
+Legal Review ─┐
+              ├──> Store Submission ──> Public Launch
+IAP Config ───┤
+              │
+Screenshots ──┘
+
+Scholar Review ─────> Closed Beta ──> Public Launch
+
+Backend Deploy ─────> Internal Alpha ──> Closed Beta ──> Public Launch
+```
+
+**Critical Path**: Backend Deploy → Scholar Review → Legal Review → Public Launch
+
+**Parallel Work**: While waiting on legal/scholar reviews, you can work on:
+- Export reflections
+- Cancel/exit buttons
+- Sentry setup
+- Loading timeouts
+- Extract AI prompts
+
+---
+
+## 📞 RECOMMENDED ORDER
+
+### Start Immediately (This Week)
+1. ✅ **Hire attorney** - Send legal drafts (2-4 week turnaround)
+2. ✅ **Contact scholar** - Send Islamic content (2-6 week turnaround)
+3. ✅ **Deploy backend** - Unblocks all other work (1 week)
+
+### Week 2-3 (While Waiting on Reviews)
+4. Export reflections
+5. Cancel/exit buttons
+6. Sentry setup
+7. Loading timeouts
+8. Extract AI prompts
+
+### Week 4-6 (Reviews Completing)
+- Monitor legal review progress
+- Monitor scholar review progress
+- Incorporate feedback from both
+- Begin IAP configuration (after legal review)
+- Create store assets (after legal review)
+
+### Week 7+ (Pre-Launch)
+- Final testing with all features
+- Internal alpha distribution
+- Address any critical bugs
+- Prepare for store submission
+
+---
+
+**End of Human Tasks Checklist**
+Last Updated: 2026-01-21
