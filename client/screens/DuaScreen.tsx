@@ -509,7 +509,11 @@ export default function DuaScreen() {
                 ]}
                 accessibilityRole="button"
                 accessibilityLabel={`${state.label}${isLocked ? ", requires Noor Plus" : ""}`}
-                accessibilityHint={isLocked ? "Upgrade to Noor Plus to access this dua category" : "Opens life context options for this inner state"}
+                accessibilityHint={
+                  isLocked
+                    ? "Upgrade to Noor Plus to access this dua category"
+                    : "Opens life context options for this inner state"
+                }
                 accessibilityState={{ disabled: isLocked }}
               >
                 <View

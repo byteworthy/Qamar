@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform, PixelRatio } from "react-native";
 
 // ============================================================================
 // NOOR DESIGN SYSTEM — SINGLE SOURCE OF TRUTH
@@ -17,10 +17,10 @@ export const NiyyahColors = {
   background: "#1a1612",
   backgroundLight: "#221e19",
   backgroundCard: "#2d2820",
-  backgroundCardLight: "#3a3328",
+  backgroundCardLight: "#423a30", // Increased from #3a3328 for better card hierarchy
   cream: "#f5f0e8",
   creamDark: "#d4c9b8",
-  creamMuted: "#a89d8a",
+  creamMuted: "#b8a895", // Lightened from #a89d8a for better contrast (4.5:1 on background)
   accent: "#4fd1a8",
   accentDark: "#3bb890",
   gold: "#c9a855",
@@ -53,7 +53,7 @@ export const SiraatColors = {
   charcoalDark: "#151515",
   cream: "#F2EDE3",
   warmWhite: "#F8F5F0",
-  warmGray: "#8A8478",
+  warmGray: "#6B6358", // Darkened from #8A8478 for WCAG AA compliance (4.5:1 on warmWhite)
 };
 
 // ----------------------------------------------------------------------------
@@ -231,6 +231,31 @@ export const BorderRadius = {
   "3xl": 40,
   full: 9999,
 };
+
+// ----------------------------------------------------------------------------
+// RESPONSIVE TYPOGRAPHY HELPERS
+// ----------------------------------------------------------------------------
+
+/**
+ * Get dynamic font size that respects user's system font size preferences
+ * Caps at 130% to maintain design integrity
+ * @param baseSize - Base font size in pixels
+ * @returns Scaled font size respecting accessibility settings
+ */
+export function getDynamicFontSize(baseSize: number): number {
+  const scale = PixelRatio.getFontScale();
+  return Math.round(baseSize * Math.min(scale, 1.3));
+}
+
+/**
+ * Get dynamic line height that scales with font size
+ * @param baseLineHeight - Base line height in pixels
+ * @returns Scaled line height
+ */
+export function getDynamicLineHeight(baseLineHeight: number): number {
+  const scale = PixelRatio.getFontScale();
+  return Math.round(baseLineHeight * Math.min(scale, 1.3));
+}
 
 // ----------------------------------------------------------------------------
 // TYPOGRAPHY TOKENS

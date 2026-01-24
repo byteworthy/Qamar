@@ -1,5 +1,5 @@
 /**
- * Islamic Content Mapper for Noor CBT
+ * Islamic Content Mapper for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md

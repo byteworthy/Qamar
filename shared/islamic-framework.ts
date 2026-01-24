@@ -1,5 +1,5 @@
 /**
- * Islamic Psychological Framework for Noor CBT
+ * Islamic Psychological Framework for Noor
  *
  * This module provides the foundational Islamic concepts that anchor
  * the therapeutic experience. These are not decorative - they form

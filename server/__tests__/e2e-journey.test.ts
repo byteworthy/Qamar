@@ -1,5 +1,5 @@
 /**
- * End-to-End Journey Tests for Noor CBT
+ * End-to-End Journey Tests for Noor
  *
  * Tests complete user flows through the canonical orchestration system:
  * 1. Normal CBT journey (thought → analyze → reframe → practice → intention)

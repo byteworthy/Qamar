@@ -1,6 +1,6 @@
 # Mobile Smoke Tests
 
-**Purpose**: Manual smoke test procedures for Noor CBT mobile app  
+**Purpose**: Manual smoke test procedures for Noor mobile app  
 **Last Updated**: 2026-01-19  
 **Owner**: QA / Release Management
 
@@ -385,7 +385,7 @@ These are step-by-step manual tests to verify core functionality before release.
    - **Expected**: No internet connection
 
 2. **Launch App**
-   - Open Noor CBT app
+   - Open Noor app
    - **Expected**: App launches successfully
    - **Expected**: Home screen appears
 

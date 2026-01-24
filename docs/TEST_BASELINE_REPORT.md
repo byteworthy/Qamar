@@ -1,4 +1,4 @@
-# 📊 Test Baseline Report - Noor CBT
+# 📊 Test Baseline Report - Noor
 
 **Generated**: 2026-01-24
 **Test Suite Version**: 1.0

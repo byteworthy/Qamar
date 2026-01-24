@@ -1,6 +1,6 @@
 # Backend Hosting Plan
 
-**Purpose**: Backend hosting strategy for Noor CBT mobile app  
+**Purpose**: Backend hosting strategy for Noor mobile app  
 **Last Updated**: 2026-01-19  
 **Owner**: Platform Architecture
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Noor CBT is a **mobile-first app** that requires a backend API server for AI processing and safety validation. The mobile apps (iOS/Android) connect to this backend via HTTPS API calls.
+Noor is a **mobile-first app** that requires a backend API server for AI processing and safety validation. The mobile apps (iOS/Android) connect to this backend via HTTPS API calls.
 
 **Architecture**: Mobile client → Backend API → OpenAI + PostgreSQL
 

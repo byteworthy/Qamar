@@ -55,12 +55,16 @@ export function Toast({
       // Auto hide after duration
       translateY.value = withDelay(
         duration,
-        withSpring(-100, {
-          damping: 20,
-          stiffness: 200,
-        }, () => {
-          runOnJS(onHide)();
-        })
+        withSpring(
+          -100,
+          {
+            damping: 20,
+            stiffness: 200,
+          },
+          () => {
+            runOnJS(onHide)();
+          },
+        ),
       );
     } else {
       translateY.value = withSpring(-100);

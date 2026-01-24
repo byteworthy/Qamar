@@ -293,7 +293,7 @@ heroku certs:auto:enable
 
 ---
 
-## Noor CBT Specific Checklist
+## Noor Specific Checklist
 
 ### Pre-Submission Network Checklist
 

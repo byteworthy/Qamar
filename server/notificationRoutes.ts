@@ -1,5 +1,5 @@
 /**
- * Notification API Routes for Noor CBT
+ * Notification API Routes for Noor
  *
  * Handles push token registration and server-triggered notifications
  */

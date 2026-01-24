@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
   },
   moduleDescription: {
     fontSize: 13,
-    color: "rgba(255,255,255,0.75)",
+    color: "rgba(255,255,255,0.85)", // Increased from 0.75 for better contrast
     lineHeight: 18,
   },
   proBadge: {

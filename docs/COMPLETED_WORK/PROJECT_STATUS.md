@@ -1,7 +1,7 @@
-# Noor CBT - Project Status
+# Noor - Project Status
 
 ## Purpose
-Noor CBT is an Islamic-integrated cognitive behavioral therapy mobile application designed to help Muslim users manage anxiety, distress, and negative thought patterns through evidence-based CBT techniques grounded in Islamic principles. The app provides a safe, culturally sensitive environment where therapeutic interventions are filtered through an Islamic epistemological framework, ensuring all AI-generated content respects theological boundaries.
+Noor is an Islamic-integrated cognitive behavioral therapy mobile application designed to help Muslim users manage anxiety, distress, and negative thought patterns through evidence-based CBT techniques grounded in Islamic principles. The app provides a safe, culturally sensitive environment where therapeutic interventions are filtered through an Islamic epistemological framework, ensuring all AI-generated content respects theological boundaries.
 
 ## Tech Stack
 - **Frontend**: React Native (Expo), TypeScript

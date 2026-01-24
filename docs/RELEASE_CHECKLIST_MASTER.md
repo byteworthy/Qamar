@@ -85,7 +85,7 @@
 - [ ] Developer account active (enrollment complete)
 - [ ] App created in App Store Connect
 - [ ] Bundle ID matches app.json: com.noorcbt.app (or actual)
-- [ ] App name reserved: "Noor CBT"
+- [ ] App name reserved: "Noor"
 - [ ] Primary language set: English
 - [ ] Category set: Health & Fitness
 
@@ -101,7 +101,7 @@
 - [ ] Subscription reviewed and approved (may take 24-48 hours)
 
 **Metadata:**
-- [ ] App name: "Noor CBT"
+- [ ] App name: "Noor"
 - [ ] Subtitle: "Islamic CBT companion for mindful reflection"
 - [ ] Description written (see release/STORE_PACK/apple/APP_STORE_METADATA.md)
 - [ ] Keywords entered (10 max)
@@ -179,7 +179,7 @@
 **Google Play Console Setup:**
 - [ ] Developer account active ($25 one-time fee paid)
 - [ ] App created in Play Console
-- [ ] App name set: "Noor CBT"
+- [ ] App name set: "Noor"
 - [ ] Package name: com.noorcbt.app (must match app.json)
 - [ ] Category: Health & Fitness
 - [ ] Tags added
@@ -195,7 +195,7 @@
 - [ ] Subscription activated
 
 **Store Listing:**
-- [ ] App name: "Noor CBT"
+- [ ] App name: "Noor"
 - [ ] Short description (80 chars): See release/STORE_PACK/google/PLAY_STORE_METADATA.md
 - [ ] Full description (4000 chars): See metadata file
 - [ ] App icon uploaded (512x512)

@@ -1,4 +1,4 @@
-# Noor CBT Mobile Release Guide (EAS)
+# Noor Mobile Release Guide (EAS)
 
 ## What this enables
 This repo supports three Expo EAS build tracks so releases are consistent and repeatable:

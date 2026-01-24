@@ -1,4 +1,4 @@
-# Noor CBT Project Status Report
+# Noor Project Status Report
 **Report Date:** January 19, 2026  
 **Last Updated:** January 19, 2026
 **Repo Location:** C:\Dev\Noor-CBT  
@@ -10,7 +10,7 @@
 
 ## A. Executive Summary
 
-Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 development**. The backend safety infrastructure is world-class with 79 passing tests, canonical orchestration, and encryption. The React Native client has 14 screens and a complete CBT journey flow. The billing system is operational with Stripe integration.
+Noor is an Islamic-integrated CBT mobile application in **late MVP 1 development**. The backend safety infrastructure is world-class with 79 passing tests, canonical orchestration, and encryption. The React Native client has 14 screens and a complete CBT journey flow. The billing system is operational with Stripe integration.
 
 **Current State:** Core therapeutic engine is strong. Safety systems are comprehensive. **Encryption is implemented; data retention deletion is not.** Mobile app structure exists. **However:** CI is now fixed (release:check present). Mobile release pipeline exists and store metadata drafts are in place, but submission requirements remain incomplete. Scholar review is pending. **Onboarding is implemented.**
 
@@ -495,7 +495,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 **Time:** 2 days
 
 **Definition of Done:**
-- [ ] Screen 1: Welcome - "Noor CBT is an Islamic-integrated CBT companion" + what it is/isn't
+- [ ] Screen 1: Welcome - "Noor is an Islamic-integrated CBT companion" + what it is/isn't
 - [ ] Screen 2: How It Works - Brief explanation of thought → analyze → reframe flow
 - [ ] Screen 3: Important Boundaries - Not therapy, not religious authority, crisis resources available
 - [ ] Add navigation logic to show onboarding on first app open only
@@ -675,7 +675,7 @@ Noor CBT is an Islamic-integrated CBT mobile application in **late MVP 1 develop
 
 ---
 
-**Conclusion:** Noor CBT has an exceptionally strong therapeutic and safety foundation. The backend is robust. The mobile app structure is complete. However, critical release infrastructure gaps (CI, legal, store requirements) prevent immediate launch. With focused effort on the 7 sprint tasks above, internal alpha testing is achievable in 1 week. Public beta requires 4-6 additional weeks for legal review and scholar validation.
+**Conclusion:** Noor has an exceptionally strong therapeutic and safety foundation. The backend is robust. The mobile app structure is complete. However, critical release infrastructure gaps (CI, legal, store requirements) prevent immediate launch. With focused effort on the 7 sprint tasks above, internal alpha testing is achievable in 1 week. Public beta requires 4-6 additional weeks for legal review and scholar validation.
 
 **Recommendation:** Fix CI immediately. Launch internal alpha via TestFlight in 1 week. Use alpha feedback to refine UX while legal and scholar reviews proceed in parallel. Target public beta in 6-8 weeks.
 

@@ -1,4 +1,4 @@
-# Noor CBT Hardening & Coherence - COMPLETE ✅
+# Noor Hardening & Coherence - COMPLETE ✅
 
 **Completion Date:** January 17, 2026  
 **Charter Version:** 1.0  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Successfully implemented a **comprehensive safety and governance infrastructure** for Noor CBT that prevents theological drift, protects vulnerable users, and ensures consistent ethical behavior. This is not incremental safety—this is a complete governance framework.
+Successfully implemented a **comprehensive safety and governance infrastructure** for Noor that prevents theological drift, protects vulnerable users, and ensures consistent ethical behavior. This is not incremental safety—this is a complete governance framework.
 
 ### What Makes This Unique
 
@@ -391,7 +391,7 @@ getSoftExitPrompt() → string
 
 **Structure:**
 
-**A. What Noor CBT Is**
+**A. What Noor Is**
 - AI-assisted Islamic CBT companion
 - Not therapist, not scholar, not crisis counselor
 - Clear boundary definitions

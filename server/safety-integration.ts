@@ -1,5 +1,5 @@
 /**
- * Safety Integration Layer for Noor CBT
+ * Safety Integration Layer for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md
@@ -28,6 +28,7 @@ import {
 } from "./tone-compliance-checker";
 import {
   createConversationStateMachine,
+  STATE_GUIDANCE,
   type ConversationStateMachine,
   type ConversationState,
 } from "./conversation-state-machine";
@@ -326,9 +327,7 @@ function buildSafetyGuidance(params: {
 
   // Conversation state guidance
   guidance += `\n🗣️  CONVERSATION STATE: ${params.conversationState}\n`;
-  const stateGuidance = require("./conversation-state-machine").STATE_GUIDANCE[
-    params.conversationState
-  ];
+  const stateGuidance = STATE_GUIDANCE[params.conversationState];
   if (stateGuidance) {
     guidance += `Purpose: ${stateGuidance.purpose}\n`;
     guidance += `Tone emphasis: ${stateGuidance.toneEmphasis.join(", ")}\n`;

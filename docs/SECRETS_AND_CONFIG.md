@@ -1,6 +1,6 @@
 # Secrets and Configuration Management
 
-**Purpose**: Secure secrets handling and configuration for Noor CBT  
+**Purpose**: Secure secrets handling and configuration for Noor  
 **Last Updated**: 2026-01-19  
 **Owner**: Engineering / DevOps
 

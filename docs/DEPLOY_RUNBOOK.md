@@ -1,6 +1,6 @@
 # Deployment Runbook
 
-**Purpose**: Step-by-step deployment procedures for Noor CBT  
+**Purpose**: Step-by-step deployment procedures for Noor  
 **Last Updated**: 2026-01-19  
 **Owner**: Engineering / DevOps
 

@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback, useLayoutEffect } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import {
   View,
   StyleSheet,
@@ -172,7 +178,9 @@ export default function RegulationScreen() {
         const result = await generatePractice(reframe);
         setPractice(result);
       } catch (err) {
-        setError("We couldn't create a calming practice right now. Please try again in a moment.");
+        setError(
+          "We couldn't create a calming practice right now. Please try again in a moment.",
+        );
         console.error(err);
       } finally {
         setLoading(false);
@@ -290,7 +298,8 @@ export default function RegulationScreen() {
           type="body"
           style={[styles.errorText, { color: theme.error }]}
         >
-          {error || "Something went wrong on our end. Please go back and try again."}
+          {error ||
+            "Something went wrong on our end. Please go back and try again."}
         </ThemedText>
         <Button
           onPress={() => navigation.goBack()}
@@ -354,9 +363,7 @@ export default function RegulationScreen() {
               style={[
                 styles.stepNumber,
                 {
-                  backgroundColor: isActive
-                    ? theme.onPrimary
-                    : theme.primary,
+                  backgroundColor: isActive ? theme.onPrimary : theme.primary,
                 },
               ]}
             >

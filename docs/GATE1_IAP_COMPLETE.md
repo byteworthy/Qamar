@@ -10,7 +10,7 @@
 
 ## Summary
 
-Gate 1 successfully implements end-to-end in-app purchase functionality for Noor CBT using `react-native-iap`. All StoreBillingProvider TODOs have been replaced with working implementations.
+Gate 1 successfully implements end-to-end in-app purchase functionality for Noor using `react-native-iap`. All StoreBillingProvider TODOs have been replaced with working implementations.
 
 **Library**: react-native-iap (v12.15.5)  
 **Platforms**: iOS (StoreKit) + Android (Play Billing)  

@@ -1,5 +1,5 @@
 /**
- * Failure Language System for Noor CBT
+ * Failure Language System for Noor
  *
  * PRIORITY 2: User-facing language for system interventions and pauses
  *

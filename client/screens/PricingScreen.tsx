@@ -82,7 +82,8 @@ function getBillingUserMessage(
     case "restore":
       return {
         title: "Can't Restore Purchases",
-        message: "We couldn't restore your purchases. Check your connection and try again.",
+        message:
+          "We couldn't restore your purchases. Check your connection and try again.",
       };
     case "manage":
       return {
@@ -94,7 +95,8 @@ function getBillingUserMessage(
     default:
       return {
         title: "Purchase Incomplete",
-        message: "We couldn't complete your purchase. Please check your payment method and try again.",
+        message:
+          "We couldn't complete your purchase. Please check your payment method and try again.",
       };
   }
 }
@@ -167,9 +169,7 @@ function PlanCard({
             <Feather
               name={feature.included ? "check" : "x"}
               size={16}
-              color={
-                feature.included ? theme.success : theme.textSecondary
-              }
+              color={feature.included ? theme.success : theme.textSecondary}
             />
             <ThemedText
               style={[
@@ -214,9 +214,7 @@ function PlanCard({
           onPress={onSelect}
           disabled={loading}
           style={{
-            backgroundColor: isPremium
-              ? theme.accent
-              : theme.backgroundDefault,
+            backgroundColor: isPremium ? theme.accent : theme.backgroundDefault,
             marginTop: spacing.lg,
           }}
           accessibilityHint={`Subscribes to ${name} plan. ${price}${period || ""}`}
@@ -343,7 +341,8 @@ export default function PricingScreen() {
           Early Access Pricing
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Lock in beta rates forever. Price increases to $6.99/month after launch.
+          Lock in beta rates forever. Price increases to $6.99/month after
+          launch.
         </ThemedText>
       </View>
 

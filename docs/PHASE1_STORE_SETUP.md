@@ -28,7 +28,7 @@
 - [ ] Click Identifiers → Plus button
 - [ ] Select App IDs → Continue
 - [ ] Select App → Continue
-- [ ] Description: "Noor CBT App"
+- [ ] Description: "Noor App"
 - [ ] Bundle ID: Select Explicit, enter `com.noor.app`
 - [ ] Capabilities: Check In-App Purchase
 - [ ] Click Continue → Register

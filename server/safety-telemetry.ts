@@ -1,5 +1,5 @@
 /**
- * Safety Telemetry System for Noor CBT
+ * Safety Telemetry System for Noor
  *
  * PRIORITY 3: Internal metrics only - NO behavioral tracking
  *

@@ -93,10 +93,10 @@ export default function ThoughtCaptureScreen() {
       breathingScale.value = withRepeat(
         withSequence(
           withTiming(1.005, { duration: 2000 }),
-          withTiming(1, { duration: 2000 })
+          withTiming(1, { duration: 2000 }),
         ),
         -1,
-        false
+        false,
       );
     } else {
       breathingScale.value = withTiming(1, { duration: 300 });
@@ -438,7 +438,9 @@ export default function ThoughtCaptureScreen() {
                     <ThemedText
                       type="small"
                       style={{
-                        color: isSelected ? theme.onPrimary : theme.textSecondary,
+                        color: isSelected
+                          ? theme.onPrimary
+                          : theme.textSecondary,
                       }}
                     >
                       {somatic}

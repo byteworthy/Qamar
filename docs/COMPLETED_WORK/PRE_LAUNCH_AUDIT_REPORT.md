@@ -1,14 +1,14 @@
 # PRE-LAUNCH AUDIT REPORT
 
 **Date:** 2026-01-21
-**App:** Noor CBT v1.0.0
+**App:** Noor v1.0.0
 **Status:** ✅ READY FOR CREDENTIALS & SUBMISSION
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-The Noor CBT application has been **fully audited** and is **ready for store submission**. All core functionality is complete, security measures are in place, and no critical issues were found.
+The Noor application has been **fully audited** and is **ready for store submission**. All core functionality is complete, security measures are in place, and no critical issues were found.
 
 **Completion Status: ~85%**
 

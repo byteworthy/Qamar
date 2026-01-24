@@ -457,7 +457,10 @@ export default function IntentionScreen() {
           {showBismillah && (
             <ThemedText
               type="body"
-              style={[styles.previewBismillah, { color: theme.highlightAccent }]}
+              style={[
+                styles.previewBismillah,
+                { color: theme.highlightAccent },
+              ]}
             >
               بسم الله
             </ThemedText>

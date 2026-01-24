@@ -55,9 +55,11 @@ export const ScreenCopy = {
     },
     loading: "Noticing how you're thinking...",
     continue: "Continue",
-    error: "We couldn't complete this reflection. Take a breath and try again when you're ready.",
+    error:
+      "We couldn't complete this reflection. Take a breath and try again when you're ready.",
     errorFallback: "This needs a moment. Try again in a little while.",
-    errorNetwork: "Can't connect right now. Check your internet connection and try again.",
+    errorNetwork:
+      "Can't connect right now. Check your internet connection and try again.",
     errorServer:
       "Something went wrong on our end. We're looking into it—please try again soon.",
     errorTimeout:
@@ -74,9 +76,11 @@ export const ScreenCopy = {
     },
     loading: "Seeking perspective...",
     continue: "Continue",
-    error: "We couldn't complete this reflection. Take a breath and try again when you're ready.",
+    error:
+      "We couldn't complete this reflection. Take a breath and try again when you're ready.",
     errorFallback: "This needs a moment. Try again in a little while.",
-    errorNetwork: "Can't connect right now. Check your internet connection and try again.",
+    errorNetwork:
+      "Can't connect right now. Check your internet connection and try again.",
     errorServer:
       "Something went wrong on our end. We're looking into it—please try again soon.",
     errorTimeout:

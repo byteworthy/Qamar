@@ -69,7 +69,8 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Connects your thoughts to Quranic wisdom and Prophetic guidance
+                • Connects your thoughts to Quranic wisdom and Prophetic
+                guidance
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
                 • Helps you recognize patterns in how you think

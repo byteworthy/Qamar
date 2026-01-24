@@ -1,5 +1,5 @@
 /**
- * AI Safety & Guardrails System for Noor CBT
+ * AI Safety & Guardrails System for Noor
  *
  * This module ensures that AI-generated content is safe, therapeutic,
  * and aligned with Islamic principles. It includes crisis detection,

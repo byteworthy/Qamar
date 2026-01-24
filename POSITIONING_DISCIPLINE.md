@@ -10,11 +10,11 @@ Last Updated: 2026-01-17
 
 **Words matter legally, spiritually, and psychologically.**
 
-How we describe Noor CBT shapes user expectations, legal liability, and spiritual responsibility. This document establishes **immutable** language rules for all product communications.
+How we describe Noor shapes user expectations, legal liability, and spiritual responsibility. This document establishes **immutable** language rules for all product communications.
 
 ---
 
-## What Noor CBT IS
+## What Noor IS
 
 ### Approved Positioning
 
@@ -54,7 +54,7 @@ How we describe Noor CBT shapes user expectations, legal liability, and spiritua
 
 ---
 
-## What Noor CBT IS NOT
+## What Noor IS NOT
 
 ### FORBIDDEN Terms - NEVER Use
 

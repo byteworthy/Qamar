@@ -325,7 +325,10 @@ export default function ReframeScreen() {
         <ReflectionProgressCompact currentStep="Reframe" />
 
         {/* Loading message */}
-        <Animated.View entering={FadeIn.duration(300)} style={{ marginVertical: Spacing.xl }}>
+        <Animated.View
+          entering={FadeIn.duration(300)}
+          style={{ marginVertical: Spacing.xl }}
+        >
           <ThemedText
             type="body"
             style={[
@@ -340,7 +343,11 @@ export default function ReframeScreen() {
               type="small"
               style={[
                 styles.timeoutWarning,
-                { color: theme.intensityHeavy, marginTop: Spacing.md, textAlign: "center" },
+                {
+                  color: theme.intensityHeavy,
+                  marginTop: Spacing.md,
+                  textAlign: "center",
+                },
               ]}
             >
               This is taking longer than expected. Still working...
@@ -369,7 +376,10 @@ export default function ReframeScreen() {
         {/* Progress Indicator */}
         <ReflectionProgressCompact currentStep="Reframe" />
 
-        <Animated.View entering={FadeIn.duration(400)} style={styles.errorContent}>
+        <Animated.View
+          entering={FadeIn.duration(400)}
+          style={styles.errorContent}
+        >
           {/* Error icon */}
           <View
             style={[
@@ -399,7 +409,10 @@ export default function ReframeScreen() {
           <View style={styles.errorActions}>
             <Button
               onPress={handleRetry}
-              style={{ backgroundColor: theme.primary, marginBottom: Spacing.md }}
+              style={{
+                backgroundColor: theme.primary,
+                marginBottom: Spacing.md,
+              }}
               accessibilityHint="Attempts to generate reframe again"
             >
               Try Again

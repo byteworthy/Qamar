@@ -1,5 +1,5 @@
 /**
- * Safety System Test Suite for Noor CBT
+ * Safety System Test Suite for Noor
  *
  * Tests all safety mechanisms:
  * - Crisis detection

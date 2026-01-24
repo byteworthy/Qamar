@@ -20,7 +20,7 @@ UptimeRobot offers 50 monitors free with 5-minute check intervals.
 1. Click "Add New Monitor"
 2. Configure:
    - **Monitor Type**: HTTP(s)
-   - **Friendly Name**: Noor CBT API Health
+   - **Friendly Name**: Noor API Health
    - **URL**: `https://your-api-domain.com/health`
    - **Monitoring Interval**: 5 minutes
 3. Click "Create Monitor"
@@ -32,7 +32,7 @@ This verifies the response contains expected data:
 1. Click "Add New Monitor"
 2. Configure:
    - **Monitor Type**: Keyword
-   - **Friendly Name**: Noor CBT API Content Check
+   - **Friendly Name**: Noor API Content Check
    - **URL**: `https://your-api-domain.com/health`
    - **Keyword Type**: Keyword should exist
    - **Keyword**: `"status":"ok"`

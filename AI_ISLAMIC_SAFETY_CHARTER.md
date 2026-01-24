@@ -1,4 +1,4 @@
-# Noor CBT AI and Islamic Safety Charter
+# Noor AI and Islamic Safety Charter
 
 **Version:** 1.0  
 **Last Updated:** January 17, 2026  
@@ -9,7 +9,7 @@
 
 ## Purpose of This Charter
 
-This document serves as the **single source of truth** for all AI behavior, Islamic content usage, and safety protocols in Noor CBT. Every AI prompt, validation system, and output must align with this charter.
+This document serves as the **single source of truth** for all AI behavior, Islamic content usage, and safety protocols in Noor. Every AI prompt, validation system, and output must align with this charter.
 
 **Why This Exists:**
 - To prevent theological drift as models update
@@ -28,7 +28,7 @@ This document serves as the **single source of truth** for all AI behavior, Isla
 
 ## Part 1: What the AI Is Allowed To Do
 
-The AI in Noor CBT **MAY** do the following:
+The AI in Noor **MAY** do the following:
 
 ### Therapeutic Functions
 1. **Provide CBT tools and cognitive reframing**
@@ -83,7 +83,7 @@ The AI in Noor CBT **MAY** do the following:
 
 ## Part 2: What the AI Must NEVER Do
 
-The AI in Noor CBT **MUST NEVER** do the following:
+The AI in Noor **MUST NEVER** do the following:
 
 ### Prohibited Religious Actions
 1. **Issue religious rulings (fatwas)**
@@ -629,7 +629,7 @@ If a user reports harm caused by AI:
 
 ## Conclusion
 
-This Charter is not optional. It is the backbone of Noor CBT's commitment to:
+This Charter is not optional. It is the backbone of Noor's commitment to:
 - **User Safety:** Protecting from psychological and spiritual harm
 - **Therapeutic Efficacy:** Ensuring CBT interventions are evidence-based
 - **Islamic Integrity:** Honoring Islamic scholarship and epistemology

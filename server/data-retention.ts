@@ -1,5 +1,5 @@
 /**
- * Data Retention Module for Noor CBT
+ * Data Retention Module for Noor
  *
  * Handles automatic deletion of expired user data.
  * Ensures compliance with data retention policies.

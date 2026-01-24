@@ -1,6 +1,6 @@
 # Local Validation Runbook
 
-**Purpose**: Quick-start guide for running Noor CBT locally in validation mode  
+**Purpose**: Quick-start guide for running Noor locally in validation mode  
 **Audience**: Testers, engineers doing local development  
 **Time**: ~5 minutes to get running
 

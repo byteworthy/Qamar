@@ -37,7 +37,7 @@ export function LoadingSkeleton({
     shimmer.value = withRepeat(
       withTiming(1, { duration: 1500 }),
       -1, // infinite
-      false
+      false,
     );
   }, []);
 
@@ -57,13 +57,7 @@ export function LoadingSkeleton({
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        containerStyle,
-        style,
-      ]}
-    >
+    <View style={[styles.container, containerStyle, style]}>
       <Animated.View
         style={[
           StyleSheet.absoluteFill,
@@ -109,7 +103,11 @@ export function SkeletonCard() {
         },
       ]}
     >
-      <LoadingSkeleton width="60%" height={24} style={{ marginBottom: Spacing.md }} />
+      <LoadingSkeleton
+        width="60%"
+        height={24}
+        style={{ marginBottom: Spacing.md }}
+      />
       <SkeletonText lines={2} />
     </View>
   );
@@ -120,29 +118,57 @@ export function SkeletonReflection() {
     <View style={styles.skeletonReflection}>
       {/* Belief section */}
       <View style={{ marginBottom: Spacing["2xl"] }}>
-        <LoadingSkeleton width={140} height={12} style={{ marginBottom: Spacing.sm }} />
+        <LoadingSkeleton
+          width={140}
+          height={12}
+          style={{ marginBottom: Spacing.sm }}
+        />
         <LoadingSkeleton width="100%" height={60} />
       </View>
 
       {/* Perspective section */}
       <View style={{ marginBottom: Spacing["2xl"] }}>
-        <LoadingSkeleton width={160} height={12} style={{ marginBottom: Spacing.sm }} />
+        <LoadingSkeleton
+          width={160}
+          height={12}
+          style={{ marginBottom: Spacing.sm }}
+        />
         <LoadingSkeleton width="100%" height={120} />
       </View>
 
       {/* Next step section */}
       <View style={{ marginBottom: Spacing["2xl"] }}>
-        <LoadingSkeleton width={120} height={12} style={{ marginBottom: Spacing.sm }} />
+        <LoadingSkeleton
+          width={120}
+          height={12}
+          style={{ marginBottom: Spacing.sm }}
+        />
         <LoadingSkeleton width="100%" height={40} />
       </View>
 
       {/* Anchors */}
       <View>
-        <LoadingSkeleton width={100} height={12} style={{ marginBottom: Spacing.sm }} />
+        <LoadingSkeleton
+          width={100}
+          height={12}
+          style={{ marginBottom: Spacing.sm }}
+        />
         <View style={styles.anchorRow}>
-          <LoadingSkeleton width={80} height={32} borderRadius={BorderRadius.full} />
-          <LoadingSkeleton width={100} height={32} borderRadius={BorderRadius.full} />
-          <LoadingSkeleton width={90} height={32} borderRadius={BorderRadius.full} />
+          <LoadingSkeleton
+            width={80}
+            height={32}
+            borderRadius={BorderRadius.full}
+          />
+          <LoadingSkeleton
+            width={100}
+            height={32}
+            borderRadius={BorderRadius.full}
+          />
+          <LoadingSkeleton
+            width={90}
+            height={32}
+            borderRadius={BorderRadius.full}
+          />
         </View>
       </View>
     </View>

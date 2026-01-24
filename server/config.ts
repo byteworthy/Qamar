@@ -15,7 +15,7 @@ const log = console.log;
 
 /**
  * When true, the app runs in validation mode:
- * - AI routes return placeholder responses instead of calling OpenAI
+ * - AI routes return placeholder responses instead of calling Claude API
  * - Billing/purchase flows are disabled
  * - Missing API keys don't crash the app
  */
@@ -36,10 +36,8 @@ export const config = {
   // Database
   databaseUrl: process.env.DATABASE_URL,
 
-  // OpenAI
-  openaiApiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  openaiBaseUrl:
-    process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || "https://api.openai.com/v1",
+  // Anthropic Claude
+  anthropicApiKey: process.env.ANTHROPIC_API_KEY,
 
   // Stripe (server-side, not for mobile IAP)
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
@@ -66,10 +64,10 @@ export function isPlaceholderKey(key: string | undefined): boolean {
 }
 
 /**
- * Check if OpenAI is properly configured
+ * Check if Anthropic Claude is properly configured
  */
-export function isOpenAIConfigured(): boolean {
-  return !isPlaceholderKey(config.openaiApiKey);
+export function isAnthropicConfigured(): boolean {
+  return !isPlaceholderKey(config.anthropicApiKey);
 }
 
 /**
@@ -105,10 +103,10 @@ export function getValidationModeAnalyzeResponse(): {
   return {
     distortions: ["Emotional reasoning"],
     happening:
-      "[VALIDATION MODE] This is a placeholder response. Configure AI_INTEGRATIONS_OPENAI_API_KEY for real analysis.",
+      "[VALIDATION MODE] This is a placeholder response. Configure ANTHROPIC_API_KEY for real analysis.",
     pattern: [
       "This would identify cognitive patterns in your thought.",
-      "Real responses require OpenAI API configuration.",
+      "Real responses require Claude API configuration.",
     ],
     matters:
       "In production, this section provides grounded Islamic perspective on your situation.",
@@ -130,7 +128,7 @@ export function getValidationModeReframeResponse(): {
     perspective:
       "Real responses provide a truer perspective grounded in Islamic principles.",
     nextStep:
-      "Configure AI_INTEGRATIONS_OPENAI_API_KEY for full functionality.",
+      "Configure ANTHROPIC_API_KEY for full functionality.",
     anchors: ["Allah's mercy exceeds sin"],
   };
 }
@@ -148,8 +146,8 @@ export function getValidationModePracticeResponse(): {
     title: "[VALIDATION MODE] Grounding Practice",
     steps: [
       "This is a placeholder practice step.",
-      "Real practices require OpenAI API configuration.",
-      "Configure AI_INTEGRATIONS_OPENAI_API_KEY for full functionality.",
+      "Real practices require Claude API configuration.",
+      "Configure ANTHROPIC_API_KEY for full functionality.",
     ],
     reminder: "Placeholder reminder for validation testing.",
     duration: "1-2 minutes",
@@ -160,7 +158,7 @@ export function getValidationModePracticeResponse(): {
  * Generate placeholder insight summary for validation mode
  */
 export function getValidationModeInsightSummary(): string {
-  return "[VALIDATION MODE] Pattern insights require OpenAI API configuration.";
+  return "[VALIDATION MODE] Pattern insights require Claude API configuration.";
 }
 
 // =============================================================================
@@ -199,15 +197,15 @@ export function logConfigStatus(): void {
     }
   }
 
-  // OpenAI
-  if (isOpenAIConfigured()) {
-    log("✅ OpenAI: Configured");
+  // Anthropic Claude
+  if (isAnthropicConfigured()) {
+    log("✅ Anthropic Claude: Configured");
   } else {
     if (VALIDATION_MODE) {
-      log("ℹ️  OpenAI: Not configured (placeholder responses will be used)");
+      log("ℹ️  Anthropic Claude: Not configured (placeholder responses will be used)");
     } else {
-      log("❌ OpenAI: Not configured - AI routes will fail!");
-      log("   Set AI_INTEGRATIONS_OPENAI_API_KEY in .env");
+      log("❌ Anthropic Claude: Not configured - AI routes will fail!");
+      log("   Set ANTHROPIC_API_KEY in .env");
     }
   }
 
@@ -251,9 +249,9 @@ export function validateProductionConfig(): void {
     );
   }
 
-  if (!isOpenAIConfigured()) {
+  if (!isAnthropicConfigured()) {
     errors.push(
-      "AI_INTEGRATIONS_OPENAI_API_KEY is missing or placeholder. AI features will not work.",
+      "ANTHROPIC_API_KEY is missing or placeholder. AI features will not work.",
     );
   }
 

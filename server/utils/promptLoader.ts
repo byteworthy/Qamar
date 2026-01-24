@@ -9,7 +9,7 @@ import { join } from "path";
  */
 export function loadPrompt(
   filename: string,
-  replacements?: Record<string, string>
+  replacements?: Record<string, string>,
 ): string {
   try {
     const promptPath = join(__dirname, "..", "prompts", filename);

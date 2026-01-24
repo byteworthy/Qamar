@@ -1,5 +1,5 @@
 /**
- * Push Notification System for Noor CBT
+ * Push Notification System for Noor
  *
  * Handles both local scheduled notifications (daily reminders)
  * and server-triggered push notifications (inactivity nudges, etc.)

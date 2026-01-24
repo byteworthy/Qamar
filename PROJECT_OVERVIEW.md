@@ -1,4 +1,4 @@
-# 🌙 Noor CBT - Comprehensive Project Overview
+# 🌙 Noor - Comprehensive Project Overview
 
 > **Where Psychology Meets Spirituality**  
 > Last Updated: January 19, 2026
@@ -15,7 +15,7 @@
 
 ## 🎯 Project Vision
 
-Noor CBT dissolves the false dichotomy between **secular mental health tools** and **Islamic faith**. It's not "therapy OR Islam" - it's therapeutic healing **through** an Islamic epistemological framework.
+Noor dissolves the false dichotomy between **secular mental health tools** and **Islamic faith**. It's not "therapy OR Islam" - it's therapeutic healing **through** an Islamic epistemological framework.
 
 ### The Problem We Solve
 | Challenge | Reality |
@@ -25,7 +25,7 @@ Noor CBT dissolves the false dichotomy between **secular mental health tools** a
 | Cognitive distortions mistaken for faith issues | Spiritual bypassing is normalized |
 
 ### Our Differentiation
-- **Noor CBT**: Deep CBT-inspired prompts + NLP + Islamic Psychology - an untapped market space
+- **Noor**: Deep CBT-inspired prompts + NLP + Islamic Psychology - an untapped market space
 - **Competitive Edge**: Safety systems, adaptive AI, theological validation
 
 ---

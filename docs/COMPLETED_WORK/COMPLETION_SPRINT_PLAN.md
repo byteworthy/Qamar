@@ -1,4 +1,4 @@
-# Noor CBT Completion Sprint Plan
+# Noor Completion Sprint Plan
 **Created:** 2026-01-22
 **Goal:** Cross the finish line for all major buckets
 
@@ -140,7 +140,7 @@ Comment out or conditionally hide billing routes until IAP is implemented.
 **Purpose:** Document the 8-stage safety pipeline for governance review
 
 ```markdown
-# Noor CBT Safety System Documentation
+# Noor Safety System Documentation
 
 ## Overview
 Complete documentation of the multi-layer AI safety system.

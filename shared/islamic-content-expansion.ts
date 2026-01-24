@@ -1,5 +1,5 @@
 /**
- * Islamic Content Database Expansion for Noor CBT
+ * Islamic Content Database Expansion for Noor
  *
  * This file expands the base Islamic framework with additional
  * Quranic ayat and hadith mapped to cognitive distortion patterns.
@@ -11,7 +11,11 @@
  * Hadith: Sahih Bukhari, Sahih Muslim, Agreed Upon only
  */
 
-import type { QuranicReminder, HadithReminder, EmotionalState } from "./islamic-framework";
+import type {
+  QuranicReminder,
+  HadithReminder,
+  EmotionalState,
+} from "./islamic-framework";
 
 // =============================================================================
 // COGNITIVE DISTORTION TO QURANIC CONTENT MAPPING
@@ -49,8 +53,7 @@ export const CATASTROPHIZING_AYAT: QuranicReminder[] = [
   {
     reference: "Surah At-Talaq 65:2-3",
     arabicText: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا",
-    translation:
-      "Whoever fears Allah – He will make for him a way out.",
+    translation: "Whoever fears Allah – He will make for him a way out.",
     therapeuticContext:
       "Even when catastrophe seems certain, a way out exists. Trust that solutions are possible even when you cannot see them.",
     whenToUse: [
@@ -69,7 +72,8 @@ export const BLACK_WHITE_THINKING_AYAT: QuranicReminder[] = [
   {
     reference: "Surah Ash-Sharh 94:5-6",
     arabicText: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا إِنَّ مَعَ الْعُسْرِ يُسْرًا",
-    translation: "Indeed, with hardship comes ease. Indeed, with hardship comes ease.",
+    translation:
+      "Indeed, with hardship comes ease. Indeed, with hardship comes ease.",
     therapeuticContext:
       "The repetition emphasizes that ease coexists WITH hardship, not after. Reality contains both, not one or the other.",
     whenToUse: [
@@ -101,7 +105,8 @@ export const BLACK_WHITE_THINKING_AYAT: QuranicReminder[] = [
 export const OVERGENERALIZATION_AYAT: QuranicReminder[] = [
   {
     reference: "Surah Ar-Ra'd 13:11",
-    arabicText: "إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ",
+    arabicText:
+      "إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ",
     translation:
       "Indeed, Allah will not change the condition of a people until they change what is in themselves.",
     therapeuticContext:
@@ -115,7 +120,8 @@ export const OVERGENERALIZATION_AYAT: QuranicReminder[] = [
   {
     reference: "Surah An-Najm 53:39",
     arabicText: "وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ",
-    translation: "And that there is not for man except that for which he strives.",
+    translation:
+      "And that there is not for man except that for which he strives.",
     therapeuticContext:
       "Each effort stands on its own. Past failures don't determine future outcomes—your current striving does.",
     whenToUse: [
@@ -227,7 +233,8 @@ export const SHAME_AYAT: QuranicReminder[] = [
   },
   {
     reference: "Surah Ta-Ha 20:82",
-    arabicText: "وَإِنِّي لَغَفَّارٌ لِّمَن تَابَ وَآمَنَ وَعَمِلَ صَالِحًا ثُمَّ اهْتَدَىٰ",
+    arabicText:
+      "وَإِنِّي لَغَفَّارٌ لِّمَن تَابَ وَآمَنَ وَعَمِلَ صَالِحًا ثُمَّ اهْتَدَىٰ",
     translation:
       "But indeed, I am the Perpetual Forgiver of whoever repents and believes and does righteousness and then continues in guidance.",
     therapeuticContext:
@@ -247,7 +254,8 @@ export const SHAME_AYAT: QuranicReminder[] = [
 export const COMPARISON_AYAT: QuranicReminder[] = [
   {
     reference: "Surah An-Nisa 4:32",
-    arabicText: "وَلَا تَتَمَنَّوْا مَا فَضَّلَ اللَّهُ بِهِ بَعْضَكُمْ عَلَىٰ بَعْضٍ",
+    arabicText:
+      "وَلَا تَتَمَنَّوْا مَا فَضَّلَ اللَّهُ بِهِ بَعْضَكُمْ عَلَىٰ بَعْضٍ",
     translation:
       "And do not wish for that by which Allah has made some of you exceed others.",
     therapeuticContext:
@@ -261,7 +269,8 @@ export const COMPARISON_AYAT: QuranicReminder[] = [
   {
     reference: "Surah Al-Baqarah 2:286",
     arabicText: "لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ",
-    translation: "It will have what it has earned, and it will bear what it has earned.",
+    translation:
+      "It will have what it has earned, and it will bear what it has earned.",
     therapeuticContext:
       "Each soul's journey is individual. What others have or lack is not your concern. Focus on your own earning.",
     whenToUse: [
@@ -279,7 +288,8 @@ export const COMPARISON_AYAT: QuranicReminder[] = [
 export const TRUST_AYAT: QuranicReminder[] = [
   {
     reference: "Surah At-Talaq 65:3",
-    arabicText: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ إِنَّ اللَّهَ بَالِغُ أَمْرِهِ",
+    arabicText:
+      "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ إِنَّ اللَّهَ بَالِغُ أَمْرِهِ",
     translation:
       "Whoever relies upon Allah – then He is sufficient for him. Indeed, Allah will accomplish His purpose.",
     therapeuticContext:
@@ -325,7 +335,8 @@ export const CATASTROPHIZING_HADITH: HadithReminder[] = [
   {
     narrator: "Ibn Abbas",
     source: "Sahih Bukhari 7405",
-    arabicText: "وَاعْلَمْ أَنَّ الْأُمَّةَ لَوْ اجْتَمَعَتْ عَلَى أَنْ يَنْفَعُوكَ بِشَيْءٍ لَمْ يَنْفَعُوكَ إِلَّا بِشَيْءٍ قَدْ كَتَبَهُ اللَّهُ لَكَ",
+    arabicText:
+      "وَاعْلَمْ أَنَّ الْأُمَّةَ لَوْ اجْتَمَعَتْ عَلَى أَنْ يَنْفَعُوكَ بِشَيْءٍ لَمْ يَنْفَعُوكَ إِلَّا بِشَيْءٍ قَدْ كَتَبَهُ اللَّهُ لَكَ",
     translation:
       "Know that if the entire nation were to gather together to benefit you, they could not benefit you except with what Allah has already written for you.",
     therapeuticContext:
@@ -352,7 +363,8 @@ export const SHAME_HADITH: HadithReminder[] = [
   {
     narrator: "Anas ibn Malik",
     source: "Sahih Bukhari 6308",
-    arabicText: "كُلُّ ابْنِ آدَمَ خَطَّاءٌ وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
+    arabicText:
+      "كُلُّ ابْنِ آدَمَ خَطَّاءٌ وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
     translation:
       "Every son of Adam makes mistakes, and the best of those who make mistakes are those who repent.",
     therapeuticContext:
@@ -448,7 +460,8 @@ export const FEAR_HADITH: HadithReminder[] = [
   {
     narrator: "Abu Hurairah",
     source: "Sahih Bukhari 6346",
-    arabicText: "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ",
+    arabicText:
+      "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ",
     translation:
       "The strong believer is better and more beloved to Allah than the weak believer.",
     therapeuticContext:
@@ -478,9 +491,9 @@ export const DESPAIR_HADITH: HadithReminder[] = [
 export const PATIENCE_AYAT: QuranicReminder[] = [
   {
     reference: "Surah Al-Baqarah 2:153",
-    arabicText: "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
-    translation:
-      "O you who believe, seek help through patience and prayer.",
+    arabicText:
+      "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
+    translation: "O you who believe, seek help through patience and prayer.",
     therapeuticContext:
       "When overwhelmed, sabr (patience) and salah (connection) are your resources. This is how you navigate difficulty.",
     whenToUse: [
@@ -491,7 +504,8 @@ export const PATIENCE_AYAT: QuranicReminder[] = [
   },
   {
     reference: "Surah Al-Baqarah 2:45",
-    arabicText: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى الْخَاشِعِينَ",
+    arabicText:
+      "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى الْخَاشِعِينَ",
     translation:
       "And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive.",
     therapeuticContext:
@@ -553,7 +567,8 @@ export const LONELINESS_HADITH: HadithReminder[] = [
   {
     narrator: "Abu Hurairah",
     source: "Sahih Bukhari 6502",
-    arabicText: "إِنَّ اللَّهَ قَالَ: مَنْ عَادَى لِي وَلِيًّا فَقَدْ آذَنْتُهُ بِالْحَرْبِ",
+    arabicText:
+      "إِنَّ اللَّهَ قَالَ: مَنْ عَادَى لِي وَلِيًّا فَقَدْ آذَنْتُهُ بِالْحَرْبِ",
     translation:
       "Allah said: Whoever shows enmity to a friend of Mine, I shall be at war with him.",
     therapeuticContext:
@@ -578,7 +593,8 @@ export const HOPE_HADITH: HadithReminder[] = [
   {
     narrator: "Anas ibn Malik",
     source: "Agreed Upon",
-    arabicText: "لَلَّهُ أَشَدُّ فَرَحًا بِتَوْبَةِ عَبْدِهِ مِنْ أَحَدِكُمْ سَقَطَ عَلَى بَعِيرِهِ",
+    arabicText:
+      "لَلَّهُ أَشَدُّ فَرَحًا بِتَوْبَةِ عَبْدِهِ مِنْ أَحَدِكُمْ سَقَطَ عَلَى بَعِيرِهِ",
     translation:
       "Allah is more pleased with the repentance of His servant than one of you would be if he found his camel in the desert after having lost it.",
     therapeuticContext:

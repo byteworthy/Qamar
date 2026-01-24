@@ -25,7 +25,11 @@ import { apiRequest, getApiUrl } from "@/lib/query-client";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { hapticMedium } from "@/lib/haptics";
 import { EmptyState } from "@/components/EmptyState";
-import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeInDown,
+  FadeIn,
+} from "react-native-reanimated";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "History">;
 
@@ -212,7 +216,8 @@ export default function HistoryScreen() {
                 const error = await response.json();
                 Alert.alert(
                   "Unable to Delete",
-                  error.error || "We couldn't delete this reflection. Please try again.",
+                  error.error ||
+                    "We couldn't delete this reflection. Please try again.",
                 );
               }
             } catch (error) {
@@ -431,124 +436,141 @@ export default function HistoryScreen() {
           onPress={() => toggleExpand(item.timestamp)}
           style={({ pressed }) => [
             styles.sessionCard,
-            { backgroundColor: theme.cardBackground, opacity: pressed ? 0.9 : 1 },
+            {
+              backgroundColor: theme.cardBackground,
+              opacity: pressed ? 0.9 : 1,
+            },
           ]}
           accessibilityRole="button"
           accessibilityLabel={`Reflection from ${formatDate(item.timestamp)}`}
           accessibilityHint={`${isExpanded ? "Collapse" : "Expand"} to ${isExpanded ? "hide" : "view"} full reflection details`}
           accessibilityState={{ expanded: isExpanded }}
         >
-        <View style={styles.sessionHeader}>
-          <View style={styles.sessionMeta}>
-            <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-              {formatDate(item.timestamp)}
-            </ThemedText>
-            <View style={styles.distortionTags}>
-              {item.distortions.slice(0, 2).map((d, i) => (
-                <View
-                  key={i}
-                  style={[
-                    styles.tag,
-                    { backgroundColor: theme.backgroundSecondary },
-                  ]}
-                >
-                  <ThemedText type="caption" style={{ color: theme.primary }}>
-                    {d}
-                  </ThemedText>
-                </View>
-              ))}
-            </View>
-          </View>
-          <Feather
-            name={isExpanded ? "chevron-up" : "chevron-down"}
-            size={20}
-            color={theme.textSecondary}
-          />
-        </View>
-
-        {isExpanded ? null : (
-          <View style={styles.intentionPreview}>
-            <Feather name="target" size={14} color={theme.textSecondary} />
-            <ThemedText
-              type="small"
-              numberOfLines={1}
-              style={[styles.intentionText, { color: theme.textSecondary }]}
-            >
-              {item.intention}
-            </ThemedText>
-          </View>
-        )}
-
-        {isExpanded ? (
-          <View style={styles.expandedContent}>
-            <View style={[styles.divider, { backgroundColor: theme.border }]} />
-
-            <View style={styles.expandedSection}>
+          <View style={styles.sessionHeader}>
+            <View style={styles.sessionMeta}>
               <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                Reframe
+                {formatDate(item.timestamp)}
               </ThemedText>
+              <View style={styles.distortionTags}>
+                {item.distortions.slice(0, 2).map((d, i) => (
+                  <View
+                    key={i}
+                    style={[
+                      styles.tag,
+                      { backgroundColor: theme.backgroundSecondary },
+                    ]}
+                  >
+                    <ThemedText type="caption" style={{ color: theme.primary }}>
+                      {d}
+                    </ThemedText>
+                  </View>
+                ))}
+              </View>
+            </View>
+            <Feather
+              name={isExpanded ? "chevron-up" : "chevron-down"}
+              size={20}
+              color={theme.textSecondary}
+            />
+          </View>
+
+          {isExpanded ? null : (
+            <View style={styles.intentionPreview}>
+              <Feather name="target" size={14} color={theme.textSecondary} />
               <ThemedText
                 type="small"
-                style={[styles.reframeText, { fontFamily: Fonts?.serif }]}
+                numberOfLines={1}
+                style={[styles.intentionText, { color: theme.textSecondary }]}
               >
-                {item.reframe}
-              </ThemedText>
-            </View>
-
-            <View style={styles.expandedSection}>
-              <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                Practice
-              </ThemedText>
-              <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>
-                {item.practice}
-              </ThemedText>
-            </View>
-
-            <View style={styles.expandedSection}>
-              <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                Original Thought
-              </ThemedText>
-              <ThemedText
-                type="small"
-                style={{ fontStyle: "italic", marginTop: Spacing.xs }}
-              >
-                {item.thought}
-              </ThemedText>
-            </View>
-
-            <View style={styles.expandedSection}>
-              <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                Intention
-              </ThemedText>
-              <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>
                 {item.intention}
               </ThemedText>
             </View>
+          )}
 
-            <Pressable
-              onPress={() => handleDeleteReflection(item.timestamp)}
-              style={[
-                styles.deleteButton,
-                {
-                  backgroundColor: theme.backgroundSecondary,
-                  borderColor: theme.border,
-                },
-              ]}
-              accessibilityRole="button"
-              accessibilityLabel="Delete this reflection"
-              accessibilityHint="Permanently deletes this reflection. Requires confirmation."
-            >
-              <Feather name="trash-2" size={16} color="#ef4444" />
-              <ThemedText
-                type="small"
-                style={{ color: "#ef4444", marginLeft: Spacing.xs }}
+          {isExpanded ? (
+            <View style={styles.expandedContent}>
+              <View
+                style={[styles.divider, { backgroundColor: theme.border }]}
+              />
+
+              <View style={styles.expandedSection}>
+                <ThemedText
+                  type="caption"
+                  style={{ color: theme.textSecondary }}
+                >
+                  Reframe
+                </ThemedText>
+                <ThemedText
+                  type="small"
+                  style={[styles.reframeText, { fontFamily: Fonts?.serif }]}
+                >
+                  {item.reframe}
+                </ThemedText>
+              </View>
+
+              <View style={styles.expandedSection}>
+                <ThemedText
+                  type="caption"
+                  style={{ color: theme.textSecondary }}
+                >
+                  Practice
+                </ThemedText>
+                <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>
+                  {item.practice}
+                </ThemedText>
+              </View>
+
+              <View style={styles.expandedSection}>
+                <ThemedText
+                  type="caption"
+                  style={{ color: theme.textSecondary }}
+                >
+                  Original Thought
+                </ThemedText>
+                <ThemedText
+                  type="small"
+                  style={{ fontStyle: "italic", marginTop: Spacing.xs }}
+                >
+                  {item.thought}
+                </ThemedText>
+              </View>
+
+              <View style={styles.expandedSection}>
+                <ThemedText
+                  type="caption"
+                  style={{ color: theme.textSecondary }}
+                >
+                  Intention
+                </ThemedText>
+                <ThemedText type="small" style={{ fontFamily: Fonts?.serif }}>
+                  {item.intention}
+                </ThemedText>
+              </View>
+
+              <Pressable
+                onPress={() => handleDeleteReflection(item.timestamp)}
+                style={[
+                  styles.deleteButton,
+                  {
+                    backgroundColor: theme.backgroundSecondary,
+                    borderColor: theme.border,
+                  },
+                ]}
+                accessibilityRole="button"
+                accessibilityLabel="Delete this reflection"
+                accessibilityHint="Permanently deletes this reflection. Requires confirmation."
               >
-                Delete Reflection
-              </ThemedText>
-            </Pressable>
-          </View>
-        ) : null}
-      </Pressable>
+                <Feather name="trash-2" size={16} color="#ef4444" />
+                <ThemedText
+                  type="small"
+                  style={{ color: "#ef4444", marginLeft: Spacing.xs }}
+                >
+                  Delete Reflection
+                </ThemedText>
+              </Pressable>
+            </View>
+          ) : null}
+        </Pressable>
       </Animated.View>
     );
   };

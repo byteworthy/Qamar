@@ -1,5 +1,5 @@
 /**
- * useNotifications Hook for Noor CBT
+ * useNotifications Hook for Noor
  *
  * Provides notification functionality to React components
  */

@@ -1,5 +1,5 @@
 /**
- * Canonical Response Orchestration for Noor CBT
+ * Canonical Response Orchestration for Noor
  *
  * PRIORITY 1: Ensure every AI response follows this exact sequence
  * - Charter compliance

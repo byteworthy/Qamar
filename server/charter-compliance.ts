@@ -1,5 +1,5 @@
 /**
- * Charter Compliance Validator for Noor CBT
+ * Charter Compliance Validator for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md

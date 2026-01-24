@@ -1,5 +1,5 @@
 /**
- * Server-Side Push Notification Service for Noor CBT
+ * Server-Side Push Notification Service for Noor
  *
  * Handles sending push notifications via Expo's Push API
  * for inactivity reminders, feature announcements, etc.

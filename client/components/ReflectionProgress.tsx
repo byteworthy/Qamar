@@ -71,9 +71,8 @@ export function ReflectionProgress({
                   style={[
                     styles.stepDot,
                     {
-                      backgroundColor: isCompleted || isCurrent
-                        ? theme.primary
-                        : theme.border,
+                      backgroundColor:
+                        isCompleted || isCurrent ? theme.primary : theme.border,
                       borderColor: isCurrent ? theme.primary : "transparent",
                       transform: [{ scale: isCurrent ? 1.2 : 1 }],
                     },
@@ -84,10 +83,7 @@ export function ReflectionProgress({
                 {isCurrent && (
                   <ThemedText
                     type="caption"
-                    style={[
-                      styles.stepLabel,
-                      { color: theme.textSecondary },
-                    ]}
+                    style={[styles.stepLabel, { color: theme.textSecondary }]}
                   >
                     {STEP_LABELS[step]}
                   </ThemedText>
@@ -100,7 +96,9 @@ export function ReflectionProgress({
                   style={[
                     styles.connector,
                     {
-                      backgroundColor: isCompleted ? theme.primary : theme.border,
+                      backgroundColor: isCompleted
+                        ? theme.primary
+                        : theme.border,
                     },
                   ]}
                 />
@@ -138,9 +136,8 @@ export function ReflectionProgressCompact({
             style={[
               styles.compactDot,
               {
-                backgroundColor: isCompleted || isCurrent
-                  ? theme.primary
-                  : theme.border,
+                backgroundColor:
+                  isCompleted || isCurrent ? theme.primary : theme.border,
                 width: isCurrent ? 24 : 6,
               },
             ]}

@@ -1,4 +1,4 @@
-# Security Audit Report - Noor CBT
+# Security Audit Report - Noor
 
 **Audit Date:** January 20, 2026  
 **Auditor:** Paranoid Senior Security Engineer (AI-Assisted)  

@@ -30,7 +30,7 @@ async function seedNoorPlus() {
 
   const product = await stripe.products.create({
     name: "Noor Plus",
-    description: "Unlimited reflections and full history access for Noor CBT",
+    description: "Unlimited reflections and full history access for Noor",
     metadata: {
       app: "noor-cbt",
       tier: "plus",

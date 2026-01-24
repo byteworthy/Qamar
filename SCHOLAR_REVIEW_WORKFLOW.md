@@ -8,7 +8,7 @@ Last Updated: 2026-01-17
 
 ## Purpose
 
-This document defines how Islamic content and theological framing are reviewed, approved, and maintained by qualified Islamic scholars to protect the spiritual integrity of Noor CBT.
+This document defines how Islamic content and theological framing are reviewed, approved, and maintained by qualified Islamic scholars to protect the spiritual integrity of Noor.
 
 This is **not a one-time review**. It is an ongoing partnership.
 

@@ -385,7 +385,10 @@ export default function DistortionScreen() {
         <ReflectionProgressCompact currentStep="Distortion" />
 
         {/* Loading message */}
-        <Animated.View entering={FadeIn.duration(300)} style={{ marginVertical: Spacing.xl }}>
+        <Animated.View
+          entering={FadeIn.duration(300)}
+          style={{ marginVertical: Spacing.xl }}
+        >
           <ThemedText
             type="body"
             style={[
@@ -400,7 +403,11 @@ export default function DistortionScreen() {
               type="small"
               style={[
                 styles.timeoutWarning,
-                { color: theme.intensityHeavy, marginTop: Spacing.md, textAlign: "center" },
+                {
+                  color: theme.intensityHeavy,
+                  marginTop: Spacing.md,
+                  textAlign: "center",
+                },
               ]}
             >
               This is taking longer than expected. Still working...
@@ -409,21 +416,50 @@ export default function DistortionScreen() {
         </Animated.View>
 
         {/* Skeleton content structure */}
-        <Animated.View entering={FadeIn.duration(400).delay(200)} style={styles.section}>
-          <LoadingSkeleton width={140} height={12} style={{ marginBottom: Spacing.sm }} />
+        <Animated.View
+          entering={FadeIn.duration(400).delay(200)}
+          style={styles.section}
+        >
+          <LoadingSkeleton
+            width={140}
+            height={12}
+            style={{ marginBottom: Spacing.sm }}
+          />
           <SkeletonText lines={2} />
         </Animated.View>
 
-        <Animated.View entering={FadeIn.duration(400).delay(300)} style={styles.section}>
-          <LoadingSkeleton width={180} height={12} style={{ marginBottom: Spacing.sm }} />
+        <Animated.View
+          entering={FadeIn.duration(400).delay(300)}
+          style={styles.section}
+        >
+          <LoadingSkeleton
+            width={180}
+            height={12}
+            style={{ marginBottom: Spacing.sm }}
+          />
           <View style={styles.patternRow}>
-            <LoadingSkeleton width={100} height={32} borderRadius={BorderRadius.full} />
-            <LoadingSkeleton width={120} height={32} borderRadius={BorderRadius.full} />
+            <LoadingSkeleton
+              width={100}
+              height={32}
+              borderRadius={BorderRadius.full}
+            />
+            <LoadingSkeleton
+              width={120}
+              height={32}
+              borderRadius={BorderRadius.full}
+            />
           </View>
         </Animated.View>
 
-        <Animated.View entering={FadeIn.duration(400).delay(400)} style={styles.section}>
-          <LoadingSkeleton width={160} height={12} style={{ marginBottom: Spacing.sm }} />
+        <Animated.View
+          entering={FadeIn.duration(400).delay(400)}
+          style={styles.section}
+        >
+          <LoadingSkeleton
+            width={160}
+            height={12}
+            style={{ marginBottom: Spacing.sm }}
+          />
           <SkeletonText lines={3} />
         </Animated.View>
       </KeyboardAwareScrollViewCompat>
@@ -445,7 +481,10 @@ export default function DistortionScreen() {
         {/* Progress Indicator */}
         <ReflectionProgressCompact currentStep="Distortion" />
 
-        <Animated.View entering={FadeIn.duration(400)} style={styles.errorContent}>
+        <Animated.View
+          entering={FadeIn.duration(400)}
+          style={styles.errorContent}
+        >
           {/* Error icon */}
           <View
             style={[
@@ -475,7 +514,10 @@ export default function DistortionScreen() {
           <View style={styles.errorActions}>
             <Button
               onPress={handleRetry}
-              style={{ backgroundColor: theme.primary, marginBottom: Spacing.md }}
+              style={{
+                backgroundColor: theme.primary,
+                marginBottom: Spacing.md,
+              }}
               accessibilityHint="Retries analyzing your thought"
             >
               Try Again

@@ -1,5 +1,5 @@
 /**
- * Conversation State Machine for Noor CBT
+ * Conversation State Machine for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md
@@ -781,26 +781,27 @@ export function getTransitionMessage(
   toState: ConversationState,
 ): string {
   type StateTransitionMessages = Partial<Record<ConversationState, string>>;
-  const messages: Partial<Record<ConversationState, StateTransitionMessages>> = {
-    listening: {
-      reflection: "Let me make sure I understand what you're experiencing.",
-      clarification: "I want to understand better.",
-      crisis: "I hear you, and I want you to know help is available.",
-    },
-    reflection: {
-      reframing:
-        "I'd like to offer a different perspective, if you're open to it.",
-      grounding: "Let's bring this to something you can carry forward.",
-      listening: "Tell me more about that.",
-    },
-    reframing: {
-      grounding: "Let's make this practical.",
-      reflection: "Let's come back to where you are.",
-    },
-    grounding: {
-      closure: "This work matters.",
-    },
-  };
+  const messages: Partial<Record<ConversationState, StateTransitionMessages>> =
+    {
+      listening: {
+        reflection: "Let me make sure I understand what you're experiencing.",
+        clarification: "I want to understand better.",
+        crisis: "I hear you, and I want you to know help is available.",
+      },
+      reflection: {
+        reframing:
+          "I'd like to offer a different perspective, if you're open to it.",
+        grounding: "Let's bring this to something you can carry forward.",
+        listening: "Tell me more about that.",
+      },
+      reframing: {
+        grounding: "Let's make this practical.",
+        reflection: "Let's come back to where you are.",
+      },
+      grounding: {
+        closure: "This work matters.",
+      },
+    };
 
   return messages[fromState]?.[toState] || "";
 }

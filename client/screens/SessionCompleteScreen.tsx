@@ -349,8 +349,8 @@ export default function SessionCompleteScreen() {
             type="body"
             style={[styles.upgradeBody, { color: theme.textSecondary }]}
           >
-            Track how your thinking evolves over time with unlimited
-            reflections and insights
+            Track how your thinking evolves over time with unlimited reflections
+            and insights
           </ThemedText>
           <Pressable
             onPress={() => navigation.navigate("Pricing")}

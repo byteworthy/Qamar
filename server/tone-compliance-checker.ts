@@ -1,5 +1,5 @@
 /**
- * Tone Compliance Checker for Noor CBT
+ * Tone Compliance Checker for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md

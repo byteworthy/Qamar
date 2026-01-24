@@ -1,4 +1,4 @@
-# Noor CBT Design Guidelines
+# Noor Design Guidelines
 
 ## Visual Identity & Brand
 
@@ -130,6 +130,6 @@
 
 - **Session Length**: Complete CBT flow under 5 minutes
 - **Complexity**: Simple navigation, no deep nesting
-- **Branding**: "Noor CBT" - Light for the mind, rooted in Islam
+- **Branding**: "Noor" - Light for the mind, rooted in Islam
 - **Tagline**: Powered by the Siraat Method
 - **Theological safety**: Islam is the worldview, CBT is the method

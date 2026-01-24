@@ -1,12 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "node:http";
 import { z } from "zod";
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 import { storage } from "./storage";
 import { billingService } from "./billing";
 import {
   VALIDATION_MODE,
-  isOpenAIConfigured,
+  isAnthropicConfigured,
   getValidationModeAnalyzeResponse,
   getValidationModeReframeResponse,
   getValidationModePracticeResponse,
@@ -56,19 +56,18 @@ import { adminLimiter } from "./middleware/rate-limit";
 import notificationRoutes from "./notificationRoutes";
 import { loadPrompt } from "./utils/promptLoader";
 
-// Lazy OpenAI client getter - only instantiate when needed and validation mode is off
-let openaiClient: OpenAI | null = null;
-function getOpenAIClient(): OpenAI {
+// Lazy Anthropic client getter - only instantiate when needed and validation mode is off
+let anthropicClient: Anthropic | null = null;
+function getAnthropicClient(): Anthropic {
   if (VALIDATION_MODE) {
-    throw new Error("OpenAI client should not be called in validation mode");
+    throw new Error("Anthropic client should not be called in validation mode");
   }
-  if (!openaiClient) {
-    openaiClient = new OpenAI({
-      apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-      baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+  if (!anthropicClient) {
+    anthropicClient = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
     });
   }
-  return openaiClient;
+  return anthropicClient;
 }
 
 const FREE_DAILY_LIMIT = 1;
@@ -319,7 +318,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const stateModifier = getStatePromptModifier(stateInference.state);
 
       // EMOTIONAL INTELLIGENCE: Detect intensity and suggest emotion
-      const detectedIntensity = EmotionalIntelligence.detectIntensity(sanitizedThought);
+      const detectedIntensity =
+        EmotionalIntelligence.detectIntensity(sanitizedThought);
       const suggestedEmotion =
         EmotionalIntelligence.suggestEmotionalLabel(sanitizedThought);
 
@@ -386,7 +386,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           mode: "analyze",
           conversationState: "listening",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+        aiResponseGenerator: async (
+          safetyGuidance,
+          pacingConfig,
+          islamicContent,
+        ) => {
           // Build Islamic content modifier if available
           const islamicModifier = islamicContent
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
@@ -397,13 +401,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
             DISTORTIONS_LIST: DISTORTIONS.map((d) => `- ${d}`).join("\n"),
           });
 
-          const response = await getOpenAIClient().chat.completions.create({
-            model: "gpt-5.1",
-            max_completion_tokens: 1024,
-            messages: [
-              {
-                role: "system",
-                content: `${SYSTEM_FOUNDATION}
+          const response = await getAnthropicClient().messages.create({
+            model: "claude-sonnet-4-5",
+            max_tokens: 1024,
+            system: `${SYSTEM_FOUNDATION}
 
 ${toneModifier}
 
@@ -414,16 +415,15 @@ ${safetyGuidance}
 ${islamicModifier}
 
 ${analyzePrompt}`,
-              },
+            messages: [
               {
                 role: "user",
                 content: thought,
               },
             ],
-            response_format: { type: "json_object" },
           });
 
-          return response.choices[0]?.message?.content || "{}";
+          return response.content[0]?.text || "{}";
         },
       });
 
@@ -519,7 +519,8 @@ ${analyzePrompt}`,
         distressLevel = intensityMap[emotionalIntensity] || "moderate";
       } else {
         // Auto-detect from content
-        const detectedIntensity = EmotionalIntelligence.detectIntensity(thought);
+        const detectedIntensity =
+          EmotionalIntelligence.detectIntensity(thought);
         if (detectedIntensity < 30) distressLevel = "low";
         else if (detectedIntensity < 60) distressLevel = "moderate";
         else if (detectedIntensity < 85) distressLevel = "high";
@@ -552,7 +553,11 @@ ${analyzePrompt}`,
           mode: "reframe",
           conversationState: "reframing",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+        aiResponseGenerator: async (
+          safetyGuidance,
+          pacingConfig,
+          islamicContent,
+        ) => {
           // Build Islamic content modifier if available
           const islamicModifier = islamicContent
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
@@ -563,13 +568,10 @@ ${analyzePrompt}`,
             DISTORTIONS: distortions.join(", "),
           });
 
-          const response = await getOpenAIClient().chat.completions.create({
-            model: "gpt-5.1",
-            max_completion_tokens: 1024,
-            messages: [
-              {
-                role: "system",
-                content: `${SYSTEM_FOUNDATION}
+          const response = await getAnthropicClient().messages.create({
+            model: "claude-sonnet-4-5",
+            max_tokens: 1024,
+            system: `${SYSTEM_FOUNDATION}
 
 ${toneModifier}
 
@@ -582,16 +584,15 @@ ${safetyGuidance}
 ${islamicModifier}
 
 ${reframePrompt}`,
-              },
+            messages: [
               {
                 role: "user",
                 content: `Original thought: ${thought}\n\nReflection: ${analysis}`,
               },
             ],
-            response_format: { type: "json_object" },
           });
 
-          return response.choices[0]?.message?.content || "{}";
+          return response.content[0]?.text || "{}";
         },
       });
 
@@ -660,7 +661,11 @@ ${reframePrompt}`,
           mode: "practice",
           conversationState: "grounding",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+        aiResponseGenerator: async (
+          safetyGuidance,
+          pacingConfig,
+          islamicContent,
+        ) => {
           // Build Islamic content modifier if available
           const islamicModifier = islamicContent
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
@@ -669,29 +674,25 @@ ${reframePrompt}`,
           // Load suggest-practice prompt
           const practicePrompt = loadPrompt("suggest-practice.txt");
 
-          const response = await getOpenAIClient().chat.completions.create({
-            model: "gpt-5.1",
-            max_completion_tokens: 512,
-            messages: [
-              {
-                role: "system",
-                content: `${SYSTEM_FOUNDATION}
+          const response = await getAnthropicClient().messages.create({
+            model: "claude-sonnet-4-5",
+            max_tokens: 512,
+            system: `${SYSTEM_FOUNDATION}
 
 ${safetyGuidance}
 
 ${islamicModifier}
 
 ${practicePrompt}`,
-              },
+            messages: [
               {
                 role: "user",
                 content: `Reframe to help land: ${reframe}`,
               },
             ],
-            response_format: { type: "json_object" },
           });
 
-          return response.choices[0]?.message?.content || "{}";
+          return response.content[0]?.text || "{}";
         },
       });
 
@@ -1079,7 +1080,11 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
           mode: "dua",
           conversationState: "listening",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+        aiResponseGenerator: async (
+          safetyGuidance,
+          pacingConfig,
+          islamicContent,
+        ) => {
           // Build Islamic content modifier if available
           const islamicModifier = islamicContent
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)

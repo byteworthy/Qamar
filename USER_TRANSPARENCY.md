@@ -1,4 +1,4 @@
-# Noor CBT: User Transparency & Trust Document
+# Noor: User Transparency & Trust Document
 
 **Version:** 1.0  
 **Last Updated:** January 18, 2026  
@@ -6,9 +6,9 @@
 
 ---
 
-## What Noor CBT Is
+## What Noor Is
 
-Noor CBT is an **AI-assisted Islamic CBT companion** that helps you work through difficult thoughts and emotions using cognitive behavioral therapy principles, grounded in Islamic values.
+Noor is an **AI-assisted Islamic CBT companion** that helps you work through difficult thoughts and emotions using cognitive behavioral therapy principles, grounded in Islamic values.
 
 ### What This Means
 
@@ -314,7 +314,7 @@ The AI will explicitly recommend human support when:
 
 ### What You're Consenting To
 
-By using Noor CBT, you consent to:
+By using Noor, you consent to:
 
 1. **AI Interaction**
    - Conversations with AI, not humans

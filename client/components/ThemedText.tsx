@@ -1,7 +1,7 @@
 import { Text, type TextProps } from "react-native";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Typography } from "@/constants/theme";
+import { Typography, getDynamicFontSize, getDynamicLineHeight } from "@/constants/theme";
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
@@ -44,28 +44,37 @@ export function ThemedText({
   };
 
   const getTypeStyle = () => {
-    switch (type) {
-      case "h1":
-        return Typography.h1;
-      case "h2":
-        return Typography.h2;
-      case "h3":
-        return Typography.h3;
-      case "h4":
-        return Typography.h4;
-      case "body":
-        return Typography.body;
-      case "bodyLarge":
-        return Typography.bodyLarge;
-      case "small":
-        return Typography.small;
-      case "caption":
-        return Typography.caption;
-      case "link":
-        return Typography.link;
-      default:
-        return Typography.body;
-    }
+    const baseStyle = (() => {
+      switch (type) {
+        case "h1":
+          return Typography.h1;
+        case "h2":
+          return Typography.h2;
+        case "h3":
+          return Typography.h3;
+        case "h4":
+          return Typography.h4;
+        case "body":
+          return Typography.body;
+        case "bodyLarge":
+          return Typography.bodyLarge;
+        case "small":
+          return Typography.small;
+        case "caption":
+          return Typography.caption;
+        case "link":
+          return Typography.link;
+        default:
+          return Typography.body;
+      }
+    })();
+
+    // Apply dynamic scaling for accessibility
+    return {
+      ...baseStyle,
+      fontSize: getDynamicFontSize(baseStyle.fontSize),
+      lineHeight: getDynamicLineHeight(baseStyle.lineHeight),
+    };
   };
 
   return (

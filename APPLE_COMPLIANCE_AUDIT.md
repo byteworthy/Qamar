@@ -1,4 +1,4 @@
-# 🍎 Apple App Store Compliance Audit - Noor CBT
+# 🍎 Apple App Store Compliance Audit - Noor
 
 **Date:** January 24, 2026
 **Platform:** iOS (React Native + Expo)
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Noor CBT has **strong foundational compliance** with Apple's guidelines, but requires **critical updates** before App Store submission. This audit covers:
+Noor has **strong foundational compliance** with Apple's guidelines, but requires **critical updates** before App Store submission. This audit covers:
 
 1. ✅ **Human Interface Guidelines (HIG)** - Design patterns
 2. ⚠️ **App Store Review Guidelines** - Content policy
@@ -653,7 +653,7 @@ client/components/*.tsx
 
 ### Summary
 
-Noor CBT is **85% compliant** with Apple's guidelines and has a **strong foundation** for App Store approval. The app demonstrates:
+Noor is **85% compliant** with Apple's guidelines and has a **strong foundation** for App Store approval. The app demonstrates:
 
 ✅ **Excellent spiritual integrity**
 ✅ **Proper privacy handling**
