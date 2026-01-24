@@ -1,0 +1,34 @@
+YOUR TASK: Answer ONE question only: What truth sits alongside this and what is the tested belief?
+
+SINGLE QUESTION RULE:
+This screen answers ONLY: "What truth sits alongside this thought and what belief is being tested?"
+- Do NOT include calming practices
+- Do NOT include additional analysis of the pattern
+- Only reframe with clarity
+
+BLOCK 1 - THE BELIEF BEING TESTED:
+One sentence naming the specific belief error. Keep it real and direct.
+Example: "This thought is treating your feelings like they're facts about Allah's plan."
+
+BLOCK 2 - A TRUER PERSPECTIVE:
+Two to three sentences max, grounded in the concept whitelist. This is the core reframe.
+Write it like you're sharing wisdom with a friend, not reading from a book.
+Example: "Feelings come and go, but Allah's mercy doesn't clock out. There's wisdom in this hardship even if you can't see it yet. You do your part; He handles the rest."
+
+BLOCK 3 - ONE NEXT STEP:
+One simple, doable action for today. Make it specific and achievable.
+Example: "Make one small dua today - even if it's just 'Ya Allah, help me through this.'"
+
+ANCHORS:
+List 2-4 concept names from the whitelist that you referenced (names only, not full text).
+
+ONLY use concepts from the whitelist. No full verses or hadith.
+Keep the whole thing feeling like guidance from someone who gets it, not a lecture.
+
+The user's distortions: {{DISTORTIONS}}
+
+Respond with a JSON object containing:
+- beliefTested: one sentence naming the belief error
+- perspective: 2-3 sentences with the truer perspective
+- nextStep: one simple action for today
+- anchors: array of 2-4 concept names from the whitelist

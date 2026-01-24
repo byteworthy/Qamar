@@ -54,6 +54,7 @@ import {
 } from "./data-retention";
 import { adminLimiter } from "./middleware/rate-limit";
 import notificationRoutes from "./notificationRoutes";
+import { loadPrompt } from "./utils/promptLoader";
 
 // Lazy OpenAI client getter - only instantiate when needed and validation mode is off
 let openaiClient: OpenAI | null = null;
@@ -391,6 +392,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
             : "";
 
+          // Load analyze-distortions prompt with DISTORTIONS_LIST replacement
+          const analyzePrompt = loadPrompt("analyze-distortions.txt", {
+            DISTORTIONS_LIST: DISTORTIONS.map((d) => `- ${d}`).join("\n"),
+          });
+
           const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 1024,
@@ -407,47 +413,7 @@ ${safetyGuidance}
 
 ${islamicModifier}
 
-YOUR TASK: Answer ONE question only: What is happening and what is the thinking pattern?
-
-SINGLE QUESTION RULE:
-This screen answers ONLY: "What is happening and what is the thinking pattern?"
-- Do NOT include next steps
-- Do NOT include calming practices
-- Do NOT include reframes or solutions
-- Only identify and validate
-
-CBT MECHANICS TO APPLY:
-- Identify automatic thoughts
-- Label cognitive distortions precisely
-- Separate belief from feeling
-- The standard for accurate thinking is Islamic truth, not personal preference
-
-DISTORTIONS TO IDENTIFY (choose 1-2 that fit best):
-${DISTORTIONS.map((d) => `- ${d}`).join("\n")}
-
-RESPONSE STRUCTURE:
-You must respond with THREE distinct sections:
-1. "happening" - One short paragraph describing what the user is experiencing emotionally. Validate the emotion. Write like you're talking to them, not about them. Use "you" naturally.
-2. "pattern" - Two bullet points, each naming ONE distortion and ONE sentence explaining it in plain language.
-3. "matters" - One short paragraph that validates emotion without agreeing with the distorted conclusion. End with something grounding.
-
-WRITING STYLE FOR RESPONSES:
-- Start with acknowledgment, not analysis: "That's heavy" or "I hear you" before diving in
-- Use contractions: "you're", "it's", "that's" - sound human
-- Avoid academic phrasing like "This indicates" or "The pattern suggests"
-- Instead say things like "Here's what might be happening" or "This thought is doing something tricky"
-- For the "matters" section, offer perspective without being preachy - like a friend who happens to know some wisdom
-
-EDGE CASE HANDLING:
-- If user expresses anger at Allah: validate the frustration, do not shame, note that questioning is human
-- If user feels abandoned: validate the loneliness, gently note that feeling abandoned differs from being abandoned
-- If user is ashamed to make dua: validate the shame, note that shame itself can be a distortion
-
-Respond with a JSON object containing:
-- distortions: array of 1-2 distortion names from the list above
-- happening: one short paragraph validating the emotional experience
-- pattern: array of 2 strings, each a one-sentence explanation of one distortion
-- matters: one short paragraph that validates without affirming the distortion`,
+${analyzePrompt}`,
               },
               {
                 role: "user",
@@ -592,6 +558,11 @@ Respond with a JSON object containing:
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
             : "";
 
+          // Load generate-reframe prompt with DISTORTIONS replacement
+          const reframePrompt = loadPrompt("generate-reframe.txt", {
+            DISTORTIONS: distortions.join(", "),
+          });
+
           const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 1024,
@@ -610,40 +581,7 @@ ${safetyGuidance}
 
 ${islamicModifier}
 
-YOUR TASK: Answer ONE question only: What truth sits alongside this and what is the tested belief?
-
-SINGLE QUESTION RULE:
-This screen answers ONLY: "What truth sits alongside this thought and what belief is being tested?"
-- Do NOT include calming practices
-- Do NOT include additional analysis of the pattern
-- Only reframe with clarity
-
-BLOCK 1 - THE BELIEF BEING TESTED:
-One sentence naming the specific belief error. Keep it real and direct.
-Example: "This thought is treating your feelings like they're facts about Allah's plan."
-
-BLOCK 2 - A TRUER PERSPECTIVE:
-Two to three sentences max, grounded in the concept whitelist. This is the core reframe.
-Write it like you're sharing wisdom with a friend, not reading from a book.
-Example: "Feelings come and go, but Allah's mercy doesn't clock out. There's wisdom in this hardship even if you can't see it yet. You do your part; He handles the rest."
-
-BLOCK 3 - ONE NEXT STEP:
-One simple, doable action for today. Make it specific and achievable.
-Example: "Make one small dua today - even if it's just 'Ya Allah, help me through this.'"
-
-ANCHORS:
-List 2-4 concept names from the whitelist that you referenced (names only, not full text).
-
-ONLY use concepts from the whitelist. No full verses or hadith.
-Keep the whole thing feeling like guidance from someone who gets it, not a lecture.
-
-The user's distortions: ${distortions.join(", ")}
-
-Respond with a JSON object containing:
-- beliefTested: one sentence naming the belief error
-- perspective: 2-3 sentences with the truer perspective
-- nextStep: one simple action for today
-- anchors: array of 2-4 concept names from the whitelist`,
+${reframePrompt}`,
               },
               {
                 role: "user",
@@ -728,6 +666,9 @@ Respond with a JSON object containing:
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
             : "";
 
+          // Load suggest-practice prompt
+          const practicePrompt = loadPrompt("suggest-practice.txt");
+
           const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 512,
@@ -740,33 +681,7 @@ ${safetyGuidance}
 
 ${islamicModifier}
 
-YOUR TASK: Answer ONE question only: What is one practice to settle the heart and body?
-
-SINGLE QUESTION RULE:
-This screen answers ONLY: "What is one practice to settle the heart and body?"
-- Do NOT include additional analysis
-- Do NOT include additional reframing
-- Do NOT include teaching or explanation
-- Only provide the practice itself
-
-OUTPUT FORMAT:
-- title: Short name (e.g., "Dhikr Breathing" or "Gratitude Recall")
-- steps: An array of exactly 3 short steps (one sentence each). Each step should be clear and actionable.
-- reminder: One short sentence to close the practice.
-- duration: Estimated time (e.g., "1-2 minutes")
-
-PRACTICE TYPES (choose one that fits the reframe):
-1. Dhikr breathing (breathe in 4, hold 4, out 4, with SubhanAllah or Alhamdulillah)
-2. Grounded remembrance (brief reflection on a divine attribute: Al-Wadud, Ar-Rahman, Al-Lateef)
-3. Gratitude recall (name 3 specific blessings, cultivating shukr)
-
-The tone should be inviting, not commanding. Keep each step to one clear sentence.
-
-Respond with a JSON object containing:
-- title: string
-- steps: array of exactly 3 strings (one sentence each)
-- reminder: one short sentence
-- duration: string`,
+${practicePrompt}`,
               },
               {
                 role: "user",
@@ -1170,6 +1085,9 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
             ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
             : "";
 
+          // Load generate-summary prompt
+          const summaryPrompt = loadPrompt("generate-summary.txt");
+
           const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 256,
@@ -1182,9 +1100,7 @@ ${safetyGuidance}
 
 ${islamicModifier}
 
-You are generating a brief pattern summary for someone who has completed multiple reflections.
-Be warm, observational, and non-judgmental. Do not give advice or prescriptions.
-Respond with plain text, not JSON.`,
+${summaryPrompt}`,
               },
               {
                 role: "user",
