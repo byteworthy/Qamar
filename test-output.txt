@@ -1,0 +1,152 @@
+
+> my-app@1.0.0 test
+> jest --verbose --coverage
+
+PASS server/__tests__/safety-system.test.ts (14.403 s)
+  Crisis Detection System
+    Emergency Level Detection
+      √ detects emergency crisis: "I want to die" (14 ms)
+      √ detects emergency crisis: "I want to kill myself" (2 ms)
+      √ detects emergency crisis: "I'm going to end my life" (2 ms)
+      √ detects emergency crisis: "everyone would be better off without me and I want to die" (1 ms)
+      √ detects emergency crisis: "I can't take it anymore, I want to kill myself" (1 ms)
+      √ emergency crisis requires immediate action (3 ms)
+    Urgent Level Detection
+      √ detects urgent crisis: "there's no hope for me" (1 ms)
+      √ detects urgent crisis: "everyone would be better without me"
+      √ detects urgent crisis: "i've given up" (1 ms)
+      √ detects urgent crisis: "what's the point of living"
+      √ detects urgent crisis: "I can't do this anymore"
+    Concern Level Detection
+      √ detects concerning language: "I feel completely hopeless" (1 ms)
+      √ detects concerning language: "I'm utterly worthless" (1 ms)
+      √ detects concerning language: "I'll never be good enough"
+      √ detects concerning language: "Allah hates me"
+      √ detects concerning language: "I'm beyond redemption" (1 ms)
+    No Crisis Detection
+      √ does not detect crisis: "I'm feeling anxious about my exam" (1 ms)
+      √ does not detect crisis: "I struggle with prayer consistency"
+      √ does not detect crisis: "I feel overwhelmed by my responsibilities" (1 ms)
+      √ does not detect crisis: "I worry about the future" (1 ms)
+  Scrupulosity Detection System
+    √ detects scrupulosity: "my wudu is never valid" (1 ms)
+    √ detects scrupulosity: "every prayer I make is invalid"
+    √ detects scrupulosity: "I think I've committed shirk" (1 ms)
+    √ detects scrupulosity: "I can't stop repeating my salah"
+    √ detects scrupulosity: "I doubt every intention I make"
+    √ detects scrupulosity: "I'm scared I'm a kafir"
+    √ does not detect normal religious struggle (1 ms)
+  Theological Validation System
+    Detects Theological Violations
+      √ detects: theological distortion in "Allah doesn't care about you" (1 ms)
+      √ detects: claims about Allah's intent in "Allah is punishing you for your sins"
+      √ detects: theological distortion in "You're cursed" (1 ms)
+      √ detects: theological distortion in "Allah won't forgive this"
+      √ detects: spiritual bypassing in "Just pray more and you'll feel better"
+      √ detects: spiritual bypassing in "If you had stronger iman this wouldn't happen"
+      √ detects: spiritual bypassing in "Real Muslims don't feel this way" (1 ms)
+      √ detects: religious ruling in "This is haram"
+      √ detects: religious ruling in "You must do this according to Sharia" (1 ms)
+      √ detects: false promise in "This will definitely work"
+      √ detects: false promise in "You will be healed"
+    Approves Safe Theological Content
+      √ approves safe content: "Allah's mercy encompasses all things" (1 ms)
+      √ approves safe content: "What if this thought isn't the whole truth?" (1 ms)
+      √ approves safe content: "Your struggle has meaning" (1 ms)
+      √ approves safe content: "This feeling is understandable"
+      √ approves safe content: "Consider seeking help from a professional" (1 ms)
+  AI Output Validation System
+    √ rejects output with theological violations (2 ms)
+    √ rejects output with crisis language (1 ms)
+    √ rejects output with spiritual bypassing (1 ms)
+    √ rejects output with judgmental language
+    √ approves compliant output (1 ms)
+  Charter Compliance System
+    √ detects violation of Part 2: What AI must NEVER do (4 ms)
+    √ detects lack of slowing down for high distress (1 ms)
+    √ detects CBT continuation after crisis (1 ms)
+    √ detects verse stacking violation (1 ms)
+    √ approves compliant output (1 ms)
+  Tone Compliance System
+    √ detects forbidden phrases (6 ms)
+    √ detects judgmental language (2 ms)
+    √ detects spiritual bypassing (2 ms)
+    √ detects dismissive language (1 ms)
+    √ detects shame-based language (2 ms)
+    √ detects lack of validation before reframing (1 ms)
+    √ approves validating, merciful tone (1 ms)
+    √ approves validation before reframing (1 ms)
+  Full Safety Pipeline Integration
+    √ handles emergency crisis correctly (2 ms)
+    √ handles scrupulosity correctly (1 ms)
+    √ complete safety validation flow (2 ms)
+  Regression Tests
+    √ never generates absolution language (1 ms)
+    √ never generates diagnostic language (2 ms)
+    √ never bypasses with "just trust Allah" (1 ms)
+    √ always validates before reframing (1 ms)
+    √ never stacks Quranic verses
+    √ no verses after emergency crisis (1 ms)
+
+PASS server/__tests__/e2e-journey.test.ts (14.96 s)
+  E2E Test 1: Normal CBT Journey
+    √ Complete flow: thought capture → analyze → reframe → practice → save intention (21 ms)
+  E2E Test 2: High Distress Flow
+    √ High distress requires permission before reframe (2 ms)
+  E2E Test 3: Crisis Flow
+    √ Crisis triggers intervention, blocks CBT, provides resources (1 ms)
+  E2E Test 4: Scrupulosity Flow
+    √ Scrupulosity triggers special handling, avoids engagement (3 ms)
+  E2E Test 5: Failure Language When Validators Fail
+    √ Charter violation triggers failure language (2 ms)
+    √ Tone violation triggers failure language (2 ms)
+    √ Islamic governance violation triggers failure language (1 ms)
+  E2E Test 6: Complete Audit Trail
+    √ Every orchestration logged with full audit trail (3 ms)
+  E2E Test Suite Summary
+    √ All 6 critical flows covered (1 ms)
+
+--------------------------------|---------|----------|---------|---------|-------------------------------------------------------------------------------------
+File                            | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                                   
+--------------------------------|---------|----------|---------|---------|-------------------------------------------------------------------------------------
+All files                       |   24.17 |    20.11 |   18.38 |   24.22 |                                                                                     
+ server                         |   25.68 |    21.02 |   19.53 |   25.77 |                                                                                     
+  ai-safety.ts                  |   62.77 |    55.84 |      40 |   64.66 | 79,431-432,468-520,601-614,619,638-653,665-686                                      
+  canonical-orchestrator.ts     |   56.73 |    38.88 |   23.52 |   57.66 | 173-185,237-252,294,298-301,319,325-341,364-377,435-445,457-507                     
+  charter-compliance.ts         |   80.39 |    75.23 |   71.42 |   79.72 | 171,232,272,296-301,328,455,487,507,550,604,630,645,654-685,718-734                 
+  config.ts                     |       0 |        0 |       0 |       0 | 10-275                                                                              
+  conversation-state-machine.ts |   27.58 |        0 |   27.27 |   27.58 | 340,360-424,444-518,769-773,784-805                                                 
+  conversational-ai.ts          |       0 |        0 |       0 |       0 | 44-652                                                                              
+  data-retention.ts             |       0 |        0 |       0 |       0 | 11-374                                                                              
+  db.ts                         |       0 |      100 |     100 |       0 | 1-9                                                                                 
+  encryption.ts                 |       0 |        0 |       0 |       0 | 6-192                                                                               
+  failure-language.ts           |   21.27 |    19.04 |    4.34 |   21.27 | 29,49-113,134-156,176-201,214-247,260-281                                           
+  health.ts                     |       0 |        0 |       0 |       0 | 9-150                                                                               
+  index.ts                      |       0 |        0 |       0 |       0 | 1-392                                                                               
+  islamic-content-mapper.ts     |   30.46 |    26.36 |   31.57 |   30.66 | 109,145-148,154,168-193,235,242,274-391,403-423,432-437,556-637,823,834-843,897-909 
+  notificationRoutes.ts         |       0 |        0 |       0 |       0 | 7-394                                                                               
+  notifications.ts              |       0 |        0 |       0 |       0 | 8-397                                                                               
+  pacing-controller.ts          |   28.46 |     23.4 |   18.18 |   30.76 | 79,122-223,235,265-286,340-436,468-484,494-516,530-532,539-550                      
+  returnSummaries.ts            |       0 |        0 |       0 |       0 | 1-104                                                                               
+  routes.ts                     |       0 |        0 |       0 |       0 | 2-1297                                                                              
+  safety-integration.ts         |   85.45 |    72.58 |   88.88 |   85.45 | 171,307-311,368-377,449-461                                                         
+  safety-telemetry.ts           |   21.62 |    10.81 |    12.9 |   22.01 | 148-233,251-300,314-328,341-463,479-494                                             
+  sentry.ts                     |       0 |        0 |       0 |       0 | 9-215                                                                               
+  stateInference.ts             |       0 |        0 |       0 |       0 | 31-340                                                                              
+  storage.ts                    |       0 |        0 |       0 |       0 | 1-461                                                                               
+  tone-compliance-checker.ts    |   92.25 |    88.23 |   83.87 |   92.25 | 300,535,547-562,581,588                                                             
+  toneClassifier.ts             |       0 |        0 |       0 |       0 | 8-235                                                                               
+ server/billing                 |       0 |        0 |       0 |       0 |                                                                                     
+  index.ts                      |       0 |        0 |       0 |       0 | 30-125                                                                              
+ server/middleware              |       0 |        0 |       0 |       0 |                                                                                     
+  auth.ts                       |       0 |        0 |       0 |       0 | 2-225                                                                               
+  production.ts                 |       0 |        0 |       0 |       0 | 9-168                                                                               
+  rate-limit.ts                 |       0 |        0 |       0 |       0 | 1-86                                                                                
+ server/utils                   |       0 |        0 |       0 |       0 |                                                                                     
+  promptLoader.ts               |       0 |        0 |       0 |       0 | 1-29                                                                                
+--------------------------------|---------|----------|---------|---------|-------------------------------------------------------------------------------------
+Test Suites: 2 passed, 2 total
+Tests:       79 passed, 79 total
+Snapshots:   0 total
+Time:        171.386 s
+Ran all test suites.

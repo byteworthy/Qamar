@@ -164,6 +164,7 @@ export default function CalmingPracticeScreen() {
               navigation.navigate("Home");
             }}
             style={{ backgroundColor: theme.primary }}
+            accessibilityHint="Completes the practice and returns to home screen"
           >
             Done
           </Button>
@@ -195,6 +196,9 @@ export default function CalmingPracticeScreen() {
                   opacity: pressed ? 0.85 : 1,
                 },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel={`${practice.title}, ${practice.duration}, ${practice.description}`}
+              accessibilityHint="Opens guided steps for this calming practice"
             >
               <View
                 style={[

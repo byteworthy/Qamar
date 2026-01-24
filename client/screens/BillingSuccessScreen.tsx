@@ -121,7 +121,7 @@ export default function BillingSuccessScreen() {
             insights, and contextual duas.
           </ThemedText>
           <View style={styles.buttonContainer}>
-            <Button onPress={handleContinue} variant="primary">
+            <Button onPress={handleContinue} variant="primary" accessibilityHint="Returns to home screen to start using Noor Plus features">
               Begin Your Journey
             </Button>
           </View>
@@ -146,11 +146,11 @@ export default function BillingSuccessScreen() {
             {error}
           </ThemedText>
           <View style={styles.buttonContainer}>
-            <Button onPress={handleRetry} variant="primary">
+            <Button onPress={handleRetry} variant="primary" accessibilityHint="Attempts to verify your subscription again">
               Try Again
             </Button>
             <View style={styles.buttonSpacer} />
-            <Button onPress={handleContinue} variant="secondary">
+            <Button onPress={handleContinue} variant="secondary" accessibilityHint="Returns to home screen">
               Continue to Home
             </Button>
           </View>

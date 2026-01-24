@@ -128,6 +128,7 @@ export default function InsightsScreen() {
                 backgroundColor: SiraatColors.indigo,
                 marginTop: spacing.xl,
               }}
+              accessibilityHint="Opens pricing options to unlock insights feature"
             >
               Upgrade to Noor Plus
             </Button>
@@ -186,6 +187,7 @@ export default function InsightsScreen() {
             <Button
               onPress={() => navigation.navigate("ThoughtCapture")}
               style={{ backgroundColor: theme.primary, marginTop: spacing.xl }}
+              accessibilityHint="Begins a new reflection session to build your insights"
             >
               Start a Reflection
             </Button>

@@ -200,6 +200,10 @@ export default function BeliefInspectionScreen() {
                     borderColor: isSelected ? theme.primary : theme.border,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`${type.label}: ${type.description}`}
+                accessibilityHint={`Selects ${type.label} as the belief category`}
+                accessibilityState={{ selected: isSelected }}
               >
                 <ThemedText type="h3" style={styles.beliefTypeIcon}>
                   {type.icon}
@@ -278,6 +282,8 @@ export default function BeliefInspectionScreen() {
             },
           ]}
           textAlignVertical="top"
+          accessibilityLabel="Underlying belief"
+          accessibilityHint="Describe the core belief behind your thought"
         />
       </Animated.View>
 
@@ -327,6 +333,9 @@ export default function BeliefInspectionScreen() {
                         : theme.border,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`Set belief strength to ${mark} percent`}
+                accessibilityHint="Adjusts how strongly you believe this thought"
               />
             ))}
           </View>
@@ -376,6 +385,8 @@ export default function BeliefInspectionScreen() {
           multiline
           style={styles.interruptionInput}
           textAlignVertical="top"
+          accessibilityLabel="Reflection question response"
+          accessibilityHint={`Answer the question: ${currentQuestion}`}
         />
       </Animated.View>
 
@@ -390,6 +401,7 @@ export default function BeliefInspectionScreen() {
           style={{
             backgroundColor: canContinue ? theme.primary : theme.border,
           }}
+          accessibilityHint="Proceeds to reframe your thought with alternative perspectives"
         >
           Continue to Reframe
         </Button>

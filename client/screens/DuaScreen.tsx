@@ -419,6 +419,7 @@ export default function DuaScreen() {
           <Button
             onPress={() => navigation.goBack()}
             style={{ backgroundColor: theme.primary }}
+            accessibilityHint="Returns to previous screen"
           >
             Done
           </Button>
@@ -456,6 +457,9 @@ export default function DuaScreen() {
                     opacity: pressed ? 0.85 : 1,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={context.label}
+                accessibilityHint="Shows a dua for this life context"
               >
                 <ThemedText style={styles.optionText}>
                   {context.label}
@@ -503,6 +507,10 @@ export default function DuaScreen() {
                     opacity: pressed && !isLocked ? 0.85 : isLocked ? 0.5 : 1,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`${state.label}${isLocked ? ", requires Noor Plus" : ""}`}
+                accessibilityHint={isLocked ? "Upgrade to Noor Plus to access this dua category" : "Opens life context options for this inner state"}
+                accessibilityState={{ disabled: isLocked }}
               >
                 <View
                   style={[
