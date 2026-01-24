@@ -68,7 +68,8 @@ Respond with a JSON object containing:
       ],
     });
 
-    const content = response.content[0]?.text || "{}";
+    const firstBlock = response.content[0];
+    const content = firstBlock?.type === "text" ? firstBlock.text : "{}";
     const result = JSON.parse(content);
 
     return {

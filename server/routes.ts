@@ -1114,8 +1114,9 @@ ${summaryPrompt}`,
             ],
           });
 
+          const firstBlock = response.content[0];
           return (
-            response.content[0]?.text ||
+            (firstBlock?.type === "text" ? firstBlock.text : null) ||
             "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity."
           );
         },
