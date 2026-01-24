@@ -57,6 +57,9 @@ function MenuItem({
           styles.menuItem,
           { backgroundColor: theme.cardBackground, opacity: pressed ? 0.9 : 1 },
         ]}
+        accessibilityRole="button"
+        accessibilityLabel={subtitle ? `${title}, ${subtitle}` : title}
+        accessibilityHint={`Opens ${title.toLowerCase()}`}
       >
         <Feather name={icon} size={18} color={theme.textSecondary} />
         <View style={styles.menuItemContent}>
@@ -162,6 +165,9 @@ export default function ProfileScreen() {
               styles.editButton,
               { backgroundColor: theme.backgroundDefault },
             ]}
+            accessibilityRole="button"
+            accessibilityLabel="Edit profile name"
+            accessibilityHint="Opens a dialog to change your display name"
           >
             <ThemedText style={styles.editButtonText}>Edit</ThemedText>
           </Pressable>
@@ -175,6 +181,9 @@ export default function ProfileScreen() {
                 styles.upgradeCard,
                 { opacity: pressed ? 0.9 : 1 },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Upgrade to Noor Plus"
+              accessibilityHint="Opens pricing options to upgrade your subscription"
             >
               <ThemedText style={styles.upgradeText}>
                 Upgrade to Noor Plus
@@ -291,6 +300,8 @@ export default function ProfileScreen() {
               ]}
               autoFocus
               maxLength={20}
+              accessibilityLabel="Display name"
+              accessibilityHint="Enter your preferred display name, up to 20 characters"
             />
             <View style={styles.modalButtons}>
               <Pressable
@@ -299,12 +310,18 @@ export default function ProfileScreen() {
                   styles.modalButton,
                   { backgroundColor: theme.backgroundRoot },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel="Cancel"
+                accessibilityHint="Closes the dialog without saving changes"
               >
                 <ThemedText>Cancel</ThemedText>
               </Pressable>
               <Pressable
                 onPress={handleSaveName}
                 style={[styles.modalButton, { backgroundColor: theme.primary }]}
+                accessibilityRole="button"
+                accessibilityLabel="Save"
+                accessibilityHint="Saves your new display name"
               >
                 <ThemedText style={{ color: NiyyahColors.background }}>
                   Save

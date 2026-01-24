@@ -219,6 +219,7 @@ function PlanCard({
               : theme.backgroundDefault,
             marginTop: spacing.lg,
           }}
+          accessibilityHint={`Subscribes to ${name} plan. ${price}${period || ""}`}
         >
           {loading ? "Loading..." : `Select ${name}`}
         </Button>
@@ -419,6 +420,7 @@ export default function PricingScreen() {
               disabled={syncing}
               variant="secondary"
               style={{ backgroundColor: "transparent" }}
+              accessibilityHint="Restores previous purchases from your Apple ID or Google Play account"
             >
               {syncing ? "Checking..." : "Restore Purchase"}
             </Button>
@@ -429,6 +431,7 @@ export default function PricingScreen() {
               onPress={handleManageBilling}
               disabled={managingBilling}
               style={{ backgroundColor: theme.backgroundDefault }}
+              accessibilityHint="Opens App Store or Google Play to manage your active subscriptions"
             >
               {managingBilling ? "Loading..." : "Manage Subscriptions"}
             </Button>
