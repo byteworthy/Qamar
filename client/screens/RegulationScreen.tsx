@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -19,6 +20,7 @@ import Animated, {
   withRepeat,
   withSequence,
 } from "react-native-reanimated";
+import { hapticMedium } from "@/lib/haptics";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -29,6 +31,7 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { generatePractice } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { ScreenCopy } from "@/constants/brand";
+import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
 
 // Dhikr-based grounding options
 interface DhikrOption {
@@ -125,6 +128,7 @@ export default function RegulationScreen() {
   const [regulationType, setRegulationType] = useState<
     "practice" | "dhikr" | "breathing"
   >("practice");
+  const [showExitModal, setShowExitModal] = useState(false);
 
   // Refs for interval timers
   const hapticIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -135,6 +139,27 @@ export default function RegulationScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
   const { thought, distortions, reframe, anchor } = route.params;
+
+  // Add cancel button to header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => setShowExitModal(true)}
+          style={{ marginRight: Spacing.sm }}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
+        </Pressable>
+      ),
+    });
+  }, [navigation, theme.primary]);
+
+  const handleExit = () => {
+    hapticMedium();
+    setShowExitModal(false);
+    navigation.navigate("Home");
+  };
 
   useEffect(() => {
     const generate = async () => {
@@ -487,6 +512,12 @@ export default function RegulationScreen() {
           </>
         ) : null}
       </View>
+
+      <ExitConfirmationModal
+        visible={showExitModal}
+        onConfirm={handleExit}
+        onCancel={() => setShowExitModal(false)}
+      />
     </KeyboardAwareScrollViewCompat>
   );
 }

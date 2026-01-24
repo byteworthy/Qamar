@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   Platform,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -12,6 +13,7 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
 import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
+import { hapticMedium } from "@/lib/haptics";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -20,6 +22,7 @@ import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { ScreenCopy } from "@/constants/brand";
+import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -94,6 +97,7 @@ export default function IntentionScreen() {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [selectedPurpose, setSelectedPurpose] = useState<string>("both");
   const [showBismillah, setShowBismillah] = useState(true);
+  const [showExitModal, setShowExitModal] = useState(false);
 
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
@@ -109,6 +113,30 @@ export default function IntentionScreen() {
     detectedState,
     emotionalIntensity,
   } = route.params;
+
+  // Add cancel button to header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => setShowExitModal(true)}
+          style={{ marginRight: Spacing.sm }}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          accessibilityRole="button"
+          accessibilityLabel="Cancel reflection"
+          accessibilityHint="Exits the reflection and returns to home screen"
+        >
+          <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
+        </Pressable>
+      ),
+    });
+  }, [navigation, theme.primary]);
+
+  const handleExit = () => {
+    hapticMedium();
+    setShowExitModal(false);
+    navigation.navigate("Home");
+  };
 
   const canContinue = intention.trim().length > 3;
 
@@ -459,6 +487,12 @@ export default function IntentionScreen() {
           {ScreenCopy.intention.complete}
         </Button>
       </Animated.View>
+
+      <ExitConfirmationModal
+        visible={showExitModal}
+        onConfirm={handleExit}
+        onCancel={() => setShowExitModal(false)}
+      />
     </KeyboardAwareScrollViewCompat>
   );
 }
