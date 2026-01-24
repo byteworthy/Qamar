@@ -309,20 +309,20 @@ export default function PricingScreen() {
   };
 
   const freeFeatures: PlanFeature[] = [
+    { text: "1 reflection per day", included: true },
     { text: "Basic journaling", included: true },
-    { text: "Limited sessions", included: true },
-    { text: "Limited rooms", included: true },
-    { text: "No history depth", included: false },
-    { text: "Session history", included: false },
-    { text: "Insights or trends", included: false },
+    { text: "Islamic reframes", included: true },
+    { text: "Unlimited reflections", included: false },
+    { text: "Pattern insights", included: false },
+    { text: "Contextual duas", included: false },
   ];
 
   const plusFeatures: PlanFeature[] = [
-    { text: "All rooms", included: true },
-    { text: "Full journaling", included: true },
-    { text: "Full history", included: true },
-    { text: "Basic insights", included: true },
-    { text: "One persona", included: true },
+    { text: "Unlimited reflections", included: true },
+    { text: "Pattern insights", included: true },
+    { text: "Contextual duas", included: true },
+    { text: "Full history (30 days)", included: true },
+    { text: "Lock in $2.99 rate forever", included: true },
     { text: "Cancel anytime", included: true },
   ];
 
@@ -339,10 +339,10 @@ export default function PricingScreen() {
     <Screen title="Upgrade" showBack>
       <View style={styles.header}>
         <ThemedText style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Support Your Practice
+          Early Access Pricing
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Choose the plan that fits your pace.
+          Lock in beta rates forever. Price increases to $6.99/month after launch.
         </ThemedText>
       </View>
 
@@ -373,11 +373,12 @@ export default function PricingScreen() {
         />
 
         <PlanCard
-          name="Noor Plus"
-          price="$6.99"
+          name="Noor Plus (Beta)"
+          price="$2.99"
           period="/month"
           features={plusFeatures}
           isCurrentPlan={!billingDisabled && billingProfile?.tier === "plus"}
+          isPremium={!billingDisabled}
           comingSoon={billingDisabled}
           onSelect={
             billingDisabled || isPaid
@@ -389,17 +390,12 @@ export default function PricingScreen() {
 
         <PlanCard
           name="Noor Pro"
-          price="$11.99"
+          price="$6.99"
           period="/month"
           features={proFeatures}
           isCurrentPlan={!billingDisabled && billingProfile?.tier === "pro"}
-          isPremium={!billingDisabled}
-          comingSoon={billingDisabled}
-          onSelect={
-            billingDisabled || isPro
-              ? undefined
-              : () => handleUpgrade("pro", "monthly")
-          }
+          comingSoon={true}
+          onSelect={undefined}
           loading={loading}
         />
       </View>

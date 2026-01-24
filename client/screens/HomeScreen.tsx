@@ -182,14 +182,14 @@ export default function HomeScreen() {
   });
 
   useEffect(() => {
-    AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
+    AsyncStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
       if (name && name.trim()) {
         setUserName(name);
       }
     });
 
     // Load journey stats
-    AsyncStorage.getItem(JOURNEY_STATS_KEY).then((stats) => {
+    AsyncStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
       if (stats) {
         try {
           setJourneyStats(JSON.parse(stats));
@@ -418,7 +418,7 @@ export default function HomeScreen() {
                 icon="heart"
                 title="Dua"
                 description="Find the right words for what you carry"
-                onPress={() => navigation.navigate("Dua" as any)}
+                onPress={() => navigation.navigate("Dua", { state: undefined })}
                 gradient={["#4a5a6a", "#2a3a4a"]}
                 delay={200}
               />
@@ -473,7 +473,7 @@ export default function HomeScreen() {
             <ThemedText
               style={[styles.methodCallout, { color: theme.textSecondary }]}
             >
-              {Brand.methodCallout}
+              {Brand.betaDisclaimer}
             </ThemedText>
             <ThemedText
               style={[styles.disclaimer, { color: theme.textSecondary }]}

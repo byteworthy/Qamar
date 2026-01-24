@@ -64,24 +64,24 @@ export default function WelcomeScreen() {
                 color={theme.highlightAccent}
               />
               <ThemedText style={styles.cardTitle}>
-                What This App Does
+                What Makes Noor Different
               </ThemedText>
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Guides short, structured reflection sessions
+                • Connects your thoughts to Quranic wisdom and Prophetic guidance
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Helps slow repetitive or circular thinking
+                • Helps you recognize patterns in how you think
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Clarifies intention before decisions
+                • Offers Islamic reframes for limiting beliefs
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Examines assumptions without judgment
+                • Private, structured reflection rooted in your tradition
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Grounds reflection in Islamic values
+                • Not just a journal—a companion for spiritual growth
               </ThemedText>
             </View>
           </View>
@@ -124,6 +124,19 @@ export default function WelcomeScreen() {
             <ThemedText
               style={[styles.disclaimer, { color: theme.textSecondary }]}
             >
+              {Brand.betaDisclaimer}
+            </ThemedText>
+          </View>
+
+          <View
+            style={[
+              styles.disclaimerBox,
+              { backgroundColor: theme.backgroundRoot },
+            ]}
+          >
+            <ThemedText
+              style={[styles.disclaimer, { color: theme.textSecondary }]}
+            >
               {Brand.disclaimer}
             </ThemedText>
           </View>
@@ -151,7 +164,9 @@ export default function WelcomeScreen() {
             },
           ]}
         >
-          <ThemedText style={[styles.continueButtonText, { color: theme.onPrimary }]}>
+          <ThemedText
+            style={[styles.continueButtonText, { color: theme.onPrimary }]}
+          >
             Continue
           </ThemedText>
           <Feather name="arrow-right" size={20} color={theme.onPrimary} />

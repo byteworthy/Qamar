@@ -1,11 +1,12 @@
 export const Brand = {
   name: "Noor",
   method: "The Siraat Method",
-  tagline:
-    "A structured reflection practice for Muslims who want clarity before action.",
+  tagline: "A sacred space to untangle your thoughts, guided by faith.",
 
   disclaimer:
-    "Not therapy. Not medical care. Not diagnosis. Not religious authority.",
+    "Noor is a reflection companion, not a replacement for professional care. If you're in crisis, please reach out to 988 Lifeline or a trusted counselor.",
+  betaDisclaimer:
+    "🌱 Early Access: Islamic content is being refined with scholarly guidance. Current reflections use foundational spiritual principles. Early supporters receive permanent discounted pricing.",
   methodCallout: "Powered by the Siraat Method",
 
   anchorLine:
@@ -34,42 +35,52 @@ export const ScreenCopy = {
       "Move forward with clarity.",
     ],
     historyLink: "Past Reflections",
-    greeting: "Salaam",
+    greeting: "As-Salamu Alaykum",
   },
 
   thoughtCapture: {
-    title: "What's on your mind?",
-    subtitle: "Write it out. This stays between you and your reflection.",
-    placeholder: "What's been weighing on you...",
+    title: "What's Weighing on Your Heart?",
+    subtitle: "Write freely. This is your private space.",
+    placeholder: "Write what's on your mind...",
     continue: "Continue",
     hint: "Take your time.",
   },
 
   distortion: {
-    title: "Looking Closer",
+    title: "Recognizing the Pattern",
     sections: {
-      happening: "What you're experiencing",
-      pattern: "What the mind is doing",
-      matters: "What holds true",
+      happening: "What I'm Hearing",
+      pattern: "Common Patterns in Thought",
+      matters: "What's True Beneath This",
     },
-    loading: "Sitting with your thought...",
+    loading: "Noticing how you're thinking...",
     continue: "Continue",
     error: "This reflection couldn't complete. You can try again when ready.",
-    errorFallback: "Something got in the way. Take a breath and try again.",
+    errorFallback: "A moment of patience needed. Try again.",
+    errorNetwork: "Couldn't connect. Check your internet and try again.",
+    errorServer:
+      "The reflection couldn't generate. Please try again in a moment.",
+    errorTimeout:
+      "This is taking longer than expected. Try again or simplify your thought.",
   },
 
   reframe: {
-    title: "A Clearer View",
+    title: "A Different Lens",
     blocks: {
-      belief: "The thought being tested",
-      perspective: "A truer perspective",
-      nextStep: "One step for today",
-      anchors: "Rooted in",
+      belief: "The Belief You're Testing",
+      perspective: "A Quranic Lens",
+      nextStep: "A Small Step Forward",
+      anchors: "Ground Yourself In",
     },
-    loading: "Gathering a clearer view...",
+    loading: "Seeking perspective...",
     continue: "Continue",
     error: "This reflection couldn't complete. You can try again when ready.",
-    errorFallback: "Something got in the way. Take a breath and try again.",
+    errorFallback: "A moment of patience needed. Try again.",
+    errorNetwork: "Couldn't connect. Check your internet and try again.",
+    errorServer:
+      "The reflection couldn't generate. Please try again in a moment.",
+    errorTimeout:
+      "This is taking longer than expected. Try again or simplify your thought.",
   },
 
   practice: {
@@ -104,7 +115,8 @@ export const ScreenCopy = {
   },
 
   history: {
-    title: "Past Reflections",
+    title: "Your Patterns Over Time",
+    subtitle: "Notice how you think. Shift what doesn't serve you.",
     empty: {
       title: "No Reflections Yet",
       subtitle: "Completed reflections will appear here.",

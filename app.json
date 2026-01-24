@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Noor",
+    "name": "Noor (Beta)",
     "slug": "noor",
-    "version": "1.0.0",
+    "version": "0.9.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "noor",
@@ -41,7 +41,16 @@
         }
       ],
       "expo-web-browser",
-      "react-native-iap"
+      "react-native-iap",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#4fd1a8",
+          "defaultChannel": "default",
+          "sounds": []
+        }
+      ]
     ],
     "experiments": {
       "reactCompiler": true
