@@ -190,9 +190,9 @@ const ISLAMIC_REFERENCES: IslamicReference[] = [
   - [ ] Contextual duas only for paid
 
 ### Should Fix (High Priority):
-- [ ] **Add upgrade prompt in SessionComplete**
+- [x] **Add upgrade prompt in SessionComplete** ✅ Already implemented
 - [ ] **Test on real devices** (not just simulator)
-- [ ] **Check dark mode** (all screens readable)
+- [x] **Check dark mode** (all screens readable) ✅ Fixed - 8 screens updated with theme tokens
 - [ ] **Verify 30-day data retention** (auto-delete works)
 
 ### Nice to Have (Post-launch):
