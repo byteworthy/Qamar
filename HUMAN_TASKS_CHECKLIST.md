@@ -1,7 +1,9 @@
 # 🧑 HUMAN TASKS CHECKLIST
 
-**Status**: 7 tasks requiring human action (besides credentials/APIs/placeholders)
+**Status**: 3 tasks requiring human action (4 tasks completed ✅)
 **Priority**: Organized by criticality and dependencies
+
+**✅ Completed Development Tasks**: Export reflections, Cancel buttons, Loading timeouts, AI prompt extraction
 
 ---
 
@@ -112,11 +114,11 @@
 
 ## 🔴 HIGH PRIORITY - IMPROVES UX
 
-### 4. Implement Export Reflections UI
+### 4. ✅ COMPLETED - Implement Export Reflections UI
 
 **Why**: Users expect to export their data (GDPR/CCPA requirement).
 
-**Status**: Backend supports data export via history API, need client UI.
+**Status**: ✅ COMPLETE - Implemented in HistoryScreen.tsx with react-native-share
 
 **Action Steps**:
 - [ ] Install React Native Share: `npm install react-native-share`
@@ -166,17 +168,19 @@ const handleExport = async () => {
 
 ---
 
-### 5. Implement Cancel/Exit Buttons in Reflection Flow
+### 5. ✅ COMPLETED - Implement Cancel/Exit Buttons in Reflection Flow
 
 **Why**: Users should be able to exit mid-flow without force-quitting app.
 
+**Status**: ✅ COMPLETE - All reflection screens now have cancel buttons with ExitConfirmationModal
+
 **Action Steps**:
-- [ ] Add cancel button to each reflection screen:
-  - [ ] ThoughtCaptureScreen
-  - [ ] DistortionScreen
-  - [ ] ReframeScreen
-  - [ ] RegulationScreen
-  - [ ] IntentionScreen
+- [x] Add cancel button to each reflection screen:
+  - [x] ThoughtCaptureScreen
+  - [x] DistortionScreen
+  - [x] ReframeScreen
+  - [x] RegulationScreen
+  - [x] IntentionScreen
 - [ ] Implement confirmation modal (shared component):
 
 ```typescript
@@ -292,12 +296,14 @@ if (process.env.EXPO_PUBLIC_SENTRY_DSN) {
 
 ## 🟡 MEDIUM PRIORITY - NICE TO HAVE
 
-### 7. Implement Loading Timeouts
+### 7. ✅ COMPLETED - Implement Loading Timeouts
 
 **Why**: Users shouldn't wait indefinitely for AI responses.
 
+**Status**: ✅ COMPLETE - Implemented in DistortionScreen and ReframeScreen with 15s warning, 30s abort
+
 **Action Steps**:
-- [ ] Add timeout state to DistortionScreen and ReframeScreen:
+- [x] Add timeout state to DistortionScreen and ReframeScreen:
 
 ```typescript
 const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
@@ -351,21 +357,23 @@ useEffect(() => {
 
 ---
 
-### 8. Extract AI Prompts to Separate Files
+### 8. ✅ COMPLETED - Extract AI Prompts to Separate Files
 
 **Why**: Easier to review, version control, and get scholar approval.
 
+**Status**: ✅ COMPLETE - All prompts extracted to server/prompts/ with template system
+
 **Action Steps**:
-- [ ] Create `server/prompts/` directory
-- [ ] Find all OpenAI calls:
-  - [ ] Search codebase for `openai.chat.completions.create`
-  - [ ] List files: (already found [server/returnSummaries.ts](server/returnSummaries.ts))
-- [ ] Extract system prompts to files:
-  - [ ] `server/prompts/analyze-distortions.txt`
-  - [ ] `server/prompts/generate-reframe.txt`
-  - [ ] `server/prompts/suggest-practice.txt`
-  - [ ] `server/prompts/generate-summary.txt`
-- [ ] Update code to read from files:
+- [x] Create `server/prompts/` directory
+- [x] Find all OpenAI calls:
+  - [x] Search codebase for `openai.chat.completions.create`
+  - [x] List files: (already found [server/returnSummaries.ts](server/returnSummaries.ts))
+- [x] Extract system prompts to files:
+  - [x] `server/prompts/analyze-distortions.txt`
+  - [x] `server/prompts/generate-reframe.txt`
+  - [x] `server/prompts/suggest-practice.txt`
+  - [x] `server/prompts/generate-summary.txt`
+- [x] Update code to read from files:
 
 ```typescript
 import { readFileSync } from 'fs';
@@ -395,16 +403,16 @@ const systemPrompt = loadPrompt('analyze-distortions.txt');
 
 ## 📋 SUMMARY
 
-| Task | Priority | Time | Cost | Blocks |
-|------|----------|------|------|--------|
-| 1. Scholar Review | CRITICAL | 2-6 weeks | $500-2k | Public launch |
-| 2. Legal Review | CRITICAL | 2-4 weeks | $2k-5k | Store submission |
-| 3. Backend Deployment | CRITICAL | 1 week | $15-30/mo | All testing |
-| 4. Export Reflections | HIGH | 2-3 hours | $0 | - |
-| 5. Cancel/Exit Buttons | HIGH | 3-4 hours | $0 | - |
-| 6. Sentry Setup | HIGH | 1 day | $0 | - |
-| 7. Loading Timeouts | MEDIUM | 2-3 hours | $0 | - |
-| 8. Extract AI Prompts | MEDIUM | 1-2 days | $0 | - |
+| Task | Priority | Time | Cost | Blocks | Status |
+|------|----------|------|------|--------|--------|
+| 1. Scholar Review | CRITICAL | 2-6 weeks | $500-2k | Public launch | 🔄 Pending |
+| 2. Legal Review | CRITICAL | 2-4 weeks | $2k-5k | Store submission | 🔄 Pending |
+| 3. Backend Deployment | CRITICAL | 1 week | $15-30/mo | All testing | 🔄 Pending |
+| 4. Export Reflections | HIGH | 2-3 hours | $0 | - | ✅ Complete |
+| 5. Cancel/Exit Buttons | HIGH | 3-4 hours | $0 | - | ✅ Complete |
+| 6. Sentry Setup | HIGH | 1 day | $0 | - | 🔄 Pending |
+| 7. Loading Timeouts | MEDIUM | 2-3 hours | $0 | - | ✅ Complete |
+| 8. Extract AI Prompts | MEDIUM | 1-2 days | $0 | - | ✅ Complete |
 
 **Total One-Time Cost**: $2,500-$7,000
 **Total Monthly Cost**: $15-30
