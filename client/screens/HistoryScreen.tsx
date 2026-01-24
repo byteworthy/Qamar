@@ -111,6 +111,9 @@ export default function HistoryScreen() {
             onPress={handleExport}
             style={{ marginRight: Spacing.sm }}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityRole="button"
+            accessibilityLabel="Export reflections"
+            accessibilityHint="Share your reflections as text"
           >
             <Feather name="download" size={20} color={theme.primary} />
           </Pressable>
@@ -240,6 +243,10 @@ export default function HistoryScreen() {
         <Pressable
           onPress={() => setInsightsExpanded(!insightsExpanded)}
           style={styles.insightsHeader}
+          accessibilityRole="button"
+          accessibilityLabel="Your patterns insights"
+          accessibilityHint={`${insightsExpanded ? "Collapse" : "Expand"} to ${insightsExpanded ? "hide" : "view"} your reflection patterns`}
+          accessibilityState={{ expanded: insightsExpanded }}
         >
           <View style={styles.insightsHeaderLeft}>
             <View
@@ -426,6 +433,10 @@ export default function HistoryScreen() {
             styles.sessionCard,
             { backgroundColor: theme.cardBackground, opacity: pressed ? 0.9 : 1 },
           ]}
+          accessibilityRole="button"
+          accessibilityLabel={`Reflection from ${formatDate(item.timestamp)}`}
+          accessibilityHint={`${isExpanded ? "Collapse" : "Expand"} to ${isExpanded ? "hide" : "view"} full reflection details`}
+          accessibilityState={{ expanded: isExpanded }}
         >
         <View style={styles.sessionHeader}>
           <View style={styles.sessionMeta}>
@@ -523,6 +534,9 @@ export default function HistoryScreen() {
                   borderColor: theme.border,
                 },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Delete this reflection"
+              accessibilityHint="Permanently deletes this reflection. Requires confirmation."
             >
               <Feather name="trash-2" size={16} color="#ef4444" />
               <ThemedText

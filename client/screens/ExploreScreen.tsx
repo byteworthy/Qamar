@@ -40,6 +40,9 @@ function ExploreCard({
             transform: [{ scale: pressed ? 0.98 : 1 }],
           },
         ]}
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityHint={`Opens ${title.toLowerCase()}`}
       >
         <LinearGradient
           colors={gradient as [string, string]}
