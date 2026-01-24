@@ -239,7 +239,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { thought, emotionalIntensity } = validationResult.data;
 
       // VALIDATION MODE GUARD: Return placeholder if AI not configured
-      if (VALIDATION_MODE && !isOpenAIConfigured()) {
+      if (VALIDATION_MODE && !isAnthropicConfigured()) {
         console.log(
           "[VALIDATION MODE] /api/analyze - returning placeholder response",
         );
@@ -247,7 +247,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // OPENAI CONFIGURATION GUARD: Fail clearly if not in validation mode
-      if (!isOpenAIConfigured()) {
+      if (!isAnthropicConfigured()) {
         return res.status(503).json({
           error: "AI service not configured",
           code: "CONFIG_MISSING",
@@ -486,10 +486,10 @@ ${analyzePrompt}`,
         validationResult.data;
 
       // VALIDATION MODE GUARD
-      if (VALIDATION_MODE && !isOpenAIConfigured()) {
+      if (VALIDATION_MODE && !isAnthropicConfigured()) {
         return res.json(getValidationModeReframeResponse());
       }
-      if (!isOpenAIConfigured()) {
+      if (!isAnthropicConfigured()) {
         return res.status(503).json({
           error: "AI service not configured",
           code: "CONFIG_MISSING",
@@ -642,10 +642,10 @@ ${reframePrompt}`,
       }
 
       // VALIDATION MODE GUARD
-      if (VALIDATION_MODE && !isOpenAIConfigured()) {
+      if (VALIDATION_MODE && !isAnthropicConfigured()) {
         return res.json(getValidationModePracticeResponse());
       }
-      if (!isOpenAIConfigured()) {
+      if (!isAnthropicConfigured()) {
         return res.status(503).json({
           error: "AI service not configured",
           code: "CONFIG_MISSING",
@@ -1093,20 +1093,17 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
           // Load generate-summary prompt
           const summaryPrompt = loadPrompt("generate-summary.txt");
 
-          const response = await getOpenAIClient().chat.completions.create({
-            model: "gpt-5.1",
-            max_completion_tokens: 256,
-            messages: [
-              {
-                role: "system",
-                content: `${SYSTEM_FOUNDATION}
+          const response = await getAnthropicClient().messages.create({
+            model: "claude-sonnet-4-5",
+            max_tokens: 256,
+            system: `${SYSTEM_FOUNDATION}
 
 ${safetyGuidance}
 
 ${islamicModifier}
 
 ${summaryPrompt}`,
-              },
+            messages: [
               {
                 role: "user",
                 content: summaryPrompt,
@@ -1115,7 +1112,7 @@ ${summaryPrompt}`,
           });
 
           return (
-            response.choices[0]?.message?.content ||
+            response.content[0]?.text ||
             "Your reflections show a pattern of growth. Continue observing your thoughts with curiosity."
           );
         },

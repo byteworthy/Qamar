@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 
 interface ReflectionSummaryData {
   thought: string;
@@ -12,9 +12,8 @@ interface ThemeSummary {
   generatedAt: Date;
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 export async function generateReturnSummary(
@@ -34,13 +33,10 @@ export async function generateReturnSummary(
     .join("\n");
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-5.1",
-      max_completion_tokens: 512,
-      messages: [
-        {
-          role: "system",
-          content: `You are a neutral observer reviewing a user's recent reflections.
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-5",
+      max_tokens: 512,
+      system: `You are a neutral observer reviewing a user's recent reflections.
 
 YOUR TASK: Generate a brief summary paragraph that observes patterns across their reflections.
 
@@ -64,16 +60,15 @@ EXAMPLE OUTPUT:
 Respond with a JSON object containing:
 - summary: one paragraph observing patterns
 - patterns: array of 2-4 short pattern names observed`,
-        },
+      messages: [
         {
           role: "user",
           content: thoughtSummaries,
         },
       ],
-      response_format: { type: "json_object" },
     });
 
-    const content = response.choices[0]?.message?.content || "{}";
+    const content = response.content[0]?.text || "{}";
     const result = JSON.parse(content);
 
     return {
