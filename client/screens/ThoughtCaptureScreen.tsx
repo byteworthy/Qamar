@@ -145,6 +145,9 @@ export default function ThoughtCaptureScreen() {
           onPress={() => setShowExitModal(true)}
           style={{ marginRight: Spacing.sm }}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          accessibilityRole="button"
+          accessibilityLabel="Cancel reflection"
+          accessibilityHint="Exits the reflection and returns to home screen"
         >
           <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
         </Pressable>
@@ -293,6 +296,8 @@ export default function ThoughtCaptureScreen() {
               },
             ]}
             textAlignVertical="top"
+            accessibilityLabel="Thought input"
+            accessibilityHint="Enter the thought or feeling you want to reflect on"
           />
         </Animated.View>
 
@@ -360,6 +365,10 @@ export default function ThoughtCaptureScreen() {
                     borderColor: isSelected ? levelColor : theme.border,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`Intensity level ${level}: ${INTENSITY_LABELS[level].label}`}
+                accessibilityHint={INTENSITY_LABELS[level].description}
+                accessibilityState={{ selected: isSelected }}
               >
                 <ThemedText
                   type="small"
@@ -421,6 +430,10 @@ export default function ThoughtCaptureScreen() {
                         borderColor: isSelected ? theme.primary : theme.border,
                       },
                     ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${somatic}`}
+                    accessibilityHint={`Select if you feel ${somatic}`}
+                    accessibilityState={{ selected: isSelected }}
                   >
                     <ThemedText
                       type="small"
@@ -445,6 +458,7 @@ export default function ThoughtCaptureScreen() {
           style={{
             backgroundColor: canContinue ? theme.primary : theme.border,
           }}
+          accessibilityHint="Proceeds to analyze your thought patterns"
         >
           {ScreenCopy.thoughtCapture.continue}
         </Button>

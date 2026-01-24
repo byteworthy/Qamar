@@ -79,6 +79,9 @@ export default function DistortionScreen() {
           onPress={() => setShowExitModal(true)}
           style={{ marginRight: Spacing.sm }}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          accessibilityRole="button"
+          accessibilityLabel="Cancel reflection"
+          accessibilityHint="Exits the reflection and returns to home screen"
         >
           <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
         </Pressable>
@@ -287,6 +290,9 @@ export default function DistortionScreen() {
                   styles.resourceCard,
                   { backgroundColor: theme.backgroundDefault },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`Call ${resource.name}, ${resource.contact}`}
+                accessibilityHint={resource.description}
               >
                 <View style={styles.resourceContent}>
                   <ThemedText
@@ -354,6 +360,7 @@ export default function DistortionScreen() {
           <Button
             onPress={handleContinue}
             style={{ backgroundColor: theme.border }}
+            accessibilityHint="Proceeds with your reflection practice"
           >
             Continue Reflection
           </Button>
@@ -469,6 +476,7 @@ export default function DistortionScreen() {
             <Button
               onPress={handleRetry}
               style={{ backgroundColor: theme.primary, marginBottom: Spacing.md }}
+              accessibilityHint="Retries analyzing your thought"
             >
               Try Again
             </Button>
@@ -476,6 +484,7 @@ export default function DistortionScreen() {
               onPress={() => navigation.goBack()}
               variant="secondary"
               style={{ backgroundColor: theme.backgroundDefault }}
+              accessibilityHint="Returns to the previous screen"
             >
               Go Back
             </Button>
@@ -598,6 +607,7 @@ export default function DistortionScreen() {
         <Button
           onPress={handleContinue}
           style={{ backgroundColor: theme.primary }}
+          accessibilityHint="Proceeds to reframe your thought patterns"
         >
           {ScreenCopy.distortion.continue}
         </Button>

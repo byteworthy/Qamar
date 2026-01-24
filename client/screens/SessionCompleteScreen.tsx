@@ -314,6 +314,7 @@ export default function SessionCompleteScreen() {
         <Button
           onPress={handleGoHome}
           style={{ backgroundColor: theme.primary }}
+          accessibilityHint="Returns to home screen"
         >
           {ScreenCopy.complete.returnHome}
         </Button>
@@ -360,6 +361,9 @@ export default function SessionCompleteScreen() {
                 opacity: pressed ? 0.8 : 1,
               },
             ]}
+            accessibilityRole="button"
+            accessibilityLabel="Upgrade to Noor Plus, $2.99 per month"
+            accessibilityHint="Opens pricing options for Noor Plus subscription"
           >
             <ThemedText
               type="body"
