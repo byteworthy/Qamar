@@ -217,7 +217,7 @@ export default function IntentionScreen() {
         <View
           style={[
             styles.anchorAccent,
-            { backgroundColor: SiraatColors.indigo },
+            { backgroundColor: theme.pillBackground },
           ]}
         />
         <View style={styles.anchorContent}>
@@ -262,13 +262,13 @@ export default function IntentionScreen() {
               styles.toggleIndicator,
               {
                 backgroundColor: showBismillah
-                  ? SiraatColors.emerald
+                  ? theme.highlightAccent
                   : theme.border,
               },
             ]}
           >
             {showBismillah && (
-              <ThemedText type="small" style={{ color: "#FFFFFF" }}>
+              <ThemedText type="small" style={{ color: theme.onPrimary }}>
                 ✓
               </ThemedText>
             )}
@@ -299,10 +299,10 @@ export default function IntentionScreen() {
                   styles.templateCard,
                   {
                     backgroundColor: isSelected
-                      ? SiraatColors.emerald
+                      ? theme.highlightAccent
                       : theme.backgroundDefault,
                     borderColor: isSelected
-                      ? SiraatColors.emerald
+                      ? theme.highlightAccent
                       : theme.border,
                   },
                 ]}
@@ -422,7 +422,7 @@ export default function IntentionScreen() {
         entering={FadeIn.duration(300).delay(500)}
         style={[
           styles.reminderCard,
-          { backgroundColor: SiraatColors.indigoLight },
+          { backgroundColor: theme.bannerBackground },
         ]}
       >
         <ThemedText type="small" style={styles.reminderText}>
@@ -441,21 +441,24 @@ export default function IntentionScreen() {
           style={[
             styles.niyyahPreview,
             {
-              backgroundColor: SiraatColors.emerald + "15",
-              borderColor: SiraatColors.emerald,
+              backgroundColor: theme.highlightAccentSubtle,
+              borderColor: theme.highlightAccent,
             },
           ]}
         >
           <View style={styles.niyyahPreviewHeader}>
             <ThemedText
               type="small"
-              style={{ color: SiraatColors.emerald, fontWeight: "600" }}
+              style={{ color: theme.highlightAccent, fontWeight: "600" }}
             >
               🤲 YOUR SEALED NIYYAH
             </ThemedText>
           </View>
           {showBismillah && (
-            <ThemedText type="body" style={styles.previewBismillah}>
+            <ThemedText
+              type="body"
+              style={[styles.previewBismillah, { color: theme.highlightAccent }]}
+            >
               بسم الله
             </ThemedText>
           )}
@@ -468,10 +471,10 @@ export default function IntentionScreen() {
           <View
             style={[
               styles.previewPurpose,
-              { backgroundColor: SiraatColors.emerald + "20" },
+              { backgroundColor: theme.highlightAccentSubtle },
             ]}
           >
-            <ThemedText type="caption" style={{ color: SiraatColors.emerald }}>
+            <ThemedText type="caption" style={{ color: theme.highlightAccent }}>
               For{" "}
               {NIYYAH_PURPOSES.find(
                 (p) => p.id === selectedPurpose,
@@ -666,7 +669,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     marginBottom: Spacing.md,
-    color: SiraatColors.emerald,
   },
   previewIntention: {
     lineHeight: 28,

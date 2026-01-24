@@ -137,7 +137,7 @@ function PlanCard({
         styles.planCard,
         {
           backgroundColor: theme.cardBackground,
-          borderColor: isPremium ? SiraatColors.indigo : theme.border,
+          borderColor: isPremium ? theme.accent : theme.border,
           borderWidth: isPremium ? 2 : 1,
         },
       ]}
@@ -168,7 +168,7 @@ function PlanCard({
               name={feature.included ? "check" : "x"}
               size={16}
               color={
-                feature.included ? SiraatColors.emerald : theme.textSecondary
+                feature.included ? theme.success : theme.textSecondary
               }
             />
             <ThemedText
@@ -215,7 +215,7 @@ function PlanCard({
           disabled={loading}
           style={{
             backgroundColor: isPremium
-              ? SiraatColors.indigo
+              ? theme.accent
               : theme.backgroundDefault,
             marginTop: spacing.lg,
           }}

@@ -334,7 +334,7 @@ export default function RegulationScreen() {
           styles.practiceCard,
           {
             backgroundColor: isActive
-              ? SiraatColors.emeraldDark
+              ? theme.accentDark
               : theme.backgroundDefault,
           },
         ]}
@@ -343,7 +343,7 @@ export default function RegulationScreen() {
           type="caption"
           style={[
             styles.stepsLabel,
-            { color: isActive ? SiraatColors.cream : theme.textSecondary },
+            { color: isActive ? theme.onPrimary : theme.textSecondary },
           ]}
         >
           {ScreenCopy.practice.stepsLabel}
@@ -355,7 +355,7 @@ export default function RegulationScreen() {
                 styles.stepNumber,
                 {
                   backgroundColor: isActive
-                    ? SiraatColors.cream
+                    ? theme.onPrimary
                     : theme.primary,
                 },
               ]}
@@ -363,7 +363,7 @@ export default function RegulationScreen() {
               <ThemedText
                 type="small"
                 style={{
-                  color: isActive ? SiraatColors.emeraldDark : "#FFFFFF",
+                  color: isActive ? theme.accentDark : theme.onPrimary,
                   fontWeight: "700",
                 }}
               >
@@ -374,7 +374,7 @@ export default function RegulationScreen() {
               type="body"
               style={[
                 styles.stepText,
-                { color: isActive ? SiraatColors.cream : theme.text },
+                { color: isActive ? theme.onPrimary : theme.text },
               ]}
             >
               {step}
@@ -386,7 +386,7 @@ export default function RegulationScreen() {
           style={[
             styles.reminderBar,
             {
-              backgroundColor: isActive ? SiraatColors.cream : theme.border,
+              backgroundColor: isActive ? theme.onPrimary : theme.border,
               opacity: 0.3,
             },
           ]}
@@ -396,7 +396,7 @@ export default function RegulationScreen() {
           style={[
             styles.reminderText,
             {
-              color: isActive ? SiraatColors.cream : theme.textSecondary,
+              color: isActive ? theme.onPrimary : theme.textSecondary,
               fontFamily: Fonts?.serif,
             },
           ]}
@@ -455,7 +455,7 @@ export default function RegulationScreen() {
             onPress={handleDhikrTap}
             style={[
               styles.dhikrCounter,
-              { backgroundColor: SiraatColors.emerald },
+              { backgroundColor: theme.highlightAccent },
             ]}
             activeOpacity={0.8}
             accessibilityRole="button"

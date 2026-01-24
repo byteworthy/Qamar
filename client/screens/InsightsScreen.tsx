@@ -106,10 +106,10 @@ export default function InsightsScreen() {
             <View
               style={[
                 styles.lockIcon,
-                { backgroundColor: SiraatColors.indigo + "15" },
+                { backgroundColor: theme.accent + "15" },
               ]}
             >
-              <Feather name="lock" size={28} color={SiraatColors.indigo} />
+              <Feather name="lock" size={28} color={theme.accent} />
             </View>
             <ThemedText
               style={[styles.lockedTitle, { fontFamily: Fonts?.serif }]}
@@ -125,7 +125,7 @@ export default function InsightsScreen() {
             <Button
               onPress={() => navigation.navigate("Pricing")}
               style={{
-                backgroundColor: SiraatColors.indigo,
+                backgroundColor: theme.accent,
                 marginTop: spacing.xl,
               }}
               accessibilityHint="Opens pricing options to unlock insights feature"

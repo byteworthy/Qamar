@@ -236,7 +236,7 @@ export default function HistoryScreen() {
           styles.insightsCard,
           {
             backgroundColor: theme.backgroundDefault,
-            borderColor: SiraatColors.indigo,
+            borderColor: theme.pillBackground,
           },
         ]}
       >
@@ -252,13 +252,13 @@ export default function HistoryScreen() {
             <View
               style={[
                 styles.proBadge,
-                { backgroundColor: SiraatColors.indigo },
+                { backgroundColor: theme.pillBackground },
               ]}
             >
-              <Feather name="star" size={12} color="#fff" />
+              <Feather name="star" size={12} color={theme.onPrimary} />
               <ThemedText
                 type="caption"
-                style={{ color: "#fff", marginLeft: 4 }}
+                style={{ color: theme.onPrimary, marginLeft: 4 }}
               >
                 Noor Plus
               </ThemedText>

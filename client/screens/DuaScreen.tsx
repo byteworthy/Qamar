@@ -396,13 +396,13 @@ export default function DuaScreen() {
           entering={FadeInUp.duration(350).delay(200)}
           style={[
             styles.forStateCard,
-            { backgroundColor: SiraatColors.indigo + "10" },
+            { backgroundColor: theme.pillBackground + "10" },
           ]}
         >
           <View
             style={[
               styles.forStateAccent,
-              { backgroundColor: SiraatColors.indigo },
+              { backgroundColor: theme.pillBackground },
             ]}
           />
           <ThemedText
@@ -515,19 +515,19 @@ export default function DuaScreen() {
                 <View
                   style={[
                     styles.stateAccent,
-                    { backgroundColor: SiraatColors.indigo },
+                    { backgroundColor: theme.pillBackground },
                   ]}
                 />
                 <View
                   style={[
                     styles.stateIcon,
-                    { backgroundColor: SiraatColors.indigo + "15" },
+                    { backgroundColor: theme.pillBackground + "15" },
                   ]}
                 >
                   <Feather
                     name={state.icon}
                     size={16}
-                    color={SiraatColors.indigo}
+                    color={theme.pillBackground}
                   />
                 </View>
                 <ThemedText style={styles.stateLabel}>{state.label}</ThemedText>

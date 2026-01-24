@@ -102,7 +102,7 @@ export default function BillingSuccessScreen() {
           <View
             style={[
               styles.checkCircle,
-              { backgroundColor: SiraatColors.emerald },
+              { backgroundColor: theme.success },
             ]}
           >
             <Feather name="check" size={48} color="#fff" />
@@ -129,7 +129,7 @@ export default function BillingSuccessScreen() {
       ) : (
         <View style={styles.content}>
           <View
-            style={[styles.checkCircle, { backgroundColor: SiraatColors.clay }]}
+            style={[styles.checkCircle, { backgroundColor: theme.warning }]}
           >
             <Feather name="clock" size={48} color="#fff" />
           </View>

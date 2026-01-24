@@ -122,7 +122,7 @@ export default function CalmingPracticeScreen() {
               <View
                 style={[
                   styles.stepNumber,
-                  { backgroundColor: SiraatColors.emerald },
+                  { backgroundColor: theme.highlightAccent },
                 ]}
               >
                 <ThemedText style={styles.stepNumberText}>
@@ -144,7 +144,7 @@ export default function CalmingPracticeScreen() {
           <View
             style={[
               styles.reminderAccent,
-              { backgroundColor: SiraatColors.emerald },
+              { backgroundColor: theme.highlightAccent },
             ]}
           />
           <ThemedText
@@ -203,7 +203,7 @@ export default function CalmingPracticeScreen() {
               <View
                 style={[
                   styles.practiceAccent,
-                  { backgroundColor: SiraatColors.emerald },
+                  { backgroundColor: theme.highlightAccent },
                 ]}
               />
               <View style={styles.practiceContent}>

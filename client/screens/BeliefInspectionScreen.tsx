@@ -139,10 +139,10 @@ export default function BeliefInspectionScreen() {
 
   // Get color based on belief strength
   const getStrengthColor = () => {
-    if (beliefStrength <= 30) return SiraatColors.emerald;
-    if (beliefStrength <= 60) return SiraatColors.sand;
-    if (beliefStrength <= 80) return SiraatColors.clay;
-    return SiraatColors.clayDark;
+    if (beliefStrength <= 30) return theme.intensityMild;
+    if (beliefStrength <= 60) return theme.intensityModerate;
+    if (beliefStrength <= 80) return theme.intensityHeavy;
+    return theme.intensityIntense;
   };
 
   return (
@@ -229,14 +229,17 @@ export default function BeliefInspectionScreen() {
           entering={FadeIn.duration(300)}
           style={[
             styles.islamicInsightCard,
-            { backgroundColor: SiraatColors.emerald + "20" },
+            {
+              backgroundColor: theme.highlightAccentSubtle,
+              borderLeftColor: theme.highlightAccent,
+            },
           ]}
         >
           <ThemedText
             type="small"
             style={[
               styles.islamicInsightLabel,
-              { color: SiraatColors.emerald },
+              { color: theme.highlightAccent },
             ]}
           >
             💡 ISLAMIC PERSPECTIVE
@@ -362,12 +365,12 @@ export default function BeliefInspectionScreen() {
         entering={FadeIn.duration(400).delay(400)}
         style={[
           styles.interruptionCard,
-          { backgroundColor: SiraatColors.indigoLight },
+          { backgroundColor: theme.bannerBackground },
         ]}
       >
         <ThemedText
           type="caption"
-          style={[styles.interruptionLabel, { color: "rgba(255,255,255,0.7)" }]}
+          style={[styles.interruptionLabel, { color: theme.textOnBanner }]}
         >
           PAUSE AND CONSIDER
         </ThemedText>
@@ -546,7 +549,6 @@ const styles = StyleSheet.create({
     borderRadius: BorderRadius.md,
     marginBottom: Spacing.xl,
     borderLeftWidth: 3,
-    borderLeftColor: SiraatColors.emerald,
   },
   islamicInsightLabel: {
     fontSize: 11,
