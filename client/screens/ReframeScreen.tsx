@@ -119,6 +119,9 @@ export default function ReframeScreen() {
           onPress={() => setShowExitModal(true)}
           style={{ marginRight: Spacing.sm }}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          accessibilityRole="button"
+          accessibilityLabel="Cancel reflection"
+          accessibilityHint="Exits the reflection and returns to home screen"
         >
           <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
         </Pressable>
@@ -397,6 +400,7 @@ export default function ReframeScreen() {
             <Button
               onPress={handleRetry}
               style={{ backgroundColor: theme.primary, marginBottom: Spacing.md }}
+              accessibilityHint="Attempts to generate reframe again"
             >
               Try Again
             </Button>
@@ -404,6 +408,7 @@ export default function ReframeScreen() {
               onPress={() => navigation.goBack()}
               variant="secondary"
               style={{ backgroundColor: theme.backgroundDefault }}
+              accessibilityHint="Returns to previous screen"
             >
               Go Back
             </Button>
@@ -474,6 +479,10 @@ export default function ReframeScreen() {
               borderColor: theme.border,
             },
           ]}
+          accessibilityRole="button"
+          accessibilityLabel={`${selectedOption?.label} perspective: ${selectedOption?.description}`}
+          accessibilityHint={`${showPerspectiveOptions ? "Collapse" : "Expand"} to ${showPerspectiveOptions ? "hide" : "view"} other perspective options`}
+          accessibilityState={{ expanded: showPerspectiveOptions }}
         >
           <View
             style={[styles.perspectiveIcon, { backgroundColor: selectedColor }]}
@@ -519,6 +528,10 @@ export default function ReframeScreen() {
                       borderColor: isSelected ? optionColor : theme.border,
                     },
                   ]}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${option.label} perspective: ${option.description}`}
+                  accessibilityHint="Changes the perspective lens for viewing your thought"
+                  accessibilityState={{ selected: isSelected }}
                 >
                   <ThemedText type="body">{option.icon}</ThemedText>
                   <View style={styles.perspectiveOptionText}>

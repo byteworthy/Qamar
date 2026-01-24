@@ -148,6 +148,9 @@ export default function RegulationScreen() {
           onPress={() => setShowExitModal(true)}
           style={{ marginRight: Spacing.sm }}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          accessibilityRole="button"
+          accessibilityLabel="Cancel reflection"
+          accessibilityHint="Exits the reflection and returns to home screen"
         >
           <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
         </Pressable>
@@ -292,6 +295,7 @@ export default function RegulationScreen() {
         <Button
           onPress={() => navigation.goBack()}
           style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
+          accessibilityHint="Returns to previous screen"
         >
           Go Back
         </Button>
@@ -425,6 +429,9 @@ export default function RegulationScreen() {
                     borderColor: theme.border,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`${dhikr.transliteration}, ${dhikr.meaning}, ${dhikr.count} repetitions`}
+                accessibilityHint="Opens dhikr counter for this remembrance"
               >
                 <ThemedText type="body" style={styles.dhikrArabic}>
                   {dhikr.arabic}
@@ -451,6 +458,9 @@ export default function RegulationScreen() {
               { backgroundColor: SiraatColors.emerald },
             ]}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={`Dhikr counter: ${selectedDhikr.transliteration}, ${dhikrCount} of ${selectedDhikr.count}`}
+            accessibilityHint="Tap to count one repetition of the dhikr"
           >
             <ThemedText type="caption" style={styles.dhikrCounterLabel}>
               TAP TO COUNT
@@ -481,6 +491,7 @@ export default function RegulationScreen() {
           <Button
             onPress={handleStartPractice}
             style={{ backgroundColor: theme.accent }}
+            accessibilityHint="Begins the calming practice session"
           >
             {ScreenCopy.practice.begin}
           </Button>
@@ -490,6 +501,7 @@ export default function RegulationScreen() {
           <Button
             onPress={handleCompletePractice}
             style={{ backgroundColor: theme.accent }}
+            accessibilityHint="Marks the practice as complete"
           >
             {ScreenCopy.practice.complete}
           </Button>
@@ -506,6 +518,7 @@ export default function RegulationScreen() {
             <Button
               onPress={handleContinue}
               style={{ backgroundColor: theme.primary }}
+              accessibilityHint="Proceeds to set your intention"
             >
               {ScreenCopy.practice.continue}
             </Button>
