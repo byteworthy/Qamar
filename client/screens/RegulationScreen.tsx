@@ -144,7 +144,7 @@ export default function RegulationScreen() {
         const result = await generatePractice(reframe);
         setPractice(result);
       } catch (err) {
-        setError("Unable to generate practice. Please try again.");
+        setError("We couldn't create a calming practice right now. Please try again in a moment.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -262,7 +262,7 @@ export default function RegulationScreen() {
           type="body"
           style={[styles.errorText, { color: theme.error }]}
         >
-          {error || "Something went wrong"}
+          {error || "Something went wrong on our end. Please go back and try again."}
         </ThemedText>
         <Button
           onPress={() => navigation.goBack()}

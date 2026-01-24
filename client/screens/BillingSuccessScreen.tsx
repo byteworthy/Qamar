@@ -32,11 +32,11 @@ export default function BillingSuccessScreen() {
           });
         } else {
           setError(
-            "Your subscription is still being processed. Please try again in a moment.",
+            "Your subscription is still processing. This can take a minute—please wait and try again.",
           );
         }
       } catch (err) {
-        setError("Unable to verify subscription. Please try again.");
+        setError("We couldn't verify your subscription. Check your connection and try again.");
       } finally {
         setSyncing(false);
       }
@@ -71,7 +71,7 @@ export default function BillingSuccessScreen() {
         );
       }
     } catch (err) {
-      setError("Unable to verify subscription. Please try again.");
+      setError("We couldn't verify your subscription. Check your connection and try again.");
     } finally {
       setSyncing(false);
     }

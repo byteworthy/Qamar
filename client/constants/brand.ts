@@ -55,13 +55,13 @@ export const ScreenCopy = {
     },
     loading: "Noticing how you're thinking...",
     continue: "Continue",
-    error: "This reflection couldn't complete. You can try again when ready.",
-    errorFallback: "A moment of patience needed. Try again.",
-    errorNetwork: "Couldn't connect. Check your internet and try again.",
+    error: "We couldn't complete this reflection. Take a breath and try again when you're ready.",
+    errorFallback: "This needs a moment. Try again in a little while.",
+    errorNetwork: "Can't connect right now. Check your internet connection and try again.",
     errorServer:
-      "The reflection couldn't generate. Please try again in a moment.",
+      "Something went wrong on our end. We're looking into it—please try again soon.",
     errorTimeout:
-      "This is taking longer than expected. Try again or simplify your thought.",
+      "This thought is taking time to process. Try breaking it into a shorter reflection, or try again in a moment.",
   },
 
   reframe: {
@@ -74,13 +74,13 @@ export const ScreenCopy = {
     },
     loading: "Seeking perspective...",
     continue: "Continue",
-    error: "This reflection couldn't complete. You can try again when ready.",
-    errorFallback: "A moment of patience needed. Try again.",
-    errorNetwork: "Couldn't connect. Check your internet and try again.",
+    error: "We couldn't complete this reflection. Take a breath and try again when you're ready.",
+    errorFallback: "This needs a moment. Try again in a little while.",
+    errorNetwork: "Can't connect right now. Check your internet connection and try again.",
     errorServer:
-      "The reflection couldn't generate. Please try again in a moment.",
+      "Something went wrong on our end. We're looking into it—please try again soon.",
     errorTimeout:
-      "This is taking longer than expected. Try again or simplify your thought.",
+      "This thought is taking time to process. Try breaking it into a shorter reflection, or try again in a moment.",
   },
 
   practice: {

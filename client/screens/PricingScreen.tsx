@@ -58,7 +58,7 @@ function getBillingUserMessage(
   if (isCanceled) {
     return {
       title: "Purchase Canceled",
-      message: "Purchase was canceled.",
+      message: "Your purchase was canceled. No charges were made.",
     };
   }
 
@@ -71,9 +71,9 @@ function getBillingUserMessage(
 
   if (isNotAvailable) {
     return {
-      title: "Not Available",
+      title: "Temporarily Unavailable",
       message:
-        "Subscriptions are not available right now. Please try again in a moment.",
+        "Subscriptions aren't available right now. Please wait a moment and try again.",
     };
   }
 
@@ -81,20 +81,20 @@ function getBillingUserMessage(
   switch (context) {
     case "restore":
       return {
-        title: "Unable to Restore",
-        message: "Unable to restore purchases. Please try again.",
+        title: "Can't Restore Purchases",
+        message: "We couldn't restore your purchases. Check your connection and try again.",
       };
     case "manage":
       return {
-        title: "Unable to Open Settings",
+        title: "Can't Open Settings",
         message:
-          "We couldn't open your subscription settings. Please try again.",
+          "We couldn't open your subscription settings. Please try again or manage through your App Store settings.",
       };
     case "purchase":
     default:
       return {
-        title: "Unable to Complete Purchase",
-        message: "Unable to complete purchase. Please try again.",
+        title: "Purchase Incomplete",
+        message: "We couldn't complete your purchase. Please check your payment method and try again.",
       };
   }
 }

@@ -6,6 +6,7 @@ import {
   RefreshControl,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -13,6 +14,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
+import Share from "react-native-share";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
@@ -21,6 +23,7 @@ import { getSessions, Session } from "@/lib/storage";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { apiRequest, getApiUrl } from "@/lib/query-client";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { hapticMedium } from "@/lib/haptics";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "History">;
 
@@ -97,6 +100,22 @@ export default function HistoryScreen() {
     }, []),
   );
 
+  // Add export button to header
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        sessions.length > 0 ? (
+          <Pressable
+            onPress={handleExport}
+            style={{ marginRight: Spacing.sm }}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Feather name="download" size={20} color={theme.primary} />
+          </Pressable>
+        ) : null,
+    });
+  }, [navigation, sessions.length, theme.primary]);
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await loadSessions();
@@ -107,6 +126,100 @@ export default function HistoryScreen() {
       }
     }
     setRefreshing(false);
+  };
+
+  const handleExport = async () => {
+    if (sessions.length === 0) {
+      Alert.alert(
+        "No Reflections",
+        "You don't have any reflections to export yet.",
+      );
+      return;
+    }
+
+    try {
+      hapticMedium();
+
+      // Format as markdown
+      const markdown = sessions
+        .map((s) => {
+          const date = new Date(s.timestamp).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
+          return `## ${date}\n\n**Thought**: ${s.thought}\n\n**Reframe**: ${s.reframe}\n\n**Intention**: ${s.intention}\n\n---\n\n`;
+        })
+        .join("");
+
+      const header = `# My Noor Reflections\n\nExported on ${new Date().toLocaleDateString()}\n\n---\n\n`;
+      const fullContent = header + markdown;
+
+      await Share.open({
+        message: fullContent,
+        title: "My Noor Reflections",
+        subject: "Noor Reflections Export",
+      });
+    } catch (error: unknown) {
+      // User cancelled - don't show error
+      const message = error instanceof Error ? error.message : String(error);
+      if (message !== "User did not share") {
+        Alert.alert(
+          "Export Unavailable",
+          "We couldn't export your reflections. Please try again in a moment.",
+        );
+      }
+    }
+  };
+
+  const handleDeleteReflection = async (sessionId: number) => {
+    Alert.alert(
+      "Delete Reflection",
+      "Are you sure you want to delete this reflection? This cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              hapticMedium();
+              const response = await apiRequest(
+                "DELETE",
+                `/api/reflection/${sessionId}`,
+              );
+
+              if (response.ok) {
+                // Reload sessions
+                await loadSessions();
+                // Refresh insights if paid user
+                if (isPaid) {
+                  refetchInsights();
+                  if (insightsExpanded) {
+                    refetchAssumptions();
+                  }
+                }
+              } else {
+                const error = await response.json();
+                Alert.alert(
+                  "Unable to Delete",
+                  error.error || "We couldn't delete this reflection. Please try again.",
+                );
+              }
+            } catch (error) {
+              Alert.alert(
+                "Unable to Delete",
+                "We couldn't delete this reflection. Check your connection and try again.",
+              );
+            }
+          },
+        },
+      ],
+    );
   };
 
   const renderInsightsCard = () => {
@@ -397,6 +510,25 @@ export default function HistoryScreen() {
                 {item.intention}
               </ThemedText>
             </View>
+
+            <Pressable
+              onPress={() => handleDeleteReflection(item.timestamp)}
+              style={[
+                styles.deleteButton,
+                {
+                  backgroundColor: theme.backgroundSecondary,
+                  borderColor: theme.border,
+                },
+              ]}
+            >
+              <Feather name="trash-2" size={16} color="#ef4444" />
+              <ThemedText
+                type="small"
+                style={{ color: "#ef4444", marginLeft: Spacing.xs }}
+              >
+                Delete Reflection
+              </ThemedText>
+            </Pressable>
           </View>
         ) : null}
       </Pressable>
@@ -418,6 +550,26 @@ export default function HistoryScreen() {
       >
         Your completed reflections will appear here
       </ThemedText>
+      <Pressable
+        onPress={() => {
+          hapticMedium();
+          navigation.navigate("Home");
+        }}
+        style={[
+          styles.emptyButton,
+          {
+            backgroundColor: theme.primary,
+            marginTop: Spacing.xl,
+          },
+        ]}
+      >
+        <ThemedText
+          type="body"
+          style={{ color: theme.onPrimary, fontWeight: "600" }}
+        >
+          Start Your First Reflection
+        </ThemedText>
+      </Pressable>
     </View>
   );
 
@@ -569,5 +721,21 @@ const styles = StyleSheet.create({
     padding: Spacing.md,
     borderRadius: BorderRadius.sm,
     marginTop: Spacing.sm,
+  },
+  emptyButton: {
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.xl,
+    borderRadius: BorderRadius.lg,
+    alignItems: "center",
+  },
+  deleteButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    borderRadius: BorderRadius.sm,
+    borderWidth: 1,
+    marginTop: Spacing.md,
   },
 });
