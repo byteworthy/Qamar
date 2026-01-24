@@ -10,6 +10,7 @@ import Animated, {
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius } from "@/constants/theme";
+import type { Theme } from "@/hooks/useTheme";
 
 interface CardProps {
   elevation?: number;
@@ -28,9 +29,15 @@ const springConfig: WithSpringConfig = {
   energyThreshold: 0.001,
 };
 
+/**
+ * Determines background color based on elevation level
+ * @param elevation - The elevation level (1-3)
+ * @param theme - The current theme object
+ * @returns The appropriate background color for the elevation
+ */
 const getBackgroundColorForElevation = (
   elevation: number,
-  theme: any,
+  theme: Theme,
 ): string => {
   switch (elevation) {
     case 1:

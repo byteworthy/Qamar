@@ -205,10 +205,28 @@ export async function saveReflection(data: {
 }
 
 /**
- * Get reflection history
+ * Represents a single reflection session
+ */
+export interface ReflectionHistoryItem {
+  id: string;
+  thought: string;
+  distortions: string[];
+  reframe: string;
+  intention: string;
+  practice: string;
+  keyAssumption?: string;
+  detectedState?: string;
+  anchor?: string;
+  userId: string;
+  createdAt: Date | string;
+}
+
+/**
+ * Get reflection history for the current user
+ * @returns Object containing history array, limitation status, and limit count
  */
 export async function getReflectionHistory(): Promise<{
-  history: any[];
+  history: ReflectionHistoryItem[];
   isLimited: boolean;
   limit: number | null;
 }> {

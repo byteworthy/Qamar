@@ -120,7 +120,13 @@ export default function ExploreScreen() {
               title={journey.title}
               gradient={journey.gradient}
               icon={journey.icon}
-              onPress={() => navigation.navigate(journey.screen as any)}
+              onPress={() => {
+                if (journey.screen === "Dua") {
+                  navigation.navigate("Dua", { state: undefined });
+                } else {
+                  navigation.navigate(journey.screen);
+                }
+              }}
               delay={100 + index * 80}
             />
           ))}
