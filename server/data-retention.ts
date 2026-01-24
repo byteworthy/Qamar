@@ -8,6 +8,7 @@
  * Set DATA_RETENTION_DRY_RUN=false to perform actual deletions.
  */
 
+import crypto from "crypto";
 import { storage } from "./storage";
 
 // =============================================================================
@@ -237,18 +238,18 @@ export async function runManualCleanup(): Promise<CleanupResult> {
 export interface UserDataExport {
   exportedAt: string;
   userId: string;
-  reflections: Array<{
+  reflections: {
     createdAt: string;
     thought: string;
     distortions: string[];
     reframe: string;
     intention?: string;
     anchor?: string;
-  }>;
-  insightSummaries: Array<{
+  }[];
+  insightSummaries: {
     createdAt: string;
     summary: string;
-  }>;
+  }[];
 }
 
 /**
@@ -342,6 +343,7 @@ export async function deleteAllUserData(userId: string): Promise<{
 /**
  * Verify admin token for protected endpoints.
  * Returns true if ADMIN_TOKEN is set and matches the provided token.
+ * Uses timing-safe comparison to prevent timing attacks.
  */
 export function verifyAdminToken(token: string | undefined): boolean {
   const adminToken = process.env.ADMIN_TOKEN;
@@ -351,8 +353,18 @@ export function verifyAdminToken(token: string | undefined): boolean {
     return false;
   }
 
-  // Compare tokens
-  return token === adminToken;
+  // If token is not provided, deny
+  if (!token) {
+    return false;
+  }
+
+  // Use timing-safe comparison to prevent timing attacks
+  try {
+    return crypto.timingSafeEqual(Buffer.from(token), Buffer.from(adminToken));
+  } catch {
+    // If lengths don't match, timingSafeEqual throws - return false
+    return false;
+  }
 }
 
 /**

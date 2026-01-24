@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { db } from "../db";
 import { userSessions } from "@shared/schema";
 import { eq, gt } from "drizzle-orm";
+import { encryptData, decryptData } from "../encryption";
 
 const SESSION_COOKIE_NAME = "noor_session";
 const SESSION_DURATION_DAYS = 30;
@@ -20,6 +21,18 @@ declare global {
 }
 
 function getSessionSecret(): string {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  if (isProduction && !process.env.SESSION_SECRET) {
+    console.error(
+      "FATAL: SESSION_SECRET not configured in production. " +
+        "Session security will fail. Server refusing to start.",
+    );
+    throw new Error(
+      "SESSION_SECRET environment variable is required in production.",
+    );
+  }
+
   return (
     process.env.SESSION_SECRET || "dev-session-secret-change-in-production"
   );
@@ -90,9 +103,13 @@ export async function sessionMiddleware(
           .where(eq(userSessions.token, token));
 
         if (session && new Date(session.expiresAt) > new Date()) {
+          // Decrypt email if it exists
+          const decryptedEmail = session.email
+            ? decryptData(session.email)
+            : null;
           req.auth = {
             userId: session.userId,
-            email: session.email,
+            email: decryptedEmail,
             sessionToken: token,
           };
           return next();
@@ -187,13 +204,17 @@ export async function sessionMiddleware(
   }
 }
 
+/**
+ * Update session email (encrypted before storage)
+ */
 export async function updateSessionEmail(
   token: string,
   email: string,
 ): Promise<void> {
+  const encryptedEmail = encryptData(email);
   await db
     .update(userSessions)
-    .set({ email })
+    .set({ email: encryptedEmail })
     .where(eq(userSessions.token, token));
 }
 

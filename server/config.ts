@@ -96,7 +96,12 @@ export function isDatabaseConfigured(): boolean {
 /**
  * Generate placeholder analysis response for validation mode
  */
-export function getValidationModeAnalyzeResponse() {
+export function getValidationModeAnalyzeResponse(): {
+  distortions: string[];
+  happening: string;
+  pattern: string[];
+  matters: string;
+} {
   return {
     distortions: ["Emotional reasoning"],
     happening:
@@ -113,7 +118,12 @@ export function getValidationModeAnalyzeResponse() {
 /**
  * Generate placeholder reframe response for validation mode
  */
-export function getValidationModeReframeResponse() {
+export function getValidationModeReframeResponse(): {
+  beliefTested: string;
+  perspective: string;
+  nextStep: string;
+  anchors: string[];
+} {
   return {
     beliefTested:
       "[VALIDATION MODE] This would identify the belief being tested.",
@@ -128,7 +138,12 @@ export function getValidationModeReframeResponse() {
 /**
  * Generate placeholder practice response for validation mode
  */
-export function getValidationModePracticeResponse() {
+export function getValidationModePracticeResponse(): {
+  title: string;
+  steps: string[];
+  reminder: string;
+  duration: string;
+} {
   return {
     title: "[VALIDATION MODE] Grounding Practice",
     steps: [
@@ -144,7 +159,7 @@ export function getValidationModePracticeResponse() {
 /**
  * Generate placeholder insight summary for validation mode
  */
-export function getValidationModeInsightSummary() {
+export function getValidationModeInsightSummary(): string {
   return "[VALIDATION MODE] Pattern insights require OpenAI API configuration.";
 }
 
@@ -222,14 +237,28 @@ export function validateProductionConfig(): void {
 
   const errors: string[] = [];
 
+  // SESSION_SECRET is critical for session security
+  if (config.isProduction && !process.env.SESSION_SECRET) {
+    errors.push(
+      "SESSION_SECRET is missing. Session authentication will be insecure.",
+    );
+  }
+
+  // DATABASE_URL is required in production
+  if (config.isProduction && !isDatabaseConfigured()) {
+    errors.push(
+      "DATABASE_URL is missing or placeholder. Database is required in production.",
+    );
+  }
+
   if (!isOpenAIConfigured()) {
     errors.push(
       "AI_INTEGRATIONS_OPENAI_API_KEY is missing or placeholder. AI features will not work.",
     );
   }
 
-  // Database is a warning, not a hard error (for local dev)
-  if (!isDatabaseConfigured()) {
+  // Database warning for non-production environments
+  if (!config.isProduction && !isDatabaseConfigured()) {
     log("⚠️  WARNING: DATABASE_URL not configured. Data will not persist.");
   }
 

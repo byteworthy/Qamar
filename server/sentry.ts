@@ -6,6 +6,7 @@
  * Disabled by default. Set SENTRY_DSN environment variable to enable.
  */
 
+import crypto from "crypto";
 import * as Sentry from "@sentry/node";
 
 let sentryInitialized = false;
@@ -20,12 +21,21 @@ const PII_FIELDS = [
   "content",
   "message",
   "prompt",
-];
+] as const;
+
+type PIIField = (typeof PII_FIELDS)[number];
+
+/**
+ * Data structure that may contain PII fields
+ */
+type PotentiallyPIIData = {
+  [K in PIIField]?: unknown;
+} & Record<string, unknown>;
 
 /**
  * Scrub PII from an object (mutates in place).
  */
-function scrubPii(data: Record<string, unknown>): Record<string, unknown> {
+function scrubPii(data: PotentiallyPIIData): PotentiallyPIIData {
   if (!data || typeof data !== "object") return data;
 
   for (const field of PII_FIELDS) {
@@ -104,12 +114,19 @@ export function isSentryEnabled(): boolean {
 }
 
 /**
+ * Context for Sentry error reporting
+ */
+export interface SentryContext extends PotentiallyPIIData {
+  requestId?: string;
+  userId?: string;
+  endpoint?: string;
+  [key: string]: unknown;
+}
+
+/**
  * Capture an exception in Sentry with request ID correlation.
  */
-export function captureException(
-  error: Error,
-  context?: { requestId?: string; [key: string]: unknown },
-): void {
+export function captureException(error: Error, context?: SentryContext): void {
   if (!isSentryEnabled()) {
     console.error("[Error]", error.message, context || "");
     return;
@@ -147,6 +164,14 @@ export function captureMessage(
 }
 
 /**
+ * Hash user ID for anonymization in Sentry
+ * Uses SHA-256 to prevent re-identification while maintaining uniqueness
+ */
+function hashUserId(userId: string): string {
+  return crypto.createHash("sha256").update(userId).digest("hex").slice(0, 16);
+}
+
+/**
  * Set user context for Sentry (hashed user ID only, no PII).
  */
 export function setUser(userId: string | null): void {
@@ -155,7 +180,7 @@ export function setUser(userId: string | null): void {
   }
 
   if (userId) {
-    Sentry.setUser({ id: userId });
+    Sentry.setUser({ id: hashUserId(userId) });
   } else {
     Sentry.setUser(null);
   }

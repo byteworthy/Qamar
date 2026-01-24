@@ -24,6 +24,7 @@ import {
 import {
   checkToneCompliance,
   isToneCompliant,
+  type ToneComplianceResult,
 } from "./tone-compliance-checker";
 import {
   createConversationStateMachine,
@@ -381,7 +382,7 @@ You're worth more care than I can give right now. Please reach out.`;
  */
 function generateRegenerationGuidance(
   charterReport: ComplianceReport,
-  toneResult: any,
+  toneResult: ToneComplianceResult,
   pacingCheck: { needsSimplification: boolean; reason: string },
 ): string {
   let guidance = "REGENERATION REQUIRED:\n\n";
@@ -424,7 +425,7 @@ function generateRegenerationGuidance(
  */
 function generateLogEntry(
   charterReport: ComplianceReport,
-  toneResult: any,
+  toneResult: ToneComplianceResult,
   issues: string[],
 ): string {
   const timestamp = new Date().toISOString();

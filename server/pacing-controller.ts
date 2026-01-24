@@ -362,7 +362,12 @@ export class PermissionChecker {
   ): string {
     const highDistress = distressLevel === "high" || distressLevel === "crisis";
 
-    const requests: Record<string, { normal: string; highDistress: string }> = {
+    interface PermissionMessage {
+      normal: string;
+      highDistress: string;
+    }
+
+    const requests: Record<string, PermissionMessage> = {
       reframe: {
         normal: "Would you like to explore a different perspective on this?",
         highDistress:
@@ -460,7 +465,7 @@ export const PRESSURE_ELEMENTS_TO_REMOVE = {
  * Transform pressure language to invitation language
  */
 export function transformPressureToInvitation(text: string): string {
-  const transformations: Array<{ from: RegExp; to: string }> = [
+  const transformations: { from: RegExp; to: string }[] = [
     { from: /you should/gi, to: "you might" },
     { from: /you must/gi, to: "you could" },
     { from: /you need to/gi, to: "it might help to" },

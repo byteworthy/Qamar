@@ -95,12 +95,12 @@ export class SafetyTelemetry {
   private static violations: Map<string, ViolationMetrics> = new Map();
   private static distressStates: Map<DistressLevel, DistressMetrics> =
     new Map();
-  private static distressTransitions: Array<{
+  private static distressTransitions: {
     from: DistressLevel;
     to: DistressLevel;
     timestamp: number;
     duration: number;
-  }> = [];
+  }[] = [];
   private static crisisMetrics: CrisisMetrics = {
     totalEvents: 0,
     emergencyLevel: 0,
@@ -381,12 +381,11 @@ export class SafetyTelemetry {
     };
   }
 
-  static getAlerts(): Array<{
+  static getAlerts(): {
     severity: "warning" | "critical";
     message: string;
-  }> {
-    const alerts: Array<{ severity: "warning" | "critical"; message: string }> =
-      [];
+  }[] {
+    const alerts: { severity: "warning" | "critical"; message: string }[] = [];
 
     // Check for critical violations
     const violations = this.getViolationMetrics();
@@ -473,7 +472,7 @@ export class TelemetryMiddleware {
   /**
    * Wrap function calls with automatic telemetry
    */
-  static wrap<T extends (...args: any[]) => any>(
+  static wrap<T extends (...args: unknown[]) => unknown>(
     fn: T,
     category: string,
   ): (...args: Parameters<T>) => ReturnType<T> {
@@ -483,14 +482,14 @@ export class TelemetryMiddleware {
 
         // If it's a promise, handle async
         if (result instanceof Promise) {
-          return result.catch((error) => {
+          return result.catch((error: unknown) => {
             SafetyTelemetry.recordSystemFailure(category);
             throw error;
           }) as ReturnType<T>;
         }
 
-        return result;
-      } catch (error) {
+        return result as ReturnType<T>;
+      } catch (error: unknown) {
         SafetyTelemetry.recordSystemFailure(category);
         throw error;
       }

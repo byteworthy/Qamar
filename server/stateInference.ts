@@ -1,3 +1,9 @@
+/**
+ * Canonical inner-state labels used for pattern matching in user reflections.
+ *
+ * These labels map to common CBT-aligned themes and guide how prompts are
+ * framed for empathy, pacing, and Islamic context.
+ */
 type InnerState =
   | "tightness_around_provision"
   | "fear_of_loss"
@@ -12,8 +18,13 @@ type InnerState =
   | "overwhelming_gratitude"
   | "unknown";
 
+/**
+ * Result payload describing the inferred inner state.
+ */
 interface StateInference {
+  /** The best-matching inner state label. */
   state: InnerState;
+  /** Confidence score from 0 to 0.9 based on pattern matches. */
   confidence: number;
 }
 
@@ -97,6 +108,16 @@ const STATE_PATTERNS: Record<InnerState, RegExp[]> = {
   unknown: [],
 };
 
+/**
+ * Infer a user's dominant inner state from a free-form thought.
+ *
+ * The inference uses regex pattern matching to score each state. The highest
+ * scoring state is returned with a capped confidence value. If no patterns
+ * match, the state is returned as "unknown" with zero confidence.
+ *
+ * @param thought - User reflection or thought text to analyze.
+ * @returns The inferred state and confidence score.
+ */
 export function inferInnerState(thought: string): StateInference {
   if (!thought || thought.trim().length === 0) {
     return { state: "unknown", confidence: 0 };
@@ -144,6 +165,13 @@ export function inferInnerState(thought: string): StateInference {
   return { state: maxState, confidence };
 }
 
+/**
+ * Retrieve a prompt modifier that guides response tone and framing
+ * based on a detected inner state.
+ *
+ * @param state - The inner state label returned by {@link inferInnerState}.
+ * @returns Guidance text to prepend or inject into prompt construction.
+ */
 export function getStatePromptModifier(state: InnerState): string {
   const modifiers: Record<InnerState, string> = {
     tightness_around_provision: `STATE AWARENESS: The user shows tightness around provision and sustenance.
@@ -214,6 +242,14 @@ export function getStatePromptModifier(state: InnerState): string {
   return modifiers[state] || modifiers.unknown;
 }
 
+/**
+ * Regex-driven cognitive assumption patterns used during reframe analysis.
+ *
+ * Each entry defines:
+ * - the pattern to match
+ * - the assumption it implies
+ * - a reflection statement to guide reframing
+ */
 const ASSUMPTION_PATTERNS = [
   {
     pattern:
@@ -258,12 +294,24 @@ const ASSUMPTION_PATTERNS = [
   },
 ];
 
+/**
+ * Result payload for assumption detection.
+ */
 interface AssumptionDetection {
+  /** True when an assumption pattern is matched. */
   detected: boolean;
+  /** The assumption text if detected, otherwise null. */
   assumption: string | null;
+  /** Reflection guidance if detected, otherwise null. */
   reflection: string | null;
 }
 
+/**
+ * Detect whether a user's thought matches a known cognitive assumption pattern.
+ *
+ * @param thought - User reflection or thought text to analyze.
+ * @returns Detection result including assumption and reflection guidance.
+ */
 export function detectAssumptionPattern(thought: string): AssumptionDetection {
   for (const { pattern, assumption, reflection } of ASSUMPTION_PATTERNS) {
     if (pattern.test(thought)) {
@@ -273,6 +321,15 @@ export function detectAssumptionPattern(thought: string): AssumptionDetection {
   return { detected: false, assumption: null, reflection: null };
 }
 
+/**
+ * Build a prompt modifier when an assumption pattern was detected.
+ *
+ * The modifier instructs the reframe response to name and test the assumption
+ * gently without moralizing or over-quoting scripture.
+ *
+ * @param detection - Result from {@link detectAssumptionPattern}.
+ * @returns Modifier text to inject into prompt construction (empty if none).
+ */
 export function getAssumptionPromptModifier(
   detection: AssumptionDetection,
 ): string {

@@ -16,7 +16,11 @@ import {
   validateProductionConfig,
   isStripeConfigured,
 } from "./config";
-import { initSentry, setupSentryErrorHandler, captureException } from "./sentry";
+import {
+  initSentry,
+  setupSentryErrorHandler,
+  captureException,
+} from "./sentry";
 import { registerHealthRoute } from "./health";
 import {
   requestIdMiddleware,
@@ -24,6 +28,26 @@ import {
 } from "./middleware/production";
 import * as fs from "fs";
 import * as path from "path";
+
+/**
+ * HTTP Error with optional status code
+ */
+interface HTTPError extends Error {
+  status?: number;
+  statusCode?: number;
+}
+
+/**
+ * Type guard to check if error is HTTPError
+ */
+function isHTTPError(error: unknown): error is HTTPError {
+  return (
+    error instanceof Error &&
+    (typeof (error as HTTPError).status === "number" ||
+      typeof (error as HTTPError).statusCode === "number" ||
+      error instanceof Error)
+  );
+}
 
 const app = express();
 const log = console.log;
@@ -34,8 +58,8 @@ declare module "http" {
   }
 }
 
-function setupCors(app: express.Application) {
-  app.use((req, res, next) => {
+function setupCors(app: express.Application): void {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     const origins = new Set<string>();
 
     if (process.env.REPLIT_DEV_DOMAIN) {
@@ -43,7 +67,7 @@ function setupCors(app: express.Application) {
     }
 
     if (process.env.REPLIT_DOMAINS) {
-      process.env.REPLIT_DOMAINS.split(",").forEach((d) => {
+      process.env.REPLIT_DOMAINS.split(",").forEach((d: string) => {
         origins.add(`https://${d.trim()}`);
       });
     }
@@ -68,10 +92,10 @@ function setupCors(app: express.Application) {
   });
 }
 
-function setupBodyParsing(app: express.Application) {
+function setupBodyParsing(app: express.Application): void {
   app.use(
     express.json({
-      verify: (req, _res, buf) => {
+      verify: (req: Request, _res: Response, buf: Buffer) => {
         req.rawBody = buf;
       },
     }),
@@ -80,17 +104,17 @@ function setupBodyParsing(app: express.Application) {
   app.use(express.urlencoded({ extended: false }));
 }
 
-function setupRequestLogging(app: express.Application) {
-  app.use((req, res, next) => {
+function setupRequestLogging(app: express.Application): void {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
     const path = req.path;
     const requestId = req.requestId || "-";
     let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
 
-    const originalResJson = res.json;
-    res.json = function (bodyJson, ...args) {
+    const originalResJson = res.json.bind(res);
+    res.json = function (bodyJson: Record<string, unknown>) {
       capturedJsonResponse = bodyJson;
-      return originalResJson.apply(res, [bodyJson, ...args]);
+      return originalResJson(bodyJson);
     };
 
     res.on("finish", () => {
@@ -99,7 +123,14 @@ function setupRequestLogging(app: express.Application) {
       const duration = Date.now() - start;
 
       let logLine = `[${requestId}] ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
+
+      // Exclude response bodies for sensitive AI routes to prevent logging user content
+      const isSensitiveRoute =
+        path.startsWith("/api/analyze") ||
+        path.startsWith("/api/reframe") ||
+        path.startsWith("/api/reflection");
+
+      if (capturedJsonResponse && !isSensitiveRoute) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
@@ -221,16 +252,20 @@ function configureExpoAndLanding(app: express.Application) {
   log("Expo routing: Checking expo-platform header on / and /manifest");
 }
 
-function setupErrorHandler(app: express.Application) {
+function setupErrorHandler(app: express.Application): void {
   // Sentry error handler (captures errors if Sentry is configured)
   setupSentryErrorHandler(app);
 
   // Custom error handler for logging and response
   app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
-    const error = err as Error & {
-      status?: number;
-      statusCode?: number;
-    };
+    // Type guard and normalize error
+    let error: HTTPError;
+    if (isHTTPError(err)) {
+      error = err;
+    } else {
+      // Convert non-Error types to Error
+      error = new Error(String(err));
+    }
 
     const status = error.status || error.statusCode || 500;
     const message = error.message || "Internal Server Error";
@@ -272,17 +307,25 @@ async function initStripe() {
       } else {
         log("Webhook setup returned without URL, continuing...");
       }
-    } catch (webhookError: any) {
-      log("Webhook setup error (non-fatal):", webhookError.message);
+    } catch (webhookError: unknown) {
+      const message =
+        webhookError instanceof Error
+          ? webhookError.message
+          : String(webhookError);
+      log("Webhook setup error (non-fatal):", message);
     }
 
     log("Syncing Stripe data in background...");
     stripeSync
       .syncBackfill()
       .then(() => log("Stripe data synced"))
-      .catch((err: any) => log("Error syncing Stripe data:", err.message));
-  } catch (error: any) {
-    log("Stripe initialization error:", error.message);
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : String(err);
+        log("Error syncing Stripe data:", message);
+      });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log("Stripe initialization error:", message);
   }
 }
 

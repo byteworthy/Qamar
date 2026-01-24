@@ -6,6 +6,8 @@ import {
   serial,
   jsonb,
   integer,
+  index,
+  foreignKey,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -32,35 +34,76 @@ export const userSessions = pgTable("user_sessions", {
   expiresAt: timestamp("expires_at").notNull(),
 });
 
-export const sessions = pgTable("sessions", {
-  id: serial("id").primaryKey(),
-  userId: text("user_id").notNull(),
-  thought: text("thought").notNull(),
-  distortions: jsonb("distortions").notNull().$type<string[]>(),
-  reframe: text("reframe").notNull(),
-  intention: text("intention").notNull(),
-  practice: text("practice").notNull(),
-  keyAssumption: text("key_assumption"),
-  detectedState: text("detected_state"),
-  anchor: text("anchor"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export const sessions = pgTable(
+  "sessions",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    thought: text("thought").notNull(),
+    distortions: jsonb("distortions").notNull().$type<string[]>(),
+    reframe: text("reframe").notNull(),
+    intention: text("intention").notNull(),
+    practice: text("practice").notNull(),
+    keyAssumption: text("key_assumption"),
+    detectedState: text("detected_state"),
+    anchor: text("anchor"),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    // Foreign key to users table with cascade delete
+    userFk: foreignKey({
+      columns: [table.userId],
+      foreignColumns: [users.id],
+      name: "sessions_user_fk",
+    }).onDelete("cascade"),
+    // Index on userId for fast history queries
+    userIdIdx: index("sessions_user_id_idx").on(table.userId),
+    // Index on createdAt for sorting
+    createdAtIdx: index("sessions_created_at_idx").on(table.createdAt),
+  }),
+);
 
-export const insightSummaries = pgTable("insight_summaries", {
-  id: serial("id").primaryKey(),
-  userId: text("user_id").notNull(),
-  summary: text("summary").notNull(),
-  reflectionCount: integer("reflection_count").notNull(),
-  generatedAt: timestamp("generated_at").defaultNow(),
-});
+export const insightSummaries = pgTable(
+  "insight_summaries",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    summary: text("summary").notNull(),
+    reflectionCount: integer("reflection_count").notNull(),
+    generatedAt: timestamp("generated_at").defaultNow(),
+  },
+  (table) => ({
+    // Foreign key to users table with cascade delete
+    userFk: foreignKey({
+      columns: [table.userId],
+      foreignColumns: [users.id],
+      name: "insight_summaries_user_fk",
+    }).onDelete("cascade"),
+    // Index on userId for fast queries
+    userIdIdx: index("insight_summaries_user_id_idx").on(table.userId),
+  }),
+);
 
-export const assumptionLibrary = pgTable("assumption_library", {
-  id: serial("id").primaryKey(),
-  userId: text("user_id").notNull(),
-  assumptionLabel: text("assumption_label").notNull(),
-  count: integer("count").default(1),
-  lastSeenAt: timestamp("last_seen_at").defaultNow(),
-});
+export const assumptionLibrary = pgTable(
+  "assumption_library",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    assumptionLabel: text("assumption_label").notNull(),
+    count: integer("count").default(1),
+    lastSeenAt: timestamp("last_seen_at").defaultNow(),
+  },
+  (table) => ({
+    // Foreign key to users table with cascade delete
+    userFk: foreignKey({
+      columns: [table.userId],
+      foreignColumns: [users.id],
+      name: "assumption_library_user_fk",
+    }).onDelete("cascade"),
+    // Index on userId for fast queries
+    userIdIdx: index("assumption_library_user_id_idx").on(table.userId),
+  }),
+);
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;

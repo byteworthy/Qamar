@@ -19,6 +19,7 @@ import {
 } from "../canonical-orchestrator";
 import { detectCrisis, detectScrupulosity } from "../ai-safety";
 import { IslamicContentMapper } from "../islamic-content-mapper";
+import type { PacingConfig } from "../pacing-controller";
 import type {
   EmotionalState,
   DistressLevel,
@@ -32,7 +33,7 @@ import type {
  * Mock AI generator that returns compliant responses
  */
 const createMockAIGenerator = (responseText: string) => {
-  return async (_safetyGuidance: string, _pacingConfig: any) => {
+  return async (_safetyGuidance: string, _pacingConfig: PacingConfig) => {
     return responseText;
   };
 };

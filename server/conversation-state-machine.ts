@@ -780,7 +780,8 @@ export function getTransitionMessage(
   fromState: ConversationState,
   toState: ConversationState,
 ): string {
-  const messages: Record<string, Record<string, string>> = {
+  type StateTransitionMessages = Partial<Record<ConversationState, string>>;
+  const messages: Partial<Record<ConversationState, StateTransitionMessages>> = {
     listening: {
       reflection: "Let me make sure I understand what you're experiencing.",
       clarification: "I want to understand better.",

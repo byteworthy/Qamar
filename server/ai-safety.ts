@@ -6,6 +6,7 @@
  * theological validation, and output filtering.
  */
 
+import crypto from "crypto";
 import type { EmotionalState } from "../shared/islamic-framework";
 
 // =============================================================================
@@ -62,6 +63,31 @@ const CONCERN_PATTERNS = [
 export function detectCrisis(text: string): CrisisDetectionResult {
   const lowerText = text.toLowerCase();
   const indicators: string[] = [];
+
+  // NEGATION DETECTION: Check if crisis keywords are negated
+  // Examples: "I DON'T want to die", "I'm NOT suicidal", "I WON'T hurt myself"
+  const negationPatterns = [
+    /(?:don't|do not|dont|never|not|won't|wont|no longer|wouldn't|wouldnt|can't|cant|refuse to|will not)\s+(?:want|wish|plan|intend|going to|gonna|thinking about|considering)?\s*(?:to\s+)?(?:die|kill|hurt|harm|end|suicide)/i,
+    /(?:don't|do not|dont|not|never)\s+(?:feel|am|being|get)\s+(?:suicidal|self-harm)/i,
+    /(?:don't|do not|dont|not)\s+(?:have|got)\s+(?:suicidal|self-harm)\s+(?:thoughts|feelings|urges)/i,
+  ];
+
+  for (const pattern of negationPatterns) {
+    if (pattern.test(text)) {
+      // This is a NEGATION of crisis intent - NOT a crisis
+      // User is explicitly saying they DON'T have these thoughts
+      return {
+        detected: false,
+        level: "none",
+        indicators: [
+          "Negation detected - user is NOT expressing crisis intent",
+        ],
+        recommendedAction:
+          "Proceed with standard CBT flow. User is clarifying they are not in crisis.",
+        requiresHumanReview: false,
+      };
+    }
+  }
 
   // Check for self-harm indicators
   const selfHarmDetected = SELF_HARM_KEYWORDS.some((keyword) => {
@@ -138,28 +164,33 @@ export function detectCrisis(text: string): CrisisDetectionResult {
 
 export const CRISIS_RESOURCES = {
   emergency: {
-    title: "Immediate Help Available",
+    title: "You Don't Have to Carry This Alone",
     message:
-      "You're in a lot of pain right now, and that pain deserves immediate support. Please reach out to someone who can help.",
+      "What you're feeling is overwhelming. This moment calls for human support, not an app. Please reach out to someone who can be with you right now.",
     resources: [
       {
-        name: "988 Suicide & Crisis Lifeline",
+        name: "988 Lifeline",
         contact: "Call or text 988",
-        description: "24/7 support available",
+        description: "24/7 compassionate support",
       },
       {
         name: "Crisis Text Line",
         contact: "Text HOME to 741741",
-        description: "Free 24/7 crisis support",
+        description: "Free, confidential, immediate help",
       },
       {
         name: "Emergency Services",
         contact: "Call 911",
-        description: "For immediate danger",
+        description: "If you're in immediate danger",
+      },
+      {
+        name: "Trusted Counselor or Imam",
+        contact: "Your local masjid",
+        description: "Community support who knows you",
       },
     ],
     islamicContext:
-      "Allah's mercy is greater than any darkness you're feeling. This moment is not the end of your story.",
+      "Prophet Yunus (AS) called out from the depths of darkness, and Allah heard him. You are seen. You are valued. And you are not alone in this struggle.",
   },
   urgent: {
     title: "You Don't Have to Carry This Alone",
@@ -167,14 +198,14 @@ export const CRISIS_RESOURCES = {
       "What you're feeling is overwhelming, and it's okay to ask for help. Please consider reaching out.",
     resources: [
       {
-        name: "988 Suicide & Crisis Lifeline",
+        name: "988 Lifeline",
         contact: "Call or text 988",
-        description: "24/7 support available",
+        description: "24/7 compassionate support",
       },
       {
         name: "SAMHSA National Helpline",
         contact: "1-800-662-4357",
-        description: "Treatment referral and information",
+        description: "Free referral and information service",
       },
       {
         name: "Local Imam or Counselor",
@@ -575,15 +606,12 @@ export function createSafeLogEntry(
   };
 }
 
+/**
+ * Hash user ID for anonymization in logs and telemetry
+ * Uses SHA-256 for cryptographic security to prevent re-identification
+ */
 function hashUserId(userId: string): string {
-  // Simple hash for demonstration - use proper crypto in production
-  let hash = 0;
-  for (let i = 0; i < userId.length; i++) {
-    const char = userId.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-  }
-  return `user_${Math.abs(hash).toString(36)}`;
+  return `user_${crypto.createHash("sha256").update(userId).digest("hex").slice(0, 16)}`;
 }
 
 export function redactSensitiveContent(text: string): string {
