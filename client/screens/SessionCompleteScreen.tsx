@@ -320,45 +320,61 @@ export default function SessionCompleteScreen() {
       </View>
 
       {!isPaid ? (
-        <View
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(800)}
           style={[
             styles.upgradeCard,
-            { backgroundColor: theme.backgroundDefault },
+            {
+              backgroundColor: theme.backgroundDefault,
+              borderColor: theme.accent + "20",
+            },
           ]}
         >
+          <View
+            style={[
+              styles.upgradeIconContainer,
+              { backgroundColor: theme.accent + "20" },
+            ]}
+          >
+            <Feather name="trending-up" size={24} color={theme.accent} />
+          </View>
           <ThemedText
             type="bodyLarge"
             style={[styles.upgradeTitle, { fontFamily: Fonts?.serif }]}
           >
-            Continue with Noor Plus
+            Want to see your patterns?
           </ThemedText>
           <ThemedText
             type="body"
             style={[styles.upgradeBody, { color: theme.textSecondary }]}
           >
-            More reflections, deeper pattern recognition, and calmer continuity.
+            Track how your thinking evolves over time with unlimited
+            reflections and insights
           </ThemedText>
           <Pressable
             onPress={() => navigation.navigate("Pricing")}
             style={({ pressed }) => [
               styles.upgradeButton,
               {
-                backgroundColor: theme.pillBackground,
+                backgroundColor: theme.accent,
                 opacity: pressed ? 0.8 : 1,
               },
             ]}
           >
-            <ThemedText type="body" style={{ color: theme.onPrimary }}>
-              Upgrade to Noor Plus
+            <ThemedText
+              type="body"
+              style={{ color: theme.onPrimary, fontWeight: "600" }}
+            >
+              Upgrade to Noor Plus - $2.99/month
             </ThemedText>
           </Pressable>
           <ThemedText
             type="caption"
             style={[styles.upgradeFootnote, { color: theme.textSecondary }]}
           >
-            Free plan includes 1 reflection per day.
+            Lock in beta rate forever • Cancel anytime
           </ThemedText>
-        </View>
+        </Animated.View>
       ) : null}
     </ScrollView>
   );
@@ -429,7 +445,16 @@ const styles = StyleSheet.create({
     marginTop: Spacing["3xl"],
     padding: Spacing["2xl"],
     borderRadius: BorderRadius.md,
+    borderWidth: 1,
     alignItems: "center",
+  },
+  upgradeIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: BorderRadius.xl,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: Spacing.lg,
   },
   upgradeTitle: {
     textAlign: "center",
