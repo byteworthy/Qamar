@@ -6,6 +6,23 @@ export interface BillingStatus {
   planName: string;
 }
 
+/**
+ * Reflection session stored in the database
+ */
+export interface ReflectionRecord {
+  id: string;
+  thought: string;
+  distortions: string[];
+  reframe: string;
+  intention: string;
+  practice: string;
+  keyAssumption?: string;
+  detectedState?: string;
+  anchor?: string;
+  userId: string;
+  createdAt: string | Date;
+}
+
 export interface BillingConfig {
   publishableKey: string;
   priceId: string;
@@ -96,13 +113,14 @@ export async function saveReflection(data: {
     }
 
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { success: false, error: message };
   }
 }
 
 export async function getReflectionHistory(): Promise<{
-  history: any[];
+  history: ReflectionRecord[];
   isLimited: boolean;
   limit: number | null;
 }> {

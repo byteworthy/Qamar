@@ -27,6 +27,42 @@ export interface BillingProfile {
   updatedAt: number;
 }
 
+/**
+ * Type guard to validate BillingProfile structure from JSON.parse
+ */
+function isBillingProfile(value: unknown): value is BillingProfile {
+  if (typeof value !== "object" || value === null) return false;
+  const profile = value as Record<string, unknown>;
+  return (
+    (profile.tier === "free" ||
+      profile.tier === "plus" ||
+      profile.tier === "pro") &&
+    (profile.status === "free" ||
+      profile.status === "active" ||
+      profile.status === "past_due" ||
+      profile.status === "canceled") &&
+    typeof profile.planName === "string" &&
+    typeof profile.updatedAt === "number"
+  );
+}
+
+/**
+ * Type guard for IAP error with code property
+ */
+interface IAPError {
+  code: string;
+  message?: string;
+}
+
+function isIAPError(error: unknown): error is IAPError {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof (error as IAPError).code === "string"
+  );
+}
+
 export interface BillingProvider {
   getProfile: () => Promise<BillingProfile>;
   purchase: (
@@ -109,8 +145,11 @@ class MockBillingProvider implements BillingProvider {
     const stored = await AsyncStorage.getItem(MOCK_PROFILE_KEY);
     if (!stored) return defaultProfile;
     try {
-      const parsed = JSON.parse(stored) as BillingProfile;
-      return { ...defaultProfile, ...parsed };
+      const parsed: unknown = JSON.parse(stored);
+      if (isBillingProfile(parsed)) {
+        return { ...defaultProfile, ...parsed };
+      }
+      return defaultProfile;
     } catch {
       return defaultProfile;
     }
@@ -161,8 +200,11 @@ class StoreBillingProvider implements BillingProvider {
     const stored = await AsyncStorage.getItem(MOCK_PROFILE_KEY);
     if (stored) {
       try {
-        this.cachedProfile = JSON.parse(stored) as BillingProfile;
-        return this.cachedProfile;
+        const parsed: unknown = JSON.parse(stored);
+        if (isBillingProfile(parsed)) {
+          this.cachedProfile = parsed;
+          return this.cachedProfile;
+        }
       } catch {
         // Invalid stored data, continue to check store
       }
@@ -197,12 +239,16 @@ class StoreBillingProvider implements BillingProvider {
 
       console.log("[Billing] Purchasing:", productId);
 
-      // Request purchase - use object with sku property
-      const purchaseResult = await iap.requestPurchase({
-        sku: productId,
-      } as any);
+      // Request purchase - subscriptions require type 'subs'
+      await iap.requestPurchase({
+        request:
+          Platform.OS === "ios"
+            ? { apple: { sku: productId } }
+            : { google: { skus: [productId] } },
+        type: "subs",
+      });
 
-      console.log("[Billing] Purchase successful:", purchaseResult);
+      console.log("[Billing] Purchase successful");
 
       // Update profile
       const status: BillingStatus = "active";
@@ -221,12 +267,12 @@ class StoreBillingProvider implements BillingProvider {
 
       await iap.endConnection();
       return updatedProfile;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("[Billing] Purchase error:", error);
       await iap.endConnection().catch(() => {});
 
       // User cancelled
-      if (error.code === "E_USER_CANCELLED") {
+      if (isIAPError(error) && error.code === "E_USER_CANCELLED") {
         throw new Error("Purchase cancelled");
       }
 
@@ -290,12 +336,14 @@ class StoreBillingProvider implements BillingProvider {
 
       await endConnection();
       return updatedProfile;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("[Billing] Restore error:", error);
       await endConnection().catch(() => {});
-      throw new Error(
-        error.message || "Failed to restore purchases. Please try again.",
-      );
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to restore purchases. Please try again.";
+      throw new Error(message);
     }
   }
 
