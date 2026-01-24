@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   Platform,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -19,6 +20,14 @@ import Animated, {
   FadeInUp,
   FadeIn,
   FadeInDown,
+  FadeOut,
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withTiming,
+  withSequence,
+  interpolate,
+  withDelay,
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
@@ -28,6 +37,8 @@ import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { ScreenCopy } from "@/constants/brand";
+import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
+import { ReflectionProgressCompact } from "@/components/ReflectionProgress";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -59,6 +70,8 @@ export default function ThoughtCaptureScreen() {
   const [emotionalIntensity, setEmotionalIntensity] = useState(3);
   const [showSomaticPrompt, setShowSomaticPrompt] = useState(false);
   const [selectedSomatic, setSelectedSomatic] = useState<string | null>(null);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [showCharCount, setShowCharCount] = useState(false);
   const [niyyahPrompt] = useState(
     () => NIYYAH_PROMPTS[Math.floor(Math.random() * NIYYAH_PROMPTS.length)],
   );
@@ -68,7 +81,82 @@ export default function ThoughtCaptureScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
 
+  // Breathing animation for empty text input
+  const breathingScale = useSharedValue(1);
+  const charCountTimer = useRef<NodeJS.Timeout | undefined>(undefined);
+
   const canContinue = thought.trim().length > 10;
+
+  // Breathing animation effect
+  useEffect(() => {
+    if (thought.length === 0) {
+      breathingScale.value = withRepeat(
+        withSequence(
+          withTiming(1.005, { duration: 2000 }),
+          withTiming(1, { duration: 2000 })
+        ),
+        -1,
+        false
+      );
+    } else {
+      breathingScale.value = withTiming(1, { duration: 300 });
+    }
+  }, [thought.length]);
+
+  const breathingStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: breathingScale.value }],
+  }));
+
+  // Auto-hide character count after typing stops
+  const handleTextChange = (text: string) => {
+    setThought(text);
+
+    // Show character count when typing
+    if (text.length > 0) {
+      setShowCharCount(true);
+
+      // Clear existing timer
+      if (charCountTimer.current) {
+        clearTimeout(charCountTimer.current);
+      }
+
+      // Hide after 3 seconds of no typing
+      charCountTimer.current = setTimeout(() => {
+        setShowCharCount(false);
+      }, 3000);
+    } else {
+      setShowCharCount(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (charCountTimer.current) {
+        clearTimeout(charCountTimer.current);
+      }
+    };
+  }, []);
+
+  // Add cancel button to header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => setShowExitModal(true)}
+          style={{ marginRight: Spacing.sm }}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
+        </Pressable>
+      ),
+    });
+  }, [navigation, theme.primary]);
+
+  const handleExit = () => {
+    hapticMedium();
+    setShowExitModal(false);
+    navigation.navigate("Home");
+  };
 
   // Emotional intensity labels using theme tokens
   const INTENSITY_LABELS: Record<
@@ -139,15 +227,21 @@ export default function ThoughtCaptureScreen() {
       contentContainerStyle={[
         styles.contentContainer,
         {
-          paddingTop: headerHeight + Spacing.xl,
+          paddingTop: headerHeight + Spacing.sm,
           paddingBottom: insets.bottom + Spacing["3xl"],
         },
       ]}
     >
+      {/* Progress Indicator */}
+      <ReflectionProgressCompact currentStep="ThoughtCapture" />
+
       {/* Niyyah Banner - Spiritual grounding at the start */}
       <Animated.View
         entering={FadeInDown.duration(500)}
-        style={[styles.niyyahBanner, { backgroundColor: theme.bannerBackground }]}
+        style={[
+          styles.niyyahBanner,
+          { backgroundColor: theme.bannerBackground },
+        ]}
       >
         <ThemedText
           type="small"
@@ -182,30 +276,59 @@ export default function ThoughtCaptureScreen() {
       </View>
 
       <View style={styles.inputSection}>
-        <TextInput
-          value={thought}
-          onChangeText={setThought}
-          placeholder={ScreenCopy.thoughtCapture.placeholder}
-          placeholderTextColor={theme.textSecondary}
-          multiline
-          style={[
-            styles.textInput,
-            {
-              backgroundColor: theme.inputBackground,
-              color: theme.text,
-              fontFamily: Platform.OS === "ios" ? "Georgia" : "serif",
-            },
-          ]}
-          textAlignVertical="top"
-        />
-        <ThemedText
-          type="caption"
-          style={[styles.hint, { color: theme.textSecondary }]}
-        >
-          {thought.length > 0
-            ? `${thought.length} characters`
-            : ScreenCopy.thoughtCapture.hint}
-        </ThemedText>
+        <Animated.View style={breathingStyle}>
+          <TextInput
+            value={thought}
+            onChangeText={handleTextChange}
+            placeholder={ScreenCopy.thoughtCapture.placeholder}
+            placeholderTextColor={theme.textSecondary}
+            multiline
+            maxLength={2000}
+            style={[
+              styles.textInput,
+              {
+                backgroundColor: theme.inputBackground,
+                color: theme.text,
+                fontFamily: Platform.OS === "ios" ? "Georgia" : "serif",
+              },
+            ]}
+            textAlignVertical="top"
+          />
+        </Animated.View>
+
+        {/* Auto-hiding character count */}
+        {showCharCount && thought.length > 0 ? (
+          <Animated.View
+            entering={FadeIn.duration(200)}
+            exiting={FadeOut.duration(200)}
+          >
+            <ThemedText
+              type="caption"
+              style={[styles.hint, { color: theme.textSecondary }]}
+            >
+              {thought.length}/2000 characters
+            </ThemedText>
+          </Animated.View>
+        ) : thought.length === 0 ? (
+          <ThemedText
+            type="caption"
+            style={[styles.hint, { color: theme.textSecondary }]}
+          >
+            {ScreenCopy.thoughtCapture.hint}
+          </ThemedText>
+        ) : null}
+
+        {/* Validation hint */}
+        {thought.length > 0 && thought.trim().length < 10 && (
+          <Animated.View entering={FadeIn.duration(200)}>
+            <ThemedText
+              type="caption"
+              style={[styles.validationHint, { color: theme.warning }]}
+            >
+              Write a bit more to continue (at least 10 characters)
+            </ThemedText>
+          </Animated.View>
+        )}
       </View>
 
       {/* Emotional Intensity Section */}
@@ -242,7 +365,9 @@ export default function ThoughtCaptureScreen() {
                   type="small"
                   style={[
                     styles.intensityNumber,
-                    { color: isSelected ? theme.onPrimary : theme.textSecondary },
+                    {
+                      color: isSelected ? theme.onPrimary : theme.textSecondary,
+                    },
                   ]}
                 >
                   {level}
@@ -267,7 +392,7 @@ export default function ThoughtCaptureScreen() {
       {/* Somatic Awareness Section - appears for higher intensity */}
       {showSomaticPrompt && (
         <Animated.View
-          entering={FadeIn.duration(300)}
+          entering={FadeInUp.duration(400).delay(100)}
           style={styles.somaticSection}
         >
           <ThemedText
@@ -278,31 +403,35 @@ export default function ThoughtCaptureScreen() {
           </ThemedText>
 
           <View style={styles.somaticRow}>
-            {SOMATIC_PROMPTS.map((somatic) => {
+            {SOMATIC_PROMPTS.map((somatic, index) => {
               const isSelected = selectedSomatic === somatic;
               return (
-                <TouchableOpacity
+                <Animated.View
                   key={somatic}
-                  onPress={() => handleSomaticSelect(somatic)}
-                  style={[
-                    styles.somaticPill,
-                    {
-                      backgroundColor: isSelected
-                        ? theme.primary
-                        : theme.backgroundDefault,
-                      borderColor: isSelected ? theme.primary : theme.border,
-                    },
-                  ]}
+                  entering={FadeInUp.duration(300).delay(index * 50)}
                 >
-                  <ThemedText
-                    type="small"
-                    style={{
-                      color: isSelected ? theme.onPrimary : theme.textSecondary,
-                    }}
+                  <TouchableOpacity
+                    onPress={() => handleSomaticSelect(somatic)}
+                    style={[
+                      styles.somaticPill,
+                      {
+                        backgroundColor: isSelected
+                          ? theme.primary
+                          : theme.backgroundDefault,
+                        borderColor: isSelected ? theme.primary : theme.border,
+                      },
+                    ]}
                   >
-                    {somatic}
-                  </ThemedText>
-                </TouchableOpacity>
+                    <ThemedText
+                      type="small"
+                      style={{
+                        color: isSelected ? theme.onPrimary : theme.textSecondary,
+                      }}
+                    >
+                      {somatic}
+                    </ThemedText>
+                  </TouchableOpacity>
+                </Animated.View>
               );
             })}
           </View>
@@ -320,6 +449,12 @@ export default function ThoughtCaptureScreen() {
           {ScreenCopy.thoughtCapture.continue}
         </Button>
       </View>
+
+      <ExitConfirmationModal
+        visible={showExitModal}
+        onConfirm={handleExit}
+        onCancel={() => setShowExitModal(false)}
+      />
     </KeyboardAwareScrollViewCompat>
   );
 }
@@ -354,6 +489,11 @@ const styles = StyleSheet.create({
   hint: {
     marginTop: Spacing.sm,
     textAlign: "right",
+  },
+  validationHint: {
+    marginTop: Spacing.xs,
+    textAlign: "right",
+    fontStyle: "italic",
   },
   // Emotional Intensity Styles
   intensitySection: {

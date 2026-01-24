@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "node:http";
+import { z } from "zod";
 import OpenAI from "openai";
 import { storage } from "./storage";
 import { billingService } from "./billing";
@@ -51,11 +52,23 @@ import {
   verifyAdminToken,
   isAdminEndpointEnabled,
 } from "./data-retention";
+import { adminLimiter } from "./middleware/rate-limit";
+import notificationRoutes from "./notificationRoutes";
 
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
+// Lazy OpenAI client getter - only instantiate when needed and validation mode is off
+let openaiClient: OpenAI | null = null;
+function getOpenAIClient(): OpenAI {
+  if (VALIDATION_MODE) {
+    throw new Error("OpenAI client should not be called in validation mode");
+  }
+  if (!openaiClient) {
+    openaiClient = new OpenAI({
+      apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+      baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+    });
+  }
+  return openaiClient;
+}
 
 const FREE_DAILY_LIMIT = 1;
 const FREE_HISTORY_LIMIT = 3;
@@ -178,13 +191,52 @@ const DISTORTIONS = [
 ];
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Mount notification routes
+  app.use("/api/notifications", notificationRoutes);
+
+  // Health check endpoint for monitoring and uptime checks
+  app.get("/api/health", async (_req, res) => {
+    try {
+      // Test database connection by querying sessions table
+      await storage.getReflectionHistory("health-check", 1);
+
+      res.status(200).json({
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        database: "connected",
+        version: "1.0.0",
+      });
+    } catch (error) {
+      console.error("Health check failed:", error);
+      res.status(503).json({
+        status: "unhealthy",
+        timestamp: new Date().toISOString(),
+        database: "disconnected",
+        error: "Database connection failed",
+      });
+    }
+  });
+
+  // Validation schema for analyze request
+  const analyzeSchema = z.object({
+    thought: z.string().min(1).max(5000),
+    emotionalIntensity: z
+      .enum(["mild", "moderate", "high", "crisis"])
+      .optional(),
+  });
+
   app.post("/api/analyze", async (req, res) => {
     try {
-      const { thought, emotionalIntensity } = req.body;
-
-      if (!thought || typeof thought !== "string") {
-        return res.status(400).json({ error: "Thought is required" });
+      // Validate request body
+      const validationResult = analyzeSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          error: "Invalid request data",
+          details: validationResult.error.issues,
+        });
       }
+
+      const { thought, emotionalIntensity } = validationResult.data;
 
       // VALIDATION MODE GUARD: Return placeholder if AI not configured
       if (VALIDATION_MODE && !isOpenAIConfigured()) {
@@ -266,18 +318,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const stateModifier = getStatePromptModifier(stateInference.state);
 
       // EMOTIONAL INTELLIGENCE: Detect intensity and suggest emotion
-      const detectedIntensity =
-        emotionalIntensity ||
-        EmotionalIntelligence.detectIntensity(sanitizedThought);
+      const detectedIntensity = EmotionalIntelligence.detectIntensity(sanitizedThought);
       const suggestedEmotion =
         EmotionalIntelligence.suggestEmotionalLabel(sanitizedThought);
 
-      // Determine distress level
+      // Determine distress level (use emotionalIntensity from client if provided, otherwise detect)
       let distressLevel: DistressLevel = "moderate";
-      if (detectedIntensity < 30) distressLevel = "low";
-      else if (detectedIntensity < 60) distressLevel = "moderate";
-      else if (detectedIntensity < 85) distressLevel = "high";
-      else distressLevel = "crisis";
+      if (emotionalIntensity) {
+        // Map client-provided intensity to distress level
+        const intensityMap: Record<string, DistressLevel> = {
+          mild: "low",
+          moderate: "moderate",
+          high: "high",
+          crisis: "crisis",
+        };
+        distressLevel = intensityMap[emotionalIntensity] || "moderate";
+      } else {
+        // Auto-detect from content
+        if (detectedIntensity < 30) distressLevel = "low";
+        else if (detectedIntensity < 60) distressLevel = "moderate";
+        else if (detectedIntensity < 85) distressLevel = "high";
+        else distressLevel = "crisis";
+      }
 
       // CONVERSATIONAL ADAPTATION: Build context-aware prompt modifier
       const conversationalContext = buildConversationalPromptModifier({
@@ -323,8 +385,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           mode: "analyze",
           conversationState: "listening",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const response = await openai.chat.completions.create({
+        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+          // Build Islamic content modifier if available
+          const islamicModifier = islamicContent
+            ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
+            : "";
+
+          const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 1024,
             messages: [
@@ -337,6 +404,8 @@ ${toneModifier}
 ${stateModifier}
 
 ${safetyGuidance}
+
+${islamicModifier}
 
 YOUR TASK: Answer ONE question only: What is happening and what is the thinking pattern?
 
@@ -426,15 +495,29 @@ Respond with a JSON object containing:
     }
   });
 
+  // Validation schema for reframe request
+  const reframeSchema = z.object({
+    thought: z.string().min(1).max(5000),
+    distortions: z.array(z.string()).min(1).max(20),
+    analysis: z.string().max(3000).optional(),
+    emotionalIntensity: z
+      .enum(["mild", "moderate", "high", "crisis"])
+      .optional(),
+  });
+
   app.post("/api/reframe", async (req, res) => {
     try {
-      const { thought, distortions, analysis, emotionalIntensity } = req.body;
-
-      if (!thought || !distortions) {
-        return res
-          .status(400)
-          .json({ error: "Thought and distortions are required" });
+      // Validate request body
+      const validationResult = reframeSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          error: "Invalid request data",
+          details: validationResult.error.issues,
+        });
       }
+
+      const { thought, distortions, analysis, emotionalIntensity } =
+        validationResult.data;
 
       // VALIDATION MODE GUARD
       if (VALIDATION_MODE && !isOpenAIConfigured()) {
@@ -458,13 +541,24 @@ Respond with a JSON object containing:
         getAssumptionPromptModifier(assumptionDetection);
 
       // Determine distress level for Islamic content selection
-      const detectedIntensity =
-        emotionalIntensity || EmotionalIntelligence.detectIntensity(thought);
       let distressLevel: DistressLevel = "moderate";
-      if (detectedIntensity < 30) distressLevel = "low";
-      else if (detectedIntensity < 60) distressLevel = "moderate";
-      else if (detectedIntensity < 85) distressLevel = "high";
-      else distressLevel = "crisis";
+      if (emotionalIntensity) {
+        // Map client-provided intensity to distress level
+        const intensityMap: Record<string, DistressLevel> = {
+          mild: "low",
+          moderate: "moderate",
+          high: "high",
+          crisis: "crisis",
+        };
+        distressLevel = intensityMap[emotionalIntensity] || "moderate";
+      } else {
+        // Auto-detect from content
+        const detectedIntensity = EmotionalIntelligence.detectIntensity(thought);
+        if (detectedIntensity < 30) distressLevel = "low";
+        else if (detectedIntensity < 60) distressLevel = "moderate";
+        else if (detectedIntensity < 85) distressLevel = "high";
+        else distressLevel = "crisis";
+      }
 
       const emotionalState = stateInference.state as EmotionalState;
 
@@ -492,8 +586,13 @@ Respond with a JSON object containing:
           mode: "reframe",
           conversationState: "reframing",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const response = await openai.chat.completions.create({
+        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+          // Build Islamic content modifier if available
+          const islamicModifier = islamicContent
+            ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
+            : "";
+
+          const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 1024,
             messages: [
@@ -508,6 +607,8 @@ ${stateModifier}
 ${assumptionModifier}
 
 ${safetyGuidance}
+
+${islamicModifier}
 
 YOUR TASK: Answer ONE question only: What truth sits alongside this and what is the tested belief?
 
@@ -621,8 +722,13 @@ Respond with a JSON object containing:
           mode: "practice",
           conversationState: "grounding",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const response = await openai.chat.completions.create({
+        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+          // Build Islamic content modifier if available
+          const islamicModifier = islamicContent
+            ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
+            : "";
+
+          const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 512,
             messages: [
@@ -631,6 +737,8 @@ Respond with a JSON object containing:
                 content: `${SYSTEM_FOUNDATION}
 
 ${safetyGuidance}
+
+${islamicModifier}
 
 YOUR TASK: Answer ONE question only: What is one practice to settle the heart and body?
 
@@ -708,15 +816,35 @@ Respond with a JSON object containing:
   // POST /api/reflection/save
   // SECURITY: userId is derived from server-side session, NOT from request body.
   // ENCRYPTION: Sensitive fields are encrypted before storage
+  // Validation schema for reflection save request
+  const reflectionSaveSchema = z.object({
+    thought: z.string().min(1).max(5000),
+    distortions: z.array(z.string()).max(20), // Max 20 distortions
+    reframe: z.string().min(1).max(5000),
+    intention: z.string().max(2000).optional(),
+    practice: z.string().max(2000),
+    anchor: z.string().max(1000).optional(),
+  });
+
   app.post("/api/reflection/save", async (req, res) => {
     try {
       const userId = req.auth?.userId;
-      const { thought, distortions, reframe, intention, practice, anchor } =
-        req.body;
 
       if (!userId) {
         return res.status(401).json({ error: "Authentication required" });
       }
+
+      // Validate request body
+      const validationResult = reflectionSaveSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          error: "Invalid request data",
+          details: validationResult.error.issues,
+        });
+      }
+
+      const { thought, distortions, reframe, intention, practice, anchor } =
+        validationResult.data;
 
       const user = await storage.getOrCreateUser(userId);
       const { status } = await billingService.getBillingStatus(userId);
@@ -802,6 +930,44 @@ Respond with a JSON object containing:
     } catch (error) {
       console.error("Error fetching history:", error);
       res.status(500).json({ error: "Failed to fetch history" });
+    }
+  });
+
+  // DELETE /api/reflection/:id
+  // Delete a single reflection by ID
+  // SECURITY: userId is derived from server-side session, ensures user owns the reflection
+  app.delete("/api/reflection/:id", async (req, res) => {
+    try {
+      const userId = req.auth?.userId;
+      const sessionId = parseInt(req.params.id, 10);
+
+      if (!userId) {
+        return res.status(401).json({
+          error: "Authentication required",
+          code: "AUTH_REQUIRED",
+        });
+      }
+
+      if (isNaN(sessionId)) {
+        return res.status(400).json({
+          error: "Invalid reflection ID",
+          code: "INVALID_ID",
+        });
+      }
+
+      const deletedCount = await storage.deleteReflection(userId, sessionId);
+
+      if (deletedCount === 0) {
+        return res.status(404).json({
+          error: "Reflection not found or already deleted",
+          code: "NOT_FOUND",
+        });
+      }
+
+      res.json({ success: true, deletedCount });
+    } catch (error) {
+      console.error("Error deleting reflection:", error);
+      res.status(500).json({ error: "Failed to delete reflection" });
     }
   });
 
@@ -998,8 +1164,13 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
           mode: "dua",
           conversationState: "listening",
         },
-        aiResponseGenerator: async (safetyGuidance, pacingConfig) => {
-          const response = await openai.chat.completions.create({
+        aiResponseGenerator: async (safetyGuidance, pacingConfig, islamicContent) => {
+          // Build Islamic content modifier if available
+          const islamicModifier = islamicContent
+            ? IslamicContentMapper.buildIslamicPromptModifier(islamicContent)
+            : "";
+
+          const response = await getOpenAIClient().chat.completions.create({
             model: "gpt-5.1",
             max_completion_tokens: 256,
             messages: [
@@ -1008,8 +1179,10 @@ Keep the tone warm, observational, not prescriptive. Do not give advice.`;
                 content: `${SYSTEM_FOUNDATION}
 
 ${safetyGuidance}
-            
-You are generating a brief pattern summary for someone who has completed multiple reflections. 
+
+${islamicModifier}
+
+You are generating a brief pattern summary for someone who has completed multiple reflections.
 Be warm, observational, and non-judgmental. Do not give advice or prescriptions.
 Respond with plain text, not JSON.`,
               },
@@ -1081,10 +1254,13 @@ Respond with plain text, not JSON.`,
 
   // POST /api/duas/contextual
   // PRO ONLY: Returns a contextual dua based on the user's inner state
-  const DUA_BY_STATE: Record<
-    string,
-    { arabic: string; transliteration: string; meaning: string }
-  > = {
+  interface DuaEntry {
+    arabic: string;
+    transliteration: string;
+    meaning: string;
+  }
+
+  const DUA_BY_STATE: Record<string, DuaEntry> = {
     grief: {
       arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ",
       transliteration: "Inna lillahi wa inna ilayhi raji'un",
@@ -1165,7 +1341,8 @@ Respond with plain text, not JSON.`,
 
   // ADMIN: Manual data retention cleanup trigger
   // Protected by ADMIN_TOKEN - disabled unless env var is set
-  app.post("/api/admin/retention/run", async (req, res) => {
+  // Rate limited to prevent brute force attacks
+  app.post("/api/admin/retention/run", adminLimiter, async (req, res) => {
     // Check if admin endpoint is enabled
     if (!isAdminEndpointEnabled()) {
       return res.status(404).json({

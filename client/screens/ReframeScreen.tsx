@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -26,6 +27,9 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { generateReframe } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { ScreenCopy } from "@/constants/brand";
+import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
+import { ReflectionProgressCompact } from "@/components/ReflectionProgress";
+import { SkeletonReflection } from "@/components/LoadingSkeleton";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Reframe">;
 type RouteType = RouteProp<RootStackParamList, "Reframe">;
@@ -92,6 +96,8 @@ export default function ReframeScreen() {
   const [postBeliefStrength, setPostBeliefStrength] = useState<number | null>(
     null,
   );
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [islamicReference] = useState(
     () =>
       ISLAMIC_REFERENCES[Math.floor(Math.random() * ISLAMIC_REFERENCES.length)],
@@ -104,6 +110,27 @@ export default function ReframeScreen() {
   const route = useRoute<RouteType>();
   const { thought, distortions, analysis, emotionalIntensity, beliefStrength } =
     route.params;
+
+  // Add cancel button to header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => setShowExitModal(true)}
+          style={{ marginRight: Spacing.sm }}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
+        </Pressable>
+      ),
+    });
+  }, [navigation, theme.primary]);
+
+  const handleExit = () => {
+    hapticMedium();
+    setShowExitModal(false);
+    navigation.navigate("Home");
+  };
 
   // Perspective options using theme color keys
   const PERSPECTIVE_OPTIONS: PerspectiveOption[] = [
@@ -141,23 +168,90 @@ export default function ReframeScreen() {
     return theme[colorKey as keyof typeof theme] as string;
   };
 
+  // Timeout effect for loading state
+  useEffect(() => {
+    let warningTimeout: NodeJS.Timeout;
+    let abortTimeout: NodeJS.Timeout;
+
+    if (loading) {
+      // Show warning after 15 seconds
+      warningTimeout = setTimeout(() => {
+        setShowTimeoutWarning(true);
+      }, 15000);
+
+      // Abort after 30 seconds
+      abortTimeout = setTimeout(() => {
+        setError(
+          ScreenCopy.reframe.errorTimeout ||
+            "This is taking longer than expected. Please try again.",
+        );
+        setLoading(false);
+        setShowTimeoutWarning(false);
+      }, 30000);
+    }
+
+    return () => {
+      clearTimeout(warningTimeout);
+      clearTimeout(abortTimeout);
+    };
+  }, [loading]);
+
   useEffect(() => {
     const generate = async () => {
       try {
         setLoading(true);
         setError(null);
+        setShowTimeoutWarning(false);
         const data = await generateReframe(
           thought,
           distortions,
           analysis,
           emotionalIntensity,
         );
+
+        // Validate response structure before using
+        if (!data || typeof data !== "object") {
+          console.error("Invalid response: not an object", data);
+          setError(ScreenCopy.reframe.errorServer || ScreenCopy.reframe.error);
+          return;
+        }
+
+        // Validate required fields
+        if (!data.beliefTested || typeof data.beliefTested !== "string") {
+          console.error(
+            "Invalid response: missing or invalid beliefTested",
+            data,
+          );
+          setError(ScreenCopy.reframe.errorServer || ScreenCopy.reframe.error);
+          return;
+        }
+
+        if (!data.perspective || typeof data.perspective !== "string") {
+          console.error(
+            "Invalid response: missing or invalid perspective",
+            data,
+          );
+          setError(ScreenCopy.reframe.errorServer || ScreenCopy.reframe.error);
+          return;
+        }
+
         setResult(data);
       } catch (err) {
-        setError(ScreenCopy.reframe.error);
-        console.error(err);
+        // Classify error type for better user messaging
+        const errorMessage = (err as Error)?.message || "";
+        if (errorMessage.includes("NETWORK_ERROR")) {
+          setError(ScreenCopy.reframe.errorNetwork || ScreenCopy.reframe.error);
+        } else if (errorMessage.includes("SERVER_ERROR")) {
+          setError(ScreenCopy.reframe.errorServer || ScreenCopy.reframe.error);
+        } else if (errorMessage.includes("TIMEOUT")) {
+          setError(ScreenCopy.reframe.errorTimeout || ScreenCopy.reframe.error);
+        } else {
+          setError(ScreenCopy.reframe.error);
+        }
+        console.error("Reframe error:", err);
       } finally {
         setLoading(false);
+        setShowTimeoutWarning(false);
       }
     };
     generate();
@@ -193,6 +287,12 @@ export default function ReframeScreen() {
     }
   };
 
+  const handleRetry = () => {
+    setError(null);
+    setLoading(true);
+    setShowTimeoutWarning(false);
+  };
+
   // Calculate belief shift if both values present
   const beliefShift =
     beliefStrength && postBeliefStrength
@@ -208,38 +308,108 @@ export default function ReframeScreen() {
 
   if (loading) {
     return (
-      <ThemedView
-        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      <KeyboardAwareScrollViewCompat
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingTop: headerHeight + Spacing.sm,
+            paddingBottom: insets.bottom + Spacing["3xl"],
+          },
+        ]}
       >
-        <ActivityIndicator size="large" color={theme.primary} />
-        <ThemedText
-          type="body"
-          style={[styles.loadingText, { color: theme.textSecondary }]}
-        >
-          {ScreenCopy.reframe.loading}
-        </ThemedText>
-      </ThemedView>
+        {/* Progress Indicator */}
+        <ReflectionProgressCompact currentStep="Reframe" />
+
+        {/* Loading message */}
+        <Animated.View entering={FadeIn.duration(300)} style={{ marginVertical: Spacing.xl }}>
+          <ThemedText
+            type="body"
+            style={[
+              styles.loadingText,
+              { color: theme.textSecondary, textAlign: "center" },
+            ]}
+          >
+            {ScreenCopy.reframe.loading}
+          </ThemedText>
+          {showTimeoutWarning && (
+            <ThemedText
+              type="small"
+              style={[
+                styles.timeoutWarning,
+                { color: theme.intensityHeavy, marginTop: Spacing.md, textAlign: "center" },
+              ]}
+            >
+              This is taking longer than expected. Still working...
+            </ThemedText>
+          )}
+        </Animated.View>
+
+        {/* Skeleton content structure */}
+        <SkeletonReflection />
+      </KeyboardAwareScrollViewCompat>
     );
   }
 
   if (error || !result) {
     return (
-      <ThemedView
-        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      <KeyboardAwareScrollViewCompat
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+        contentContainerStyle={[
+          styles.errorContainer,
+          {
+            paddingTop: headerHeight + Spacing.sm,
+            paddingBottom: insets.bottom + Spacing["3xl"],
+          },
+        ]}
       >
-        <ThemedText
-          type="body"
-          style={[styles.errorText, { color: theme.textSecondary }]}
-        >
-          {error || ScreenCopy.reframe.errorFallback}
-        </ThemedText>
-        <Button
-          onPress={() => navigation.goBack()}
-          style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
-        >
-          Go Back
-        </Button>
-      </ThemedView>
+        {/* Progress Indicator */}
+        <ReflectionProgressCompact currentStep="Reframe" />
+
+        <Animated.View entering={FadeIn.duration(400)} style={styles.errorContent}>
+          {/* Error icon */}
+          <View
+            style={[
+              styles.errorIcon,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
+            <ThemedText style={{ fontSize: 40 }}>🤔</ThemedText>
+          </View>
+
+          {/* Error message */}
+          <ThemedText
+            type="h4"
+            style={[styles.errorTitle, { fontFamily: Fonts?.serif }]}
+          >
+            Let's try that again
+          </ThemedText>
+
+          <ThemedText
+            type="body"
+            style={[styles.errorText, { color: theme.textSecondary }]}
+          >
+            {error || ScreenCopy.reframe.errorFallback}
+          </ThemedText>
+
+          {/* Action buttons */}
+          <View style={styles.errorActions}>
+            <Button
+              onPress={handleRetry}
+              style={{ backgroundColor: theme.primary, marginBottom: Spacing.md }}
+            >
+              Try Again
+            </Button>
+            <Button
+              onPress={() => navigation.goBack()}
+              variant="secondary"
+              style={{ backgroundColor: theme.backgroundDefault }}
+            >
+              Go Back
+            </Button>
+          </View>
+        </Animated.View>
+      </KeyboardAwareScrollViewCompat>
     );
   }
 
@@ -256,11 +426,14 @@ export default function ReframeScreen() {
       contentContainerStyle={[
         styles.contentContainer,
         {
-          paddingTop: headerHeight + Spacing.xl,
+          paddingTop: headerHeight + Spacing.sm,
           paddingBottom: insets.bottom + Spacing["3xl"],
         },
       ]}
     >
+      {/* Progress Indicator */}
+      <ReflectionProgressCompact currentStep="Reframe" />
+
       {/* Belief Being Tested */}
       <Animated.View
         entering={FadeInUp.duration(400).delay(100)}
@@ -534,7 +707,7 @@ export default function ReframeScreen() {
                   { color: theme.highlightAccent },
                 ]}
               >
-                ✓ The belief softened by {beliefShift}%. That's progress.
+                {`✓ The belief softened by ${beliefShift}%. That's progress.`}
               </ThemedText>
             </Animated.View>
           )}
@@ -584,6 +757,12 @@ export default function ReframeScreen() {
           {ScreenCopy.reframe.continue}
         </Button>
       </Animated.View>
+
+      <ExitConfirmationModal
+        visible={showExitModal}
+        onConfirm={handleExit}
+        onCancel={() => setShowExitModal(false)}
+      />
     </KeyboardAwareScrollViewCompat>
   );
 }
@@ -777,5 +956,36 @@ const styles = StyleSheet.create({
   islamicSource: {
     textAlign: "center",
     fontWeight: "500",
+  },
+  timeoutWarning: {
+    textAlign: "center",
+    fontStyle: "italic",
+  },
+  // Error State Styles
+  errorContainer: {
+    flexGrow: 1,
+    paddingHorizontal: Spacing.xl,
+  },
+  errorContent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: Spacing["4xl"],
+  },
+  errorIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: BorderRadius.xl,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: Spacing.xl,
+  },
+  errorTitle: {
+    marginBottom: Spacing.md,
+    textAlign: "center",
+  },
+  errorActions: {
+    width: "100%",
+    marginTop: Spacing["2xl"],
   },
 });

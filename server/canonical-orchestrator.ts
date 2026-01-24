@@ -27,13 +27,19 @@ import type {
   DistressLevel,
 } from "../shared/islamic-framework";
 import type { ConversationState } from "./conversation-state-machine";
+import type { PacingConfig } from "./pacing-controller";
 
 // =============================================================================
 // CANONICAL ORCHESTRATION TYPES
 // =============================================================================
 
+/**
+ * Input configuration for orchestrated AI response generation
+ */
 export interface OrchestrationInput {
+  /** The user's input text to be processed */
   userInput: string;
+  /** Context about the user's current state and conversation mode */
   context: {
     emotionalState: EmotionalState;
     distressLevel: DistressLevel;
@@ -41,9 +47,17 @@ export interface OrchestrationInput {
     repetitionCount?: number;
     conversationState?: ConversationState;
   };
+  /**
+   * Function that generates an AI response given safety guidance and pacing config
+   * @param safetyGuidance - Safety instructions to guide the AI
+   * @param pacingConfig - Pacing configuration to control response characteristics
+   * @param islamicContent - Selected Islamic content (Quran/Hadith) for this response
+   * @returns The generated AI response
+   */
   aiResponseGenerator: (
     safetyGuidance: string,
-    pacingConfig: any,
+    pacingConfig: PacingConfig,
+    islamicContent?: import("./islamic-content-mapper").IslamicContentSelection,
   ) => Promise<string>;
 }
 
@@ -151,6 +165,7 @@ export class CanonicalOrchestrator {
         aiResponse = await input.aiResponseGenerator(
           preProcessingResult.safetyGuidance,
           preProcessingResult.pacingConfig,
+          preProcessingResult.islamicContent,
         );
         output.pipelineStages.aiGeneration = "completed";
         log(`AI generated response (${aiResponse.length} chars)`);

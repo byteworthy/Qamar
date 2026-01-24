@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
   ActivityIndicator,
   Linking,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -22,6 +23,9 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { analyzeThought } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { ScreenCopy } from "@/constants/brand";
+import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
+import { ReflectionProgressCompact } from "@/components/ReflectionProgress";
+import { SkeletonText, LoadingSkeleton } from "@/components/LoadingSkeleton";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -57,6 +61,8 @@ export default function DistortionScreen() {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
 
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
@@ -65,23 +71,118 @@ export default function DistortionScreen() {
   const route = useRoute<RouteType>();
   const { thought, emotionalIntensity, somaticAwareness } = route.params;
 
+  // Add cancel button to header
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => setShowExitModal(true)}
+          style={{ marginRight: Spacing.sm }}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <ThemedText style={{ color: theme.primary }}>Cancel</ThemedText>
+        </Pressable>
+      ),
+    });
+  }, [navigation, theme.primary]);
+
+  const handleExit = () => {
+    hapticMedium();
+    setShowExitModal(false);
+    navigation.navigate("Home");
+  };
+
+  // Timeout effect for loading state
+  useEffect(() => {
+    let warningTimeout: NodeJS.Timeout;
+    let abortTimeout: NodeJS.Timeout;
+
+    if (loading) {
+      // Show warning after 15 seconds
+      warningTimeout = setTimeout(() => {
+        setShowTimeoutWarning(true);
+      }, 15000);
+
+      // Abort after 30 seconds
+      abortTimeout = setTimeout(() => {
+        setError(
+          ScreenCopy.distortion.errorTimeout ||
+            "This is taking longer than expected. Please try again.",
+        );
+        setLoading(false);
+        setShowTimeoutWarning(false);
+      }, 30000);
+    }
+
+    return () => {
+      clearTimeout(warningTimeout);
+      clearTimeout(abortTimeout);
+    };
+  }, [loading]);
+
   useEffect(() => {
     const analyze = async () => {
       try {
         setLoading(true);
         setError(null);
+        setShowTimeoutWarning(false);
         // Pass emotional intensity for adaptive AI responses
         const data = await analyzeThought(
           thought,
           emotionalIntensity,
           somaticAwareness,
         );
+
+        // Validate response structure before using
+        if (!data || typeof data !== "object") {
+          console.error("Invalid response: not an object", data);
+          setError(
+            ScreenCopy.distortion.errorServer || ScreenCopy.distortion.error,
+          );
+          return;
+        }
+
+        // Check for crisis response (valid response)
+        if (data.crisis) {
+          setResult(data);
+          return;
+        }
+
+        // Validate regular analysis response
+        if (!data.distortions || !Array.isArray(data.distortions)) {
+          console.error(
+            "Invalid response: missing or invalid distortions array",
+            data,
+          );
+          setError(
+            ScreenCopy.distortion.errorServer || ScreenCopy.distortion.error,
+          );
+          return;
+        }
+
         setResult(data);
       } catch (err) {
-        setError(ScreenCopy.distortion.error);
-        console.error(err);
+        // Classify error type for better user messaging
+        const errorMessage = (err as Error)?.message || "";
+        if (errorMessage.includes("NETWORK_ERROR")) {
+          setError(
+            ScreenCopy.distortion.errorNetwork || ScreenCopy.distortion.error,
+          );
+        } else if (errorMessage.includes("SERVER_ERROR")) {
+          setError(
+            ScreenCopy.distortion.errorServer || ScreenCopy.distortion.error,
+          );
+        } else if (errorMessage.includes("TIMEOUT")) {
+          setError(
+            ScreenCopy.distortion.errorTimeout || ScreenCopy.distortion.error,
+          );
+        } else {
+          setError(ScreenCopy.distortion.error);
+        }
+        console.error("Analysis error:", err);
       } finally {
         setLoading(false);
+        setShowTimeoutWarning(false);
       }
     };
     analyze();
@@ -94,8 +195,15 @@ export default function DistortionScreen() {
         thought,
         distortions: result.distortions,
         analysis,
+        emotionalIntensity,
       });
     }
+  };
+
+  const handleRetry = () => {
+    setError(null);
+    setLoading(true);
+    setShowTimeoutWarning(false);
   };
 
   const handleCallResource = (contact: string) => {
@@ -256,38 +364,124 @@ export default function DistortionScreen() {
 
   if (loading) {
     return (
-      <ThemedView
-        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      <KeyboardAwareScrollViewCompat
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingTop: headerHeight + Spacing.sm,
+            paddingBottom: insets.bottom + Spacing["3xl"],
+          },
+        ]}
       >
-        <ActivityIndicator size="large" color={theme.primary} />
-        <ThemedText
-          type="body"
-          style={[styles.loadingText, { color: theme.textSecondary }]}
-        >
-          {ScreenCopy.distortion.loading}
-        </ThemedText>
-      </ThemedView>
+        {/* Progress Indicator */}
+        <ReflectionProgressCompact currentStep="Distortion" />
+
+        {/* Loading message */}
+        <Animated.View entering={FadeIn.duration(300)} style={{ marginVertical: Spacing.xl }}>
+          <ThemedText
+            type="body"
+            style={[
+              styles.loadingText,
+              { color: theme.textSecondary, textAlign: "center" },
+            ]}
+          >
+            {ScreenCopy.distortion.loading}
+          </ThemedText>
+          {showTimeoutWarning && (
+            <ThemedText
+              type="small"
+              style={[
+                styles.timeoutWarning,
+                { color: theme.intensityHeavy, marginTop: Spacing.md, textAlign: "center" },
+              ]}
+            >
+              This is taking longer than expected. Still working...
+            </ThemedText>
+          )}
+        </Animated.View>
+
+        {/* Skeleton content structure */}
+        <Animated.View entering={FadeIn.duration(400).delay(200)} style={styles.section}>
+          <LoadingSkeleton width={140} height={12} style={{ marginBottom: Spacing.sm }} />
+          <SkeletonText lines={2} />
+        </Animated.View>
+
+        <Animated.View entering={FadeIn.duration(400).delay(300)} style={styles.section}>
+          <LoadingSkeleton width={180} height={12} style={{ marginBottom: Spacing.sm }} />
+          <View style={styles.patternRow}>
+            <LoadingSkeleton width={100} height={32} borderRadius={BorderRadius.full} />
+            <LoadingSkeleton width={120} height={32} borderRadius={BorderRadius.full} />
+          </View>
+        </Animated.View>
+
+        <Animated.View entering={FadeIn.duration(400).delay(400)} style={styles.section}>
+          <LoadingSkeleton width={160} height={12} style={{ marginBottom: Spacing.sm }} />
+          <SkeletonText lines={3} />
+        </Animated.View>
+      </KeyboardAwareScrollViewCompat>
     );
   }
 
   if (error || !result) {
     return (
-      <ThemedView
-        style={[styles.loadingContainer, { paddingTop: headerHeight }]}
+      <KeyboardAwareScrollViewCompat
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+        contentContainerStyle={[
+          styles.errorContainer,
+          {
+            paddingTop: headerHeight + Spacing.sm,
+            paddingBottom: insets.bottom + Spacing["3xl"],
+          },
+        ]}
       >
-        <ThemedText
-          type="body"
-          style={[styles.errorText, { color: theme.textSecondary }]}
-        >
-          {error || ScreenCopy.distortion.errorFallback}
-        </ThemedText>
-        <Button
-          onPress={() => navigation.goBack()}
-          style={{ backgroundColor: theme.primary, marginTop: Spacing.xl }}
-        >
-          Go Back
-        </Button>
-      </ThemedView>
+        {/* Progress Indicator */}
+        <ReflectionProgressCompact currentStep="Distortion" />
+
+        <Animated.View entering={FadeIn.duration(400)} style={styles.errorContent}>
+          {/* Error icon */}
+          <View
+            style={[
+              styles.errorIcon,
+              { backgroundColor: theme.backgroundDefault },
+            ]}
+          >
+            <ThemedText style={{ fontSize: 40 }}>💭</ThemedText>
+          </View>
+
+          {/* Error message */}
+          <ThemedText
+            type="h4"
+            style={[styles.errorTitle, { fontFamily: Fonts?.serif }]}
+          >
+            We hit a snag
+          </ThemedText>
+
+          <ThemedText
+            type="body"
+            style={[styles.errorText, { color: theme.textSecondary }]}
+          >
+            {error || ScreenCopy.distortion.errorFallback}
+          </ThemedText>
+
+          {/* Action buttons */}
+          <View style={styles.errorActions}>
+            <Button
+              onPress={handleRetry}
+              style={{ backgroundColor: theme.primary, marginBottom: Spacing.md }}
+            >
+              Try Again
+            </Button>
+            <Button
+              onPress={() => navigation.goBack()}
+              variant="secondary"
+              style={{ backgroundColor: theme.backgroundDefault }}
+            >
+              Go Back
+            </Button>
+          </View>
+        </Animated.View>
+      </KeyboardAwareScrollViewCompat>
     );
   }
 
@@ -297,11 +491,13 @@ export default function DistortionScreen() {
       contentContainerStyle={[
         styles.contentContainer,
         {
-          paddingTop: headerHeight + Spacing.xl,
+          paddingTop: headerHeight + Spacing.sm,
           paddingBottom: insets.bottom + Spacing["3xl"],
         },
       ]}
     >
+      {/* Progress Indicator */}
+      <ReflectionProgressCompact currentStep="Distortion" />
       <Animated.View
         entering={FadeInUp.duration(400).delay(100)}
         style={styles.section}
@@ -406,6 +602,12 @@ export default function DistortionScreen() {
           {ScreenCopy.distortion.continue}
         </Button>
       </Animated.View>
+
+      <ExitConfirmationModal
+        visible={showExitModal}
+        onConfirm={handleExit}
+        onCancel={() => setShowExitModal(false)}
+      />
     </KeyboardAwareScrollViewCompat>
   );
 }
@@ -559,5 +761,41 @@ const styles = StyleSheet.create({
   buttonSection: {
     marginTop: "auto",
     paddingTop: Spacing.lg,
+  },
+  timeoutWarning: {
+    textAlign: "center",
+    fontStyle: "italic",
+  },
+  // Error State Styles
+  errorContainer: {
+    flexGrow: 1,
+    paddingHorizontal: Spacing.xl,
+  },
+  errorContent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: Spacing["4xl"],
+  },
+  errorIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: BorderRadius.xl,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: Spacing.xl,
+  },
+  errorTitle: {
+    marginBottom: Spacing.md,
+    textAlign: "center",
+  },
+  errorActions: {
+    width: "100%",
+    marginTop: Spacing["2xl"],
+  },
+  patternRow: {
+    flexDirection: "row",
+    gap: Spacing.sm,
+    flexWrap: "wrap",
   },
 });

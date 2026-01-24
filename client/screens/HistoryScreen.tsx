@@ -24,6 +24,8 @@ import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { apiRequest, getApiUrl } from "@/lib/query-client";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { hapticMedium } from "@/lib/haptics";
+import { EmptyState } from "@/components/EmptyState";
+import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "History">;
 
@@ -417,13 +419,14 @@ export default function HistoryScreen() {
     const isExpanded = expandedId === item.timestamp;
 
     return (
-      <Pressable
-        onPress={() => toggleExpand(item.timestamp)}
-        style={({ pressed }) => [
-          styles.sessionCard,
-          { backgroundColor: theme.cardBackground, opacity: pressed ? 0.9 : 1 },
-        ]}
-      >
+      <Animated.View entering={FadeInUp.duration(300).delay(index * 50)}>
+        <Pressable
+          onPress={() => toggleExpand(item.timestamp)}
+          style={({ pressed }) => [
+            styles.sessionCard,
+            { backgroundColor: theme.cardBackground, opacity: pressed ? 0.9 : 1 },
+          ]}
+        >
         <View style={styles.sessionHeader}>
           <View style={styles.sessionMeta}>
             <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -532,10 +535,21 @@ export default function HistoryScreen() {
           </View>
         ) : null}
       </Pressable>
+      </Animated.View>
     );
   };
 
   const renderEmpty = () => (
+    <EmptyState
+      icon="📖"
+      title="No Reflections Yet"
+      description="Completed reflections will appear here. Start your first reflection to begin your journey."
+      actionLabel="Start a Reflection"
+      onAction={() => navigation.navigate("Home")}
+    />
+  );
+
+  const renderEmptyOld = () => (
     <View style={styles.emptyContainer}>
       <Feather name="book-open" size={48} color={theme.textSecondary} />
       <ThemedText
