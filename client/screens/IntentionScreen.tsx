@@ -244,6 +244,10 @@ export default function IntentionScreen() {
             styles.bismillahToggle,
             { backgroundColor: theme.backgroundDefault },
           ]}
+          accessibilityRole="switch"
+          accessibilityLabel="Begin with Bismillah"
+          accessibilityHint="Toggle whether to include Bismillah in your intention"
+          accessibilityState={{ checked: showBismillah }}
         >
           <View style={styles.bismillahContent}>
             <ThemedText type="body" style={styles.bismillahArabic}>
@@ -302,6 +306,10 @@ export default function IntentionScreen() {
                       : theme.border,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`Intention template: ${template.description}`}
+                accessibilityHint="Fills your intention with this template"
+                accessibilityState={{ selected: isSelected }}
               >
                 <ThemedText type="h3" style={styles.templateIcon}>
                   {template.icon}
@@ -347,6 +355,8 @@ export default function IntentionScreen() {
             },
           ]}
           textAlignVertical="top"
+          accessibilityLabel="Intention input"
+          accessibilityHint="Enter your intention for this reflection"
         />
       </Animated.View>
 
@@ -377,6 +387,10 @@ export default function IntentionScreen() {
                     borderColor: isSelected ? theme.primary : theme.border,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel={`${purpose.label}: ${purpose.description}`}
+                accessibilityHint="Select the purpose of your intention"
+                accessibilityState={{ selected: isSelected }}
               >
                 <ThemedText
                   type="small"
@@ -483,6 +497,7 @@ export default function IntentionScreen() {
           style={{
             backgroundColor: canContinue ? theme.primary : theme.border,
           }}
+          accessibilityHint="Completes your reflection practice"
         >
           {ScreenCopy.intention.complete}
         </Button>
