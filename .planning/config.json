@@ -3,7 +3,12 @@
   "depth": "standard",
   "parallelization": true,
   "commit_docs": true,
-  "model_profile": "balanced",
+  "model_profile": "custom",
+  "model_allocation": {
+    "thinking": "haiku",
+    "majority_work": "sonnet",
+    "heavy_complex": "opus"
+  },
   "workflow": {
     "research": false,
     "plan_check": true,
