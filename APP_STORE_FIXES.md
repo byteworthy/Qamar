@@ -156,6 +156,9 @@ Apple Developer enrollment and App Store Connect config.
 
 ### New Files
 - `ios/PrivacyInfo.xcprivacy` - Privacy manifest for iOS app bundle
+  - **Note:** The `ios/` directory is gitignored (standard for Expo projects)
+  - The privacy manifest will be included in the app bundle during EAS Build
+  - EAS Build automatically includes files from the ios/ directory
 
 ### Modified Files
 - `client/screens/PricingScreen.tsx`
