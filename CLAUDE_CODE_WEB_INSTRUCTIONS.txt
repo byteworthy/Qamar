@@ -1,0 +1,128 @@
+═══════════════════════════════════════════════════════════════════
+RAILWAY DATABASE SETUP - EXECUTE THESE STEPS EXACTLY
+═══════════════════════════════════════════════════════════════════
+
+CONTEXT:
+You've confirmed DATABASE_URL is working and found the pre-deploy command field.
+The project uses Drizzle ORM with command: npm run db:push
+But this will fail because drizzle-kit is in devDependencies.
+
+SOLUTION: Create tables manually (2 minutes, guaranteed to work)
+
+═══════════════════════════════════════════════════════════════════
+STEP 1: OPEN POSTGRES QUERY EDITOR
+═══════════════════════════════════════════════════════════════════
+
+1. In Railway dashboard, click "Postgres" service (NOT Noor service)
+2. Click "Data" tab at the top
+3. Click "Query" button to open SQL editor
+
+═══════════════════════════════════════════════════════════════════
+STEP 2: EXECUTE THIS SQL (COPY-PASTE EVERYTHING BELOW)
+═══════════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  email TEXT,
+  stripe_customer_id TEXT,
+  stripe_subscription_id TEXT,
+  subscription_status TEXT DEFAULT 'free',
+  current_period_end TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_sessions (
+  token TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  email TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  expires_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sessions (
+  id SERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  thought TEXT NOT NULL,
+  distortions JSONB NOT NULL,
+  reframe TEXT NOT NULL,
+  intention TEXT NOT NULL,
+  practice TEXT NOT NULL,
+  key_assumption TEXT,
+  detected_state TEXT,
+  anchor TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS processed_stripe_events (
+  event_id TEXT PRIMARY KEY,
+  event_type TEXT NOT NULL,
+  processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_created_at ON sessions(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_user_sessions_user_id ON user_sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_sessions_expires_at ON user_sessions(expires_at);
+
+═══════════════════════════════════════════════════════════════════
+STEP 3: VERIFY TABLES WERE CREATED
+═══════════════════════════════════════════════════════════════════
+
+1. Still in Postgres service, click "Data" tab
+2. You should see 4 tables listed:
+   - users
+   - user_sessions
+   - sessions
+   - processed_stripe_events
+3. If you don't see them, click "Refresh" or reload the page
+
+═══════════════════════════════════════════════════════════════════
+STEP 4: TEST THE HEALTH CHECK
+═══════════════════════════════════════════════════════════════════
+
+Open this URL in your browser:
+https://noor-production-9ac5.up.railway.app/api/health
+
+EXPECTED RESPONSE:
+{
+  "status": "healthy",
+  "checks": {
+    "database": true,
+    "ai": true
+  },
+  "timestamp": "2026-01-26T...",
+  "version": "1.0.0",
+  "mode": "production"
+}
+
+If you see "database": true, SUCCESS! The backend is fully operational.
+
+═══════════════════════════════════════════════════════════════════
+TROUBLESHOOTING (ONLY IF HEALTH CHECK FAILS)
+═══════════════════════════════════════════════════════════════════
+
+If "database": false:
+1. Check Noor service → Variables tab
+2. Confirm DATABASE_URL = ${{Postgres.DATABASE_URL}} (with double curly braces)
+3. Check Noor service → Logs for any errors
+4. Verify all 4 tables exist in Postgres Data tab
+
+═══════════════════════════════════════════════════════════════════
+COMPLETION CHECKLIST
+═══════════════════════════════════════════════════════════════════
+
+□ SQL executed successfully (should see "CREATE TABLE" × 4 messages)
+□ 4 tables visible in Postgres Data tab
+□ Health check returns "database": true
+□ No errors in Noor service logs
+
+═══════════════════════════════════════════════════════════════════
+NOTES
+═══════════════════════════════════════════════════════════════════
+
+- Tables are permanent - will persist across deployments
+- No pre-deploy command needed with this approach
+- No redeploys required
+- This is the fastest and most reliable solution
+
+═══════════════════════════════════════════════════════════════════
