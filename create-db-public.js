@@ -1,8 +1,9 @@
-﻿const { Pool } = require('pg');
+const { Pool } = require("pg");
 
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:jtqOfovqOkRtosDIhmwDvjqXvTolfjrA@gondola.proxy.rlwy.net:10765/railway',
-  ssl: { rejectUnauthorized: false }
+  connectionString:
+    "postgresql://postgres:jtqOfovqOkRtosDIhmwDvjqXvTolfjrA@gondola.proxy.rlwy.net:10765/railway",
+  ssl: { rejectUnauthorized: false },
 });
 
 const sql = `
@@ -17,10 +18,10 @@ CREATE INDEX IF NOT EXISTS idx_sessions_created_at ON sessions(created_at DESC);
 async function createTables() {
   try {
     await pool.query(sql);
-    console.log('✅ All tables created successfully!');
+    console.log("✅ All tables created successfully!");
     await pool.end();
   } catch (error) {
-    console.error('❌ Error:', error.message);
+    console.error("❌ Error:", error.message);
     process.exit(1);
   }
 }

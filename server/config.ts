@@ -127,8 +127,7 @@ export function getValidationModeReframeResponse(): {
       "[VALIDATION MODE] This would identify the belief being tested.",
     perspective:
       "Real responses provide a truer perspective grounded in Islamic principles.",
-    nextStep:
-      "Configure ANTHROPIC_API_KEY for full functionality.",
+    nextStep: "Configure ANTHROPIC_API_KEY for full functionality.",
     anchors: ["Allah's mercy exceeds sin"],
   };
 }
@@ -202,7 +201,9 @@ export function logConfigStatus(): void {
     log("✅ Anthropic Claude: Configured");
   } else {
     if (VALIDATION_MODE) {
-      log("ℹ️  Anthropic Claude: Not configured (placeholder responses will be used)");
+      log(
+        "ℹ️  Anthropic Claude: Not configured (placeholder responses will be used)",
+      );
     } else {
       log("❌ Anthropic Claude: Not configured - AI routes will fail!");
       log("   Set ANTHROPIC_API_KEY in .env");

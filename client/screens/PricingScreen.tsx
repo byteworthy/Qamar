@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert, TouchableOpacity, Linking } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -419,10 +425,10 @@ export default function PricingScreen() {
           <ThemedText
             style={[styles.legalText, { color: theme.textSecondary }]}
           >
-            Payment will be charged to your Apple ID at confirmation of purchase.
-            Subscription automatically renews unless canceled at least 24 hours
-            before the end of the current period. You can manage and cancel
-            subscriptions in App Store settings.
+            Payment will be charged to your Apple ID at confirmation of
+            purchase. Subscription automatically renews unless canceled at least
+            24 hours before the end of the current period. You can manage and
+            cancel subscriptions in App Store settings.
           </ThemedText>
 
           <View style={styles.legalLinks}>
@@ -436,7 +442,9 @@ export default function PricingScreen() {
               </ThemedText>
             </TouchableOpacity>
 
-            <ThemedText style={[styles.linkSeparator, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.linkSeparator, { color: theme.textSecondary }]}
+            >
               {" • "}
             </ThemedText>
 

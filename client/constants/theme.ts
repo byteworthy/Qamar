@@ -317,39 +317,85 @@ export const Typography = {
 };
 
 // ----------------------------------------------------------------------------
-// FONT FAMILY TOKENS (system fonts only — no custom loading in Phase 1)
+// FONT FAMILY TOKENS (custom fonts for distinctive branding)
 // ----------------------------------------------------------------------------
 
+/**
+ * Font family definitions for distinctive typography
+ * - Display/Serif: Cormorant Garamond (elegant, distinctive serif)
+ * - Body/Sans: Inter (modern, highly legible)
+ * - Spiritual: Amiri (Arabic-friendly, for Quranic elements)
+ *
+ * Fonts are loaded in App.tsx via expo-font
+ * Fallback to system fonts if custom fonts fail to load
+ */
 export const Fonts = Platform.select({
   ios: {
-    sans: "System",
-    serif: "Georgia",
-    rounded: "System",
+    sans: "Inter-Regular",
+    sansBold: "Inter-Bold",
+    sansMedium: "Inter-Medium",
+    serif: "CormorantGaramond-Regular",
+    serifBold: "CormorantGaramond-Bold",
+    serifMedium: "CormorantGaramond-SemiBold",
+    spiritual: "Amiri-Regular",
+    spiritualBold: "Amiri-Bold",
+    rounded: "Inter-Regular",
     mono: "Menlo",
+    // Fallbacks
+    fallbackSans: "System",
+    fallbackSerif: "Georgia",
   },
   android: {
-    sans: "Roboto",
-    serif: "serif",
-    rounded: "Roboto",
+    sans: "Inter-Regular",
+    sansBold: "Inter-Bold",
+    sansMedium: "Inter-Medium",
+    serif: "CormorantGaramond-Regular",
+    serifBold: "CormorantGaramond-Bold",
+    serifMedium: "CormorantGaramond-SemiBold",
+    spiritual: "Amiri-Regular",
+    spiritualBold: "Amiri-Bold",
+    rounded: "Inter-Regular",
     mono: "monospace",
+    // Fallbacks
+    fallbackSans: "Roboto",
+    fallbackSerif: "serif",
   },
   default: {
-    sans: "System",
-    serif: "serif",
-    rounded: "System",
+    sans: "Inter-Regular",
+    sansBold: "Inter-Bold",
+    sansMedium: "Inter-Medium",
+    serif: "CormorantGaramond-Regular",
+    serifBold: "CormorantGaramond-Bold",
+    serifMedium: "CormorantGaramond-SemiBold",
+    spiritual: "Amiri-Regular",
+    spiritualBold: "Amiri-Bold",
+    rounded: "Inter-Regular",
     mono: "monospace",
+    // Fallbacks
+    fallbackSans: "System",
+    fallbackSerif: "serif",
   },
   web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded:
-      "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+    sans: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    sansBold:
+      "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    sansMedium:
+      "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    serif: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
+    serifBold: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
+    serifMedium: "'Cormorant Garamond', Georgia, 'Times New Roman', serif",
+    spiritual: "'Amiri', 'Times New Roman', serif",
+    spiritualBold: "'Amiri', 'Times New Roman', serif",
+    rounded: "'Inter', 'SF Pro Rounded', sans-serif",
+    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace",
+    // Fallbacks
+    fallbackSans: "system-ui, sans-serif",
+    fallbackSerif: "Georgia, serif",
   },
 });
 
 // ----------------------------------------------------------------------------
-// SHADOW TOKENS
+// SHADOW TOKENS (enhanced for depth and atmosphere)
 // ----------------------------------------------------------------------------
 
 export const Shadows = {
@@ -363,23 +409,146 @@ export const Shadows = {
   soft: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
     elevation: 2,
   },
   medium: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
     elevation: 4,
   },
   lifted: {
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.16,
+    shadowRadius: 24,
+    elevation: 8,
+  },
+  floating: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.2,
+    shadowRadius: 32,
+    elevation: 12,
+  },
+  // Layered shadows for atmospheric depth
+  layered: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
     elevation: 6,
+  },
+  // Glow effect for focus/active states
+  glow: {
+    shadowColor: "#4fd1a8", // Accent color
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  // Inner shadow effect (simulated via border)
+  inner: {
+    shadowColor: "transparent",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
+  },
+};
+
+// ----------------------------------------------------------------------------
+// GRADIENT DEFINITIONS (for atmospheric backgrounds)
+// ----------------------------------------------------------------------------
+
+export const Gradients = {
+  light: {
+    // Warm atmospheric gradient for light theme
+    atmospheric: {
+      colors: ["#F8F5F0", "#E8DCC8", "#F2EDE3"],
+      locations: [0, 0.5, 1],
+      start: { x: 0, y: 0 },
+      end: { x: 0, y: 1 },
+    },
+    // Radial glow for banners
+    radialGlow: {
+      colors: ["#E8DCC8", "#D4C4A8"],
+      locations: [0, 1],
+      start: { x: 0.5, y: 0 },
+      end: { x: 0.5, y: 1 },
+    },
+    // Subtle mesh for backgrounds
+    mesh: {
+      colors: ["#F8F5F0", "#F2EDE3", "#E8DCC8", "#F8F5F0"],
+      locations: [0, 0.33, 0.66, 1],
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 1 },
+    },
+    // Soft vignette overlay
+    vignette: {
+      colors: ["transparent", "rgba(0,0,0,0.02)", "rgba(0,0,0,0.05)"],
+      locations: [0, 0.7, 1],
+      start: { x: 0.5, y: 0.5 },
+      end: { x: 0.5, y: 1 },
+    },
+  },
+  dark: {
+    // Warm atmospheric gradient for dark theme
+    atmospheric: {
+      colors: ["#1a1612", "#221e19", "#2d2820"],
+      locations: [0, 0.5, 1],
+      start: { x: 0, y: 0 },
+      end: { x: 0, y: 1 },
+    },
+    // Radial glow for banners
+    radialGlow: {
+      colors: ["#2d2820", "#221e19"],
+      locations: [0, 1],
+      start: { x: 0.5, y: 0 },
+      end: { x: 0.5, y: 1 },
+    },
+    // Subtle mesh for backgrounds
+    mesh: {
+      colors: ["#1a1612", "#221e19", "#2d2820", "#1a1612"],
+      locations: [0, 0.33, 0.66, 1],
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 1 },
+    },
+    // Soft vignette overlay
+    vignette: {
+      colors: ["transparent", "rgba(0,0,0,0.2)", "rgba(0,0,0,0.4)"],
+      locations: [0, 0.7, 1],
+      start: { x: 0.5, y: 0.5 },
+      end: { x: 0.5, y: 1 },
+    },
+  },
+};
+
+// ----------------------------------------------------------------------------
+// SURFACE LAYERING TOKENS (for atmospheric depth)
+// ----------------------------------------------------------------------------
+
+export const Surfaces = {
+  light: {
+    base: SiraatColors.warmWhite, // Root background
+    layer1: SiraatColors.cream, // Default content background
+    layer2: SiraatColors.sandLight, // Secondary elevation
+    layer3: SiraatColors.sand, // Tertiary elevation
+    overlay: "rgba(0, 0, 0, 0.05)", // Transparent overlay
+    overlayMedium: "rgba(0, 0, 0, 0.1)",
+    overlayHeavy: "rgba(0, 0, 0, 0.15)",
+  },
+  dark: {
+    base: NiyyahColors.background, // Root background
+    layer1: NiyyahColors.backgroundCard, // Default content background
+    layer2: NiyyahColors.backgroundCardLight, // Secondary elevation
+    layer3: NiyyahColors.backgroundLight, // Tertiary elevation
+    overlay: "rgba(255, 255, 255, 0.05)", // Transparent overlay
+    overlayMedium: "rgba(255, 255, 255, 0.08)",
+    overlayHeavy: "rgba(255, 255, 255, 0.12)",
   },
 };
 

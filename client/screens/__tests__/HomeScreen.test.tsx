@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react-native";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import { useQuery } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreen from "../HomeScreen";
@@ -33,7 +38,7 @@ describe("HomeScreen", () => {
             totalReflections: 5,
             currentStreak: 3,
             lastReflectionDate: new Date().toISOString(),
-          })
+          }),
         );
       }
       return Promise.resolve(null);

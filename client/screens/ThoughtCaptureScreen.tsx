@@ -363,6 +363,12 @@ export default function ThoughtCaptureScreen() {
                       ? levelColor
                       : theme.backgroundDefault,
                     borderColor: isSelected ? levelColor : theme.border,
+                    // Glow effect on selected level
+                    shadowColor: isSelected ? levelColor : "transparent",
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: isSelected ? 0.5 : 0,
+                    shadowRadius: isSelected ? 12 : 0,
+                    elevation: isSelected ? 8 : 0,
                   },
                 ]}
                 accessibilityRole="button"
@@ -376,6 +382,7 @@ export default function ThoughtCaptureScreen() {
                     styles.intensityNumber,
                     {
                       color: isSelected ? theme.onPrimary : theme.textSecondary,
+                      fontWeight: isSelected ? "700" : "500",
                     },
                   ]}
                 >
@@ -428,6 +435,13 @@ export default function ThoughtCaptureScreen() {
                           ? theme.primary
                           : theme.backgroundDefault,
                         borderColor: isSelected ? theme.primary : theme.border,
+                        // Subtle shadow/ripple effect on selected pill
+                        shadowColor: isSelected ? theme.primary : "transparent",
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: isSelected ? 0.25 : 0,
+                        shadowRadius: isSelected ? 8 : 0,
+                        elevation: isSelected ? 4 : 0,
+                        transform: [{ scale: isSelected ? 1.02 : 1 }],
                       },
                     ]}
                     accessibilityRole="button"
@@ -441,6 +455,7 @@ export default function ThoughtCaptureScreen() {
                         color: isSelected
                           ? theme.onPrimary
                           : theme.textSecondary,
+                        fontWeight: isSelected ? "600" : "400",
                       }}
                     >
                       {somatic}

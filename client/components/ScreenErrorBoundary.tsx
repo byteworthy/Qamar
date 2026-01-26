@@ -63,7 +63,10 @@ function ScreenErrorFallback({ error, resetError }: ScreenErrorFallbackProps) {
             },
           ]}
         >
-          <ThemedText type="body" style={[styles.buttonText, { color: theme.link }]}>
+          <ThemedText
+            type="body"
+            style={[styles.buttonText, { color: theme.link }]}
+          >
             Try Again
           </ThemedText>
         </Pressable>
@@ -180,7 +183,7 @@ export function ScreenErrorBoundary({
  */
 export function withScreenErrorBoundary<P extends object>(
   ScreenComponent: React.ComponentType<P>,
-  onError?: (error: Error, stackTrace: string) => void
+  onError?: (error: Error, stackTrace: string) => void,
 ): React.ComponentType<P> {
   const WrappedScreen = (props: P) => {
     return (

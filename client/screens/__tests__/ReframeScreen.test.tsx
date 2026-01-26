@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react-native";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import ReframeScreen from "../ReframeScreen";
 import * as api from "@/lib/api";
 
@@ -44,12 +49,19 @@ describe("ReframeScreen", () => {
   describe("Loading State", () => {
     it("should render without crashing during loading", async () => {
       mockGenerateReframe.mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({
-          beliefTested: "test",
-          perspective: "test",
-          nextStep: "test",
-          anchors: [],
-        }), 100))
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  beliefTested: "test",
+                  perspective: "test",
+                  nextStep: "test",
+                  anchors: [],
+                }),
+              100,
+            ),
+          ),
       );
 
       render(<ReframeScreen />);
@@ -63,9 +75,13 @@ describe("ReframeScreen", () => {
     it("should display reframe result when API returns data", async () => {
       const mockResult = {
         beliefTested: "I will definitely fail",
-        perspective: "A more balanced view is that you've prepared and outcomes are uncertain",
+        perspective:
+          "A more balanced view is that you've prepared and outcomes are uncertain",
         nextStep: "Focus on doing your best rather than predicting the outcome",
-        anchors: ["Effort matters more than outcomes", "Uncertainty is part of life"],
+        anchors: [
+          "Effort matters more than outcomes",
+          "Uncertainty is part of life",
+        ],
       };
 
       mockGenerateReframe.mockResolvedValue(mockResult);
@@ -92,7 +108,7 @@ describe("ReframeScreen", () => {
           "I'm going to fail my exam",
           ["catastrophizing", "all-or-nothing thinking"],
           "You're worrying about an unlikely outcome",
-          4
+          4,
         );
       });
     });
@@ -182,7 +198,8 @@ describe("ReframeScreen", () => {
   describe("Timeout Handling", () => {
     it.skip("should show timeout warning after 15 seconds", async () => {
       mockGenerateReframe.mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({} as any), 20000))
+        () =>
+          new Promise((resolve) => setTimeout(() => resolve({} as any), 20000)),
       );
 
       render(<ReframeScreen />);
@@ -196,7 +213,8 @@ describe("ReframeScreen", () => {
 
     it.skip("should abort after 30 seconds with error", async () => {
       mockGenerateReframe.mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({} as any), 35000))
+        () =>
+          new Promise((resolve) => setTimeout(() => resolve({} as any), 35000)),
       );
 
       render(<ReframeScreen />);

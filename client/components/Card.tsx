@@ -5,15 +5,16 @@ import Animated, {
   useSharedValue,
   withSpring,
   WithSpringConfig,
+  interpolate,
+  Extrapolation,
 } from "react-native-reanimated";
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius } from "@/constants/theme";
-import type { Theme } from "@/hooks/useTheme";
+import { Spacing, BorderRadius, Shadows } from "@/constants/theme";
 
 interface CardProps {
-  elevation?: number;
+  elevation?: "soft" | "medium" | "lifted" | "floating";
   title?: string;
   description?: string;
   children?: React.ReactNode;
@@ -29,32 +30,10 @@ const springConfig: WithSpringConfig = {
   energyThreshold: 0.001,
 };
 
-/**
- * Determines background color based on elevation level
- * @param elevation - The elevation level (1-3)
- * @param theme - The current theme object
- * @returns The appropriate background color for the elevation
- */
-const getBackgroundColorForElevation = (
-  elevation: number,
-  theme: Theme,
-): string => {
-  switch (elevation) {
-    case 1:
-      return theme.backgroundDefault;
-    case 2:
-      return theme.backgroundSecondary;
-    case 3:
-      return theme.backgroundTertiary;
-    default:
-      return theme.backgroundRoot;
-  }
-};
-
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function Card({
-  elevation = 1,
+  elevation = "soft",
   title,
   description,
   children,
@@ -63,30 +42,55 @@ export function Card({
 }: CardProps) {
   const { theme } = useTheme();
   const scale = useSharedValue(1);
+  const shadowIntensity = useSharedValue(1);
 
-  const cardBackgroundColor = getBackgroundColorForElevation(elevation, theme);
+  const elevationShadow = Shadows[elevation];
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    // Interpolate shadow values based on press state
+    const shadowOpacity = interpolate(
+      shadowIntensity.value,
+      [1, 1.5],
+      [elevationShadow.shadowOpacity, elevationShadow.shadowOpacity * 1.5],
+      Extrapolation.CLAMP,
+    );
+
+    const shadowRadius = interpolate(
+      shadowIntensity.value,
+      [1, 1.5],
+      [elevationShadow.shadowRadius, elevationShadow.shadowRadius * 1.3],
+      Extrapolation.CLAMP,
+    );
+
+    return {
+      transform: [{ scale: scale.value }],
+      shadowColor: elevationShadow.shadowColor,
+      shadowOffset: elevationShadow.shadowOffset,
+      shadowOpacity,
+      shadowRadius,
+      elevation: elevationShadow.elevation,
+    };
+  });
 
   const handlePressIn = () => {
     scale.value = withSpring(0.98, springConfig);
+    shadowIntensity.value = withSpring(0.7, springConfig);
   };
 
   const handlePressOut = () => {
     scale.value = withSpring(1, springConfig);
+    shadowIntensity.value = withSpring(1, springConfig);
   };
 
   return (
     <AnimatedPressable
       onPress={onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
+      onPressIn={onPress ? handlePressIn : undefined}
+      onPressOut={onPress ? handlePressOut : undefined}
       style={[
         styles.card,
         {
-          backgroundColor: cardBackgroundColor,
+          backgroundColor: theme.cardBackground,
         },
         animatedStyle,
         style,

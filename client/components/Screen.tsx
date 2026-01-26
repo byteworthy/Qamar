@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/hooks/useTheme";
 import { Layout } from "@/constants/layout";
 import { ThemedText } from "@/components/ThemedText";
+import { GradientBackground } from "@/components/GradientBackground";
 
 interface ScreenProps {
   children: ReactNode;
@@ -79,21 +80,11 @@ export function Screen({
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
-      <View
-        style={[
-          styles.safeTop,
-          { height: insets.top, backgroundColor: theme.backgroundRoot },
-        ]}
-      />
+    <GradientBackground type="atmospheric" style={styles.container}>
+      <View style={[styles.safeTop, { height: insets.top }]} />
 
       {hasHeader && (
-        <View
-          style={[
-            styles.header,
-            { height: HEADER_HEIGHT, backgroundColor: theme.backgroundRoot },
-          ]}
-        >
+        <View style={[styles.header, { height: HEADER_HEIGHT }]}>
           <View style={styles.headerLeft}>
             {showBack && (
               <Pressable
@@ -125,7 +116,7 @@ export function Screen({
       )}
 
       {content}
-    </View>
+    </GradientBackground>
   );
 }
 

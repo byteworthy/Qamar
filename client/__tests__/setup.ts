@@ -6,7 +6,7 @@
 
 // Mock AsyncStorage
 jest.mock("@react-native-async-storage/async-storage", () =>
-  require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock"),
 );
 
 // Mock React Native Reanimated
@@ -123,8 +123,8 @@ beforeAll(() => {
     if (
       typeof message === "string" &&
       (message.includes("Animated:") ||
-       message.includes("VirtualizedLists") ||
-       message.includes("componentWillReceiveProps"))
+        message.includes("VirtualizedLists") ||
+        message.includes("componentWillReceiveProps"))
     ) {
       return;
     }
@@ -137,7 +137,7 @@ beforeAll(() => {
     if (
       typeof message === "string" &&
       (message.includes("Warning: ReactDOM.render") ||
-       message.includes("Not implemented: HTMLFormElement"))
+        message.includes("Not implemented: HTMLFormElement"))
     ) {
       return;
     }

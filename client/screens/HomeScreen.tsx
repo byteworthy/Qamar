@@ -14,7 +14,16 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useQuery } from "@tanstack/react-query";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeIn,
+  SlideInLeft,
+  SlideInRight,
+  useAnimatedStyle,
+  withSpring,
+  useSharedValue,
+} from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -118,44 +127,65 @@ function ModuleCard({
   delay,
   locked,
 }: ModuleCardProps) {
+  const scale = useSharedValue(1);
+  const rotation = useSharedValue(0);
+
+  // Staggered rotation for visual interest (alternating left/right)
+  const initialRotation = (delay % 2 === 0 ? -1 : 1) * 0.5;
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }, { rotate: `${rotation.value}deg` }],
+  }));
+
   return (
-    <Animated.View entering={FadeInUp.duration(300).delay(delay)}>
-      <Pressable
-        onPress={onPress}
-        style={({ pressed }) => [
-          styles.moduleCard,
-          {
-            opacity: pressed ? 0.9 : 1,
-            transform: [{ scale: pressed ? 0.98 : 1 }],
-          },
-        ]}
-        accessibilityRole="button"
-        accessibilityLabel={`${title}${locked ? ", requires Noor Plus" : ""}`}
-        accessibilityHint={description}
-        accessibilityState={{ disabled: locked }}
-      >
-        <LinearGradient
-          colors={gradient as [string, string]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.moduleGradient}
+    <Animated.View
+      entering={FadeInUp.duration(400)
+        .delay(delay)
+        .springify()
+        .damping(15)
+        .stiffness(100)}
+      style={[{ transform: [{ rotate: `${initialRotation}deg` }] }]}
+    >
+      <Animated.View style={animatedStyle}>
+        <Pressable
+          onPress={onPress}
+          onPressIn={() => {
+            scale.value = withSpring(0.97);
+            rotation.value = withSpring(0);
+          }}
+          onPressOut={() => {
+            scale.value = withSpring(1);
+            rotation.value = withSpring(initialRotation);
+          }}
+          style={styles.moduleCard}
+          accessibilityRole="button"
+          accessibilityLabel={`${title}${locked ? ", requires Noor Plus" : ""}`}
+          accessibilityHint={description}
+          accessibilityState={{ disabled: locked }}
         >
-          <View style={styles.moduleHeader}>
-            <Feather name={icon} size={24} color="rgba(255,255,255,0.9)" />
-            {locked && (
-              <View style={styles.proBadge}>
-                <ThemedText style={styles.proBadgeText}>PRO</ThemedText>
-              </View>
-            )}
-          </View>
-          <View style={styles.moduleContent}>
-            <ThemedText style={styles.moduleTitle}>{title}</ThemedText>
-            <ThemedText style={styles.moduleDescription}>
-              {description}
-            </ThemedText>
-          </View>
-        </LinearGradient>
-      </Pressable>
+          <LinearGradient
+            colors={gradient as [string, string]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.moduleGradient}
+          >
+            <View style={styles.moduleHeader}>
+              <Feather name={icon} size={24} color="rgba(255,255,255,0.9)" />
+              {locked && (
+                <View style={styles.proBadge}>
+                  <ThemedText style={styles.proBadgeText}>PRO</ThemedText>
+                </View>
+              )}
+            </View>
+            <View style={styles.moduleContent}>
+              <ThemedText style={styles.moduleTitle}>{title}</ThemedText>
+              <ThemedText style={styles.moduleDescription}>
+                {description}
+              </ThemedText>
+            </View>
+          </LinearGradient>
+        </Pressable>
+      </Animated.View>
     </Animated.View>
   );
 }
@@ -564,10 +594,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24, // Increased from 20 for more breathing space
   },
   header: {
-    marginBottom: 24,
+    marginBottom: 32, // Increased from 24 for more breathing space
+    paddingHorizontal: 4, // Asymmetric padding
   },
   greetingRow: {
     flexDirection: "row",
@@ -591,9 +622,15 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   anchorCard: {
-    padding: 18,
-    borderRadius: 16,
-    marginBottom: 28,
+    padding: 32, // Increased from 18 for hero treatment
+    borderRadius: 20, // Larger radius for hero
+    marginBottom: -20, // Negative margin for overlapping effect
+    zIndex: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.12,
+    shadowRadius: 24,
+    elevation: 8,
   },
   anchorHeader: {
     flexDirection: "row",
@@ -615,11 +652,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   anchorText: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 20, // Increased from 16 for hero treatment
+    lineHeight: 32, // Increased from 24 for better readability
+    fontWeight: "500",
   },
   modulesSection: {
-    marginBottom: 20,
+    marginBottom: 32, // Increased breathing space
+    paddingHorizontal: 4, // Asymmetric padding for visual interest
   },
   sectionLabel: {
     fontSize: 13,
@@ -629,15 +668,20 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   modulesGrid: {
-    gap: 12,
+    gap: 16, // Increased from 12 for more breathing room
   },
   moduleCard: {
-    borderRadius: 16,
+    borderRadius: 18, // Increased from 16
     overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 4,
   },
   moduleGradient: {
-    padding: 18,
-    minHeight: 100,
+    padding: 20, // Increased from 18
+    minHeight: 110, // Increased from 100
   },
   moduleHeader: {
     flexDirection: "row",
@@ -673,15 +717,21 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   upgradeSection: {
-    marginBottom: 20,
+    marginBottom: 32, // Increased breathing space
+    marginTop: 8,
   },
   upgradeButton: {
     backgroundColor: NiyyahColors.accent,
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: 14,
+    paddingVertical: 18, // Increased from 14
+    paddingHorizontal: 24, // Increased from 18
+    borderRadius: 16, // Increased from 14
     flexDirection: "row",
     alignItems: "center",
+    shadowColor: NiyyahColors.accent,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 8,
   },
   upgradeContent: {
     flex: 1,
@@ -750,9 +800,16 @@ const styles = StyleSheet.create({
   },
   // Journey Card
   journeyCard: {
-    padding: 18,
-    borderRadius: 16,
-    marginBottom: 20,
+    padding: 20,
+    borderRadius: 18,
+    marginBottom: 32, // Increased breathing space
+    marginTop: 32, // Extra space for overlapping anchor card
+    paddingTop: 32, // Compensate for overlap
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 4,
   },
   journeyHeader: {
     flexDirection: "row",

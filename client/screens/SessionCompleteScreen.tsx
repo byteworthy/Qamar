@@ -15,9 +15,21 @@ import {
 } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import { hapticSuccess } from "@/lib/haptics";
+import { hapticSuccess, hapticLight, hapticMedium } from "@/lib/haptics";
 import { useQuery } from "@tanstack/react-query";
-import Animated, { FadeIn, FadeInUp, BounceIn } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInUp,
+  BounceIn,
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+  withSequence,
+  withDelay,
+  Easing,
+  runOnJS,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
@@ -48,6 +60,99 @@ async function fetchContextualDua(
   return response.json();
 }
 
+/**
+ * Celebration component with orchestrated animations
+ * Creates a memorable moment with radial burst, particles, and haptics
+ */
+function CelebrationCheckmark({ theme }: { theme: any }) {
+  const scale = useSharedValue(0);
+  const burstOpacity = useSharedValue(0);
+  const burstScale = useSharedValue(0.5);
+  const glowOpacity = useSharedValue(0);
+
+  useEffect(() => {
+    // Orchestrated sequence:
+    // 1. Checkmark appears with bounce (0-600ms)
+    scale.value = withSequence(
+      withDelay(100, withSpring(1.2, { damping: 10, stiffness: 100 })),
+      withSpring(1, { damping: 15, stiffness: 150 }),
+    );
+
+    // 2. Radial burst (300-1000ms)
+    burstOpacity.value = withDelay(
+      300,
+      withSequence(
+        withTiming(1, { duration: 200 }),
+        withDelay(
+          300,
+          withTiming(0, { duration: 400, easing: Easing.out(Easing.cubic) }),
+        ),
+      ),
+    );
+
+    burstScale.value = withDelay(
+      300,
+      withTiming(2.5, { duration: 700, easing: Easing.out(Easing.cubic) }),
+    );
+
+    // 3. Persistent glow
+    glowOpacity.value = withDelay(400, withSpring(0.3, { damping: 12 }));
+
+    // Haptic symphony
+    setTimeout(() => hapticSuccess(), 100); // Initial success
+    setTimeout(() => hapticMedium(), 350); // Burst
+    setTimeout(() => hapticLight(), 550); // Afterglow
+  }, []);
+
+  const checkmarkStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const burstStyle = useAnimatedStyle(() => ({
+    opacity: burstOpacity.value,
+    transform: [{ scale: burstScale.value }],
+  }));
+
+  const glowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+  }));
+
+  return (
+    <View style={styles.celebrationContainer}>
+      {/* Radial burst effect */}
+      <Animated.View style={[styles.burstRing, burstStyle]}>
+        <View
+          style={[
+            styles.burstCircle,
+            { backgroundColor: theme.highlightAccent, opacity: 0.3 },
+          ]}
+        />
+      </Animated.View>
+
+      {/* Persistent glow */}
+      <Animated.View style={[styles.glowRing, glowStyle]}>
+        <View
+          style={[
+            styles.glowCircle,
+            { backgroundColor: theme.highlightAccent, opacity: 0.2 },
+          ]}
+        />
+      </Animated.View>
+
+      {/* Checkmark */}
+      <Animated.View
+        style={[
+          styles.checkCircle,
+          { backgroundColor: theme.highlightAccent },
+          checkmarkStyle,
+        ]}
+      >
+        <Feather name="check" size={40} color={theme.onPrimary} />
+      </Animated.View>
+    </View>
+  );
+}
+
 export default function SessionCompleteScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
@@ -70,7 +175,7 @@ export default function SessionCompleteScreen() {
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
 
   useEffect(() => {
-    hapticSuccess(); // Success haptic for session completion
+    // Haptics are now handled by CelebrationCheckmark component
 
     saveSession({
       thought,
@@ -143,16 +248,9 @@ export default function SessionCompleteScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <Animated.View
-          entering={BounceIn.duration(600).delay(100)}
-          style={[
-            styles.checkCircle,
-            { backgroundColor: theme.highlightAccent },
-          ]}
-        >
-          <Feather name="check" size={40} color={theme.onPrimary} />
-        </Animated.View>
-        <Animated.Text entering={FadeIn.duration(400).delay(300)}>
+        <CelebrationCheckmark theme={theme} />
+
+        <Animated.Text entering={FadeIn.duration(500).delay(600)}>
           <ThemedText
             type="h2"
             style={[styles.title, { fontFamily: Fonts?.serif }]}
@@ -160,7 +258,7 @@ export default function SessionCompleteScreen() {
             {ScreenCopy.complete.title}
           </ThemedText>
         </Animated.Text>
-        <Animated.View entering={FadeIn.duration(400).delay(400)}>
+        <Animated.View entering={FadeIn.duration(500).delay(750)}>
           <ThemedText
             type="body"
             style={[styles.subtitle, { color: theme.textSecondary }]}
@@ -168,7 +266,7 @@ export default function SessionCompleteScreen() {
             {ScreenCopy.complete.subtitle}
           </ThemedText>
         </Animated.View>
-        <Animated.View entering={FadeIn.duration(400).delay(500)}>
+        <Animated.View entering={FadeIn.duration(500).delay(900)}>
           <ThemedText
             type="body"
             style={[styles.affirmation, { color: theme.text }]}
@@ -176,7 +274,7 @@ export default function SessionCompleteScreen() {
             {ScreenCopy.complete.affirmation}
           </ThemedText>
         </Animated.View>
-        <Animated.View entering={FadeIn.duration(400).delay(600)}>
+        <Animated.View entering={FadeIn.duration(500).delay(1050)}>
           <ThemedText
             type="body"
             style={[
@@ -190,7 +288,7 @@ export default function SessionCompleteScreen() {
       </View>
 
       <Animated.View
-        entering={FadeInUp.duration(400).delay(600)}
+        entering={FadeInUp.duration(500).delay(1200).springify().damping(15)}
         style={styles.cardsSection}
       >
         <View
@@ -396,13 +494,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: Spacing["3xl"],
   },
+  celebrationContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: Spacing.xl,
+    height: 140, // Extra space for burst effect
+  },
   checkCircle: {
     width: 80,
     height: 80,
     borderRadius: BorderRadius["3xl"],
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: Spacing.xl,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  burstRing: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  burstCircle: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+  },
+  glowRing: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  glowCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
   },
   title: {
     marginBottom: Spacing.xs,

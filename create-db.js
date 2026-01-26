@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+const { Client } = require("pg");
 const client = new Client({ connectionString: process.env.DATABASE_URL });
 
 const sql = `
@@ -10,13 +10,14 @@ CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_created_at ON sessions(created_at DESC);
 `;
 
-client.connect()
+client
+  .connect()
   .then(() => client.query(sql))
   .then(() => {
-    console.log('✅ Tables created successfully!');
+    console.log("✅ Tables created successfully!");
     client.end();
   })
-  .catch(err => {
-    console.error('❌ Error:', err.message);
+  .catch((err) => {
+    console.error("❌ Error:", err.message);
     process.exit(1);
   });

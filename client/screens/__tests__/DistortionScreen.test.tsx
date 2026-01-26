@@ -42,12 +42,19 @@ describe("DistortionScreen", () => {
   describe("Loading State", () => {
     it("should render without crashing during loading", async () => {
       mockAnalyzeThought.mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({
-          distortions: ["test"],
-          happening: "test",
-          pattern: ["test"],
-          matters: "test",
-        }), 100))
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  distortions: ["test"],
+                  happening: "test",
+                  pattern: ["test"],
+                  matters: "test",
+                }),
+              100,
+            ),
+          ),
       );
 
       render(<DistortionScreen />);
@@ -89,7 +96,7 @@ describe("DistortionScreen", () => {
         expect(mockAnalyzeThought).toHaveBeenCalledWith(
           "I'm worried about failing my exam",
           3,
-          "chest tightness"
+          "chest tightness",
         );
       });
     });
@@ -185,7 +192,8 @@ describe("DistortionScreen", () => {
   describe("Timeout Handling", () => {
     it.skip("should show timeout warning after 15 seconds", async () => {
       mockAnalyzeThought.mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({} as any), 20000))
+        () =>
+          new Promise((resolve) => setTimeout(() => resolve({} as any), 20000)),
       );
 
       render(<DistortionScreen />);
@@ -201,7 +209,8 @@ describe("DistortionScreen", () => {
 
     it.skip("should abort after 30 seconds with error", async () => {
       mockAnalyzeThought.mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({} as any), 35000))
+        () =>
+          new Promise((resolve) => setTimeout(() => resolve({} as any), 35000)),
       );
 
       render(<DistortionScreen />);

@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { NiyyahColors } from "@/constants/theme";
+import { hapticLight } from "@/lib/haptics";
 
 import HomeScreen from "@/screens/HomeScreen";
 import ExploreScreen from "@/screens/ExploreScreen";
@@ -19,6 +26,49 @@ export type TabParamList = {
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
+
+/**
+ * Animated tab icon with scale and color transitions
+ * Provides visual feedback when switching tabs
+ */
+interface AnimatedTabIconProps {
+  name: keyof typeof Feather.glyphMap;
+  color: string;
+  focused: boolean;
+}
+
+function AnimatedTabIcon({ name, color, focused }: AnimatedTabIconProps) {
+  const scale = useSharedValue(focused ? 1 : 0.9);
+  const colorProgress = useSharedValue(focused ? 1 : 0);
+
+  useEffect(() => {
+    if (focused) {
+      // Trigger haptic feedback when tab becomes focused
+      hapticLight();
+    }
+
+    // Animate scale
+    scale.value = withSpring(focused ? 1.1 : 0.95, {
+      damping: 15,
+      stiffness: 150,
+    });
+
+    // Animate color transition
+    colorProgress.value = withTiming(focused ? 1 : 0, {
+      duration: 200,
+    });
+  }, [focused]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  return (
+    <Animated.View style={animatedStyle}>
+      <Feather name={name} size={22} color={color} />
+    </Animated.View>
+  );
+}
 
 function TabBarBackground() {
   const { theme } = useTheme();
@@ -71,8 +121,8 @@ export default function TabNavigator() {
         component={HomeScreen}
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={22} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <AnimatedTabIcon name="home" color={color} focused={focused} />
           ),
         }}
       />
@@ -81,8 +131,8 @@ export default function TabNavigator() {
         component={ExploreScreen}
         options={{
           tabBarLabel: "Explore",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="compass" size={22} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <AnimatedTabIcon name="compass" color={color} focused={focused} />
           ),
         }}
       />
@@ -91,8 +141,8 @@ export default function TabNavigator() {
         component={ProfileScreen}
         options={{
           tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={22} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <AnimatedTabIcon name="user" color={color} focused={focused} />
           ),
         }}
       />

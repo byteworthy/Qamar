@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react-native";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import { Alert, Linking } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import PricingScreen from "../PricingScreen";
@@ -25,17 +30,17 @@ jest.mock("@react-navigation/native", () => ({
 jest.mock("@/lib/billingProvider", () => ({
   BILLING_QUERY_KEY: ["billing"],
   getBillingProfile: jest.fn(() =>
-    Promise.resolve({ tier: "free", status: "free" })
+    Promise.resolve({ tier: "free", status: "free" }),
   ),
   isPaidTier: jest.fn((tier) => tier === "plus" || tier === "pro"),
   isProTier: jest.fn((tier) => tier === "pro"),
   isStoreBillingActive: jest.fn(() => true),
   openManageSubscriptions: jest.fn(() => Promise.resolve()),
   purchaseTier: jest.fn(() =>
-    Promise.resolve({ tier: "plus", status: "active" })
+    Promise.resolve({ tier: "plus", status: "active" }),
   ),
   restorePurchases: jest.fn(() =>
-    Promise.resolve({ tier: "free", status: "free" })
+    Promise.resolve({ tier: "free", status: "free" }),
   ),
 }));
 
@@ -70,14 +75,12 @@ describe("PricingScreen", () => {
       render(<PricingScreen />);
 
       expect(
-        screen.getByText(/Payment will be charged to your Apple ID/i)
+        screen.getByText(/Payment will be charged to your Apple ID/i),
       ).toBeTruthy();
       expect(
-        screen.getByText(/Subscription automatically renews/i)
+        screen.getByText(/Subscription automatically renews/i),
       ).toBeTruthy();
-      expect(
-        screen.getByText(/manage and cancel subscriptions/i)
-      ).toBeTruthy();
+      expect(screen.getByText(/manage and cancel subscriptions/i)).toBeTruthy();
     });
 
     it("should display Terms of Service link", () => {
@@ -104,7 +107,7 @@ describe("PricingScreen", () => {
 
       await waitFor(() => {
         expect(openURLSpy).toHaveBeenCalledWith(
-          "https://byteworthy.github.io/Noor/legal/terms.html"
+          "https://byteworthy.github.io/Noor/legal/terms.html",
         );
       });
     });
@@ -119,7 +122,7 @@ describe("PricingScreen", () => {
 
       await waitFor(() => {
         expect(openURLSpy).toHaveBeenCalledWith(
-          "https://byteworthy.github.io/Noor/legal/privacy.html"
+          "https://byteworthy.github.io/Noor/legal/privacy.html",
         );
       });
     });
@@ -194,7 +197,9 @@ describe("PricingScreen", () => {
     it("should have accessibility hint on Restore Purchase button", () => {
       render(<PricingScreen />);
 
-      const restoreButton = screen.getByA11yHint(/Restores previous purchases/i);
+      const restoreButton = screen.getByA11yHint(
+        /Restores previous purchases/i,
+      );
       expect(restoreButton).toBeTruthy();
     });
   });
@@ -209,7 +214,9 @@ describe("PricingScreen", () => {
     it("should have accessibility hint on Manage Subscriptions button", () => {
       render(<PricingScreen />);
 
-      const manageButton = screen.getByA11yHint(/Opens App Store or Google Play/i);
+      const manageButton = screen.getByA11yHint(
+        /Opens App Store or Google Play/i,
+      );
       expect(manageButton).toBeTruthy();
     });
   });
@@ -230,7 +237,9 @@ describe("PricingScreen", () => {
       expect(screen.getByA11yHint(/Opens Terms of Service/i)).toBeTruthy();
       expect(screen.getByA11yHint(/Opens Privacy Policy/i)).toBeTruthy();
       expect(screen.getByA11yHint(/Restores previous purchases/i)).toBeTruthy();
-      expect(screen.getByA11yHint(/Opens App Store or Google Play/i)).toBeTruthy();
+      expect(
+        screen.getByA11yHint(/Opens App Store or Google Play/i),
+      ).toBeTruthy();
     });
   });
 
@@ -247,7 +256,9 @@ describe("PricingScreen", () => {
       render(<PricingScreen />);
 
       // "Unlimited reflections" appears in both Free (crossed out) and Plus tiers
-      expect(screen.getAllByText("Unlimited reflections").length).toBeGreaterThan(0);
+      expect(
+        screen.getAllByText("Unlimited reflections").length,
+      ).toBeGreaterThan(0);
       expect(screen.getAllByText("Pattern insights").length).toBeGreaterThan(0);
       expect(screen.getAllByText("Contextual duas").length).toBeGreaterThan(0);
     });

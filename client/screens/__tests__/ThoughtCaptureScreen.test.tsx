@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react-native";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import ThoughtCaptureScreen from "../ThoughtCaptureScreen";
 
 const mockNavigate = jest.fn();
@@ -114,7 +119,10 @@ describe("ThoughtCaptureScreen", () => {
       render(<ThoughtCaptureScreen />);
 
       const input = screen.getByPlaceholderText(/Write what's on your mind/i);
-      fireEvent.changeText(input, "I'm worried about failing this important test");
+      fireEvent.changeText(
+        input,
+        "I'm worried about failing this important test",
+      );
 
       await waitFor(() => {
         const continueButton = screen.getByText("Continue");
@@ -122,10 +130,13 @@ describe("ThoughtCaptureScreen", () => {
       });
 
       await waitFor(() => {
-        expect(mockNavigate).toHaveBeenCalledWith("Distortion", expect.objectContaining({
-          thought: "I'm worried about failing this important test",
-          emotionalIntensity: 3,
-        }));
+        expect(mockNavigate).toHaveBeenCalledWith(
+          "Distortion",
+          expect.objectContaining({
+            thought: "I'm worried about failing this important test",
+            emotionalIntensity: 3,
+          }),
+        );
       });
     });
   });

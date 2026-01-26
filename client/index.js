@@ -7,7 +7,10 @@ import App from "@/App";
 if (process.env.EXPO_PUBLIC_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-    environment: process.env.EXPO_PUBLIC_VALIDATION_MODE === "true" ? "development" : "production",
+    environment:
+      process.env.EXPO_PUBLIC_VALIDATION_MODE === "true"
+        ? "development"
+        : "production",
     enableAutoSessionTracking: true,
     sessionTrackingIntervalMillis: 10000,
     tracesSampleRate: 0.2,
@@ -15,10 +18,16 @@ if (process.env.EXPO_PUBLIC_SENTRY_DSN) {
     beforeBreadcrumb(breadcrumb) {
       // Remove sensitive data from breadcrumbs
       if (breadcrumb.data) {
-        const sensitiveFields = ['thought', 'reframe', 'intention', 'belief', 'content'];
+        const sensitiveFields = [
+          "thought",
+          "reframe",
+          "intention",
+          "belief",
+          "content",
+        ];
         for (const field of sensitiveFields) {
           if (breadcrumb.data[field]) {
-            breadcrumb.data[field] = '[REDACTED]';
+            breadcrumb.data[field] = "[REDACTED]";
           }
         }
       }

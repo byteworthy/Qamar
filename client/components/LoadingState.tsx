@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,10 +8,20 @@ import Animated, {
   withSequence,
   Easing,
 } from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius } from "@/constants/theme";
+
+const CONTEXTUAL_MESSAGES = [
+  "Reflecting...",
+  "Illuminating...",
+  "Preparing your space...",
+  "Gathering insights...",
+  "Opening your journal...",
+  "Finding clarity...",
+];
 
 interface LoadingStateProps {
   /**
@@ -51,23 +61,92 @@ export function LoadingState({
   lines = 3,
 }: LoadingStateProps) {
   const { theme } = useTheme();
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  // Cycle through contextual messages if no text provided
+  useEffect(() => {
+    if (!text) {
+      const interval = setInterval(() => {
+        setMessageIndex((prev) => (prev + 1) % CONTEXTUAL_MESSAGES.length);
+      }, 2500);
+      return () => clearInterval(interval);
+    }
+  }, [text]);
 
   if (type === "skeleton") {
     return <SkeletonLoader lines={lines} />;
   }
 
+  const displayText = text || CONTEXTUAL_MESSAGES[messageIndex];
+
   return (
     <View style={styles.spinnerContainer}>
-      <ActivityIndicator size="large" color={theme.primary} />
-      {text && (
+      <BreathingIcon color={theme.primary} />
+      <Animated.View>
         <ThemedText
           type="body"
           style={[styles.spinnerText, { color: theme.textSecondary }]}
         >
-          {text}
+          {displayText}
         </ThemedText>
-      )}
+      </Animated.View>
     </View>
+  );
+}
+
+/**
+ * Breathing animation icon for loading state
+ * Uses gentle scale pulse to create calming effect
+ */
+function BreathingIcon({ color }: { color: string }) {
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(0.8);
+  const rotation = useSharedValue(0);
+
+  useEffect(() => {
+    // Breathing scale animation (like inhale/exhale)
+    scale.value = withRepeat(
+      withSequence(
+        withTiming(1.2, {
+          duration: 1500,
+          easing: Easing.bezier(0.4, 0, 0.2, 1),
+        }),
+        withTiming(1, {
+          duration: 1500,
+          easing: Easing.bezier(0.4, 0, 0.2, 1),
+        }),
+      ),
+      -1,
+      false,
+    );
+
+    // Gentle opacity pulse
+    opacity.value = withRepeat(
+      withSequence(
+        withTiming(1, { duration: 1500 }),
+        withTiming(0.6, { duration: 1500 }),
+      ),
+      -1,
+      false,
+    );
+
+    // Slow rotation
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 8000, easing: Easing.linear }),
+      -1,
+      false,
+    );
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }, { rotate: `${rotation.value}deg` }],
+    opacity: opacity.value,
+  }));
+
+  return (
+    <Animated.View style={[styles.breathingIcon, animatedStyle]}>
+      <Feather name="compass" size={48} color={color} />
+    </Animated.View>
   );
 }
 
@@ -132,11 +211,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: Spacing["4xl"],
-    gap: Spacing.lg,
+    gap: Spacing["2xl"], // Increased from lg
+  },
+  breathingIcon: {
+    marginBottom: Spacing.md,
   },
   spinnerText: {
     textAlign: "center",
     paddingHorizontal: Spacing["2xl"],
+    fontStyle: "italic",
+    opacity: 0.85,
   },
   skeletonContainer: {
     paddingVertical: Spacing.lg,

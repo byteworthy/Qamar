@@ -8,7 +8,7 @@ describe("Screen Component", () => {
     render(
       <Screen>
         <Text>Screen Content</Text>
-      </Screen>
+      </Screen>,
     );
 
     expect(screen.getByText("Screen Content")).toBeTruthy();
@@ -18,7 +18,7 @@ describe("Screen Component", () => {
     render(
       <Screen title="Test Screen">
         <Text>Content</Text>
-      </Screen>
+      </Screen>,
     );
 
     expect(screen.getByText("Test Screen")).toBeTruthy();
@@ -28,7 +28,7 @@ describe("Screen Component", () => {
     render(
       <Screen title="Test Screen" showBack>
         <Text>Content</Text>
-      </Screen>
+      </Screen>,
     );
 
     // Screen component should render
@@ -39,7 +39,7 @@ describe("Screen Component", () => {
     render(
       <Screen>
         <Text>Scrollable Content</Text>
-      </Screen>
+      </Screen>,
     );
 
     expect(screen.getByText("Scrollable Content")).toBeTruthy();
@@ -49,7 +49,7 @@ describe("Screen Component", () => {
     render(
       <Screen scrollable={false}>
         <Text>Non-Scrollable Content</Text>
-      </Screen>
+      </Screen>,
     );
 
     expect(screen.getByText("Non-Scrollable Content")).toBeTruthy();
@@ -59,7 +59,7 @@ describe("Screen Component", () => {
     render(
       <Screen style={{ backgroundColor: "blue" }}>
         <Text>Styled Screen</Text>
-      </Screen>
+      </Screen>,
     );
 
     expect(screen.getByText("Styled Screen")).toBeTruthy();

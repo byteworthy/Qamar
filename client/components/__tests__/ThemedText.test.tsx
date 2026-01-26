@@ -27,7 +27,7 @@ describe("ThemedText Component", () => {
     render(
       <ThemedText accessibilityLabel="Custom Label">
         Accessible Text
-      </ThemedText>
+      </ThemedText>,
     );
 
     const text = screen.getByLabelText("Custom Label");
@@ -39,7 +39,7 @@ describe("ThemedText Component", () => {
       <ThemedText>
         <ThemedText>Nested</ThemedText>
         <ThemedText> Text</ThemedText>
-      </ThemedText>
+      </ThemedText>,
     );
 
     expect(screen.getByText("Nested")).toBeTruthy();

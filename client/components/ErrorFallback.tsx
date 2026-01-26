@@ -58,12 +58,30 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
       ) : null}
 
       <View style={styles.content}>
-        <ThemedText type="h1" style={styles.title}>
-          Something went wrong
+        {/* Soft illustration instead of harsh alert */}
+        <View
+          style={[
+            styles.iconContainer,
+            {
+              backgroundColor: theme.accent + "15", // Soft tint, not harsh red
+            },
+          ]}
+        >
+          <Feather name="compass" size={48} color={theme.accent} />
+        </View>
+
+        <ThemedText
+          type="h2"
+          style={[styles.title, { fontFamily: Fonts?.serif }]}
+        >
+          We lost our way for a moment
         </ThemedText>
 
-        <ThemedText type="body" style={styles.message}>
-          Please reload the app to continue.
+        <ThemedText
+          type="body"
+          style={[styles.message, { color: theme.textSecondary }]}
+        >
+          Don&apos;t worry, your reflections are safe. Let&apos;s get you back on track.
         </ThemedText>
 
         <Pressable
@@ -71,7 +89,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           style={({ pressed }) => [
             styles.button,
             {
-              backgroundColor: theme.link,
+              backgroundColor: theme.primary,
               opacity: pressed ? 0.9 : 1,
               transform: [{ scale: pressed ? 0.98 : 1 }],
             },
@@ -79,11 +97,18 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
         >
           <ThemedText
             type="body"
-            style={[styles.buttonText, { color: theme.buttonText }]}
+            style={[styles.buttonText, { color: theme.onPrimary }]}
           >
-            Try Again
+            Return to Your Journey
           </ThemedText>
         </Pressable>
+
+        <ThemedText
+          type="caption"
+          style={[styles.footnote, { color: theme.textSecondary }]}
+        >
+          If this keeps happening, try restarting your device
+        </ThemedText>
       </View>
 
       {__DEV__ ? (
@@ -159,14 +184,29 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 600,
   },
+  iconContainer: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: Spacing.md,
+  },
   title: {
     textAlign: "center",
-    lineHeight: 40,
+    lineHeight: 36,
+    marginBottom: Spacing.xs,
   },
   message: {
     textAlign: "center",
-    opacity: 0.7,
-    lineHeight: 24,
+    lineHeight: 26,
+    paddingHorizontal: Spacing.lg,
+  },
+  footnote: {
+    textAlign: "center",
+    opacity: 0.6,
+    fontStyle: "italic",
+    marginTop: Spacing.md,
   },
   topButton: {
     position: "absolute",

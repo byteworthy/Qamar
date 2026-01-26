@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react-native";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import { useQuery } from "@tanstack/react-query";
 import SessionCompleteScreen from "../SessionCompleteScreen";
 import * as storage from "@/lib/storage";
@@ -79,9 +84,12 @@ describe("SessionCompleteScreen", () => {
     it("should display Return Home button", async () => {
       render(<SessionCompleteScreen />);
 
-      await waitFor(() => {
-        expect(screen.getByText("Return Home")).toBeTruthy();
-      }, { timeout: 5000 });
+      await waitFor(
+        () => {
+          expect(screen.getByText("Return Home")).toBeTruthy();
+        },
+        { timeout: 5000 },
+      );
     });
   });
 
@@ -103,7 +111,7 @@ describe("SessionCompleteScreen", () => {
           "/api/reflection/save",
           expect.objectContaining({
             thought: "I'm worried about my exam",
-          })
+          }),
         );
       });
     });

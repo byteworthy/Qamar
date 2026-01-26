@@ -26,7 +26,7 @@ describe("Button Component", () => {
     render(
       <Button onPress={mockOnPress} disabled>
         Disabled Button
-      </Button>
+      </Button>,
     );
 
     const button = screen.getByText("Disabled Button");
@@ -41,7 +41,7 @@ describe("Button Component", () => {
     render(
       <Button onPress={jest.fn()} style={customStyle}>
         Styled Button
-      </Button>
+      </Button>,
     );
 
     const button = screen.getByText("Styled Button");
@@ -52,7 +52,7 @@ describe("Button Component", () => {
     render(
       <Button onPress={jest.fn()} variant="secondary">
         Secondary Button
-      </Button>
+      </Button>,
     );
 
     expect(screen.getByText("Secondary Button")).toBeTruthy();
@@ -70,7 +70,7 @@ describe("Button Component", () => {
     render(
       <Button onPress={jest.fn()} accessibilityHint="This performs an action">
         Button with Hint
-      </Button>
+      </Button>,
     );
 
     const button = screen.getByA11yHint("This performs an action");
@@ -81,7 +81,7 @@ describe("Button Component", () => {
     render(
       <Button onPress={jest.fn()} loading>
         Loading Button
-      </Button>
+      </Button>,
     );
 
     // Button should be disabled when loading
