@@ -10,8 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noor.app",
-      "deploymentTarget": "15.0"
+      "bundleIdentifier": "com.noor.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -57,7 +56,6 @@
     "experiments": {
       "reactCompiler": true
     },
-    "privacy": "public",
     "primaryColor": "#D4C4A8",
     "description": "Islamic reflection journaling for spiritual clarity. Not therapy, not a substitute for professional care.",
     "extra": {

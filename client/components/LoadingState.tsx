@@ -136,6 +136,7 @@ function BreathingIcon({ color }: { color: string }) {
       -1,
       false,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -171,6 +172,7 @@ function SkeletonLoader({ lines }: { lines: number }) {
       -1,
       false,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const shimmerStyle = useAnimatedStyle(() => ({

@@ -81,7 +81,8 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           type="body"
           style={[styles.message, { color: theme.textSecondary }]}
         >
-          Don&apos;t worry, your reflections are safe. Let&apos;s get you back on track.
+          Don&apos;t worry, your reflections are safe. Let&apos;s get you back
+          on track.
         </ThemedText>
 
         <Pressable

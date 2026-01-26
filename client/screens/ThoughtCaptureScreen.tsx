@@ -26,8 +26,6 @@ import Animated, {
   withRepeat,
   withTiming,
   withSequence,
-  interpolate,
-  withDelay,
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
@@ -101,6 +99,7 @@ export default function ThoughtCaptureScreen() {
     } else {
       breathingScale.value = withTiming(1, { duration: 300 });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thought.length]);
 
   const breathingStyle = useAnimatedStyle(() => ({

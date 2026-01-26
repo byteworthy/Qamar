@@ -20,7 +20,6 @@ import { useQuery } from "@tanstack/react-query";
 import Animated, {
   FadeIn,
   FadeInUp,
-  BounceIn,
   useSharedValue,
   useAnimatedStyle,
   withSpring,
@@ -28,7 +27,6 @@ import Animated, {
   withSequence,
   withDelay,
   Easing,
-  runOnJS,
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
@@ -102,6 +100,7 @@ function CelebrationCheckmark({ theme }: { theme: any }) {
     setTimeout(() => hapticSuccess(), 100); // Initial success
     setTimeout(() => hapticMedium(), 350); // Burst
     setTimeout(() => hapticLight(), 550); // Afterglow
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkmarkStyle = useAnimatedStyle(() => ({
@@ -206,6 +205,7 @@ export default function SessionCompleteScreen() {
     };
 
     saveToServer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

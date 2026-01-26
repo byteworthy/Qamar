@@ -6,20 +6,15 @@ import {
   Pressable,
   TextInput,
   Modal,
-  useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import { useQuery } from "@tanstack/react-query";
 import Animated, {
   FadeInDown,
   FadeInUp,
-  FadeIn,
-  SlideInLeft,
-  SlideInRight,
   useAnimatedStyle,
   withSpring,
   useSharedValue,
@@ -28,7 +23,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Layout } from "@/constants/layout";
 import { Fonts, NiyyahColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -227,7 +221,7 @@ export default function HomeScreen() {
       if (stats) {
         try {
           setJourneyStats(JSON.parse(stats));
-        } catch (e) {
+        } catch {
           console.log("Failed to parse journey stats");
         }
       }

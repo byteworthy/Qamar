@@ -57,6 +57,7 @@ function AnimatedTabIcon({ name, color, focused }: AnimatedTabIconProps) {
     colorProgress.value = withTiming(focused ? 1 : 0, {
       duration: 200,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused]);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -71,8 +72,6 @@ function AnimatedTabIcon({ name, color, focused }: AnimatedTabIconProps) {
 }
 
 function TabBarBackground() {
-  const { theme } = useTheme();
-
   if (Platform.OS === "ios") {
     return (
       <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill} />

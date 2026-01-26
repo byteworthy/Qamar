@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useTheme } from "@/hooks/useTheme";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Gradients } from "@/constants/theme";
 
