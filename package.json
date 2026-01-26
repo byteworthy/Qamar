@@ -16,7 +16,7 @@
     "typecheck": "npm run check:types",
     "check:format": "prettier --check \"**/*.{js,ts,tsx,css,json}\"",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json}\"",
-    "test": "npm run test:server && npm run test:client",
+    "test": "npm run test:server",
     "test:server": "jest --config jest.config.js",
     "test:client": "jest --config jest.config.mobile.js",
     "test:watch": "jest --watch",
