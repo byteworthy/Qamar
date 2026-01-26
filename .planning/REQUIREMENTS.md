@@ -126,12 +126,65 @@ Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| *(Populated by roadmapper)* | | |
+| SEC-01 | Phase 1 | Pending |
+| SEC-02 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Pending |
+| TEST-01 | Phase 2 | Pending |
+| TEST-02 | Phase 2 | Pending |
+| TEST-03 | Phase 2 | Pending |
+| TEST-04 | Phase 2 | Pending |
+| TEST-05 | Phase 2 | Pending |
+| TEST-06 | Phase 2 | Pending |
+| TEST-07 | Phase 2 | Pending |
+| TEST-08 | Phase 2 | Pending |
+| TYPE-01 | Phase 3 | Pending |
+| TYPE-02 | Phase 3 | Pending |
+| TYPE-03 | Phase 3 | Pending |
+| TYPE-04 | Phase 3 | Pending |
+| TYPE-05 | Phase 3 | Pending |
+| TYPE-06 | Phase 3 | Pending |
+| TYPE-07 | Phase 3 | Pending |
+| OBS-01 | Phase 4 | Pending |
+| OBS-02 | Phase 4 | Pending |
+| OBS-03 | Phase 4 | Pending |
+| OBS-04 | Phase 4 | Pending |
+| OBS-05 | Phase 4 | Pending |
+| TEST-09 | Phase 5 | Pending |
+| INFRA-02 | Phase 5 | Pending |
+| INFRA-03 | Phase 5 | Pending |
+| INFRA-04 | Phase 5 | Pending |
+| INFRA-05 | Phase 5 | Pending |
+| INFRA-06 | Phase 5 | Pending |
+| INFRA-07 | Phase 5 | Pending |
+| REFACTOR-01 | Phase 6 | Pending |
+| REFACTOR-02 | Phase 6 | Pending |
+| REFACTOR-03 | Phase 6 | Pending |
+| REFACTOR-04 | Phase 6 | Pending |
+| REFACTOR-05 | Phase 6 | Pending |
+| REFACTOR-06 | Phase 6 | Pending |
+| REFACTOR-07 | Phase 6 | Pending |
+| PERF-01 | Phase 7 | Pending |
+| PERF-02 | Phase 7 | Pending |
+| PERF-03 | Phase 7 | Pending |
+| PERF-04 | Phase 7 | Pending |
+| PERF-05 | Phase 7 | Pending |
+| TEST-10 | Phase 7 | Pending |
+| SEC-03 | Phase 7 | Pending |
+| DOC-01 | Phase 8 | Pending |
+| DOC-02 | Phase 8 | Pending |
+| DOC-03 | Phase 8 | Pending |
+| DOC-04 | Phase 8 | Pending |
+| CONFIG-01 | Phase 8 | Pending |
+| CONFIG-02 | Phase 8 | Pending |
+| CONFIG-03 | Phase 8 | Pending |
+| CONFIG-04 | Phase 8 | Pending |
+| SEC-04 | Phase 8 | Pending |
+| SEC-05 | Phase 8 | Pending |
 
 **Coverage:**
 - v1 requirements: 57 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 57 ⚠️
+- Mapped to phases: 50
+- Unmapped (deferred to v2): 7 ✓
 
 ---
 *Requirements defined: 2026-01-26*
