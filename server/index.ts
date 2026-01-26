@@ -31,6 +31,13 @@ import * as fs from "fs";
 import * as path from "path";
 
 /**
+ * Environment Variables:
+ * - STRIPE_WEBHOOK_DOMAIN: Explicit domain for Stripe webhooks (preferred)
+ *   Example: "myapp.example.com"
+ *   Falls back to first domain in REPLIT_DOMAINS if not set.
+ */
+
+/**
  * HTTP Error with optional status code
  */
 interface HTTPError extends Error {

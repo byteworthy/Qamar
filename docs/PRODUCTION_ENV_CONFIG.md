@@ -47,9 +47,11 @@ ANTHROPIC_API_KEY=<production_key>
 ```bash
 STRIPE_SECRET_KEY=<production_secret_key>
 STRIPE_WEBHOOK_SECRET=<production_webhook_secret>
+STRIPE_WEBHOOK_DOMAIN=<your_production_domain>
 ```
 **Status:** ⚠️ Needs production keys
 **Why:** Required for subscription management
+**Note:** STRIPE_WEBHOOK_DOMAIN is optional but recommended for production. If not set, falls back to first domain in REPLIT_DOMAINS.
 
 #### Security
 ```bash
@@ -115,6 +117,7 @@ NODE_ENV=production
 ANTHROPIC_API_KEY=<your_production_key>
 STRIPE_SECRET_KEY=<your_production_key>
 STRIPE_WEBHOOK_SECRET=<your_production_webhook_secret>
+STRIPE_WEBHOOK_DOMAIN=<your_production_domain>
 ENCRYPTION_KEY=<generated_32_byte_hex>
 SESSION_SECRET=<generated_random_string>
 ```
