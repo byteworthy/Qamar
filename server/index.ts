@@ -298,7 +298,19 @@ async function initStripe() {
     const stripeSync = await getStripeSync();
 
     log("Setting up managed webhook...");
-    const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(",")[0]}`;
+
+    // Use explicit webhook domain if configured, otherwise fall back to first Replit domain
+    const webhookDomain = process.env.STRIPE_WEBHOOK_DOMAIN
+      || process.env.REPLIT_DOMAINS?.split(",")[0]?.trim();
+
+    if (!webhookDomain) {
+      log("WARNING: No webhook domain configured. Set STRIPE_WEBHOOK_DOMAIN or REPLIT_DOMAINS.");
+      log("Skipping Stripe webhook setup - billing webhooks will not work.");
+      return;
+    }
+
+    const webhookBaseUrl = `https://${webhookDomain}`;
+    log(`Using webhook base URL: ${webhookBaseUrl}`);
     try {
       const result = await stripeSync.findOrCreateManagedWebhook(
         `${webhookBaseUrl}/api/billing/webhook`,
