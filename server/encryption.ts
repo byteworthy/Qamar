@@ -104,7 +104,7 @@ export function decryptData(encryptedText: string): string {
     return decrypted;
   } catch (error) {
     console.error("[Encryption] Decryption failed:", error);
-    return encryptedText; // Fallback
+    throw new Error(`Decryption failed: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
