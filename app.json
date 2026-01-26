@@ -50,7 +50,8 @@
           "defaultChannel": "default",
           "sounds": []
         }
-      ]
+      ],
+      "@sentry/react-native"
     ],
     "experiments": {
       "reactCompiler": true
@@ -61,7 +62,10 @@
     "extra": {
       "privacyPolicyUrl": "https://byteworthy.github.io/Noor/legal/privacy.html",
       "termsOfServiceUrl": "https://byteworthy.github.io/Noor/legal/terms.html",
-      "supportEmail": "scale@getbyteworthy.com"
+      "supportEmail": "scale@getbyteworthy.com",
+      "eas": {
+        "projectId": "b3e205eb-b119-4976-a275-df7bcef85275"
+      }
     }
   }
 }

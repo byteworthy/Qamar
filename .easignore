@@ -1,0 +1,8 @@
+# EAS Build Ignore
+.agents/
+.claude/
+node_modules/
+.git/
+*.log
+.env.local
+.DS_Store

@@ -39,6 +39,11 @@ yarn-error.*
 # local env files
 .env*.local
 
+# Production secrets (delete after adding to Railway)
+PRODUCTION_SECRETS.txt
+*_SECRETS.txt
+google-play-service-account.json
+
 # typescript
 *.tsbuildinfo
 
