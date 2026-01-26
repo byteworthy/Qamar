@@ -1,24 +1,24 @@
-# Noor CBT - Technical Polish & Bug Fix Initiative
+# Noor App - Technical Polish & Bug Fix Initiative
 
 ## What This Is
 
-A comprehensive quality improvement initiative for the Noor CBT mobile app, systematically addressing all documented technical concerns (P0-P3) while maintaining production stability. This includes critical security fixes, test coverage improvements, code quality enhancements, and infrastructure hardening - all delivered incrementally without breaking existing functionality.
+A comprehensive quality improvement initiative for the Noor App, systematically addressing all documented technical concerns (P0-P3) while maintaining production stability. This includes critical security fixes, test coverage improvements, code quality enhancements, and infrastructure hardening - all delivered incrementally without breaking existing functionality.
 
 ## Core Value
 
-**Production stability with systematic quality improvements.** Every fix must maintain backward compatibility and ship incrementally. The app serves users with therapeutic needs - stability and reliability cannot be compromised.
+**Production stability with systematic quality improvements.** Every fix must maintain backward compatibility and ship incrementally. The app serves active users - stability and reliability cannot be compromised.
 
 ## Requirements
 
 ### Validated
 
-The existing Noor CBT application already provides:
+The existing Noor App already provides:
 
 - ✓ React Native/Expo mobile app with Express.js backend — existing
-- ✓ Islamic-integrated CBT therapeutic workflows (analyze → reframe → regulate → intend) — existing
+- ✓ Islamic-integrated workflows (analyze → reframe → regulate → intend) — existing
 - ✓ Session-based authentication with signed cookies — existing
-- ✓ AI-powered cognitive assistance via Anthropic Claude API — existing
-- ✓ Multi-step therapeutic session management with state inference — existing
+- ✓ AI-powered assistance via Anthropic Claude API — existing
+- ✓ Multi-step session management with state inference — existing
 - ✓ PostgreSQL database with Drizzle ORM — existing
 - ✓ React Query for remote state management — existing
 - ✓ Basic CI/CD with GitHub Actions — existing
@@ -59,17 +59,17 @@ The existing Noor CBT application already provides:
 
 - Major architectural rewrites — Existing structure is sound
 - Rewriting working features — Focus on fixing issues, not reimplementing
-- Changing core therapeutic workflows — These are validated and working
+- Changing core workflows — These are validated and working
 - Migrating frameworks or libraries — Stability over novelty
 - Adding new features — This is a polish initiative, not feature development
 
 ## Context
 
 **Production Environment:**
-- Noor CBT is a live production app serving users with therapeutic needs
-- Islamic epistemology is foundational to the therapeutic approach
-- HIPAA compliance is critical for handling sensitive health data
-- Users rely on app stability during vulnerable therapeutic moments
+- Noor App is a live production app serving active users
+- Islamic principles are foundational to the app approach
+- HIPAA compliance is critical for handling sensitive user data
+- Users rely on app stability during important moments
 
 **Current State:**
 - Well-structured monorepo with clear client/server/shared separation
