@@ -9,8 +9,8 @@ Requirements for technical polish initiative. Mapped to roadmap phases.
 
 ### Security
 
-- [ ] **SEC-01**: Fix encryption fallback to throw error instead of returning plaintext
-- [ ] **SEC-02**: Replace custom CORS logic with established `cors` npm package
+- [x] **SEC-01**: Fix encryption fallback to throw error instead of returning plaintext
+- [x] **SEC-02**: Replace custom CORS logic with established `cors` npm package
 - [ ] **SEC-03**: Audit all API endpoints for input validation coverage
 - [ ] **SEC-04**: Implement secrets scanning in CI/CD pipeline
 - [ ] **SEC-05**: Add input sanitization for AI prompts (prompt injection prevention)
@@ -58,7 +58,7 @@ Requirements for technical polish initiative. Mapped to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Fix Stripe webhook domain handling (brittle first-domain logic)
+- [x] **INFRA-01**: Fix Stripe webhook domain handling (brittle first-domain logic)
 - [ ] **INFRA-02**: Add automated E2E tests to PR checks
 - [ ] **INFRA-03**: Implement automated deployment to staging on PR
 - [ ] **INFRA-04**: Add security scanning (SAST) to CI/CD
@@ -126,9 +126,9 @@ Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEC-01 | Phase 1 | Pending |
-| SEC-02 | Phase 1 | Pending |
-| INFRA-01 | Phase 1 | Pending |
+| SEC-01 | Phase 1 | Complete |
+| SEC-02 | Phase 1 | Complete |
+| INFRA-01 | Phase 1 | Complete |
 | TEST-01 | Phase 2 | Pending |
 | TEST-02 | Phase 2 | Pending |
 | TEST-03 | Phase 2 | Pending |
