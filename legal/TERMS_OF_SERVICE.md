@@ -15,21 +15,21 @@ By downloading, installing, or using the Noor mobile application ("the App"), yo
 
 ### What Noor Is:
 - ✅ A structured reflection journaling tool
-- ✅ Guided prompts rooted in Islamic values and CBT principles
+- ✅ Guided prompts rooted in Islamic values and reflection principles
 - ✅ A self-guided reflection practice
 - ✅ A tool for personal growth and spiritual clarity
 
 ### What Noor Is NOT:
 - ❌ Not therapy or counseling
-- ❌ Not medical care or diagnosis
-- ❌ Not emergency mental health support
+- ❌ Not medical care or advice
+- ❌ Not emergency support
 - ❌ Not religious authority or Islamic scholarship
 - ❌ Not a substitute for professional help
 
-**If you are experiencing a mental health crisis:**
+**If you are experiencing a personal crisis:**
 - Call 988 (Suicide & Crisis Lifeline)
 - Call 911 for emergencies
-- Contact a licensed mental health professional
+- Contact a licensed professional
 
 ## 3. Eligibility
 
@@ -161,7 +161,7 @@ By using Noor, you acknowledge and agree that:
 2. ✅ AI-generated content is **general guidance**, not personalized medical advice
 3. ✅ In case of **emergency**, contact 988 Lifeline or emergency services
 4. ✅ The developers are **not licensed healthcare providers**
-5. ✅ You will seek **professional help** for mental health concerns
+5. ✅ You will seek **professional help** for personal concerns
 
 ### Religious Disclaimer
 

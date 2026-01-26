@@ -63,7 +63,7 @@ What Noor is not
 • Not medical advice
 • Not a crisis or emergency tool
 
-If you are experiencing a mental health emergency, contact local emergency services.
+If you are experiencing a personal emergency, contact local emergency services.
 
 Privacy first by design
 
@@ -126,7 +126,7 @@ https://byteworthy.github.io/noor-legal/terms-of-service
 Noor is a self-reflection and journaling app for adults (18+).
 
 Core Functionality:
-Users write journal entries and receive AI-generated reflective responses designed to support personal self-reflection. The app uses cognitive behavioral techniques to help users organize their thoughts.
+Users write journal entries and receive AI-generated reflective responses designed to support personal self-reflection. The app uses structured reflection techniques to help users organize their thoughts.
 
 AI Usage Disclosure:
 The app uses OpenAI's API to process user input and generate personalized reflective responses. This AI processing is disclosed in the app description and during onboarding (Privacy & Safety screens). It is essential to app functionality.
@@ -167,7 +167,7 @@ Privacy:
 
 **Age Rating:** `17+` (Mature 17+)
 
-**Why:** The app involves mental health reflection content and requires mature judgment for self-directed journaling. Crisis disclaimer is appropriate for users who can understand its limitations. Apple's guidelines recommend 17+ for apps that reference mental health topics without being clinical tools.
+**Why:** The app involves personal reflection content and requires mature judgment for self-directed journaling. Crisis disclaimer is appropriate for users who can understand its limitations. Apple's guidelines recommend 17+ for apps that reference personal reflection topics without being clinical tools.
 
 **Age Rating Questionnaire Answers:**
 - Unrestricted Web Access: No

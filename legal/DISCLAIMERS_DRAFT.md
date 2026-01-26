@@ -11,8 +11,7 @@ Noor is a structured reflection practice for Muslims who want clarity before act
 ## What Noor Is Not
 
 - Not therapy
-- Not medical care
-- Not diagnosis
+- Not medical care or advice
 - Not religious authority
 
 ## AI Boundaries

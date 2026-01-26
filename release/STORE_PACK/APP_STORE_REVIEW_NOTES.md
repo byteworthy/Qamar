@@ -10,7 +10,7 @@
 Noor is a self-reflection and journaling app for adults (18+).
 
 ### Core Functionality
-Users write journal entries and receive AI-generated reflective responses designed to support personal self-reflection. The app uses cognitive behavioral techniques to help users organize their thoughts.
+Users write journal entries and receive AI-generated reflective responses designed to support personal self-reflection. The app uses structured reflection techniques to help users organize their thoughts.
 
 ### AI Usage Disclosure
 The app uses OpenAI's API to process user input and generate personalized reflective responses. This AI processing is:

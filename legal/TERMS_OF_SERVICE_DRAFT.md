@@ -21,8 +21,7 @@ These Terms of Service govern your use of the Noor mobile application ("the App"
 
 **What Noor Is Not:**
 - Not therapy
-- Not medical care
-- Not diagnosis
+- Not medical care or advice
 - Not religious authority
 
 ## 2. Eligibility
@@ -99,7 +98,7 @@ You may not:
 Noor is a reflective journaling tool for spiritual growth and self-awareness. By using Noor, you acknowledge that:
 
 1. Noor does not provide medical advice, diagnosis, or treatment
-2. Noor is not a substitute for professional mental health care
+2. Noor is not a substitute for professional care
 3. In case of emergency, contact 988 Lifeline or emergency services
 4. The developers are not licensed healthcare providers
 

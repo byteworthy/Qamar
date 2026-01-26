@@ -13,9 +13,9 @@ We are committed to protecting your privacy and being transparent about our data
 
 Noor is a self-reflection journaling tool rooted in Islamic principles. It is **NOT**:
 - A substitute for professional counseling or medical care
-- A diagnostic tool for mental health conditions
 - Emergency support for crisis situations
 - Licensed therapy or healthcare
+- Medical advice or diagnosis
 
 **For professional support, please consult a licensed counselor, therapist, or healthcare provider.**
 
@@ -58,7 +58,7 @@ Noor is a self-reflection journaling tool rooted in Islamic principles. It is **
 - Context needed to generate reflection guidance
 
 **Purpose:**
-- To generate personalized CBT-based reflection responses
+- To generate personalized reflection responses
 - To provide Islamic-informed perspective
 
 **AI Provider:**

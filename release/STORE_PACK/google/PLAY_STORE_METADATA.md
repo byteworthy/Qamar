@@ -28,11 +28,10 @@ Noor uses AI carefully. Responses are constrained by a defined safety charter an
 
 What Noor is not:
 • Not therapy
-• Not medical care
-• Not diagnosis
+• Not medical care or advice
 • Not religious authority
 
-If you are experiencing a mental health crisis, contact emergency services or call 988 (US Suicide & Crisis Lifeline).
+If you are experiencing a personal crisis, contact emergency services or call 988 (US Suicide & Crisis Lifeline).
 
 Privacy:
 Reflections are stored securely on our servers (encrypted in transit and at rest). Data is retained for 30 days, then automatically deleted. Users control their data and can delete it at any time.
