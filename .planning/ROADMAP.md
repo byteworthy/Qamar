@@ -33,7 +33,7 @@ This roadmap addresses all documented technical concerns (P0-P3) through 8 phase
 
 ## Phase 1: Critical Security Fixes
 
-**Goal:** Eliminate critical security vulnerabilities that pose immediate risk
+**Goal:** Eliminate P0 critical security vulnerabilities that pose immediate HIPAA and data exposure risk
 
 **Priority:** P0 - Must fix immediately
 
@@ -45,9 +45,15 @@ Plans:
 - [ ] 01-03-PLAN.md - Fix Stripe webhook domain handling (INFRA-01)
 
 **Requirements:**
-- SEC-01: Fix encryption fallback to throw error instead of returning plaintext
-- INFRA-01: Fix Stripe webhook domain handling (brittle first-domain logic)
-- SEC-02: Replace custom CORS logic with established `cors` npm package
+- SEC-01: Fix encryption fallback to throw error instead of returning plaintext (P0 - HIPAA risk)
+- SEC-02: Replace custom CORS logic with established `cors` npm package (P0 - misconfiguration risk)
+- INFRA-01: Fix Stripe webhook domain handling (brittle first-domain logic) (P0 - production stability)
+
+**Out of Scope for Phase 1:**
+The following security requirements are deferred to later phases as they are P1/P2 priority:
+- SEC-03: Audit all API endpoints for input validation coverage (Phase 7 - P2)
+- SEC-04: Implement secrets scanning in CI/CD pipeline (Phase 8 - P3)
+- SEC-05: Add input sanitization for AI prompts (Phase 8 - P3)
 
 **Success Criteria:**
 1. Encryption failures throw errors in all environments (no plaintext fallback)
