@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import {
   registerBillingWebhookRoute,
@@ -67,37 +68,39 @@ declare module "http" {
 }
 
 function setupCors(app: express.Application): void {
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    const origins = new Set<string>();
+  // Build allowed origins from Replit environment variables
+  const allowedOrigins: string[] = [];
 
-    if (process.env.REPLIT_DEV_DOMAIN) {
-      origins.add(`https://${process.env.REPLIT_DEV_DOMAIN}`);
-    }
+  if (process.env.REPLIT_DEV_DOMAIN) {
+    allowedOrigins.push(`https://${process.env.REPLIT_DEV_DOMAIN}`);
+  }
 
-    if (process.env.REPLIT_DOMAINS) {
-      process.env.REPLIT_DOMAINS.split(",").forEach((d: string) => {
-        origins.add(`https://${d.trim()}`);
-      });
-    }
+  if (process.env.REPLIT_DOMAINS) {
+    process.env.REPLIT_DOMAINS.split(",").forEach((d: string) => {
+      const domain = d.trim();
+      if (domain) {
+        allowedOrigins.push(`https://${domain}`);
+      }
+    });
+  }
 
-    const origin = req.header("origin");
-
-    if (origin && origins.has(origin)) {
-      res.header("Access-Control-Allow-Origin", origin);
-      res.header(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS",
-      );
-      res.header("Access-Control-Allow-Headers", "Content-Type");
-      res.header("Access-Control-Allow-Credentials", "true");
-    }
-
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(200);
-    }
-
-    next();
-  });
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, curl, etc.)
+        if (!origin) {
+          return callback(null, true);
+        }
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        return callback(new Error("Not allowed by CORS"));
+      },
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type"],
+      credentials: true,
+    })
+  );
 }
 
 function setupBodyParsing(app: express.Application): void {
