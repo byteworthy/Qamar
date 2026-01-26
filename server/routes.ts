@@ -836,9 +836,17 @@ ${practicePrompt}`,
           : undefined;
 
       // ENCRYPT SENSITIVE FIELDS before saving
-      const encryptedThought = encryptData(thought);
-      const encryptedReframe = encryptData(reframe);
-      const encryptedIntention = intention ? encryptData(intention) : undefined;
+      let encryptedThought: string;
+      let encryptedReframe: string;
+      let encryptedIntention: string | undefined;
+      try {
+        encryptedThought = encryptData(thought);
+        encryptedReframe = encryptData(reframe);
+        encryptedIntention = intention ? encryptData(intention) : undefined;
+      } catch (error) {
+        console.error("[Routes] Encryption failed:", error);
+        return res.status(500).json({ error: "Failed to securely store reflection" });
+      }
 
       await storage.saveReflection(userId, {
         thought: encryptedThought,
@@ -879,14 +887,26 @@ ${practicePrompt}`,
       const history = await storage.getReflectionHistory(userId, limit);
 
       // DECRYPT SENSITIVE FIELDS before sending to client
-      const decryptedHistory = history.map((reflection) => ({
-        ...reflection,
-        thought: decryptData(reflection.thought),
-        reframe: decryptData(reflection.reframe),
-        intention: reflection.intention
-          ? decryptData(reflection.intention)
-          : undefined,
-      }));
+      const decryptedHistory = history.map((reflection) => {
+        try {
+          return {
+            ...reflection,
+            thought: decryptData(reflection.thought),
+            reframe: decryptData(reflection.reframe),
+            intention: reflection.intention
+              ? decryptData(reflection.intention)
+              : undefined,
+          };
+        } catch (error) {
+          console.error("[Routes] Decryption failed for reflection:", reflection.id, error);
+          return {
+            ...reflection,
+            thought: "[Unable to decrypt]",
+            reframe: "[Unable to decrypt]",
+            intention: reflection.intention ? "[Unable to decrypt]" : undefined,
+          };
+        }
+      });
 
       res.json({
         history: decryptedHistory,

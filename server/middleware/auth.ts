@@ -104,9 +104,13 @@ export async function sessionMiddleware(
 
         if (session && new Date(session.expiresAt) > new Date()) {
           // Decrypt email if it exists
-          const decryptedEmail = session.email
-            ? decryptData(session.email)
-            : null;
+          let decryptedEmail: string | null = null;
+          try {
+            decryptedEmail = session.email ? decryptData(session.email) : null;
+          } catch (error) {
+            console.error("[Auth] Failed to decrypt session email:", error);
+            // Continue with null email - session still valid
+          }
           req.auth = {
             userId: session.userId,
             email: decryptedEmail,
@@ -211,7 +215,13 @@ export async function updateSessionEmail(
   token: string,
   email: string,
 ): Promise<void> {
-  const encryptedEmail = encryptData(email);
+  let encryptedEmail: string;
+  try {
+    encryptedEmail = encryptData(email);
+  } catch (error) {
+    console.error("[Auth] Failed to encrypt email:", error);
+    throw new Error("Failed to secure user data");
+  }
   await db
     .update(userSessions)
     .set({ email: encryptedEmail })
