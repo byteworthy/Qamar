@@ -2,6 +2,10 @@ import type { Express } from "express";
 import { createServer, type Server } from "node:http";
 import { z } from "zod";
 import Anthropic from "@anthropic-ai/sdk";
+import {
+  aiRateLimiter,
+  insightRateLimiter,
+} from "./middleware/ai-rate-limiter";
 import { storage } from "./storage";
 import { billingService } from "./billing";
 import {
@@ -196,23 +200,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Health check endpoint for monitoring and uptime checks
   app.get("/api/health", async (_req, res) => {
-    try {
-      // Test database connection by querying sessions table
-      await storage.getReflectionHistory("health-check", 1);
+    const checks = {
+      database: false,
+      ai: false,
+      timestamp: new Date().toISOString(),
+      version: "1.0.0",
+      mode: VALIDATION_MODE ? "validation" : "production",
+    };
 
-      res.status(200).json({
-        status: "healthy",
-        timestamp: new Date().toISOString(),
-        database: "connected",
-        version: "1.0.0",
+    try {
+      // Test 1: Database connection
+      try {
+        await storage.getReflectionHistory("health-check", 1);
+        checks.database = true;
+      } catch (dbError) {
+        console.error("[Health] Database check failed:", dbError);
+      }
+
+      // Test 2: AI Provider (only in production mode with configured API)
+      if (!VALIDATION_MODE && isAnthropicConfigured()) {
+        try {
+          const client = getAnthropicClient();
+          // Quick test with Haiku (cheapest model) - minimal tokens
+          const testResponse = await client.messages.create({
+            model: "claude-3-haiku-20240307",
+            max_tokens: 10,
+            messages: [{ role: "user", content: "health" }],
+          });
+          checks.ai = testResponse.content.length > 0;
+        } catch (aiError) {
+          console.error("[Health] AI provider check failed:", aiError);
+          checks.ai = false;
+        }
+      } else {
+        // In validation mode or when AI is not configured, skip AI check
+        checks.ai = true;
+      }
+
+      // Determine overall health
+      const healthy = checks.database && checks.ai;
+
+      res.status(healthy ? 200 : 503).json({
+        status: healthy ? "healthy" : "degraded",
+        checks,
+        ...(healthy
+          ? {}
+          : {
+              error:
+                !checks.database && !checks.ai
+                  ? "Database and AI provider unavailable"
+                  : !checks.database
+                    ? "Database unavailable"
+                    : "AI provider unavailable",
+            }),
       });
     } catch (error) {
-      console.error("Health check failed:", error);
+      console.error("[Health] Health check error:", error);
       res.status(503).json({
         status: "unhealthy",
-        timestamp: new Date().toISOString(),
-        database: "disconnected",
-        error: "Database connection failed",
+        checks,
+        error: "Health check failed",
       });
     }
   });
@@ -225,7 +272,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       .optional(),
   });
 
-  app.post("/api/analyze", async (req, res) => {
+  app.post("/api/analyze", aiRateLimiter, async (req, res) => {
     try {
       // Validate request body
       const validationResult = analyzeSchema.safeParse(req.body);
@@ -472,7 +519,7 @@ ${analyzePrompt}`,
       .optional(),
   });
 
-  app.post("/api/reframe", async (req, res) => {
+  app.post("/api/reframe", aiRateLimiter, async (req, res) => {
     try {
       // Validate request body
       const validationResult = reframeSchema.safeParse(req.body);
@@ -635,7 +682,7 @@ ${reframePrompt}`,
     }
   });
 
-  app.post("/api/practice", async (req, res) => {
+  app.post("/api/practice", aiRateLimiter, async (req, res) => {
     try {
       const { reframe } = req.body;
 
@@ -1010,7 +1057,7 @@ ${practicePrompt}`,
 
   // GET /api/insights/summary
   // PRO ONLY: Returns pattern insight summaries for the user
-  app.get("/api/insights/summary", async (req, res) => {
+  app.get("/api/insights/summary", insightRateLimiter, async (req, res) => {
     try {
       const userId = req.auth?.userId;
 
@@ -1144,7 +1191,7 @@ ${summaryPrompt}`,
 
   // GET /api/insights/assumptions
   // PRO ONLY: Returns the user's personal assumption library
-  app.get("/api/insights/assumptions", async (req, res) => {
+  app.get("/api/insights/assumptions", aiRateLimiter, async (req, res) => {
     try {
       const userId = req.auth?.userId;
 
@@ -1229,7 +1276,7 @@ ${summaryPrompt}`,
     },
   };
 
-  app.post("/api/duas/contextual", async (req, res) => {
+  app.post("/api/duas/contextual", aiRateLimiter, async (req, res) => {
     try {
       const userId = req.auth?.userId;
       const { state } = req.body;
