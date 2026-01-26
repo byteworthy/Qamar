@@ -92,6 +92,26 @@ jest.mock("react-native-iap", () => ({
   purchaseErrorListener: jest.fn(),
 }));
 
+// Mock react-native-keyboard-controller
+jest.mock("react-native-keyboard-controller", () => ({
+  KeyboardAwareScrollView: require("react-native").ScrollView,
+  KeyboardProvider: ({ children }: any) => children,
+  KeyboardController: {
+    setInputMode: jest.fn(),
+    setDefaultMode: jest.fn(),
+  },
+}));
+
+// Mock ReflectionProgressCompact component
+jest.mock("@/components/ReflectionProgress", () => ({
+  ReflectionProgressCompact: () => null,
+}));
+
+// Mock ExitConfirmationModal component
+jest.mock("@/components/ExitConfirmationModal", () => ({
+  ExitConfirmationModal: () => null,
+}));
+
 // Suppress console warnings during tests
 const originalWarn = console.warn;
 const originalError = console.error;
