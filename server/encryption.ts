@@ -66,7 +66,7 @@ export function encryptData(text: string): string {
     return `enc:${iv.toString("hex")}:${tag.toString("hex")}:${encrypted}`;
   } catch (error) {
     console.error("[Encryption] Encryption failed:", error);
-    return text; // Fallback to plaintext in dev
+    throw new Error(`Encryption failed: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
