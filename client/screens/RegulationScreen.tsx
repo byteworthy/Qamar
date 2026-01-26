@@ -38,6 +38,7 @@ import { generatePractice } from "@/lib/api";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { ScreenCopy } from "@/constants/brand";
 import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
+import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 
 // Dhikr-based grounding options
 interface DhikrOption {
@@ -121,7 +122,7 @@ interface PracticeResult {
   duration: string;
 }
 
-export default function RegulationScreen() {
+function RegulationScreen() {
   const [loading, setLoading] = useState(true);
   const [practice, setPractice] = useState<PracticeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -691,3 +692,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+export default withScreenErrorBoundary(RegulationScreen);

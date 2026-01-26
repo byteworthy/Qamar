@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -12,6 +12,7 @@ import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
+import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { getSessions, Session } from "@/lib/storage";
@@ -64,7 +65,7 @@ function computeLocalStats(sessions: Session[]): LocalStats {
 
 const { spacing, radii, container, typeScale } = Layout;
 
-export default function InsightsScreen() {
+function InsightsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -142,6 +143,7 @@ export default function InsightsScreen() {
     return (
       <Screen title="Insights" showBack scrollable={false}>
         <View style={styles.centerContent}>
+          <ActivityIndicator size="large" color={theme.link} />
           <ThemedText
             style={[styles.loadingText, { color: theme.textSecondary }]}
           >
@@ -503,3 +505,5 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
 });
+
+export default withScreenErrorBoundary(InsightsScreen);

@@ -26,6 +26,7 @@ import { ScreenCopy } from "@/constants/brand";
 import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
 import { ReflectionProgressCompact } from "@/components/ReflectionProgress";
 import { SkeletonText, LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -57,7 +58,7 @@ interface AnalysisResult {
   resources?: CrisisData;
 }
 
-export default function DistortionScreen() {
+function DistortionScreen() {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -851,3 +852,5 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
 });
+
+export default withScreenErrorBoundary(DistortionScreen);

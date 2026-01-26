@@ -30,6 +30,7 @@ import { ScreenCopy } from "@/constants/brand";
 import { ExitConfirmationModal } from "@/components/ExitConfirmationModal";
 import { ReflectionProgressCompact } from "@/components/ReflectionProgress";
 import { SkeletonReflection } from "@/components/LoadingSkeleton";
+import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Reframe">;
 type RouteType = RouteProp<RootStackParamList, "Reframe">;
@@ -86,7 +87,7 @@ const ISLAMIC_REFERENCES: IslamicReference[] = [
   },
 ];
 
-export default function ReframeScreen() {
+function ReframeScreen() {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<ReframeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -1015,3 +1016,5 @@ const styles = StyleSheet.create({
     marginTop: Spacing["2xl"],
   },
 });
+
+export default withScreenErrorBoundary(ReframeScreen);

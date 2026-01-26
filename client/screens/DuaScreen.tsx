@@ -12,6 +12,7 @@ import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
+import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import type { RootStackParamList } from "@/navigation/RootStackNavigator";
 
@@ -322,7 +323,7 @@ const DUAS: Record<string, Record<string, Dua>> = {
 
 const { spacing, radii, container, typeScale } = Layout;
 
-export default function DuaScreen() {
+function DuaScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const [selectedState, setSelectedState] = useState<InnerState | null>(null);
@@ -657,3 +658,5 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
 });
+
+export default withScreenErrorBoundary(DuaScreen);
