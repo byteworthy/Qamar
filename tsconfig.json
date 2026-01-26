@@ -16,6 +16,9 @@
     "dist",
     "archive",
     "scripts",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/__tests__/**",
+    "jest.config.*.js"
   ]
 }
