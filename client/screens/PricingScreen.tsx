@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, TouchableOpacity, Linking } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -334,6 +334,14 @@ export default function PricingScreen() {
     { text: "Priority features", included: true },
   ];
 
+  const openTerms = () => {
+    Linking.openURL("https://byteworthy.github.io/Noor/legal/terms.html");
+  };
+
+  const openPrivacy = () => {
+    Linking.openURL("https://byteworthy.github.io/Noor/legal/privacy.html");
+  };
+
   return (
     <Screen title="Upgrade" showBack>
       <View style={styles.header}>
@@ -399,6 +407,51 @@ export default function PricingScreen() {
           loading={loading}
         />
       </View>
+
+      {/* Subscription Legal Disclosure (Required by Guideline 3.1.2) */}
+      {!billingDisabled ? (
+        <View
+          style={[
+            styles.subscriptionLegal,
+            { backgroundColor: theme.backgroundDefault },
+          ]}
+        >
+          <ThemedText
+            style={[styles.legalText, { color: theme.textSecondary }]}
+          >
+            Payment will be charged to your Apple ID at confirmation of purchase.
+            Subscription automatically renews unless canceled at least 24 hours
+            before the end of the current period. You can manage and cancel
+            subscriptions in App Store settings.
+          </ThemedText>
+
+          <View style={styles.legalLinks}>
+            <TouchableOpacity
+              onPress={openTerms}
+              accessibilityRole="link"
+              accessibilityHint="Opens Terms of Service in browser"
+            >
+              <ThemedText style={[styles.linkText, { color: theme.accent }]}>
+                Terms of Service
+              </ThemedText>
+            </TouchableOpacity>
+
+            <ThemedText style={[styles.linkSeparator, { color: theme.textSecondary }]}>
+              {" • "}
+            </ThemedText>
+
+            <TouchableOpacity
+              onPress={openPrivacy}
+              accessibilityRole="link"
+              accessibilityHint="Opens Privacy Policy in browser"
+            >
+              <ThemedText style={[styles.linkText, { color: theme.accent }]}>
+                Privacy Policy
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
 
       {/* Hide billing actions when billing is disabled */}
       {!billingDisabled ? (
@@ -541,5 +594,28 @@ const styles = StyleSheet.create({
   validationText: {
     fontSize: typeScale.small,
     textAlign: "center",
+  },
+  subscriptionLegal: {
+    padding: container.cardPad,
+    borderRadius: radii.lg,
+    marginBottom: spacing.lg,
+  },
+  legalText: {
+    fontSize: typeScale.small,
+    lineHeight: 18,
+    textAlign: "center",
+    marginBottom: spacing.sm,
+  },
+  legalLinks: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  linkText: {
+    fontSize: typeScale.small,
+    fontWeight: "600",
+  },
+  linkSeparator: {
+    fontSize: typeScale.small,
   },
 });

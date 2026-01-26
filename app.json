@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Noor (Beta)",
+    "name": "Noor",
     "slug": "noor",
     "version": "0.9.0",
     "orientation": "portrait",
@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noor.app"
+      "bundleIdentifier": "com.noor.app",
+      "deploymentTarget": "15.0"
     },
     "android": {
       "adaptiveIcon": {
