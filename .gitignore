@@ -49,6 +49,10 @@ google-play-service-account.json
 
 app-example
 
+# Detox
+artifacts/
+.detox/
+
 # generated native folders
 /ios
 /android
