@@ -66,7 +66,7 @@ describe("API Routes", () => {
 
     // Mock authentication middleware
     app.use((req, _res, next) => {
-      req.auth = { userId: mockUserId };
+      req.auth = { userId: mockUserId, sessionToken: "mock-token" };
       next();
     });
 
@@ -96,33 +96,33 @@ describe("API Routes", () => {
     });
 
     // Setup default storage mocks
-    (storage.getReflectionHistory as jest.Mock).mockResolvedValue([]);
-    (storage.getOrCreateUser as jest.Mock).mockResolvedValue({ id: mockUserId });
-    (storage.getTodayReflectionCount as jest.Mock).mockResolvedValue(0);
-    (storage.saveReflection as jest.Mock).mockResolvedValue(undefined);
-    (storage.getReflectionCount as jest.Mock).mockResolvedValue(0);
-    (storage.getRecentReflections as jest.Mock).mockResolvedValue([]);
-    (storage.deleteReflection as jest.Mock).mockResolvedValue(1);
-    (storage.getLatestInsightSummary as jest.Mock).mockResolvedValue(null);
-    (storage.saveInsightSummary as jest.Mock).mockResolvedValue(undefined);
-    (storage.getAssumptionLibrary as jest.Mock).mockResolvedValue([]);
+    ((storage as any).getReflectionHistory as jest.Mock<any>).mockResolvedValue([]);
+    ((storage as any).getOrCreateUser as jest.Mock<any>).mockResolvedValue({ id: mockUserId });
+    ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(0);
+    ((storage as any).saveReflection as jest.Mock<any>).mockResolvedValue(undefined);
+    ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(0);
+    ((storage as any).getRecentReflections as jest.Mock<any>).mockResolvedValue([]);
+    ((storage as any).deleteReflection as jest.Mock<any>).mockResolvedValue(1);
+    ((storage as any).getLatestInsightSummary as jest.Mock<any>).mockResolvedValue(null);
+    ((storage as any).saveInsightSummary as jest.Mock<any>).mockResolvedValue(undefined);
+    ((storage as any).getAssumptionLibrary as jest.Mock<any>).mockResolvedValue([]);
 
     // Setup default billing mocks
-    (billingService.billingService.getBillingStatus as jest.Mock).mockResolvedValue({
+    ((billingService.billingService.getBillingStatus as any) as jest.Mock<any>).mockResolvedValue({
       status: "free",
     });
     (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(false);
 
     // Setup encryption mocks
-    (encryption.encryptData as jest.Mock).mockImplementation((data: string) => `encrypted:${data}`);
-    (encryption.decryptData as jest.Mock).mockImplementation((data: string) =>
+    ((encryption.encryptData as any) as jest.Mock<any>).mockImplementation((data: string) => `encrypted:${data}`);
+    ((encryption.decryptData as any) as jest.Mock<any>).mockImplementation((data: string) =>
       data.startsWith("encrypted:") ? data.substring(10) : data
     );
 
     // Setup data retention mocks
     (dataRetention.isAdminEndpointEnabled as jest.Mock).mockReturnValue(false);
     (dataRetention.verifyAdminToken as jest.Mock).mockReturnValue(false);
-    (dataRetention.runManualCleanup as jest.Mock).mockResolvedValue({
+    ((dataRetention.runManualCleanup as any) as jest.Mock<any>).mockResolvedValue({
       deletedReflections: 0,
       deletedUsers: 0,
     });
@@ -159,7 +159,7 @@ describe("API Routes", () => {
     });
 
     test("returns degraded status when database fails", async () => {
-      (storage.getReflectionHistory as jest.Mock).mockRejectedValue(
+      ((storage as any).getReflectionHistory as jest.Mock<any>).mockRejectedValue(
         new Error("Database error")
       );
 
@@ -172,7 +172,7 @@ describe("API Routes", () => {
     });
 
     test("handles health check errors gracefully", async () => {
-      (storage.getReflectionHistory as jest.Mock).mockImplementation(() => {
+      ((storage as any).getReflectionHistory as jest.Mock<any>).mockImplementation(() => {
         throw new Error("Catastrophic error");
       });
 
@@ -201,7 +201,7 @@ describe("API Routes", () => {
     };
 
     beforeEach(() => {
-      const mockCreate = jest.fn().mockResolvedValue(mockAnthropicResponse);
+      const mockCreate = (jest.fn() as jest.Mock<any>).mockResolvedValue(mockAnthropicResponse);
       (Anthropic as jest.MockedClass<typeof Anthropic>).mockImplementation(() => ({
         messages: { create: mockCreate },
       } as any));
@@ -276,7 +276,7 @@ describe("API Routes", () => {
 
     test("handles AI errors gracefully", async () => {
       (config.VALIDATION_MODE as any) = false;
-      const mockCreate = jest.fn().mockRejectedValue(new Error("AI Error"));
+      const mockCreate = (jest.fn() as jest.Mock<any>).mockRejectedValue(new Error("AI Error"));
       (Anthropic as jest.MockedClass<typeof Anthropic>).mockImplementation(() => ({
         messages: { create: mockCreate },
       } as any));
@@ -310,7 +310,7 @@ describe("API Routes", () => {
     };
 
     beforeEach(() => {
-      const mockCreate = jest.fn().mockResolvedValue(mockAnthropicResponse);
+      const mockCreate = (jest.fn() as jest.Mock<any>).mockResolvedValue(mockAnthropicResponse);
       (Anthropic as jest.MockedClass<typeof Anthropic>).mockImplementation(() => ({
         messages: { create: mockCreate },
       } as any));
@@ -390,7 +390,7 @@ describe("API Routes", () => {
     };
 
     beforeEach(() => {
-      const mockCreate = jest.fn().mockResolvedValue(mockAnthropicResponse);
+      const mockCreate = (jest.fn() as jest.Mock<any>).mockResolvedValue(mockAnthropicResponse);
       (Anthropic as jest.MockedClass<typeof Anthropic>).mockImplementation(() => ({
         messages: { create: mockCreate },
       } as any));
@@ -455,7 +455,7 @@ describe("API Routes", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
-      expect(storage.saveReflection).toHaveBeenCalledWith(
+      expect((storage as any).saveReflection).toHaveBeenCalledWith(
         mockUserId,
         expect.objectContaining({
           thought: expect.stringContaining("encrypted:"),
@@ -496,7 +496,7 @@ describe("API Routes", () => {
     });
 
     test("returns 402 when free user exceeds daily limit", async () => {
-      (storage.getTodayReflectionCount as jest.Mock).mockResolvedValue(1);
+      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(1);
 
       const res = await request(app)
         .post("/api/reflection/save")
@@ -514,7 +514,7 @@ describe("API Routes", () => {
 
     test("allows unlimited reflections for paid users", async () => {
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getTodayReflectionCount as jest.Mock).mockResolvedValue(10);
+      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(10);
 
       const res = await request(app)
         .post("/api/reflection/save")
@@ -565,7 +565,7 @@ describe("API Routes", () => {
           createdAt: new Date(),
         },
       ];
-      (storage.getReflectionHistory as jest.Mock).mockResolvedValue(mockHistory);
+      ((storage as any).getReflectionHistory as jest.Mock<any>).mockResolvedValue(mockHistory);
 
       const res = await request(app).get("/api/reflection/history");
 
@@ -574,7 +574,7 @@ describe("API Routes", () => {
       expect(res.body.history[0].thought).toBe("worried");
       expect(res.body.isLimited).toBe(true);
       expect(res.body.limit).toBe(3);
-      expect(storage.getReflectionHistory).toHaveBeenCalledWith(mockUserId, 3);
+      expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(mockUserId, 3);
     });
 
     test("returns unlimited history for paid users", async () => {
@@ -585,7 +585,7 @@ describe("API Routes", () => {
       expect(res.status).toBe(200);
       expect(res.body.isLimited).toBe(false);
       expect(res.body.limit).toBeNull();
-      expect(storage.getReflectionHistory).toHaveBeenCalledWith(mockUserId, undefined);
+      expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(mockUserId, undefined);
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -600,7 +600,7 @@ describe("API Routes", () => {
     });
 
     test("handles decryption errors gracefully", async () => {
-      (storage.getReflectionHistory as jest.Mock).mockResolvedValue([
+      ((storage as any).getReflectionHistory as jest.Mock<any>).mockResolvedValue([
         {
           id: 1,
           thought: "encrypted:test",
@@ -633,7 +633,7 @@ describe("API Routes", () => {
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
       expect(res.body.deletedCount).toBe(1);
-      expect(storage.deleteReflection).toHaveBeenCalledWith(mockUserId, 123);
+      expect((storage as any).deleteReflection).toHaveBeenCalledWith(mockUserId, 123);
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -656,7 +656,7 @@ describe("API Routes", () => {
     });
 
     test("returns 404 when reflection not found", async () => {
-      (storage.deleteReflection as jest.Mock).mockResolvedValue(0);
+      ((storage as any).deleteReflection as jest.Mock<any>).mockResolvedValue(0);
 
       const res = await request(app).delete("/api/reflection/999");
 
@@ -672,7 +672,7 @@ describe("API Routes", () => {
 
   describe("GET /api/reflection/can-reflect", () => {
     test("returns true for free user with remaining reflections", async () => {
-      (storage.getTodayReflectionCount as jest.Mock).mockResolvedValue(0);
+      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(0);
 
       const res = await request(app).get("/api/reflection/can-reflect");
 
@@ -683,7 +683,7 @@ describe("API Routes", () => {
     });
 
     test("returns false when free user has no remaining reflections", async () => {
-      (storage.getTodayReflectionCount as jest.Mock).mockResolvedValue(1);
+      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(1);
 
       const res = await request(app).get("/api/reflection/can-reflect");
 
@@ -723,8 +723,8 @@ describe("API Routes", () => {
   describe("GET /api/reflection/patterns", () => {
     test("returns patterns for paid users with sufficient reflections", async () => {
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getReflectionCount as jest.Mock).mockResolvedValue(5);
-      (storage.getRecentReflections as jest.Mock).mockResolvedValue([
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(5);
+      ((storage as any).getRecentReflections as jest.Mock<any>).mockResolvedValue([
         {
           id: 1,
           keyAssumption: "I'm not good enough",
@@ -757,7 +757,7 @@ describe("API Routes", () => {
 
     test("returns null summary when reflection count is low", async () => {
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getReflectionCount as jest.Mock).mockResolvedValue(2);
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(2);
 
       const res = await request(app).get("/api/reflection/patterns");
 
@@ -791,7 +791,7 @@ describe("API Routes", () => {
     };
 
     beforeEach(() => {
-      const mockCreate = jest.fn().mockResolvedValue(mockAnthropicResponse);
+      const mockCreate = (jest.fn() as jest.Mock<any>).mockResolvedValue(mockAnthropicResponse);
       (Anthropic as jest.MockedClass<typeof Anthropic>).mockImplementation(() => ({
         messages: { create: mockCreate },
       } as any));
@@ -800,8 +800,8 @@ describe("API Routes", () => {
     test("generates new summary for paid user with sufficient reflections", async () => {
       (config.VALIDATION_MODE as any) = false;
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getReflectionCount as jest.Mock).mockResolvedValue(5);
-      (storage.getRecentReflections as jest.Mock).mockResolvedValue([
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(5);
+      ((storage as any).getRecentReflections as jest.Mock<any>).mockResolvedValue([
         { keyAssumption: "Test", detectedState: "anxiety", distortions: ["Test"] },
       ]);
 
@@ -815,8 +815,8 @@ describe("API Routes", () => {
 
     test("returns existing summary when available", async () => {
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getReflectionCount as jest.Mock).mockResolvedValue(5);
-      (storage.getLatestInsightSummary as jest.Mock).mockResolvedValue({
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(5);
+      ((storage as any).getLatestInsightSummary as jest.Mock<any>).mockResolvedValue({
         summary: "Existing summary",
         reflectionCount: 5,
         generatedAt: new Date(),
@@ -830,7 +830,7 @@ describe("API Routes", () => {
 
     test("returns unavailable when reflection count is low", async () => {
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getReflectionCount as jest.Mock).mockResolvedValue(3);
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(3);
 
       const res = await request(app).get("/api/insights/summary");
 
@@ -866,7 +866,7 @@ describe("API Routes", () => {
   describe("GET /api/insights/assumptions", () => {
     test("returns assumption library for paid users", async () => {
       (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      (storage.getAssumptionLibrary as jest.Mock).mockResolvedValue([
+      ((storage as any).getAssumptionLibrary as jest.Mock<any>).mockResolvedValue([
         { assumption: "I'm not good enough", count: 5, lastSeen: new Date() },
       ]);
 
