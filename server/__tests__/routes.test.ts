@@ -17,7 +17,7 @@ import { describe, test, expect, jest, beforeEach, afterEach } from "@jest/globa
 import express, { type Express } from "express";
 import request from "supertest";
 import { registerRoutes } from "../routes";
-import * as storage from "../storage";
+import { storage } from "../storage";
 import * as billingService from "../billing";
 import * as config from "../config";
 import * as encryption from "../encryption";
@@ -25,7 +25,23 @@ import * as dataRetention from "../data-retention";
 import Anthropic from "@anthropic-ai/sdk";
 
 // Mock all dependencies
-jest.mock("../storage");
+jest.mock("@shared/schema", () => ({
+  users: {},
+}));
+jest.mock("../storage", () => ({
+  storage: {
+    getReflectionHistory: jest.fn(),
+    getOrCreateUser: jest.fn(),
+    getTodayReflectionCount: jest.fn(),
+    saveReflection: jest.fn(),
+    getReflectionCount: jest.fn(),
+    getRecentReflections: jest.fn(),
+    deleteReflection: jest.fn(),
+    getLatestInsightSummary: jest.fn(),
+    saveInsightSummary: jest.fn(),
+    getAssumptionLibrary: jest.fn(),
+  },
+}));
 jest.mock("../billing");
 jest.mock("../config");
 jest.mock("../encryption");
@@ -96,16 +112,16 @@ describe("API Routes", () => {
     });
 
     // Setup default storage mocks
-    ((storage as any).getReflectionHistory as jest.Mock<any>).mockResolvedValue([]);
-    ((storage as any).getOrCreateUser as jest.Mock<any>).mockResolvedValue({ id: mockUserId });
-    ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(0);
-    ((storage as any).saveReflection as jest.Mock<any>).mockResolvedValue(undefined);
-    ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(0);
-    ((storage as any).getRecentReflections as jest.Mock<any>).mockResolvedValue([]);
-    ((storage as any).deleteReflection as jest.Mock<any>).mockResolvedValue(1);
-    ((storage as any).getLatestInsightSummary as jest.Mock<any>).mockResolvedValue(null);
-    ((storage as any).saveInsightSummary as jest.Mock<any>).mockResolvedValue(undefined);
-    ((storage as any).getAssumptionLibrary as jest.Mock<any>).mockResolvedValue([]);
+    (storage.getReflectionHistory as jest.Mock<any>).mockResolvedValue([]);
+    (storage.getOrCreateUser as jest.Mock<any>).mockResolvedValue({ id: mockUserId });
+    (storage.getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(0);
+    (storage.saveReflection as jest.Mock<any>).mockResolvedValue(undefined);
+    (storage.getReflectionCount as jest.Mock<any>).mockResolvedValue(0);
+    (storage.getRecentReflections as jest.Mock<any>).mockResolvedValue([]);
+    (storage.deleteReflection as jest.Mock<any>).mockResolvedValue(1);
+    (storage.getLatestInsightSummary as jest.Mock<any>).mockResolvedValue(null);
+    (storage.saveInsightSummary as jest.Mock<any>).mockResolvedValue(undefined);
+    (storage.getAssumptionLibrary as jest.Mock<any>).mockResolvedValue([]);
 
     // Setup default billing mocks
     ((billingService.billingService.getBillingStatus as any) as jest.Mock<any>).mockResolvedValue({

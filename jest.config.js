@@ -12,6 +12,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
+    "^@shared/(.*)$": "<rootDir>/shared/$1",
   },
   transform: {
     "^.+\\.ts$": [
