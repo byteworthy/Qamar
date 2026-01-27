@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, type ViewStyle } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius } from "@/constants/theme";
@@ -15,7 +15,7 @@ type ReflectionStep =
 
 interface ReflectionProgressProps {
   currentStep: ReflectionStep;
-  style?: any;
+  style?: ViewStyle;
 }
 
 const STEPS: ReflectionStep[] = [

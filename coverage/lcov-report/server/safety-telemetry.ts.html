@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10.81% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/37</span>
+                <span class='fraction'>4/26</span>
             </div>
         
             
@@ -1060,7 +1060,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * Safety Telemetry System for Noor CBT
+ * Safety Telemetry System for Noor
  *
  * PRIORITY 3: Internal metrics only - NO behavioral tracking
  *
@@ -1235,7 +1235,7 @@ export class SafetyTelemetry {
 &nbsp;
 <span class="fstat-no" title="function not covered" >  static </span>endDistressState(userId: string, newLevel: DistressLevel): void {
     const start = <span class="cstat-no" title="statement not covered" >this.currentDistressStart.get(userId);</span>
-<span class="cstat-no" title="statement not covered" >    if (!start) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!start) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
     const duration = <span class="cstat-no" title="statement not covered" >Date.now() - start.timestamp;</span>
 &nbsp;
@@ -1262,7 +1262,7 @@ export class SafetyTelemetry {
     });
 &nbsp;
     // Limit transition history
-<span class="cstat-no" title="statement not covered" >    if (this.distressTransitions.length &gt; 1000) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.distressTransitions.length &gt; 1000) {</span>
 <span class="cstat-no" title="statement not covered" >      this.distressTransitions.shift();</span>
     }
 &nbsp;
@@ -1276,7 +1276,7 @@ export class SafetyTelemetry {
 <span class="fstat-no" title="function not covered" >  static </span>getDistressMetrics(
     level?: DistressLevel,
   ): DistressMetrics | DistressMetrics[] {
-<span class="cstat-no" title="statement not covered" >    if (level) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (level) {</span>
 <span class="cstat-no" title="statement not covered" >      return (</span>
         this.distressStates.get(level) || {
           level,
@@ -1323,7 +1323,7 @@ export class SafetyTelemetry {
 &nbsp;
 <span class="fstat-no" title="function not covered" >  static </span>getCrisisEscalationRate(): number {
     const total = <span class="cstat-no" title="statement not covered" >this.crisisMetrics.totalEvents;</span>
-<span class="cstat-no" title="statement not covered" >    if (total === 0) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (total === 0) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
 &nbsp;
     const escalated =
 <span class="cstat-no" title="statement not covered" >      this.crisisMetrics.emergencyLevel + this.crisisMetrics.urgentLevel;</span>
@@ -1351,7 +1351,7 @@ export class SafetyTelemetry {
   private <span class="fstat-no" title="function not covered" >static </span>updateReframingRate(): void {
     const total =
 <span class="cstat-no" title="statement not covered" >      this.reframingMetrics.declines + this.reframingMetrics.accepts;</span>
-<span class="cstat-no" title="statement not covered" >    if (total &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (total &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      this.reframingMetrics.declineRate =</span>
         (this.reframingMetrics.declines / total) * 100;
     }
@@ -1390,7 +1390,7 @@ export class SafetyTelemetry {
   }
 &nbsp;
   private static updateSuccessRate(): void {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (this.systemHealth.totalResponses &gt; 0) {
+    if (this.systemHealth.totalResponses &gt; 0) {
       this.systemHealth.successRate =
         (this.systemHealth.successfulResponses /
           this.systemHealth.totalResponses) *
@@ -1451,7 +1451,7 @@ export class SafetyTelemetry {
     // Check for critical violations
     const violations = <span class="cstat-no" title="statement not covered" >this.getViolationMetrics();</span>
 <span class="cstat-no" title="statement not covered" >    for (const violation of violations) {</span>
-<span class="cstat-no" title="statement not covered" >      if (violation.severityBreakdown.critical &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (violation.severityBreakdown.critical &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        alerts.push({</span>
           severity: "critical",
           message: `${violation.category}: ${violation.severityBreakdown.critical} critical violation(s)`,
@@ -1461,7 +1461,7 @@ export class SafetyTelemetry {
 &nbsp;
     // Check crisis escalation rate
     const crisisRate = <span class="cstat-no" title="statement not covered" >this.getCrisisEscalationRate();</span>
-<span class="cstat-no" title="statement not covered" >    if (crisisRate &gt; 20) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (crisisRate &gt; 20) {</span>
 <span class="cstat-no" title="statement not covered" >      alerts.push({</span>
         severity: "warning",
         message: `High crisis escalation rate: ${crisisRate.toFixed(1)}%`,
@@ -1469,7 +1469,7 @@ export class SafetyTelemetry {
     }
 &nbsp;
     // Check system success rate
-<span class="cstat-no" title="statement not covered" >    if (this.systemHealth.successRate &lt; 90) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.systemHealth.successRate &lt; 90) {</span>
 <span class="cstat-no" title="statement not covered" >      alerts.push({</span>
         severity: "critical",
         message: `Low system success rate: ${this.systemHealth.successRate.toFixed(1)}%`,
@@ -1477,7 +1477,7 @@ export class SafetyTelemetry {
     }
 &nbsp;
     // Check reframing decline rate
-<span class="cstat-no" title="statement not covered" >    if (</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
       this.reframingMetrics.declineRate &gt; 50 &amp;&amp;
       this.reframingMetrics.totalRequests &gt; 10
     ) {
@@ -1542,7 +1542,7 @@ export class TelemetryMiddleware {
         const result = <span class="cstat-no" title="statement not covered" >fn(...args);</span>
 &nbsp;
         // If it's a promise, handle async
-<span class="cstat-no" title="statement not covered" >        if (result instanceof Promise) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (result instanceof Promise) {</span>
 <span class="cstat-no" title="statement not covered" >          return result.catch(<span class="fstat-no" title="function not covered" >(e</span>rror: unknown) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            SafetyTelemetry.recordSystemFailure(category);</span>
 <span class="cstat-no" title="statement not covered" >            throw error;</span>
@@ -1564,7 +1564,7 @@ export class TelemetryMiddleware {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>

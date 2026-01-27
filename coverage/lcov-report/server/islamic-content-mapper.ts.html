@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.36% </span>
+                <span class="strong">22.22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>29/110</span>
+                <span class='fraction'>16/72</span>
             </div>
         
             
@@ -1884,7 +1884,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * Islamic Content Mapper for Noor CBT
+ * Islamic Content Mapper for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md
@@ -2029,7 +2029,7 @@ export class IslamicContentMapper {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (cognitiveDistortions &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >cognitiveDistortions.length &gt; 0)</span> {
       const primaryDistortion = <span class="cstat-no" title="statement not covered" >cognitiveDistortions[0];</span>
       const concepts = <span class="cstat-no" title="statement not covered" >DISTORTION_TO_CONCEPT[primaryDistortion];</span>
-<span class="cstat-no" title="statement not covered" >      if (concepts &amp;&amp; concepts.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (concepts &amp;&amp; concepts.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return concepts[0];</span>
       }
     }
@@ -2053,12 +2053,12 @@ export class IslamicContentMapper {
     const { cognitiveDistortions, beliefType, emotionalState } = <span class="cstat-no" title="statement not covered" >context;</span>
 &nbsp;
     // Try distortion-based alternatives
-<span class="cstat-no" title="statement not covered" >    if (cognitiveDistortions &amp;&amp; cognitiveDistortions.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (cognitiveDistortions &amp;&amp; cognitiveDistortions.length &gt; 0) {</span>
       const primaryDistortion = <span class="cstat-no" title="statement not covered" >cognitiveDistortions[0];</span>
       const concepts = <span class="cstat-no" title="statement not covered" >DISTORTION_TO_CONCEPT[primaryDistortion];</span>
-<span class="cstat-no" title="statement not covered" >      if (concepts) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (concepts) {</span>
 <span class="cstat-no" title="statement not covered" >        for (const concept of concepts) {</span>
-<span class="cstat-no" title="statement not covered" >          if (previousConcepts.indexOf(concept) === -1) {</span>
+<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (previousConcepts.indexOf(concept) === -1) {</span>
 <span class="cstat-no" title="statement not covered" >            return concept;</span>
           }
         }
@@ -2066,9 +2066,9 @@ export class IslamicContentMapper {
     }
 &nbsp;
     // Try belief type alternatives
-<span class="cstat-no" title="statement not covered" >    if (beliefType &amp;&amp; BELIEF_TYPE_TO_CONCEPT[beliefType]) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (beliefType &amp;&amp; BELIEF_TYPE_TO_CONCEPT[beliefType]) {</span>
 <span class="cstat-no" title="statement not covered" >      for (const concept of BELIEF_TYPE_TO_CONCEPT[beliefType]) {</span>
-<span class="cstat-no" title="statement not covered" >        if (previousConcepts.indexOf(concept) === -1) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (previousConcepts.indexOf(concept) === -1) {</span>
 <span class="cstat-no" title="statement not covered" >          return concept;</span>
         }
       }
@@ -2170,7 +2170,7 @@ export class IslamicContentMapper {
     ];
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (const pattern of bypassingPatterns) {</span>
-<span class="cstat-no" title="statement not covered" >      if (lowerText.includes(pattern)) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (lowerText.includes(pattern)) {</span>
 <span class="cstat-no" title="statement not covered" >        issues.push(`Spiritual bypassing detected: "${pattern}"`);</span>
       }
     }
@@ -2184,7 +2184,7 @@ export class IslamicContentMapper {
     ];
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (const pattern of guiltPatterns) {</span>
-<span class="cstat-no" title="statement not covered" >      if (lowerText.includes(pattern)) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (lowerText.includes(pattern)) {</span>
 <span class="cstat-no" title="statement not covered" >        issues.push(`Guilt-based language detected: "${pattern}"`);</span>
       }
     }
@@ -2199,7 +2199,7 @@ export class IslamicContentMapper {
     ];
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (const pattern of fatwaPatterns) {</span>
-<span class="cstat-no" title="statement not covered" >      if (lowerText.includes(pattern)) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (lowerText.includes(pattern)) {</span>
 <span class="cstat-no" title="statement not covered" >        issues.push(`Fatwa-like language detected: "${pattern}"`);</span>
       }
     }
@@ -2224,14 +2224,14 @@ export class IslamicContentMapper {
 <span class="cstat-no" title="statement not covered" >    modifier += `CBT Connection: ${selection.concept.cbtConnection}\n`;</span>
 &nbsp;
     // Add Quran if available
-<span class="cstat-no" title="statement not covered" >    if (selection.quran) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (selection.quran) {</span>
 <span class="cstat-no" title="statement not covered" >      modifier += `\nQuranic Reminder (${selection.quran.reference}):\n`;</span>
 <span class="cstat-no" title="statement not covered" >      modifier += `"${selection.quran.translation}"\n`;</span>
 <span class="cstat-no" title="statement not covered" >      modifier += `Therapeutic Context: ${selection.quran.therapeuticContext}\n`;</span>
     }
 &nbsp;
     // Add Hadith if available
-<span class="cstat-no" title="statement not covered" >    if (selection.hadith) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (selection.hadith) {</span>
 <span class="cstat-no" title="statement not covered" >      modifier += `\nHadith Reminder (${selection.hadith.source}):\n`;</span>
 <span class="cstat-no" title="statement not covered" >      modifier += `"${selection.hadith.translation}"\n`;</span>
 <span class="cstat-no" title="statement not covered" >      modifier += `Therapeutic Context: ${selection.hadith.therapeuticContext}\n`;</span>
@@ -2263,13 +2263,13 @@ export class IslamicContentMapper {
           condition.toLowerCase().includes("feel"),
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (applies) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (applies) {</span>
 <span class="cstat-no" title="statement not covered" >        applicableConcepts.push(rule.concept);</span>
       }
     }
 &nbsp;
     // Always include dhikr as a default grounding practice
-<span class="cstat-no" title="statement not covered" >    if (applicableConcepts.indexOf("dhikr") === -1) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (applicableConcepts.indexOf("dhikr") === -1) {</span>
 <span class="cstat-no" title="statement not covered" >      applicableConcepts.push("dhikr");</span>
     }
 &nbsp;
@@ -2315,7 +2315,7 @@ export function <span class="fstat-no" title="function not covered" >getSimpleRe
  */
 export function <span class="fstat-no" title="function not covered" >getConceptGuidance(</span>concept: IslamicConcept): string {
   const rule = <span class="cstat-no" title="statement not covered" >CONCEPT_RULES.find(<span class="fstat-no" title="function not covered" >(r</span>) =&gt; <span class="cstat-no" title="statement not covered" >r.concept === concept)</span>;</span>
-<span class="cstat-no" title="statement not covered" >  if (!rule) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!rule) {</span>
 <span class="cstat-no" title="statement not covered" >    return ISLAMIC_CONCEPTS[concept].therapeuticApplication;</span>
   }
 &nbsp;
@@ -2440,14 +2440,14 @@ export function <span class="fstat-no" title="function not covered" >verifyAuthe
 ): { authentic: boolean; level: string; issues: string[] } {
   const issues: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (contentType === "quran") {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (contentType === "quran") {</span>
     // All Quran content is authentic by definition
     // Check if it's in our whitelist
     const inWhitelist = <span class="cstat-no" title="statement not covered" >Object.values(QURAN_BY_STATE).some(</span>
 <span class="fstat-no" title="function not covered" >      (r</span>eminder) =&gt; <span class="cstat-no" title="statement not covered" >reminder.reference === reference,</span>
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!inWhitelist) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!inWhitelist) {</span>
 <span class="cstat-no" title="statement not covered" >      issues.push(</span>
         `Quranic reference "${reference}" not in authenticated whitelist`,
       );
@@ -2460,13 +2460,13 @@ export function <span class="fstat-no" title="function not covered" >verifyAuthe
     };
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (contentType === "hadith") {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (contentType === "hadith") {</span>
     // Check if hadith is in our whitelist
     const inWhitelist = <span class="cstat-no" title="statement not covered" >Object.values(HADITH_BY_STATE).some(</span>
 <span class="fstat-no" title="function not covered" >      (r</span>eminder) =&gt; <span class="cstat-no" title="statement not covered" >reminder &amp;&amp; reminder.source === reference,</span>
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!inWhitelist) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!inWhitelist) {</span>
 <span class="cstat-no" title="statement not covered" >      issues.push(</span>
         `Hadith reference "${reference}" not in authenticated whitelist`,
       );
@@ -2482,7 +2482,7 @@ export function <span class="fstat-no" title="function not covered" >verifyAuthe
 <span class="fstat-no" title="function not covered" >      (r</span>eminder) =&gt; <span class="cstat-no" title="statement not covered" >reminder &amp;&amp; reminder.source === reference,</span>
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
       hadith?.authenticity === "Sahih Bukhari" ||
       hadith?.authenticity === "Sahih Muslim" ||
       hadith?.authenticity === "Agreed Upon"
@@ -2502,11 +2502,11 @@ export function <span class="fstat-no" title="function not covered" >verifyAuthe
     };
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (contentType === "concept") {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (contentType === "concept") {</span>
     // Check if concept is in whitelist
     const inWhitelist = <span class="cstat-no" title="statement not covered" >SOURCING_RULES.concepts.whitelist.includes(reference);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!inWhitelist) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!inWhitelist) {</span>
 <span class="cstat-no" title="statement not covered" >      issues.push(</span>
         `Concept "${reference}" not in authenticated whitelist of 12 core concepts`,
       );
@@ -2716,7 +2716,7 @@ export function enforceNoVerseAfterCrisis(
   // Rule 2: Only mercy verses in urgent crisis, no hadith
   <span class="missing-if-branch" title="if path not taken" >I</span>if (crisisDetected &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >crisisDetected.level === "urgent")</span> {
     // Only allow if emphasis is on mercy (rahma)
-<span class="cstat-no" title="statement not covered" >    if (selection.emphasis !== "rahma") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (selection.emphasis !== "rahma") {</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         ...selection,
         quran: undefined,
@@ -2779,15 +2779,15 @@ export function <span class="fstat-no" title="function not covered" >isScholarAp
   // In production, this would check actual scholar approvals
   // For now, we check against our authenticated whitelist
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (contentType === "quran") {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (contentType === "quran") {</span>
 <span class="cstat-no" title="statement not covered" >    return SCHOLAR_APPROVED_CONTENT.approvedQuranAyat.includes(reference);</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (contentType === "hadith") {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (contentType === "hadith") {</span>
 <span class="cstat-no" title="statement not covered" >    return SCHOLAR_APPROVED_CONTENT.approvedHadith.includes(reference);</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (contentType === "concept") {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (contentType === "concept") {</span>
 <span class="cstat-no" title="statement not covered" >    return SCHOLAR_APPROVED_CONTENT.approvedConcepts.includes(reference);</span>
   }
 &nbsp;
@@ -2800,7 +2800,7 @@ export function <span class="fstat-no" title="function not covered" >isScholarAp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>

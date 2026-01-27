@@ -14,7 +14,8 @@
  */
 
 import { describe, test, expect, jest, beforeEach, afterEach } from "@jest/globals";
-import express, { type Express } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
+import type { Server } from "http";
 import request from "supertest";
 import { registerRoutes } from "../routes";
 import { storage } from "../storage";
@@ -48,7 +49,7 @@ jest.mock("../encryption");
 jest.mock("../data-retention");
 
 // Mock Anthropic with a factory that can be reconfigured
-let mockAnthropicCreate: any;
+let mockAnthropicCreate: jest.Mock;
 jest.mock("@anthropic-ai/sdk", () => {
   return jest.fn().mockImplementation(() => ({
     messages: {
@@ -61,24 +62,24 @@ jest.mock("@anthropic-ai/sdk", () => {
 
 // Mock middleware
 jest.mock("../middleware/ai-rate-limiter", () => ({
-  aiRateLimiter: jest.fn((_req: any, _res: any, next: any) => next()),
-  insightRateLimiter: jest.fn((_req: any, _res: any, next: any) => next()),
+  aiRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
+  insightRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
 }));
 jest.mock("../middleware/rate-limit", () => ({
-  adminLimiter: jest.fn((_req: any, _res: any, next: any) => next()),
+  adminLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
 }));
 
 // Mock notification routes
 jest.mock("../notificationRoutes", () => {
   const express = require("express");
   const router = express.Router();
-  router.get("/test", (_req: any, res: any) => res.json({ test: true }));
+  router.get("/test", (_req: Request, res: Response) => res.json({ test: true }));
   return router;
 });
 
 describe("API Routes", () => {
   let app: Express;
-  let server: any;
+  let server: Server;
 
   // Mock authenticated user
   const mockUserId = "test-user-123";

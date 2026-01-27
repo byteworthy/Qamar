@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>0/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>0/23</span>
             </div>
         
             
@@ -164,11 +164,7 @@
 <a name='L99'></a><a href='#L99'>99</a>
 <a name='L100'></a><a href='#L100'>100</a>
 <a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L102'></a><a href='#L102'>102</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,7 +179,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,10 +234,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -273,7 +265,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import OpenAI from "openai";</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import Anthropic from "@anthropic-ai/sdk";</span>
 &nbsp;
 interface ReflectionSummaryData {
   thought: string;
@@ -287,15 +279,14 @@ interface ThemeSummary {
   generatedAt: Date;
 }
 &nbsp;
-const openai = <span class="cstat-no" title="statement not covered" >new OpenAI({</span>
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+const anthropic = <span class="cstat-no" title="statement not covered" >new Anthropic({</span>
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export a</span>sync function <span class="fstat-no" title="function not covered" >generateReturnSummary(</span>
   reflections: ReflectionSummaryData[],
 ): Promise&lt;ThemeSummary | null&gt; {
-<span class="cstat-no" title="statement not covered" >  if (reflections.length &lt; 3) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (reflections.length &lt; 3) {</span>
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 &nbsp;
@@ -309,13 +300,10 @@ const openai = <span class="cstat-no" title="statement not covered" >new OpenAI(
     .join("\n");
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  try {</span>
-    const response = <span class="cstat-no" title="statement not covered" >await openai.chat.completions.create({</span>
-      model: "gpt-5.1",
-      max_completion_tokens: 512,
-      messages: [
-        {
-          role: "system",
-          content: `You are a neutral observer reviewing a user's recent reflections.
+    const response = <span class="cstat-no" title="statement not covered" >await anthropic.messages.create({</span>
+      model: "claude-sonnet-4-5",
+      max_tokens: 512,
+      system: `You are a neutral observer reviewing a user's recent reflections.
 &nbsp;
 YOUR TASK: Generate a brief summary paragraph that observes patterns across their reflections.
 &nbsp;
@@ -339,16 +327,16 @@ EXAMPLE OUTPUT:
 Respond with a JSON object containing:
 - summary: one paragraph observing patterns
 - patterns: array of 2-4 short pattern names observed`,
-        },
+      messages: [
         {
           role: "user",
           content: thoughtSummaries,
         },
       ],
-      response_format: { type: "json_object" },
     });
 &nbsp;
-    const content = <span class="cstat-no" title="statement not covered" >response.choices[0]?.message?.content || "{}";</span>
+    const firstBlock = <span class="cstat-no" title="statement not covered" >response.content[0];</span>
+    const content = <span class="cstat-no" title="statement not covered" >firstBlock?.type === "text" ? firstBlock.text : "{}";</span>
     const result = <span class="cstat-no" title="statement not covered" >JSON.parse(content);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
@@ -366,11 +354,11 @@ Respond with a JSON object containing:
   reflectionCount: number,
   lastSummaryDate?: Date,
 ): boolean {
-<span class="cstat-no" title="statement not covered" >  if (reflectionCount &lt; 5) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (reflectionCount &lt; 5) {</span>
 <span class="cstat-no" title="statement not covered" >    return false;</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!lastSummaryDate) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!lastSummaryDate) {</span>
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   }
 &nbsp;
@@ -385,7 +373,7 @@ Respond with a JSON object containing:
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>

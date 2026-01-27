@@ -1,4 +1,9 @@
 import { getApiUrl, apiRequest } from "./query-client";
+import type {
+  ApiResponse,
+  ApiError,
+  isApiError,
+} from "../../shared/types/api";
 
 // =============================================================================
 // CRISIS DETECTION TYPES
@@ -100,6 +105,58 @@ export interface AssumptionResult {
 }
 
 // =============================================================================
+// REFLECTION TYPES
+// =============================================================================
+
+/**
+ * Represents a single reflection session
+ */
+export interface ReflectionHistoryItem {
+  id: string;
+  thought: string;
+  distortions: string[];
+  reframe: string;
+  intention: string;
+  practice: string;
+  keyAssumption?: string;
+  detectedState?: string;
+  anchor?: string;
+  userId: string;
+  createdAt: Date | string;
+}
+
+export interface SaveReflectionData {
+  thought: string;
+  distortions: string[];
+  reframe: string;
+  intention: string;
+  practice: string;
+  anchor: string;
+}
+
+export interface SaveReflectionResponse {
+  success: boolean;
+  detectedState?: string;
+}
+
+export interface CanReflectResponse {
+  canReflect: boolean;
+  remaining: number | null;
+  isPaid: boolean;
+}
+
+export interface ReflectionHistoryResponse {
+  history: ReflectionHistoryItem[];
+  isLimited: boolean;
+  limit: number | null;
+}
+
+export interface AssumptionLibraryResponse {
+  assumptions: AssumptionResult[];
+  total: number;
+}
+
+// =============================================================================
 // API FUNCTIONS
 // =============================================================================
 
@@ -117,7 +174,7 @@ export async function analyzeThought(
     emotionalIntensity,
     somaticAwareness,
   });
-  return response.json();
+  return response.json() as Promise<AnalysisResult>;
 }
 
 /**
@@ -137,7 +194,7 @@ export async function generateReframe(
     emotionalIntensity,
     emotionalState,
   });
-  return response.json();
+  return response.json() as Promise<ReframeResult>;
 }
 
 /**
@@ -147,7 +204,7 @@ export async function generatePractice(
   reframe: string,
 ): Promise<PracticeResult> {
   const response = await apiRequest("POST", "/api/practice", { reframe });
-  return response.json();
+  return response.json() as Promise<PracticeResult>;
 }
 
 /**
@@ -155,7 +212,7 @@ export async function generatePractice(
  */
 export async function getContextualDua(state: string): Promise<DuaResult> {
   const response = await apiRequest("POST", "/api/duas/contextual", { state });
-  return response.json();
+  return response.json() as Promise<DuaResult>;
 }
 
 /**
@@ -163,73 +220,44 @@ export async function getContextualDua(state: string): Promise<DuaResult> {
  */
 export async function getInsightSummary(): Promise<InsightSummaryResult> {
   const response = await apiRequest("GET", "/api/insights/summary");
-  return response.json();
+  return response.json() as Promise<InsightSummaryResult>;
 }
 
 /**
  * Get assumption library for the user (PRO ONLY)
  */
-export async function getAssumptionLibrary(): Promise<{
-  assumptions: AssumptionResult[];
-  total: number;
-}> {
+export async function getAssumptionLibrary(): Promise<AssumptionLibraryResponse> {
   const response = await apiRequest("GET", "/api/insights/assumptions");
-  return response.json();
+  return response.json() as Promise<AssumptionLibraryResponse>;
 }
 
 /**
  * Check if user can reflect today (free tier limits)
  */
-export async function canReflectToday(): Promise<{
-  canReflect: boolean;
-  remaining: number | null;
-  isPaid: boolean;
-}> {
+export async function canReflectToday(): Promise<CanReflectResponse> {
   const response = await apiRequest("GET", "/api/reflection/can-reflect");
-  return response.json();
+  return response.json() as Promise<CanReflectResponse>;
 }
 
 /**
  * Save a completed reflection
  */
-export async function saveReflection(data: {
-  thought: string;
-  distortions: string[];
-  reframe: string;
-  intention: string;
-  practice: string;
-  anchor: string;
-}): Promise<{ success: boolean; detectedState?: string }> {
+export async function saveReflection(
+  data: SaveReflectionData,
+): Promise<SaveReflectionResponse> {
   const response = await apiRequest("POST", "/api/reflection/save", data);
-  return response.json();
-}
-
-/**
- * Represents a single reflection session
- */
-export interface ReflectionHistoryItem {
-  id: string;
-  thought: string;
-  distortions: string[];
-  reframe: string;
-  intention: string;
-  practice: string;
-  keyAssumption?: string;
-  detectedState?: string;
-  anchor?: string;
-  userId: string;
-  createdAt: Date | string;
+  return response.json() as Promise<SaveReflectionResponse>;
 }
 
 /**
  * Get reflection history for the current user
  * @returns Object containing history array, limitation status, and limit count
  */
-export async function getReflectionHistory(): Promise<{
-  history: ReflectionHistoryItem[];
-  isLimited: boolean;
-  limit: number | null;
-}> {
+export async function getReflectionHistory(): Promise<ReflectionHistoryResponse> {
   const response = await apiRequest("GET", "/api/reflection/history");
-  return response.json();
+  return response.json() as Promise<ReflectionHistoryResponse>;
 }
+
+// Re-export shared types for convenience
+export type { ApiResponse, ApiError };
+export { isApiError };

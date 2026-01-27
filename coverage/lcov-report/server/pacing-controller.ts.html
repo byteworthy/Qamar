@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.4% </span>
+                <span class="strong">18.64% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/94</span>
+                <span class='fraction'>11/59</span>
             </div>
         
             
@@ -1166,7 +1166,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * Pacing Controller for Noor CBT
+ * Pacing Controller for Noor
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md
@@ -1286,19 +1286,19 @@ export class PacingController {
     distressLevel: DistressLevel,
     conversationState: ConversationState,
   ): string {
-<span class="cstat-no" title="statement not covered" >    if (distressLevel === "high" || distressLevel === "crisis") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (distressLevel === "high" || distressLevel === "crisis") {</span>
 <span class="cstat-no" title="statement not covered" >      return "Would you like me to offer a different perspective, or should we stay here a bit longer? Either is okay.";</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (conversationState === "reframing") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (conversationState === "reframing") {</span>
 <span class="cstat-no" title="statement not covered" >      return "Would you like to explore a different angle on this?";</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (conversationState === "clarification") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (conversationState === "clarification") {</span>
 <span class="cstat-no" title="statement not covered" >      return "Is it okay if I ask a few more questions to understand better?";</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (conversationState === "grounding") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (conversationState === "grounding") {</span>
 <span class="cstat-no" title="statement not covered" >      return "Would it be helpful to think about a next step?";</span>
     }
 &nbsp;
@@ -1310,20 +1310,20 @@ export class PacingController {
    */
 <span class="fstat-no" title="function not covered" >  static </span>shouldOfferExit(metrics: SessionMetrics): boolean {
     // Offer exit after 20 minutes
-<span class="cstat-no" title="statement not covered" >    if (metrics.duration &gt; 20) <span class="cstat-no" title="statement not covered" >return true;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (metrics.duration &gt; 20) <span class="cstat-no" title="statement not covered" >return true;</span></span>
 &nbsp;
     // Offer exit after 15 interactions
-<span class="cstat-no" title="statement not covered" >    if (metrics.interactionCount &gt; 15) <span class="cstat-no" title="statement not covered" >return true;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (metrics.interactionCount &gt; 15) <span class="cstat-no" title="statement not covered" >return true;</span></span>
 &nbsp;
     // Offer exit if high distress persists
-<span class="cstat-no" title="statement not covered" >    if (metrics.distressLevel === "high" &amp;&amp; metrics.interactionCount &gt; 5)</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (metrics.distressLevel === "high" &amp;&amp; metrics.interactionCount &gt; 5)</span>
 <span class="cstat-no" title="statement not covered" >      return true;</span>
 &nbsp;
     // Offer exit if crisis was detected
-<span class="cstat-no" title="statement not covered" >    if (metrics.crisisDetected) <span class="cstat-no" title="statement not covered" >return true;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (metrics.crisisDetected) <span class="cstat-no" title="statement not covered" >return true;</span></span>
 &nbsp;
     // Offer exit if repetition is high (user stuck)
-<span class="cstat-no" title="statement not covered" >    if (metrics.repetitionCount &gt;= 3) <span class="cstat-no" title="statement not covered" >return true;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (metrics.repetitionCount &gt;= 3) <span class="cstat-no" title="statement not covered" >return true;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return false;</span>
   }
@@ -1344,7 +1344,7 @@ export class PacingController {
     distressLevel: DistressLevel,
   ): ClosureRitual {
     // High distress closure: minimal, warm, no pressure
-<span class="cstat-no" title="statement not covered" >    if (distressLevel === "high" || distressLevel === "crisis") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (distressLevel === "high" || distressLevel === "crisis") {</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         acknowledgment: "You've been through something difficult.",
         validation: "That took courage.",
@@ -1355,7 +1355,7 @@ export class PacingController {
     }
 &nbsp;
     // Work completed closure: honor the effort
-<span class="cstat-no" title="statement not covered" >    if (workDone) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (workDone) {</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         acknowledgment: "You showed up for this work today.",
         validation: "That matters. Your effort is seen.",
@@ -1381,7 +1381,7 @@ export class PacingController {
 <span class="fstat-no" title="function not covered" >  static </span>formatClosureMessage(ritual: ClosureRitual): string {
     let message = <span class="cstat-no" title="statement not covered" >`\n\n${ritual.acknowledgment}\n\n${ritual.validation}`;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (ritual.noGuilt) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (ritual.noGuilt) {</span>
 <span class="cstat-no" title="statement not covered" >      message += `\n\n${ritual.invitation}`;</span>
     }
 &nbsp;
@@ -1449,7 +1449,7 @@ export class PacingController {
    * Add gentle delay before response (simulates thoughtful presence)
    */
 <span class="fstat-no" title="function not covered" >  static </span>async applyGentleDelay(milliseconds: number): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    if (milliseconds &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (milliseconds &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, milliseconds))</span>;</span>
     }
   }
@@ -1504,15 +1504,15 @@ export class PermissionChecker {
     repetitionCount: number,
   ): boolean {
     // Always need permission for reframing
-<span class="cstat-no" title="statement not covered" >    if (action === "reframe") <span class="cstat-no" title="statement not covered" >return true;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (action === "reframe") <span class="cstat-no" title="statement not covered" >return true;</span></span>
 &nbsp;
     // Need permission in high distress for any progression
-<span class="cstat-no" title="statement not covered" >    if (distressLevel === "high" || distressLevel === "crisis") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (distressLevel === "high" || distressLevel === "crisis") {</span>
 <span class="cstat-no" title="statement not covered" >      return action !== "close";</span>
     }
 &nbsp;
     // Need permission if repetition detected (user stuck)
-<span class="cstat-no" title="statement not covered" >    if (repetitionCount &gt;= 2) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (repetitionCount &gt;= 2) {</span>
 <span class="cstat-no" title="statement not covered" >      return action === "deepen";</span>
     }
 &nbsp;
@@ -1584,18 +1584,18 @@ export class PermissionChecker {
       "go ahead",
       "continue",
     ];
-<span class="cstat-no" title="statement not covered" >    if (grantWords.some(<span class="fstat-no" title="function not covered" >(w</span>ord) =&gt; <span class="cstat-no" title="statement not covered" >lower.includes(word))</span>) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (grantWords.some(<span class="fstat-no" title="function not covered" >(w</span>ord) =&gt; <span class="cstat-no" title="statement not covered" >lower.includes(word))</span>) {</span>
 <span class="cstat-no" title="statement not covered" >      return "granted";</span>
     }
 &nbsp;
     // Clear denials
     const denyWords = <span class="cstat-no" title="statement not covered" >["no", "not yet", "stay here", "keep listening", "pause"];</span>
-<span class="cstat-no" title="statement not covered" >    if (denyWords.some(<span class="fstat-no" title="function not covered" >(w</span>ord) =&gt; <span class="cstat-no" title="statement not covered" >lower.includes(word))</span>) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (denyWords.some(<span class="fstat-no" title="function not covered" >(w</span>ord) =&gt; <span class="cstat-no" title="statement not covered" >lower.includes(word))</span>) {</span>
 <span class="cstat-no" title="statement not covered" >      return "denied";</span>
     }
 &nbsp;
     // If user asks a question or changes topic, treat as unclear
-<span class="cstat-no" title="statement not covered" >    if (lower.includes("?")) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (lower.includes("?")) {</span>
 <span class="cstat-no" title="statement not covered" >      return "unclear";</span>
     }
 &nbsp;
@@ -1675,7 +1675,7 @@ export function <span class="fstat-no" title="function not covered" >detectPress
   const lower = <span class="cstat-no" title="statement not covered" >text.toLowerCase();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  for (const pattern of pressurePatterns) {</span>
-<span class="cstat-no" title="statement not covered" >    if (lower.includes(pattern)) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (lower.includes(pattern)) {</span>
 <span class="cstat-no" title="statement not covered" >      examples.push(pattern);</span>
     }
   }
@@ -1703,14 +1703,14 @@ export function <span class="fstat-no" title="function not covered" >calculateSe
  * Format duration for display
  */
 export function <span class="fstat-no" title="function not covered" >formatDuration(</span>minutes: number): string {
-<span class="cstat-no" title="statement not covered" >  if (minutes &lt; 1) <span class="cstat-no" title="statement not covered" >return "less than a minute";</span></span>
-<span class="cstat-no" title="statement not covered" >  if (minutes === 1) <span class="cstat-no" title="statement not covered" >return "1 minute";</span></span>
-<span class="cstat-no" title="statement not covered" >  if (minutes &lt; 60) <span class="cstat-no" title="statement not covered" >return `${minutes} minutes`;</span></span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (minutes &lt; 1) <span class="cstat-no" title="statement not covered" >return "less than a minute";</span></span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (minutes === 1) <span class="cstat-no" title="statement not covered" >return "1 minute";</span></span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (minutes &lt; 60) <span class="cstat-no" title="statement not covered" >return `${minutes} minutes`;</span></span>
 &nbsp;
   const hours = <span class="cstat-no" title="statement not covered" >Math.floor(minutes / 60);</span>
   const remainingMinutes = <span class="cstat-no" title="statement not covered" >minutes % 60;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (remainingMinutes === 0) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (remainingMinutes === 0) {</span>
 <span class="cstat-no" title="statement not covered" >    return hours === 1 ? "1 hour" : `${hours} hours`;</span>
   }
 &nbsp;
@@ -1723,7 +1723,7 @@ export function <span class="fstat-no" title="function not covered" >formatDurat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -29,7 +29,7 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 
-import { useTheme } from "@/hooks/useTheme";
+import { useTheme, type Theme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
@@ -62,7 +62,7 @@ async function fetchContextualDua(
  * Celebration component with orchestrated animations
  * Creates a memorable moment with radial burst, particles, and haptics
  */
-function CelebrationCheckmark({ theme }: { theme: any }) {
+function CelebrationCheckmark({ theme }: { theme: Theme }) {
   const scale = useSharedValue(0);
   const burstOpacity = useSharedValue(0);
   const burstScale = useSharedValue(0.5);

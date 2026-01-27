@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/48</span>
+                <span class='fraction'>0/37</span>
             </div>
         
             
@@ -342,8 +342,7 @@
 <a name='L277'></a><a href='#L277'>277</a>
 <a name='L278'></a><a href='#L278'>278</a>
 <a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L280'></a><a href='#L280'>280</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -372,8 +371,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -482,7 +479,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -550,6 +546,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -640,7 +638,7 @@ const log = <span class="cstat-no" title="statement not covered" >console.log;</
 &nbsp;
 /**
  * When true, the app runs in validation mode:
- * - AI routes return placeholder responses instead of calling OpenAI
+ * - AI routes return placeholder responses instead of calling Claude API
  * - Billing/purchase flows are disabled
  * - Missing API keys don't crash the app
  */
@@ -661,10 +659,8 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
   // Database
   databaseUrl: process.env.DATABASE_URL,
 &nbsp;
-  // OpenAI
-  openaiApiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  openaiBaseUrl:
-    process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || "https://api.openai.com/v1",
+  // Anthropic Claude
+  anthropicApiKey: process.env.ANTHROPIC_API_KEY,
 &nbsp;
   // Stripe (server-side, not for mobile IAP)
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
@@ -686,15 +682,15 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
  * Check if a key is a placeholder (CHANGEME) value
  */
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >i</span>sPlaceholderKey(</span>key: string | undefined): boolean {
-<span class="cstat-no" title="statement not covered" >  if (!key) <span class="cstat-no" title="statement not covered" >return true;</span></span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!key) <span class="cstat-no" title="statement not covered" >return true;</span></span>
 <span class="cstat-no" title="statement not covered" >  return key.includes("CHANGEME") || key === "";</span>
 }
 &nbsp;
 /**
- * Check if OpenAI is properly configured
+ * Check if Anthropic Claude is properly configured
  */
-<span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >i</span>sOpenAIConfigured(</span>): boolean {
-<span class="cstat-no" title="statement not covered" >  return !isPlaceholderKey(config.openaiApiKey);</span>
+<span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >i</span>sAnthropicConfigured(</span>): boolean {
+<span class="cstat-no" title="statement not covered" >  return !isPlaceholderKey(config.anthropicApiKey);</span>
 }
 &nbsp;
 /**
@@ -730,10 +726,10 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
 <span class="cstat-no" title="statement not covered" >  return {</span>
     distortions: ["Emotional reasoning"],
     happening:
-      "[VALIDATION MODE] This is a placeholder response. Configure AI_INTEGRATIONS_OPENAI_API_KEY for real analysis.",
+      "[VALIDATION MODE] This is a placeholder response. Configure ANTHROPIC_API_KEY for real analysis.",
     pattern: [
       "This would identify cognitive patterns in your thought.",
-      "Real responses require OpenAI API configuration.",
+      "Real responses require Claude API configuration.",
     ],
     matters:
       "In production, this section provides grounded Islamic perspective on your situation.",
@@ -754,8 +750,7 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
       "[VALIDATION MODE] This would identify the belief being tested.",
     perspective:
       "Real responses provide a truer perspective grounded in Islamic principles.",
-    nextStep:
-      "Configure AI_INTEGRATIONS_OPENAI_API_KEY for full functionality.",
+    nextStep: "Configure ANTHROPIC_API_KEY for full functionality.",
     anchors: ["Allah's mercy exceeds sin"],
   };
 }
@@ -773,8 +768,8 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
     title: "[VALIDATION MODE] Grounding Practice",
     steps: [
       "This is a placeholder practice step.",
-      "Real practices require OpenAI API configuration.",
-      "Configure AI_INTEGRATIONS_OPENAI_API_KEY for full functionality.",
+      "Real practices require Claude API configuration.",
+      "Configure ANTHROPIC_API_KEY for full functionality.",
     ],
     reminder: "Placeholder reminder for validation testing.",
     duration: "1-2 minutes",
@@ -785,7 +780,7 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
  * Generate placeholder insight summary for validation mode
  */
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >g</span>etValidationModeInsightSummary(</span>): string {
-<span class="cstat-no" title="statement not covered" >  return "[VALIDATION MODE] Pattern insights require OpenAI API configuration.";</span>
+<span class="cstat-no" title="statement not covered" >  return "[VALIDATION MODE] Pattern insights require Claude API configuration.";</span>
 }
 &nbsp;
 // =============================================================================
@@ -819,20 +814,22 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
 <span class="cstat-no" title="statement not covered" >    log("✅ Database: Configured");</span>
   } else {
 <span class="cstat-no" title="statement not covered" >    log("⚠️  Database: Not configured (DATABASE_URL missing or placeholder)");</span>
-<span class="cstat-no" title="statement not covered" >    if (!VALIDATION_MODE) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!VALIDATION_MODE) {</span>
 <span class="cstat-no" title="statement not covered" >      log("   WARNING: Data persistence will not work");</span>
     }
   }
 &nbsp;
-  // OpenAI
-<span class="cstat-no" title="statement not covered" >  if (isOpenAIConfigured()) {</span>
-<span class="cstat-no" title="statement not covered" >    log("✅ OpenAI: Configured");</span>
+  // Anthropic Claude
+<span class="cstat-no" title="statement not covered" >  if (isAnthropicConfigured()) {</span>
+<span class="cstat-no" title="statement not covered" >    log("✅ Anthropic Claude: Configured");</span>
   } else {
 <span class="cstat-no" title="statement not covered" >    if (VALIDATION_MODE) {</span>
-<span class="cstat-no" title="statement not covered" >      log("ℹ️  OpenAI: Not configured (placeholder responses will be used)");</span>
+<span class="cstat-no" title="statement not covered" >      log(</span>
+        "ℹ️  Anthropic Claude: Not configured (placeholder responses will be used)",
+      );
     } else {
-<span class="cstat-no" title="statement not covered" >      log("❌ OpenAI: Not configured - AI routes will fail!");</span>
-<span class="cstat-no" title="statement not covered" >      log("   Set AI_INTEGRATIONS_OPENAI_API_KEY in .env");</span>
+<span class="cstat-no" title="statement not covered" >      log("❌ Anthropic Claude: Not configured - AI routes will fail!");</span>
+<span class="cstat-no" title="statement not covered" >      log("   Set ANTHROPIC_API_KEY in .env");</span>
     }
   }
 &nbsp;
@@ -855,7 +852,7 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
  * Called on server startup to ensure critical config is present
  */
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >v</span>alidateProductionConfig(</span>): void {
-<span class="cstat-no" title="statement not covered" >  if (VALIDATION_MODE) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (VALIDATION_MODE) {</span>
     // In validation mode, we don't fail-fast - just log warnings
 <span class="cstat-no" title="statement not covered" >    return;</span>
   }
@@ -863,31 +860,31 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
   const errors: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
   // SESSION_SECRET is critical for session security
-<span class="cstat-no" title="statement not covered" >  if (config.isProduction &amp;&amp; !process.env.SESSION_SECRET) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (config.isProduction &amp;&amp; !process.env.SESSION_SECRET) {</span>
 <span class="cstat-no" title="statement not covered" >    errors.push(</span>
       "SESSION_SECRET is missing. Session authentication will be insecure.",
     );
   }
 &nbsp;
   // DATABASE_URL is required in production
-<span class="cstat-no" title="statement not covered" >  if (config.isProduction &amp;&amp; !isDatabaseConfigured()) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (config.isProduction &amp;&amp; !isDatabaseConfigured()) {</span>
 <span class="cstat-no" title="statement not covered" >    errors.push(</span>
       "DATABASE_URL is missing or placeholder. Database is required in production.",
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!isOpenAIConfigured()) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!isAnthropicConfigured()) {</span>
 <span class="cstat-no" title="statement not covered" >    errors.push(</span>
-      "AI_INTEGRATIONS_OPENAI_API_KEY is missing or placeholder. AI features will not work.",
+      "ANTHROPIC_API_KEY is missing or placeholder. AI features will not work.",
     );
   }
 &nbsp;
   // Database warning for non-production environments
-<span class="cstat-no" title="statement not covered" >  if (!config.isProduction &amp;&amp; !isDatabaseConfigured()) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!config.isProduction &amp;&amp; !isDatabaseConfigured()) {</span>
 <span class="cstat-no" title="statement not covered" >    log("⚠️  WARNING: DATABASE_URL not configured. Data will not persist.");</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (errors.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (errors.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >    log("❌ CONFIGURATION ERRORS:");</span>
 <span class="cstat-no" title="statement not covered" >    errors.forEach(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >log(`   - ${err}`))</span>;</span>
 <span class="cstat-no" title="statement not covered" >    log("");</span>
@@ -896,7 +893,7 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
 <span class="cstat-no" title="statement not covered" >    log("");</span>
 &nbsp;
     // In production, we fail hard. In development, we warn but continue.
-<span class="cstat-no" title="statement not covered" >    if (config.isProduction) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (config.isProduction) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error(</span>
         `Production startup blocked: ${errors.length} configuration error(s)`,
       );
@@ -910,7 +907,7 @@ export const <span class="cstat-no" title="statement not covered" >config = {</s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>

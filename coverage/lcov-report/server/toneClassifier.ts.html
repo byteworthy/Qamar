@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/34</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
@@ -660,7 +660,7 @@ function <span class="fstat-no" title="function not covered" >countMarkers(</spa
 <span class="cstat-no" title="statement not covered" >  for (const marker of markers) {</span>
     const regex = <span class="cstat-no" title="statement not covered" >new RegExp(`\\b${marker}\\b`, "gi");</span>
     const matches = <span class="cstat-no" title="statement not covered" >lowerText.match(regex);</span>
-<span class="cstat-no" title="statement not covered" >    if (matches) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (matches) {</span>
 <span class="cstat-no" title="statement not covered" >      count += matches.length;</span>
     }
   }
@@ -669,7 +669,7 @@ function <span class="fstat-no" title="function not covered" >countMarkers(</spa
 &nbsp;
 function <span class="fstat-no" title="function not covered" >getAverageSentenceLength(</span>text: string): number {
   const sentences = <span class="cstat-no" title="statement not covered" >text.split(/[.!?]+/).filter(<span class="fstat-no" title="function not covered" >(s</span>) =&gt; <span class="cstat-no" title="statement not covered" >s.trim().length &gt; 0)</span>;</span>
-<span class="cstat-no" title="statement not covered" >  if (sentences.length === 0) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (sentences.length === 0) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
   const totalWords = <span class="cstat-no" title="statement not covered" >sentences.reduce(</span>
 <span class="fstat-no" title="function not covered" >    (s</span>um, s) =&gt; <span class="cstat-no" title="statement not covered" >sum + s.trim().split(/\s+/).length,</span>
     0,
@@ -701,7 +701,7 @@ function <span class="fstat-no" title="function not covered" >hasConcreteLanguag
   text: string,
   previousReflections?: string[],
 ): ToneClassification {
-<span class="cstat-no" title="statement not covered" >  if (!text || text.trim().length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!text || text.trim().length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >    return { mode: "balanced", confidence: 0 };</span>
   }
 &nbsp;
@@ -714,14 +714,14 @@ function <span class="fstat-no" title="function not covered" >hasConcreteLanguag
   const avgSentenceLength = <span class="cstat-no" title="statement not covered" >getAverageSentenceLength(text);</span>
 <span class="cstat-no" title="statement not covered" >  if (avgSentenceLength &gt; 15) {</span>
 <span class="cstat-no" title="statement not covered" >    analyticalScore += 2;</span>
-  } else <span class="cstat-no" title="statement not covered" >if (avgSentenceLength &lt; 8) {</span>
+  } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (avgSentenceLength &lt; 8) {</span>
 <span class="cstat-no" title="statement not covered" >    emotionalScore += 1;</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (hasAbstractLanguage(text)) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (hasAbstractLanguage(text)) {</span>
 <span class="cstat-no" title="statement not covered" >    analyticalScore += 2;</span>
   }
-<span class="cstat-no" title="statement not covered" >  if (hasConcreteLanguage(text)) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (hasConcreteLanguage(text)) {</span>
 <span class="cstat-no" title="statement not covered" >    emotionalScore += 1;</span>
   }
 &nbsp;
@@ -730,7 +730,7 @@ function <span class="fstat-no" title="function not covered" >hasConcreteLanguag
 <span class="cstat-no" title="statement not covered" >  emotionalScore += exclamationCount;</span>
 <span class="cstat-no" title="statement not covered" >  analyticalScore += questionCount * 0.5;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (previousReflections &amp;&amp; previousReflections.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (previousReflections &amp;&amp; previousReflections.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >    for (const prev of previousReflections.slice(-3)) {</span>
       const prevEmotional = <span class="cstat-no" title="statement not covered" >countMarkers(prev, EMOTIONAL_MARKERS);</span>
       const prevAnalytical = <span class="cstat-no" title="statement not covered" >countMarkers(prev, ANALYTICAL_MARKERS);</span>
@@ -741,7 +741,7 @@ function <span class="fstat-no" title="function not covered" >hasConcreteLanguag
 &nbsp;
   const total = <span class="cstat-no" title="statement not covered" >emotionalScore + analyticalScore;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (total &lt; 2) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (total &lt; 2) {</span>
 <span class="cstat-no" title="statement not covered" >    return { mode: "balanced", confidence: 0.3 };</span>
   }
 &nbsp;
@@ -787,7 +787,7 @@ function <span class="fstat-no" title="function not covered" >hasConcreteLanguag
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>

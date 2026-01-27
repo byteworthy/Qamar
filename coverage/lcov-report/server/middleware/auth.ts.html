@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/72</span>
+                <span class='fraction'>0/78</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/28</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/71</span>
+                <span class='fraction'>0/77</span>
             </div>
         
             
@@ -289,7 +289,17 @@
 <a name='L224'></a><a href='#L224'>224</a>
 <a name='L225'></a><a href='#L225'>225</a>
 <a name='L226'></a><a href='#L226'>226</a>
-<a name='L227'></a><a href='#L227'>227</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -396,8 +406,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -499,10 +513,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -540,7 +560,7 @@ declare global {
 function <span class="fstat-no" title="function not covered" >getSessionSecret(</span>): string {
   const isProduction = <span class="cstat-no" title="statement not covered" >process.env.NODE_ENV === "production";</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (isProduction &amp;&amp; !process.env.SESSION_SECRET) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (isProduction &amp;&amp; !process.env.SESSION_SECRET) {</span>
 <span class="cstat-no" title="statement not covered" >    console.error(</span>
       "FATAL: SESSION_SECRET not configured in production. " +
         "Session security will fail. Server refusing to start.",
@@ -567,7 +587,7 @@ function <span class="fstat-no" title="function not covered" >signToken(</span>t
 function <span class="fstat-no" title="function not covered" >verifySignedToken(</span>signedToken: string): string | null {
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const parts = <span class="cstat-no" title="statement not covered" >signedToken.split(".");</span>
-<span class="cstat-no" title="statement not covered" >    if (parts.length !== 2) <span class="cstat-no" title="statement not covered" >return null;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (parts.length !== 2) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 &nbsp;
     const [token, signature] = <span class="cstat-no" title="statement not covered" >parts;</span>
     const secret = <span class="cstat-no" title="statement not covered" >getSessionSecret();</span>
@@ -580,14 +600,14 @@ function <span class="fstat-no" title="function not covered" >verifySignedToken(
     const signatureBuffer = <span class="cstat-no" title="statement not covered" >Buffer.from(signature, "hex");</span>
     const expectedBuffer = <span class="cstat-no" title="statement not covered" >Buffer.from(expectedSignature, "hex");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (signatureBuffer.length !== expectedBuffer.length) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (signatureBuffer.length !== expectedBuffer.length) {</span>
 <span class="cstat-no" title="statement not covered" >      console.warn(</span>
         "[AUTH] Session signature length mismatch - possible tampering attempt",
       );
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {</span>
 <span class="cstat-no" title="statement not covered" >      console.warn("[AUTH] Session signature verification failed");</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
@@ -611,19 +631,23 @@ function <span class="fstat-no" title="function not covered" >generateSessionTok
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const signedToken = <span class="cstat-no" title="statement not covered" >req.cookies?.[SESSION_COOKIE_NAME];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (signedToken) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (signedToken) {</span>
       const token = <span class="cstat-no" title="statement not covered" >verifySignedToken(signedToken);</span>
-<span class="cstat-no" title="statement not covered" >      if (token) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (token) {</span>
         const [session] = <span class="cstat-no" title="statement not covered" >await db</span>
           .select()
           .from(userSessions)
           .where(eq(userSessions.token, token));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (session &amp;&amp; new Date(session.expiresAt) &gt; new Date()) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (session &amp;&amp; new Date(session.expiresAt) &gt; new Date()) {</span>
           // Decrypt email if it exists
-          const decryptedEmail = <span class="cstat-no" title="statement not covered" >session.email</span>
-            ? decryptData(session.email)
-            : null;
+          let decryptedEmail: string | null = <span class="cstat-no" title="statement not covered" >null;</span>
+<span class="cstat-no" title="statement not covered" >          try {</span>
+<span class="cstat-no" title="statement not covered" >            decryptedEmail = session.email ? decryptData(session.email) : null;</span>
+          } catch (error) {
+<span class="cstat-no" title="statement not covered" >            console.error("[Auth] Failed to decrypt session email:", error);</span>
+            // Continue with null email - session still valid
+          }
 <span class="cstat-no" title="statement not covered" >          req.auth = {</span>
             userId: session.userId,
             email: decryptedEmail,
@@ -728,7 +752,13 @@ function <span class="fstat-no" title="function not covered" >generateSessionTok
   token: string,
   email: string,
 ): Promise&lt;void&gt; {
-  const encryptedEmail = <span class="cstat-no" title="statement not covered" >encryptData(email);</span>
+  let encryptedEmail: string;
+<span class="cstat-no" title="statement not covered" >  try {</span>
+<span class="cstat-no" title="statement not covered" >    encryptedEmail = encryptData(email);</span>
+  } catch (error) {
+<span class="cstat-no" title="statement not covered" >    console.error("[Auth] Failed to encrypt email:", error);</span>
+<span class="cstat-no" title="statement not covered" >    throw new Error("Failed to secure user data");</span>
+  }
 <span class="cstat-no" title="statement not covered" >  await db</span>
     .update(userSessions)
     .set({ email: encryptedEmail })
@@ -736,7 +766,7 @@ function <span class="fstat-no" title="function not covered" >generateSessionTok
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >r</span>equireAuth(</span>req: Request, res: Response, next: NextFunction) {
-<span class="cstat-no" title="statement not covered" >  if (!req.auth?.userId) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!req.auth?.userId) {</span>
 <span class="cstat-no" title="statement not covered" >    return res.status(401).json({ error: "Authentication required" });</span>
   }
 <span class="cstat-no" title="statement not covered" >  next();</span>
@@ -748,7 +778,7 @@ function <span class="fstat-no" title="function not covered" >generateSessionTok
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

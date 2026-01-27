@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/37</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
@@ -852,7 +852,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * Notification API Routes for Noor CBT
+ * Notification API Routes for Noor
  *
  * Handles push token registration and server-triggered notifications
  */
@@ -913,7 +913,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const parsed = <span class="cstat-no" title="statement not covered" >registerTokenSchema.safeParse(req.body);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!parsed.success) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!parsed.success) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({</span>
         error: "Invalid request",
         details: parsed.error.errors,
@@ -924,7 +924,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
     const { token, userId, platform, deviceName } = <span class="cstat-no" title="statement not covered" >parsed.data;</span>
 &nbsp;
     // Validate token format
-<span class="cstat-no" title="statement not covered" >    if (!isValidPushToken(token)) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!isValidPushToken(token)) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({</span>
         error: "Invalid push token format",
       });
@@ -967,7 +967,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const { token } = <span class="cstat-no" title="statement not covered" >req.body;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!token) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!token) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({ error: "Token required" });</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -997,7 +997,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const parsed = <span class="cstat-no" title="statement not covered" >sendNotificationSchema.safeParse(req.body);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!parsed.success) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!parsed.success) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({</span>
         error: "Invalid request",
         details: parsed.error.errors,
@@ -1014,15 +1014,15 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >      targetTokens = tokens;</span>
     }
     // If userId provided, find their tokens
-    else <span class="cstat-no" title="statement not covered" >if (userId) {</span>
+    else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (userId) {</span>
 <span class="cstat-no" title="statement not covered" >      for (const [token, pushToken] of pushTokens) {</span>
-<span class="cstat-no" title="statement not covered" >        if (pushToken.userId === userId) {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (pushToken.userId === userId) {</span>
 <span class="cstat-no" title="statement not covered" >          targetTokens.push(token);</span>
         }
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (targetTokens.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (targetTokens.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({</span>
         error: "No valid tokens found",
       });
@@ -1056,7 +1056,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const parsed = <span class="cstat-no" title="statement not covered" >broadcastSchema.safeParse(req.body);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!parsed.success) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!parsed.success) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({</span>
         error: "Invalid request",
         details: parsed.error.errors,
@@ -1068,7 +1068,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 &nbsp;
     const allTokens = <span class="cstat-no" title="statement not covered" >Array.from(pushTokens.keys());</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (allTokens.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (allTokens.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      res.json({</span>
         success: true,
         message: "No registered devices",
@@ -1114,7 +1114,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
     // For now, we'll just demonstrate the pattern
     const { daysSinceLastActivity = <span class="branch-0 cbranch-no" title="branch not covered" >3,</span> tokens } = <span class="cstat-no" title="statement not covered" >req.body;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!tokens || tokens.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!tokens || tokens.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      res.json({</span>
         success: true,
         message: "No tokens to notify",
@@ -1144,7 +1144,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const { token } = <span class="cstat-no" title="statement not covered" >req.query;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!token || typeof token !== "string") {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!token || typeof token !== "string") {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).json({ error: "Token required" });</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -1221,7 +1221,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >g</span>etTokensForUser(</span>userId: string): string[] {
   const tokens: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >  for (const [token, pushToken] of pushTokens) {</span>
-<span class="cstat-no" title="statement not covered" >    if (pushToken.userId === userId) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (pushToken.userId === userId) {</span>
 <span class="cstat-no" title="statement not covered" >      tokens.push(token);</span>
     }
   }
@@ -1238,7 +1238,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
  */
 <span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >u</span>pdateTokenLastUsed(</span>token: string): void {
   const existing = <span class="cstat-no" title="statement not covered" >pushTokens.get(token);</span>
-<span class="cstat-no" title="statement not covered" >  if (existing) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (existing) {</span>
 <span class="cstat-no" title="statement not covered" >    existing.lastUsed = new Date();</span>
 <span class="cstat-no" title="statement not covered" >    pushTokens.set(token, existing);</span>
   }
@@ -1252,7 +1252,7 @@ const broadcastSchema = <span class="cstat-no" title="statement not covered" >z.
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-24T08:39:42.505Z
+                at 2026-01-26T23:51:56.494Z
             </div>
         <script src="../prettify.js"></script>
         <script>
