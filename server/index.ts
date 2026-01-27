@@ -28,6 +28,7 @@ import {
   requestIdMiddleware,
   rateLimiterMiddleware,
 } from "./middleware/production";
+import { requestLoggerMiddleware } from "./middleware/request-logger";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -383,7 +384,8 @@ async function initStripe() {
   // All subsequent routes can access req.auth.userId instead of trusting client input
   app.use(sessionMiddleware);
 
-  setupRequestLogging(app);
+  // Structured logging middleware (attaches req.logger to each request)
+  app.use(requestLoggerMiddleware);
 
   await initStripe();
 
