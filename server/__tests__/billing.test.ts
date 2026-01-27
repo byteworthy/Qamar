@@ -239,16 +239,9 @@ describe("Billing Routes", () => {
 describe("Billing Webhooks", () => {
   test("webhook registration is a no-op", () => {
     const mockApp = {} as Express;
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
 
-    // Should not throw
+    // Should not throw (logs via defaultLogger now)
     expect(() => registerBillingWebhookRoute(mockApp)).not.toThrow();
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "[Billing] Stripe webhooks disabled - using IAP",
-    );
-
-    consoleSpy.mockRestore();
   });
 
   test("webhook route does not register any routes", () => {
@@ -285,16 +278,10 @@ describe("Stripe Sync", () => {
   });
 
   test("syncBackfill is a no-op", async () => {
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
     const sync = await getStripeSync();
 
+    // Should complete without errors (logs via defaultLogger now)
     await expect(sync.syncBackfill()).resolves.toBeUndefined();
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "[Billing] Stripe sync skipped - using IAP",
-    );
-
-    consoleSpy.mockRestore();
   });
 });
 

@@ -11,6 +11,7 @@
  */
 
 import type { Express, Request, Response } from "express";
+import { defaultLogger } from "../utils/logger";
 
 // =============================================================================
 // BILLING SERVICE STUB
@@ -52,7 +53,9 @@ export const billingService = {
  */
 export function registerBillingWebhookRoute(_app: Express): void {
   // Stripe webhooks archived - IAP uses client-side validation
-  console.log("[Billing] Stripe webhooks disabled - using IAP");
+  defaultLogger.info("Billing: Stripe webhooks disabled - using IAP", {
+    operation: "billing_init",
+  });
 }
 
 /**
@@ -107,7 +110,9 @@ export function registerBillingRoutes(app: Express): void {
     });
   });
 
-  console.log("[Billing] Stub routes registered (IAP mode)");
+  defaultLogger.info("Billing: Stub routes registered (IAP mode)", {
+    operation: "billing_init",
+  });
 }
 
 /**
@@ -122,7 +127,9 @@ export async function getStripeSync(): Promise<{
   return {
     findOrCreateManagedWebhook: async (_url: string) => null,
     syncBackfill: async () => {
-      console.log("[Billing] Stripe sync skipped - using IAP");
+      defaultLogger.info("Billing: Stripe sync skipped - using IAP", {
+        operation: "billing_sync",
+      });
     },
   };
 }
