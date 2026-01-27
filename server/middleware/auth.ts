@@ -4,6 +4,7 @@ import { db } from "../db";
 import { userSessions } from "@shared/schema";
 import { eq, gt } from "drizzle-orm";
 import { encryptData, decryptData } from "../encryption";
+import { defaultLogger } from "../utils/logger";
 
 const SESSION_COOKIE_NAME = "noor_session";
 const SESSION_DURATION_DAYS = 30;
@@ -24,9 +25,14 @@ function getSessionSecret(): string {
   const isProduction = process.env.NODE_ENV === "production";
 
   if (isProduction && !process.env.SESSION_SECRET) {
-    console.error(
-      "FATAL: SESSION_SECRET not configured in production. " +
-        "Session security will fail. Server refusing to start.",
+    defaultLogger.error(
+      "FATAL: SESSION_SECRET not configured in production",
+      new Error("SESSION_SECRET missing"),
+      {
+        operation: "get_session_secret",
+        environment: "production",
+        impact: "Server refusing to start - session security would fail",
+      }
     );
     throw new Error(
       "SESSION_SECRET environment variable is required in production.",
@@ -64,20 +70,30 @@ function verifySignedToken(signedToken: string): string | null {
     const expectedBuffer = Buffer.from(expectedSignature, "hex");
 
     if (signatureBuffer.length !== expectedBuffer.length) {
-      console.warn(
-        "[AUTH] Session signature length mismatch - possible tampering attempt",
+      defaultLogger.warn(
+        "Session signature length mismatch - possible tampering attempt",
+        {
+          operation: "verify_signed_token",
+          securityEvent: "signature_length_mismatch",
+        }
       );
       return null;
     }
 
     if (!crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
-      console.warn("[AUTH] Session signature verification failed");
+      defaultLogger.warn("Session signature verification failed", {
+        operation: "verify_signed_token",
+        securityEvent: "signature_verification_failed",
+      });
       return null;
     }
 
     return token;
   } catch (error) {
-    console.warn("[AUTH] Session token verification error:", error);
+    defaultLogger.warn("Session token verification error", {
+      operation: "verify_signed_token",
+      error: error instanceof Error ? error.message : String(error),
+    });
     return null;
   }
 }
@@ -108,7 +124,14 @@ export async function sessionMiddleware(
           try {
             decryptedEmail = session.email ? decryptData(session.email) : null;
           } catch (error) {
-            console.error("[Auth] Failed to decrypt session email:", error);
+            defaultLogger.error(
+              "Failed to decrypt session email",
+              error instanceof Error ? error : new Error(String(error)),
+              {
+                operation: "decrypt_session_email",
+                userId: session.userId,
+              }
+            );
             // Continue with null email - session still valid
           }
           req.auth = {
@@ -157,9 +180,13 @@ export async function sessionMiddleware(
     next();
   } catch (error) {
     // SECURITY: On any error, clear potentially forged cookie and create fresh session
-    console.error(
-      "[AUTH] Session middleware error, issuing new session:",
-      error,
+    defaultLogger.error(
+      "Session middleware error, issuing new session",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "session_middleware",
+        action: "issuing_new_session",
+      }
     );
 
     // Clear the invalid cookie
@@ -200,7 +227,13 @@ export async function sessionMiddleware(
         sessionToken: newToken,
       };
     } catch (innerError) {
-      console.error("[AUTH] Failed to create recovery session:", innerError);
+      defaultLogger.error(
+        "Failed to create recovery session",
+        innerError instanceof Error ? innerError : new Error(String(innerError)),
+        {
+          operation: "create_recovery_session",
+        }
+      );
       // Continue without auth - endpoints will handle 401 appropriately
     }
 
@@ -219,7 +252,13 @@ export async function updateSessionEmail(
   try {
     encryptedEmail = encryptData(email);
   } catch (error) {
-    console.error("[Auth] Failed to encrypt email:", error);
+    defaultLogger.error(
+      "Failed to encrypt email",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "encrypt_session_email",
+      }
+    );
     throw new Error("Failed to secure user data");
   }
   await db

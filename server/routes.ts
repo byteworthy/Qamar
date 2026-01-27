@@ -58,6 +58,7 @@ import {
 } from "./data-retention";
 import { adminLimiter } from "./middleware/rate-limit";
 import notificationRoutes from "./notificationRoutes";
+import { defaultLogger } from "./utils/logger";
 import { loadPrompt } from "./utils/promptLoader";
 
 // Lazy Anthropic client getter - only instantiate when needed and validation mode is off
@@ -199,7 +200,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/notifications", notificationRoutes);
 
   // Health check endpoint for monitoring and uptime checks
-  app.get("/api/health", async (_req, res) => {
+  app.get("/api/health", async (req, res) => {
     const checks = {
       database: false,
       ai: false,
@@ -214,7 +215,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.getReflectionHistory("health-check", 1);
         checks.database = true;
       } catch (dbError) {
-        console.error("[Health] Database check failed:", dbError);
+        req.logger.error("Database health check failed", dbError);
       }
 
       // Test 2: AI Provider (only in production mode with configured API)
@@ -229,7 +230,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
           checks.ai = testResponse.content.length > 0;
         } catch (aiError) {
-          console.error("[Health] AI provider check failed:", aiError);
+          req.logger.error("AI provider health check failed", aiError);
           checks.ai = false;
         }
       } else {
@@ -255,7 +256,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }),
       });
     } catch (error) {
-      console.error("[Health] Health check error:", error);
+      req.logger.error("Health check failed", error);
       res.status(503).json({
         status: "unhealthy",
         checks,
@@ -287,9 +288,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // VALIDATION MODE GUARD: Return placeholder if AI not configured
       if (VALIDATION_MODE && !isAnthropicConfigured()) {
-        console.log(
-          "[VALIDATION MODE] /api/analyze - returning placeholder response",
-        );
+        req.logger.info("Validation mode: returning placeholder analyze response");
         return res.json(getValidationModeAnalyzeResponse());
       }
 
@@ -316,13 +315,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Log crisis event for review (hashed, no raw content)
         const userId = req.auth?.userId;
         if (userId) {
-          console.log(
-            "[AI Safety] Crisis detected:",
-            createSafeLogEntry(userId, "crisis_detected", {
-              crisisLevel: crisisCheck.level,
-              safetyChecksPassed: false,
-            }),
-          );
+          req.logger.warn("Crisis detected", {
+            userId,
+            crisisLevel: crisisCheck.level,
+            safetyChecksPassed: false,
+          });
         }
 
         return res.json({
@@ -407,7 +404,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Developer-only logging for adaptive intelligence (not exposed to users)
       if (process.env.NODE_ENV === "development") {
-        console.log("[Adaptive Intelligence] /api/analyze", {
+        req.logger.debug("Adaptive intelligence analysis", {
           tone: {
             mode: toneClassification.mode,
             confidence: toneClassification.confidence.toFixed(2),
@@ -504,7 +501,9 @@ ${analyzePrompt}`,
           "Your emotions are valid, but they may not reflect the full truth of your situation.",
       });
     } catch (error) {
-      console.error("Error analyzing thought:", error);
+      req.logger.error("Failed to analyze thought", error, {
+        operation: "analyze_thought",
+      });
       res.status(500).json({ error: "Failed to analyze thought" });
     }
   });
@@ -579,7 +578,7 @@ ${analyzePrompt}`,
 
       // Developer-only logging for adaptive intelligence (not exposed to users)
       if (process.env.NODE_ENV === "development") {
-        console.log("[Adaptive Intelligence] /api/reframe", {
+        req.logger.debug("Adaptive intelligence reframe", {
           tone: {
             mode: toneClassification.mode,
             confidence: toneClassification.confidence.toFixed(2),
@@ -677,7 +676,9 @@ ${reframePrompt}`,
         ],
       });
     } catch (error) {
-      console.error("Error generating reframe:", error);
+      req.logger.error("Failed to generate reframe", error, {
+        operation: "generate_reframe",
+      });
       res.status(500).json({ error: "Failed to generate reframe" });
     }
   });
@@ -774,7 +775,9 @@ ${practicePrompt}`,
         duration: result.duration || "1-2 minutes",
       });
     } catch (error) {
-      console.error("Error generating practice:", error);
+      req.logger.error("Failed to generate practice", error, {
+        operation: "generate_practice",
+      });
       res.status(500).json({ error: "Failed to generate practice" });
     }
   });
@@ -844,7 +847,9 @@ ${practicePrompt}`,
         encryptedReframe = encryptData(reframe);
         encryptedIntention = intention ? encryptData(intention) : undefined;
       } catch (error) {
-        console.error("[Routes] Encryption failed:", error);
+        req.logger.error("Encryption failed for reflection", error, {
+          operation: "encrypt_reflection",
+        });
         return res.status(500).json({ error: "Failed to securely store reflection" });
       }
 
@@ -864,7 +869,9 @@ ${practicePrompt}`,
         detectedState: isPaid ? detectedState : undefined,
       });
     } catch (error) {
-      console.error("Error saving reflection:", error);
+      req.logger.error("Failed to save reflection", error, {
+        operation: "save_reflection",
+      });
       res.status(500).json({ error: "Failed to save reflection" });
     }
   });
@@ -898,7 +905,10 @@ ${practicePrompt}`,
               : undefined,
           };
         } catch (error) {
-          console.error("[Routes] Decryption failed for reflection:", reflection.id, error);
+          req.logger.error("Decryption failed for reflection", error, {
+            reflectionId: reflection.id,
+            operation: "decrypt_reflection",
+          });
           return {
             ...reflection,
             thought: "[Unable to decrypt]",
@@ -914,7 +924,9 @@ ${practicePrompt}`,
         limit: isPaid ? null : FREE_HISTORY_LIMIT,
       });
     } catch (error) {
-      console.error("Error fetching history:", error);
+      req.logger.error("Failed to fetch reflection history", error, {
+        operation: "fetch_history",
+      });
       res.status(500).json({ error: "Failed to fetch history" });
     }
   });
@@ -952,7 +964,9 @@ ${practicePrompt}`,
 
       res.json({ success: true, deletedCount });
     } catch (error) {
-      console.error("Error deleting reflection:", error);
+      req.logger.error("Failed to delete reflection", error, {
+        operation: "delete_reflection",
+      });
       res.status(500).json({ error: "Failed to delete reflection" });
     }
   });
@@ -983,7 +997,9 @@ ${practicePrompt}`,
         isPaid: false,
       });
     } catch (error) {
-      console.error("Error checking reflection limit:", error);
+      req.logger.error("Failed to check reflection limit", error, {
+        operation: "check_reflection_limit",
+      });
       res.status(500).json({ error: "Failed to check limit" });
     }
   });
@@ -1070,7 +1086,9 @@ ${practicePrompt}`,
         assumptions,
       });
     } catch (error) {
-      console.error("Error fetching patterns:", error);
+      req.logger.error("Failed to fetch patterns", error, {
+        operation: "fetch_patterns",
+      });
       res.status(500).json({ error: "Failed to fetch patterns" });
     }
   });
@@ -1204,7 +1222,9 @@ ${summaryPrompt}`,
         generatedAt: new Date(),
       });
     } catch (error) {
-      console.error("Error generating insight summary:", error);
+      req.logger.error("Failed to generate insight summary", error, {
+        operation: "generate_insight_summary",
+      });
       res.status(500).json({ error: "Failed to generate insight summary" });
     }
   });
@@ -1236,7 +1256,9 @@ ${summaryPrompt}`,
         total: assumptions.length,
       });
     } catch (error) {
-      console.error("Error fetching assumption library:", error);
+      req.logger.error("Failed to fetch assumption library", error, {
+        operation: "fetch_assumption_library",
+      });
       res.status(500).json({ error: "Failed to fetch assumption library" });
     }
   });
@@ -1323,7 +1345,9 @@ ${summaryPrompt}`,
         dua,
       });
     } catch (error) {
-      console.error("Error fetching contextual dua:", error);
+      req.logger.error("Failed to fetch contextual dua", error, {
+        operation: "fetch_contextual_dua",
+      });
       res.status(500).json({ error: "Failed to fetch contextual dua" });
     }
   });
@@ -1350,7 +1374,9 @@ ${summaryPrompt}`,
     }
 
     try {
-      console.log("[Admin] Manual retention cleanup triggered");
+      req.logger.info("Manual retention cleanup triggered", {
+        operation: "manual_cleanup",
+      });
       const result = await runManualCleanup();
       res.json({
         success: true,
@@ -1358,7 +1384,9 @@ ${summaryPrompt}`,
         result,
       });
     } catch (error) {
-      console.error("[Admin] Manual cleanup failed:", error);
+      req.logger.error("Manual cleanup failed", error, {
+        operation: "manual_cleanup",
+      });
       res.status(500).json({
         error: "Cleanup failed",
         code: "CLEANUP_ERROR",

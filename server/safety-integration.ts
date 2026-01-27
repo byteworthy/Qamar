@@ -26,6 +26,7 @@ import {
   isToneCompliant,
   type ToneComplianceResult,
 } from "./tone-compliance-checker";
+import { defaultLogger } from "./utils/logger";
 import {
   createConversationStateMachine,
   STATE_GUIDANCE,
@@ -169,7 +170,15 @@ export function runPreProcessingSafety(
       selection,
     );
   } catch (error) {
-    console.error("[Safety Pipeline] Error selecting Islamic content:", error);
+    defaultLogger.error(
+      "Safety Pipeline: Error selecting Islamic content",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "safety_pipeline_islamic_content",
+        emotionalState: context.emotionalState,
+        distressLevel: context.distressLevel,
+      }
+    );
   }
 
   // Step 5: Build Safety Guidance for AI

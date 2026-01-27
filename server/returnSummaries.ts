@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { defaultLogger } from "./utils/logger";
 
 interface ReflectionSummaryData {
   thought: string;
@@ -78,7 +79,14 @@ Respond with a JSON object containing:
       generatedAt: new Date(),
     };
   } catch (error) {
-    console.error("Error generating return summary:", error);
+    defaultLogger.error(
+      "Error generating return summary",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "generate_return_summary",
+        reflectionCount: reflections.length,
+      }
+    );
     return null;
   }
 }

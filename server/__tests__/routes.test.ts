@@ -24,6 +24,13 @@ import * as config from "../config";
 import * as encryption from "../encryption";
 import * as dataRetention from "../data-retention";
 import Anthropic from "@anthropic-ai/sdk";
+import { Logger } from "../utils/logger";
+import { requestLoggerMiddleware } from "../middleware/request-logger";
+
+// Mock uuid module (used by request-logger middleware)
+jest.mock("uuid", () => ({
+  v4: jest.fn(() => "mock-request-id-123"),
+}));
 
 // Mock all dependencies
 jest.mock("@shared/schema", () => ({
@@ -96,6 +103,9 @@ describe("API Routes", () => {
     // Create fresh Express app
     app = express();
     app.use(express.json());
+
+    // Request logger middleware (adds req.logger)
+    app.use(requestLoggerMiddleware);
 
     // Mock authentication middleware
     app.use((req, _res, next) => {

@@ -10,6 +10,7 @@
 
 import crypto from "crypto";
 import { storage } from "./storage";
+import { defaultLogger } from "./utils/logger";
 
 // =============================================================================
 // CONFIGURATION
@@ -74,16 +75,18 @@ export class DataRetentionService {
    */
   start(): void {
     if (this.isRunning) {
-      console.log("[Data Retention] Service already running");
+      defaultLogger.info("Data Retention: Service already running", {
+        operation: "data_retention_start",
+      });
       return;
     }
 
-    console.log("[Data Retention] Starting data retention service");
-    console.log(`[Data Retention] Retention period: ${RETENTION_DAYS} days`);
-    console.log(`[Data Retention] Dry run mode: ${isDryRunMode()}`);
-    console.log(
-      `[Data Retention] Cleanup interval: ${CLEANUP_INTERVAL_MS / (60 * 60 * 1000)} hours`,
-    );
+    defaultLogger.info("Data Retention: Starting data retention service", {
+      operation: "data_retention_start",
+      retentionDays: RETENTION_DAYS,
+      dryRun: isDryRunMode(),
+      cleanupIntervalHours: CLEANUP_INTERVAL_MS / (60 * 60 * 1000),
+    });
 
     // Run immediately on start
     this.runCleanup();
@@ -101,14 +104,18 @@ export class DataRetentionService {
    */
   stop(): void {
     if (!this.isRunning || !this.intervalId) {
-      console.log("[Data Retention] Service not running");
+      defaultLogger.info("Data Retention: Service not running", {
+        operation: "data_retention_stop",
+      });
       return;
     }
 
     clearInterval(this.intervalId);
     this.intervalId = null;
     this.isRunning = false;
-    console.log("[Data Retention] Service stopped");
+    defaultLogger.info("Data Retention: Service stopped", {
+      operation: "data_retention_stop",
+    });
   }
 
   /**
@@ -119,7 +126,10 @@ export class DataRetentionService {
     const startTime = Date.now();
     const dryRun = isDryRunMode();
 
-    console.log(`[Data Retention] Running cleanup (dry run: ${dryRun})...`);
+    defaultLogger.info("Data Retention: Running cleanup", {
+      operation: "data_retention_cleanup",
+      dryRun,
+    });
 
     // Calculate cutoff date
     const cutoffDate = new Date();
@@ -134,36 +144,57 @@ export class DataRetentionService {
       // Count/delete expired reflections
       if (dryRun) {
         reflectionCount = await storage.countExpiredReflections(cutoffDate);
-        console.log(
-          `[Data Retention] DRY RUN: Would delete ${reflectionCount} reflections older than ${cutoffDate.toISOString()}`,
-        );
+        defaultLogger.info("Data Retention: DRY RUN - Would delete reflections", {
+          operation: "data_retention_cleanup_reflections",
+          dryRun: true,
+          count: reflectionCount,
+          cutoffDate: cutoffDate.toISOString(),
+        });
       } else {
         reflectionCount = await storage.deleteExpiredReflections(cutoffDate);
         reflectionsDeleted = true;
-        console.log(
-          `[Data Retention] Deleted ${reflectionCount} expired reflections`,
-        );
+        defaultLogger.info("Data Retention: Deleted expired reflections", {
+          operation: "data_retention_cleanup_reflections",
+          dryRun: false,
+          count: reflectionCount,
+        });
       }
 
       // Count/delete expired insight summaries
       if (dryRun) {
         summaryCount = await storage.countExpiredInsightSummaries(cutoffDate);
-        console.log(
-          `[Data Retention] DRY RUN: Would delete ${summaryCount} summaries older than ${cutoffDate.toISOString()}`,
-        );
+        defaultLogger.info("Data Retention: DRY RUN - Would delete summaries", {
+          operation: "data_retention_cleanup_summaries",
+          dryRun: true,
+          count: summaryCount,
+          cutoffDate: cutoffDate.toISOString(),
+        });
       } else {
         summaryCount = await storage.deleteExpiredInsightSummaries(cutoffDate);
         summariesDeleted = true;
-        console.log(
-          `[Data Retention] Deleted ${summaryCount} expired insight summaries`,
-        );
+        defaultLogger.info("Data Retention: Deleted expired insight summaries", {
+          operation: "data_retention_cleanup_summaries",
+          dryRun: false,
+          count: summaryCount,
+        });
       }
     } catch (error) {
-      console.error("[Data Retention] Cleanup failed:", error);
+      defaultLogger.error(
+        "Data Retention: Cleanup failed",
+        error instanceof Error ? error : new Error(String(error)),
+        {
+          operation: "data_retention_cleanup",
+          dryRun,
+        }
+      );
     }
 
     const duration = Date.now() - startTime;
-    console.log(`[Data Retention] Cleanup complete in ${duration}ms`);
+    defaultLogger.info("Data Retention: Cleanup complete", {
+      operation: "data_retention_cleanup",
+      durationMs: duration,
+      dryRun,
+    });
 
     return {
       dryRun,
@@ -218,7 +249,10 @@ export function initializeDataRetention(): void {
   if (shouldRun) {
     dataRetentionService.start();
   } else {
-    console.log("[Data Retention] Skipping data retention service");
+    defaultLogger.info("Data Retention: Skipping data retention service", {
+      operation: "data_retention_init",
+      reason: "DATABASE_URL not configured or disabled",
+    });
   }
 }
 
@@ -227,7 +261,9 @@ export function initializeDataRetention(): void {
 // =============================================================================
 
 export async function runManualCleanup(): Promise<CleanupResult> {
-  console.log("[Data Retention] Running manual cleanup...");
+  defaultLogger.info("Data Retention: Running manual cleanup", {
+    operation: "data_retention_manual_cleanup",
+  });
   return dataRetentionService.runCleanup();
 }
 
@@ -256,9 +292,10 @@ export interface UserDataExport {
  * Export all user data for GDPR compliance
  */
 export async function exportUserData(userId: string): Promise<UserDataExport> {
-  console.log(
-    `[Data Retention] Exporting data for user ${userId.substring(0, 8)}...`,
-  );
+  defaultLogger.info("Data Retention: Exporting user data", {
+    operation: "data_retention_export",
+    userIdPrefix: userId.substring(0, 8),
+  });
 
   try {
     // Get all user reflections
@@ -290,7 +327,14 @@ export async function exportUserData(userId: string): Promise<UserDataExport> {
         : [],
     };
   } catch (error) {
-    console.error("[Data Retention] Failed to export user data:", error);
+    defaultLogger.error(
+      "Data Retention: Failed to export user data",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "data_retention_export",
+        userIdPrefix: userId.substring(0, 8),
+      }
+    );
     throw new Error("Failed to export user data");
   }
 }
@@ -304,9 +348,10 @@ export async function deleteAllUserData(userId: string): Promise<{
   summariesDeleted: number;
   assumptionsDeleted: number;
 }> {
-  console.log(
-    `[Data Retention] Deleting all data for user ${userId.substring(0, 8)}...`,
-  );
+  defaultLogger.info("Data Retention: Deleting all user data", {
+    operation: "data_retention_delete_all",
+    userIdPrefix: userId.substring(0, 8),
+  });
 
   try {
     const reflectionsDeleted = await storage.deleteAllUserReflections(userId);
@@ -314,10 +359,13 @@ export async function deleteAllUserData(userId: string): Promise<{
       await storage.deleteAllUserInsightSummaries(userId);
     const assumptionsDeleted = await storage.deleteAllUserAssumptions(userId);
 
-    console.log(
-      `[Data Retention] Deleted all data for user ${userId.substring(0, 8)}: ` +
-        `${reflectionsDeleted} reflections, ${summariesDeleted} summaries, ${assumptionsDeleted} assumptions`,
-    );
+    defaultLogger.info("Data Retention: Deleted all user data", {
+      operation: "data_retention_delete_all",
+      userIdPrefix: userId.substring(0, 8),
+      reflectionsDeleted,
+      summariesDeleted,
+      assumptionsDeleted,
+    });
 
     return {
       success: true,
@@ -326,7 +374,14 @@ export async function deleteAllUserData(userId: string): Promise<{
       assumptionsDeleted,
     };
   } catch (error) {
-    console.error("[Data Retention] Failed to delete user data:", error);
+    defaultLogger.error(
+      "Data Retention: Failed to delete user data",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "data_retention_delete_all",
+        userIdPrefix: userId.substring(0, 8),
+      }
+    );
     return {
       success: false,
       reflectionsDeleted: 0,
