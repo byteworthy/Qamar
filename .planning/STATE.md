@@ -1,6 +1,6 @@
 # Noor App - Project State
 
-**Last Updated:** 2026-02-01T20:19:55Z
+**Last Updated:** 2026-02-01T20:27:51Z
 
 ---
 
@@ -15,7 +15,7 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 
 ## Current Status
 
-**Phase:** Phase 9 in progress (1 of 4 plans complete)
+**Phase:** Phase 9 in progress (3 of 4 plans complete)
 **Progress:** 1/9 phases complete (11.1%)
 **Requirements:** 3/60 delivered (60/67 total, 7 deferred to v2)
 
@@ -25,13 +25,21 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 
 **Phase 9: UI/UX Polish & Animation Enhancements**
 - Status: In progress
-- Plans: 1/4 complete
+- Plans: 2/4 complete
 - Requirements: 10 (UX-01 through UX-10)
-- Next action: Continue with remaining wave 1 plans (09-01, 09-03, 09-04)
+- Next action: Continue with remaining wave 1 plans (09-01, 09-03)
 
 ---
 
 ## Recent Activity
+
+- **2026-02-01T20:23**: Phase 9 plan 09-04 completed
+  - Created AnimatedModal component with scale+fade entrance
+  - Backdrop fade with theme-aware color
+  - Migrated ExitConfirmationModal to use AnimatedModal
+  - All 5 unit tests passing
+  - Modal animations now consistent with card animations
+  - Commits: a84dd40, c83e108, 77c9d0e
 
 - **2026-02-01T20:19**: Phase 9 plan 09-02 completed
   - Added ComponentPadding migration documentation to theme.ts
@@ -75,7 +83,7 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 | 6 | ○ Pending | 7 | 0% |
 | 7 | ○ Pending | 7 | 0% |
 | 8 | ○ Pending | 10 | 0% |
-| 9 | ◆ In Progress | 10 | 25% |
+| 9 | ◆ In Progress | 10 | 50% |
 
 **Legend:** ○ Pending | ◆ In Progress/Planned | ✓ Complete
 
@@ -92,6 +100,8 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 | 2026-02-01 | Add Phase 9: UI/UX Polish | Based on comprehensive UX research - close 15% polish gap |
 | 2026-02-01 | ComponentPadding tokens reference Spacing | Maintains single source of truth for base spacing values |
 | 2026-02-01 | Migration documentation but deferred actual migration | Plan scope is to add tokens and guide, not migrate all components |
+| 2026-02-01 | AnimationType "none" for custom animations | Full control over modal animations via reanimated |
+| 2026-02-01 | Separate scale and opacity animations | Scale uses withSpring for physics, opacity uses withTiming for fade |
 
 ---
 
