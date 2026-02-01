@@ -441,9 +441,37 @@ export default function HistoryScreen() {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  const renderSession = ({ item, index }: { item: Session; index: number }) => {
-    const isExpanded = expandedId === item.timestamp;
-    const cappedDelay = Math.min(index * 40, 400); // Max 400ms (10 items)
+  // Animated list item with long-press scale feedback
+  interface AnimatedHistoryItemProps {
+    item: Session;
+    index: number;
+    isExpanded: boolean;
+  }
+
+  function AnimatedHistoryItem({
+    item,
+    index,
+    isExpanded,
+  }: AnimatedHistoryItemProps) {
+    const scale = useSharedValue(1);
+    const cappedDelay = Math.min(index * 40, 400);
+
+    const handlePressIn = () => {
+      scale.value = withSpring(0.98, springConfig);
+    };
+
+    const handlePressOut = () => {
+      scale.value = withSpring(1, springConfig);
+    };
+
+    const handleLongPress = () => {
+      hapticMedium();
+      handleDeleteReflection(item.timestamp);
+    };
+
+    const scaleStyle = useAnimatedStyle(() => ({
+      transform: [{ scale: scale.value }],
+    }));
 
     return (
       <Animated.View
@@ -453,10 +481,15 @@ export default function HistoryScreen() {
           .mass(springConfig.mass as number)
           .stiffness(springConfig.stiffness as number)}
         exiting={FadeOut.duration(200)}
+        style={scaleStyle}
       >
         <GlassCard style={styles.sessionCard} elevated>
           <Pressable
             onPress={() => toggleExpand(item.timestamp)}
+            onLongPress={handleLongPress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+            delayLongPress={500}
             style={({ pressed }) => [
               {
                 opacity: pressed ? 0.9 : 1,
@@ -464,7 +497,7 @@ export default function HistoryScreen() {
             ]}
             accessibilityRole="button"
             accessibilityLabel={`Reflection from ${formatDate(item.timestamp)}`}
-            accessibilityHint={`${isExpanded ? "Collapse" : "Expand"} to ${isExpanded ? "hide" : "view"} full reflection details`}
+            accessibilityHint={`${isExpanded ? "Collapse" : "Expand"} to ${isExpanded ? "hide" : "view"} full reflection details. Long press to delete.`}
             accessibilityState={{ expanded: isExpanded }}
           >
           <View style={styles.sessionHeader}>
@@ -595,6 +628,11 @@ export default function HistoryScreen() {
         </GlassCard>
       </Animated.View>
     );
+  }
+
+  const renderSession = ({ item, index }: { item: Session; index: number }) => {
+    const isExpanded = expandedId === item.timestamp;
+    return <AnimatedHistoryItem item={item} index={index} isExpanded={isExpanded} />;
   };
 
   const renderEmpty = () => (
