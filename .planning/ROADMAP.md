@@ -79,22 +79,46 @@ These are P0 critical issues that pose immediate security and HIPAA compliance r
 
 **Priority:** P0/P1 - Critical for confidence in subsequent changes
 
+**Plans:** 7 plans
+
+**Status:** Partially complete (TEST-01, TEST-02, TEST-03, TEST-08 done; TEST-04 through TEST-07 planned)
+
+Plans:
+
+- [x] 02-01-PLAN.md — Routes.ts comprehensive tests (TEST-01) - COMPLETED
+- [x] 02-02-PLAN.md — Conversational AI tests (TEST-02) - COMPLETED
+- [x] 02-03-PLAN.md — Tone compliance checker tests (TEST-03) - COMPLETED
+- [ ] 02-04-PLAN.md — Pacing controller tests (TEST-04)
+- [ ] 02-05-PLAN.md — Canonical orchestrator tests (TEST-05)
+- [ ] 02-06-PLAN.md — Tone classifier tests (TEST-06)
+- [ ] 02-07-PLAN.md — State inference tests (TEST-07)
+- [x] (TEST-08 covered in billing.test.ts) - COMPLETED
+
 **Requirements:**
-- TEST-01: Add unit tests for server/routes.ts (target 80%+ coverage)
-- TEST-02: Add tests for conversational-ai.ts
-- TEST-03: Add tests for tone-compliance-checker.ts
+
+- TEST-01: Add unit tests for server/routes.ts (target 80%+ coverage) ✅
+- TEST-02: Add tests for conversational-ai.ts ✅
+- TEST-03: Add tests for tone-compliance-checker.ts ✅
 - TEST-04: Add tests for pacing-controller.ts
 - TEST-05: Add tests for canonical-orchestrator.ts
 - TEST-06: Add tests for toneClassifier.ts
 - TEST-07: Add tests for stateInference.ts
-- TEST-08: Add integration tests for billing/Stripe webhooks
+- TEST-08: Add integration tests for billing/Stripe webhooks ✅
+
+**Current Status:**
+
+- 295 tests passing (100% pass rate)
+- 4/8 requirements complete (routes, conversational-ai, tone-compliance, billing)
+- 4 remaining modules need tests (pacing, orchestrator, tone classifier, state inference)
+- Plans 04-07 created for remaining work (Wave 1, all parallel)
 
 **Success Criteria:**
+
 1. Server test coverage reaches >70% overall
-2. All API endpoints in routes.ts have unit tests
-3. AI orchestration logic has unit tests covering happy paths and error cases
-4. Billing integration tests verify webhook handling
-5. CI pipeline runs all tests successfully on every PR
+2. All API endpoints in routes.ts have unit tests ✅
+3. AI orchestration logic has unit tests covering happy paths and error cases (partial)
+4. Billing integration tests verify webhook handling ✅
+5. CI pipeline runs all tests successfully on every PR ✅
 
 **Why This Phase:**
 Cannot safely refactor or modify server code without tests. This phase establishes the safety net for all subsequent work.
