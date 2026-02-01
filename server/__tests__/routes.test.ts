@@ -13,8 +13,20 @@
  * - Admin endpoints (retention cleanup)
  */
 
-import { describe, test, expect, jest, beforeEach, afterEach } from "@jest/globals";
-import express, { type Express, type Request, type Response, type NextFunction } from "express";
+import {
+  describe,
+  test,
+  expect,
+  jest,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
+import express, {
+  type Express,
+  type Request,
+  type Response,
+  type NextFunction,
+} from "express";
 import type { Server } from "http";
 import request from "supertest";
 import { registerRoutes } from "../routes";
@@ -69,18 +81,26 @@ jest.mock("@anthropic-ai/sdk", () => {
 
 // Mock middleware
 jest.mock("../middleware/ai-rate-limiter", () => ({
-  aiRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
-  insightRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
+  aiRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) =>
+    next(),
+  ),
+  insightRateLimiter: jest.fn(
+    (_req: Request, _res: Response, next: NextFunction) => next(),
+  ),
 }));
 jest.mock("../middleware/rate-limit", () => ({
-  adminLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
+  adminLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) =>
+    next(),
+  ),
 }));
 
 // Mock notification routes
 jest.mock("../notificationRoutes", () => {
   const express = require("express");
   const router = express.Router();
-  router.get("/test", (_req: Request, res: Response) => res.json({ test: true }));
+  router.get("/test", (_req: Request, res: Response) =>
+    res.json({ test: true }),
+  );
   return router;
 });
 
@@ -140,7 +160,9 @@ describe("API Routes", () => {
 
     // Setup default storage mocks
     (storage.getReflectionHistory as jest.Mock<any>).mockResolvedValue([]);
-    (storage.getOrCreateUser as jest.Mock<any>).mockResolvedValue({ id: mockUserId });
+    (storage.getOrCreateUser as jest.Mock<any>).mockResolvedValue({
+      id: mockUserId,
+    });
     (storage.getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(0);
     (storage.saveReflection as jest.Mock<any>).mockResolvedValue(undefined);
     (storage.getReflectionCount as jest.Mock<any>).mockResolvedValue(0);
@@ -151,24 +173,33 @@ describe("API Routes", () => {
     (storage.getAssumptionLibrary as jest.Mock<any>).mockResolvedValue([]);
 
     // Setup default billing mocks
-    ((billingService.billingService.getBillingStatus as any) as jest.Mock<any>).mockResolvedValue({
+    (
+      billingService.billingService.getBillingStatus as any as jest.Mock<any>
+    ).mockResolvedValue({
       status: "free",
     });
-    (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(false);
+    (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+      false,
+    );
 
     // Setup encryption mocks
-    ((encryption.encryptData as any) as jest.Mock<any>).mockImplementation((data: string) => `encrypted:${data}`);
-    ((encryption.decryptData as any) as jest.Mock<any>).mockImplementation((data: string) =>
-      data.startsWith("encrypted:") ? data.substring(10) : data
+    (encryption.encryptData as any as jest.Mock<any>).mockImplementation(
+      (data: string) => `encrypted:${data}`,
+    );
+    (encryption.decryptData as any as jest.Mock<any>).mockImplementation(
+      (data: string) =>
+        data.startsWith("encrypted:") ? data.substring(10) : data,
     );
 
     // Setup data retention mocks
     (dataRetention.isAdminEndpointEnabled as jest.Mock).mockReturnValue(false);
     (dataRetention.verifyAdminToken as jest.Mock).mockReturnValue(false);
-    ((dataRetention.runManualCleanup as any) as jest.Mock<any>).mockResolvedValue({
-      deletedReflections: 0,
-      deletedUsers: 0,
-    });
+    (dataRetention.runManualCleanup as any as jest.Mock<any>).mockResolvedValue(
+      {
+        deletedReflections: 0,
+        deletedUsers: 0,
+      },
+    );
   });
 
   afterEach(() => {
@@ -187,7 +218,6 @@ describe("API Routes", () => {
       mockAnthropicCreate = (jest.fn() as any).mockResolvedValue({
         content: [{ type: "text", text: "test response" }],
       });
-
 
       const res = await request(app).get("/api/health");
 
@@ -208,9 +238,9 @@ describe("API Routes", () => {
     });
 
     test("returns degraded status when database fails", async () => {
-      ((storage as any).getReflectionHistory as jest.Mock<any>).mockRejectedValue(
-        new Error("Database error")
-      );
+      (
+        (storage as any).getReflectionHistory as jest.Mock<any>
+      ).mockRejectedValue(new Error("Database error"));
 
       const res = await request(app).get("/api/health");
 
@@ -221,7 +251,9 @@ describe("API Routes", () => {
     });
 
     test("handles health check errors gracefully", async () => {
-      ((storage as any).getReflectionHistory as jest.Mock<any>).mockImplementation(() => {
+      (
+        (storage as any).getReflectionHistory as jest.Mock<any>
+      ).mockImplementation(() => {
         throw new Error("Catastrophic error");
       });
 
@@ -239,32 +271,36 @@ describe("API Routes", () => {
 
   describe("POST /api/analyze", () => {
     const mockAnthropicResponse = {
-      content: [{
-        type: "text",
-        text: JSON.stringify({
-          distortions: ["Catastrophizing"],
-          happening: "You're experiencing anxiety",
-          pattern: ["This is a common thought pattern"],
-          matters: "Your feelings are valid",
-        }),
-      }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            distortions: ["Catastrophizing"],
+            happening: "You're experiencing anxiety",
+            pattern: ["This is a common thought pattern"],
+            matters: "Your feelings are valid",
+          }),
+        },
+      ],
     };
 
     beforeEach(() => {
       // Reconfigure the mock for this describe block
-      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(mockAnthropicResponse);
+      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(
+        mockAnthropicResponse,
+      );
     });
 
     test("analyzes thought successfully", async () => {
       (config.VALIDATION_MODE as any) = false;
-      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(mockAnthropicResponse);
+      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(
+        mockAnthropicResponse,
+      );
 
-      const res = await request(app)
-        .post("/api/analyze")
-        .send({
-          thought: "I'm worried about failing my exam",
-          emotionalIntensity: "moderate",
-        });
+      const res = await request(app).post("/api/analyze").send({
+        thought: "I'm worried about failing my exam",
+        emotionalIntensity: "moderate",
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.distortions).toBeDefined();
@@ -274,9 +310,7 @@ describe("API Routes", () => {
     });
 
     test("returns validation error for missing thought", async () => {
-      const res = await request(app)
-        .post("/api/analyze")
-        .send({});
+      const res = await request(app).post("/api/analyze").send({});
 
       expect(res.status).toBe(400);
       expect(res.body.error).toBe("Invalid request data");
@@ -298,11 +332,9 @@ describe("API Routes", () => {
       (config.VALIDATION_MODE as any) = true;
       (config.isAnthropicConfigured as jest.Mock).mockReturnValue(false);
 
-      const res = await request(app)
-        .post("/api/analyze")
-        .send({
-          thought: "I'm feeling anxious",
-        });
+      const res = await request(app).post("/api/analyze").send({
+        thought: "I'm feeling anxious",
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.distortions).toBeDefined();
@@ -312,11 +344,9 @@ describe("API Routes", () => {
       (config.VALIDATION_MODE as any) = false;
       (config.isAnthropicConfigured as jest.Mock).mockReturnValue(false);
 
-      const res = await request(app)
-        .post("/api/analyze")
-        .send({
-          thought: "I'm feeling anxious",
-        });
+      const res = await request(app).post("/api/analyze").send({
+        thought: "I'm feeling anxious",
+      });
 
       expect(res.status).toBe(503);
       expect(res.body.error).toBe("AI service not configured");
@@ -327,13 +357,13 @@ describe("API Routes", () => {
       // Note: VALIDATION_MODE is true in test environment, so this test verifies
       // that a 503 is returned when AI is not configured
       (config.isAnthropicConfigured as jest.Mock).mockReturnValue(false);
-      mockAnthropicCreate = (jest.fn() as any).mockRejectedValue(new Error("AI Error"));
+      mockAnthropicCreate = (jest.fn() as any).mockRejectedValue(
+        new Error("AI Error"),
+      );
 
-      const res = await request(app)
-        .post("/api/analyze")
-        .send({
-          thought: "I'm feeling anxious",
-        });
+      const res = await request(app).post("/api/analyze").send({
+        thought: "I'm feeling anxious",
+      });
 
       // Returns service unavailable when AI not configured
       expect(res.status).toBe(503);
@@ -347,20 +377,24 @@ describe("API Routes", () => {
 
   describe("POST /api/reframe", () => {
     const mockAnthropicResponse = {
-      content: [{
-        type: "text",
-        text: JSON.stringify({
-          beliefTested: "The belief that you will fail",
-          perspective: "Failure is part of learning",
-          nextStep: "Focus on preparation",
-          anchors: ["Effort is required, outcomes belong to Allah"],
-        }),
-      }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            beliefTested: "The belief that you will fail",
+            perspective: "Failure is part of learning",
+            nextStep: "Focus on preparation",
+            anchors: ["Effort is required, outcomes belong to Allah"],
+          }),
+        },
+      ],
     };
 
     beforeEach(() => {
       // Reconfigure the mock for this describe block
-      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(mockAnthropicResponse);
+      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(
+        mockAnthropicResponse,
+      );
     });
 
     test("generates reframe successfully", async () => {
@@ -393,11 +427,9 @@ describe("API Routes", () => {
     });
 
     test("returns validation error for missing distortions", async () => {
-      const res = await request(app)
-        .post("/api/reframe")
-        .send({
-          thought: "I'm going to fail",
-        });
+      const res = await request(app).post("/api/reframe").send({
+        thought: "I'm going to fail",
+      });
 
       expect(res.status).toBe(400);
       expect(res.body.error).toBe("Invalid request data");
@@ -425,30 +457,32 @@ describe("API Routes", () => {
 
   describe("POST /api/practice", () => {
     const mockAnthropicResponse = {
-      content: [{
-        type: "text",
-        text: JSON.stringify({
-          title: "Dhikr Breathing",
-          steps: ["Breathe in", "Hold", "Breathe out"],
-          reminder: "Take it easy",
-          duration: "2 minutes",
-        }),
-      }],
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            title: "Dhikr Breathing",
+            steps: ["Breathe in", "Hold", "Breathe out"],
+            reminder: "Take it easy",
+            duration: "2 minutes",
+          }),
+        },
+      ],
     };
 
     beforeEach(() => {
       // Reconfigure the mock for this describe block
-      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(mockAnthropicResponse);
+      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(
+        mockAnthropicResponse,
+      );
     });
 
     test("generates practice successfully", async () => {
       (config.VALIDATION_MODE as any) = false;
 
-      const res = await request(app)
-        .post("/api/practice")
-        .send({
-          reframe: "Focus on what you can control",
-        });
+      const res = await request(app).post("/api/practice").send({
+        reframe: "Focus on what you can control",
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.title).toBeDefined();
@@ -458,23 +492,19 @@ describe("API Routes", () => {
     });
 
     test("returns validation error for missing reframe", async () => {
-      const res = await request(app)
-        .post("/api/practice")
-        .send({});
+      const res = await request(app).post("/api/practice").send({});
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Reframe is required");
+      expect(res.body.error).toBe("Invalid request data");
     });
 
     test("returns placeholder in validation mode", async () => {
       (config.VALIDATION_MODE as any) = true;
       (config.isAnthropicConfigured as jest.Mock).mockReturnValue(false);
 
-      const res = await request(app)
-        .post("/api/practice")
-        .send({
-          reframe: "Focus on what you can control",
-        });
+      const res = await request(app).post("/api/practice").send({
+        reframe: "Focus on what you can control",
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.title).toBeDefined();
@@ -506,7 +536,7 @@ describe("API Routes", () => {
           thought: expect.stringContaining("encrypted:"),
           distortions: ["Catastrophizing"],
           reframe: expect.stringContaining("encrypted:"),
-        })
+        }),
       );
     });
 
@@ -530,18 +560,18 @@ describe("API Routes", () => {
     });
 
     test("returns validation error for missing required fields", async () => {
-      const res = await request(app)
-        .post("/api/reflection/save")
-        .send({
-          thought: "Test thought",
-        });
+      const res = await request(app).post("/api/reflection/save").send({
+        thought: "Test thought",
+      });
 
       expect(res.status).toBe(400);
       expect(res.body.error).toBe("Invalid request data");
     });
 
     test("returns 402 when free user exceeds daily limit", async () => {
-      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(1);
+      (
+        (storage as any).getTodayReflectionCount as jest.Mock<any>
+      ).mockResolvedValue(1);
 
       const res = await request(app)
         .post("/api/reflection/save")
@@ -558,8 +588,12 @@ describe("API Routes", () => {
     });
 
     test("allows unlimited reflections for paid users", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(10);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      (
+        (storage as any).getTodayReflectionCount as jest.Mock<any>
+      ).mockResolvedValue(10);
 
       const res = await request(app)
         .post("/api/reflection/save")
@@ -610,7 +644,9 @@ describe("API Routes", () => {
           createdAt: new Date(),
         },
       ];
-      ((storage as any).getReflectionHistory as jest.Mock<any>).mockResolvedValue(mockHistory);
+      (
+        (storage as any).getReflectionHistory as jest.Mock<any>
+      ).mockResolvedValue(mockHistory);
 
       const res = await request(app).get("/api/reflection/history");
 
@@ -619,18 +655,26 @@ describe("API Routes", () => {
       expect(res.body.history[0].thought).toBe("worried");
       expect(res.body.isLimited).toBe(true);
       expect(res.body.limit).toBe(3);
-      expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(mockUserId, 3);
+      expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(
+        mockUserId,
+        3,
+      );
     });
 
     test("returns unlimited history for paid users", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
 
       const res = await request(app).get("/api/reflection/history");
 
       expect(res.status).toBe(200);
       expect(res.body.isLimited).toBe(false);
       expect(res.body.limit).toBeNull();
-      expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(mockUserId, undefined);
+      expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(
+        mockUserId,
+        undefined,
+      );
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -645,7 +689,9 @@ describe("API Routes", () => {
     });
 
     test("handles decryption errors gracefully", async () => {
-      ((storage as any).getReflectionHistory as jest.Mock<any>).mockResolvedValue([
+      (
+        (storage as any).getReflectionHistory as jest.Mock<any>
+      ).mockResolvedValue([
         {
           id: 1,
           thought: "encrypted:test",
@@ -678,7 +724,10 @@ describe("API Routes", () => {
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
       expect(res.body.deletedCount).toBe(1);
-      expect((storage as any).deleteReflection).toHaveBeenCalledWith(mockUserId, 123);
+      expect((storage as any).deleteReflection).toHaveBeenCalledWith(
+        mockUserId,
+        123,
+      );
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -701,7 +750,9 @@ describe("API Routes", () => {
     });
 
     test("returns 404 when reflection not found", async () => {
-      ((storage as any).deleteReflection as jest.Mock<any>).mockResolvedValue(0);
+      ((storage as any).deleteReflection as jest.Mock<any>).mockResolvedValue(
+        0,
+      );
 
       const res = await request(app).delete("/api/reflection/999");
 
@@ -717,7 +768,9 @@ describe("API Routes", () => {
 
   describe("GET /api/reflection/can-reflect", () => {
     test("returns true for free user with remaining reflections", async () => {
-      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(0);
+      (
+        (storage as any).getTodayReflectionCount as jest.Mock<any>
+      ).mockResolvedValue(0);
 
       const res = await request(app).get("/api/reflection/can-reflect");
 
@@ -728,7 +781,9 @@ describe("API Routes", () => {
     });
 
     test("returns false when free user has no remaining reflections", async () => {
-      ((storage as any).getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(1);
+      (
+        (storage as any).getTodayReflectionCount as jest.Mock<any>
+      ).mockResolvedValue(1);
 
       const res = await request(app).get("/api/reflection/can-reflect");
 
@@ -738,7 +793,9 @@ describe("API Routes", () => {
     });
 
     test("returns unlimited for paid users", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
 
       const res = await request(app).get("/api/reflection/can-reflect");
 
@@ -767,9 +824,15 @@ describe("API Routes", () => {
 
   describe("GET /api/reflection/patterns", () => {
     test("returns patterns for paid users with sufficient reflections", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(5);
-      ((storage as any).getRecentReflections as jest.Mock<any>).mockResolvedValue([
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(
+        5,
+      );
+      (
+        (storage as any).getRecentReflections as jest.Mock<any>
+      ).mockResolvedValue([
         {
           id: 1,
           keyAssumption: "I'm not good enough",
@@ -801,8 +864,12 @@ describe("API Routes", () => {
     });
 
     test("returns null summary when reflection count is low", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(2);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(
+        2,
+      );
 
       const res = await request(app).get("/api/reflection/patterns");
 
@@ -829,23 +896,37 @@ describe("API Routes", () => {
 
   describe("GET /api/insights/summary", () => {
     const mockAnthropicResponse = {
-      content: [{
-        type: "text",
-        text: "Your reflections show a pattern of growth and self-awareness.",
-      }],
+      content: [
+        {
+          type: "text",
+          text: "Your reflections show a pattern of growth and self-awareness.",
+        },
+      ],
     };
 
     beforeEach(() => {
       // Reconfigure the mock for this describe block
-      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(mockAnthropicResponse);
+      mockAnthropicCreate = (jest.fn() as any).mockResolvedValue(
+        mockAnthropicResponse,
+      );
     });
 
     test("generates new summary for paid user with sufficient reflections", async () => {
       (config.VALIDATION_MODE as any) = false;
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(5);
-      ((storage as any).getRecentReflections as jest.Mock<any>).mockResolvedValue([
-        { keyAssumption: "Test", detectedState: "anxiety", distortions: ["Test"] },
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(
+        5,
+      );
+      (
+        (storage as any).getRecentReflections as jest.Mock<any>
+      ).mockResolvedValue([
+        {
+          keyAssumption: "Test",
+          detectedState: "anxiety",
+          distortions: ["Test"],
+        },
       ]);
 
       const res = await request(app).get("/api/insights/summary");
@@ -857,9 +938,15 @@ describe("API Routes", () => {
     });
 
     test("returns existing summary when available", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(5);
-      ((storage as any).getLatestInsightSummary as jest.Mock<any>).mockResolvedValue({
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(
+        5,
+      );
+      (
+        (storage as any).getLatestInsightSummary as jest.Mock<any>
+      ).mockResolvedValue({
         summary: "Existing summary",
         reflectionCount: 5,
         generatedAt: new Date(),
@@ -872,8 +959,12 @@ describe("API Routes", () => {
     });
 
     test("returns unavailable when reflection count is low", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(3);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      ((storage as any).getReflectionCount as jest.Mock<any>).mockResolvedValue(
+        3,
+      );
 
       const res = await request(app).get("/api/insights/summary");
 
@@ -908,8 +999,12 @@ describe("API Routes", () => {
 
   describe("GET /api/insights/assumptions", () => {
     test("returns assumption library for paid users", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
-      ((storage as any).getAssumptionLibrary as jest.Mock<any>).mockResolvedValue([
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
+      (
+        (storage as any).getAssumptionLibrary as jest.Mock<any>
+      ).mockResolvedValue([
         { assumption: "I'm not good enough", count: 5, lastSeen: new Date() },
       ]);
 
@@ -945,7 +1040,9 @@ describe("API Routes", () => {
 
   describe("POST /api/duas/contextual", () => {
     test("returns contextual dua for paid users", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
 
       const res = await request(app)
         .post("/api/duas/contextual")
@@ -960,7 +1057,9 @@ describe("API Routes", () => {
     });
 
     test("returns default dua for unknown state", async () => {
-      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(true);
+      (billingService.billingService.isPaidUser as jest.Mock).mockReturnValue(
+        true,
+      );
 
       const res = await request(app)
         .post("/api/duas/contextual")
@@ -1040,7 +1139,7 @@ describe("API Routes", () => {
       (dataRetention.isAdminEndpointEnabled as jest.Mock).mockReturnValue(true);
       (dataRetention.verifyAdminToken as jest.Mock).mockReturnValue(true);
       (dataRetention.runManualCleanup as jest.Mock<any>).mockRejectedValue(
-        new Error("Cleanup failed")
+        new Error("Cleanup failed"),
       );
 
       const res = await request(app)

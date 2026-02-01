@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -19,11 +19,11 @@ import Animated, {
   withSpring,
   useSharedValue,
 } from "react-native-reanimated";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Fonts, NiyyahColors } from "@/constants/theme";
+import { secureStorage } from "@/lib/secure-storage";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand } from "@/constants/brand";
@@ -112,7 +112,7 @@ interface ModuleCardProps {
   locked?: boolean;
 }
 
-function ModuleCard({
+const ModuleCard = React.memo(function ModuleCard({
   icon,
   title,
   description,
@@ -182,7 +182,7 @@ function ModuleCard({
       </Animated.View>
     </Animated.View>
   );
-}
+});
 
 function getDailyReminder(): string {
   const dayOfYear = Math.floor(
@@ -210,19 +210,19 @@ export default function HomeScreen() {
   });
 
   useEffect(() => {
-    AsyncStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
+    secureStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
       if (name && name.trim()) {
         setUserName(name);
       }
     });
 
     // Load journey stats
-    AsyncStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
+    secureStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
       if (stats) {
         try {
           setJourneyStats(JSON.parse(stats));
         } catch {
-          console.log("Failed to parse journey stats");
+          // Failed to parse journey stats - silently fail and use defaults
         }
       }
     });
@@ -239,7 +239,7 @@ export default function HomeScreen() {
   const handleSaveName = async () => {
     const trimmedName = nameInput.trim();
     if (trimmedName) {
-      await AsyncStorage.setItem(USER_NAME_KEY, trimmedName);
+      await secureStorage.setItem(USER_NAME_KEY, trimmedName);
       setUserName(trimmedName);
     }
     setShowNameModal(false);
@@ -247,6 +247,27 @@ export default function HomeScreen() {
   };
 
   const dailyReminder = useMemo(() => getDailyReminder(), []);
+
+  // Memoized navigation handlers to prevent unnecessary re-renders
+  const handleNavigateThoughtCapture = useCallback(() => {
+    navigation.navigate("ThoughtCapture");
+  }, [navigation]);
+
+  const handleNavigateCalmingPractice = useCallback(() => {
+    navigation.navigate("CalmingPractice");
+  }, [navigation]);
+
+  const handleNavigateDua = useCallback(() => {
+    navigation.navigate("Dua", { state: undefined });
+  }, [navigation]);
+
+  const handleNavigateInsights = useCallback(() => {
+    navigation.navigate("Insights");
+  }, [navigation]);
+
+  const handleNavigatePricing = useCallback(() => {
+    navigation.navigate("Pricing");
+  }, [navigation]);
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],
@@ -433,7 +454,7 @@ export default function HomeScreen() {
                 icon="edit-3"
                 title="Reflection"
                 description="Process a troubling thought with structured prompts"
-                onPress={() => navigation.navigate("ThoughtCapture")}
+                onPress={handleNavigateThoughtCapture}
                 gradient={["#6a5a4a", "#4a3a2a"]}
                 delay={120}
               />
@@ -441,7 +462,7 @@ export default function HomeScreen() {
                 icon="wind"
                 title="Calming Practice"
                 description="Quick grounding exercises with dhikr"
-                onPress={() => navigation.navigate("CalmingPractice")}
+                onPress={handleNavigateCalmingPractice}
                 gradient={["#4a6a5a", "#2a4a3a"]}
                 delay={160}
               />
@@ -449,7 +470,7 @@ export default function HomeScreen() {
                 icon="heart"
                 title="Dua"
                 description="Find the right words for what you carry"
-                onPress={() => navigation.navigate("Dua", { state: undefined })}
+                onPress={handleNavigateDua}
                 gradient={["#4a5a6a", "#2a3a4a"]}
                 delay={200}
               />
@@ -457,7 +478,7 @@ export default function HomeScreen() {
                 icon="bar-chart-2"
                 title="Insights"
                 description="See patterns in your reflections"
-                onPress={() => navigation.navigate("Insights")}
+                onPress={handleNavigateInsights}
                 gradient={["#5a4a5a", "#3a2a3a"]}
                 delay={240}
                 locked={!isPaid}
@@ -471,7 +492,7 @@ export default function HomeScreen() {
               style={styles.upgradeSection}
             >
               <Pressable
-                onPress={() => navigation.navigate("Pricing")}
+                onPress={handleNavigatePricing}
                 style={({ pressed }) => [
                   styles.upgradeButton,
                   { opacity: pressed ? 0.9 : 1 },

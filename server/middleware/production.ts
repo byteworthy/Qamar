@@ -170,3 +170,80 @@ export function getRateLimitStatus(): {
     activeClients: rateLimitStore.size,
   };
 }
+
+// =============================================================================
+// HEALTH ENDPOINT RATE LIMITER
+// =============================================================================
+
+// Separate store for health endpoint rate limiting
+const healthRateLimitStore = new Map<string, RateLimitEntry>();
+
+const HEALTH_RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
+const HEALTH_RATE_LIMIT_MAX_REQUESTS = 60; // 60 requests per minute per IP
+
+/**
+ * Clean up expired entries from the health rate limit store.
+ */
+function cleanupExpiredHealthEntries(): void {
+  const now = Date.now();
+  for (const [key, entry] of healthRateLimitStore.entries()) {
+    if (now > entry.resetTime) {
+      healthRateLimitStore.delete(key);
+    }
+  }
+}
+
+// Clean up expired health entries every 5 minutes
+setInterval(cleanupExpiredHealthEntries, 5 * 60 * 1000);
+
+/**
+ * Rate limiter middleware specifically for health check endpoint.
+ * Prevents abuse of health endpoint while allowing legitimate monitoring.
+ *
+ * Limits:
+ * - 60 requests per minute per IP
+ * - Returns 429 when exceeded
+ * - Always enabled (even in development)
+ */
+export function healthCheckRateLimiter(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
+  const clientId = getClientIdentifier(req);
+  const now = Date.now();
+
+  let entry = healthRateLimitStore.get(clientId);
+
+  // Initialize or reset entry if expired
+  if (!entry || now > entry.resetTime) {
+    entry = {
+      count: 0,
+      resetTime: now + HEALTH_RATE_LIMIT_WINDOW_MS,
+    };
+  }
+
+  entry.count++;
+  healthRateLimitStore.set(clientId, entry);
+
+  // Set rate limit headers
+  const remaining = Math.max(0, HEALTH_RATE_LIMIT_MAX_REQUESTS - entry.count);
+  const resetSeconds = Math.ceil((entry.resetTime - now) / 1000);
+
+  res.setHeader("X-RateLimit-Limit", HEALTH_RATE_LIMIT_MAX_REQUESTS.toString());
+  res.setHeader("X-RateLimit-Remaining", remaining.toString());
+  res.setHeader("X-RateLimit-Reset", resetSeconds.toString());
+
+  // Check if limit exceeded
+  if (entry.count > HEALTH_RATE_LIMIT_MAX_REQUESTS) {
+    res.setHeader("Retry-After", resetSeconds.toString());
+    res.status(429).json({
+      error: "Too many requests",
+      code: "HEALTH_CHECK_RATE_LIMIT_EXCEEDED",
+      retryAfter: resetSeconds,
+    });
+    return;
+  }
+
+  next();
+}

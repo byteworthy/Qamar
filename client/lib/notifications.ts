@@ -189,10 +189,6 @@ export async function registerForPushNotifications(): Promise<string | null> {
     });
 
     const token = tokenData.data;
-    // Don't log push tokens in production (security)
-    if (__DEV__) {
-      console.log("[Notifications] Push token obtained");
-    }
 
     // Store token securely (Keychain/Keystore)
     await secureStorage.setItem(PUSH_TOKEN_KEY, token);

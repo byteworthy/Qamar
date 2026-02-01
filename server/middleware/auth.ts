@@ -22,26 +22,23 @@ declare global {
 }
 
 function getSessionSecret(): string {
-  const isProduction = process.env.NODE_ENV === "production";
-
-  if (isProduction && !process.env.SESSION_SECRET) {
+  if (!process.env.SESSION_SECRET) {
     defaultLogger.error(
-      "FATAL: SESSION_SECRET not configured in production",
+      "FATAL: SESSION_SECRET not configured",
       new Error("SESSION_SECRET missing"),
       {
         operation: "get_session_secret",
-        environment: "production",
-        impact: "Server refusing to start - session security would fail",
-      }
+        environment: process.env.NODE_ENV || "unknown",
+        impact:
+          "Server refusing to start - session security requires explicit secret",
+      },
     );
     throw new Error(
-      "SESSION_SECRET environment variable is required in production.",
+      "SESSION_SECRET environment variable is required. Generate one with: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
     );
   }
 
-  return (
-    process.env.SESSION_SECRET || "dev-session-secret-change-in-production"
-  );
+  return process.env.SESSION_SECRET;
 }
 
 function signToken(token: string): string {
@@ -75,7 +72,7 @@ function verifySignedToken(signedToken: string): string | null {
         {
           operation: "verify_signed_token",
           securityEvent: "signature_length_mismatch",
-        }
+        },
       );
       return null;
     }
@@ -130,7 +127,7 @@ export async function sessionMiddleware(
               {
                 operation: "decrypt_session_email",
                 userId: session.userId,
-              }
+              },
             );
             // Continue with null email - session still valid
           }
@@ -186,7 +183,7 @@ export async function sessionMiddleware(
       {
         operation: "session_middleware",
         action: "issuing_new_session",
-      }
+      },
     );
 
     // Clear the invalid cookie
@@ -229,10 +226,12 @@ export async function sessionMiddleware(
     } catch (innerError) {
       defaultLogger.error(
         "Failed to create recovery session",
-        innerError instanceof Error ? innerError : new Error(String(innerError)),
+        innerError instanceof Error
+          ? innerError
+          : new Error(String(innerError)),
         {
           operation: "create_recovery_session",
-        }
+        },
       );
       // Continue without auth - endpoints will handle 401 appropriately
     }
@@ -257,7 +256,7 @@ export async function updateSessionEmail(
       error instanceof Error ? error : new Error(String(error)),
       {
         operation: "encrypt_session_email",
-      }
+      },
     );
     throw new Error("Failed to secure user data");
   }

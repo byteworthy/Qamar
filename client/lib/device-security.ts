@@ -5,8 +5,8 @@
  * Warns users about potential data exposure on insecure devices.
  */
 
-import JailMonkey from 'jail-monkey';
-import { Alert, BackHandler, Platform } from 'react-native';
+import JailMonkey from "jail-monkey";
+import { Alert, BackHandler, Platform } from "react-native";
 
 export interface SecurityInfo {
   isJailBroken: boolean;
@@ -24,27 +24,27 @@ export function checkDeviceSecurity(): boolean {
 
   if (isCompromised) {
     Alert.alert(
-      'Security Warning',
-      'Noor has detected that your device may be jailbroken or rooted.\n\n' +
-        'For your privacy and security, Noor cannot guarantee the protection of your sensitive mental health data on compromised devices, where other apps could potentially access your information.\n\n' +
-        'We recommend using Noor on a non-jailbroken/rooted device.',
+      "Security Warning",
+      "Noor has detected that your device may be jailbroken or rooted.\n\n" +
+        "For your privacy and security, Noor cannot guarantee the protection of your sensitive mental health data on compromised devices, where other apps could potentially access your information.\n\n" +
+        "We recommend using Noor on a non-jailbroken/rooted device.",
       [
         {
-          text: 'I Understand',
-          style: 'default',
+          text: "I Understand",
+          style: "default",
         },
         {
-          text: 'Exit App',
+          text: "Exit App",
           onPress: () => {
-            if (Platform.OS === 'android') {
+            if (Platform.OS === "android") {
               BackHandler.exitApp();
             }
             // iOS: Can't programmatically quit - user must manually close
           },
-          style: 'destructive',
+          style: "destructive",
         },
       ],
-      { cancelable: false }
+      { cancelable: false },
     );
     return false;
   }
@@ -59,8 +59,10 @@ export function checkDeviceSecurity(): boolean {
 export function getSecurityInfo(): SecurityInfo {
   return {
     isJailBroken: JailMonkey.isJailBroken(),
-    canMockLocation: Platform.OS === 'android' ? JailMonkey.canMockLocation() : false,
-    isOnExternalStorage: Platform.OS === 'android' ? JailMonkey.isOnExternalStorage() : false,
+    canMockLocation:
+      Platform.OS === "android" ? JailMonkey.canMockLocation() : false,
+    isOnExternalStorage:
+      Platform.OS === "android" ? JailMonkey.isOnExternalStorage() : false,
     hookDetected: JailMonkey.hookDetected(),
   };
 }
@@ -96,7 +98,7 @@ export function areHooksDetected(): boolean {
  * @returns boolean - true if on external storage
  */
 export function isOnExternalStorage(): boolean {
-  if (Platform.OS === 'android') {
+  if (Platform.OS === "android") {
     return JailMonkey.isOnExternalStorage();
   }
   return false;
@@ -110,20 +112,20 @@ export function getSecurityStatusMessage(): string {
   const info = getSecurityInfo();
 
   if (info.isJailBroken) {
-    return 'Device is jailbroken/rooted. Your data may be at risk.';
+    return "Device is jailbroken/rooted. Your data may be at risk.";
   }
 
   if (info.hookDetected) {
-    return 'Hooking framework detected. App behavior may be modified.';
+    return "Hooking framework detected. App behavior may be modified.";
   }
 
-  if (info.isOnExternalStorage && Platform.OS === 'android') {
-    return 'App is installed on external storage. This is less secure.';
+  if (info.isOnExternalStorage && Platform.OS === "android") {
+    return "App is installed on external storage. This is less secure.";
   }
 
-  if (info.canMockLocation && Platform.OS === 'android') {
-    return 'Location mocking is enabled on this device.';
+  if (info.canMockLocation && Platform.OS === "android") {
+    return "Location mocking is enabled on this device.";
   }
 
-  return 'Device security looks good.';
+  return "Device security looks good.";
 }

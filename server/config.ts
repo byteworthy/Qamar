@@ -57,20 +57,22 @@ export const config = {
 
 export const loggingConfig = {
   // Log level (error, warn, info, http, debug)
-  level: process.env.LOG_LEVEL || (process.env.NODE_ENV === 'production' ? 'info' : 'debug'),
+  level:
+    process.env.LOG_LEVEL ||
+    (process.env.NODE_ENV === "production" ? "info" : "debug"),
 
   // Enable file logging in production
-  enableFileLogging: process.env.NODE_ENV === 'production',
+  enableFileLogging: process.env.NODE_ENV === "production",
 
   // Log directory
-  logDirectory: process.env.LOG_DIRECTORY || './logs',
+  logDirectory: process.env.LOG_DIRECTORY || "./logs",
 
   // Redact sensitive fields from logs
   redactSensitiveData: true,
 
   // Additional sensitive field patterns (comma-separated)
   customSensitivePatterns: process.env.SENSITIVE_LOG_PATTERNS
-    ? process.env.SENSITIVE_LOG_PATTERNS.split(',')
+    ? process.env.SENSITIVE_LOG_PATTERNS.split(",")
     : [],
 };
 
@@ -260,10 +262,10 @@ export function validateProductionConfig(): void {
   const errors: string[] = [];
 
   // Validate logging configuration
-  const validLogLevels = ['error', 'warn', 'info', 'http', 'debug'];
+  const validLogLevels = ["error", "warn", "info", "http", "debug"];
   if (!validLogLevels.includes(loggingConfig.level)) {
     errors.push(
-      `Invalid LOG_LEVEL: ${loggingConfig.level}. Must be one of: ${validLogLevels.join(', ')}`
+      `Invalid LOG_LEVEL: ${loggingConfig.level}. Must be one of: ${validLogLevels.join(", ")}`,
     );
   }
 

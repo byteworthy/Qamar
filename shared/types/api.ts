@@ -27,7 +27,12 @@ export interface User {
   id: string;
   email: string;
   stripeCustomerId: string;
-  subscriptionStatus: 'active' | 'trialing' | 'past_due' | 'canceled' | 'inactive';
+  subscriptionStatus:
+    | "active"
+    | "trialing"
+    | "past_due"
+    | "canceled"
+    | "inactive";
   stripeSubscriptionId?: string;
   subscriptionTier?: string;
   trialEndsAt?: string;
@@ -41,7 +46,7 @@ export interface UserSettings {
     email?: boolean;
     push?: boolean;
   };
-  theme?: 'light' | 'dark' | 'auto';
+  theme?: "light" | "dark" | "auto";
   language?: string;
 }
 
@@ -125,18 +130,18 @@ export interface AnalyzeThoughtRequest {
 export interface AnalyzeThoughtResponse {
   emotionalState: string;
   emotionalIntensity: number;
-  distortions: Array<{
+  distortions: {
     type: string;
     confidence: number;
     evidence: string;
-  }>;
+  }[];
   toneAnalysis: ToneAnalysis;
   crisisDetected?: boolean;
-  resources?: Array<{
+  resources?: {
     name: string;
     phone: string;
     url?: string;
-  }>;
+  }[];
 }
 
 // ============= Reframe Types =============
@@ -169,8 +174,8 @@ export interface ReframeResponse {
 
 export interface PracticeRequest {
   emotionalState: string;
-  intensity: 'low' | 'medium' | 'high';
-  preference?: 'breathing' | 'grounding' | 'mindfulness';
+  intensity: "low" | "medium" | "high";
+  preference?: "breathing" | "grounding" | "mindfulness";
 }
 
 export interface Practice {
@@ -202,11 +207,11 @@ export interface InsightsSummaryRequest {
 
 export interface InsightsSummaryResponse {
   summary: string;
-  patterns: Array<{
+  patterns: {
     type: string;
     frequency: number;
-    trend: 'increasing' | 'decreasing' | 'stable';
-  }>;
+    trend: "increasing" | "decreasing" | "stable";
+  }[];
   progress: {
     emotionalRegulation: number;
     distortionAwareness: number;
@@ -239,10 +244,10 @@ export interface BillingPortalResponse {
 // ============= Health Check =============
 
 export interface HealthCheckResponse {
-  status: 'ok' | 'degraded' | 'down';
+  status: "ok" | "degraded" | "down";
   timestamp: string;
   version?: string;
-  database?: 'connected' | 'disconnected';
+  database?: "connected" | "disconnected";
 }
 
 // ============= Generic API Response Wrapper =============
@@ -251,9 +256,9 @@ export type ApiResponse<T> = T | ApiError;
 
 export function isApiError(response: unknown): response is ApiError {
   return (
-    typeof response === 'object' &&
+    typeof response === "object" &&
     response !== null &&
-    'error' in response &&
-    typeof (response as ApiError).error === 'string'
+    "error" in response &&
+    typeof (response as ApiError).error === "string"
   );
 }

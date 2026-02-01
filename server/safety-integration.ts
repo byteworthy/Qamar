@@ -177,7 +177,7 @@ export function runPreProcessingSafety(
         operation: "safety_pipeline_islamic_content",
         emotionalState: context.emotionalState,
         distressLevel: context.distressLevel,
-      }
+      },
     );
   }
 

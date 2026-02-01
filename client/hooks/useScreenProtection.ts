@@ -12,9 +12,9 @@
  * and disabled when it unmounts.
  */
 
-import { useEffect } from 'react';
-import * as ScreenCapture from 'expo-screen-capture';
-import { Platform } from 'react-native';
+import { useEffect } from "react";
+import * as ScreenCapture from "expo-screen-capture";
+import { Platform } from "react-native";
 
 interface ScreenProtectionOptions {
   /**
@@ -58,10 +58,12 @@ export function useScreenProtection(options: ScreenProtectionOptions = {}) {
       }
 
       try {
-        if (Platform.OS === 'web') {
+        if (Platform.OS === "web") {
           // Web doesn't support screenshot prevention
           if (__DEV__) {
-            console.warn('[ScreenProtection] Screenshot prevention not available on web');
+            console.warn(
+              "[ScreenProtection] Screenshot prevention not available on web",
+            );
           }
           return;
         }
@@ -77,10 +79,10 @@ export function useScreenProtection(options: ScreenProtectionOptions = {}) {
         };
 
         if (__DEV__) {
-          console.log('[ScreenProtection] Screen capture prevention enabled');
+          console.log("[ScreenProtection] Screen capture prevention enabled");
         }
       } catch (error) {
-        console.error('[ScreenProtection] Failed to enable protection:', error);
+        console.error("[ScreenProtection] Failed to enable protection:", error);
       }
     }
 
@@ -89,10 +91,15 @@ export function useScreenProtection(options: ScreenProtectionOptions = {}) {
         try {
           await subscription.remove();
           if (__DEV__) {
-            console.log('[ScreenProtection] Screen capture prevention disabled');
+            console.log(
+              "[ScreenProtection] Screen capture prevention disabled",
+            );
           }
         } catch (error) {
-          console.error('[ScreenProtection] Failed to disable protection:', error);
+          console.error(
+            "[ScreenProtection] Failed to disable protection:",
+            error,
+          );
         }
       }
     }
@@ -116,10 +123,10 @@ export async function allowScreenCapture(): Promise<void> {
   try {
     await ScreenCapture.allowScreenCaptureAsync();
     if (__DEV__) {
-      console.log('[ScreenProtection] Screen capture temporarily allowed');
+      console.log("[ScreenProtection] Screen capture temporarily allowed");
     }
   } catch (error) {
-    console.error('[ScreenProtection] Failed to allow screen capture:', error);
+    console.error("[ScreenProtection] Failed to allow screen capture:", error);
   }
 }
 
@@ -133,9 +140,12 @@ export async function preventScreenCapture(): Promise<void> {
   try {
     await ScreenCapture.preventScreenCaptureAsync();
     if (__DEV__) {
-      console.log('[ScreenProtection] Screen capture prevented globally');
+      console.log("[ScreenProtection] Screen capture prevented globally");
     }
   } catch (error) {
-    console.error('[ScreenProtection] Failed to prevent screen capture:', error);
+    console.error(
+      "[ScreenProtection] Failed to prevent screen capture:",
+      error,
+    );
   }
 }

@@ -77,7 +77,12 @@ describe("Billing Service", () => {
     });
 
     test("handles all BillingStatus types", () => {
-      const statuses: BillingStatus[] = ["free", "active", "past_due", "canceled"];
+      const statuses: BillingStatus[] = [
+        "free",
+        "active",
+        "past_due",
+        "canceled",
+      ];
 
       for (const status of statuses) {
         const result = billingService.isPaidUser(status);
@@ -359,7 +364,12 @@ describe("Billing Regression Tests", () => {
   });
 
   test("isPaidUser handles all valid status values", () => {
-    const validStatuses: BillingStatus[] = ["free", "active", "past_due", "canceled"];
+    const validStatuses: BillingStatus[] = [
+      "free",
+      "active",
+      "past_due",
+      "canceled",
+    ];
 
     for (const status of validStatuses) {
       expect(() => billingService.isPaidUser(status)).not.toThrow();

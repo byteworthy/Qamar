@@ -5,22 +5,22 @@
  * Handles app lifecycle and re-authentication when app returns from background.
  */
 
-import { useState, useEffect, useRef } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import { useState, useEffect, useRef } from "react";
+import { AppState, AppStateStatus } from "react-native";
 import {
   authenticateWithBiometric,
   isBiometricAvailable,
   getBiometricType,
-} from '../lib/biometric-auth';
-import { secureStorage } from '../lib/secure-storage';
+} from "../lib/biometric-auth";
+import { secureStorage } from "../lib/secure-storage";
 
-const BIOMETRIC_ENABLED_KEY = 'biometric_auth_enabled';
+const BIOMETRIC_ENABLED_KEY = "biometric_auth_enabled";
 const AUTH_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 
 export function useBiometricAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [biometricAvailable, setBiometricAvailable] = useState(false);
-  const [biometricType, setBiometricType] = useState<string>('');
+  const [biometricType, setBiometricType] = useState<string>("");
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const lastAuthTime = useRef<number>(Date.now());
@@ -39,7 +39,7 @@ export function useBiometricAuth() {
 
       // Check if user has enabled biometric auth
       const enabled = await secureStorage.getItem(BIOMETRIC_ENABLED_KEY);
-      setBiometricEnabled(enabled === 'true');
+      setBiometricEnabled(enabled === "true");
     }
 
     checkBiometric();
@@ -57,7 +57,7 @@ export function useBiometricAuth() {
     setIsAuthenticating(true);
     try {
       const result = await authenticateWithBiometric(
-        `Unlock Noor with ${biometricType}`
+        `Unlock Noor with ${biometricType}`,
       );
 
       if (result) {
@@ -67,7 +67,7 @@ export function useBiometricAuth() {
 
       return result;
     } catch (error) {
-      console.error('[useBiometricAuth] Authentication error:', error);
+      console.error("[useBiometricAuth] Authentication error:", error);
       return false;
     } finally {
       setIsAuthenticating(false);
@@ -76,35 +76,38 @@ export function useBiometricAuth() {
 
   // Handle app state changes (background/foreground)
   useEffect(() => {
-    const subscription = AppState.addEventListener('change', async (nextAppState) => {
-      // App is coming to foreground
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        // Check if we need to re-authenticate
-        const timeSinceAuth = Date.now() - lastAuthTime.current;
+    const subscription = AppState.addEventListener(
+      "change",
+      async (nextAppState) => {
+        // App is coming to foreground
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === "active"
+        ) {
+          // Check if we need to re-authenticate
+          const timeSinceAuth = Date.now() - lastAuthTime.current;
 
-        if (biometricEnabled && timeSinceAuth > AUTH_TIMEOUT_MS) {
-          // Require re-authentication after timeout
-          setIsAuthenticated(false);
-          await authenticate();
+          if (biometricEnabled && timeSinceAuth > AUTH_TIMEOUT_MS) {
+            // Require re-authentication after timeout
+            setIsAuthenticated(false);
+            await authenticate();
+          }
         }
-      }
 
-      // App is going to background
-      if (
-        appState.current === 'active' &&
-        nextAppState.match(/inactive|background/)
-      ) {
-        // Lock app when backgrounded (if biometric enabled)
-        if (biometricEnabled) {
-          setIsAuthenticated(false);
+        // App is going to background
+        if (
+          appState.current === "active" &&
+          nextAppState.match(/inactive|background/)
+        ) {
+          // Lock app when backgrounded (if biometric enabled)
+          if (biometricEnabled) {
+            setIsAuthenticated(false);
+          }
         }
-      }
 
-      appState.current = nextAppState;
-    });
+        appState.current = nextAppState;
+      },
+    );
 
     return () => {
       subscription.remove();

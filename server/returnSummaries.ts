@@ -85,7 +85,7 @@ Respond with a JSON object containing:
       {
         operation: "generate_return_summary",
         reflectionCount: reflections.length,
-      }
+      },
     );
     return null;
   }

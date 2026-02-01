@@ -326,10 +326,9 @@ describe("Conversational Fluency", () => {
 describe("Pattern Detector", () => {
   describe("Repetition Detection", () => {
     test("detects no repetition with minimal history", () => {
-      const result = PatternDetector.detectRepetition(
-        "I feel anxious",
-        ["I'm worried"],
-      );
+      const result = PatternDetector.detectRepetition("I feel anxious", [
+        "I'm worried",
+      ]);
 
       expect(result.repetitionDetected).toBe(false);
     });
@@ -354,10 +353,10 @@ describe("Pattern Detector", () => {
     });
 
     test("filters out stop words", () => {
-      const result = PatternDetector.detectRepetition(
-        "I am feeling this way",
-        ["I was feeling that way", "I have been feeling it"],
-      );
+      const result = PatternDetector.detectRepetition("I am feeling this way", [
+        "I was feeling that way",
+        "I have been feeling it",
+      ]);
 
       expect(result.repetitionDetected).toBe(true);
       expect(result.commonThemes).toContain("feeling");
@@ -503,8 +502,9 @@ describe("Emotional Intelligence", () => {
     });
 
     test("suggests grief for loss text", () => {
-      const label =
-        EmotionalIntelligence.suggestEmotionalLabel("I miss them so much");
+      const label = EmotionalIntelligence.suggestEmotionalLabel(
+        "I miss them so much",
+      );
       expect(label).toBe("grief");
     });
 

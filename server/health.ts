@@ -6,7 +6,10 @@
  */
 
 import type { Express, Request, Response } from "express";
-import { isRateLimitEnabled } from "./middleware/production";
+import {
+  isRateLimitEnabled,
+  healthCheckRateLimiter,
+} from "./middleware/production";
 import { isSentryEnabled } from "./sentry";
 
 // =============================================================================
@@ -123,29 +126,34 @@ async function getHealthStatus(): Promise<HealthStatus> {
 /**
  * Register health check route.
  * GET /health - Returns health status (always 200).
+ * Rate limited to 60 requests per minute per IP to prevent abuse.
  */
 export function registerHealthRoute(app: Express): void {
-  app.get("/health", async (_req: Request, res: Response) => {
-    try {
-      const health = await getHealthStatus();
-      res.json(health);
-    } catch (error) {
-      // Even on error, return 200 with error info
-      res.json({
-        status: "degraded",
-        timestamp: new Date().toISOString(),
-        version: process.env.npm_package_version || "1.0.0",
-        uptime: process.uptime(),
-        error: "Health check failed",
-        checks: {
-          database: { configured: false, connected: false },
-          ai: { configured: false },
-          sentry: { configured: false },
-          rateLimit: { enabled: false },
-        },
-      });
-    }
-  });
+  app.get(
+    "/health",
+    healthCheckRateLimiter,
+    async (_req: Request, res: Response) => {
+      try {
+        const health = await getHealthStatus();
+        res.json(health);
+      } catch (error) {
+        // Even on error, return 200 with error info
+        res.json({
+          status: "degraded",
+          timestamp: new Date().toISOString(),
+          version: process.env.npm_package_version || "1.0.0",
+          uptime: process.uptime(),
+          error: "Health check failed",
+          checks: {
+            database: { configured: false, connected: false },
+            ai: { configured: false },
+            sentry: { configured: false },
+            rateLimit: { enabled: false },
+          },
+        });
+      }
+    },
+  );
 
   console.log("[Health] Health check endpoint registered: GET /health");
 }

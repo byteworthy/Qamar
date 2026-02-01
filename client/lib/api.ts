@@ -1,9 +1,5 @@
 import { getApiUrl, apiRequest } from "./query-client";
-import type {
-  ApiResponse,
-  ApiError,
-  isApiError,
-} from "../../shared/types/api";
+import type { ApiResponse, ApiError, isApiError } from "../../shared/types/api";
 
 // =============================================================================
 // CRISIS DETECTION TYPES

@@ -48,7 +48,9 @@ describe("Tone Compliance Checker", () => {
   describe("Quick Check Function", () => {
     test("returns true for compliant text", () => {
       expect(
-        isToneCompliant("I hear you. That makes sense given what you're facing."),
+        isToneCompliant(
+          "I hear you. That makes sense given what you're facing.",
+        ),
       ).toBe(true);
     });
 
@@ -211,9 +213,7 @@ describe("Dismissive Language Detection", () => {
   });
 
   test("detects 'others have it worse'", () => {
-    const result = checkToneCompliance(
-      "Others have it worse than you do",
-    );
+    const result = checkToneCompliance("Others have it worse than you do");
 
     const issue = result.issues.find((i) => i.type === "dismissive_language");
     expect(issue).toBeDefined();

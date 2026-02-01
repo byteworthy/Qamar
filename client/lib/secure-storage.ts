@@ -14,9 +14,9 @@
  * - Any sensitive user data
  */
 
-import * as SecureStore from 'expo-secure-store';
-import { Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from "expo-secure-store";
+import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 /**
  * Secure storage wrapper using Keychain (iOS) / Keystore (Android)
@@ -31,9 +31,11 @@ export const secureStorage = {
    */
   async setItem(key: string, value: string): Promise<void> {
     try {
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         // Web fallback - AsyncStorage (less secure)
-        console.warn('[SecureStorage] Web platform - using AsyncStorage fallback. Consider additional encryption for production.');
+        console.warn(
+          "[SecureStorage] Web platform - using AsyncStorage fallback. Consider additional encryption for production.",
+        );
         await AsyncStorage.setItem(key, value);
       } else {
         // Native: Use secure storage (Keychain/Keystore)
@@ -44,7 +46,10 @@ export const secureStorage = {
         });
       }
     } catch (error) {
-      console.error(`[SecureStorage] Failed to set item for key "${key}":`, error);
+      console.error(
+        `[SecureStorage] Failed to set item for key "${key}":`,
+        error,
+      );
       throw new Error(`Failed to securely store data: ${error}`);
     }
   },
@@ -57,13 +62,16 @@ export const secureStorage = {
    */
   async getItem(key: string): Promise<string | null> {
     try {
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         return await AsyncStorage.getItem(key);
       } else {
         return await SecureStore.getItemAsync(key);
       }
     } catch (error) {
-      console.error(`[SecureStorage] Failed to get item for key "${key}":`, error);
+      console.error(
+        `[SecureStorage] Failed to get item for key "${key}":`,
+        error,
+      );
       // Return null instead of throwing to handle missing keys gracefully
       return null;
     }
@@ -76,13 +84,16 @@ export const secureStorage = {
    */
   async removeItem(key: string): Promise<void> {
     try {
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         await AsyncStorage.removeItem(key);
       } else {
         await SecureStore.deleteItemAsync(key);
       }
     } catch (error) {
-      console.error(`[SecureStorage] Failed to remove item for key "${key}":`, error);
+      console.error(
+        `[SecureStorage] Failed to remove item for key "${key}":`,
+        error,
+      );
       throw new Error(`Failed to remove secure data: ${error}`);
     }
   },
@@ -97,7 +108,10 @@ export const secureStorage = {
       const value = await this.getItem(key);
       return value !== null;
     } catch (error) {
-      console.error(`[SecureStorage] Failed to check item for key "${key}":`, error);
+      console.error(
+        `[SecureStorage] Failed to check item for key "${key}":`,
+        error,
+      );
       return false;
     }
   },
@@ -108,15 +122,17 @@ export const secureStorage = {
    */
   async clear(): Promise<void> {
     try {
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         await AsyncStorage.clear();
       } else {
         // Note: SecureStore doesn't have a clear() method
         // You need to track keys and delete them individually
-        console.warn('[SecureStorage] Clear operation not fully supported on native platforms. Delete keys individually.');
+        console.warn(
+          "[SecureStorage] Clear operation not fully supported on native platforms. Delete keys individually.",
+        );
       }
     } catch (error) {
-      console.error('[SecureStorage] Failed to clear storage:', error);
+      console.error("[SecureStorage] Failed to clear storage:", error);
       throw new Error(`Failed to clear secure storage: ${error}`);
     }
   },
@@ -126,9 +142,9 @@ export const secureStorage = {
  * Keys used throughout the app (centralized for consistency)
  */
 export const SECURE_KEYS = {
-  PUSH_TOKEN: 'secure_push_token',
-  SESSIONS: 'secure_sessions',
-  BILLING_PROFILE: 'secure_billing_profile',
-  NOTIFICATION_SETTINGS: 'secure_notification_settings',
-  USER_PREFERENCES: 'secure_user_preferences',
+  PUSH_TOKEN: "secure_push_token",
+  SESSIONS: "secure_sessions",
+  BILLING_PROFILE: "secure_billing_profile",
+  NOTIFICATION_SETTINGS: "secure_notification_settings",
+  USER_PREFERENCES: "secure_user_preferences",
 } as const;

@@ -47,8 +47,10 @@ If you discover a security vulnerability in Noor, please report it responsibly:
 ### 2. Authentication & Authorization
 
 #### Session Management
+
 - **Signed Tokens:** HMAC-SHA256 signed session tokens
 - **Timing-Safe Comparison:** Prevents timing attacks on token verification
+- **Mandatory Secret:** SESSION_SECRET environment variable required (no fallback)
 - **Cookie Security:**
   - HTTP-only cookies (not accessible via JavaScript)
   - Secure flag enabled (HTTPS-only)
@@ -99,12 +101,36 @@ If you discover a security vulnerability in Noor, please report it responsibly:
   - General endpoints: 100 requests/15 minutes (production)
   - AI endpoints: 10 requests/minute
   - Auth endpoints: 5 attempts/15 minutes
+  - Health endpoint: 60 requests/minute
   - Prevents brute force and DoS attacks
+- **Security Headers:** Comprehensive headers via Helmet
+  - X-Content-Type-Options: nosniff
+  - X-Frame-Options: DENY
+  - X-XSS-Protection: 1; mode=block
+  - Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  - Content-Security-Policy (see below)
+- **Content-Security-Policy (CSP):**
+  - default-src: 'self' (only load resources from same origin)
+  - connect-src: 'self' https://api.anthropic.com (allow API calls to Claude AI)
+  - frame-src: 'none' (block all iframe embedding)
+  - Prevents XSS attacks and unauthorized resource loading
+- **Request Body Size Limits:**
+  - JSON requests: 10MB limit
+  - URL-encoded requests: 10MB limit
+  - Prevents Denial of Service attacks via large payloads
 - **Input Validation:** All inputs validated with Zod schemas
 - **Output Sanitization:** All responses sanitized before sending
 - **CORS:** Properly configured for mobile apps and approved web origins
 
 #### Request Security
+
+- **CSRF Protection:** Double-submit cookie pattern
+  - CSRF token generated per session
+  - Token in both cookie and X-CSRF-Token header
+  - Timing-safe comparison using crypto.timingSafeEqual
+  - Protects all POST, PUT, DELETE requests
+  - Prevents Cross-Site Request Forgery attacks
+
 - **Bearer Tokens:** Authentication tokens in headers only
 - **No URL Parameters:** Sensitive data never in URL query strings
 - **Request Signing:** HMAC-based verification
@@ -270,6 +296,20 @@ We use minimal third-party services, all vetted for security:
 ---
 
 ## Version History
+
+- **1.1.0** (January 31, 2026): Backend Security Hardening
+  - **CSRF Protection:** Implemented double-submit cookie pattern with timing-safe comparison
+  - **Security Headers:** Added comprehensive Helmet configuration
+    - Content-Security-Policy to prevent XSS attacks
+    - HSTS with 1-year max-age and subdomains
+    - X-Frame-Options to prevent clickjacking
+    - X-Content-Type-Options to prevent MIME sniffing
+  - **Request Body Limits:** Added 10MB size limits to prevent DoS attacks
+  - **Health Endpoint Protection:** Added dedicated rate limiter (60 req/min)
+  - **Session Secret Security:** Removed hardcoded fallback, now requires explicit SESSION_SECRET
+  - **Input Validation:** Enhanced server-side validation with Zod schemas on all endpoints
+  - **Production Logging:** Wrapped sensitive console.logs with DEV checks
+  - **Security Verification:** Updated verification script with 11 new backend security checks
 
 - **1.0.0** (January 31, 2026): Initial security policy
   - Implemented SecureStore for sensitive data

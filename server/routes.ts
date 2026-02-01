@@ -288,7 +288,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // VALIDATION MODE GUARD: Return placeholder if AI not configured
       if (VALIDATION_MODE && !isAnthropicConfigured()) {
-        req.logger.info("Validation mode: returning placeholder analyze response");
+        req.logger.info(
+          "Validation mode: returning placeholder analyze response",
+        );
         return res.json(getValidationModeAnalyzeResponse());
       }
 
@@ -683,13 +685,23 @@ ${reframePrompt}`,
     }
   });
 
+  // Validation schema for practice request
+  const practiceSchema = z.object({
+    reframe: z.string().min(1).max(5000),
+  });
+
   app.post("/api/practice", aiRateLimiter, async (req, res) => {
     try {
-      const { reframe } = req.body;
-
-      if (!reframe) {
-        return res.status(400).json({ error: "Reframe is required" });
+      // Validate request body
+      const validationResult = practiceSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          error: "Invalid request data",
+          details: validationResult.error.issues,
+        });
       }
+
+      const { reframe } = validationResult.data;
 
       // VALIDATION MODE GUARD
       if (VALIDATION_MODE && !isAnthropicConfigured()) {
@@ -850,7 +862,9 @@ ${practicePrompt}`,
         req.logger.error("Encryption failed for reflection", error, {
           operation: "encrypt_reflection",
         });
-        return res.status(500).json({ error: "Failed to securely store reflection" });
+        return res
+          .status(500)
+          .json({ error: "Failed to securely store reflection" });
       }
 
       await storage.saveReflection(userId, {
@@ -1318,14 +1332,29 @@ ${summaryPrompt}`,
     },
   };
 
+  // Validation schema for duas contextual request
+  const duasContextualSchema = z.object({
+    state: z.string().min(1).max(100).optional(),
+  });
+
   app.post("/api/duas/contextual", aiRateLimiter, async (req, res) => {
     try {
       const userId = req.auth?.userId;
-      const { state } = req.body;
 
       if (!userId) {
         return res.status(401).json({ error: "Authentication required" });
       }
+
+      // Validate request body
+      const validationResult = duasContextualSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          error: "Invalid request data",
+          details: validationResult.error.issues,
+        });
+      }
+
+      const { state } = validationResult.data;
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);

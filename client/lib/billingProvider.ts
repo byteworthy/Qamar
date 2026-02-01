@@ -237,7 +237,9 @@ class StoreBillingProvider implements BillingProvider {
       const productIds = getProductIds();
       const productId = productIds[productKey];
 
-      console.log("[Billing] Purchasing:", productId);
+      if (__DEV__) {
+        console.log("[Billing] Purchasing:", productId);
+      }
 
       // Request purchase - subscriptions require type 'subs'
       await iap.requestPurchase({
@@ -248,7 +250,9 @@ class StoreBillingProvider implements BillingProvider {
         type: "subs",
       });
 
-      console.log("[Billing] Purchase successful");
+      if (__DEV__) {
+        console.log("[Billing] Purchase successful");
+      }
 
       // Update profile
       const status: BillingStatus = "active";
@@ -288,7 +292,9 @@ class StoreBillingProvider implements BillingProvider {
       await initConnection();
 
       const purchases = await getAvailablePurchases();
-      console.log("[Billing] Available purchases:", purchases);
+      if (__DEV__) {
+        console.log("[Billing] Available purchases:", purchases);
+      }
 
       if (!purchases || purchases.length === 0) {
         await endConnection();

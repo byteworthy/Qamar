@@ -223,6 +223,58 @@ grep -q "\"check:types\"" package.json
 check "Type checking script exists" $?
 
 echo ""
+echo "1️⃣1️⃣  CHECKING BACKEND SECURITY HARDENING"
+echo "----------------------------------------"
+
+# Check CSRF protection middleware exists
+info "Checking CSRF protection..."
+test -f "server/middleware/csrf.ts"
+check "CSRF middleware file exists" $?
+
+# Check Helmet security headers
+info "Checking security headers..."
+grep -q "helmet" server/index.ts
+check "Helmet security headers configured" $?
+
+# Check Content-Security-Policy
+grep -q "contentSecurityPolicy" server/index.ts
+check "Content-Security-Policy configured" $?
+
+# Check request body size limits
+info "Checking request limits..."
+grep -qi "limit.*10mb" server/index.ts
+check "Request body size limits configured (10mb)" $?
+
+# Check health endpoint rate limiting
+info "Checking health endpoint protection..."
+grep -q "healthCheckRateLimiter" server/health.ts
+check "Health endpoint rate limiting configured" $?
+
+# Check session secret has no hardcoded fallback
+info "Checking session secret security..."
+! grep -q "dev-session-secret-change-in-production" server/middleware/auth.ts
+check "No hardcoded session secret fallback" $?
+
+# Check SESSION_SECRET is in .env.example
+grep -q "SESSION_SECRET" .env.example
+check "SESSION_SECRET documented in .env.example" $?
+
+# Check CSRF_SECRET is in .env.example
+grep -q "CSRF_SECRET" .env.example
+check "CSRF_SECRET documented in .env.example" $?
+
+# Check all POST/PUT endpoints have validation
+info "Checking input validation..."
+grep -c "safeParse" server/routes.ts > /tmp/validation_count.txt
+VALIDATION_COUNT=$(cat /tmp/validation_count.txt)
+if [ "$VALIDATION_COUNT" -ge 5 ]; then
+    check "Server-side input validation present ($VALIDATION_COUNT endpoints)" 0
+else
+    check "Server-side input validation insufficient ($VALIDATION_COUNT endpoints)" 1
+fi
+rm -f /tmp/validation_count.txt
+
+echo ""
 echo "====================================="
 echo "📊 VERIFICATION SUMMARY"
 echo "====================================="

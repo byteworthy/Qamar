@@ -121,8 +121,6 @@ router.delete("/unregister", async (req: Request, res: Response) => {
 
     pushTokens.delete(token);
 
-    console.log("[Notifications] Unregistered token");
-
     res.json({
       success: true,
       message: "Push token unregistered",

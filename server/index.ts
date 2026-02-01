@@ -3,6 +3,7 @@ import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import {
   registerBillingWebhookRoute,
@@ -29,6 +30,11 @@ import {
   rateLimiterMiddleware,
 } from "./middleware/production";
 import { requestLoggerMiddleware } from "./middleware/request-logger";
+import {
+  csrfProtection,
+  csrfTokenRoute,
+  csrfErrorHandler,
+} from "./middleware/csrf";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -98,22 +104,70 @@ function setupCors(app: express.Application): void {
         return callback(new Error("Not allowed by CORS"));
       },
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type"],
+      allowedHeaders: ["Content-Type", "X-CSRF-Token"],
       credentials: true,
-    })
+    }),
+  );
+}
+
+function setupSecurityHeaders(app: express.Application): void {
+  // Helmet provides comprehensive security headers
+  app.use(
+    helmet({
+      // Content Security Policy - prevents XSS attacks
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"], // React Native Paper requires inline styles
+          imgSrc: ["'self'", "data:", "https:"],
+          connectSrc: [
+            "'self'",
+            "https://api.anthropic.com", // Claude AI API
+            "wss://api.anthropic.com",
+          ],
+          fontSrc: ["'self'"],
+          objectSrc: ["'none'"],
+          mediaSrc: ["'self'"],
+          frameSrc: ["'none'"],
+        },
+      },
+      // Strict-Transport-Security - enforces HTTPS
+      hsts: {
+        maxAge: 31536000, // 1 year
+        includeSubDomains: true,
+        preload: true,
+      },
+      // X-Frame-Options - prevents clickjacking
+      frameguard: {
+        action: "deny",
+      },
+      // X-Content-Type-Options - prevents MIME sniffing
+      noSniff: true,
+      // X-XSS-Protection - enables XSS filter in older browsers
+      xssFilter: true,
+      // Referrer-Policy - controls referrer information
+      referrerPolicy: {
+        policy: "strict-origin-when-cross-origin",
+      },
+    }),
   );
 }
 
 function setupBodyParsing(app: express.Application): void {
+  // Body size limits to prevent DoS attacks via large payloads
+  const bodySizeLimit = "10mb";
+
   app.use(
     express.json({
+      limit: bodySizeLimit,
       verify: (req: Request, _res: Response, buf: Buffer) => {
         req.rawBody = buf;
       },
     }),
   );
 
-  app.use(express.urlencoded({ extended: false }));
+  app.use(express.urlencoded({ extended: false, limit: bodySizeLimit }));
 }
 
 function setupRequestLogging(app: express.Application): void {
@@ -311,11 +365,14 @@ async function initStripe() {
     log("Setting up managed webhook...");
 
     // Use explicit webhook domain if configured, otherwise fall back to first Replit domain
-    const webhookDomain = process.env.STRIPE_WEBHOOK_DOMAIN
-      || process.env.REPLIT_DOMAINS?.split(",")[0]?.trim();
+    const webhookDomain =
+      process.env.STRIPE_WEBHOOK_DOMAIN ||
+      process.env.REPLIT_DOMAINS?.split(",")[0]?.trim();
 
     if (!webhookDomain) {
-      log("WARNING: No webhook domain configured. Set STRIPE_WEBHOOK_DOMAIN or REPLIT_DOMAINS.");
+      log(
+        "WARNING: No webhook domain configured. Set STRIPE_WEBHOOK_DOMAIN or REPLIT_DOMAINS.",
+      );
       log("Skipping Stripe webhook setup - billing webhooks will not work.");
       return;
     }
@@ -363,6 +420,9 @@ async function initStripe() {
 
   setupCors(app);
 
+  // Security headers: CSP, HSTS, X-Frame-Options, X-Content-Type-Options, etc.
+  setupSecurityHeaders(app);
+
   // Production middleware: request ID and rate limiting
   app.use(requestIdMiddleware);
   app.use(rateLimiterMiddleware);
@@ -387,6 +447,12 @@ async function initStripe() {
   // Structured logging middleware (attaches req.logger to each request)
   app.use(requestLoggerMiddleware);
 
+  // CSRF token endpoint (GET /api/csrf-token)
+  app.get("/api/csrf-token", csrfTokenRoute);
+
+  // CSRF protection middleware for state-changing requests (POST, PUT, DELETE)
+  app.use(csrfProtection);
+
   await initStripe();
 
   // Initialize data retention service (runs cleanup every 24 hours)
@@ -409,6 +475,9 @@ async function initStripe() {
       requestId,
     });
   });
+
+  // CSRF error handler (must come before general error handler)
+  app.use(csrfErrorHandler);
 
   setupErrorHandler(app);
 

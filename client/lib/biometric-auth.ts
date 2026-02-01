@@ -10,8 +10,8 @@
  * - Graceful fallback to device passcode
  */
 
-import * as LocalAuthentication from 'expo-local-authentication';
-import { Platform } from 'react-native';
+import * as LocalAuthentication from "expo-local-authentication";
+import { Platform } from "react-native";
 
 /**
  * Check if biometric authentication hardware is available and enrolled
@@ -27,7 +27,7 @@ export async function isBiometricAvailable(): Promise<boolean> {
     const isEnrolled = await LocalAuthentication.isEnrolledAsync();
     return isEnrolled;
   } catch (error) {
-    console.error('[BiometricAuth] Error checking availability:', error);
+    console.error("[BiometricAuth] Error checking availability:", error);
     return false;
   }
 }
@@ -40,19 +40,19 @@ export async function isBiometricAvailable(): Promise<boolean> {
  * @returns Promise<boolean> - true if authentication successful
  */
 export async function authenticateWithBiometric(
-  promptMessage: string = 'Authenticate to access Noor'
+  promptMessage: string = "Authenticate to access Noor",
 ): Promise<boolean> {
   try {
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage,
-      fallbackLabel: 'Use passcode',
+      fallbackLabel: "Use passcode",
       disableDeviceFallback: false, // Allow PIN/passcode fallback
-      cancelLabel: 'Cancel',
+      cancelLabel: "Cancel",
     });
 
     return result.success;
   } catch (error) {
-    console.error('[BiometricAuth] Authentication failed:', error);
+    console.error("[BiometricAuth] Authentication failed:", error);
     return false;
   }
 }
@@ -65,22 +65,24 @@ export async function getBiometricType(): Promise<string> {
   try {
     const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
 
-    if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
-      return Platform.OS === 'ios' ? 'Face ID' : 'Face Recognition';
+    if (
+      types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)
+    ) {
+      return Platform.OS === "ios" ? "Face ID" : "Face Recognition";
     }
 
     if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
-      return Platform.OS === 'ios' ? 'Touch ID' : 'Fingerprint';
+      return Platform.OS === "ios" ? "Touch ID" : "Fingerprint";
     }
 
     if (types.includes(LocalAuthentication.AuthenticationType.IRIS)) {
-      return 'Iris Recognition';
+      return "Iris Recognition";
     }
 
-    return 'Biometric Authentication';
+    return "Biometric Authentication";
   } catch (error) {
-    console.error('[BiometricAuth] Error getting biometric type:', error);
-    return 'Biometric Authentication';
+    console.error("[BiometricAuth] Error getting biometric type:", error);
+    return "Biometric Authentication";
   }
 }
 
@@ -98,7 +100,7 @@ export async function getSecurityLevel(): Promise<number> {
     // 3 = Biometric (strong, e.g., Face ID, Touch ID)
     return securityLevel;
   } catch (error) {
-    console.error('[BiometricAuth] Error getting security level:', error);
+    console.error("[BiometricAuth] Error getting security level:", error);
     return 1; // Assume weak security on error
   }
 }
@@ -112,7 +114,7 @@ export async function hasBiometricHardware(): Promise<boolean> {
   try {
     return await LocalAuthentication.hasHardwareAsync();
   } catch (error) {
-    console.error('[BiometricAuth] Error checking hardware:', error);
+    console.error("[BiometricAuth] Error checking hardware:", error);
     return false;
   }
 }
@@ -125,7 +127,7 @@ export async function isEnrolled(): Promise<boolean> {
   try {
     return await LocalAuthentication.isEnrolledAsync();
   } catch (error) {
-    console.error('[BiometricAuth] Error checking enrollment:', error);
+    console.error("[BiometricAuth] Error checking enrollment:", error);
     return false;
   }
 }

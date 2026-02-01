@@ -144,12 +144,15 @@ export class DataRetentionService {
       // Count/delete expired reflections
       if (dryRun) {
         reflectionCount = await storage.countExpiredReflections(cutoffDate);
-        defaultLogger.info("Data Retention: DRY RUN - Would delete reflections", {
-          operation: "data_retention_cleanup_reflections",
-          dryRun: true,
-          count: reflectionCount,
-          cutoffDate: cutoffDate.toISOString(),
-        });
+        defaultLogger.info(
+          "Data Retention: DRY RUN - Would delete reflections",
+          {
+            operation: "data_retention_cleanup_reflections",
+            dryRun: true,
+            count: reflectionCount,
+            cutoffDate: cutoffDate.toISOString(),
+          },
+        );
       } else {
         reflectionCount = await storage.deleteExpiredReflections(cutoffDate);
         reflectionsDeleted = true;
@@ -172,11 +175,14 @@ export class DataRetentionService {
       } else {
         summaryCount = await storage.deleteExpiredInsightSummaries(cutoffDate);
         summariesDeleted = true;
-        defaultLogger.info("Data Retention: Deleted expired insight summaries", {
-          operation: "data_retention_cleanup_summaries",
-          dryRun: false,
-          count: summaryCount,
-        });
+        defaultLogger.info(
+          "Data Retention: Deleted expired insight summaries",
+          {
+            operation: "data_retention_cleanup_summaries",
+            dryRun: false,
+            count: summaryCount,
+          },
+        );
       }
     } catch (error) {
       defaultLogger.error(
@@ -185,7 +191,7 @@ export class DataRetentionService {
         {
           operation: "data_retention_cleanup",
           dryRun,
-        }
+        },
       );
     }
 
@@ -333,7 +339,7 @@ export async function exportUserData(userId: string): Promise<UserDataExport> {
       {
         operation: "data_retention_export",
         userIdPrefix: userId.substring(0, 8),
-      }
+      },
     );
     throw new Error("Failed to export user data");
   }
@@ -380,7 +386,7 @@ export async function deleteAllUserData(userId: string): Promise<{
       {
         operation: "data_retention_delete_all",
         userIdPrefix: userId.substring(0, 8),
-      }
+      },
     );
     return {
       success: false,

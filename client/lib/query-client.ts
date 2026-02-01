@@ -1,5 +1,47 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
+// CSRF token cache
+let csrfToken: string | null = null;
+
+/**
+ * Fetches a new CSRF token from the server
+ * @returns {Promise<string>} The CSRF token
+ */
+async function fetchCsrfToken(): Promise<string> {
+  const baseUrl = getApiUrl();
+  const url = new URL("/api/csrf-token", baseUrl);
+
+  const res = await fetch(url, {
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch CSRF token: ${res.statusText}`);
+  }
+
+  const data = await res.json();
+  csrfToken = data.csrfToken;
+  return csrfToken!;
+}
+
+/**
+ * Gets the CSRF token, fetching a new one if needed
+ * @returns {Promise<string>} The CSRF token
+ */
+async function getCsrfToken(): Promise<string> {
+  if (!csrfToken) {
+    return await fetchCsrfToken();
+  }
+  return csrfToken;
+}
+
+/**
+ * Clears the cached CSRF token (call when CSRF validation fails)
+ */
+export function clearCsrfToken(): void {
+  csrfToken = null;
+}
+
 /**
  * Gets the base URL for the Express API server (e.g., "http://localhost:3000")
  * @returns {string} The API base URL
@@ -42,12 +84,44 @@ export async function apiRequest(
   const url = new URL(route, baseUrl);
 
   try {
+    // Build headers
+    const headers: Record<string, string> = data
+      ? { "Content-Type": "application/json" }
+      : {};
+
+    // Add CSRF token for state-changing requests (POST, PUT, DELETE)
+    const needsCsrf = ["POST", "PUT", "DELETE"].includes(method.toUpperCase());
+    if (needsCsrf) {
+      const token = await getCsrfToken();
+      headers["X-CSRF-Token"] = token;
+    }
+
     const res = await fetch(url, {
       method,
-      headers: data ? { "Content-Type": "application/json" } : {},
+      headers,
       body: data ? JSON.stringify(data) : undefined,
       credentials: "include",
     });
+
+    // If CSRF validation fails, clear token and retry once
+    if (res.status === 403 && needsCsrf) {
+      const text = await res.text();
+      if (text.includes("CSRF")) {
+        clearCsrfToken();
+        const newToken = await getCsrfToken();
+        headers["X-CSRF-Token"] = newToken;
+
+        const retryRes = await fetch(url, {
+          method,
+          headers,
+          body: data ? JSON.stringify(data) : undefined,
+          credentials: "include",
+        });
+
+        await throwIfResNotOk(retryRes);
+        return retryRes;
+      }
+    }
 
     await throwIfResNotOk(res);
     return res;

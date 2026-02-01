@@ -66,7 +66,9 @@ export function encryptData(text: string): string {
     return `enc:${iv.toString("hex")}:${tag.toString("hex")}:${encrypted}`;
   } catch (error) {
     console.error("[Encryption] Encryption failed:", error);
-    throw new Error(`Encryption failed: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Encryption failed: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }
 
@@ -104,7 +106,9 @@ export function decryptData(encryptedText: string): string {
     return decrypted;
   } catch (error) {
     console.error("[Encryption] Decryption failed:", error);
-    throw new Error(`Decryption failed: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Decryption failed: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }
 
