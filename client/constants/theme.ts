@@ -263,24 +263,43 @@ export const Spacing = {
  * ComponentPadding: Standardized internal padding for UI components
  * These ensure visual consistency across the app without hardcoding values.
  *
+ * MIGRATION GUIDE:
+ * Replace hardcoded padding values with ComponentPadding tokens:
+ *
+ * Before: padding: 16
+ * After:  padding: ComponentPadding.card.all
+ *
+ * Before: paddingHorizontal: 24
+ * After:  paddingHorizontal: ComponentPadding.button.horizontal
+ *
+ * Before: padding: Spacing.lg (in component, not theme)
+ * After:  padding: ComponentPadding.input.all
+ *
+ * Components to migrate (future work):
+ * - ExitConfirmationModal.tsx -> ComponentPadding.modal
+ * - HistoryScreen list items -> ComponentPadding.listItem
+ * - ThoughtCaptureScreen inputs -> ComponentPadding.input
+ *
+ * @see Button.tsx, GlassCard.tsx for reference implementations
+ *
  * Usage: import { ComponentPadding } from '@/constants/theme';
  * Example: padding: ComponentPadding.button.horizontal
  */
 export const ComponentPadding = {
-  // Button padding (matches Button.tsx: paddingHorizontal: Spacing["2xl"])
+  // Button padding (derived from Button.tsx line 145)
   button: {
-    horizontal: Spacing["2xl"],  // 24
-    vertical: Spacing.lg,        // 16 (implicit via height)
+    horizontal: Spacing["2xl"],  // 24 - matches existing Button.tsx
+    vertical: Spacing.lg,        // 16 - implicit via buttonHeight
   },
 
-  // Card padding (matches GlassCard.tsx: padding: Spacing.lg)
+  // Card padding (derived from GlassCard.tsx)
   card: {
-    all: Spacing.lg,             // 16
+    all: Spacing.lg,             // 16 - matches existing GlassCard.tsx
     horizontal: Spacing.lg,      // 16
     vertical: Spacing.lg,        // 16
   },
 
-  // Input padding (for AnimatedInput and similar)
+  // Input padding (for AnimatedInput and similar components)
   input: {
     horizontal: Spacing.lg,      // 16
     vertical: Spacing.md,        // 12
