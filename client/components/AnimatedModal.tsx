@@ -50,10 +50,15 @@ export function AnimatedModal({
   contentStyle,
   dismissOnBackdropPress = true,
 }: AnimatedModalProps) {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const scale = useSharedValue(0.5);
   const contentOpacity = useSharedValue(0);
   const backdropOpacity = useSharedValue(0);
+
+  // Theme-aware backdrop color - darker for dark theme
+  const backdropColor = isDark
+    ? "rgba(0, 0, 0, 0.6)" // Darker for dark theme
+    : "rgba(0, 0, 0, 0.5)"; // Standard for light theme
 
   useEffect(() => {
     if (visible) {
@@ -93,11 +98,15 @@ export function AnimatedModal({
     >
       {/* Animated backdrop */}
       <AnimatedPressable
-        style={[styles.backdrop, backdropAnimatedStyle]}
+        style={[
+          styles.backdrop,
+          { backgroundColor: backdropColor },
+          backdropAnimatedStyle,
+        ]}
         onPress={handleBackdropPress}
         accessibilityRole="button"
         accessibilityLabel="Close modal"
-        accessibilityHint="Tap to close this dialog"
+        accessibilityHint="Tap outside content to dismiss"
       />
 
       {/* Centered content container */}
@@ -121,7 +130,9 @@ export function AnimatedModal({
 const styles = StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor set dynamically based on theme
+    // Future enhancement: Could use BlurView for backdrop
+    // Similar to GlassCard's blur approach for premium effect
   },
   centeredView: {
     flex: 1,
