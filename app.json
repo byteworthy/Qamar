@@ -2,7 +2,7 @@
   "expo": {
     "name": "Noor",
     "slug": "noor",
-    "version": "0.9.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "noor",
@@ -12,7 +12,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.noor.app",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and mental health journal entries."
+        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries."
       }
     },
     "android": {
@@ -66,10 +66,10 @@
       "reactCompiler": true
     },
     "primaryColor": "#D4C4A8",
-    "description": "Islamic reflection journaling for spiritual clarity. Not therapy, not a substitute for professional care.",
+    "description": "Personal growth and reflection journaling with Islamic spiritual guidance. Not professional counseling, not for urgent situations.",
     "extra": {
-      "privacyPolicyUrl": "https://byteworthy.github.io/Noor/legal/privacy.html",
-      "termsOfServiceUrl": "https://byteworthy.github.io/Noor/legal/terms.html",
+      "privacyPolicyUrl": "https://byteworthy.github.io/noor-legal/privacy-policy",
+      "termsOfServiceUrl": "https://byteworthy.github.io/noor-legal/terms-of-service",
       "supportEmail": "scale@getbyteworthy.com",
       "eas": {
         "projectId": "b3e205eb-b119-4976-a275-df7bcef85275"

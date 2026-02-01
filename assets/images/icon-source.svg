@@ -1,0 +1,96 @@
+<!-- Noor App Icon - 1024x1024 -->
+<!-- Twilight/Gold Theme with Crescent Moon -->
+<!-- Export this SVG as PNG at 1024x1024 for App Store -->
+
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Twilight gradient background -->
+  <defs>
+    <radialGradient id="twilightGradient" cx="50%" cy="30%">
+      <stop offset="0%" style="stop-color:#2d3a52;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a2332;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f1419;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Gold glow for crescent -->
+    <radialGradient id="goldGlow" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#f0d473;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- Subtle star twinkle -->
+    <radialGradient id="starGlow" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#e8f0f8;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#e8f0f8;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#e8f0f8;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#twilightGradient)" rx="227" />
+
+  <!-- Subtle star field -->
+  <circle cx="180" cy="200" r="2" fill="#e8f0f8" opacity="0.6" />
+  <circle cx="320" cy="150" r="1.5" fill="#e8f0f8" opacity="0.4" />
+  <circle cx="750" cy="180" r="2" fill="#e8f0f8" opacity="0.5" />
+  <circle cx="850" cy="280" r="1.5" fill="#e8f0f8" opacity="0.4" />
+  <circle cx="220" cy="820" r="2" fill="#e8f0f8" opacity="0.5" />
+  <circle cx="780" cy="850" r="1.5" fill="#e8f0f8" opacity="0.4" />
+
+  <!-- Gold glow halo behind crescent -->
+  <ellipse cx="480" cy="512" rx="280" ry="280" fill="url(#goldGlow)" opacity="0.3" />
+
+  <!-- Crescent Moon (main icon element) -->
+  <!-- Outer curve -->
+  <path d="M 400 280 Q 280 512 400 744"
+        fill="none"
+        stroke="#f0d473"
+        stroke-width="32"
+        stroke-linecap="round"
+        opacity="0.95" />
+
+  <!-- Inner curve to create crescent shape -->
+  <path d="M 400 280 Q 360 512 400 744"
+        fill="none"
+        stroke="#0f1419"
+        stroke-width="28"
+        stroke-linecap="round" />
+
+  <!-- Gold fill for crescent body -->
+  <path d="M 400 280 Q 280 512 400 744 Q 360 512 400 280 Z"
+        fill="#D4AF37"
+        opacity="0.15" />
+
+  <!-- Single accent star (5-pointed) next to crescent -->
+  <g transform="translate(580, 480)">
+    <!-- Star glow -->
+    <circle r="40" fill="url(#starGlow)" opacity="0.5" />
+
+    <!-- Star shape -->
+    <path d="M 0,-28 L 8,-8 L 30,-8 L 12,6 L 20,26 L 0,12 L -20,26 L -12,6 L -30,-8 L -8,-8 Z"
+          fill="#e8f0f8"
+          stroke="#f0d473"
+          stroke-width="1.5"
+          opacity="0.9" />
+  </g>
+
+  <!-- Subtle geometric accents (Yemeni-inspired) -->
+  <g opacity="0.08">
+    <circle cx="512" cy="512" r="360" fill="none" stroke="#e8dfc4" stroke-width="0.5" />
+    <circle cx="512" cy="512" r="420" fill="none" stroke="#e8dfc4" stroke-width="0.5" />
+  </g>
+
+  <!-- Optional: Subtle Arabic calligraphy-inspired flourish -->
+  <g opacity="0.05">
+    <path d="M 200 800 Q 250 780 300 800 Q 350 820 400 800"
+          fill="none"
+          stroke="#e8dfc4"
+          stroke-width="2"
+          stroke-linecap="round" />
+    <path d="M 624 800 Q 674 780 724 800 Q 774 820 824 800"
+          fill="none"
+          stroke="#e8dfc4"
+          stroke-width="2"
+          stroke-linecap="round" />
+  </g>
+</svg>

@@ -1,0 +1,214 @@
+{
+  "project": "Noor",
+  "branchName": "ralph/app-store-launch-prep",
+  "description": "Complete App Store Launch Preparation - IAP, Assets, Build Config, Backend Production",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Enable IAP functionality in app configuration",
+      "description": "As a developer, I need to enable In-App Purchases by setting VALIDATION_MODE to false so that subscription features are active for production.",
+      "acceptanceCriteria": [
+        "Set VALIDATION_MODE = false in client/lib/config.ts",
+        "Verify REVENUECAT_CONFIG object exists with apiKey placeholder",
+        "Add comment explaining this must be enabled before production build",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Update app.json for App Store submission",
+      "description": "As a developer, I need to finalize app.json with correct version, bundle ID, and privacy URLs for App Store Connect.",
+      "acceptanceCriteria": [
+        "Set version to 1.0.0 in app.json",
+        "Verify bundleIdentifier is com.noor.app for iOS",
+        "Update privacyPolicyUrl to https://byteworthy.github.io/noor-legal/privacy-policy",
+        "Update termsOfServiceUrl to https://byteworthy.github.io/noor-legal/terms-of-service",
+        "Update supportEmail to scale@getbyteworthy.com",
+        "Verify description matches app store safe language (no clinical terms)",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Create EAS Build configuration for production",
+      "description": "As a developer, I need an eas.json configuration file to build production iOS app for App Store submission.",
+      "acceptanceCriteria": [
+        "Create eas.json with production profile for iOS",
+        "Configure distribution: store for production builds",
+        "Set iOS buildConfiguration to Release",
+        "Configure iOS simulator: false for production",
+        "Add preview profile for TestFlight testing",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Create production environment variables template",
+      "description": "As a developer, I need an .env.production template documenting all required environment variables for production deployment.",
+      "acceptanceCriteria": [
+        "Create .env.production.example file",
+        "Document EXPO_PUBLIC_API_URL for production backend",
+        "Document EXPO_PUBLIC_REVENUECAT_API_KEY placeholder",
+        "Document SENTRY_DSN for production error tracking",
+        "Add comments explaining where to get each value",
+        "Add to .gitignore to prevent committing actual .env.production",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Create backend production deployment guide",
+      "description": "As a developer, I need documentation for deploying the Noor backend to production with Railway or Vercel.",
+      "acceptanceCriteria": [
+        "Create release/BACKEND_DEPLOYMENT_GUIDE.md",
+        "Document Railway deployment steps with Postgres database",
+        "Document required environment variables (OPENAI_API_KEY, DATABASE_URL, etc.)",
+        "Document health check endpoint setup (GET /health returns 200)",
+        "Include database migration commands",
+        "Include Sentry production DSN setup",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Create app icon generation instructions",
+      "description": "As a developer, I need clear instructions for converting the SVG icon to required PNG formats for iOS.",
+      "acceptanceCriteria": [
+        "Create release/STORE_PACK/ICON_GENERATION.md",
+        "Document converting icon-source.svg to 1024x1024 PNG for App Store",
+        "Document creating icon.png at required sizes (1024x1024)",
+        "Recommend tools: Figma, Sketch, or online SVG to PNG converters",
+        "Include checklist: no transparency, correct dimensions, recognizable at small sizes",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Enhance screenshot strategy with mockup templates",
+      "description": "As a developer, I need detailed mockup specifications for the 5 required App Store screenshots showing key app features.",
+      "acceptanceCriteria": [
+        "Update release/STORE_PACK/screenshots/SCREENSHOT_SHOTLIST.md",
+        "Add Screenshot 1 spec: Home screen with greeting and CTA",
+        "Add Screenshot 2 spec: Thought capture screen with example text",
+        "Add Screenshot 3 spec: AI reflection response with Islamic guidance",
+        "Add Screenshot 4 spec: Safety screen with crisis resources (CRITICAL)",
+        "Add Screenshot 5 spec: History screen with past reflections",
+        "Document dimensions: 1290x2796 pixels (iPhone 15 Pro Max)",
+        "Include text overlay suggestions for each screenshot",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Create RevenueCat initialization code",
+      "description": "As a developer, I need RevenueCat SDK properly initialized in the app root component for subscription management.",
+      "acceptanceCriteria": [
+        "Create client/lib/revenuecat.ts with initialization logic",
+        "Import and configure Purchases from react-native-purchases",
+        "Use REVENUECAT_CONFIG.apiKey from config",
+        "Add platform check (iOS only for now)",
+        "Export initializeRevenueCat() function",
+        "Add error handling with console.error for debugging",
+        "Typecheck passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Create useSubscription hook for entitlement checking",
+      "description": "As a developer, I need a React hook to check user subscription status and entitlements throughout the app.",
+      "acceptanceCriteria": [
+        "Create client/hooks/useSubscription.ts",
+        "Implement hook that returns isPlusSubscriber, isProSubscriber, isLoading",
+        "Use Purchases.getCustomerInfo() to check entitlements",
+        "Check for 'noor_plus_access' and 'noor_pro_access' entitlements",
+        "Include refresh() function to manually sync subscription status",
+        "Add proper error handling",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "Create pre-submission testing checklist",
+      "description": "As a developer, I need a comprehensive testing checklist to verify all functionality before App Store submission.",
+      "acceptanceCriteria": [
+        "Create release/STORE_PACK/PRE_SUBMISSION_TESTING.md",
+        "Include physical device testing requirements (not simulator)",
+        "Include onboarding flow verification (Welcome → Safety → Privacy)",
+        "Include full reflection session test (thought capture → AI response)",
+        "Include Safety screen verification (988, not therapy disclaimers visible)",
+        "Include crash testing checklist",
+        "Include backend connectivity test (API responds)",
+        "Include legal URL verification (privacy policy loads)",
+        "Typecheck passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Create App Store Connect submission workflow guide",
+      "description": "As a developer, I need step-by-step instructions for completing the App Store Connect submission form.",
+      "acceptanceCriteria": [
+        "Create release/STORE_PACK/APP_STORE_CONNECT_WORKFLOW.md",
+        "Document login and navigation to My Apps → Create New App",
+        "Document app information entry (name, bundle ID, SKU, language)",
+        "Document pricing and availability settings (Free)",
+        "Document App Privacy questionnaire steps",
+        "Document age rating questionnaire steps (17+)",
+        "Document metadata upload order (icon, screenshots, description)",
+        "Document build selection and submission steps",
+        "Typecheck passes"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Create build commands reference document",
+      "description": "As a developer, I need a quick reference for all build and submission commands.",
+      "acceptanceCriteria": [
+        "Create release/BUILD_COMMANDS.md",
+        "Document typecheck command: npm run check:types",
+        "Document test command: npm test",
+        "Document local development: npm start",
+        "Document production build: eas build --platform ios --profile production",
+        "Document preview build: eas build --platform ios --profile preview",
+        "Document build status check: eas build:list",
+        "Document TestFlight upload: eas submit --platform ios",
+        "Typecheck passes"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

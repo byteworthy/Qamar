@@ -40,6 +40,20 @@ export function isValidationModeResponse(text: string): boolean {
 }
 
 /**
+ * RevenueCat Configuration
+ *
+ * API keys for subscription management via RevenueCat.
+ * Get keys from: https://app.revenuecat.com/projects/[your-project]/api-keys
+ *
+ * CRITICAL: Use PUBLIC API key (starts with "appl_" for iOS), NOT secret key
+ */
+export const REVENUECAT_CONFIG = {
+  apiKey: process.env.EXPO_PUBLIC_REVENUECAT_API_KEY || '',
+  // Public API key format: appl_xxxxxxxxxxxxxxxxxx (iOS)
+  // This key is safe to embed in client code
+};
+
+/**
  * Configuration values
  */
 export const config = {
