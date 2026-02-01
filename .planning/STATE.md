@@ -25,13 +25,21 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 
 **Phase 9: UI/UX Polish & Animation Enhancements**
 - Status: In progress
-- Plans: 2/4 complete
+- Plans: 3/4 complete
 - Requirements: 10 (UX-01 through UX-10)
-- Next action: Continue with remaining wave 1 plans (09-01, 09-03)
+- Next action: Execute remaining wave 1 plan (09-01: AnimatedInput)
 
 ---
 
 ## Recent Activity
+
+- **2026-02-01T20:27**: Phase 9 plan 09-03 completed
+  - Added staggered FadeInUp animations to HistoryScreen list items (40ms delay, capped at 400ms)
+  - Implemented long-press scale feedback (0.98 scale with spring physics)
+  - Created AnimatedHistoryItem component with haptic feedback
+  - Long-press now triggers delete confirmation (500ms delay)
+  - Commits: 4a825b5
+  - Note: Task 1 was already completed in commit a84dd40 (parallel execution overlap)
 
 - **2026-02-01T20:23**: Phase 9 plan 09-04 completed
   - Created AnimatedModal component with scale+fade entrance
@@ -83,7 +91,7 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 | 6 | ○ Pending | 7 | 0% |
 | 7 | ○ Pending | 7 | 0% |
 | 8 | ○ Pending | 10 | 0% |
-| 9 | ◆ In Progress | 10 | 50% |
+| 9 | ◆ In Progress | 10 | 75% |
 
 **Legend:** ○ Pending | ◆ In Progress/Planned | ✓ Complete
 
@@ -102,6 +110,8 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 | 2026-02-01 | Migration documentation but deferred actual migration | Plan scope is to add tokens and guide, not migrate all components |
 | 2026-02-01 | AnimationType "none" for custom animations | Full control over modal animations via reanimated |
 | 2026-02-01 | Separate scale and opacity animations | Scale uses withSpring for physics, opacity uses withTiming for fade |
+| 2026-02-01 | Capped stagger delay at 400ms | Prevents slow renders on long lists (10+ items) |
+| 2026-02-01 | Long-press triggers delete directly | More efficient UX than expand -> find delete button |
 
 ---
 
