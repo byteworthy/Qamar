@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import Share from "react-native-share";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { getSessions, Session } from "@/lib/storage";
@@ -58,6 +59,9 @@ export default function HistoryScreen() {
   const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+
+  // Prevent screenshots on this screen (displays all journal entries)
+  useScreenProtection({ preventScreenCapture: true });
 
   const { data: billingStatus } = useQuery({
     queryKey: ["/api/billing/status"],

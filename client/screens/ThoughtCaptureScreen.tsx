@@ -29,6 +29,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Spacing, BorderRadius, Typography, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
@@ -78,6 +79,9 @@ export default function ThoughtCaptureScreen() {
   const headerHeight = useHeaderHeight();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+
+  // Prevent screenshots on this sensitive screen (mental health data)
+  useScreenProtection({ preventScreenCapture: true });
 
   // Breathing animation for empty text input
   const breathingScale = useSharedValue(1);

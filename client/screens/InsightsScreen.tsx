@@ -7,6 +7,7 @@ import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Layout } from "@/constants/layout";
 import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
@@ -68,6 +69,10 @@ const { spacing, radii, container, typeScale } = Layout;
 function InsightsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
+
+  // Prevent screenshots (displays AI-generated personal insights)
+  useScreenProtection({ preventScreenCapture: true });
+
   const [sessions, setSessions] = useState<Session[]>([]);
   const [stats, setStats] = useState<LocalStats | null>(null);
   const [loading, setLoading] = useState(true);
