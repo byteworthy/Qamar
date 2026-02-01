@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { secureStorage, SECURE_KEYS } from "./secure-storage";
 
-const SESSIONS_KEY = "@siraat_sessions";
-const ONBOARDING_KEY = "@noor_onboarding_completed";
+const SESSIONS_KEY = SECURE_KEYS.SESSIONS;
+const ONBOARDING_KEY = "@noor_onboarding_completed"; // Less sensitive, can stay in regular storage for now
 
 export interface Session {
   thought: string;
@@ -16,15 +17,17 @@ export async function saveSession(session: Session): Promise<void> {
   try {
     const existing = await getSessions();
     const updated = [session, ...existing];
-    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(updated));
+    // Use secure storage for sensitive session data (mental health content)
+    await secureStorage.setItem(SESSIONS_KEY, JSON.stringify(updated));
   } catch (error) {
     console.error("Error saving session:", error);
+    throw error; // Re-throw to handle at call site
   }
 }
 
 export async function getSessions(): Promise<Session[]> {
   try {
-    const data = await AsyncStorage.getItem(SESSIONS_KEY);
+    const data = await secureStorage.getItem(SESSIONS_KEY);
     if (data) {
       return JSON.parse(data);
     }
@@ -37,9 +40,10 @@ export async function getSessions(): Promise<Session[]> {
 
 export async function clearSessions(): Promise<void> {
   try {
-    await AsyncStorage.removeItem(SESSIONS_KEY);
+    await secureStorage.removeItem(SESSIONS_KEY);
   } catch (error) {
     console.error("Error clearing sessions:", error);
+    throw error; // Re-throw to handle at call site
   }
 }
 

@@ -8,12 +8,12 @@
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
+import { secureStorage, SECURE_KEYS } from "./secure-storage";
 
-// Storage keys
-const PUSH_TOKEN_KEY = "@noor_push_token";
-const NOTIFICATION_SETTINGS_KEY = "@noor_notification_settings";
+// Storage keys - using secure storage for push tokens
+const PUSH_TOKEN_KEY = SECURE_KEYS.PUSH_TOKEN;
+const NOTIFICATION_SETTINGS_KEY = SECURE_KEYS.NOTIFICATION_SETTINGS;
 
 // =============================================================================
 // NOTIFICATION SETTINGS
@@ -189,10 +189,13 @@ export async function registerForPushNotifications(): Promise<string | null> {
     });
 
     const token = tokenData.data;
-    console.log("[Notifications] Push token:", token);
+    // Don't log push tokens in production (security)
+    if (__DEV__) {
+      console.log("[Notifications] Push token obtained");
+    }
 
-    // Store token locally
-    await AsyncStorage.setItem(PUSH_TOKEN_KEY, token);
+    // Store token securely (Keychain/Keystore)
+    await secureStorage.setItem(PUSH_TOKEN_KEY, token);
 
     // Set up Android notification channel
     if (Platform.OS === "android") {
@@ -246,7 +249,7 @@ async function setupAndroidChannels() {
  */
 export async function getStoredPushToken(): Promise<string | null> {
   try {
-    return await AsyncStorage.getItem(PUSH_TOKEN_KEY);
+    return await secureStorage.getItem(PUSH_TOKEN_KEY);
   } catch {
     return null;
   }
@@ -403,7 +406,7 @@ export async function saveNotificationSettings(
   settings: NotificationSettings,
 ): Promise<void> {
   try {
-    await AsyncStorage.setItem(
+    await secureStorage.setItem(
       NOTIFICATION_SETTINGS_KEY,
       JSON.stringify(settings),
     );
@@ -418,7 +421,9 @@ export async function saveNotificationSettings(
       await cancelDailyReminder();
     }
 
-    console.log("[Notifications] Settings saved:", settings);
+    if (__DEV__) {
+      console.log("[Notifications] Settings saved:", settings);
+    }
   } catch (error) {
     console.error("[Notifications] Failed to save settings:", error);
   }
@@ -431,7 +436,7 @@ export async function saveNotificationSettings(
  */
 export async function loadNotificationSettings(): Promise<NotificationSettings> {
   try {
-    const stored = await AsyncStorage.getItem(NOTIFICATION_SETTINGS_KEY);
+    const stored = await secureStorage.getItem(NOTIFICATION_SETTINGS_KEY);
     if (stored) {
       return JSON.parse(stored);
     }
