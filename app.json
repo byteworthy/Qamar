@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noor.app"
+      "bundleIdentifier": "com.noor.app",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and mental health journal entries."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +24,11 @@
       },
       "package": "com.noor.app",
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ]
     },
     "web": {
       "output": "single",
@@ -51,7 +58,9 @@
           "sounds": []
         }
       ],
-      "@sentry/react-native"
+      "@sentry/react-native",
+      "expo-secure-store",
+      "expo-local-authentication"
     ],
     "experiments": {
       "reactCompiler": true
