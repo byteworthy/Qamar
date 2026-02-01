@@ -1,5 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pkg from "pg";
+import { defaultLogger } from "./utils/logger";
 const { Pool } = pkg;
 
 /**
@@ -19,20 +20,26 @@ const pool = new Pool({
 
 // Graceful shutdown: close pool when process terminates
 process.on("SIGTERM", async () => {
-  console.log("[DB] SIGTERM received, closing connection pool...");
+  defaultLogger.info("[DB] SIGTERM received, closing connection pool...");
   try {
     await pool.end();
-    console.log("[DB] Connection pool closed successfully");
+    defaultLogger.info("[DB] Connection pool closed successfully");
     process.exit(0);
   } catch (error) {
-    console.error("[DB] Error closing pool:", error);
+    defaultLogger.error(
+      "[DB] Error closing pool",
+      error instanceof Error ? error : new Error(String(error)),
+    );
     process.exit(1);
   }
 });
 
 // Log pool errors
 pool.on("error", (err) => {
-  console.error("[DB] Unexpected pool error:", err);
+  defaultLogger.error(
+    "[DB] Unexpected pool error",
+    err instanceof Error ? err : new Error(String(err)),
+  );
 });
 
 export const db = drizzle(pool);

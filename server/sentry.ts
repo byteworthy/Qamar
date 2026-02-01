@@ -8,6 +8,7 @@
 
 import crypto from "crypto";
 import * as Sentry from "@sentry/node";
+import { defaultLogger } from "./utils/logger";
 
 let sentryInitialized = false;
 
@@ -55,7 +56,7 @@ export function initSentry(): void {
   const dsn = process.env.SENTRY_DSN;
 
   if (!dsn) {
-    console.log("[Sentry] Disabled - SENTRY_DSN not configured");
+    defaultLogger.info("[Sentry] Disabled - SENTRY_DSN not configured");
     return;
   }
 
@@ -99,9 +100,12 @@ export function initSentry(): void {
     });
 
     sentryInitialized = true;
-    console.log("[Sentry] Initialized successfully");
+    defaultLogger.info("[Sentry] Initialized successfully");
   } catch (error) {
-    console.error("[Sentry] Failed to initialize:", error);
+    defaultLogger.error(
+      "[Sentry] Failed to initialize",
+      error instanceof Error ? error : new Error(String(error)),
+    );
     sentryInitialized = false;
   }
 }
@@ -128,7 +132,7 @@ export interface SentryContext extends PotentiallyPIIData {
  */
 export function captureException(error: Error, context?: SentryContext): void {
   if (!isSentryEnabled()) {
-    console.error("[Error]", error.message, context || "");
+    defaultLogger.error(error.message, error, context);
     return;
   }
 
@@ -156,7 +160,13 @@ export function captureMessage(
   level: "info" | "warning" | "error" = "info",
 ): void {
   if (!isSentryEnabled()) {
-    console.log(`[${level.toUpperCase()}]`, message);
+    if (level === "error") {
+      defaultLogger.error(message);
+    } else if (level === "warning") {
+      defaultLogger.warn(message);
+    } else {
+      defaultLogger.info(message);
+    }
     return;
   }
 

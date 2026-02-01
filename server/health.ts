@@ -11,6 +11,7 @@ import {
   healthCheckRateLimiter,
 } from "./middleware/production";
 import { isSentryEnabled } from "./sentry";
+import { defaultLogger } from "./utils/logger";
 
 // =============================================================================
 // DATABASE CONNECTIVITY CHECK
@@ -48,7 +49,9 @@ async function checkDatabaseConnection(): Promise<boolean> {
     await Promise.race([db.execute("SELECT 1"), timeoutPromise]);
     return true;
   } catch (error) {
-    console.warn("[Health] Database check failed:", error);
+    defaultLogger.warn("[Health] Database check failed", {
+      error: error instanceof Error ? error.message : String(error),
+    });
     return false;
   }
 }
@@ -155,5 +158,5 @@ export function registerHealthRoute(app: Express): void {
     },
   );
 
-  console.log("[Health] Health check endpoint registered: GET /health");
+  defaultLogger.info("[Health] Health check endpoint registered: GET /health");
 }

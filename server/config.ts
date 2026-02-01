@@ -7,7 +7,7 @@
  * - Clear error messages for misconfiguration
  */
 
-const log = console.log;
+import { defaultLogger } from "./utils/logger";
 
 // =============================================================================
 // VALIDATION MODE
@@ -193,60 +193,60 @@ export function getValidationModeInsightSummary(): string {
  * Log configuration status on startup
  */
 export function logConfigStatus(): void {
-  log("=".repeat(60));
-  log("NOOR CBT SERVER CONFIGURATION");
-  log("=".repeat(60));
+  defaultLogger.info("=".repeat(60));
+  defaultLogger.info("NOOR CBT SERVER CONFIGURATION");
+  defaultLogger.info("=".repeat(60));
 
   if (VALIDATION_MODE) {
-    log("⚠️  VALIDATION_MODE: ENABLED");
-    log("   - AI routes return placeholder responses");
-    log("   - Billing/purchase flows are disabled");
-    log("   - Safe for tester validation without real keys");
+    defaultLogger.warn("⚠️  VALIDATION_MODE: ENABLED");
+    defaultLogger.info("   - AI routes return placeholder responses");
+    defaultLogger.info("   - Billing/purchase flows are disabled");
+    defaultLogger.info("   - Safe for tester validation without real keys");
   } else {
-    log("✅ VALIDATION_MODE: DISABLED (Production mode)");
+    defaultLogger.info("✅ VALIDATION_MODE: DISABLED (Production mode)");
   }
 
-  log("-".repeat(60));
-  log(`Environment: ${config.nodeEnv}`);
-  log(`Port: ${config.port}`);
-  log("-".repeat(60));
+  defaultLogger.info("-".repeat(60));
+  defaultLogger.info(`Environment: ${config.nodeEnv}`);
+  defaultLogger.info(`Port: ${config.port}`);
+  defaultLogger.info("-".repeat(60));
 
   // Database
   if (isDatabaseConfigured()) {
-    log("✅ Database: Configured");
+    defaultLogger.info("✅ Database: Configured");
   } else {
-    log("⚠️  Database: Not configured (DATABASE_URL missing or placeholder)");
+    defaultLogger.warn("⚠️  Database: Not configured (DATABASE_URL missing or placeholder)");
     if (!VALIDATION_MODE) {
-      log("   WARNING: Data persistence will not work");
+      defaultLogger.warn("   WARNING: Data persistence will not work");
     }
   }
 
   // Anthropic Claude
   if (isAnthropicConfigured()) {
-    log("✅ Anthropic Claude: Configured");
+    defaultLogger.info("✅ Anthropic Claude: Configured");
   } else {
     if (VALIDATION_MODE) {
-      log(
+      defaultLogger.info(
         "ℹ️  Anthropic Claude: Not configured (placeholder responses will be used)",
       );
     } else {
-      log("❌ Anthropic Claude: Not configured - AI routes will fail!");
-      log("   Set ANTHROPIC_API_KEY in .env");
+      defaultLogger.error("❌ Anthropic Claude: Not configured - AI routes will fail!");
+      defaultLogger.error("   Set ANTHROPIC_API_KEY in .env");
     }
   }
 
   // Stripe
   if (isStripeConfigured()) {
-    log("✅ Stripe: Configured");
+    defaultLogger.info("✅ Stripe: Configured");
   } else {
     if (VALIDATION_MODE) {
-      log("ℹ️  Stripe: Not configured (billing disabled in validation mode)");
+      defaultLogger.info("ℹ️  Stripe: Not configured (billing disabled in validation mode)");
     } else {
-      log("⚠️  Stripe: Not configured (server-side billing will not work)");
+      defaultLogger.warn("⚠️  Stripe: Not configured (server-side billing will not work)");
     }
   }
 
-  log("=".repeat(60));
+  defaultLogger.info("=".repeat(60));
 }
 
 /**
@@ -291,16 +291,16 @@ export function validateProductionConfig(): void {
 
   // Database warning for non-production environments
   if (!config.isProduction && !isDatabaseConfigured()) {
-    log("⚠️  WARNING: DATABASE_URL not configured. Data will not persist.");
+    defaultLogger.warn("⚠️  WARNING: DATABASE_URL not configured. Data will not persist.");
   }
 
   if (errors.length > 0) {
-    log("❌ CONFIGURATION ERRORS:");
-    errors.forEach((err) => log(`   - ${err}`));
-    log("");
-    log("Set VALIDATION_MODE=true to run without real API keys.");
-    log("Or configure the missing environment variables in .env");
-    log("");
+    defaultLogger.error("❌ CONFIGURATION ERRORS:");
+    errors.forEach((err) => defaultLogger.error(`   - ${err}`));
+    defaultLogger.error("");
+    defaultLogger.error("Set VALIDATION_MODE=true to run without real API keys.");
+    defaultLogger.error("Or configure the missing environment variables in .env");
+    defaultLogger.error("");
 
     // In production, we fail hard. In development, we warn but continue.
     if (config.isProduction) {

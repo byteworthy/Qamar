@@ -37,6 +37,7 @@ import {
 } from "./middleware/csrf";
 import * as fs from "fs";
 import * as path from "path";
+import { defaultLogger } from "./utils/logger";
 
 /**
  * Environment Variables:
@@ -66,7 +67,6 @@ function isHTTPError(error: unknown): error is HTTPError {
 }
 
 const app = express();
-const log = console.log;
 
 declare module "http" {
   interface IncomingMessage {
@@ -204,7 +204,7 @@ function setupRequestLogging(app: express.Application): void {
         logLine = logLine.slice(0, 99) + "…";
       }
 
-      log(logLine);
+      defaultLogger.http(logLine);
     });
 
     next();
@@ -262,8 +262,10 @@ function serveLandingPage({
   const baseUrl = `${protocol}://${host}`;
   const expsUrl = `${host}`;
 
-  log(`baseUrl`, baseUrl);
-  log(`expsUrl`, expsUrl);
+  if (process.env.NODE_ENV !== "production") {
+    defaultLogger.debug(`baseUrl: ${baseUrl}`);
+    defaultLogger.debug(`expsUrl: ${expsUrl}`);
+  }
 
   const html = landingPageTemplate
     .replace(/BASE_URL_PLACEHOLDER/g, baseUrl)
@@ -284,7 +286,7 @@ function configureExpoAndLanding(app: express.Application) {
   const landingPageTemplate = fs.readFileSync(templatePath, "utf-8");
   const appName = getAppName();
 
-  log("Serving static Expo files with dynamic manifest routing");
+  defaultLogger.info("Serving static Expo files with dynamic manifest routing");
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith("/api")) {
@@ -315,7 +317,7 @@ function configureExpoAndLanding(app: express.Application) {
   app.use("/assets", express.static(path.resolve(process.cwd(), "assets")));
   app.use(express.static(path.resolve(process.cwd(), "static-build")));
 
-  log("Expo routing: Checking expo-platform header on / and /manifest");
+  defaultLogger.info("Expo routing: Checking expo-platform header on / and /manifest");
 }
 
 function setupErrorHandler(app: express.Application): void {
@@ -337,7 +339,12 @@ function setupErrorHandler(app: express.Application): void {
     const message = error.message || "Internal Server Error";
     const requestId = req.requestId || "-";
 
-    log(`[${requestId}] ERROR ${status}: ${message}`);
+    defaultLogger.error(`[${requestId}] ERROR ${status}: ${message}`, {
+      requestId,
+      status,
+      path: req.path,
+      error: error.message,
+    });
 
     // Capture exception in Sentry with requestId correlation
     captureException(error, { requestId, status, path: req.path });
@@ -351,18 +358,18 @@ function setupErrorHandler(app: express.Application): void {
 async function initStripe() {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
-    log("DATABASE_URL not set, skipping Stripe initialization");
+    defaultLogger.warn("DATABASE_URL not set, skipping Stripe initialization");
     return;
   }
 
   try {
-    log("Initializing Stripe schema...");
+    defaultLogger.info("Initializing Stripe schema...");
     await runMigrations({ databaseUrl });
-    log("Stripe schema ready");
+    defaultLogger.info("Stripe schema ready");
 
     const stripeSync = await getStripeSync();
 
-    log("Setting up managed webhook...");
+    defaultLogger.info("Setting up managed webhook...");
 
     // Use explicit webhook domain if configured, otherwise fall back to first Replit domain
     const webhookDomain =
@@ -370,43 +377,43 @@ async function initStripe() {
       process.env.REPLIT_DOMAINS?.split(",")[0]?.trim();
 
     if (!webhookDomain) {
-      log(
+      defaultLogger.warn(
         "WARNING: No webhook domain configured. Set STRIPE_WEBHOOK_DOMAIN or REPLIT_DOMAINS.",
       );
-      log("Skipping Stripe webhook setup - billing webhooks will not work.");
+      defaultLogger.warn("Skipping Stripe webhook setup - billing webhooks will not work.");
       return;
     }
 
     const webhookBaseUrl = `https://${webhookDomain}`;
-    log(`Using webhook base URL: ${webhookBaseUrl}`);
+    defaultLogger.info(`Using webhook base URL: ${webhookBaseUrl}`);
     try {
       const result = await stripeSync.findOrCreateManagedWebhook(
         `${webhookBaseUrl}/api/billing/webhook`,
       );
       if (result?.webhook?.url) {
-        log(`Webhook configured: ${result.webhook.url}`);
+        defaultLogger.info(`Webhook configured: ${result.webhook.url}`);
       } else {
-        log("Webhook setup returned without URL, continuing...");
+        defaultLogger.info("Webhook setup returned without URL, continuing...");
       }
     } catch (webhookError: unknown) {
       const message =
         webhookError instanceof Error
           ? webhookError.message
           : String(webhookError);
-      log("Webhook setup error (non-fatal):", message);
+      defaultLogger.warn("Webhook setup error (non-fatal):" + message);
     }
 
-    log("Syncing Stripe data in background...");
+    defaultLogger.info("Syncing Stripe data in background...");
     stripeSync
       .syncBackfill()
-      .then(() => log("Stripe data synced"))
+      .then(() => defaultLogger.info("Stripe data synced"))
       .catch((err: unknown) => {
         const message = err instanceof Error ? err.message : String(err);
-        log("Error syncing Stripe data:", message);
+        defaultLogger.error("Error syncing Stripe data:" + message);
       });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    log("Stripe initialization error:", message);
+    defaultLogger.error("Stripe initialization error:" + message);
   }
 }
 
@@ -456,9 +463,9 @@ async function initStripe() {
   await initStripe();
 
   // Initialize data retention service (runs cleanup every 24 hours)
-  log("Initializing data retention service...");
+  defaultLogger.info("Initializing data retention service...");
   initializeDataRetention();
-  log("Data retention service initialized");
+  defaultLogger.info("Data retention service initialized");
 
   registerBillingRoutes(app);
 
@@ -483,6 +490,6 @@ async function initStripe() {
 
   const port = parseInt(process.env.PORT || "5000", 10);
   server.listen(port, "0.0.0.0", () => {
-    log(`express server serving on port ${port}`);
+    defaultLogger.info(`Express server listening on port ${port}`);
   });
 })();
