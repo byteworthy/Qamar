@@ -26,8 +26,9 @@ This roadmap addresses all documented technical concerns (P0-P3) through 8 phase
 | 6 | Component Refactoring | 7 | Large |
 | 7 | Performance & Monitoring | 5 | Medium |
 | 8 | Documentation & Configuration | 8 | Medium |
+| 9 | UI/UX Polish & Animation Enhancements | 10 | Medium |
 
-**Total:** 8 phases | 50 requirements (7 deferred to v2)
+**Total:** 9 phases | 60 requirements (7 deferred to v2)
 
 ---
 
@@ -277,6 +278,73 @@ Documentation and configuration improvements have lower urgency but improve long
 
 ---
 
+## Phase 9: UI/UX Polish & Animation Enhancements
+
+**Goal:** Close the 15% UI/UX gap with high-value polish improvements - elevate Noor from good to premium-tier app experience
+
+**Priority:** P1 - High impact on user perception and app quality
+
+**Plans:** 4 plans
+
+**Status:** Planned
+
+Plans:
+
+- [ ] 09-01-PLAN.md - AnimatedInput component (UX-01, UX-02, UX-03)
+- [ ] 09-02-PLAN.md - ComponentPadding spacing tokens (UX-04, UX-05)
+- [ ] 09-03-PLAN.md - HistoryScreen list animations (UX-06, UX-07)
+- [ ] 09-04-PLAN.md - AnimatedModal + ExitConfirmationModal (UX-08, UX-09, UX-10)
+
+**Context:**
+Current state: 85% excellent UI/UX with mature design system, cultural authenticity, and contemplative animations. Need strategic improvements in input field polish, spacing consistency, list animations, and modal enhancements.
+
+**Scope:**
+1. AnimatedInput component with focus glow and character count animations
+2. Spacing consistency pass across all components
+3. HistoryScreen list animations with staggered entrance
+4. Modal animation enhancements with custom reanimated transitions
+
+**Requirements:**
+- UX-01: Create AnimatedInput component with focus glow animation
+- UX-02: Implement character count fade-in with spring physics
+- UX-03: Add error state shake animation to inputs
+- UX-04: Add ComponentPadding constants to theme.ts
+- UX-05: Migrate hardcoded spacing to Spacing tokens across components
+- UX-06: Add staggered FadeInUp animations to HistoryScreen list
+- UX-07: Implement long-press scale feedback on list items
+- UX-08: Create AnimatedModal component with custom reanimated entrance
+- UX-09: Add backdrop fade animation to modals
+- UX-10: Update ExitConfirmationModal to use AnimatedModal
+
+**Design Constraints:**
+- Follow existing animation philosophy (damping:20, mass:0.5, stiffness:120)
+- Use theme.ts Spacing and Colors tokens exclusively
+- All animations use react-native-reanimated (native driver)
+- Maintain accessibility (VoiceOver, dynamic font scaling)
+
+**Success Criteria:**
+1. Animation coverage increases from 60% to 90% of user interactions
+2. Spacing consistency reaches 100% using theme tokens
+3. Input fields transformed to premium quality with AnimatedInput
+4. HistoryScreen matches HomeScreen polish level
+5. Modal animations consistent with card animations
+6. TypeScript compilation: 0 errors
+7. All 295 tests pass
+8. No performance degradation (maintain 60fps animations)
+
+**Why This Phase:**
+Most visible user-facing improvements that directly affect perceived app quality and premium feel. Based on comprehensive UX research comparing to successful Islamic apps like Niyyah (4.7 stars).
+
+**Impact:** ⭐⭐⭐⭐⭐ High - Closes the UI polish gap and elevates Noor to premium-tier quality
+
+**Dependencies:** Can run in parallel with other phases - no blocking dependencies
+
+**Reference:**
+- Design plan: C:\Users\richa\.claude\plans\tingly-zooming-ladybug.md
+- Research: Modern Islamic app design trends 2026, Niyyah app analysis
+
+---
+
 ## Deferred to v2
 
 The following 7 requirements are acknowledged but deferred to future iterations:
@@ -300,6 +368,7 @@ The following 7 requirements are acknowledged but deferred to future iterations:
 - Phase 5 depends on Phase 2 completion
 - Phases 6, 7 can start after Phases 2-3-4 complete
 - Phase 8 runs independently and can overlap with Phase 7
+- Phase 9 (UI/UX) can run in parallel with any phase - no dependencies
 
 **Incremental Shipping:**
 - Each phase ships independently to production
@@ -314,4 +383,4 @@ The following 7 requirements are acknowledged but deferred to future iterations:
 ---
 
 *Roadmap created: 2026-01-26*
-*Last updated: 2026-01-26*
+*Last updated: 2026-02-01 - Added Phase 9: UI/UX Polish & Animation Enhancements*
