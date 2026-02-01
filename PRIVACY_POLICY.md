@@ -8,7 +8,7 @@
 
 ## Introduction
 
-Noor ("we," "our," or "us") is an Islamic Cognitive Behavioral Therapy (CBT) mobile application that helps users combine mental wellness practices with Islamic spiritual principles. We are deeply committed to protecting your privacy and handling your personal information with the utmost care and respect.
+Noor ("we," "our," or "us") is an Islamic reflection and personal growth mobile application that helps users navigate life's challenges through structured thinking grounded in Islamic spiritual principles. We are deeply committed to protecting your privacy and handling your personal information with the utmost care and respect.
 
 This privacy policy explains how we collect, use, store, and protect your information when you use the Noor mobile application.
 
@@ -23,12 +23,13 @@ This privacy policy explains how we collect, use, store, and protect your inform
 - **Username:** Optional display name (you can remain anonymous)
 
 #### Journal & Reflection Data
-- **Personal Thoughts:** Your intrusive or distressing thoughts
-- **Cognitive Distortions:** Identified patterns in your thinking
-- **Reframed Thoughts:** AI-generated alternative perspectives
+
+- **Personal Thoughts:** Your thoughts and reflections on daily challenges
+- **Thought Patterns:** Identified patterns in your thinking
+- **Reframed Perspectives:** AI-generated alternative viewpoints with Islamic guidance
 - **Intentions (Niyyah):** Your personal intentions and goals
 - **Practice Notes:** Notes on Islamic practices you're exploring
-- **Mood Tracking:** Your emotional state and intensity levels
+- **Emotional State:** Your emotional state and intensity levels
 
 #### Islamic Content Interaction
 - **Reading History:** Which Quran verses and Hadith you've read (optional tracking)
@@ -77,9 +78,9 @@ We believe in radical data minimization. **We do NOT collect:**
 ## How We Use Your Information
 
 ### Primary Purpose: Provide the App
-- **AI Processing:** Analyze thoughts to identify cognitive distortions
-- **Personalized Guidance:** Generate Islamic + CBT reframes
-- **Progress Tracking:** Show your mental wellness journey
+- **AI Processing:** Analyze thoughts to identify cognitive patterns
+- **Personalized Guidance:** Generate Islamic perspectives on your reflections
+- **Progress Tracking:** Show your personal growth journey
 - **Insights:** Generate weekly AI summaries of your progress
 - **Notifications:** Send reminder notifications (if enabled)
 

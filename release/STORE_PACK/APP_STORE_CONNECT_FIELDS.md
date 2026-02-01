@@ -24,7 +24,7 @@ AI Journaling for Clarity
 ## C. Promotional Text (170 characters max)
 
 ```
-Write freely. Get AI-powered reflections. Noor helps you organize your thoughts and gain perspective—not therapy, just clarity.
+Write freely. Get AI-powered reflections. Noor helps you organize your thoughts and gain perspective through structured journaling.
 ```
 
 ---
@@ -38,7 +38,7 @@ AI-powered journaling for clarity and self-reflection
 
 Noor is a private journaling and reflection app designed to help you slow down, organize your thoughts, and gain perspective using guided prompts and AI-generated reflections.
 
-This app is built for everyday mental clarity, not therapy.
+This app is built for everyday clarity and self-reflection.
 
 What Noor helps you do
 
@@ -59,11 +59,10 @@ Your entries are processed by AI to generate personalized reflective responses. 
 
 What Noor is not
 
-• Not therapy
-• Not medical advice
-• Not a crisis or emergency tool
+• Not professional counseling
+• Not for urgent situations
 
-If you are experiencing a personal emergency, contact local emergency services.
+If you are experiencing an urgent situation, contact trusted support or call 988 Lifeline.
 
 Privacy first by design
 
@@ -132,14 +131,12 @@ AI Usage Disclosure:
 The app uses OpenAI's API to process user input and generate personalized reflective responses. This AI processing is disclosed in the app description and during onboarding (Privacy & Safety screens). It is essential to app functionality.
 
 What This App Is NOT:
-- NOT therapy or counseling
-- NOT medical advice or diagnosis
-- NOT a crisis intervention tool
-- NOT involving licensed clinicians
-- NOT making health claims
+- NOT professional counseling services
+- NOT an emergency or crisis tool
+- NOT involving licensed professionals
 
 Safety Disclaimers:
-- Onboarding screen explicitly states "not therapy" and "not for emergencies"
+- Onboarding screen explicitly states "not professional counseling" and "not for urgent situations"
 - Crisis resources displayed (988 Suicide & Crisis Lifeline, Crisis Text Line, 911)
 - App description clearly states limitations
 

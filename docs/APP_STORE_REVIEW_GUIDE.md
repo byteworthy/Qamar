@@ -1,7 +1,8 @@
-# App Store Review Preparation Guide - Noor
+# App Store Review Preparation Guide - Noor (Revised Positioning)
 
 **Date:** January 31, 2026
-**Review Timeline:** 24-48 hours (typical)
+**App:** Noor - Islamic Reflection & Personal Growth
+**CRITICAL:** Positioned as reflection/growth tool, NOT therapy
 
 ---
 
@@ -12,100 +13,120 @@
 
 **Setup:**
 - Premium access enabled
-- Sample journal entries pre-populated
-- Test credentials 3 times before submission
+- Sample reflection entries pre-populated
+- Test credentials 3x before submission
 
 ---
 
-## Review Notes for App Store Connect
+## Review Notes for App Store Connect (UPDATED)
 
 **Noor Overview:**
-Islamic mental wellness app combining CBT therapy with authentic Quranic content.
+Islamic reflection and personal growth app for everyday Muslims navigating life challenges.
+
+**IMPORTANT POSITIONING:**
+Noor is NOT a mental health therapy app or clinical tool. We provide structured reflection and personal growth tools grounded in Islamic values—NOT treatment or clinical intervention.
 
 **Core Features:**
-1. Islamic Thought Reframing (CBT + AI + Quran)
-2. Daily Islamic Content (Quranic verses + Hadith)
-3. Calming Practices (dhikr, mindfulness)
-4. Progress Insights (Premium: journey levels, streaks)
+1. Structured Reflection Journal (examine thoughts with Islamic guidance)
+2. Quran Wisdom & Authentic Hadith (daily spiritual content)
+3. Islamic Calming Practices (dhikr, breathing, mindfulness)
+4. Growth Insights (Premium - journey tracking)
 
-**AI Disclosure:**
-- Provider: Anthropic (Claude API)
-- Purpose: Generate Islamic thought reframes
-- Privacy: No data stored by Anthropic
-- Fallback: Journaling works without AI
+**Islamic Authenticity:**
+- Quran: Verified translations from authentic sources
+- Hadith: Sahih Bukhari, Sahih Muslim collections only
+- Content reviewed for Islamic accuracy
 
 **Privacy & Security:**
-- Encrypted via iOS Keychain
-- Biometric authentication optional
-- No third-party tracking
-- Screenshot prevention on sensitive screens
+- Encrypted via iOS Keychain / Android Keystore
+- Biometric authentication (Face ID/Touch ID/Fingerprint)
+- No third-party tracking or ads
+- User-controlled data deletion
 - Privacy Policy: https://noor-app.com/privacy
 
-**Islamic Content:**
-- Quran: Verified authentic sources
-- Hadith: Sahih Bukhari, Sahih Muslim only
-- Reviewed for accuracy
+**AI Usage (Transparent):**
+- Provider: Anthropic Claude API
+- Purpose: Generate Islamic perspective on user's thoughts (reframing tool)
+- Privacy: User thoughts sent only for API response, not stored by Anthropic
+- Fallback: App works fully without AI (journaling remains functional)
+- Disclosure: AI usage explained in Settings → About
+
+**Safety Features:**
+- Detects when users express serious concerns
+- Provides resources for professional support
+- Clear messaging: "If experiencing serious issues, seek professional help"
+- NOT a crisis intervention tool
+
+**What Noor Is NOT:**
+- NOT therapy, treatment, or clinical intervention
+- NOT a replacement for professional counseling
+- NOT medical advice or diagnostic tool
+- NOT suitable as primary support for serious concerns
 
 **Testing Steps:**
-1. Login with demo account
-2. Tap "Reflection" → Enter thought → View AI reframe
-3. Check "Daily Content" → Quranic verse + Hadith
-4. Try "Calming Practice" → Breathing exercise
-5. View "Insights" → Journey progress
-
-**Mental Health Disclaimer:**
-Not a replacement for professional therapy. Includes crisis detection and professional resource links.
+1. Complete onboarding
+2. Create a reflection entry (tap Reflection → capture a thought)
+3. View Islamic guidance and reframing
+4. Check Daily Content (Quran verse + Hadith)
+5. Try Calming Practice (dhikr or breathing exercise)
+6. View Insights page (Premium enabled in demo account)
 
 **Subscription:**
 - Free: Core features forever
-- Premium: $4.99/month (insights, full dua library)
+- Premium: $4.99/month (advanced insights, full dua library)
 - 7-day free trial
 
 Contact: support@noor-app.com
 
 ---
 
-## Common Rejection Responses
+## Common Rejection Responses (UPDATED)
 
-**Demo account doesn't work:**
-"Credentials verified working. Please tap 'Get Started' (not Sign Up). Email: reviewer@noor-app.com. If issue persists, please share error message."
+**"This appears to be a mental health app"**
+Response: "Noor is a lifestyle and personal growth app, not mental health treatment. We've categorized as Lifestyle (not Health & Fitness), rated 12+ (not 17+), and do not claim to treat any medical conditions. Our disclaimers clearly state we're NOT therapy."
 
-**Privacy concerns:**
-"Full privacy policy at noor-app.com/privacy. No third-party data sharing. All journal entries encrypted via iOS Keychain. Users can delete data anytime."
+**"Demo account doesn't work"**
+Response: "Credentials verified working. Please tap 'Get Started' (not Sign Up). Email: reviewer@noor-app.com. If issue persists, please share error message."
 
-**AI content concerns:**
-"AI usage is transparent: Claude API generates Islamic thought reframes. Optional feature. No data stored by Anthropic. Disclosure in Settings → About."
+**"Age rating should be 17+ due to health content"**
+Response: "Noor does not contain medical/treatment information. We provide personal growth reflection tools grounded in Islamic values—not clinical health content. Age rating 12+ is appropriate for our target audience of teens and adults seeking Islamic personal development."
 
-**Health claims:**
-"No medical claims made. Clear disclaimer: 'Noor is wellness tool, not therapy replacement.' Crisis detection prompts professional help."
+**"Privacy concerns"**
+Response: "Full privacy policy at noor-app.com/privacy. No third-party data sharing. All reflections encrypted via iOS Keychain/Android Keystore. Users can delete data anytime via Settings → Delete Account or email support@noor-app.com."
+
+**"AI content concerns"**
+Response: "AI usage is transparent: Claude API generates Islamic perspectives on user reflections. Optional feature. User thoughts sent for real-time API processing only, not stored by Anthropic. Disclosure in Settings → About. App works fully without AI."
 
 ---
 
-## Expedited Review Request Template
+## Expedited Review Request Template (if needed for Ramadan)
 
-**Reason:** [Critical bug / Time-sensitive launch (Ramadan)]
+**Reason:** Time-sensitive launch for Ramadan
 
 **Justification:**
-"Noor serves Muslim community with mental health support. [Explain urgency]. Thoroughly tested build."
+"Noor serves the Muslim community with Islamic reflection and personal growth tools. [Month] is Ramadan, the holiest month for Muslims, and our app provides daily Quran wisdom and spiritual reflection features particularly valuable during this period. Thoroughly tested build ready for review."
 
 ---
 
 ## Post-Approval Monitoring
 
 **First 24 Hours:**
-- Monitor crash reports
+- Monitor crash reports (App Store Connect / Play Console)
 - Respond to reviews within 2 hours
+- Track initial downloads
 
 **First Week:**
 - Daily crash monitoring
-- Track downloads (target: 100-500)
-- Review keyword rankings
+- Track downloads (target: 100-500 organic)
+- Monitor keyword rankings (Islamic reflection, Muslim personal growth)
+- Respond to all reviews within 24 hours
 
 **First Month:**
-- Respond to ALL reviews
-- Track conversion metrics
-- Plan v1.1 based on feedback
+- Track conversion rate (impression → install: target 8-12%)
+- Monitor rating (target: 4.5+ average)
+- Collect feedback on positioning clarity
+- Plan v1.1 based on user feedback
 
 ---
 
-**READY FOR APP STORE REVIEW** ✅
+**STATUS: ✅ READY - REFLECTION & GROWTH POSITIONING**

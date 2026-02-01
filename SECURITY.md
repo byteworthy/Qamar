@@ -86,7 +86,7 @@ If you discover a security vulnerability in Noor, please report it responsibly:
   - Insights screen (AI-generated summaries)
 - **Educational Content Unprotected:**
   - Quran verses (users can share Islamic knowledge)
-  - CBT educational content
+  - Islamic guidance content
   - Prayer times
   - App settings
 - **Platform Support:**

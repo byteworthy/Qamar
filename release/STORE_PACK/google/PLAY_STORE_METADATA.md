@@ -27,9 +27,9 @@ AI use and boundaries:
 Noor uses AI carefully. Responses are constrained by a defined safety charter and an Islamic content framework designed to prevent overreach, moralizing, or theological drift.
 
 What Noor is not:
-• Not therapy
-• Not medical care or advice
-• Not religious authority
+• Not professional counseling
+• Not religious instruction
+• Not for urgent situations
 
 If you are experiencing a personal crisis, contact emergency services or call 988 (US Suicide & Crisis Lifeline).
 

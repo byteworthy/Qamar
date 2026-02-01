@@ -27,10 +27,9 @@ AI use and boundaries:
 Noor uses AI carefully. Responses are constrained by a defined safety charter and an Islamic content framework designed to prevent overreach, moralizing, or theological drift.
 
 What Noor is not:
-• Not therapy
-• Not medical care
-• Not diagnosis
-• Not religious authority
+• Not professional counseling
+• Not religious instruction
+• Not for urgent situations
 
 Privacy:
 Reflections are stored securely on our servers (encrypted in transit and at rest). Data is retained for 30 days, then automatically deleted. Users control their data and can delete it at any time.
@@ -45,7 +44,7 @@ Islamic reflection, Muslim, structured reflection, intention, clarity, reflectio
 ## Age Rating
 **Recommended**: 4+ (No objectionable content)
 
-**Rationale**: App provides structured reflection guidance. No clinical, medical, or mature content.
+**Rationale**: App provides structured reflection guidance. Age-appropriate content for all ages.
 
 ## Support URL
 https://CHANGEME/support

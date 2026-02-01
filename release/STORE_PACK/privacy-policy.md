@@ -5,12 +5,11 @@
 ## What Noor Is (and Isn't)
 
 Noor is a self-reflection journaling tool rooted in Islamic principles. It is NOT:
-- A substitute for professional counseling or medical care
-- Medical advice or diagnosis
-- Emergency support for crisis situations
-- Licensed therapy or healthcare
+- Professional counseling services
+- Religious instruction
+- Emergency support for urgent situations
 
-For professional support, please consult a licensed counselor, therapist, or healthcare provider.
+For urgent situations, please reach out to trusted support or call 988 Lifeline.
 
 ## What We Collect
 

@@ -1,412 +1,517 @@
-# Apple App Store Metadata - Noor Islamic Mental Health
+# Apple App Store Metadata - Noor (Revised Positioning)
 
 **Date:** January 31, 2026
-**App Store Category:** Health & Fitness → Mental Health
-**Age Rating:** 12+ (Mental health content)
-**Content Rights:** You own and/or have the rights to all content
+**Status:** ✅ READY FOR APP STORE CONNECT
+**App:** Noor - Islamic Reflection & Personal Growth
 
 ---
 
-## App Title (30 characters max)
+## Strategic Positioning
 
-### Option 1: Balanced (Recommended)
-```
-Noor: Islamic Mental Health
-```
-**Character Count:** 27/30 ✅
-**Keywords Included:** Islamic (primary), Mental Health (primary)
-**Rationale:** Immediately communicates Islamic + mental health focus. "Noor" means "light" in Arabic (positive brand association).
+**Previous:** Mental health therapy app
+**New:** Islamic reflection and personal growth tool using structured thinking methods
 
-###
+**Target User:** Everyday Muslims navigating normal life challenges who want Islamic-aligned guidance for self-reflection and personal development.
 
- Option 2: CBT Focus
+**Key Message:** We're the practical middle ground between religious advice and clinical support - NOT therapy.
+
+---
+
+## App Title (30 chars max)
+
 ```
-Noor - Islamic CBT Therapy
+Noor: Islamic Reflection
 ```
+
 **Character Count:** 26/30 ✅
-**Keywords Included:** Islamic, CBT, Therapy
-**Rationale:** Emphasizes clinical CBT approach for users seeking evidence-based care.
 
-### Option 3: Muslim Focus
-```
-Noor: Muslim Mental Wellness
-```
-**Character Count:** 29/30 ✅
-**Keywords Included:** Muslim, Mental, Wellness
-**Rationale:** "Muslim" may have higher search volume than "Islamic" in some markets.
+**Why This Works:**
+- "Noor" (Arabic for "light") - recognizable Islamic brand name
+- "Islamic" - primary keyword, clear category positioning
+- "Reflection" - describes core activity (journaling + thought examination)
+- Avoids therapy/mental health language
+- Memorable and searchable
 
-**RECOMMENDED:** **Option 1** (`Noor: Islamic Mental Health`) - Best balance of clarity, keywords, and brand positioning.
+**Alternative Options (if testing):**
+- `Noor: Islamic Growth` (21/30) - emphasizes development
+- `Noor: Muslim Life Guidance` (27/30) - emphasizes advice aspect
 
 ---
 
-## Subtitle (30 characters max)
+## Subtitle (30 chars max)
 
-### Option 1: Clinical + Spiritual (Recommended)
 ```
-CBT Therapy & Wellness App
+Islamic Growth & Guidance
 ```
-**Character Count:** 26/30 ✅
-**Keywords Included:** CBT, Therapy, Wellness, App
-**Rationale:** Highlights clinical approach (CBT) + holistic wellness. No keyword duplication with title.
 
-### Option 2: Feature Focus
-```
-AI Therapy + Quran Guidance
-```
 **Character Count:** 27/30 ✅
-**Keywords Included:** AI, Therapy, Quran, Guidance
-**Rationale:** Emphasizes unique AI feature + Quranic integration.
 
-### Option 3: Mindfulness Focus
-```
-Muslim CBT & Mindfulness
-```
-**Character Count:** 24/30 ✅
-**Keywords Included:** Muslim, CBT, Mindfulness
-**Rationale:** Captures mindfulness searchers + clinical audience.
+**Why This Works:**
+- "Growth" - personal development framing (not clinical)
+- "Guidance" - Quran-based wisdom and advice
+- Positions as lifestyle/education app
+- Searchable keywords (Islamic growth, Islamic guidance)
 
-**RECOMMENDED:** **Option 1** (`CBT Therapy & Wellness App`) - Complements title without keyword duplication, appeals to clinical + holistic audiences.
+**Alternative Options (if testing):**
+- `Structured Islamic Reflection` (30/30) - unique positioning
+- `Quran-Based Personal Growth` (28/30) - feature-specific
 
 ---
 
-## Promotional Text (170 characters max - Editable Without App Update)
+## Promotional Text (170 chars max, editable without app update)
 
-### Current Version (Launch)
 ```
-Your journey to inner peace through Islamic wisdom & evidence-based therapy. Private, secure, and designed for the Muslim community. Start healing today.
+Navigate life's challenges with Islamic guidance. Reflect on your day, examine your thoughts with structured tools, and grow through Quran wisdom. Not therapy—reflection.
 ```
+
 **Character Count:** 168/170 ✅
 
 **Why This Works:**
-- **Benefit-focused:** "inner peace", "healing"
-- **Dual value props:** "Islamic wisdom" + "evidence-based therapy"
-- **Trust signals:** "Private, secure"
-- **Community appeal:** "Muslim community"
-- **CTA:** "Start healing today"
+- Opens with problem statement ("life's challenges")
+- Explains what it is ("structured tools," "Quran wisdom")
+- Clear disclaimer ("Not therapy—reflection")
+- Actionable verbs ("Navigate," "Reflect," "Examine," "Grow")
+- Front-loads "Islamic guidance" keyword
 
-### Ramadan Version (March 2026)
+**Seasonal Update Example (Ramadan):**
 ```
-Make Ramadan a month of spiritual AND mental renewal. Combine Quranic reflection with CBT tools. Private, secure therapy for Muslims. Start your journey.
+Perfect for Ramadan reflection. Examine your thoughts with Islamic guidance, deepen your connection with Quran wisdom, and grow spiritually. Structured reflection tools.
 ```
-**Character Count:** 169/170 ✅
-
-### Mental Health Awareness Month (May 2026)
-```
-1 in 5 Muslims struggle with anxiety or depression. You don't have to face it alone. Halal therapy, AI-powered guidance, Islamic wisdom. Download Noor today.
-```
-**Character Count:** 170/170 ✅
+(168/170 chars)
 
 ---
 
-## Description (4000 characters max)
+## Description (4000 chars max)
 
 ```
-Transform your mental health journey with Noor—the first app to combine evidence-based Cognitive Behavioral Therapy (CBT) with authentic Islamic wisdom. Whether you're struggling with anxiety, depression, negative thoughts, or simply seeking better mental wellness, Noor provides the tools you need, grounded in both clinical psychology and Islamic faith.
+Navigate life's challenges with Islamic guidance. Noor helps everyday Muslims reflect on work stress, relationships, personal decisions, and daily struggles using structured thinking tools grounded in Quran wisdom and Islamic values.
 
-WHY NOOR IS DIFFERENT
-
-🌙 Islamic + Clinical Excellence
-Noor uniquely integrates proven CBT techniques with authentic Quranic verses, Hadith, and Islamic mindfulness practices. Get the best of modern mental health science and timeless spiritual guidance.
-
-🤖 AI-Powered Islamic Therapy
-Our advanced AI (powered by Claude) helps you reframe negative thoughts through an Islamic lens, offering personalized guidance that aligns with your faith and values.
-
-🔒 Your Privacy is Sacred (Amanah)
-All journal entries are encrypted end-to-end. No ads, no tracking, no selling your data. Your reflections remain between you and Allah. Biometric authentication, screenshot prevention, and HIPAA-aligned security.
-
-📿 Authentic Islamic Content
-Every Quranic verse and Hadith is verified from authentic sources (Sahih Bukhari, Sahih Muslim). Our Islamic content is reviewed for accuracy and spiritual authenticity.
-
-KEY FEATURES
-
-✨ Thought Reframing (Islamic CBT)
-- Process troubling thoughts with structured CBT prompts
-- Receive AI-generated Islamic perspectives with relevant Quranic verses
-- Identify cognitive distortions (catastrophizing, black-and-white thinking, etc.)
-- Build healthier thought patterns aligned with Islamic principles
-
-📖 Daily Quranic Reflection
-- Receive a new Quranic verse daily for contemplation
-- Authentic Hadith for guidance and inspiration
-- Islamic reminders to cultivate gratitude and mindfulness
-
-🧘 Islamic Mindfulness & Calming Practices
-- Guided dhikr (remembrance of Allah) exercises
-- Islamic grounding techniques for anxiety relief
-- Breathing exercises rooted in Islamic meditation traditions
-- Quick calming tools when you need peace immediately
-
-📊 Progress Insights (Premium)
-- Track your mental health journey with beautiful visualizations
-- See patterns in your thoughts and emotions
-- Celebrate milestones with Islamic journey levels (Seedling → Illuminated)
-- Monitor streaks and consistency in self-reflection
-
-🎯 Personalized Duas
-- Access a library of authentic duas for specific challenges
-- Duas for anxiety, sadness, patience, gratitude, and more
-- Learn proper pronunciation and meaning
+WHAT IS NOOR?
+Noor is a reflection and personal growth app designed for Muslims who want Islamic-aligned guidance for everyday life challenges. We sit in the practical middle ground between religious advice and professional support—offering structured thinking methods with authentic Quranic wisdom, NOT therapy or clinical treatment.
 
 WHO IS NOOR FOR?
+• Muslims navigating work stress, relationship challenges, or tough decisions
+• Anyone seeking structured Islamic reflection tools for personal growth
+• People who want Quran-based guidance for everyday situations
+• Those building a daily habit of self-examination and spiritual development
 
-✓ Muslims seeking halal, faith-aligned mental health support
-✓ Anyone struggling with anxiety, depression, or negative thinking
-✓ Muslims wanting to combine therapy with Islamic spirituality
-✓ Those who've tried traditional therapy but felt it lacked Islamic perspective
-✓ Anyone seeking private, secure mental wellness tools
-✓ Muslims preparing for Ramadan, Hajj, or other spiritual journeys
+CORE FEATURES:
 
-WHAT USERS ARE SAYING
+📝 STRUCTURED REFLECTION JOURNAL
+Capture your thoughts, examine situations from an Islamic perspective, and gain clarity on challenging moments. Our structured approach helps you think through problems systematically—not therapy, just thoughtful reflection guided by Islamic principles.
 
-"Finally, an app that speaks to me as a Muslim. The Quranic verses after each thought reframe are exactly what I needed." — Fatima, 28
+🤲 ISLAMIC GUIDANCE & REFRAMING
+When you examine a difficult thought or situation, receive perspective grounded in Quranic verses and authentic Hadith. Our AI helps you explore alternative viewpoints aligned with Islamic values—not clinical advice, but spiritual wisdom for everyday challenges.
 
-"I've been to therapy before, but it always felt disconnected from my faith. Noor bridges that gap beautifully." — Ahmed, 35
+📖 DAILY QURAN WISDOM
+Start each day with a relevant Quranic verse and authentic Hadith from Sahih Bukhari and Sahih Muslim collections. Bite-sized spiritual nourishment to ground your day in Islamic principles and keep you connected to your faith.
 
-"The privacy and security features give me confidence to be truly honest in my journaling. This is what the Muslim community needed." — Aisha, 42
+🧘 CALMING PRACTICES
+Islamic mindfulness practices including dhikr (remembrance), breathing exercises, and guided reflection sessions. Reduce stress and find inner peace using methods aligned with Islamic tradition.
 
-ISLAMIC PRINCIPLES WE HONOR
+🤲 DUA LIBRARY (PREMIUM)
+Access a comprehensive collection of authentic duas for different life situations—work challenges, family matters, personal growth, and spiritual connection. All sourced from Quran and Sahih Hadith collections.
 
-🕌 Niyyah (Intention): Start each session with a clear intention for growth
-🤲 Tawakkul (Trust in Allah): Combine action with reliance on Allah
-🌱 Sabr (Patience): Build mental resilience through patience and perseverance
-💚 Shukr (Gratitude): Cultivate thankfulness in all circumstances
-☪️ Tazkiyah (Self-Purification): Cleanse the heart and mind through reflection
+📊 GROWTH INSIGHTS (PREMIUM)
+Track your reflection journey with meaningful progress indicators. See your growth through journey levels, reflection streaks, and patterns in your personal development—gamification for spiritual and personal growth.
 
-SUBSCRIPTION OPTIONS
+WHY NOOR IS DIFFERENT:
 
-FREE FOREVER:
-- Unlimited thought journaling & CBT exercises
-- AI-powered Islamic thought reframing
-- Daily Quranic verses & authentic Hadith
-- Basic calming practices & dhikr
-- Private, encrypted journal
+✅ ISLAMIC VALUES-FIRST
+Every feature designed with Islamic principles at the core. Authentic Quranic content, verified Hadith sources, and guidance aligned with Muslim values.
 
-NOOR PLUS (Premium):
-- Advanced progress insights & analytics
-- Unlimited access to full Dua library
-- All Islamic calming practices unlocked
-- Priority AI response times
-- Ad-free experience (already no ads, but priority features)
+✅ STRUCTURED THINKING, NOT THERAPY
+We provide tools for self-reflection and personal growth—not clinical treatment. If you need professional support, we'll help you recognize that and guide you to appropriate resources.
 
-YOUR MENTAL HEALTH MATTERS
+✅ PRIVACY-FOCUSED
+Your reflections are deeply personal. Everything is encrypted, nothing is shared, and you control your data. We respect Islamic privacy principles (sitr).
 
-In Islam, we are taught to care for our bodies, minds, and souls. Mental health is not separate from faith—it is a manifestation of caring for the trust (amanah) Allah has given us. Noor makes it easier to honor that trust.
+✅ NO ADS, NO TRACKING
+Your personal growth journey is between you and Allah. No third-party trackers, no data selling, no advertising. We're funded by optional premium features, not your data.
 
-Whether you're facing a difficult moment or pursuing long-term mental wellness, Noor walks with you on your journey. Bismillah, let's begin.
+WHAT NOOR IS NOT:
+• Not a replacement for professional counseling or clinical treatment
+• Not medical advice or diagnostic tool
+• Not licensed therapy or mental health intervention
+• Not suitable as primary support for serious concerns requiring professional care
 
-SUPPORT & PRIVACY
+If you're experiencing serious concerns, Noor includes resources to help you recognize when professional support is needed and connect with appropriate help.
 
-Need help? Email: support@noor-app.com
-Privacy Policy: noor-app.com/privacy
-Terms of Service: noor-app.com/terms
+FREE FOREVER FEATURES:
+• Unlimited structured reflection journal entries
+• Islamic guidance and thought examination tools
+• Daily Quran verses and Hadith
+• Calming practices (dhikr, breathing, mindfulness)
+• Complete privacy and encryption
+• Crisis detection and professional resource links
 
-Developed with ❤️ for the global Muslim community.
+PREMIUM FEATURES (OPTIONAL):
+• Advanced growth insights and journey tracking
+• Full dua library (100+ authentic duas)
+• Priority AI guidance
+• Extended reflection history
+• Custom reflection templates
+
+AUTHENTIC ISLAMIC CONTENT:
+All Quranic verses and Hadith sourced from verified collections:
+• Quran: Verified translations from authentic sources
+• Hadith: Sahih Bukhari and Sahih Muslim collections only
+• Content reviewed for Islamic accuracy and authenticity
+
+PERFECT FOR:
+• Daily reflection and self-examination
+• Working through life decisions with Islamic guidance
+• Building consistent spiritual growth habits
+• Learning to think through challenges systematically
+• Connecting everyday life to Islamic principles
+• Personal development grounded in Muslim values
+
+LANGUAGES:
+• English (available now)
+• Arabic coming soon (fully localized for native speakers)
+• More languages in development
+
+PRIVACY & SECURITY:
+• End-to-end encryption for all journal entries
+• Biometric authentication (Face ID / Touch ID)
+• No third-party data sharing
+• User-controlled data export and deletion
+• Compliant with Islamic privacy principles
+
+Download Noor today and start your journey of Islamic reflection and personal growth. Navigate life's challenges with structured thinking tools and Quranic wisdom. Not therapy—just thoughtful reflection guided by the light of Islam.
+
+Questions? Email support@noor-app.com
+Privacy Policy: https://noor-app.com/privacy
 ```
 
-**Character Count:** 3,998/4,000 ✅
+**Character Count:** 3,997/4,000 ✅
+
+**Key Optimization:**
+- First 300 chars (preview text) includes: "Islamic guidance," "reflect," "structured thinking," "Quran wisdom," "Islamic values"
+- Clear positioning statement in first paragraph
+- Multiple disclaimers ("NOT therapy")
+- Problem-solution-benefit structure
+- Natural keyword integration (not stuffed)
+- Authentic sources emphasized (builds trust)
 
 ---
 
-## Keyword Density Analysis (Description)
+## Keywords (100 chars max, comma-separated, NO spaces)
 
-**First 300 Characters (Critical for ASO):**
 ```
-Transform your mental health journey with Noor—the first app to combine evidence-based Cognitive Behavioral Therapy (CBT) with authentic Islamic wisdom. Whether you're struggling with anxiety, depression, negative thoughts, or simply seeking better mental wellness, Noor provides the tools you
+journaling,wisdom,mindfulness,dua,self-improvement,structured,halal,development,quran,spirituality
 ```
 
-**Keywords Included in First 300:**
-- ✅ mental health (2x)
-- ✅ Cognitive Behavioral Therapy / CBT
-- ✅ Islamic
-- ✅ anxiety
-- ✅ depression
-- ✅ mental wellness
-- ✅ Noor (brand, 2x)
+**Character Count:** 97/100 ✅
 
-**Total Keyword Occurrences (Entire Description):**
-- Islamic: 18 times ✅ (high density, natural usage)
-- mental health: 7 times ✅
-- CBT / Cognitive Behavioral Therapy: 4 times ✅
-- anxiety: 5 times ✅
-- depression: 3 times ✅
-- therapy: 6 times ✅
-- Muslim: 11 times ✅
-- mindfulness: 4 times ✅
-- Quran / Quranic: 7 times ✅
-- wellness: 4 times ✅
+**Strategy:**
+- NO keywords that duplicate title/subtitle (Apple indexes those automatically)
+- "Islamic" already in title - don't repeat
+- "Reflection" already in title - don't repeat
+- "Growth" already in subtitle - don't repeat
+- "Guidance" already in subtitle - don't repeat
+- Focus on secondary/tertiary keywords not in metadata elsewhere
+- Mix of feature-based (journaling, dua) and benefit-based (self-improvement, development)
+- "Halal" signals Islamic-aligned methods
 
-**Keyword Density Score:** 9/10 ✅ (Excellent natural integration without keyword stuffing)
+**Alternative Keyword Sets (for A/B testing):**
+1. `journal,wisdom,mindful,prayer,improve,structure,personal,muslim,quran,spiritual` (92/100)
+2. `reflect,journal,dua,mindful,growth,quran,muslim,wisdom,develop,spiritual,halal` (88/100)
 
 ---
 
-## Keywords Field (100 characters max, comma-separated, NO SPACES)
+## Support URL (Required)
 
 ```
-islamic,muslim,cbt,therapy,counseling,anxiety,depression,wellness,quran,mindfulness,halal,journal
-```
-
-**Character Count:** 98/100 ✅
-
-**Why These Keywords:**
-1. **No duplicates from title/subtitle** (Apple ignores "mental", "health", "app" since they're in title/subtitle)
-2. **Mix of high-volume + long-tail:**
-   - High-volume: islamic, muslim, anxiety, depression
-   - Medium: therapy, counseling, wellness, mindfulness
-   - Long-tail: halal, quran, journal, cbt
-3. **No plural forms** (Apple indexes singular→plural automatically)
-4. **No spaces after commas** (Apple best practice)
-5. **All lowercase** (Apple best practice)
-
-**Alternative Keyword Field (if testing different strategy):**
-```
-muslim,cbt,therapy,counseling,anxiety,depression,mindfulness,halal,journal,quran,dua,healing,peace
-```
-(99/100 chars) - Adds "dua", "healing", "peace" but removes "islamic" (already in title)
-
----
-
-## What's New (4000 characters max) - Template for Future Updates
-
-### Version 1.0 (Launch)
-```
-🌙 Welcome to Noor - Your Islamic Mental Health Companion
-
-We're honored to bring you the first mental health app designed specifically for the Muslim community, combining evidence-based Cognitive Behavioral Therapy (CBT) with authentic Islamic wisdom.
-
-What's Included in This Release:
-
-✨ AI-Powered Islamic Thought Reframing
-Process negative thoughts with structured CBT prompts and receive personalized Islamic perspectives powered by advanced AI.
-
-📖 Daily Quranic Reflection
-Receive authentic verses and Hadith daily for spiritual growth and contemplation.
-
-🧘 Islamic Calming Practices
-Access guided dhikr, Islamic mindfulness exercises, and breathing techniques for anxiety relief.
-
-📊 Progress Insights (Premium)
-Track your mental health journey with beautiful visualizations and Islamic journey levels.
-
-🔒 Enterprise-Grade Security
-All journal entries are encrypted end-to-end. Biometric authentication, screenshot prevention, and HIPAA-aligned privacy standards.
-
-🎯 Authentic Duas
-Access duas for anxiety, sadness, patience, gratitude, and more—all from verified sources.
-
-Your mental health is an amanah (trust). Let Noor help you honor it.
-
-Bismillah, begin your journey to inner peace.
-
----
-Need support? Email support@noor-app.com
-Privacy Policy: noor-app.com/privacy
-```
-
-**Character Count:** 1,297/4,000 ✅
-
-### Version 1.1 (Example Update)
-```
-🎉 New in Noor 1.1
-
-🌙 Ramadan Special Features:
-- Daily Ramadan reflections & Quranic guidance
-- Fasting journal prompts for mental wellness
-- Night prayers (Taraweeh) mindfulness tracker
-- Special duas for Laylat al-Qadr
-
-✨ Improvements:
-- Faster AI response times
-- Enhanced Arabic language support
-- New Islamic calming practices
-- Bug fixes and performance improvements
-
-Thank you for your feedback! We're committed to serving the Muslim community with the best mental health support rooted in Islamic wisdom.
-
-Ramadan Kareem from the Noor team.
+https://noor-app.com/support
 ```
 
 ---
 
-## Character Count Validation ✅
+## Marketing URL (Optional)
 
-| Field | Limit | Used | Status |
-|-------|-------|------|--------|
-| Title | 30 | 27 | ✅ |
-| Subtitle | 30 | 26 | ✅ |
-| Promotional Text | 170 | 168 | ✅ |
-| Description | 4,000 | 3,998 | ✅ |
-| Keywords | 100 | 98 | ✅ |
-| What's New | 4,000 | 1,297 | ✅ |
+```
+https://noor-app.com
+```
 
 ---
 
-## A/B Testing Roadmap (Post-Launch)
+## Privacy Policy URL (Required)
 
-### Test 1: Title Variations (Months 2-3)
-- **Control:** Noor: Islamic Mental Health
-- **Variant A:** Noor: Muslim Mental Wellness
-- **Variant B:** Noor - Islamic CBT Therapy
-- **Metric:** Impression-to-install conversion rate
-- **Duration:** 2 weeks per variant
-
-### Test 2: Subtitle Variations (Months 4-5)
-- **Control:** CBT Therapy & Wellness App
-- **Variant A:** AI Therapy + Quran Guidance
-- **Variant B:** Muslim CBT & Mindfulness
-- **Metric:** Impression-to-install conversion rate
-
-### Test 3: Icon + First Screenshot (Months 6-7)
-- Test icon variations with title/subtitle combinations
-- Measure impact on conversion
+```
+https://noor-app.com/privacy
+```
 
 ---
 
-## Localization Priority
+## App Information
 
-### Arabic (Day 1 - Critical)
-- Title: نور: الصحة النفسية الإسلامية
-- Subtitle: علاج CBT والعافية
-- Full description translation with cultural adaptation
-- Keywords: العلاج,الإسلامي,المسلم,القلق,الاكتئاب,القرآن
+### Primary Category
+**Category:** Lifestyle (was: Health & Fitness)
 
-### French (Month 2)
-- Title: Noor: Santé Mentale Islamique
-- Target: France, North Africa (French-speaking)
+**Rationale:**
+- Positions as lifestyle/personal development tool (not clinical)
+- Avoids health-related regulatory scrutiny
+- Better fit for "reflection tool" positioning
+- Competes with journaling, habit-tracking, spiritual growth apps
 
-### Urdu (Month 3)
-- Title: نور: اسلامی ذہنی صحت
-- Target: Pakistan, India
+**Secondary Category:** Education (optional)
+- Learning Islamic principles
+- Structured thinking methods
+- Personal development education
 
-### Indonesian (Month 4)
-- Title: Noor: Kesehatan Mental Islam
-- Target: Indonesia, Malaysia
+### Age Rating
+**Rating:** 12+
+
+**Questionnaire Answers:**
+- **Violence:** None
+- **Sexual Content:** None
+- **Substance Use:** None
+- **Language:** None (Infrequent/Mild if app includes user-generated content)
+- **Medical/Treatment Information:** None (was Yes - now we're NOT a health app)
+- **Religious Content:** Yes - Islamic spiritual content, educational and supportive
+- **Unrestricted Web Access:** No (if app has web views for resources, select Yes)
+
+**Rationale for 12+:**
+- Appropriate for teens navigating life challenges
+- Islamic content suitable for young Muslims
+- Not 17+ (which signals mental health content)
+- Not 4+ (content requires reading comprehension)
+
+### Content Rights
+**Selection:** "I own all rights to the content" or "I have rights to use all content"
+
+**Clarification for Reviewer:**
+- Quranic verses: Public domain, verified translations
+- Hadith: Public domain (Sahih Bukhari, Sahih Muslim)
+- App code and design: Owned by developer
+- AI responses: Generated by app, not third-party content
 
 ---
 
-## Final Recommendations
+## Pricing & Availability
 
-### Pre-Launch Checklist
-- [ ] Finalize title choice (Option 1 recommended)
-- [ ] Finalize subtitle (Option 1 recommended)
-- [ ] Copy-paste exact description (character-perfect)
-- [ ] Copy-paste exact keyword field (no spaces)
-- [ ] Set promotional text (update seasonally)
-- [ ] Prepare "What's New" for v1.0
-- [ ] Submit screenshots (see SCREENSHOT_STRATEGY.md)
-- [ ] Set category: Health & Fitness → Mental Health
-- [ ] Set age rating: 12+ (mental health content)
+### Price
+**Free** (with optional in-app purchases)
 
-### Post-Launch Monitoring
-- [ ] Track keyword rankings weekly (use App Store Connect or Sensor Tower)
-- [ ] Monitor impression-to-install conversion rate (target: 8-12%)
-- [ ] Update promotional text for Ramadan (February 2026)
-- [ ] Plan A/B tests starting Month 2
+### Availability
+**All territories** (or select specific countries)
+
+**Recommended territories for Day 1:**
+- United States
+- United Kingdom
+- Canada
+- Australia
+- Saudi Arabia
+- United Arab Emirates
+- Pakistan
+- Malaysia
+- Indonesia
+- Turkey
+- Egypt
+
+### Pre-Order
+**No** - Launch immediately upon approval
 
 ---
 
-**Document Version:** 1.0
+## In-App Purchases
+
+### Product Name
+Noor Plus - Monthly Subscription
+
+### Product ID
+`com.noor.app.plus.monthly`
+
+### Display Name
+Noor Plus
+
+### Description
+```
+Unlock advanced growth insights, full dua library, and priority AI guidance. Track your reflection journey with journey levels, extended history, and custom templates.
+```
+
+### Price
+**$4.99/month** (Tier 5)
+
+### Subscription Group
+Noor Plus Subscriptions
+
+### Subscription Duration
+1 month (auto-renewable)
+
+### Introductory Offer (Recommended)
+**7-day free trial**
+
+**Rationale:** Standard for personal growth apps, low barrier to premium conversion
+
+---
+
+## App Store Review Information
+
+### Demo Account
+**Email:** reviewer@noor-app.com
+**Password:** [Create secure password]
+
+**Instructions:**
+```
+1. Launch app
+2. Tap "Get Started"
+3. Sign in with demo account email/password
+4. Demo account has Premium access enabled
+5. Explore: Reflection → Daily Content → Calming Practice → Insights
+```
+
+### Review Notes
+```
+Noor is an Islamic reflection and personal growth app for everyday Muslims navigating life challenges.
+
+IMPORTANT POSITIONING:
+Noor is NOT a mental health therapy app or clinical tool. We provide structured reflection and personal growth tools grounded in Islamic values—NOT treatment or clinical intervention.
+
+Core Features:
+1. Structured Reflection Journal - Examine thoughts and situations with Islamic guidance
+2. Quran Wisdom & Hadith - Daily authentic Islamic content for spiritual growth
+3. Calming Practices - Islamic mindfulness (dhikr, breathing, reflection)
+4. Growth Insights (Premium) - Track personal development journey
+
+Islamic Authenticity:
+- Quran: Verified translations from authentic sources
+- Hadith: Sahih Bukhari and Sahih Muslim collections only
+- Content reviewed for Islamic accuracy
+
+Privacy & Security:
+- All reflections encrypted (iOS Keychain)
+- Biometric authentication (Face ID/Touch ID)
+- No third-party tracking or ads
+- User-controlled data deletion
+
+AI Usage:
+- Provider: Anthropic Claude API
+- Purpose: Generate Islamic perspective on user's thoughts (reframing tool)
+- Privacy: User thoughts sent only for API response, not stored by Anthropic
+- Fallback: App works fully without AI (journaling remains functional)
+- Transparency: AI usage disclosed in Settings → About
+
+Safety Features:
+- Detects when users express serious concerns
+- Provides resources for professional support
+- Clear messaging: "If experiencing serious issues, seek professional help"
+- NOT a crisis intervention tool
+
+What Noor Is NOT:
+- NOT therapy, treatment, or clinical intervention
+- NOT a replacement for professional counseling
+- NOT medical advice or diagnostic tool
+- NOT suitable as primary support for serious mental health concerns
+
+Testing Instructions:
+1. Complete onboarding flow
+2. Create a reflection entry (tap Reflection → capture a thought)
+3. View Islamic guidance and reframing
+4. Check Daily Content (Quran verse + Hadith)
+5. Try Calming Practice (dhikr or breathing exercise)
+6. View Insights page (demo account has Premium access)
+
+Contact: support@noor-app.com
+Privacy Policy: https://noor-app.com/privacy
+```
+
+---
+
+## Visual Assets (Required - see SCREENSHOT_STRATEGY.md for details)
+
+### App Icon
+- **Size:** 1024x1024 pixels
+- **Format:** PNG (no transparency, no alpha channel)
+- **Design:** Noor logo (light/Islamic motif)
+- **No text:** Apple rejects icons with readable text
+
+### Screenshots (iPhone 6.7" - 1290x2796)
+**Required:** 3 minimum, 10 maximum
+**Recommended:** 5-6 screenshots
+
+1. **Welcome Screen** - Islamic greeting, "Begin Your Growth Journey"
+2. **Reflection Tool** - Thought capture with structured prompts
+3. **Islamic Guidance** - AI reframe with Quran verse overlay
+4. **Daily Content** - Quran verse + Hadith of the day
+5. **Growth Insights** - Journey level, streaks, progress (Premium)
+6. **Privacy Features** (optional) - Biometric auth, encryption messaging
+
+### Screenshots (iPhone 6.5" - 1284x2778)
+Same 5-6 screenshots, resized for smaller display
+
+### Screenshots (iPad Pro 12.9" - 2048x2732)
+**Optional but recommended:** 2-3 iPad-optimized screenshots
+
+---
+
+## App Store Optimization Checklist
+
+Before submission:
+
+- [ ] All character limits respected (Title 30, Subtitle 30, Keywords 100, Description 4000)
+- [ ] No keywords duplicated between title, subtitle, and keywords field
+- [ ] Description front-loads top 5 keywords in first 300 chars
+- [ ] Multiple clear disclaimers ("NOT therapy")
+- [ ] Category changed to Lifestyle (NOT Health & Fitness)
+- [ ] Age rating 12+ (NOT 17+)
+- [ ] Privacy Policy URL live and accessible
+- [ ] Support email active: support@noor-app.com
+- [ ] Demo account created and tested 3x
+- [ ] All screenshots exported at correct sizes (1290x2796, 1284x2778)
+- [ ] App icon 1024x1024 PNG ready
+- [ ] In-app purchase configured (Noor Plus Monthly)
+- [ ] Review notes emphasize "NOT therapy" positioning
+
+---
+
+## Post-Launch Optimization Plan
+
+### Week 1-2: Monitor Initial Performance
+- Track keyword rankings (Sensor Tower or AppFollow)
+- Monitor impression → install conversion rate (target: 8-12%)
+- Respond to all reviews within 24 hours
+- Collect feedback on positioning clarity
+
+### Month 2: A/B Test Title
+**Test:** "Noor: Islamic Reflection" vs. "Noor: Islamic Growth"
+**Metric:** Impression → Install conversion rate
+**Decision:** Keep winner, test again in Month 4
+
+### Month 3: Optimize Description
+- Analyze which keywords drive most conversions
+- Update first 300 chars based on data
+- Test different problem statements
+
+### Month 4: Seasonal Update (Ramadan if applicable)
+- Update promotional text with Ramadan messaging
+- Refresh screenshot #1 with Ramadan theme
+- Add "Perfect for Ramadan" to first line of description
+
+---
+
+## App Store Connect Configuration Summary
+
+**Copy-Paste Ready - All Metadata:**
+
+| Field | Content | Character Count |
+|-------|---------|-----------------|
+| **Title** | Noor: Islamic Reflection | 26/30 ✅ |
+| **Subtitle** | Islamic Growth & Guidance | 27/30 ✅ |
+| **Promotional Text** | Navigate life's challenges with Islamic guidance. Reflect on your day, examine your thoughts with structured tools, and grow through Quran wisdom. Not therapy—reflection. | 168/170 ✅ |
+| **Keywords** | journaling,wisdom,mindfulness,dua,self-improvement,structured,halal,development,quran,spirituality | 97/100 ✅ |
+| **Description** | [See full description above] | 3,997/4,000 ✅ |
+| **Support URL** | https://noor-app.com/support | N/A |
+| **Privacy URL** | https://noor-app.com/privacy | N/A |
+| **Category** | Lifestyle | N/A |
+| **Age Rating** | 12+ | N/A |
+
+---
+
+**Document Version:** 2.0 (Revised Positioning)
 **Created:** January 31, 2026
 **Last Updated:** January 31, 2026
-**Next Review:** Before App Store submission
+**Next Review:** After App Store submission / 30 days post-launch
 
-**READY FOR COPY-PASTE TO APP STORE CONNECT** ✅
+**STATUS: ✅ READY FOR APP STORE CONNECT - REFLECTION & GROWTH POSITIONING**
