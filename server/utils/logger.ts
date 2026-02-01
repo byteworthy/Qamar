@@ -124,25 +124,18 @@ const logger = winston.createLogger({
   ],
 });
 
-// Add file transports in production
-if (process.env.NODE_ENV === "production") {
-  logger.add(
-    new winston.transports.File({
-      filename: "logs/error.log",
-      level: "error",
-      maxsize: 5242880, // 5MB
-      maxFiles: 5,
-    }),
-  );
-
-  logger.add(
-    new winston.transports.File({
-      filename: "logs/combined.log",
-      maxsize: 5242880, // 5MB
-      maxFiles: 5,
-    }),
-  );
-}
+// File logging disabled in production - Railway captures console output automatically
+// If you need file logging in production, use /tmp directory:
+// if (process.env.ENABLE_FILE_LOGGING === "true") {
+//   logger.add(
+//     new winston.transports.File({
+//       filename: "/tmp/logs/error.log",
+//       level: "error",
+//       maxsize: 5242880, // 5MB
+//       maxFiles: 5,
+//     }),
+//   );
+// }
 
 // Helper to extract request context
 export function getRequestContext(req: Request): {
