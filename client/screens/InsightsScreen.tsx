@@ -11,6 +11,7 @@ import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Layout } from "@/constants/layout";
 import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
 import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
@@ -227,12 +228,7 @@ function InsightsScreen() {
           Your Statistics
         </ThemedText>
         <View style={styles.statsGrid}>
-          <View
-            style={[
-              styles.statCard,
-              { backgroundColor: theme.backgroundDefault },
-            ]}
-          >
+          <GlassCard style={styles.statCard} elevated>
             <ThemedText style={styles.statValue}>
               {stats!.totalSessions}
             </ThemedText>
@@ -241,13 +237,8 @@ function InsightsScreen() {
             >
               Total Sessions
             </ThemedText>
-          </View>
-          <View
-            style={[
-              styles.statCard,
-              { backgroundColor: theme.backgroundDefault },
-            ]}
-          >
+          </GlassCard>
+          <GlassCard style={styles.statCard} elevated>
             <ThemedText style={styles.statValue}>
               {stats!.weeklyCount}
             </ThemedText>
@@ -256,14 +247,9 @@ function InsightsScreen() {
             >
               This Week
             </ThemedText>
-          </View>
+          </GlassCard>
         </View>
-        <View
-          style={[
-            styles.infoCard,
-            { backgroundColor: theme.backgroundDefault },
-          ]}
-        >
+        <GlassCard style={styles.infoCard} elevated>
           <ThemedText
             style={[styles.infoLabel, { color: theme.textSecondary }]}
           >
@@ -278,13 +264,8 @@ function InsightsScreen() {
                 })
               : "Not available"}
           </ThemedText>
-        </View>
-        <View
-          style={[
-            styles.infoCard,
-            { backgroundColor: theme.backgroundDefault },
-          ]}
-        >
+        </GlassCard>
+        <GlassCard style={styles.infoCard} elevated>
           <ThemedText
             style={[styles.infoLabel, { color: theme.textSecondary }]}
           >
@@ -293,7 +274,7 @@ function InsightsScreen() {
           <ThemedText style={styles.infoValue}>
             {stats!.topDistortion || "Not enough data yet"}
           </ThemedText>
-        </View>
+        </GlassCard>
       </Animated.View>
 
       {/* Recent Reflections - REAL DATA */}
@@ -309,12 +290,10 @@ function InsightsScreen() {
           </ThemedText>
           <View style={styles.reflectionsList}>
             {sessions.slice(0, 4).map((session, index) => (
-              <View
+              <GlassCard
                 key={index}
-                style={[
-                  styles.reflectionCard,
-                  { backgroundColor: theme.backgroundDefault },
-                ]}
+                style={styles.reflectionCard}
+                elevated
               >
                 <ThemedText
                   style={[
@@ -352,7 +331,7 @@ function InsightsScreen() {
                     ))}
                   </View>
                 )}
-              </View>
+              </GlassCard>
             ))}
           </View>
         </Animated.View>
@@ -399,8 +378,6 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    padding: container.cardPad,
-    borderRadius: radii.sm,
     alignItems: "center",
   },
   statValue: {
@@ -412,8 +389,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   infoCard: {
-    padding: container.cardPad,
-    borderRadius: radii.sm,
     marginBottom: spacing.sm,
   },
   infoLabel: {
@@ -484,8 +459,6 @@ const styles = StyleSheet.create({
   },
   reflectionCard: {
     minHeight: Layout.hitTargets.minCardHeight,
-    padding: container.cardPad,
-    borderRadius: radii.sm,
   },
   reflectionDate: {
     fontSize: typeScale.small,

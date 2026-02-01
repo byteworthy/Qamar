@@ -99,16 +99,13 @@ export default function SafetyScreen() {
             </View>
             <View style={styles.cardContent}>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not therapy
+                • Not professional counseling
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not medical care
+                • Not religious instruction
               </ThemedText>
               <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not diagnosis
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not religious authority
+                • Not for urgent situations
               </ThemedText>
             </View>
           </View>
@@ -131,7 +128,7 @@ export default function SafetyScreen() {
               style={[styles.readyText, { color: theme.textSecondary }]}
             >
               Noor is a structured reflection practice. Use your own discernment
-              and seek professional help for urgent needs.
+              and reach out to trusted support for urgent situations.
             </ThemedText>
           </View>
         </Animated.View>

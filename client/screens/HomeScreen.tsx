@@ -25,6 +25,9 @@ import { useTheme } from "@/hooks/useTheme";
 import { Fonts, NiyyahColors } from "@/constants/theme";
 import { secureStorage } from "@/lib/secure-storage";
 import { ThemedText } from "@/components/ThemedText";
+import { AtmosphericBackground } from "@/components/AtmosphericBackground";
+import { GlassCard } from "@/components/GlassCard";
+import { IslamicPattern } from "@/components/IslamicPattern";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
@@ -279,20 +282,19 @@ export default function HomeScreen() {
 
   return (
     <>
-      <View
-        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-      >
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={[
-            styles.scrollContent,
-            {
-              paddingTop: insets.top + 20,
-              paddingBottom: 100 + insets.bottom,
-            },
-          ]}
-          showsVerticalScrollIndicator={false}
-        >
+      <View style={styles.container}>
+        <AtmosphericBackground variant="atmospheric">
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={[
+              styles.scrollContent,
+              {
+                paddingTop: insets.top + 20,
+                paddingBottom: 100 + insets.bottom,
+              },
+            ]}
+            showsVerticalScrollIndicator={false}
+          >
           <Animated.View
             entering={FadeInDown.duration(300)}
             style={styles.header}
@@ -329,43 +331,35 @@ export default function HomeScreen() {
             </ThemedText>
           </Animated.View>
 
-          <Animated.View
-            entering={FadeInUp.duration(350).delay(80)}
-            style={[
-              styles.anchorCard,
-              { backgroundColor: theme.cardBackground },
-            ]}
-          >
-            <View style={styles.anchorHeader}>
-              <View
-                style={[
-                  styles.anchorBadge,
-                  { backgroundColor: NiyyahColors.accent + "20" },
-                ]}
-              >
-                <Feather name="anchor" size={14} color={NiyyahColors.accent} />
+          <Animated.View entering={FadeInUp.duration(350).delay(80)}>
+            <GlassCard style={styles.anchorCard} elevated breathing>
+              <IslamicPattern variant="moonstar" opacity={0.03} />
+              <View style={styles.anchorHeader}>
+                <View
+                  style={[
+                    styles.anchorBadge,
+                    { backgroundColor: NiyyahColors.accent + "20" },
+                  ]}
+                >
+                  <Feather name="anchor" size={14} color={NiyyahColors.accent} />
+                </View>
+                <ThemedText
+                  style={[styles.anchorLabel, { color: theme.textSecondary }]}
+                >
+                  {"Today's Anchor"}
+                </ThemedText>
               </View>
               <ThemedText
-                style={[styles.anchorLabel, { color: theme.textSecondary }]}
+                style={[styles.anchorText, { fontFamily: Fonts?.serif }]}
               >
-                {"Today’s Anchor"}
+                {dailyReminder}
               </ThemedText>
-            </View>
-            <ThemedText
-              style={[styles.anchorText, { fontFamily: Fonts?.serif }]}
-            >
-              {dailyReminder}
-            </ThemedText>
+            </GlassCard>
           </Animated.View>
 
           {/* Journey Progress Card */}
-          <Animated.View
-            entering={FadeInUp.duration(350).delay(100)}
-            style={[
-              styles.journeyCard,
-              { backgroundColor: theme.cardBackground },
-            ]}
-          >
+          <Animated.View entering={FadeInUp.duration(350).delay(100)}>
+            <GlassCard style={styles.journeyCard} elevated>
             <View style={styles.journeyHeader}>
               <View style={styles.journeyLevel}>
                 <ThemedText style={styles.journeyIcon}>
@@ -428,18 +422,19 @@ export default function HomeScreen() {
               </View>
             )}
 
-            {journeyStats.currentStreak > 0 && (
-              <View
-                style={[
-                  styles.streakBadge,
-                  { backgroundColor: NiyyahColors.accent + "15" },
-                ]}
-              >
-                <ThemedText style={styles.streakText}>
-                  🔥 {journeyStats.currentStreak} day streak
-                </ThemedText>
-              </View>
-            )}
+              {journeyStats.currentStreak > 0 && (
+                <View
+                  style={[
+                    styles.streakBadge,
+                    { backgroundColor: NiyyahColors.accent + "15" },
+                  ]}
+                >
+                  <ThemedText style={styles.streakText}>
+                    🔥 {journeyStats.currentStreak} day streak
+                  </ThemedText>
+                </View>
+              )}
+            </GlassCard>
           </Animated.View>
 
           <View style={styles.modulesSection}>
@@ -537,6 +532,7 @@ export default function HomeScreen() {
             </ThemedText>
           </Animated.View>
         </ScrollView>
+        </AtmosphericBackground>
       </View>
 
       <Modal
@@ -637,15 +633,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   anchorCard: {
-    padding: 32, // Increased from 18 for hero treatment
-    borderRadius: 20, // Larger radius for hero
     marginBottom: -20, // Negative margin for overlapping effect
     zIndex: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.12,
-    shadowRadius: 24,
-    elevation: 8,
   },
   anchorHeader: {
     flexDirection: "row",
@@ -815,16 +804,8 @@ const styles = StyleSheet.create({
   },
   // Journey Card
   journeyCard: {
-    padding: 20,
-    borderRadius: 18,
     marginBottom: 32, // Increased breathing space
     marginTop: 32, // Extra space for overlapping anchor card
-    paddingTop: 32, // Compensate for overlap
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 4,
   },
   journeyHeader: {
     flexDirection: "row",

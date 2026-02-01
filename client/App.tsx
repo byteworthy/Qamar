@@ -1,5 +1,11 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Platform } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Platform,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { initSentry } from "@/lib/sentry";
 import { useNotifications } from "@/hooks/useNotifications";
 import { NavigationContainer, LinkingOptions } from "@react-navigation/native";
@@ -8,6 +14,11 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import * as Linking from "expo-linking";
+import {
+  authenticateWithBiometric,
+  isBiometricAvailable,
+} from "@/lib/biometric-auth";
+import { checkDeviceSecurity } from "@/lib/device-security";
 import {
   useFonts,
   Inter_400Regular,
@@ -91,6 +102,80 @@ const linking: LinkingOptions<RootStackParamList> = {
   },
 };
 
+/**
+ * BiometricGuard Component
+ *
+ * Protects app access with biometric authentication (Face ID, Touch ID, Fingerprint).
+ * Checks if biometric is available, prompts for authentication, and only allows
+ * access after successful verification.
+ *
+ * Privacy Note: Used to protect sensitive personal reflection entries.
+ */
+function BiometricGuard({ children }: { children: React.ReactNode }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    async function checkAndAuthenticate() {
+      try {
+        // First, check if device is compromised (jailbroken/rooted)
+        checkDeviceSecurity();
+        // Note: checkDeviceSecurity shows alert to user if compromised,
+        // but we still allow app to continue (user choice)
+
+        const isAvailable = await isBiometricAvailable();
+
+        if (!isAvailable) {
+          // Biometric not available - allow access (device may not support it)
+          setIsAuthenticated(true);
+          setIsChecking(false);
+          return;
+        }
+
+        // Prompt for biometric authentication
+        const result = await authenticateWithBiometric(
+          "Authenticate to access your personal reflections",
+        );
+
+        setIsAuthenticated(result);
+        setIsChecking(false);
+      } catch (error) {
+        console.error("[BiometricGuard] Authentication error:", error);
+        // On error, allow access (graceful degradation)
+        setIsAuthenticated(true);
+        setIsChecking(false);
+      }
+    }
+
+    checkAndAuthenticate();
+  }, []);
+
+  if (isChecking) {
+    // Show loading screen while checking biometric availability
+    return (
+      <View style={styles.authScreen}>
+        <ActivityIndicator size="large" color="#4fd1a8" />
+        <Text style={styles.authText}>Securing your reflections...</Text>
+      </View>
+    );
+  }
+
+  if (!isAuthenticated) {
+    // Authentication failed - show blocked screen
+    return (
+      <View style={styles.authScreen}>
+        <Text style={styles.authText}>Authentication Required</Text>
+        <Text style={styles.authSubtext}>
+          Please authenticate to access your personal reflections
+        </Text>
+      </View>
+    );
+  }
+
+  // Authenticated - render app content
+  return <>{children}</>;
+}
+
 function NotificationInitializer() {
   // Initialize notifications - this hook handles permission requests,
   // daily reminder scheduling, and notification listeners
@@ -132,11 +217,13 @@ export default function App() {
         <SafeAreaProvider>
           <GestureHandlerRootView style={styles.root}>
             <KeyboardProvider>
-              <NotificationInitializer />
-              <NavigationContainer linking={linking}>
-                <RootStackNavigator />
-              </NavigationContainer>
-              <StatusBar style="auto" />
+              <BiometricGuard>
+                <NotificationInitializer />
+                <NavigationContainer linking={linking}>
+                  <RootStackNavigator />
+                </NavigationContainer>
+                <StatusBar style="auto" />
+              </BiometricGuard>
             </KeyboardProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>
@@ -148,5 +235,25 @@ export default function App() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+  },
+  authScreen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0b1620",
+    padding: 24,
+  },
+  authText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#ffffff",
+    marginTop: 16,
+    textAlign: "center",
+  },
+  authSubtext: {
+    fontSize: 14,
+    color: "#94a3b8",
+    marginTop: 8,
+    textAlign: "center",
   },
 });

@@ -10,50 +10,78 @@ import { Platform, PixelRatio } from "react-native";
 // ----------------------------------------------------------------------------
 
 /**
- * NiyyahColors: Dark theme palette
- * Earth tones, cream text, teal/gold accents
+ * NoorColors: Dark theme palette - "Light in Darkness"
+ * Deep twilight blues, indigo night sky, with gold light accents
+ * Evokes: Stars emerging at dusk, lanterns in the night, contemplative prayer time
  */
-export const NiyyahColors = {
-  background: "#1a1612",
-  backgroundLight: "#221e19",
-  backgroundCard: "#2d2820",
-  backgroundCardLight: "#423a30", // Increased from #3a3328 for better card hierarchy
-  cream: "#f5f0e8",
-  creamDark: "#d4c9b8",
-  creamMuted: "#b8a895", // Lightened from #a89d8a for better contrast (4.5:1 on background)
-  accent: "#4fd1a8",
-  accentDark: "#3bb890",
-  gold: "#c9a855",
-  goldLight: "#e0c06a",
-  clay: "#9b7b5c",
-  clayLight: "#b89a7a",
-  emerald: "#4a8a72",
-  indigo: "#4a6888",
+export const NoorColors = {
+  // Night sky foundations
+  background: "#0f1419", // Deep twilight blue
+  backgroundLight: "#1a2332", // Midnight blue
+  backgroundCard: "#242f42", // Deeper card surface
+  backgroundCardLight: "#2d3a52", // Elevated card surface
+
+  // Light/text colors (soft, not harsh)
+  moonlight: "#e8f0f8", // Soft white-blue (moonlight)
+  moonlightDim: "#c5d5e6", // Dimmer moonlight
+  moonlightMuted: "#9fb3c9", // Muted moonlight for secondary text
+
+  // Accent colors - "Noor" (light) theme
+  gold: "#D4AF37", // Your brand gold (light/illumination)
+  goldLight: "#f0d473", // Brighter gold (dawn light)
+  goldDim: "#b8944d", // Subdued gold
+  accent: "#f0d473", // Alias for goldLight (backward compat)
+
+  // Islamic green (kept but cooler tone)
+  emerald: "#009688", // Your brand green
+  emeraldLight: "#4db6ac", // Lighter emerald
+  emeraldDark: "#00695c", // Darker emerald
+
+  // Deep blue (contemplation, depth)
+  indigo: "#1A237E", // Your brand blue
+  indigoLight: "#3f51b5", // Lighter indigo
+  indigoDark: "#0d1642", // Deeper indigo
+
+  // Purple undertones (spiritual, mystical)
+  twilight: "#4a3f6e", // Purple-blue twilight
+  twilightLight: "#6558a0", // Lighter twilight
 };
 
 /**
- * SiraatColors: Light theme palette
- * Warm sand, clay, indigo, emerald
+ * DawnColors: Light theme palette - "Emerging Light"
+ * Soft dawn colors, lavender morning sky, with gold sunrise accents
+ * Evokes: Fajr prayer, first light, peaceful awakening
  */
-export const SiraatColors = {
-  sand: "#D4C4A8",
-  sandLight: "#E8DCC8",
-  sandDark: "#BFA87A",
-  clay: "#9B6B4B",
-  clayLight: "#B88A6A",
-  clayDark: "#7A4E2C",
-  indigo: "#283848",
-  indigoLight: "#2F4457",
-  indigoDark: "#182028",
-  emerald: "#4A6B5C",
-  emeraldLight: "#6A8B7A",
-  emeraldDark: "#3A4A42",
-  charcoal: "#252525",
-  charcoalLight: "#3A3A3A",
-  charcoalDark: "#151515",
-  cream: "#F2EDE3",
-  warmWhite: "#F8F5F0",
-  warmGray: "#6B6358", // Darkened from #8A8478 for WCAG AA compliance (4.5:1 on warmWhite)
+export const DawnColors = {
+  // Dawn sky foundations
+  sky: "#e8eef5", // Soft dawn sky
+  skyLight: "#f5f8fb", // Brightest sky
+  skyDim: "#d5e1ed", // Dimmer sky
+
+  // Lavender/purple dawn hues
+  lavender: "#c7d3e8", // Soft lavender
+  lavenderLight: "#dce4f2", // Light lavender
+  lavenderDark: "#a8b8d6", // Deeper lavender
+
+  // Gold sunrise accents
+  sunrise: "#f0d473", // Warm sunrise gold
+  sunriseLight: "#f5e29d", // Bright sunrise
+  sunriseDark: "#D4AF37", // Deep golden hour
+
+  // Blue-gray for text (readable, not harsh)
+  slate: "#2c3e50", // Deep blue-gray for primary text
+  slateLight: "#546e7a", // Medium blue-gray
+  slateDark: "#1a252f", // Darkest text
+
+  // Soft emerald (cooler than warm green)
+  emerald: "#4A6B5C", // Muted emerald
+  emeraldLight: "#6a8b7c", // Light emerald
+  emeraldDark: "#3a564a", // Dark emerald
+
+  // Indigo accents
+  indigo: "#5c6bc0", // Soft indigo
+  indigoLight: "#7986cb", // Light indigo
+  indigoDark: "#3f51b5", // Deep indigo
 };
 
 // ----------------------------------------------------------------------------
@@ -62,128 +90,138 @@ export const SiraatColors = {
 
 export const Colors = {
   light: {
-    // Text
-    text: SiraatColors.charcoal,
-    textSecondary: SiraatColors.warmGray,
-    buttonText: SiraatColors.warmWhite,
+    // Text - Readable blue-grays instead of charcoal/brown
+    text: DawnColors.slate,
+    textSecondary: DawnColors.slateLight,
+    buttonText: DawnColors.skyLight,
 
-    // Navigation
-    tabIconDefault: SiraatColors.warmGray,
-    tabIconSelected: SiraatColors.clay,
-    link: SiraatColors.indigo,
+    // Navigation - Lavender/indigo theme
+    tabIconDefault: DawnColors.slateLight,
+    tabIconSelected: DawnColors.sunrise, // Gold highlight (Noor theme)
+    link: DawnColors.indigo,
 
-    // Backgrounds
-    backgroundRoot: SiraatColors.warmWhite,
-    backgroundDefault: SiraatColors.cream,
-    backgroundSecondary: SiraatColors.sandLight,
-    backgroundTertiary: SiraatColors.sand,
+    // Backgrounds - Soft dawn sky tones
+    backgroundRoot: DawnColors.skyLight,
+    backgroundDefault: DawnColors.sky,
+    backgroundSecondary: DawnColors.lavenderLight,
+    backgroundTertiary: DawnColors.lavender,
 
-    // Primary action color
-    primary: SiraatColors.clay,
-    primaryLight: SiraatColors.clayLight,
-    primaryDark: SiraatColors.clayDark,
+    // Primary action color - Gold (Noor/light theme)
+    primary: DawnColors.sunrise,
+    primaryLight: DawnColors.sunriseLight,
+    primaryDark: DawnColors.sunriseDark,
 
-    // Accent color
-    accent: SiraatColors.emerald,
-    accentLight: SiraatColors.emeraldLight,
-    accentDark: SiraatColors.emeraldDark,
+    // Accent color - Soft emerald (Islamic green)
+    accent: DawnColors.emerald,
+    accentLight: DawnColors.emeraldLight,
+    accentDark: DawnColors.emeraldDark,
 
-    // Structural
-    border: SiraatColors.sand,
-    divider: SiraatColors.sandLight,
+    // Structural - Subtle lavender tones
+    border: DawnColors.lavender,
+    divider: DawnColors.lavenderLight,
 
-    // Surfaces
-    cardBackground: SiraatColors.warmWhite,
-    cardSurface: SiraatColors.cream,
-    elevatedSurface: SiraatColors.warmWhite,
-    inputBackground: SiraatColors.cream,
+    // Surfaces - Layered dawn sky
+    cardBackground: DawnColors.skyLight,
+    cardSurface: DawnColors.sky,
+    elevatedSurface: DawnColors.skyLight,
+    inputBackground: DawnColors.sky,
 
     // Feedback
-    success: SiraatColors.emerald,
+    success: DawnColors.emerald,
     warning: "#C4A35A", // Muted amber, not red
     error: "#B85C5C",
 
     // On-color tokens (text/icons on colored backgrounds)
-    onPrimary: SiraatColors.warmWhite,
-    onAccent: SiraatColors.warmWhite,
-    onSuccess: SiraatColors.warmWhite,
+    onPrimary: DawnColors.slate,
+    onAccent: DawnColors.skyLight,
+    onSuccess: DawnColors.skyLight,
 
     // Overlay and transparency
-    overlayLight: "rgba(0,0,0,0.05)",
-    overlayMedium: "rgba(0,0,0,0.15)",
-    textOnBanner: "rgba(255,255,255,0.85)",
+    overlayLight: "rgba(15, 20, 40, 0.05)", // Blue-tinted overlay
+    overlayMedium: "rgba(15, 20, 40, 0.15)",
+    textOnBanner: "rgba(232, 240, 248, 0.95)", // Moonlight on banners
+
+    // Glassmorphism (lantern effect - light emanating from within)
+    glassSurface: "rgba(245, 248, 251, 0.75)", // Brighter, more luminous
+    glassStroke: "rgba(212, 175, 55, 0.15)", // Gold stroke (Noor theme)
+    subtleGlow: "rgba(240, 212, 115, 0.12)", // Gold inner glow
 
     // Semantic surface colors (for feature-specific use)
-    bannerBackground: SiraatColors.indigoLight,
-    intensityMild: SiraatColors.emerald,
-    intensityModerate: SiraatColors.sand,
-    intensityHeavy: SiraatColors.clay,
-    intensityIntense: SiraatColors.clayDark,
-    pillBackground: SiraatColors.indigo,
-    highlightAccent: SiraatColors.emerald,
-    highlightAccentSubtle: SiraatColors.emerald + "15",
+    bannerBackground: DawnColors.indigo,
+    intensityMild: DawnColors.emerald,
+    intensityModerate: DawnColors.lavender,
+    intensityHeavy: DawnColors.sunrise,
+    intensityIntense: DawnColors.sunriseDark,
+    pillBackground: DawnColors.indigo,
+    highlightAccent: DawnColors.emerald,
+    highlightAccentSubtle: DawnColors.emerald + "15",
   },
   dark: {
-    // Text
-    text: NiyyahColors.cream,
-    textSecondary: NiyyahColors.creamMuted,
-    buttonText: NiyyahColors.cream,
+    // Text - Soft moonlight, not harsh white
+    text: NoorColors.moonlight,
+    textSecondary: NoorColors.moonlightMuted,
+    buttonText: NoorColors.moonlight,
 
-    // Navigation
-    tabIconDefault: NiyyahColors.creamMuted,
-    tabIconSelected: NiyyahColors.cream,
-    link: NiyyahColors.accent,
+    // Navigation - Gold highlights (light emerging in darkness)
+    tabIconDefault: NoorColors.moonlightMuted,
+    tabIconSelected: NoorColors.goldLight, // Gold = light/Noor theme
+    link: NoorColors.goldLight,
 
-    // Backgrounds
-    backgroundRoot: NiyyahColors.background,
-    backgroundDefault: NiyyahColors.backgroundCard,
-    backgroundSecondary: NiyyahColors.backgroundCardLight,
-    backgroundTertiary: NiyyahColors.backgroundLight,
+    // Backgrounds - Deep twilight/night sky
+    backgroundRoot: NoorColors.background,
+    backgroundDefault: NoorColors.backgroundCard,
+    backgroundSecondary: NoorColors.backgroundCardLight,
+    backgroundTertiary: NoorColors.backgroundLight,
 
-    // Primary action color
-    primary: NiyyahColors.accent,
-    primaryLight: NiyyahColors.accentDark,
-    primaryDark: NiyyahColors.emerald,
+    // Primary action color - Gold (light/Noor emerging)
+    primary: NoorColors.gold,
+    primaryLight: NoorColors.goldLight,
+    primaryDark: NoorColors.goldDim,
 
-    // Accent color
-    accent: NiyyahColors.gold,
-    accentLight: NiyyahColors.goldLight,
-    accentDark: NiyyahColors.clay,
+    // Accent color - Emerald (Islamic green, but cooler tone)
+    accent: NoorColors.emerald,
+    accentLight: NoorColors.emeraldLight,
+    accentDark: NoorColors.emeraldDark,
 
-    // Structural
-    border: NiyyahColors.backgroundCardLight,
-    divider: NiyyahColors.backgroundCardLight,
+    // Structural - Subtle dark blues
+    border: NoorColors.backgroundCardLight,
+    divider: NoorColors.backgroundCardLight,
 
-    // Surfaces
-    cardBackground: NiyyahColors.backgroundCard,
-    cardSurface: NiyyahColors.backgroundCardLight,
-    elevatedSurface: NiyyahColors.backgroundCardLight,
-    inputBackground: NiyyahColors.backgroundCardLight,
+    // Surfaces - Layered night sky
+    cardBackground: NoorColors.backgroundCard,
+    cardSurface: NoorColors.backgroundCardLight,
+    elevatedSurface: NoorColors.backgroundCardLight,
+    inputBackground: NoorColors.backgroundCardLight,
 
     // Feedback
-    success: NiyyahColors.accent,
+    success: NoorColors.emerald,
     warning: "#D4A85A", // Muted amber, not red
     error: "#D4756B",
 
     // On-color tokens (text/icons on colored backgrounds)
-    onPrimary: NiyyahColors.background,
-    onAccent: NiyyahColors.background,
-    onSuccess: NiyyahColors.background,
+    onPrimary: NoorColors.background,
+    onAccent: NoorColors.moonlight,
+    onSuccess: NoorColors.background,
 
-    // Overlay and transparency
-    overlayLight: "rgba(255,255,255,0.05)",
-    overlayMedium: "rgba(255,255,255,0.15)",
-    textOnBanner: "rgba(255,255,255,0.85)",
+    // Overlay and transparency - Blue-tinted overlays
+    overlayLight: "rgba(212, 175, 55, 0.05)", // Gold-tinted overlay (light in dark)
+    overlayMedium: "rgba(212, 175, 55, 0.12)",
+    textOnBanner: "rgba(232, 240, 248, 0.95)",
+
+    // Glassmorphism (lantern in darkness - light emanating)
+    glassSurface: "rgba(36, 47, 66, 0.65)", // Deeper blue, more luminous
+    glassStroke: "rgba(212, 175, 55, 0.2)", // Gold stroke (light border)
+    subtleGlow: "rgba(212, 175, 55, 0.18)", // Gold inner glow (lantern effect)
 
     // Semantic surface colors (for feature-specific use)
-    bannerBackground: NiyyahColors.indigo,
-    intensityMild: NiyyahColors.emerald,
-    intensityModerate: NiyyahColors.gold,
-    intensityHeavy: NiyyahColors.clay,
-    intensityIntense: NiyyahColors.clayLight,
-    pillBackground: NiyyahColors.indigo,
-    highlightAccent: NiyyahColors.accent,
-    highlightAccentSubtle: NiyyahColors.accent + "15",
+    bannerBackground: NoorColors.indigo,
+    intensityMild: NoorColors.emerald,
+    intensityModerate: NoorColors.twilight,
+    intensityHeavy: NoorColors.gold,
+    intensityIntense: NoorColors.goldLight,
+    pillBackground: NoorColors.indigo,
+    highlightAccent: NoorColors.gold,
+    highlightAccentSubtle: NoorColors.gold + "15",
   },
 };
 
@@ -466,63 +504,101 @@ export const Shadows = {
 
 export const Gradients = {
   light: {
-    // Warm atmospheric gradient for light theme
+    // Dawn sky atmospheric gradient - Soft lavender to golden sunrise
     atmospheric: {
-      colors: ["#F8F5F0", "#E8DCC8", "#F2EDE3"],
-      locations: [0, 0.5, 1],
+      colors: ["#f5f8fb", "#dce4f2", "#f0d473"] as const, // Sky → Lavender → Gold sunrise
+      locations: [0, 0.6, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 0, y: 1 },
     },
-    // Radial glow for banners
+    // Radial glow for banners - Gold sunrise center
     radialGlow: {
-      colors: ["#E8DCC8", "#D4C4A8"],
-      locations: [0, 1],
+      colors: ["#f5e29d", "#dce4f2"] as const, // Sunrise → Lavender
+      locations: [0, 1] as const,
       start: { x: 0.5, y: 0 },
       end: { x: 0.5, y: 1 },
     },
-    // Subtle mesh for backgrounds
+    // Subtle mesh for backgrounds - Dawn sky layers
     mesh: {
-      colors: ["#F8F5F0", "#F2EDE3", "#E8DCC8", "#F8F5F0"],
-      locations: [0, 0.33, 0.66, 1],
+      colors: ["#f5f8fb", "#e8eef5", "#dce4f2", "#f0d473"] as const,
+      locations: [0, 0.33, 0.66, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 1, y: 1 },
     },
-    // Soft vignette overlay
+    // Soft vignette overlay - Blue-tinted
     vignette: {
-      colors: ["transparent", "rgba(0,0,0,0.02)", "rgba(0,0,0,0.05)"],
-      locations: [0, 0.7, 1],
+      colors: ["transparent", "rgba(92, 107, 192, 0.02)", "rgba(92, 107, 192, 0.05)"] as const,
+      locations: [0, 0.7, 1] as const,
       start: { x: 0.5, y: 0.5 },
       end: { x: 0.5, y: 1 },
+    },
+    // Premium gradients for components
+    cardGradient: {
+      colors: ["rgba(245, 248, 251, 0.95)", "rgba(232, 238, 245, 0.98)"] as const,
+      locations: [0, 1] as const,
+      start: { x: 0, y: 0 },
+      end: { x: 0, y: 1 },
+    },
+    buttonGradient: {
+      colors: ["#f0d473", "#D4AF37"] as const, // Gold sunrise gradient (Noor theme)
+      locations: [0, 1] as const,
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 1 },
+    },
+    accentGradient: {
+      colors: ["#6a8b7c", "#4A6B5C"] as const, // Soft emerald gradient
+      locations: [0, 1] as const,
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 1 },
     },
   },
   dark: {
-    // Warm atmospheric gradient for dark theme
+    // Twilight night sky - Deep blues with purple undertones
     atmospheric: {
-      colors: ["#1a1612", "#221e19", "#2d2820"],
-      locations: [0, 0.5, 1],
+      colors: ["#0f1419", "#1a2332", "#2d3a52"] as const, // Deep twilight → Midnight → Elevated surface
+      locations: [0, 0.5, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 0, y: 1 },
     },
-    // Radial glow for banners
+    // Radial glow for banners - Gold light source in darkness
     radialGlow: {
-      colors: ["#2d2820", "#221e19"],
-      locations: [0, 1],
+      colors: ["#2d3a52", "#1a2332"] as const, // Elevated → Midnight
+      locations: [0, 1] as const,
       start: { x: 0.5, y: 0 },
       end: { x: 0.5, y: 1 },
     },
-    // Subtle mesh for backgrounds
+    // Subtle mesh for backgrounds - Night sky layers with stars
     mesh: {
-      colors: ["#1a1612", "#221e19", "#2d2820", "#1a1612"],
-      locations: [0, 0.33, 0.66, 1],
+      colors: ["#0f1419", "#1a2332", "#2d3a52", "#0f1419"] as const,
+      locations: [0, 0.33, 0.66, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 1, y: 1 },
     },
-    // Soft vignette overlay
+    // Soft vignette overlay - Gold-tinted (light emerging)
     vignette: {
-      colors: ["transparent", "rgba(0,0,0,0.2)", "rgba(0,0,0,0.4)"],
-      locations: [0, 0.7, 1],
+      colors: ["transparent", "rgba(212, 175, 55, 0.08)", "rgba(212, 175, 55, 0.15)"] as const,
+      locations: [0, 0.7, 1] as const,
       start: { x: 0.5, y: 0.5 },
       end: { x: 0.5, y: 1 },
+    },
+    // Premium gradients for components
+    cardGradient: {
+      colors: ["rgba(36, 47, 66, 0.95)", "rgba(26, 35, 50, 0.98)"] as const, // Deep blues
+      locations: [0, 1] as const,
+      start: { x: 0, y: 0 },
+      end: { x: 0, y: 1 },
+    },
+    buttonGradient: {
+      colors: ["#f0d473", "#D4AF37"] as const, // Gold gradient (Noor/light theme)
+      locations: [0, 1] as const,
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 1 },
+    },
+    accentGradient: {
+      colors: ["#4db6ac", "#009688"] as const, // Emerald gradient (Islamic green)
+      locations: [0, 1] as const,
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 1 },
     },
   },
 };
@@ -533,22 +609,22 @@ export const Gradients = {
 
 export const Surfaces = {
   light: {
-    base: SiraatColors.warmWhite, // Root background
-    layer1: SiraatColors.cream, // Default content background
-    layer2: SiraatColors.sandLight, // Secondary elevation
-    layer3: SiraatColors.sand, // Tertiary elevation
-    overlay: "rgba(0, 0, 0, 0.05)", // Transparent overlay
-    overlayMedium: "rgba(0, 0, 0, 0.1)",
-    overlayHeavy: "rgba(0, 0, 0, 0.15)",
+    base: DawnColors.skyLight, // Root background
+    layer1: DawnColors.sky, // Default content background
+    layer2: DawnColors.lavenderLight, // Secondary elevation
+    layer3: DawnColors.lavender, // Tertiary elevation
+    overlay: "rgba(15, 20, 40, 0.05)", // Blue-tinted overlay
+    overlayMedium: "rgba(15, 20, 40, 0.1)",
+    overlayHeavy: "rgba(15, 20, 40, 0.15)",
   },
   dark: {
-    base: NiyyahColors.background, // Root background
-    layer1: NiyyahColors.backgroundCard, // Default content background
-    layer2: NiyyahColors.backgroundCardLight, // Secondary elevation
-    layer3: NiyyahColors.backgroundLight, // Tertiary elevation
-    overlay: "rgba(255, 255, 255, 0.05)", // Transparent overlay
-    overlayMedium: "rgba(255, 255, 255, 0.08)",
-    overlayHeavy: "rgba(255, 255, 255, 0.12)",
+    base: NoorColors.background, // Root background
+    layer1: NoorColors.backgroundCard, // Default content background
+    layer2: NoorColors.backgroundCardLight, // Secondary elevation
+    layer3: NoorColors.backgroundLight, // Tertiary elevation
+    overlay: "rgba(212, 175, 55, 0.05)", // Gold-tinted overlay
+    overlayMedium: "rgba(212, 175, 55, 0.08)",
+    overlayHeavy: "rgba(212, 175, 55, 0.12)",
   },
 };
 
@@ -635,3 +711,17 @@ export const LayoutConstraints = {
     minCardHeight: 64,
   },
 };
+
+// ----------------------------------------------------------------------------
+// BACKWARD COMPATIBILITY ALIASES (for gradual migration)
+// ----------------------------------------------------------------------------
+
+/**
+ * @deprecated Use DawnColors instead - this alias maintained for backward compatibility
+ */
+export const SiraatColors = DawnColors;
+
+/**
+ * @deprecated Use NoorColors instead - this alias maintained for backward compatibility
+ */
+export const NiyyahColors = NoorColors;

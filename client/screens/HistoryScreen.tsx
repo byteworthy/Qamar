@@ -5,7 +5,6 @@ import {
   FlatList,
   RefreshControl,
   Pressable,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,6 +19,9 @@ import { useTheme } from "@/hooks/useTheme";
 import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
+import { AtmosphericBackground } from "@/components/AtmosphericBackground";
+import { GlassCard } from "@/components/GlassCard";
+import { ShimmerPlaceholder } from "@/components/ShimmerPlaceholder";
 import { getSessions, Session } from "@/lib/storage";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { apiRequest, getApiUrl } from "@/lib/query-client";
@@ -240,15 +242,7 @@ export default function HistoryScreen() {
     if (!isPaid) return null;
 
     return (
-      <View
-        style={[
-          styles.insightsCard,
-          {
-            backgroundColor: theme.backgroundDefault,
-            borderColor: theme.pillBackground,
-          },
-        ]}
-      >
+      <GlassCard style={styles.insightsCard} elevated>
         <Pressable
           onPress={() => setInsightsExpanded(!insightsExpanded)}
           style={styles.insightsHeader}
@@ -291,11 +285,13 @@ export default function HistoryScreen() {
             <View style={[styles.divider, { backgroundColor: theme.border }]} />
 
             {insightsLoading ? (
-              <ActivityIndicator
-                size="small"
-                color={theme.primary}
-                style={{ marginVertical: Spacing.lg }}
-              />
+              <View style={{ marginVertical: Spacing.lg, gap: Spacing.sm }}>
+                <ShimmerPlaceholder width={120} height={16} borderRadius={8} />
+                <ShimmerPlaceholder width={80} height={32} borderRadius={8} />
+                <View style={{ marginTop: Spacing.sm }}>
+                  <ShimmerPlaceholder width={180} height={14} borderRadius={6} />
+                </View>
+              </View>
             ) : insights ? (
               <>
                 <View style={styles.insightSection}>
@@ -402,17 +398,17 @@ export default function HistoryScreen() {
                     ))}
                   </View>
                 ) : assumptionsLoading ? (
-                  <ActivityIndicator
-                    size="small"
-                    color={theme.primary}
-                    style={{ marginVertical: Spacing.sm }}
-                  />
+                  <View style={{ marginVertical: Spacing.sm, gap: Spacing.xs }}>
+                    <ShimmerPlaceholder width={200} height={14} borderRadius={6} />
+                    <ShimmerPlaceholder width={180} height={14} borderRadius={6} />
+                    <ShimmerPlaceholder width={160} height={14} borderRadius={6} />
+                  </View>
                 ) : null}
               </>
             ) : null}
           </View>
         ) : null}
-      </View>
+      </GlassCard>
     );
   };
 
@@ -436,20 +432,19 @@ export default function HistoryScreen() {
 
     return (
       <Animated.View entering={FadeInUp.duration(300).delay(index * 50)}>
-        <Pressable
-          onPress={() => toggleExpand(item.timestamp)}
-          style={({ pressed }) => [
-            styles.sessionCard,
-            {
-              backgroundColor: theme.cardBackground,
-              opacity: pressed ? 0.9 : 1,
-            },
-          ]}
-          accessibilityRole="button"
-          accessibilityLabel={`Reflection from ${formatDate(item.timestamp)}`}
-          accessibilityHint={`${isExpanded ? "Collapse" : "Expand"} to ${isExpanded ? "hide" : "view"} full reflection details`}
-          accessibilityState={{ expanded: isExpanded }}
-        >
+        <GlassCard style={styles.sessionCard} elevated>
+          <Pressable
+            onPress={() => toggleExpand(item.timestamp)}
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.9 : 1,
+              },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel={`Reflection from ${formatDate(item.timestamp)}`}
+            accessibilityHint={`${isExpanded ? "Collapse" : "Expand"} to ${isExpanded ? "hide" : "view"} full reflection details`}
+            accessibilityState={{ expanded: isExpanded }}
+          >
           <View style={styles.sessionHeader}>
             <View style={styles.sessionMeta}>
               <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -574,7 +569,8 @@ export default function HistoryScreen() {
               </Pressable>
             </View>
           ) : null}
-        </Pressable>
+          </Pressable>
+        </GlassCard>
       </Animated.View>
     );
   };
@@ -628,30 +624,34 @@ export default function HistoryScreen() {
   );
 
   return (
-    <FlatList
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-      contentContainerStyle={[
-        styles.contentContainer,
-        {
-          paddingTop: headerHeight + Spacing.lg,
-          paddingBottom: insets.bottom + Spacing["3xl"],
-        },
-      ]}
-      data={sessions}
-      keyExtractor={(item) => item.timestamp.toString()}
-      renderItem={renderSession}
-      ListHeaderComponent={renderInsightsCard}
-      ListEmptyComponent={renderEmpty}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-          tintColor={theme.primary}
+    <View style={styles.container}>
+      <AtmosphericBackground variant="atmospheric">
+        <FlatList
+          style={styles.flatList}
+          contentContainerStyle={[
+            styles.contentContainer,
+            {
+              paddingTop: headerHeight + Spacing.lg,
+              paddingBottom: insets.bottom + Spacing["3xl"],
+            },
+          ]}
+          data={sessions}
+          keyExtractor={(item) => item.timestamp.toString()}
+          renderItem={renderSession}
+          ListHeaderComponent={renderInsightsCard}
+          ListEmptyComponent={renderEmpty}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              tintColor={theme.primary}
+            />
+          }
+          showsVerticalScrollIndicator={false}
+          scrollIndicatorInsets={{ bottom: insets.bottom }}
         />
-      }
-      showsVerticalScrollIndicator={false}
-      scrollIndicatorInsets={{ bottom: insets.bottom }}
-    />
+      </AtmosphericBackground>
+    </View>
   );
 }
 
@@ -659,13 +659,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  flatList: {
+    flex: 1,
+  },
   contentContainer: {
     flexGrow: 1,
     paddingHorizontal: Spacing.lg,
   },
   sessionCard: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
     marginBottom: Spacing.md,
   },
   sessionHeader: {
@@ -726,9 +727,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   insightsCard: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    borderWidth: 1,
     marginBottom: Spacing.xl,
   },
   insightsHeader: {

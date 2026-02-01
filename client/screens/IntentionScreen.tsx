@@ -16,6 +16,7 @@ import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
 import { hapticMedium } from "@/lib/haptics";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Spacing, BorderRadius, Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
@@ -104,6 +105,10 @@ export default function IntentionScreen() {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteType>();
+
+  // Prevent screenshots on this sensitive screen (personal reflections)
+  useScreenProtection();
+
   const {
     thought,
     distortions,

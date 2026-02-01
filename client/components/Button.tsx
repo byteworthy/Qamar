@@ -1,15 +1,16 @@
 import React, { ReactNode } from "react";
-import { StyleSheet, Pressable, ViewStyle, StyleProp } from "react-native";
+import { StyleSheet, Pressable, ViewStyle, StyleProp, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
   WithSpringConfig,
 } from "react-native-reanimated";
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
-import { BorderRadius, Spacing } from "@/constants/theme";
+import { BorderRadius, Spacing, Shadows } from "@/constants/theme";
 import { hapticMedium } from "@/lib/haptics";
 
 interface ButtonProps {
@@ -22,10 +23,11 @@ interface ButtonProps {
   accessibilityHint?: string;
 }
 
+// More contemplative spring config - slower, more serene
 const springConfig: WithSpringConfig = {
-  damping: 15,
-  mass: 0.3,
-  stiffness: 150,
+  damping: 20, // More damped (less bouncy)
+  mass: 0.5, // Heavier (slower movement)
+  stiffness: 120, // Less stiff (more gradual)
   overshootClamping: true,
   energyThreshold: 0.001,
 };
@@ -43,14 +45,20 @@ export function Button({
 }: ButtonProps) {
   const { theme } = useTheme();
   const scale = useSharedValue(1);
+  const glowOpacity = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
+  const glowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+  }));
+
   const handlePressIn = () => {
     if (!disabled) {
       scale.value = withSpring(0.97, springConfig);
+      glowOpacity.value = withTiming(0.3, { duration: 200 }); // Slower glow fade-in
       hapticMedium(); // Medium haptic for primary button actions
     }
   };
@@ -58,6 +66,7 @@ export function Button({
   const handlePressOut = () => {
     if (!disabled) {
       scale.value = withSpring(1, springConfig);
+      glowOpacity.value = withTiming(0, { duration: 300 }); // Slower glow fade-out
     }
   };
 
@@ -102,6 +111,21 @@ export function Button({
         animatedStyle,
       ]}
     >
+      {/* Subtle glow effect on press */}
+      {variant === "primary" && !disabled && (
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFill,
+            styles.glowContainer,
+            glowStyle,
+            Shadows.glow,
+            {
+              shadowColor: theme.primary,
+            },
+          ]}
+        />
+      )}
+
       <ThemedText
         type="body"
         style={[styles.buttonText, { color: getTextColor() }]}
@@ -119,8 +143,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: Spacing["2xl"],
+    overflow: "hidden",
   },
   buttonText: {
     fontWeight: "600",
+  },
+  glowContainer: {
+    borderRadius: BorderRadius.lg,
   },
 });

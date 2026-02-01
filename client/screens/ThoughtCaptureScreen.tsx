@@ -32,6 +32,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Spacing, BorderRadius, Typography, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
+import { AtmosphericBackground } from "@/components/AtmosphericBackground";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollViewCompat";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -228,16 +229,18 @@ export default function ThoughtCaptureScreen() {
   };
 
   return (
-    <KeyboardAwareScrollViewCompat
-      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
-      contentContainerStyle={[
-        styles.contentContainer,
-        {
-          paddingTop: headerHeight + Spacing.sm,
-          paddingBottom: insets.bottom + Spacing["3xl"],
-        },
-      ]}
-    >
+    <View style={styles.container}>
+      <AtmosphericBackground variant="atmospheric">
+        <KeyboardAwareScrollViewCompat
+          style={styles.scrollView}
+          contentContainerStyle={[
+            styles.contentContainer,
+            {
+              paddingTop: headerHeight + Spacing.sm,
+              paddingBottom: insets.bottom + Spacing["3xl"],
+            },
+          ]}
+        >
       {/* Progress Indicator */}
       <ReflectionProgressCompact currentStep="ThoughtCapture" />
 
@@ -484,17 +487,22 @@ export default function ThoughtCaptureScreen() {
         </Button>
       </View>
 
-      <ExitConfirmationModal
-        visible={showExitModal}
-        onConfirm={handleExit}
-        onCancel={() => setShowExitModal(false)}
-      />
-    </KeyboardAwareScrollViewCompat>
+        <ExitConfirmationModal
+          visible={showExitModal}
+          onConfirm={handleExit}
+          onCancel={() => setShowExitModal(false)}
+        />
+      </KeyboardAwareScrollViewCompat>
+      </AtmosphericBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollView: {
     flex: 1,
   },
   contentContainer: {
