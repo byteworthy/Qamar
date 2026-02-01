@@ -256,6 +256,59 @@ export const Spacing = {
 };
 
 // ----------------------------------------------------------------------------
+// COMPONENT PADDING TOKENS (standardized internal padding)
+// ----------------------------------------------------------------------------
+
+/**
+ * ComponentPadding: Standardized internal padding for UI components
+ * These ensure visual consistency across the app without hardcoding values.
+ *
+ * Usage: import { ComponentPadding } from '@/constants/theme';
+ * Example: padding: ComponentPadding.button.horizontal
+ */
+export const ComponentPadding = {
+  // Button padding (matches Button.tsx: paddingHorizontal: Spacing["2xl"])
+  button: {
+    horizontal: Spacing["2xl"],  // 24
+    vertical: Spacing.lg,        // 16 (implicit via height)
+  },
+
+  // Card padding (matches GlassCard.tsx: padding: Spacing.lg)
+  card: {
+    all: Spacing.lg,             // 16
+    horizontal: Spacing.lg,      // 16
+    vertical: Spacing.lg,        // 16
+  },
+
+  // Input padding (for AnimatedInput and similar)
+  input: {
+    horizontal: Spacing.lg,      // 16
+    vertical: Spacing.md,        // 12
+    all: Spacing.lg,             // 16 (for single padding value)
+  },
+
+  // Modal padding (for AnimatedModal and dialogs)
+  modal: {
+    horizontal: Spacing.xl,      // 20
+    vertical: Spacing.xl,        // 20
+    all: Spacing.xl,             // 20
+  },
+
+  // List item padding (for HistoryScreen items, etc.)
+  listItem: {
+    horizontal: Spacing.lg,      // 16
+    vertical: Spacing.md,        // 12
+  },
+
+  // Section padding (for screen sections)
+  section: {
+    horizontal: Spacing.lg,      // 16 (matches screenPadding)
+    vertical: Spacing.xl,        // 20
+    gap: Spacing.sectionGap,     // 24
+  },
+};
+
+// ----------------------------------------------------------------------------
 // BORDER RADIUS TOKENS
 // ----------------------------------------------------------------------------
 

@@ -32,9 +32,23 @@ import Animated, {
   FadeInUp,
   FadeInDown,
   FadeIn,
+  FadeOut,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  WithSpringConfig,
 } from "react-native-reanimated";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "History">;
+
+// Contemplative spring config - serene, meditative feel (matching GlassCard and Button)
+const springConfig: WithSpringConfig = {
+  damping: 20,
+  mass: 0.5,
+  stiffness: 120,
+  overshootClamping: true,
+  energyThreshold: 0.001,
+};
 
 interface InsightSummary {
   totalReflections: number;
@@ -429,9 +443,17 @@ export default function HistoryScreen() {
 
   const renderSession = ({ item, index }: { item: Session; index: number }) => {
     const isExpanded = expandedId === item.timestamp;
+    const cappedDelay = Math.min(index * 40, 400); // Max 400ms (10 items)
 
     return (
-      <Animated.View entering={FadeInUp.duration(300).delay(index * 50)}>
+      <Animated.View
+        entering={FadeInUp.springify()
+          .delay(cappedDelay)
+          .damping(springConfig.damping as number)
+          .mass(springConfig.mass as number)
+          .stiffness(springConfig.stiffness as number)}
+        exiting={FadeOut.duration(200)}
+      >
         <GlassCard style={styles.sessionCard} elevated>
           <Pressable
             onPress={() => toggleExpand(item.timestamp)}
