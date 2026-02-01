@@ -19,17 +19,19 @@ Noor helps users slow down their thinking, examine inner dialogue with disciplin
 
 ## 🎯 Project Status
 
-**95% Complete** - Production-ready with enterprise mobile security
+**App Store Ready** - Production-ready with enterprise mobile security
 
 - ✅ Core reflection flows (thought capture, CBT reframe, intention setting)
 - ✅ AI-powered cognitive distortion analysis (Claude integration)
 - ✅ Enterprise mobile security (biometric auth, secure storage, jailbreak detection)
+- ✅ Backend deployed to Railway (production environment live)
 - ✅ Backend encryption (AES-256-GCM)
-- ✅ Comprehensive test suite (277 tests passing, ~28% coverage)
+- ✅ Comprehensive test suite (277 tests passing)
 - ✅ Type-safe codebase (zero `any` types in production code)
 - ✅ App Store documentation (SECURITY.md, PRIVACY_POLICY.md)
-- ⏳ Device testing (iOS/Android biometric auth, screenshot prevention)
-- ⏳ App Store submission (ready to submit)
+- ✅ App icon finalized (1024x1024 PNG)
+- ✅ RevenueCat IAP integration (Plus & Pro tiers)
+- 🎨 Screenshots in progress for App Store submission
 
 ---
 
@@ -46,25 +48,23 @@ Noor helps users slow down their thinking, examine inner dialogue with disciplin
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/Noor-CBT.git
-cd Noor-CBT
+git clone https://github.com/byteworthy/Noor.git
+cd Noor
 
 # Install dependencies
 npm install
 
 # Set up environment variables
 cp .env.example .env
-# Edit .env with your API keys (see docs/deployment/ENVIRONMENT.md)
+# Edit .env with your OpenAI API key
 
-# Start development server
+# Start backend server
 npm run dev
 
 # In another terminal, start mobile app
 cd client
 npm start
 ```
-
-For detailed setup instructions, see [docs/development/QUICK_START.md](docs/development/QUICK_START.md)
 
 ---
 
@@ -185,43 +185,34 @@ For privacy policy, see [PRIVACY_POLICY.md](PRIVACY_POLICY.md)
 
 ### Deployment
 
-- **Backend**: Railway (SOC 2 Type II compliant)
+- **Backend**: Railway (Production environment live at railway.app)
 - **Mobile**: Expo EAS Build (iOS + Android)
-- **CI/CD**: GitHub Actions (type checking, tests, security audits)
-
-For architecture diagrams, see [docs/development/ARCHITECTURE.md](docs/development/ARCHITECTURE.md)
+- **CI/CD**: Husky pre-commit hooks (type checking, tests)
+- **IAP**: RevenueCat (subscription management)
 
 ---
 
 ## 📂 Documentation
 
-### Getting Started
-- [Quick Start Guide](docs/development/QUICK_START.md) - Get Noor running in 10 minutes
-- [Development Setup](docs/development/SETUP.md) - Detailed development environment setup
-- [Testing Guide](docs/development/TESTING.md) - Run and write tests
+### Security & Privacy
 
-### Deployment
-- [Railway Deployment](docs/deployment/RAILWAY.md) - Backend deployment to Railway
-- [Expo Build](docs/mobile/EXPO_BUILD.md) - Build mobile apps for iOS/Android
-- [Environment Variables](docs/deployment/ENVIRONMENT.md) - Required environment configuration
-
-### Mobile Development
-- [Mobile Security](docs/mobile/MOBILE_SECURITY.md) - Security implementation details
-- [Biometric Auth](docs/mobile/BIOMETRIC_AUTH.md) - Face ID, Touch ID, Fingerprint setup
-- [Screenshot Prevention](docs/mobile/SCREENSHOT_PROTECTION.md) - Sensitive screen protection
-
-### App Store Submission
-- [iOS App Store](docs/store-submission/IOS_APP_STORE.md) - App Store Connect submission guide
-- [Google Play Store](docs/store-submission/GOOGLE_PLAY.md) - Play Console submission guide
-- [Security Policy](SECURITY.md) - Required for App Store review
+- [Security Policy](SECURITY.md) - Enterprise-grade mobile security implementation
 - [Privacy Policy](PRIVACY_POLICY.md) - GDPR/CCPA/COPPA compliant policy
 
-### Contributing
-- [Contributing Guide](CONTRIBUTING.md) - How to contribute to Noor
-- [Code of Conduct](CODE_OF_CONDUCT.md) - Community guidelines
-- [Security Reporting](SECURITY.md#reporting-a-vulnerability) - Report security issues
+### App Store Submission
 
-For complete documentation index, see [docs/README.md](docs/README.md)
+- [Launch Status](release/LAUNCH_STATUS.md) - Current App Store submission progress
+- [Build Commands](release/BUILD_COMMANDS.md) - EAS build and deployment commands
+- [Backend Deployment Guide](release/BACKEND_DEPLOYMENT_GUIDE.md) - Railway deployment
+- [IAP Setup Guide](release/STORE_PACK/IAP_SETUP_GUIDE.md) - RevenueCat configuration
+- [Final Submission Checklist](release/STORE_PACK/FINAL_SUBMISSION_CHECKLIST.md)
+
+### ASO & Metadata
+
+- [App Store Metadata](release/STORE_PACK/apple/APP_STORE_METADATA.md)
+- [Play Store Metadata](release/STORE_PACK/google/PLAY_STORE_METADATA.md)
+- [App Store Review Notes](release/STORE_PACK/APP_STORE_REVIEW_NOTES.md)
+- [Pricing Strategy](release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md)
 
 ---
 
@@ -231,34 +222,39 @@ For complete documentation index, see [docs/README.md](docs/README.md)
 # Run all tests
 npm test
 
-# Run tests with coverage
-npm run test:coverage
-
 # Run type checking
 npm run check:types
 
-# Run mobile security verification
-bash scripts/verify-mobile-security.sh
+# Run security verification
+bash scripts/verify-security.sh
+
+# Pre-commit verification (runs automatically)
+npm run verify:local
 ```
 
-**Current Status**: 277 tests passing, ~28% coverage, 0 TypeScript errors
+**Current Status**: 277 tests passing, 0 TypeScript errors, all security checks passing ✅
 
 ---
 
-## 📊 Recent Updates (January 2026)
+## 📊 Recent Updates (February 2026)
+
+### App Store Submission (In Progress 🚀)
+
+- **Icon Design**: Finalized 1024x1024 app icon with Yemeni-inspired Islamic arches
+- **UI Differentiation**: Twilight/gold theme with glassmorphism and Islamic patterns
+- **Backend Deployment**: Production environment live on Railway
+- **RevenueCat IAP**: Plus ($6.99/mo) and Pro ($11.99/mo) tiers configured
+- **Security**: Enterprise-grade mobile security (biometric, secure storage, jailbreak detection)
+- **Documentation**: Complete App Store submission package ready
+- **Current Status**: 75% complete - screenshots in progress
 
 ### Phase 4: Mobile Security Hardening (Complete ✅)
 
-- **Secure Storage**: Migrated sensitive data to iOS Keychain / Android Keystore
+- **Secure Storage**: iOS Keychain / Android Keystore integration
 - **Biometric Auth**: Face ID, Touch ID, Fingerprint authentication
-- **Jailbreak Detection**: Warn users about compromised devices
-- **Screenshot Prevention**: Protect journal entries from screenshots
-- **Documentation**: SECURITY.md, PRIVACY_POLICY.md for App Store submission
-- **Verification**: 28/28 security checks passing
-
-**Impact**: Noor now has enterprise-grade mobile security suitable for mental health data (HIPAA-aligned).
-
-For detailed changelog, see [CHANGELOG.md](CHANGELOG.md)
+- **Jailbreak Detection**: Device security warnings
+- **Screenshot Prevention**: Sensitive screen protection
+- **Test Coverage**: 277 tests passing, zero TypeScript errors
 
 ---
 
@@ -295,14 +291,15 @@ For detailed changelog, see [CHANGELOG.md](CHANGELOG.md)
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Noor is currently in App Store submission phase. Once launched, we'll welcome community contributions!
 
-Areas where we need help:
-- Increasing test coverage (current: ~28%, target: 80%+)
-- Arabic/Urdu localization
-- Accessibility improvements (screen reader support)
-- Additional CBT techniques (exposure therapy, behavioral activation)
-- Islamic content expansion (more Hadith, scholars' quotes)
+**Post-launch priorities:**
+
+- Increasing test coverage (current: 277 tests, target: comprehensive E2E coverage)
+- Arabic/Urdu localization for global Muslim community
+- Accessibility improvements (VoiceOver, TalkBack support)
+- Additional Islamic content (Hadith, scholars' quotes, du'as)
+- Android optimization and testing
 
 ---
 
