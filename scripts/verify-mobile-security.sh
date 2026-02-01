@@ -60,13 +60,13 @@ echo "------------------------------------------"
 
 # Check SecureStore usage in storage.ts
 info "Checking storage.ts..."
-grep -q "expo-secure-store" client/lib/storage.ts
-check "storage.ts uses SecureStore" $?
+grep -q "secureStorage" client/lib/storage.ts
+check "storage.ts uses secureStorage" $?
 
 # Check SecureStore usage in notifications.ts
 info "Checking notifications.ts..."
-grep -q "expo-secure-store" client/lib/notifications.ts
-check "notifications.ts uses SecureStore" $?
+grep -q "secureStorage" client/lib/notifications.ts
+check "notifications.ts uses secureStorage" $?
 
 # Check for insecure AsyncStorage usage
 info "Checking for insecure AsyncStorage usage..."
