@@ -5,7 +5,7 @@
  * Use this hook in screens that display:
  * - Journal entries
  * - Personal reflections
- * - Mental health data
+ * - Personal growth insights
  * - History/insights
  *
  * The protection is automatically enabled when the component mounts

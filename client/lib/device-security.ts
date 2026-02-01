@@ -26,7 +26,7 @@ export function checkDeviceSecurity(): boolean {
     Alert.alert(
       "Security Warning",
       "Noor has detected that your device may be jailbroken or rooted.\n\n" +
-        "For your privacy and security, Noor cannot guarantee the protection of your sensitive mental health data on compromised devices, where other apps could potentially access your information.\n\n" +
+        "For your privacy and security, Noor cannot guarantee the protection of your personal reflection entries on compromised devices, where other apps could potentially access your information.\n\n" +
         "We recommend using Noor on a non-jailbroken/rooted device.",
       [
         {

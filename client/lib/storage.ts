@@ -17,7 +17,7 @@ export async function saveSession(session: Session): Promise<void> {
   try {
     const existing = await getSessions();
     const updated = [session, ...existing];
-    // Use secure storage for sensitive session data (mental health content)
+    // Use secure storage for sensitive session data (personal reflection entries)
     await secureStorage.setItem(SESSIONS_KEY, JSON.stringify(updated));
   } catch (error) {
     console.error("Error saving session:", error);

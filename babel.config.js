@@ -15,6 +15,11 @@ module.exports = function (api) {
         },
       ],
       "react-native-reanimated/plugin",
-    ],
+      // Remove console.logs in production (except error and warn)
+      process.env.NODE_ENV === "production" && [
+        "transform-remove-console",
+        { exclude: ["error", "warn"] },
+      ],
+    ].filter(Boolean),
   };
 };
