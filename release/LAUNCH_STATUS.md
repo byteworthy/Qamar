@@ -1,8 +1,8 @@
 # Noor App Store Launch Status
 
-**Last Updated:** 2026-02-01
+**Last Updated:** 2026-02-01 (Evening Update)
 **Version:** 1.0.0
-**Launch Strategy:** Option B - Free with IAP (Noor Plus $6.99, Noor Pro $11.99)
+**Launch Strategy:** Option C - Hybrid (Plus: $6.99/mo or $69.99/yr, Pro: $11.99/mo or $119.99/yr or $299.99 lifetime)
 
 ---
 
@@ -32,8 +32,17 @@
 - [x] Legal URLs live (https://byteworthy.github.io/noor-legal/)
 - [x] Final submission checklist (release/STORE_PACK/FINAL_SUBMISSION_CHECKLIST.md)
 - [x] App Store review notes (release/STORE_PACK/APP_STORE_REVIEW_NOTES.md)
+- [x] Pricing strategy Option C documented (release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md)
+
+### External Services Setup (Today's Progress!)
+- [x] Apple Developer enrollment submitted (Order #W1638152040, $99 paid)
+- [x] RevenueCat account created (ByteWorthy project)
+- [x] RevenueCat test API key obtained
+- [x] Railway backend deployed successfully (logger fix applied)
+- [x] .env.production file created with correct values
 
 ---
+
 
 ## 🚧 REQUIRED BEFORE SUBMISSION
 
