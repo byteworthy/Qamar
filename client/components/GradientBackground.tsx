@@ -33,8 +33,8 @@ export function GradientBackground({
   return (
     <View style={[styles.container, style]}>
       <LinearGradient
-        colors={gradientConfig.colors as any}
-        locations={gradientConfig.locations as any}
+        colors={[...gradientConfig.colors]}
+        locations={[...gradientConfig.locations]}
         start={gradientConfig.start}
         end={gradientConfig.end}
         style={StyleSheet.absoluteFill}
