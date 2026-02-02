@@ -40,13 +40,13 @@ Requirements for technical polish initiative. Mapped to roadmap phases.
 
 ### Type Safety
 
-- [ ] **TYPE-01**: Replace `any` types with proper types in GradientBackground.tsx
-- [ ] **TYPE-02**: Replace `any` types with proper types in LoadingSkeleton.tsx
-- [ ] **TYPE-03**: Replace `any` types with proper types in ReflectionProgress.tsx
-- [ ] **TYPE-04**: Replace `any` types with proper types in SessionCompleteScreen.tsx
-- [ ] **TYPE-05**: Fix navigation type errors (@ts-expect-error in ScreenErrorBoundary.tsx)
-- [ ] **TYPE-06**: Create proper TypeScript interfaces for all API responses
-- [ ] **TYPE-07**: Use `unknown` instead of `any` in test files where appropriate
+- [x] **TYPE-01**: Replace `any` types with proper types in GradientBackground.tsx
+- [x] **TYPE-02**: Replace `any` types with proper types in LoadingSkeleton.tsx
+- [x] **TYPE-03**: Replace `any` types with proper types in ReflectionProgress.tsx
+- [x] **TYPE-04**: Replace `any` types with proper types in SessionCompleteScreen.tsx
+- [x] **TYPE-05**: Fix navigation type errors (@ts-expect-error in ScreenErrorBoundary.tsx)
+- [x] **TYPE-06**: Create proper TypeScript interfaces for all API responses
+- [x] **TYPE-07**: Use `unknown` instead of `any` in test files where appropriate
 
 ### Observability
 
