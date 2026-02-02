@@ -22,6 +22,8 @@ import type {
   DistressLevel,
 } from "../../shared/islamic-framework";
 import type { ConversationState } from "../conversation-state-machine";
+import type { PacingConfig } from "../pacing-controller";
+import type { IslamicContentSelection } from "../islamic-content-mapper";
 
 // Mock dependencies
 jest.mock("../safety-integration");
@@ -48,9 +50,9 @@ const createMockInput = (
     conversationState: "listening" as ConversationState,
   },
   aiResponseGenerator: jest.fn(
-    async (_safetyGuidance: string, _pacingConfig: any, _islamicContent?: any) =>
+    async (_safetyGuidance: string, _pacingConfig: PacingConfig, _islamicContent?: IslamicContentSelection) =>
       "I hear you. That sounds difficult.",
-  ) as any,
+  ),
   ...overrides,
 });
 
@@ -165,9 +167,9 @@ describe("CanonicalOrchestrator - Successful Flow", () => {
 
   test("passes safety guidance to AI generator", async () => {
     const mockGenerator = jest.fn(
-      async (_safetyGuidance: string, _pacingConfig: any, _islamicContent?: any) =>
+      async (_safetyGuidance: string, _pacingConfig: PacingConfig, _islamicContent?: IslamicContentSelection) =>
         "Response",
-    ) as any;
+    );
     const input = createMockInput({
       aiResponseGenerator: mockGenerator,
     });
