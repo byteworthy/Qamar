@@ -184,6 +184,14 @@ Type safety prevents bugs and improves developer experience. This phase should c
 
 **Priority:** P1 - Essential for production debugging
 
+**Plans:** 3 plans
+
+Plans:
+
+- [ ] 04-01-PLAN.md — Implement structured logging service (Winston)
+- [ ] 04-02-PLAN.md — Replace all console.log with structured logging
+- [ ] 04-03-PLAN.md — Standardize error response format across API
+
 **Requirements:**
 - OBS-01: Replace all console.log with structured logging (83 instances)
 - OBS-02: Implement logging service (Winston, Pino, or similar)
@@ -197,6 +205,7 @@ Type safety prevents bugs and improves developer experience. This phase should c
 3. All logs include request context (requestId, userId where applicable)
 4. Sensitive data (user thoughts, messages) never appears in logs
 5. Log aggregation works in production environment
+6. Consistent error response format across all API endpoints
 
 **Why This Phase:**
 Production debugging currently relies on scattered console logs. Structured logging is essential for understanding production issues.
