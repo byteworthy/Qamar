@@ -20,10 +20,10 @@ Requirements for technical polish initiative. Mapped to roadmap phases.
 - [ ] **TEST-01**: Add unit tests for server/routes.ts (target 80%+ coverage of 1,351 lines)
 - [ ] **TEST-02**: Add tests for conversational-ai.ts (653 lines)
 - [ ] **TEST-03**: Add tests for tone-compliance-checker.ts (589 lines)
-- [ ] **TEST-04**: Add tests for pacing-controller.ts (551 lines)
-- [ ] **TEST-05**: Add tests for canonical-orchestrator.ts (509 lines)
-- [ ] **TEST-06**: Add tests for toneClassifier.ts
-- [ ] **TEST-07**: Add tests for stateInference.ts (348 lines)
+- [x] **TEST-04**: Add tests for pacing-controller.ts (551 lines)
+- [x] **TEST-05**: Add tests for canonical-orchestrator.ts (509 lines)
+- [x] **TEST-06**: Add tests for toneClassifier.ts
+- [x] **TEST-07**: Add tests for stateInference.ts (348 lines)
 - [ ] **TEST-08**: Add integration tests for billing/Stripe webhooks
 - [ ] **TEST-09**: Configure Detox E2E tests in CI/CD pipeline
 - [ ] **TEST-10**: Achieve >70% overall test coverage
@@ -132,10 +132,10 @@ Updated during roadmap creation.
 | TEST-01 | Phase 2 | Pending |
 | TEST-02 | Phase 2 | Pending |
 | TEST-03 | Phase 2 | Pending |
-| TEST-04 | Phase 2 | Pending |
-| TEST-05 | Phase 2 | Pending |
-| TEST-06 | Phase 2 | Pending |
-| TEST-07 | Phase 2 | Pending |
+| TEST-04 | Phase 2 | Complete |
+| TEST-05 | Phase 2 | Complete |
+| TEST-06 | Phase 2 | Complete |
+| TEST-07 | Phase 2 | Complete |
 | TEST-08 | Phase 2 | Pending |
 | TYPE-01 | Phase 3 | Pending |
 | TYPE-02 | Phase 3 | Pending |
