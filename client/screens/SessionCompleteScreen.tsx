@@ -33,7 +33,7 @@ import { useTheme, type Theme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
-import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { RootStackParamList } from "@/navigation/types";
 import { saveSession } from "@/lib/storage";
 import { ScreenCopy } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
