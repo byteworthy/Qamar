@@ -7,6 +7,7 @@ depends_on: []
 files_modified:
   - server/utils/logger.ts
   - server/config.ts
+  - server/middleware/request-logger.ts
   - package.json
 autonomous: true
 
@@ -51,17 +52,17 @@ Output: Fully configured logging service (Winston or Pino) ready for integration
   <name>Task 1: Install logging library</name>
   <files>package.json</files>
   <action>
-Install Winston as the structured logging library:
+Install Winston as the structured logging library and uuid for request IDs:
 
 ```bash
-npm install winston
-npm install --save-dev @types/winston
+npm install winston uuid
+npm install --save-dev @types/winston @types/uuid
 ```
 
 Alternative: If you prefer Pino (faster, lighter):
 ```bash
-npm install pino
-npm install pino-pretty --save-dev
+npm install pino uuid
+npm install pino-pretty --save-dev @types/uuid
 ```
 
 For this plan, we'll use Winston as it has better TypeScript support and more features for production use.

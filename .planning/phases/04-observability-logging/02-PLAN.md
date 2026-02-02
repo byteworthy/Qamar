@@ -8,11 +8,19 @@ files_modified:
   - server/routes.ts
   - server/middleware/auth.ts
   - server/middleware/rate-limit.ts
+  - server/middleware/production.ts
+  - server/middleware/ai-rate-limiter.ts
   - server/canonical-orchestrator.ts
   - server/conversational-ai.ts
   - server/tone-compliance-checker.ts
   - server/pacing-controller.ts
+  - server/stateInference.ts
+  - server/toneClassifier.ts
   - server/billing/index.ts
+  - server/encryption.ts
+  - server/storage.ts
+  - server/sentry.ts
+  - server/health.ts
 autonomous: true
 
 must_haves:
