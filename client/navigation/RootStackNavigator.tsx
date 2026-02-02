@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useScreenOptions } from "@/hooks/useScreenOptions";
+import { RootStackParamList } from "@/navigation/types";
+
+// Re-export RootStackParamList for convenience
+export type { RootStackParamList };
 
 import TabNavigator from "@/navigation/TabNavigator";
 import WelcomeScreen from "@/screens/onboarding/WelcomeScreen";
@@ -19,66 +23,6 @@ import BillingSuccessScreen from "@/screens/BillingSuccessScreen";
 import CalmingPracticeScreen from "@/screens/CalmingPracticeScreen";
 import DuaScreen from "@/screens/DuaScreen";
 import InsightsScreen from "@/screens/InsightsScreen";
-
-export type RootStackParamList = {
-  Onboarding_Welcome: undefined;
-  Onboarding_Privacy: undefined;
-  Onboarding_Safety: undefined;
-  Main: undefined;
-  Home: undefined;
-  ThoughtCapture: undefined;
-  Distortion: {
-    thought: string;
-    emotionalIntensity?: number; // 1-5 scale from emotional anchoring
-    somaticAwareness?: string; // Body sensation from somatic prompt
-  };
-  BeliefInspection: {
-    thought: string;
-    distortions: string[];
-    analysis: string;
-    emotionalIntensity?: number;
-  };
-  Reframe: {
-    thought: string;
-    distortions: string[];
-    analysis: string;
-    emotionalIntensity?: number;
-    beliefStrength?: number; // 0-100% from belief inspection
-  };
-  Regulation: {
-    thought: string;
-    distortions: string[];
-    reframe: string;
-    anchor: string;
-    emotionalIntensity?: number;
-  };
-  Intention: {
-    thought: string;
-    distortions: string[];
-    reframe: string;
-    practice: string;
-    anchor: string;
-    detectedState?: string;
-    emotionalIntensity?: number;
-  };
-  SessionComplete: {
-    thought: string;
-    distortions: string[];
-    reframe: string;
-    intention: string;
-    practice: string;
-    anchor: string;
-    detectedState?: string;
-    emotionalIntensity?: number;
-    somaticAwareness?: string;
-  };
-  History: undefined;
-  Pricing: undefined;
-  BillingSuccess: undefined;
-  CalmingPractice: undefined;
-  Dua: { state?: string }; // For contextual duas based on emotional state
-  Insights: undefined;
-};
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
