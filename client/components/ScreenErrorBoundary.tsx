@@ -7,6 +7,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius } from "@/constants/theme";
+import { RootStackNavigationProp } from "@/navigation/types";
 
 type ScreenErrorFallbackProps = {
   error: Error;
@@ -15,11 +16,10 @@ type ScreenErrorFallbackProps = {
 
 function ScreenErrorFallback({ error, resetError }: ScreenErrorFallbackProps) {
   const { theme } = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   const handleGoHome = () => {
     resetError();
-    // @ts-expect-error - navigation types
     navigation.navigate("Home");
   };
 
