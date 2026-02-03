@@ -1552,7 +1552,7 @@ ${summaryPrompt}`,
             req.id,
             "This feature requires Noor Plus"
           )
-        });
+        );
       }
 
       const normalizedState = (state || "").toLowerCase();
