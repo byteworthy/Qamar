@@ -1,0 +1,85 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      # Only run E2E tests when relevant files change
+      - 'client/**'
+      - 'e2e/**'
+      - 'package.json'
+      - 'app.json'
+      - '.github/workflows/e2e.yml'
+
+jobs:
+  e2e-ios:
+    name: E2E Tests (iOS Simulator)
+    runs-on: macos-14
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Setup iOS Simulator
+        run: |
+          xcrun simctl boot "iPhone 15 Pro" || true
+          xcrun simctl list devices | grep "iPhone 15 Pro"
+
+      - name: Build app for Detox
+        run: npm run build:e2e:ios
+        env:
+          EXPO_PUBLIC_DOMAIN: localhost:5000
+          NODE_ENV: test
+
+      - name: Start backend server
+        run: |
+          npm run server:dev &
+          sleep 10
+          curl http://localhost:5000/api/health || echo "Server startup check"
+        env:
+          NODE_ENV: test
+          VALIDATION_MODE: true
+
+      - name: Run Detox E2E tests
+        run: npm run test:e2e:ios
+        env:
+          EXPO_PUBLIC_DOMAIN: localhost:5000
+
+      - name: Upload test artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detox-artifacts
+          path: |
+            e2e/artifacts/
+            ~/Library/Logs/DiagnosticReports/
+
+      - name: Stop backend server
+        if: always()
+        run: pkill -f "node.*server" || true

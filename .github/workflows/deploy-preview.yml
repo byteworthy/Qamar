@@ -1,0 +1,81 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      # Only deploy when backend code changes
+      - 'server/**'
+      - 'shared/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/deploy-preview.yml'
+
+jobs:
+  deploy:
+    name: Deploy to Railway Preview
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway Preview
+        run: railway up --service=${{ secrets.RAILWAY_PREVIEW_SERVICE_ID }} --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Get Preview URL
+        id: preview
+        run: |
+          sleep 30
+          PREVIEW_URL=$(railway status --service=${{ secrets.RAILWAY_PREVIEW_SERVICE_ID }} --json | jq -r '.url')
+          echo "url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Post Preview URL to PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = '${{ steps.preview.outputs.url }}';
+            const comment = `## 🚀 Preview Deployment
+
+            Backend preview deployed successfully!
+
+            **Preview URL:** ${previewUrl}
+
+            ### Testing Instructions
+            1. Update \`EXPO_PUBLIC_DOMAIN\` in your local client to point to preview URL
+            2. Run \`npm run expo:dev\` to test against preview backend
+            3. Test your PR changes end-to-end
+
+            Preview will be available until PR is closed or merged.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Deploy Status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Preview deployed successfully"
+          else
+            echo "❌ Preview deployment failed"
+          fi
