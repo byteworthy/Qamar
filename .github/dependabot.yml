@@ -1,0 +1,72 @@
+# Dependabot Configuration
+#
+# Automatically creates pull requests to update dependencies weekly.
+# This keeps the project secure by updating packages with known vulnerabilities.
+#
+# Schedule: Every Monday at 6 AM UTC
+# PR limits: 5 for npm, 2 for GitHub Actions (prevents overwhelming number of PRs)
+# Grouping: Related dependencies updated together (Expo, React, testing, TypeScript)
+#
+# Review process:
+# 1. Dependabot creates PR with changelog
+# 2. CI runs tests automatically
+# 3. Review changes and approve if tests pass
+# 4. Merge to apply updates
+
+version: 2
+updates:
+  # npm dependencies (root package.json)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    groups:
+      # Group Expo dependencies together
+      expo:
+        patterns:
+          - "expo*"
+          - "@expo/*"
+      # Group React dependencies together
+      react:
+        patterns:
+          - "react"
+          - "react-*"
+      # Group testing dependencies
+      testing:
+        patterns:
+          - "jest*"
+          - "@testing-library/*"
+          - "detox"
+      # Group TypeScript tooling
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+          - "ts-*"
+    labels:
+      - "dependencies"
+      - "automated"
+    reviewers:
+      - "richa"
+    assignees:
+      - "richa"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # GitHub Actions updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 2
+    labels:
+      - "dependencies"
+      - "ci/cd"
