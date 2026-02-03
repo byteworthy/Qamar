@@ -33,6 +33,24 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Expo
+        uses: actions/cache@v4
+        with:
+          path: ~/.expo
+          key: ${{ runner.os }}-expo-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-expo-
+
       - name: Setup Expo
         uses: expo/expo-github-action@v8
         with:
@@ -68,6 +86,24 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Expo
+        uses: actions/cache@v4
+        with:
+          path: ~/.expo
+          key: ${{ runner.os }}-expo-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-expo-
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
