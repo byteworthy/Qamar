@@ -313,7 +313,8 @@ describe("API Routes", () => {
       const res = await request(app).post("/api/analyze").send({});
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid request data");
+      expect(res.body.code).toBe("VALIDATION_FAILED");
+      expect(res.body.error).toBe(true);
       expect(res.body.details).toBeDefined();
     });
 
@@ -325,7 +326,8 @@ describe("API Routes", () => {
         });
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid request data");
+      expect(res.body.code).toBe("VALIDATION_FAILED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns placeholder in validation mode", async () => {
@@ -349,8 +351,8 @@ describe("API Routes", () => {
       });
 
       expect(res.status).toBe(503);
-      expect(res.body.error).toBe("AI service not configured");
-      expect(res.body.code).toBe("CONFIG_MISSING");
+      expect(res.body.code).toBe("AI_SERVICE_UNAVAILABLE");
+      expect(res.body.error).toBe(true);
     });
 
     test("handles AI errors gracefully (via validation mode fallback)", async () => {
@@ -423,7 +425,8 @@ describe("API Routes", () => {
         });
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid request data");
+      expect(res.body.code).toBe("VALIDATION_FAILED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns validation error for missing distortions", async () => {
@@ -432,7 +435,8 @@ describe("API Routes", () => {
       });
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid request data");
+      expect(res.body.code).toBe("VALIDATION_FAILED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns placeholder in validation mode", async () => {
@@ -495,7 +499,8 @@ describe("API Routes", () => {
       const res = await request(app).post("/api/practice").send({});
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid request data");
+      expect(res.body.code).toBe("VALIDATION_FAILED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns placeholder in validation mode", async () => {
@@ -556,7 +561,8 @@ describe("API Routes", () => {
         });
 
       expect(res.status).toBe(401);
-      expect(res.body.error).toBe("Authentication required");
+      expect(res.body.code).toBe("AUTH_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns validation error for missing required fields", async () => {
@@ -565,7 +571,8 @@ describe("API Routes", () => {
       });
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid request data");
+      expect(res.body.code).toBe("VALIDATION_FAILED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns 402 when free user exceeds daily limit", async () => {
@@ -583,8 +590,9 @@ describe("API Routes", () => {
         });
 
       expect(res.status).toBe(402);
-      expect(res.body.error).toContain("Noor Plus");
-      expect(res.body.code).toBe("LIMIT_EXCEEDED");
+      expect(res.body.message).toContain("Noor Plus");
+      expect(res.body.code).toBe("PAYMENT_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("allows unlimited reflections for paid users", async () => {
@@ -623,7 +631,8 @@ describe("API Routes", () => {
         });
 
       expect(res.status).toBe(500);
-      expect(res.body.error).toBe("Failed to securely store reflection");
+      expect(res.body.code).toBe("INTERNAL_ERROR");
+      expect(res.body.error).toBe(true);
     });
   });
 
@@ -685,7 +694,8 @@ describe("API Routes", () => {
       const res = await request(unauthApp).get("/api/reflection/history");
 
       expect(res.status).toBe(401);
-      expect(res.body.error).toBe("Authentication required");
+      expect(res.body.code).toBe("AUTH_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("handles decryption errors gracefully", async () => {
@@ -745,8 +755,8 @@ describe("API Routes", () => {
       const res = await request(app).delete("/api/reflection/invalid");
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe("Invalid reflection ID");
-      expect(res.body.code).toBe("INVALID_ID");
+      expect(res.body.code).toBe("INVALID_INPUT");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns 404 when reflection not found", async () => {
@@ -757,8 +767,9 @@ describe("API Routes", () => {
       const res = await request(app).delete("/api/reflection/999");
 
       expect(res.status).toBe(404);
-      expect(res.body.error).toContain("not found");
+      expect(res.body.message).toContain("not found");
       expect(res.body.code).toBe("NOT_FOUND");
+      expect(res.body.error).toBe(true);
     });
   });
 
@@ -859,8 +870,9 @@ describe("API Routes", () => {
       const res = await request(app).get("/api/reflection/patterns");
 
       expect(res.status).toBe(403);
-      expect(res.body.error).toContain("Noor Plus");
-      expect(res.body.code).toBe("PRO_REQUIRED");
+      expect(res.body.message).toContain("Noor Plus");
+      expect(res.body.code).toBe("PAYMENT_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns null summary when reflection count is low", async () => {
@@ -978,7 +990,8 @@ describe("API Routes", () => {
       const res = await request(app).get("/api/insights/summary");
 
       expect(res.status).toBe(403);
-      expect(res.body.code).toBe("PRO_REQUIRED");
+      expect(res.body.code).toBe("PAYMENT_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -989,7 +1002,8 @@ describe("API Routes", () => {
       const res = await request(unauthApp).get("/api/insights/summary");
 
       expect(res.status).toBe(401);
-      expect(res.body.error).toBe("Authentication required");
+      expect(res.body.code).toBe("AUTH_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
   });
 
@@ -1019,7 +1033,8 @@ describe("API Routes", () => {
       const res = await request(app).get("/api/insights/assumptions");
 
       expect(res.status).toBe(403);
-      expect(res.body.code).toBe("PRO_REQUIRED");
+      expect(res.body.code).toBe("PAYMENT_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -1030,7 +1045,8 @@ describe("API Routes", () => {
       const res = await request(unauthApp).get("/api/insights/assumptions");
 
       expect(res.status).toBe(401);
-      expect(res.body.error).toBe("Authentication required");
+      expect(res.body.code).toBe("AUTH_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
   });
 
@@ -1075,7 +1091,8 @@ describe("API Routes", () => {
         .send({ state: "grief" });
 
       expect(res.status).toBe(403);
-      expect(res.body.code).toBe("PRO_REQUIRED");
+      expect(res.body.code).toBe("PAYMENT_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns 401 when not authenticated", async () => {
@@ -1088,7 +1105,8 @@ describe("API Routes", () => {
         .send({ state: "grief" });
 
       expect(res.status).toBe(401);
-      expect(res.body.error).toBe("Authentication required");
+      expect(res.body.code).toBe("AUTH_REQUIRED");
+      expect(res.body.error).toBe(true);
     });
   });
 
@@ -1103,7 +1121,8 @@ describe("API Routes", () => {
         .set("x-admin-token", "test-token");
 
       expect(res.status).toBe(404);
-      expect(res.body.code).toBe("ENDPOINT_DISABLED");
+      expect(res.body.code).toBe("NOT_FOUND");
+      expect(res.body.error).toBe(true);
     });
 
     test("returns 401 for invalid admin token", async () => {
@@ -1115,7 +1134,8 @@ describe("API Routes", () => {
         .set("x-admin-token", "invalid-token");
 
       expect(res.status).toBe(401);
-      expect(res.body.code).toBe("INVALID_ADMIN_TOKEN");
+      expect(res.body.code).toBe("AUTH_INVALID");
+      expect(res.body.error).toBe(true);
     });
 
     test("runs cleanup successfully with valid token", async () => {
@@ -1147,7 +1167,8 @@ describe("API Routes", () => {
         .set("x-admin-token", "valid-token");
 
       expect(res.status).toBe(500);
-      expect(res.body.code).toBe("CLEANUP_ERROR");
+      expect(res.body.code).toBe("INTERNAL_ERROR");
+      expect(res.body.error).toBe(true);
     });
   });
 
