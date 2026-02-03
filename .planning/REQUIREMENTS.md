@@ -50,11 +50,11 @@ Requirements for technical polish initiative. Mapped to roadmap phases.
 
 ### Observability
 
-- [ ] **OBS-01**: Replace all console.log with structured logging (83 instances in server)
-- [ ] **OBS-02**: Implement logging service (Winston, Pino, or similar)
-- [ ] **OBS-03**: Remove sensitive data from logs (user messages, thoughts)
-- [ ] **OBS-04**: Add contextual information (requestId, userId, timestamp) to all errors
-- [ ] **OBS-05**: Standardize error response format across API
+- [x] **OBS-01**: Replace all console.log with structured logging (83 instances in server)
+- [x] **OBS-02**: Implement logging service (Winston, Pino, or similar)
+- [x] **OBS-03**: Remove sensitive data from logs (user messages, thoughts)
+- [x] **OBS-04**: Add contextual information (requestId, userId, timestamp) to all errors
+- [x] **OBS-05**: Standardize error response format across API
 
 ### Infrastructure
 
@@ -144,11 +144,11 @@ Updated during roadmap creation.
 | TYPE-05 | Phase 3 | Pending |
 | TYPE-06 | Phase 3 | Pending |
 | TYPE-07 | Phase 3 | Pending |
-| OBS-01 | Phase 4 | Pending |
-| OBS-02 | Phase 4 | Pending |
-| OBS-03 | Phase 4 | Pending |
-| OBS-04 | Phase 4 | Pending |
-| OBS-05 | Phase 4 | Pending |
+| OBS-01 | Phase 4 | Complete |
+| OBS-02 | Phase 4 | Complete |
+| OBS-03 | Phase 4 | Complete |
+| OBS-04 | Phase 4 | Complete |
+| OBS-05 | Phase 4 | Complete |
 | TEST-09 | Phase 5 | Pending |
 | INFRA-02 | Phase 5 | Pending |
 | INFRA-03 | Phase 5 | Pending |
