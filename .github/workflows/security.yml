@@ -1,0 +1,61 @@
+# Security Analysis Workflow
+#
+# This workflow runs CodeQL static analysis security testing (SAST) to detect
+# security vulnerabilities in JavaScript and TypeScript code.
+#
+# Triggers:
+# - Every push to main branch
+# - Every pull request to main branch
+# - Weekly schedule (Mondays at 6 AM UTC)
+#
+# What it detects:
+# - SQL injection, XSS, path traversal
+# - Insecure cryptography
+# - Command injection
+# - Unsafe deserialization
+# - Authentication/authorization issues
+#
+# Results appear in: GitHub Security tab → Code scanning alerts
+
+name: Security Analysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Mondays at 6 AM UTC
+    - cron: '0 6 * * 1'
+
+jobs:
+  codeql:
+    name: CodeQL Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript', 'typescript']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

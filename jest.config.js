@@ -10,6 +10,14 @@ module.exports = {
     "!server/**/*.test.ts",
     "!server/__tests__/**",
   ],
+  coverageThreshold: {
+    global: {
+      statements: 50,
+      branches: 38,
+      functions: 44,
+      lines: 50,
+    },
+  },
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
     "^@shared/(.*)$": "<rootDir>/shared/$1",

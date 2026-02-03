@@ -429,7 +429,7 @@ router.get("/stats", async (_req: Request, res: Response) => {
       createErrorResponse(
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
         ERROR_CODES.INTERNAL_ERROR,
-        req.id,
+        _req.id,
         "Failed to get notification stats"
       )
     );

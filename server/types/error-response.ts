@@ -118,7 +118,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 export function createErrorResponse(
   statusCode: number,
   code: string,
-  requestId: string,
+  requestId: string | undefined,
   customMessage?: string,
   details?: Record<string, unknown>
 ): ErrorResponse {
@@ -127,7 +127,7 @@ export function createErrorResponse(
     statusCode,
     code,
     message: customMessage || ERROR_MESSAGES[code] || 'An error occurred',
-    requestId,
+    requestId: requestId || 'unknown',
     timestamp: new Date().toISOString(),
     ...(details && { details }),
   };
