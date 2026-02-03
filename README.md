@@ -13,6 +13,13 @@
   <img src="https://img.shields.io/badge/Status-App%20Store%20Ready-FF6B35?style=for-the-badge" />
 </p>
 
+<p align="center">
+  <a href="https://github.com/byteworthy/Noor/actions/workflows/ci.yml"><img src="https://github.com/byteworthy/Noor/workflows/CI/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/byteworthy/Noor/actions/workflows/e2e.yml"><img src="https://github.com/byteworthy/Noor/workflows/E2E%20Tests/badge.svg" alt="E2E Tests" /></a>
+  <a href="https://github.com/byteworthy/Noor/actions/workflows/security.yml"><img src="https://github.com/byteworthy/Noor/workflows/Security%20Analysis/badge.svg" alt="Security Analysis" /></a>
+  <a href="https://github.com/byteworthy/Noor/actions/workflows/deploy-preview.yml"><img src="https://github.com/byteworthy/Noor/workflows/Deploy%20Preview/badge.svg" alt="Deploy Preview" /></a>
+</p>
+
 Noor helps users slow down their thinking, examine inner dialogue with discipline, and reconnect intention with action using calm, guided reflection rooted in Islamic values.
 
 ---
