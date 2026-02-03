@@ -224,6 +224,15 @@ Production debugging currently relies on scattered console logs. Structured logg
 
 **Priority:** P1/P2 - Critical for deployment confidence
 
+**Plans:** 4 plans
+
+Plans:
+
+- [ ] 05-01-PLAN.md — Coverage thresholds + CI caching (INFRA-06, INFRA-07)
+- [ ] 05-02-PLAN.md — Security scanning with CodeQL + Dependabot (INFRA-04, INFRA-05)
+- [ ] 05-03-PLAN.md — E2E tests in CI/CD pipeline (TEST-09, INFRA-02)
+- [ ] 05-04-PLAN.md — Staging deployment automation (INFRA-03)
+
 **Requirements:**
 - TEST-09: Configure Detox E2E tests in CI/CD pipeline
 - INFRA-02: Add automated E2E tests to PR checks
@@ -243,7 +252,7 @@ Production debugging currently relies on scattered console logs. Structured logg
 **Why This Phase:**
 Automation prevents regressions and accelerates delivery. Should complete after tests are written (Phase 2).
 
-**Dependencies:** Requires Phase 2 (tests must exist to run in CI)
+**Dependencies:** Requires Phase 2 (tests must exist to run in CI) - COMPLETE
 
 ---
 
