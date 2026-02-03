@@ -60,6 +60,12 @@ import { adminLimiter } from "./middleware/rate-limit";
 import notificationRoutes from "./notificationRoutes";
 import { defaultLogger } from "./utils/logger";
 import { loadPrompt } from "./utils/promptLoader";
+import {
+  createErrorResponse,
+  ERROR_CODES,
+  HTTP_STATUS,
+} from "./types/error-response";
+import { AppError, asyncHandler } from "./middleware/error-handler";
 
 // Lazy Anthropic client getter - only instantiate when needed and validation mode is off
 let anthropicClient: Anthropic | null = null;
@@ -257,7 +263,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       req.logger.error("Health check failed", error);
-      res.status(503).json({
+      res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json({
         status: "unhealthy",
         checks,
         error: "Health check failed",
@@ -278,10 +284,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate request body
       const validationResult = analyzeSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(400).json({
-          error: "Invalid request data",
-          details: validationResult.error.issues,
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request data",
+            { validationErrors: validationResult.error.issues }
+          )
+        );
       }
 
       const { thought, emotionalIntensity } = validationResult.data;
@@ -296,18 +307,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // OPENAI CONFIGURATION GUARD: Fail clearly if not in validation mode
       if (!isAnthropicConfigured()) {
-        return res.status(503).json({
-          error: "AI service not configured",
-          code: "CONFIG_MISSING",
-          message:
-            "AI_INTEGRATIONS_OPENAI_API_KEY is missing or placeholder. Set VALIDATION_MODE=true for testing.",
-        });
+        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
+          createErrorResponse(
+            HTTP_STATUS.SERVICE_UNAVAILABLE,
+            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+            req.id,
+            "AI service not configured. Set VALIDATION_MODE=true for testing."
+          )
+        );
       }
 
       // INPUT VALIDATION & SANITIZATION
       const inputValidation = validateAndSanitizeInput(thought);
       if (!inputValidation.valid) {
-        return res.status(400).json({ error: "Invalid input" });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.INVALID_INPUT,
+            req.id,
+            "Invalid input"
+          )
+        );
       }
       const sanitizedThought = inputValidation.sanitized;
 
@@ -506,7 +526,14 @@ ${analyzePrompt}`,
       req.logger.error("Failed to analyze thought", error, {
         operation: "analyze_thought",
       });
-      res.status(500).json({ error: "Failed to analyze thought" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to analyze thought"
+        )
+      );
     }
   });
 
@@ -525,10 +552,15 @@ ${analyzePrompt}`,
       // Validate request body
       const validationResult = reframeSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(400).json({
-          error: "Invalid request data",
-          details: validationResult.error.issues,
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request data",
+            { validationErrors: validationResult.error.issues }
+          )
+        );
       }
 
       const { thought, distortions, analysis, emotionalIntensity } =
@@ -539,10 +571,14 @@ ${analyzePrompt}`,
         return res.json(getValidationModeReframeResponse());
       }
       if (!isAnthropicConfigured()) {
-        return res.status(503).json({
-          error: "AI service not configured",
-          code: "CONFIG_MISSING",
-        });
+        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
+          createErrorResponse(
+            HTTP_STATUS.SERVICE_UNAVAILABLE,
+            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+            req.id,
+            "AI service not configured"
+          )
+        );
       }
 
       const toneClassification = classifyTone(thought);
@@ -681,7 +717,14 @@ ${reframePrompt}`,
       req.logger.error("Failed to generate reframe", error, {
         operation: "generate_reframe",
       });
-      res.status(500).json({ error: "Failed to generate reframe" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to generate reframe"
+        )
+      );
     }
   });
 
@@ -695,10 +738,15 @@ ${reframePrompt}`,
       // Validate request body
       const validationResult = practiceSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(400).json({
-          error: "Invalid request data",
-          details: validationResult.error.issues,
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request data",
+            { validationErrors: validationResult.error.issues }
+          )
+        );
       }
 
       const { reframe } = validationResult.data;
@@ -708,10 +756,14 @@ ${reframePrompt}`,
         return res.json(getValidationModePracticeResponse());
       }
       if (!isAnthropicConfigured()) {
-        return res.status(503).json({
-          error: "AI service not configured",
-          code: "CONFIG_MISSING",
-        });
+        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
+          createErrorResponse(
+            HTTP_STATUS.SERVICE_UNAVAILABLE,
+            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+            req.id,
+            "AI service not configured"
+          )
+        );
       }
 
       // CANONICAL ORCHESTRATION ENFORCEMENT
@@ -790,7 +842,14 @@ ${practicePrompt}`,
       req.logger.error("Failed to generate practice", error, {
         operation: "generate_practice",
       });
-      res.status(500).json({ error: "Failed to generate practice" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to generate practice"
+        )
+      );
     }
   });
 
@@ -812,16 +871,27 @@ ${practicePrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({ error: "Authentication required" });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       // Validate request body
       const validationResult = reflectionSaveSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(400).json({
-          error: "Invalid request data",
-          details: validationResult.error.issues,
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request data",
+            { validationErrors: validationResult.error.issues }
+          )
+        );
       }
 
       const { thought, distortions, reframe, intention, practice, anchor } =
@@ -834,10 +904,14 @@ ${practicePrompt}`,
       if (!isPaid) {
         const todayCount = await storage.getTodayReflectionCount(userId);
         if (todayCount >= FREE_DAILY_LIMIT) {
-          return res.status(402).json({
-            error: "Upgrade to Noor Plus for unlimited reflections",
-            code: "LIMIT_EXCEEDED",
-          });
+          return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
+            createErrorResponse(
+              HTTP_STATUS.PAYMENT_REQUIRED,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "Upgrade to Noor Plus for unlimited reflections"
+            )
+          );
         }
       }
 
@@ -863,8 +937,15 @@ ${practicePrompt}`,
           operation: "encrypt_reflection",
         });
         return res
-          .status(500)
-          .json({ error: "Failed to securely store reflection" });
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.INTERNAL_SERVER_ERROR,
+              ERROR_CODES.INTERNAL_ERROR,
+              req.id,
+              "Failed to securely store reflection"
+            )
+          );
       }
 
       await storage.saveReflection(userId, {
@@ -886,7 +967,14 @@ ${practicePrompt}`,
       req.logger.error("Failed to save reflection", error, {
         operation: "save_reflection",
       });
-      res.status(500).json({ error: "Failed to save reflection" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to save reflection"
+        )
+      );
     }
   });
 
@@ -898,7 +986,13 @@ ${practicePrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({ error: "Authentication required" });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
@@ -941,7 +1035,14 @@ ${practicePrompt}`,
       req.logger.error("Failed to fetch reflection history", error, {
         operation: "fetch_history",
       });
-      res.status(500).json({ error: "Failed to fetch history" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to fetch history"
+        )
+      );
     }
   });
 
@@ -954,26 +1055,37 @@ ${practicePrompt}`,
       const sessionId = parseInt(req.params.id, 10);
 
       if (!userId) {
-        return res.status(401).json({
-          error: "Authentication required",
-          code: "AUTH_REQUIRED",
-        });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       if (isNaN(sessionId)) {
-        return res.status(400).json({
-          error: "Invalid reflection ID",
-          code: "INVALID_ID",
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.INVALID_INPUT,
+            req.id,
+            "Invalid reflection ID"
+          )
+        );
       }
 
       const deletedCount = await storage.deleteReflection(userId, sessionId);
 
       if (deletedCount === 0) {
-        return res.status(404).json({
-          error: "Reflection not found or already deleted",
-          code: "NOT_FOUND",
-        });
+        return res.status(HTTP_STATUS.NOT_FOUND).json(
+          createErrorResponse(
+            HTTP_STATUS.NOT_FOUND,
+            ERROR_CODES.NOT_FOUND,
+            req.id,
+            "Reflection not found or already deleted"
+          )
+        );
       }
 
       res.json({ success: true, deletedCount });
@@ -981,7 +1093,14 @@ ${practicePrompt}`,
       req.logger.error("Failed to delete reflection", error, {
         operation: "delete_reflection",
       });
-      res.status(500).json({ error: "Failed to delete reflection" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to delete reflection"
+        )
+      );
     }
   });
 
@@ -1014,7 +1133,14 @@ ${practicePrompt}`,
       req.logger.error("Failed to check reflection limit", error, {
         operation: "check_reflection_limit",
       });
-      res.status(500).json({ error: "Failed to check limit" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to check limit"
+        )
+      );
     }
   });
 
@@ -1025,20 +1151,27 @@ ${practicePrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({
-          error: "Authentication required",
-          code: "AUTH_REQUIRED",
-        });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({
-          error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED",
-        });
+        return res.status(HTTP_STATUS.FORBIDDEN).json(
+          createErrorResponse(
+            HTTP_STATUS.FORBIDDEN,
+            ERROR_CODES.PAYMENT_REQUIRED,
+            req.id,
+            "This feature requires Noor Plus"
+          )
+        );
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
@@ -1103,7 +1236,14 @@ ${practicePrompt}`,
       req.logger.error("Failed to fetch patterns", error, {
         operation: "fetch_patterns",
       });
-      res.status(500).json({ error: "Failed to fetch patterns" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to fetch patterns"
+        )
+      );
     }
   });
 
@@ -1114,17 +1254,27 @@ ${practicePrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({ error: "Authentication required" });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({
-          error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED",
-        });
+        return res.status(HTTP_STATUS.FORBIDDEN).json(
+          createErrorResponse(
+            HTTP_STATUS.FORBIDDEN,
+            ERROR_CODES.PAYMENT_REQUIRED,
+            req.id,
+            "This feature requires Noor Plus"
+          )
+        );
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
@@ -1239,7 +1389,14 @@ ${summaryPrompt}`,
       req.logger.error("Failed to generate insight summary", error, {
         operation: "generate_insight_summary",
       });
-      res.status(500).json({ error: "Failed to generate insight summary" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to generate insight summary"
+        )
+      );
     }
   });
 
@@ -1250,17 +1407,27 @@ ${summaryPrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({ error: "Authentication required" });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({
-          error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED",
-        });
+        return res.status(HTTP_STATUS.FORBIDDEN).json(
+          createErrorResponse(
+            HTTP_STATUS.FORBIDDEN,
+            ERROR_CODES.PAYMENT_REQUIRED,
+            req.id,
+            "This feature requires Noor Plus"
+          )
+        );
       }
 
       const assumptions = await storage.getAssumptionLibrary(userId);
@@ -1273,7 +1440,14 @@ ${summaryPrompt}`,
       req.logger.error("Failed to fetch assumption library", error, {
         operation: "fetch_assumption_library",
       });
-      res.status(500).json({ error: "Failed to fetch assumption library" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to fetch assumption library"
+        )
+      );
     }
   });
 
@@ -1342,16 +1516,27 @@ ${summaryPrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(401).json({ error: "Authentication required" });
+        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_REQUIRED,
+            req.id
+          )
+        );
       }
 
       // Validate request body
       const validationResult = duasContextualSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(400).json({
-          error: "Invalid request data",
-          details: validationResult.error.issues,
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request data",
+            { validationErrors: validationResult.error.issues }
+          )
+        );
       }
 
       const { state } = validationResult.data;
@@ -1360,9 +1545,13 @@ ${summaryPrompt}`,
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(403).json({
-          error: "This feature requires Noor Plus",
-          code: "PRO_REQUIRED",
+        return res.status(HTTP_STATUS.FORBIDDEN).json(
+          createErrorResponse(
+            HTTP_STATUS.FORBIDDEN,
+            ERROR_CODES.PAYMENT_REQUIRED,
+            req.id,
+            "This feature requires Noor Plus"
+          )
         });
       }
 
@@ -1377,7 +1566,14 @@ ${summaryPrompt}`,
       req.logger.error("Failed to fetch contextual dua", error, {
         operation: "fetch_contextual_dua",
       });
-      res.status(500).json({ error: "Failed to fetch contextual dua" });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to fetch contextual dua"
+        )
+      );
     }
   });
 
@@ -1387,19 +1583,27 @@ ${summaryPrompt}`,
   app.post("/api/admin/retention/run", adminLimiter, async (req, res) => {
     // Check if admin endpoint is enabled
     if (!isAdminEndpointEnabled()) {
-      return res.status(404).json({
-        error: "Not found",
-        code: "ENDPOINT_DISABLED",
-      });
+      return res.status(HTTP_STATUS.NOT_FOUND).json(
+        createErrorResponse(
+          HTTP_STATUS.NOT_FOUND,
+          ERROR_CODES.NOT_FOUND,
+          req.id,
+          "Not found"
+        )
+      );
     }
 
     // Verify admin token
     const token = req.headers["x-admin-token"] as string | undefined;
     if (!verifyAdminToken(token)) {
-      return res.status(401).json({
-        error: "Unauthorized",
-        code: "INVALID_ADMIN_TOKEN",
-      });
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+        createErrorResponse(
+          HTTP_STATUS.UNAUTHORIZED,
+          ERROR_CODES.AUTH_INVALID,
+          req.id,
+          "Unauthorized"
+        )
+      );
     }
 
     try {
@@ -1416,10 +1620,14 @@ ${summaryPrompt}`,
       req.logger.error("Manual cleanup failed", error, {
         operation: "manual_cleanup",
       });
-      res.status(500).json({
-        error: "Cleanup failed",
-        code: "CLEANUP_ERROR",
-      });
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Cleanup failed"
+        )
+      );
     }
   });
 

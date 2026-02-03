@@ -12,6 +12,7 @@ import {
 } from "./billing";
 import { runMigrations } from "stripe-replit-sync";
 import { sessionMiddleware } from "./middleware/auth";
+import { errorHandler } from "./middleware/error-handler";
 import { initializeDataRetention, runManualCleanup } from "./data-retention";
 import {
   VALIDATION_MODE,
@@ -324,35 +325,8 @@ function setupErrorHandler(app: express.Application): void {
   // Sentry error handler (captures errors if Sentry is configured)
   setupSentryErrorHandler(app);
 
-  // Custom error handler for logging and response
-  app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
-    // Type guard and normalize error
-    let error: HTTPError;
-    if (isHTTPError(err)) {
-      error = err;
-    } else {
-      // Convert non-Error types to Error
-      error = new Error(String(err));
-    }
-
-    const status = error.status || error.statusCode || 500;
-    const message = error.message || "Internal Server Error";
-    const requestId = req.requestId || "-";
-
-    defaultLogger.error(`[${requestId}] ERROR ${status}: ${message}`, {
-      requestId,
-      status,
-      path: req.path,
-      error: error.message,
-    });
-
-    // Capture exception in Sentry with requestId correlation
-    captureException(error, { requestId, status, path: req.path });
-
-    if (!res.headersSent) {
-      res.status(status).json({ message, requestId });
-    }
-  });
+  // Use standardized error handler middleware (MUST be last middleware)
+  app.use(errorHandler);
 }
 
 async function initStripe() {

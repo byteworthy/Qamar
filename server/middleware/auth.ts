@@ -5,6 +5,11 @@ import { userSessions } from "@shared/schema";
 import { eq, gt } from "drizzle-orm";
 import { encryptData, decryptData } from "../encryption";
 import { defaultLogger } from "../utils/logger";
+import {
+  createErrorResponse,
+  ERROR_CODES,
+  HTTP_STATUS,
+} from "../types/error-response";
 
 const SESSION_COOKIE_NAME = "noor_session";
 const SESSION_DURATION_DAYS = 30;
@@ -268,7 +273,13 @@ export async function updateSessionEmail(
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   if (!req.auth?.userId) {
-    return res.status(401).json({ error: "Authentication required" });
+    return res.status(HTTP_STATUS.UNAUTHORIZED).json(
+      createErrorResponse(
+        HTTP_STATUS.UNAUTHORIZED,
+        ERROR_CODES.AUTH_REQUIRED,
+        req.id
+      )
+    );
   }
   next();
 }
