@@ -64,7 +64,7 @@
     "cors": "^2.8.6",
     "drizzle-orm": "^0.39.3",
     "drizzle-zod": "^0.7.1",
-    "expo": "~54.0.32",
+    "expo": "~54.0.33",
     "expo-blur": "^15.0.7",
     "expo-constants": "~18.0.9",
     "expo-dev-client": "~6.0.20",
