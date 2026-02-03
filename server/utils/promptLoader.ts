@@ -1,5 +1,8 @@
 import { readFileSync } from "fs";
 import { join } from "path";
+import { defaultLogger } from "./logger";
+
+const promptLogger = defaultLogger.child({ module: "PromptLoader" });
 
 /**
  * Loads a prompt template from the prompts directory and replaces placeholders
@@ -25,7 +28,10 @@ export function loadPrompt(
 
     return content;
   } catch (error) {
-    console.error(`Failed to load prompt: ${filename}`, error);
+    promptLogger.error("Failed to load prompt", error, {
+      filename,
+      // Do not log prompt content or replacements (may contain sensitive data)
+    });
     throw new Error(`Prompt file not found: ${filename}`);
   }
 }

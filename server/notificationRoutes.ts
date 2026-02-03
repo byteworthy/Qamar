@@ -13,6 +13,9 @@ import {
   isValidPushToken,
   type PushToken,
 } from "./notifications";
+import { defaultLogger } from "./utils/logger";
+
+const notificationLogger = defaultLogger.child({ module: "Notifications" });
 
 const router = Router();
 
@@ -90,16 +93,20 @@ router.post("/register", async (req: Request, res: Response) => {
 
     pushTokens.set(token, pushToken);
 
-    console.log(
-      `[Notifications] Registered token for ${userId || "anonymous"} on ${platform}`,
-    );
+    notificationLogger.info("Push token registered", {
+      userId: userId || "anonymous",
+      platform,
+      deviceName,
+    });
 
     res.json({
       success: true,
       message: "Push token registered",
     });
   } catch (error) {
-    console.error("[Notifications] Registration error:", error);
+    notificationLogger.error("Push token registration failed", error, {
+      operation: "register",
+    });
     res.status(500).json({
       error: "Failed to register push token",
     });
@@ -126,7 +133,9 @@ router.delete("/unregister", async (req: Request, res: Response) => {
       message: "Push token unregistered",
     });
   } catch (error) {
-    console.error("[Notifications] Unregister error:", error);
+    notificationLogger.error("Push token unregistration failed", error, {
+      operation: "unregister",
+    });
     res.status(500).json({
       error: "Failed to unregister push token",
     });
@@ -185,7 +194,9 @@ router.post("/send", async (req: Request, res: Response) => {
       result,
     });
   } catch (error) {
-    console.error("[Notifications] Send error:", error);
+    notificationLogger.error("Failed to send notification", error, {
+      operation: "send",
+    });
     res.status(500).json({
       error: "Failed to send notification",
     });
@@ -228,16 +239,20 @@ router.post("/broadcast", async (req: Request, res: Response) => {
       data,
     });
 
-    console.log(
-      `[Notifications] Broadcast sent to ${allTokens.length} devices`,
-    );
+    notificationLogger.info("Broadcast notification sent", {
+      deviceCount: allTokens.length,
+      successful: result.successful,
+      failed: result.failed,
+    });
 
     res.json({
       success: true,
       result,
     });
   } catch (error) {
-    console.error("[Notifications] Broadcast error:", error);
+    notificationLogger.error("Broadcast notification failed", error, {
+      operation: "broadcast",
+    });
     res.status(500).json({
       error: "Failed to broadcast notification",
     });
@@ -274,7 +289,9 @@ router.post("/inactivity-check", async (req: Request, res: Response) => {
       result,
     });
   } catch (error) {
-    console.error("[Notifications] Inactivity check error:", error);
+    notificationLogger.error("Inactivity check failed", error, {
+      operation: "inactivity_check",
+    });
     res.status(500).json({
       error: "Failed to send inactivity reminders",
     });
@@ -303,7 +320,9 @@ router.get("/status", async (req: Request, res: Response) => {
       lastUsed: tokenData?.lastUsed,
     });
   } catch (error) {
-    console.error("[Notifications] Status check error:", error);
+    notificationLogger.error("Notification status check failed", error, {
+      operation: "status_check",
+    });
     res.status(500).json({
       error: "Failed to check notification status",
     });
@@ -329,7 +348,9 @@ router.get("/stats", async (_req: Request, res: Response) => {
 
     res.json(stats);
   } catch (error) {
-    console.error("[Notifications] Stats error:", error);
+    notificationLogger.error("Failed to get notification stats", error, {
+      operation: "stats",
+    });
     res.status(500).json({
       error: "Failed to get notification stats",
     });

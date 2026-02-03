@@ -6,9 +6,12 @@
  */
 
 import Expo, { ExpoPushMessage, ExpoPushTicket } from "expo-server-sdk";
+import { defaultLogger } from "./utils/logger";
 
 // Create a new Expo SDK client
 const expo = new Expo();
+
+const notificationLogger = defaultLogger.child({ module: "Notifications" });
 
 // =============================================================================
 // TYPES
@@ -121,7 +124,7 @@ export const SERVER_NOTIFICATION_TEMPLATES = {
  *   ['ExponentPushToken[xxx]', 'ExponentPushToken[yyy]'],
  *   { title: 'Hello', body: 'World', data: { screen: 'Home' } }
  * );
- * console.log(`Sent: ${result.successful}, Failed: ${result.failed}`);
+ * // Result contains successful/failed counts
  * ```
  */
 export async function sendPushNotifications(
@@ -187,9 +190,12 @@ export async function sendPushNotifications(
     }
   }
 
-  console.log(
-    `[Notifications] Sent: ${result.successful} successful, ${result.failed} failed`,
-  );
+  notificationLogger.info("Push notifications sent", {
+    successful: result.successful,
+    failed: result.failed,
+    totalTokens: tokens.length,
+    validTokens: validTokens.length,
+  });
 
   return result;
 }
@@ -357,9 +363,10 @@ export async function checkNotificationReceipts(
           // Handle specific error types
           if (receipt.details?.error === "DeviceNotRegistered") {
             // Token is no longer valid - should remove from database
-            console.log(
-              `[Notifications] Device not registered, should remove token: ${receiptId}`,
-            );
+            notificationLogger.warn("Device not registered, token should be removed", {
+              receiptId,
+              errorType: "DeviceNotRegistered",
+            });
           }
         }
       }

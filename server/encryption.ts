@@ -4,6 +4,9 @@
  */
 
 import crypto from "crypto";
+import { defaultLogger } from "./utils/logger";
+
+const encryptionLogger = defaultLogger.child({ module: "Encryption" });
 
 // =============================================================================
 // PRODUCTION GUARD: Encryption key validation
@@ -13,9 +16,13 @@ const isProduction = process.env.NODE_ENV === "production";
 
 // In production, ENCRYPTION_KEY is required - fail closed
 if (isProduction && !process.env.ENCRYPTION_KEY) {
-  console.error(
-    "FATAL: ENCRYPTION_KEY not configured in production. " +
-      "Data encryption will fail. Server refusing to start.",
+  encryptionLogger.error(
+    "FATAL: ENCRYPTION_KEY not configured in production. Data encryption will fail. Server refusing to start.",
+    undefined,
+    {
+      isProduction,
+      action: "refusing_to_start",
+    },
   );
   throw new Error(
     "ENCRYPTION_KEY environment variable is required in production.",
@@ -27,9 +34,12 @@ const ENCRYPTION_KEY =
   process.env.ENCRYPTION_KEY || crypto.randomBytes(32).toString("hex");
 
 if (!process.env.ENCRYPTION_KEY && !isProduction) {
-  console.warn(
-    "[Encryption] WARNING: Using random encryption key. " +
-      "Data will not be decryptable after restart. Set ENCRYPTION_KEY for persistence.",
+  encryptionLogger.warn(
+    "Using random encryption key. Data will not be decryptable after restart. Set ENCRYPTION_KEY for persistence.",
+    {
+      isProduction,
+      action: "using_random_key",
+    },
   );
 }
 
@@ -65,8 +75,10 @@ export function encryptData(text: string): string {
     // Return as combined string: iv:tag:encrypted
     return `enc:${iv.toString("hex")}:${tag.toString("hex")}:${encrypted}`;
   } catch (error) {
-    // Use console.error for encryption failures (critical security issue)
-    console.error("[Encryption] Encryption failed:", error);
+    encryptionLogger.error("Encryption failed", error, {
+      operation: "encrypt",
+      // Do not log plaintext data
+    });
     throw new Error(
       `Encryption failed: ${error instanceof Error ? error.message : String(error)}`,
     );
@@ -106,8 +118,10 @@ export function decryptData(encryptedText: string): string {
 
     return decrypted;
   } catch (error) {
-    // Use console.error for decryption failures (critical security issue)
-    console.error("[Encryption] Decryption failed:", error);
+    encryptionLogger.error("Decryption failed", error, {
+      operation: "decrypt",
+      // Do not log encrypted or decrypted data
+    });
     throw new Error(
       `Decryption failed: ${error instanceof Error ? error.message : String(error)}`,
     );
