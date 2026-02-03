@@ -1,6 +1,6 @@
 # Noor App - Project State
 
-**Last Updated:** 2026-02-03T00:49:00Z
+**Last Updated:** 2026-02-03T01:32:32Z
 
 ---
 
@@ -9,30 +9,41 @@
 See: `.planning/PROJECT.md` (updated 2026-01-26)
 
 **Core value:** Production stability with systematic quality improvements
-**Current focus:** Phase 4 Observability & Logging complete
+**Current focus:** Phase 5 Infrastructure & CI/CD in progress
 
 ---
 
 ## Current Status
 
-**Phase:** Phase 4 complete
-**Progress:** 5/9 phases complete
-**Requirements:** 34/60 delivered (60/67 total, 7 deferred to v2)
+**Phase:** Phase 5 in progress
+**Progress:** 5/9 phases complete (1 plan completed in Phase 5)
+**Requirements:** 36/60 delivered (62/67 total, 7 deferred to v2)
 
 ---
 
 ## Active Phase
 
-**Phase 5: Code Quality & Debt Reduction** (next to execute)
+**Phase 5: Infrastructure & CI/CD** (in progress)
 
-- Status: Pending
-- Plans: 0 of 3 started
-- Requirements: 7 (CODE-01 through CODE-07)
-- Next action: Plan Phase 5 or execute Phase 6/7/8
+- Status: In progress
+- Plans: 1 of 3 completed (05-02 complete)
+- Requirements: 2 delivered (INFRA-04, INFRA-05), 5 remaining
+- Next action: Execute plan 05-01 or 05-03
 
 ---
 
 ## Recent Activity
+
+- **2026-02-03T01:32**: Phase 5 plan 05-02 completed
+  - CodeQL SAST workflow for JavaScript/TypeScript security scanning
+  - Dependabot configured for weekly dependency updates (Monday 6 AM UTC)
+  - Grouped dependency updates: Expo, React, testing, TypeScript
+  - Security-extended queries for comprehensive vulnerability detection
+  - PR limits: 5 for npm, 2 for GitHub Actions
+  - Fixed TypeScript errors in createErrorResponse (requestId type safety)
+  - Requirements delivered: INFRA-04, INFRA-05
+  - Commits: 6180408, a184639
+  - SUMMARY: .planning/phases/05-infrastructure-cicd/05-02-SUMMARY.md
 
 - **2026-02-03T00:49**: Phase 4 completed (plan 04-04)
   - Standardized all error responses across API endpoints
@@ -266,7 +277,7 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 | 2 | ✓ Complete | 8 | 100% |
 | 3 | ✓ Complete | 7 | 100% |
 | 4 | ✓ Complete | 5 | 100% |
-| 5 | ○ Pending | 7 | 0% |
+| 5 | ◆ In Progress | 7 | 29% |
 | 6 | ○ Pending | 7 | 0% |
 | 7 | ○ Pending | 7 | 0% |
 | 8 | ○ Pending | 10 | 0% |
@@ -311,6 +322,11 @@ See: `.planning/PROJECT.md` (updated 2026-01-26)
 | 2026-02-02 | Winston over Pino for structured logging | Better TypeScript support, more production features, established ecosystem |
 | 2026-02-02 | Automatic sensitive data redaction in logs | Prevent PII/PHI leakage (passwords, thoughts, emails, API keys) - security-critical for healthcare app |
 | 2026-02-02 | Request-scoped loggers via middleware | Automatic context (requestId, userId, IP) without manual passing throughout request lifecycle |
+| 2026-02-03 | CodeQL security-extended queries | More thorough vulnerability analysis beyond default query set for comprehensive security coverage |
+| 2026-02-03 | Weekly dependency update schedule (Monday 6 AM UTC) | Balances staying current with security patches while avoiding update fatigue |
+| 2026-02-03 | Grouped dependency updates | Reduces PR noise by combining related packages (Expo, React, testing, TypeScript) for easier review |
+| 2026-02-03 | PR limits (5 npm, 2 GitHub Actions) | Prevents overwhelming number of simultaneous PRs while maintaining timely updates |
+| 2026-02-03 | requestId accepts string or undefined | Type safety fix in createErrorResponse with 'unknown' fallback for undefined cases |
 | 2026-02-02 | File logging disabled by default | Railway captures console output automatically, file logging adds complexity and storage overhead |
 | 2026-02-03 | Module-scoped loggers for non-request contexts | Files like encryption.ts and notifications.ts don't have access to req.logger, so use defaultLogger.child({ module: 'Name' }) pattern |
 | 2026-02-03 | Security-conscious logging in encryption module | Never log encryption keys, plaintext, or encrypted data - only metadata (operations, error messages) |
