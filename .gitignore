@@ -69,3 +69,28 @@ artifacts/
 # Reference materials and archives
 anthropic-cookbook/
 archive/
+
+# Backup files
+*.backup
+*.bak
+*.tmp
+*~
+
+# Claude config backups
+.claude.json.backup*
+
+# Installers (should not be in project)
+*.exe
+*.msi
+*.dmg
+
+# Planning artifacts (keep plans, ignore summaries)
+*-SUMMARY.md
+*-VERIFICATION.md
+
+# Test debug files
+test-debug*.bats
+test-minimal.bats
+
+# Local directories
+.local/
