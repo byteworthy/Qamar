@@ -29,7 +29,7 @@ export interface Hadith {
 // MOCK DATA FLAG - Toggle this to switch between mock and real API
 // ============================================================================
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 // ============================================================================
 // MOCK DATA - 30 authentic, well-known hadiths across 6 major collections

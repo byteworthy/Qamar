@@ -33,7 +33,7 @@ export interface Bookmark {
 // MOCK DATA FLAG - Toggle this to switch between mock and real API
 // ============================================================================
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 // ============================================================================
 // MOCK DATA

@@ -79,6 +79,9 @@ export type RootStackParamList = {
   HadithLibrary: undefined;
   HadithList: { collectionId: string };
   HadithDetail: { hadithId: string };
+  AdhkarList: undefined;
+  AlphabetGrid: undefined;
+  ProgressDashboard: undefined;
 };
 
 /**

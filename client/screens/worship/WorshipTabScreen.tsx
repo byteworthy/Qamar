@@ -107,8 +107,8 @@ export default function WorshipTabScreen() {
       description: "Daily remembrance and supplications",
       gradient: ["#3a4a3a", "#6a7a6a"],
       icon: "heart" as const,
-      screen: undefined, // TODO: Implement AdhkarScreen (or reuse existing)
-      comingSoon: false, // Can link to existing DuaScreen
+      screen: "AdhkarList" as const,
+      comingSoon: false,
     },
     {
       title: "Islamic Calendar",
@@ -150,10 +150,7 @@ export default function WorshipTabScreen() {
               gradient={feature.gradient}
               icon={feature.icon}
               onPress={() => {
-                // For Adhkar, link to existing Dua screen
-                if (feature.title === "Adhkar & Duas") {
-                  navigation.navigate("Dua", { state: undefined });
-                } else if (feature.screen) {
+                if (feature.screen) {
                   navigation.navigate(feature.screen);
                 }
               }}

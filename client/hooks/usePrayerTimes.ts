@@ -1,4 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import * as Location from "expo-location";
+import {
+  calculatePrayerTimes,
+  getNextPrayer,
+  formatPrayerTime,
+  formatCountdown,
+  type PrayerTimesResult,
+} from "../services/prayerTimes";
 
 // ============================================================================
 // TYPES
@@ -49,120 +58,184 @@ export interface PrayerLog {
 }
 
 // ============================================================================
-// MOCK DATA
+// METHOD MAPPING - hook CalculationMethod IDs → adhan method IDs
 // ============================================================================
 
-const USE_MOCK_DATA = true;
+const METHOD_MAP: Record<CalculationMethod, string> = {
+  "muslim-world-league": "MuslimWorldLeague",
+  egyptian: "Egyptian",
+  karachi: "Karachi",
+  "umm-al-qura": "UmmAlQura",
+  dubai: "Dubai",
+  "moonsighting-committee": "MuslimWorldLeague", // fallback
+  isna: "NorthAmerica",
+  kuwait: "Kuwait",
+  qatar: "Qatar",
+  singapore: "Singapore",
+  turkey: "Turkey",
+  tehran: "Tehran",
+  "north-america": "NorthAmerica",
+};
 
-function getMockPrayerTimes(): DailyPrayerTimes {
+// ============================================================================
+// LOCATION HOOK
+// ============================================================================
+
+export function useLocation() {
+  const [location, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+    name: string;
+  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setError("Location permission denied");
+          // Default to Mecca
+          setLocation({ latitude: 21.4225, longitude: 39.8262, name: "Makkah" });
+          return;
+        }
+        const loc = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+        const [geo] = await Location.reverseGeocodeAsync({
+          latitude: loc.coords.latitude,
+          longitude: loc.coords.longitude,
+        });
+        const name = geo
+          ? `${geo.city || geo.region || ""}, ${geo.country || ""}`
+          : `${loc.coords.latitude.toFixed(2)}, ${loc.coords.longitude.toFixed(2)}`;
+        setLocation({
+          latitude: loc.coords.latitude,
+          longitude: loc.coords.longitude,
+          name: name.replace(/^, /, ""),
+        });
+      } catch (e) {
+        setError("Failed to get location");
+        setLocation({ latitude: 21.4225, longitude: 39.8262, name: "Makkah" });
+      }
+    })();
+  }, []);
+
+  return { location, error };
+}
+
+// ============================================================================
+// API FUNCTIONS - Now using real adhan library
+// ============================================================================
+
+function buildDailyPrayerTimes(
+  latitude: number,
+  longitude: number,
+  locationName: string,
+  methodId?: string,
+  madhabId?: string
+): DailyPrayerTimes {
   const now = new Date();
-  const today = now.toISOString().split("T")[0];
+  const result = calculatePrayerTimes(latitude, longitude, now, methodId, madhabId);
+  const next = getNextPrayer(result);
 
   const prayers: PrayerTime[] = [
-    { name: "Fajr", time: `${today}T05:30:00`, isNext: false },
-    { name: "Dhuhr", time: `${today}T12:15:00`, isNext: false },
-    { name: "Asr", time: `${today}T15:30:00`, isNext: false },
-    { name: "Maghrib", time: `${today}T18:05:00`, isNext: false },
-    { name: "Isha", time: `${today}T19:30:00`, isNext: false },
+    { name: "Fajr", time: result.fajr.toISOString(), isNext: next.name === "Fajr" },
+    { name: "Dhuhr", time: result.dhuhr.toISOString(), isNext: next.name === "Dhuhr" },
+    { name: "Asr", time: result.asr.toISOString(), isNext: next.name === "Asr" },
+    { name: "Maghrib", time: result.maghrib.toISOString(), isNext: next.name === "Maghrib" },
+    { name: "Isha", time: result.isha.toISOString(), isNext: next.name === "Isha" },
   ];
 
-  // Mark next prayer
-  const currentHour = now.getHours() * 60 + now.getMinutes();
-  const prayerMinutes = [330, 735, 930, 1085, 1170];
-  let nextIdx = prayerMinutes.findIndex((m) => m > currentHour);
-  if (nextIdx === -1) nextIdx = 0;
-  prayers[nextIdx].isNext = true;
-
   return {
-    date: today,
-    location: "New York, NY",
-    method: "ISNA",
+    date: now.toISOString().split("T")[0],
+    location: locationName,
+    method: methodId || "NorthAmerica",
     prayers,
-    sunrise: `${today}T06:45:00`,
+    sunrise: result.sunrise.toISOString(),
   };
 }
 
-const MOCK_PREFERENCES: PrayerPreferences = {
-  calculationMethod: "isna",
-  asrMethod: "standard",
-  highLatitudeRule: "middle-of-night",
-  adjustments: {},
-};
-
-const MOCK_LOGS: PrayerLog[] = [];
-
-// ============================================================================
-// API FUNCTIONS
-// ============================================================================
-
 async function fetchPrayerTimes(
   latitude?: number,
-  longitude?: number
+  longitude?: number,
+  locationName?: string,
+  methodId?: string,
+  madhabId?: string
 ): Promise<DailyPrayerTimes> {
-  if (USE_MOCK_DATA) {
-    await new Promise((r) => setTimeout(r, 400));
-    return getMockPrayerTimes();
-  }
-
-  const params = new URLSearchParams();
-  if (latitude) params.set("lat", String(latitude));
-  if (longitude) params.set("lng", String(longitude));
-
-  const response = await fetch(`/api/prayer/times?${params}`);
-  if (!response.ok) throw new Error("Failed to fetch prayer times");
-  return response.json();
+  // Use adhan library for client-side calculation (no network needed)
+  const lat = latitude || 21.4225;
+  const lng = longitude || 39.8262;
+  return buildDailyPrayerTimes(lat, lng, locationName || "Unknown", methodId, madhabId);
 }
 
 async function fetchPreferences(): Promise<PrayerPreferences> {
-  if (USE_MOCK_DATA) {
-    await new Promise((r) => setTimeout(r, 300));
-    return MOCK_PREFERENCES;
+  // Try server, fall back to defaults
+  try {
+    const response = await fetch("/api/prayer/preferences");
+    if (response.ok) {
+      const data = await response.json();
+      return data.preferences;
+    }
+  } catch {
+    // Offline - use defaults
   }
 
-  const response = await fetch("/api/prayer/preferences");
-  if (!response.ok) throw new Error("Failed to fetch prayer preferences");
-  return response.json();
+  return {
+    calculationMethod: "north-america",
+    asrMethod: "standard",
+    highLatitudeRule: "middle-of-night",
+    adjustments: {},
+  };
 }
 
 async function updatePreferences(
   prefs: Partial<PrayerPreferences>
 ): Promise<PrayerPreferences> {
-  if (USE_MOCK_DATA) {
-    await new Promise((r) => setTimeout(r, 300));
-    Object.assign(MOCK_PREFERENCES, prefs);
-    return MOCK_PREFERENCES;
+  try {
+    const response = await fetch("/api/prayer/preferences", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(prefs),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data.preferences;
+    }
+  } catch {
+    // Offline - just return merged prefs
   }
 
-  const response = await fetch("/api/prayer/preferences", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(prefs),
-  });
-  if (!response.ok) throw new Error("Failed to update preferences");
-  return response.json();
+  return {
+    calculationMethod: "north-america",
+    asrMethod: "standard",
+    highLatitudeRule: "middle-of-night",
+    adjustments: {},
+    ...prefs,
+  } as PrayerPreferences;
 }
 
 async function logPrayer(prayer: string, onTime: boolean): Promise<PrayerLog> {
-  if (USE_MOCK_DATA) {
-    await new Promise((r) => setTimeout(r, 200));
-    const log: PrayerLog = {
-      id: `log-${Date.now()}`,
-      prayer,
-      date: new Date().toISOString().split("T")[0],
-      completedAt: new Date().toISOString(),
-      onTime,
-    };
-    MOCK_LOGS.push(log);
-    return log;
+  const log: PrayerLog = {
+    id: `log-${Date.now()}`,
+    prayer,
+    date: new Date().toISOString().split("T")[0],
+    completedAt: new Date().toISOString(),
+    onTime,
+  };
+
+  try {
+    const response = await fetch("/api/prayer/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prayerName: prayer, onTime }),
+    });
+    if (response.ok) return log;
+  } catch {
+    // Offline - still return the log for local tracking
   }
 
-  const response = await fetch("/api/prayer/log", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prayer, onTime }),
-  });
-  if (!response.ok) throw new Error("Failed to log prayer");
-  return response.json();
+  return log;
 }
 
 // ============================================================================
@@ -170,11 +243,17 @@ async function logPrayer(prayer: string, onTime: boolean): Promise<PrayerLog> {
 // ============================================================================
 
 export function usePrayerTimes(latitude?: number, longitude?: number) {
+  const { location } = useLocation();
+  const lat = latitude || location?.latitude;
+  const lng = longitude || location?.longitude;
+  const name = location?.name || "Loading...";
+
   return useQuery({
-    queryKey: ["prayer", "times", latitude, longitude],
-    queryFn: () => fetchPrayerTimes(latitude, longitude),
+    queryKey: ["prayer", "times", lat, lng],
+    queryFn: () => fetchPrayerTimes(lat, lng, name),
+    enabled: lat !== undefined && lng !== undefined,
     staleTime: 1000 * 60 * 30, // 30 min - recalculate periodically
-    refetchInterval: 1000 * 60 * 5, // refresh every 5 min for "next prayer"
+    refetchInterval: 1000 * 60 * 1, // refresh every 1 min for "next prayer" accuracy
   });
 }
 
@@ -208,3 +287,6 @@ export function useLogPrayer() {
     },
   });
 }
+
+// Re-export utilities for screens to use
+export { formatPrayerTime, formatCountdown, getNextPrayer };

@@ -110,6 +110,14 @@ export default function LearnTabScreen() {
       screen: "HadithLibrary" as const,
       comingSoon: false,
     },
+    {
+      title: "Arabic Alphabet",
+      description: "Master the 28 letters of Arabic script",
+      gradient: ["#4a3a5a", "#7a6a8a"],
+      icon: "grid" as const,
+      screen: "AlphabetGrid" as const,
+      comingSoon: false,
+    },
   ];
 
   return (
