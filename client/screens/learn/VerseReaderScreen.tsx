@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import {
@@ -18,11 +18,13 @@ import {
   useCreateBookmark,
   useQuranBookmarks,
   useDeleteBookmark,
+  useQuranAudio,
   Verse,
 } from "@/hooks/useQuranData";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { RouteType } from "@/navigation/types";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 interface VerseCardProps {
   verse: Verse;
@@ -101,8 +103,22 @@ export default function VerseReaderScreen() {
   const { data: surahs } = useQuranSurahs();
   const { data: verses, isLoading, error } = useQuranVerses(surahId);
   const { data: bookmarks } = useQuranBookmarks();
+  const { data: audioData, isLoading: isAudioLoading } = useQuranAudio(surahId);
   const createBookmark = useCreateBookmark();
   const deleteBookmark = useDeleteBookmark();
+
+  // Audio player
+  const {
+    isPlaying,
+    isLoading: isPlayerLoading,
+    currentPosition,
+    duration,
+    error: audioError,
+    playAudio,
+    pauseAudio,
+    resumeAudio,
+    stopAudio,
+  } = useAudioPlayer();
 
   // Find current surah
   const currentSurah = useMemo(
@@ -133,6 +149,33 @@ export default function VerseReaderScreen() {
       createBookmark.mutate({ surahId, verseNumber });
     }
   };
+
+  // Audio controls
+  const handlePlayPause = async () => {
+    if (isPlaying) {
+      await pauseAudio();
+    } else if (currentPosition > 0) {
+      await resumeAudio();
+    } else if (audioData?.ayahs?.[0]?.audioUrl) {
+      // Play first verse audio
+      await playAudio(audioData.ayahs[0].audioUrl);
+    }
+  };
+
+  const handleStop = async () => {
+    await stopAudio();
+  };
+
+  // Format time in mm:ss
+  const formatTime = (millis: number) => {
+    const totalSeconds = Math.floor(millis / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Calculate progress percentage
+  const progress = duration > 0 ? currentPosition / duration : 0;
 
   // Show bismillah at top (except for Surah 9 - At-Tawbah)
   const shouldShowBismillah = surahId !== 9;
@@ -181,7 +224,7 @@ export default function VerseReaderScreen() {
         )}
         contentContainerStyle={[
           styles.listContent,
-          { paddingBottom: 100 + insets.bottom },
+          { paddingBottom: audioData ? 180 + insets.bottom : 100 + insets.bottom },
         ]}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
@@ -274,6 +317,116 @@ export default function VerseReaderScreen() {
           </View>
         }
       />
+
+      {/* Audio Player Bar */}
+      {audioData && (
+        <Animated.View
+          entering={FadeInDown.duration(400)}
+          style={[
+            styles.audioPlayerContainer,
+            {
+              bottom: insets.bottom + 16,
+            },
+          ]}
+        >
+          <GlassCard style={styles.audioPlayer} elevated>
+            {/* Surah Info */}
+            <View style={styles.audioHeader}>
+              <Feather name="music" size={18} color={theme.primary} />
+              <ThemedText style={styles.audioTitle} numberOfLines={1}>
+                {currentSurah?.transliteration || 'Recitation'}
+              </ThemedText>
+            </View>
+
+            {/* Progress Bar */}
+            <View style={styles.progressContainer}>
+              <View
+                style={[
+                  styles.progressBar,
+                  { backgroundColor: theme.textSecondary + '20' },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.progressFill,
+                    {
+                      backgroundColor: theme.primary,
+                      width: `${progress * 100}%`,
+                    },
+                  ]}
+                />
+              </View>
+              <View style={styles.timeLabels}>
+                <ThemedText style={[styles.timeText, { color: theme.textSecondary }]}>
+                  {formatTime(currentPosition)}
+                </ThemedText>
+                <ThemedText style={[styles.timeText, { color: theme.textSecondary }]}>
+                  {formatTime(duration)}
+                </ThemedText>
+              </View>
+            </View>
+
+            {/* Controls */}
+            <View style={styles.audioControls}>
+              {isPlayerLoading || isAudioLoading ? (
+                <ActivityIndicator size="small" color={theme.primary} />
+              ) : (
+                <>
+                  <Pressable
+                    onPress={handleStop}
+                    style={styles.controlButton}
+                    disabled={!isPlaying && currentPosition === 0}
+                  >
+                    <Feather
+                      name="square"
+                      size={20}
+                      color={
+                        !isPlaying && currentPosition === 0
+                          ? theme.textSecondary + '40'
+                          : theme.textSecondary
+                      }
+                    />
+                  </Pressable>
+
+                  <Pressable
+                    onPress={handlePlayPause}
+                    style={[
+                      styles.playButton,
+                      { backgroundColor: theme.primary },
+                    ]}
+                    disabled={!audioData?.ayahs?.[0]?.audioUrl}
+                  >
+                    <Feather
+                      name={isPlaying ? 'pause' : 'play'}
+                      size={28}
+                      color="#FFFFFF"
+                    />
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => {}}
+                    style={styles.controlButton}
+                    disabled
+                  >
+                    <Feather
+                      name="skip-forward"
+                      size={20}
+                      color={theme.textSecondary + '40'}
+                    />
+                  </Pressable>
+                </>
+              )}
+            </View>
+
+            {/* Error Message */}
+            {audioError && (
+              <ThemedText style={[styles.errorMessage, { color: theme.error }]}>
+                {audioError}
+              </ThemedText>
+            )}
+          </GlassCard>
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -405,5 +558,70 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
+  },
+  audioPlayerContainer: {
+    position: "absolute",
+    left: 16,
+    right: 16,
+    zIndex: 1000,
+  },
+  audioPlayer: {
+    padding: 16,
+    gap: 12,
+  },
+  audioHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  audioTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    flex: 1,
+  },
+  progressContainer: {
+    gap: 6,
+  },
+  progressBar: {
+    height: 4,
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: "100%",
+    borderRadius: 2,
+  },
+  timeLabels: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  timeText: {
+    fontSize: 11,
+  },
+  audioControls: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 24,
+  },
+  controlButton: {
+    padding: 8,
+  },
+  playButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  errorMessage: {
+    fontSize: 12,
+    textAlign: "center",
+    marginTop: 4,
   },
 });

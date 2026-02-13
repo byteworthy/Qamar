@@ -8,12 +8,17 @@
     "scheme": "noor",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "description": "Islamic wellness app combining CBT-based mental health tools with Quran, prayer times, Arabic learning, hadith, and daily adhkar",
+    "primaryColor": "#D4C4A8",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noor.app",
+      "bundleIdentifier": "com.byteworthy.noor",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries."
-      }
+        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries.",
+        "NSLocationWhenInUseUsageDescription": "Noor uses your location to display accurate prayer times and qibla direction for your area.",
+        "NSUserTrackingUsageDescription": "We do not track you"
+      },
+      "category": "HEALTH_AND_FITNESS"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,12 +27,26 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "package": "com.noor.app",
+      "package": "com.byteworthy.noor",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "USE_BIOMETRIC",
-        "USE_FINGERPRINT"
+        "USE_FINGERPRINT",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "intentFilters": [
+        {
+          "action": "android.intent.action.VIEW",
+          "data": {
+            "scheme": "noor"
+          },
+          "category": [
+            "android.intent.category.DEFAULT",
+            "android.intent.category.BROWSABLE"
+          ]
+        }
       ]
     },
     "web": {
@@ -60,13 +79,12 @@
       ],
       "@sentry/react-native",
       "expo-secure-store",
-      "expo-local-authentication"
+      "expo-local-authentication",
+      "expo-location"
     ],
     "experiments": {
       "reactCompiler": true
     },
-    "primaryColor": "#D4C4A8",
-    "description": "Personal growth and reflection journaling with Islamic spiritual guidance. Not professional counseling, not for urgent situations.",
     "extra": {
       "privacyPolicyUrl": "https://byteworthy.github.io/noor-legal/privacy-policy",
       "termsOfServiceUrl": "https://byteworthy.github.io/noor-legal/terms-of-service",

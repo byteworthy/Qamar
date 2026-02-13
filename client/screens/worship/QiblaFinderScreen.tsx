@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -14,7 +14,8 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  interpolate,
+  withTiming,
+  Easing,
 } from "react-native-reanimated";
 import * as Location from "expo-location";
 import { Magnetometer } from "expo-sensors";
@@ -27,6 +28,15 @@ import { getQiblaDirection } from "@/services/prayerTimes";
 
 const { width } = Dimensions.get("window");
 const COMPASS_SIZE = width * 0.75;
+
+// Makkah coordinates for distance calculation
+const MAKKAH_LAT = 21.4225;
+const MAKKAH_LNG = 39.8262;
+
+// Magnetometer accuracy thresholds
+const ACCURACY_THRESHOLD_HIGH = 50; // Good reading
+const ACCURACY_THRESHOLD_MEDIUM = 30; // Acceptable
+const VARIANCE_THRESHOLD = 15; // Variance threshold for stability
 
 export default function QiblaFinderScreen() {
   const insets = useSafeAreaInsets();
@@ -41,8 +51,82 @@ export default function QiblaFinderScreen() {
   const [loading, setLoading] = useState(true);
   const [calibrationNeeded, setCalibrationNeeded] = useState(false);
   const [lastHapticTime, setLastHapticTime] = useState(0);
+  const [accuracy, setAccuracy] = useState<"high" | "medium" | "low">("low");
+  const [distanceToMakkah, setDistanceToMakkah] = useState<number>(0);
+
+  // Refs for accuracy calculation
+  const magnetometerHistory = useRef<Array<{ x: number; y: number; z: number }>>([]);
+  const lastRotation = useRef<number>(0);
 
   const rotation = useSharedValue(0);
+  const accuracyOpacity = useSharedValue(0);
+
+  /**
+   * Calculate distance to Makkah using Haversine formula
+   * Returns distance in kilometers
+   */
+  const calculateDistanceToMakkah = (lat: number, lng: number): number => {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = ((MAKKAH_LAT - lat) * Math.PI) / 180;
+    const dLng = ((MAKKAH_LNG - lng) * Math.PI) / 180;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat * Math.PI) / 180) *
+        Math.cos((MAKKAH_LAT * Math.PI) / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  /**
+   * Calculate magnetometer accuracy based on magnitude and variance
+   */
+  const calculateAccuracy = (
+    x: number,
+    y: number,
+    z: number
+  ): "high" | "medium" | "low" => {
+    // Calculate magnitude
+    const magnitude = Math.sqrt(x * x + y * y + z * z);
+
+    // Add to history (keep last 10 readings)
+    magnetometerHistory.current.push({ x, y, z });
+    if (magnetometerHistory.current.length > 10) {
+      magnetometerHistory.current.shift();
+    }
+
+    // Need at least 5 readings for accuracy assessment
+    if (magnetometerHistory.current.length < 5) {
+      return "low";
+    }
+
+    // Calculate variance
+    const magnitudes = magnetometerHistory.current.map((reading) =>
+      Math.sqrt(reading.x * reading.x + reading.y * reading.y + reading.z * reading.z)
+    );
+    const avgMagnitude =
+      magnitudes.reduce((sum, val) => sum + val, 0) / magnitudes.length;
+    const variance =
+      magnitudes.reduce((sum, val) => sum + Math.pow(val - avgMagnitude, 2), 0) /
+      magnitudes.length;
+
+    // Determine accuracy
+    // High variance = unstable = needs calibration
+    // Low magnitude = weak signal = needs calibration
+    if (magnitude > ACCURACY_THRESHOLD_HIGH && variance < VARIANCE_THRESHOLD) {
+      return "high";
+    } else if (
+      magnitude > ACCURACY_THRESHOLD_MEDIUM &&
+      variance < VARIANCE_THRESHOLD * 1.5
+    ) {
+      return "medium";
+    } else {
+      return "low";
+    }
+  };
 
   // Request location permission and get location
   useEffect(() => {
@@ -72,6 +156,14 @@ export default function QiblaFinderScreen() {
         // Calculate Qibla direction
         const qibla = getQiblaDirection(locData.latitude, locData.longitude);
         setQiblaDirection(qibla);
+
+        // Calculate distance to Makkah
+        const distance = calculateDistanceToMakkah(
+          locData.latitude,
+          locData.longitude
+        );
+        setDistanceToMakkah(distance);
+
         setLoading(false);
       } catch (error) {
         console.error("Error getting location:", error);
@@ -102,22 +194,41 @@ export default function QiblaFinderScreen() {
           return;
         }
 
-        // Set update interval (100ms = 10Hz)
-        Magnetometer.setUpdateInterval(100);
+        // Set update interval (50ms = 20Hz for smoother updates)
+        Magnetometer.setUpdateInterval(50);
 
-        subscription = Magnetometer.addListener((data: { x: number; y: number; z: number }) => {
-          // Calculate compass heading from magnetometer data
-          let angle = Math.atan2(data.y, data.x) * (180 / Math.PI);
-          // Normalize to 0-360
-          angle = (angle + 360) % 360;
-          setMagnetometerData(angle);
+        subscription = Magnetometer.addListener(
+          (data: { x: number; y: number; z: number }) => {
+            // Calculate accuracy based on magnetometer data quality
+            const accuracyLevel = calculateAccuracy(data.x, data.y, data.z);
+            setAccuracy(accuracyLevel);
 
-          // Simple calibration check - if readings are very stable, might need calibration
-          // (This is a simplified check; real calibration is more complex)
-          if (Math.abs(data.x) < 0.1 && Math.abs(data.y) < 0.1 && Math.abs(data.z) < 0.1) {
-            setCalibrationNeeded(true);
+            // Determine if calibration is needed
+            const needsCalibration = accuracyLevel === "low";
+            setCalibrationNeeded(needsCalibration);
+
+            // Animate accuracy indicator opacity
+            accuracyOpacity.value = withTiming(1, {
+              duration: 300,
+              easing: Easing.out(Easing.ease),
+            });
+
+            // Calculate compass heading from magnetometer data
+            let angle = Math.atan2(data.y, data.x) * (180 / Math.PI);
+            // Normalize to 0-360
+            angle = (angle + 360) % 360;
+
+            // Apply simple low-pass filter for smoother rotation
+            // This reduces jitter from noisy magnetometer readings
+            const alpha = 0.15; // Smoothing factor (lower = smoother but more lag)
+            const smoothedAngle =
+              lastRotation.current +
+              alpha * ((angle - lastRotation.current + 540) % 360 - 180);
+            lastRotation.current = smoothedAngle;
+
+            setMagnetometerData(smoothedAngle);
           }
-        });
+        );
       } catch (error) {
         console.error("Error starting magnetometer:", error);
       }
@@ -137,18 +248,22 @@ export default function QiblaFinderScreen() {
     if (qiblaDirection !== null) {
       // Calculate the angle difference between current heading and Qibla
       let targetRotation = qiblaDirection - magnetometerData;
-      // Normalize to -180 to 180
+      // Normalize to -180 to 180 for shortest rotation path
       while (targetRotation > 180) targetRotation -= 360;
       while (targetRotation < -180) targetRotation += 360;
 
+      // Use spring animation for smooth, natural rotation
+      // Higher damping = less bouncy, higher stiffness = faster response
       rotation.value = withSpring(-targetRotation, {
-        damping: 20,
-        stiffness: 90,
+        damping: 25,
+        stiffness: 100,
+        mass: 0.8,
+        overshootClamping: false,
       });
 
       // Haptic feedback when pointing in the right direction (within 5 degrees)
       const isAligned = Math.abs(targetRotation) < 5;
-      if (isAligned) {
+      if (isAligned && accuracy !== "low") {
         const now = Date.now();
         // Only trigger haptic every 2 seconds to avoid spam
         if (now - lastHapticTime > 2000) {
@@ -157,7 +272,7 @@ export default function QiblaFinderScreen() {
         }
       }
     }
-  }, [magnetometerData, qiblaDirection]);
+  }, [magnetometerData, qiblaDirection, accuracy]);
 
   const compassRotationStyle = useAnimatedStyle(() => {
     return {
@@ -171,6 +286,49 @@ export default function QiblaFinderScreen() {
       transform: [{ rotate: "0deg" }],
     };
   });
+
+  const accuracyIndicatorStyle = useAnimatedStyle(() => {
+    return {
+      opacity: accuracyOpacity.value,
+    };
+  });
+
+  // Get accuracy color and label
+  const getAccuracyInfo = () => {
+    switch (accuracy) {
+      case "high":
+        return {
+          color: theme.success,
+          label: "High Accuracy",
+          icon: "check-circle" as const,
+        };
+      case "medium":
+        return {
+          color: theme.warning,
+          label: "Medium Accuracy",
+          icon: "alert-circle" as const,
+        };
+      case "low":
+        return {
+          color: theme.error,
+          label: "Low Accuracy",
+          icon: "x-circle" as const,
+        };
+    }
+  };
+
+  const accuracyInfo = getAccuracyInfo();
+
+  // Format distance to Makkah
+  const formatDistance = (km: number): string => {
+    if (km < 1) {
+      return `${Math.round(km * 1000)} m`;
+    } else if (km < 10) {
+      return `${km.toFixed(1)} km`;
+    } else {
+      return `${Math.round(km).toLocaleString()} km`;
+    }
+  };
 
   if (loading) {
     return (
@@ -218,19 +376,63 @@ export default function QiblaFinderScreen() {
       </View>
 
       <View style={styles.content}>
+        {/* Accuracy Indicator */}
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(100)}
+          style={accuracyIndicatorStyle}
+        >
+          <GlassCard
+            style={[
+              styles.accuracyCard,
+              {
+                borderColor: accuracyInfo.color + "40",
+                backgroundColor: isDark
+                  ? accuracyInfo.color + "15"
+                  : accuracyInfo.color + "10",
+              },
+            ]}
+          >
+            <View style={styles.accuracyRow}>
+              <Feather
+                name={accuracyInfo.icon}
+                size={20}
+                color={accuracyInfo.color}
+                style={{ marginRight: 8 }}
+              />
+              <ThemedText
+                style={[styles.accuracyLabel, { color: accuracyInfo.color }]}
+              >
+                {accuracyInfo.label}
+              </ThemedText>
+            </View>
+          </GlassCard>
+        </Animated.View>
+
         {/* Calibration Warning */}
         {calibrationNeeded && (
-          <Animated.View entering={FadeInUp.duration(400).delay(100)}>
+          <Animated.View entering={FadeInUp.duration(400).delay(200)}>
             <GlassCard style={styles.calibrationCard}>
               <Feather
-                name="alert-circle"
+                name="rotate-cw"
                 size={20}
                 color={theme.warning}
                 style={{ marginRight: 8 }}
               />
-              <ThemedText style={[styles.calibrationText, { color: theme.warning }]}>
-                Move your device in a figure-8 pattern to calibrate
-              </ThemedText>
+              <View style={{ flex: 1 }}>
+                <ThemedText
+                  style={[styles.calibrationTitle, { color: theme.warning }]}
+                >
+                  Calibration Needed
+                </ThemedText>
+                <ThemedText
+                  style={[
+                    styles.calibrationText,
+                    { color: theme.textSecondary },
+                  ]}
+                >
+                  Move your device in a figure-8 pattern to improve accuracy
+                </ThemedText>
+              </View>
             </GlassCard>
           </Animated.View>
         )}
@@ -369,6 +571,27 @@ export default function QiblaFinderScreen() {
             <View style={[styles.infoDivider, { backgroundColor: theme.border }]} />
             <View style={styles.infoRow}>
               <Feather
+                name="navigation"
+                size={24}
+                color={isDark ? "#f0d473" : "#D4AF37"}
+              />
+              <View style={styles.infoTextContainer}>
+                <ThemedText style={[styles.infoLabel, { color: theme.textSecondary }]}>
+                  Distance to Makkah
+                </ThemedText>
+                <ThemedText
+                  style={[
+                    styles.infoValue,
+                    { color: isDark ? "#f0d473" : "#D4AF37" },
+                  ]}
+                >
+                  {formatDistance(distanceToMakkah)}
+                </ThemedText>
+              </View>
+            </View>
+            <View style={[styles.infoDivider, { backgroundColor: theme.border }]} />
+            <View style={styles.infoRow}>
+              <Feather
                 name="map-pin"
                 size={24}
                 color={isDark ? "#f0d473" : "#D4AF37"}
@@ -436,15 +659,33 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 8,
   },
-  calibrationCard: {
+  accuracyCard: {
+    marginBottom: 12,
+    borderWidth: 1,
+  },
+  accuracyRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  accuracyLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  calibrationCard: {
+    flexDirection: "row",
+    alignItems: "flex-start",
     marginBottom: 20,
+    paddingVertical: 16,
+  },
+  calibrationTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    marginBottom: 4,
   },
   calibrationText: {
-    fontSize: 14,
-    fontWeight: "500",
-    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
   },
   compassContainer: {
     alignItems: "center",
