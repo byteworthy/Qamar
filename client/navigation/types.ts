@@ -70,6 +70,15 @@ export type RootStackParamList = {
   CalmingPractice: undefined;
   Dua: { state?: string }; // For contextual duas based on emotional state
   Insights: undefined;
+  QuranReader: undefined;
+  VerseReader: { surahId: number };
+  PrayerTimes: undefined;
+  QiblaFinder: undefined;
+  ArabicLearning: undefined;
+  FlashcardReview: undefined;
+  HadithLibrary: undefined;
+  HadithList: { collectionId: string };
+  HadithDetail: { hadithId: string };
 };
 
 /**

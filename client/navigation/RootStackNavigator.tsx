@@ -23,6 +23,15 @@ import BillingSuccessScreen from "@/screens/BillingSuccessScreen";
 import CalmingPracticeScreen from "@/screens/CalmingPracticeScreen";
 import DuaScreen from "@/screens/DuaScreen";
 import InsightsScreen from "@/screens/InsightsScreen";
+import QuranReaderScreen from "@/screens/learn/QuranReaderScreen";
+import VerseReaderScreen from "@/screens/learn/VerseReaderScreen";
+import PrayerTimesScreen from "@/screens/worship/PrayerTimesScreen";
+import QiblaFinderScreen from "@/screens/worship/QiblaFinderScreen";
+import ArabicLearningScreen from "@/screens/learn/ArabicLearningScreen";
+import FlashcardReviewScreen from "@/screens/learn/FlashcardReviewScreen";
+import HadithLibraryScreen from "@/screens/learn/HadithLibraryScreen";
+import HadithListScreen from "@/screens/learn/HadithListScreen";
+import HadithDetailScreen from "@/screens/learn/HadithDetailScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -138,6 +147,51 @@ export default function RootStackNavigator() {
         name="Insights"
         component={InsightsScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="QuranReader"
+        component={QuranReaderScreen}
+        options={{ headerTitle: "Quran Reader" }}
+      />
+      <Stack.Screen
+        name="VerseReader"
+        component={VerseReaderScreen}
+        options={{ headerTitle: "Verses" }}
+      />
+      <Stack.Screen
+        name="PrayerTimes"
+        component={PrayerTimesScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="QiblaFinder"
+        component={QiblaFinderScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ArabicLearning"
+        component={ArabicLearningScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FlashcardReview"
+        component={FlashcardReviewScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HadithLibrary"
+        component={HadithLibraryScreen}
+        options={{ headerTitle: "Hadith Library" }}
+      />
+      <Stack.Screen
+        name="HadithList"
+        component={HadithListScreen}
+        options={{ headerTitle: "Hadiths" }}
+      />
+      <Stack.Screen
+        name="HadithDetail"
+        component={HadithDetailScreen}
+        options={{ headerTitle: "Hadith" }}
       />
     </Stack.Navigator>
   );

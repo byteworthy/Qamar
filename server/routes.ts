@@ -6,6 +6,11 @@ import { registerAiRoutes } from "./routes/ai-routes";
 import { registerReframePracticeRoutes } from "./routes/reframe-practice-routes";
 import { registerReflectionRoutes } from "./routes/reflection-routes";
 import { registerInsightDuaRoutes } from "./routes/insight-dua-routes";
+import { registerQuranRoutes } from "./routes/quran-routes";
+import { registerPrayerRoutes } from "./routes/prayer-routes";
+import { registerProgressRoutes } from "./routes/progress-routes";
+import { registerCompanionRoutes } from "./routes/companion-routes";
+import { registerRagRoutes } from "./routes/rag-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -17,6 +22,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   registerReframePracticeRoutes(app);
   registerReflectionRoutes(app);
   registerInsightDuaRoutes(app);
+
+  // Register Islamic feature routes
+  registerQuranRoutes(app);
+  registerPrayerRoutes(app);
+  registerProgressRoutes(app);
+
+  // Register AI companion routes
+  registerCompanionRoutes(app);
+
+  // Register RAG knowledge base routes
+  registerRagRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;

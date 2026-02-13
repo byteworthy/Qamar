@@ -10,6 +10,9 @@
     "server:build": "esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=server_dist",
     "server:prod": "NODE_ENV=production node server_dist/index.js",
     "db:push": "drizzle-kit push",
+    "db:verify": "tsx scripts/verify-schema.ts",
+    "db:seed": "tsx scripts/seed-test-data.ts",
+    "db:seed:full": "SEED_MODE=full tsx scripts/seed-test-data.ts",
     "lint": "npx expo lint",
     "lint:fix": "npx expo lint --fix",
     "check:types": "tsc --noEmit",
@@ -114,7 +117,8 @@
     "winston": "^3.19.0",
     "ws": "^8.18.0",
     "zod": "^3.25.76",
-    "zod-validation-error": "^3.5.4"
+    "zod-validation-error": "^3.5.4",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
