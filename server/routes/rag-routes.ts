@@ -1,6 +1,5 @@
 import type { Express, Request, Response } from 'express';
-import { queryIslamicKnowledge, RAG_READY, getDocumentCount } from '../services/rag-engine';
-import { EMBEDDING_MODEL } from '../services/embedding-service';
+import { queryIslamicKnowledge, getRAGStatus, initializeRAG } from '../services/rag-engine';
 
 /**
  * RAG API Routes
@@ -9,6 +8,9 @@ import { EMBEDDING_MODEL } from '../services/embedding-service';
  * and checking RAG system status.
  */
 export function registerRagRoutes(app: Express): void {
+  // Start indexing on registration (non-blocking)
+  initializeRAG().catch((err) => console.error('[RAG] Background init failed:', err));
+
   // Query the Islamic knowledge base
   app.post('/api/rag/query', async (req: Request, res: Response) => {
     try {
@@ -18,10 +20,18 @@ export function registerRagRoutes(app: Express): void {
         return res.status(400).json({ error: 'A non-empty "question" string is required.' });
       }
 
-      const k = typeof topK === 'number' && topK > 0 ? Math.min(topK, 10) : 3;
+      const k = typeof topK === 'number' && topK > 0 ? Math.min(topK, 10) : 5;
       const result = await queryIslamicKnowledge(question.trim(), k);
 
-      return res.json(result);
+      return res.json({
+        answer: result.answer,
+        citations: result.citations.map((c) => ({
+          source: `${c.type}:${c.reference}`,
+          score: c.score,
+          snippet: c.snippet,
+        })),
+        confidence: result.confidence,
+      });
     } catch (error) {
       console.error('[RAG] Query error:', error);
       return res.status(500).json({ error: 'Failed to process RAG query.' });
@@ -30,10 +40,6 @@ export function registerRagRoutes(app: Express): void {
 
   // Check RAG system status
   app.get('/api/rag/status', (_req: Request, res: Response) => {
-    return res.json({
-      ready: RAG_READY,
-      documentsIndexed: getDocumentCount(),
-      embeddingModel: EMBEDDING_MODEL,
-    });
+    return res.json(getRAGStatus());
   });
 }

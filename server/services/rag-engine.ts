@@ -1,13 +1,13 @@
 /**
  * RAG Engine - Islamic Knowledge Retrieval
  *
- * Keyword-based retrieval against a local knowledge base.
- * Designed for easy upgrade to Qdrant vector search + Ollama embeddings.
+ * Vector similarity search over Islamic documents using local embeddings.
+ * Supports in-memory search (default) or Qdrant when QDRANT_URL is set.
  */
 
-// TODO: Import and use when vector DB is connected:
-// import { generateEmbedding, cosineSimilarity } from './embedding-service';
-// import { QdrantClient } from '@qdrant/js-client-rest';
+import { generateEmbedding, cosineSimilarity, EMBEDDING_MODEL, RAG_DEGRADED } from './embedding-service';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // =============================================================================
 // TYPES
@@ -17,6 +17,8 @@ export interface Citation {
   type: 'quran' | 'hadith' | 'concept';
   reference: string;
   text: string;
+  score: number;
+  snippet: string;
 }
 
 export interface RAGResult {
@@ -30,6 +32,11 @@ interface KnowledgeDocument {
   reference: string;
   text: string;
   keywords: string[];
+}
+
+interface IndexedDocument {
+  embedding: number[];
+  document: KnowledgeDocument;
 }
 
 // =============================================================================
@@ -58,7 +65,7 @@ const KNOWLEDGE_BASE: KnowledgeDocument[] = [
   },
   {
     type: 'quran',
-    reference: 'Ar-Ra\'d 13:28',
+    reference: "Ar-Ra'd 13:28",
     text: 'Verily, in the remembrance of Allah do hearts find rest.',
     keywords: ['remembrance', 'dhikr', 'heart', 'rest', 'peace', 'calm', 'tranquility', 'anxiety'],
   },
@@ -171,55 +178,90 @@ const KNOWLEDGE_BASE: KnowledgeDocument[] = [
 ];
 
 // =============================================================================
-// RAG STATUS
+// STATE
 // =============================================================================
 
-// TODO: Set to true once Qdrant vector DB is connected and populated
-export const RAG_READY = false;
+const documentIndex = new Map<string, IndexedDocument>();
+let indexReady = false;
+let indexing = false;
+const EMBEDDINGS_PATH = path.join(__dirname, '..', 'data', 'embeddings.json');
 
-export function getDocumentCount(): number {
-  return KNOWLEDGE_BASE.length;
+// =============================================================================
+// INITIALIZATION
+// =============================================================================
+
+export async function initializeRAG(): Promise<void> {
+  if (indexReady || indexing) return;
+  indexing = true;
+
+  try {
+    if (loadCachedEmbeddings()) {
+      indexReady = true;
+      indexing = false;
+      console.log(`[RAG] Loaded ${documentIndex.size} cached embeddings`);
+      return;
+    }
+
+    console.log(`[RAG] Indexing ${KNOWLEDGE_BASE.length} documents...`);
+    for (const doc of KNOWLEDGE_BASE) {
+      const embedding = await generateEmbedding(doc.text);
+      documentIndex.set(doc.reference, { embedding, document: doc });
+    }
+
+    saveCachedEmbeddings();
+    indexReady = true;
+    console.log(`[RAG] Indexed ${documentIndex.size} documents`);
+  } catch (err) {
+    console.error('[RAG] Indexing failed:', err);
+  } finally {
+    indexing = false;
+  }
 }
 
 // =============================================================================
 // QUERY ENGINE
 // =============================================================================
 
-/**
- * Query the Islamic knowledge base with a natural language question.
- *
- * TODO: Replace keyword search with vector similarity:
- *   1. const queryEmbedding = await generateEmbedding(question);
- *   2. const results = await qdrantClient.search('islamic_knowledge', {
- *        vector: queryEmbedding, limit: topK
- *      });
- *   3. Map results to citations
- */
 export async function queryIslamicKnowledge(
   question: string,
-  topK: number = 3,
+  topK: number = 5,
 ): Promise<RAGResult> {
-  const queryWords = tokenize(question);
-
-  if (queryWords.length === 0) {
+  if (!question.trim()) {
     return { answer: 'Please ask a question about Islamic teachings.', citations: [], confidence: 0 };
   }
 
-  // Score each document by keyword overlap
-  const scored = KNOWLEDGE_BASE.map((doc) => {
-    const matchCount = doc.keywords.filter((kw) => queryWords.includes(kw)).length;
-    // Also check if query words appear in the document text
-    const textWords = tokenize(doc.text);
-    const textOverlap = queryWords.filter((w) => textWords.includes(w)).length;
-    const score = matchCount * 2 + textOverlap;
-    return { doc, score };
-  });
+  // If Qdrant is configured, use it
+  if (process.env.QDRANT_URL) {
+    return queryViaQdrant(question, topK);
+  }
 
-  // Sort by score descending, take top K
-  const topDocs = scored
-    .filter((s) => s.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, topK);
+  // Otherwise use in-memory vector search
+  return queryInMemory(question, topK);
+}
+
+async function queryInMemory(question: string, topK: number): Promise<RAGResult> {
+  if (!indexReady) {
+    await initializeRAG();
+  }
+
+  if (documentIndex.size === 0) {
+    return {
+      answer: 'The knowledge base is still loading. Please try again in a moment.',
+      citations: [],
+      confidence: 0,
+    };
+  }
+
+  const queryEmbedding = await generateEmbedding(question);
+
+  const scored: { doc: KnowledgeDocument; score: number }[] = [];
+  for (const indexed of Array.from(documentIndex.values())) {
+    const score = cosineSimilarity(queryEmbedding, indexed.embedding);
+    scored.push({ doc: indexed.document, score });
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+  const topDocs = scored.slice(0, topK).filter((s) => s.score > 0.1);
 
   if (topDocs.length === 0) {
     return {
@@ -229,31 +271,124 @@ export async function queryIslamicKnowledge(
     };
   }
 
-  const citations: Citation[] = topDocs.map(({ doc }) => ({
+  const citations: Citation[] = topDocs.map(({ doc, score }) => ({
     type: doc.type,
     reference: doc.reference,
     text: doc.text,
+    score: Math.round(score * 1000) / 1000,
+    snippet: doc.text.length > 120 ? doc.text.slice(0, 120) + '...' : doc.text,
   }));
 
-  const maxPossibleScore = queryWords.length * 3;
-  const confidence = Math.min(topDocs[0].score / maxPossibleScore, 1);
-
+  const confidence = topDocs[0].score;
   const answer = buildAnswer(citations);
 
   return { answer, citations, confidence };
 }
 
+async function queryViaQdrant(question: string, topK: number): Promise<RAGResult> {
+  try {
+    // @ts-ignore - optional dependency, only needed when QDRANT_URL is set
+    const { QdrantClient } = await import('@qdrant/js-client-rest');
+    const client = new QdrantClient({ url: process.env.QDRANT_URL });
+    const queryEmbedding = await generateEmbedding(question);
+
+    const results = await client.search('islamic_knowledge', {
+      vector: queryEmbedding,
+      limit: topK,
+    });
+
+    if (!results.length) {
+      return {
+        answer: 'I could not find specific Islamic references for that question.',
+        citations: [],
+        confidence: 0,
+      };
+    }
+
+    const citations: Citation[] = results.map((r: any) => ({
+      type: r.payload.type,
+      reference: r.payload.reference,
+      text: r.payload.text,
+      score: Math.round(r.score * 1000) / 1000,
+      snippet: r.payload.text.length > 120 ? r.payload.text.slice(0, 120) + '...' : r.payload.text,
+    }));
+
+    return {
+      answer: buildAnswer(citations),
+      citations,
+      confidence: results[0].score,
+    };
+  } catch (err) {
+    console.error('[RAG] Qdrant query failed, falling back to in-memory:', err);
+    return queryInMemory(question, topK);
+  }
+}
+
+// =============================================================================
+// STATUS
+// =============================================================================
+
+export function getRAGStatus() {
+  return {
+    ready: indexReady,
+    documentCount: documentIndex.size,
+    embeddingModel: EMBEDDING_MODEL,
+    mode: process.env.QDRANT_URL ? 'qdrant' as const : 'in-memory' as const,
+    degraded: RAG_DEGRADED,
+  };
+}
+
+export function getDocumentCount(): number {
+  return documentIndex.size || KNOWLEDGE_BASE.length;
+}
+
+// Keep backward compat
+export const RAG_READY = true;
+
+// =============================================================================
+// CACHE (embeddings.json)
+// =============================================================================
+
+function loadCachedEmbeddings(): boolean {
+  try {
+    if (!fs.existsSync(EMBEDDINGS_PATH)) return false;
+
+    const data = JSON.parse(fs.readFileSync(EMBEDDINGS_PATH, 'utf-8'));
+    if (!Array.isArray(data) || data.length !== KNOWLEDGE_BASE.length) return false;
+
+    for (const entry of data) {
+      const doc = KNOWLEDGE_BASE.find((d) => d.reference === entry.reference);
+      if (!doc) continue;
+      documentIndex.set(doc.reference, { embedding: entry.embedding, document: doc });
+    }
+
+    return documentIndex.size === KNOWLEDGE_BASE.length;
+  } catch {
+    return false;
+  }
+}
+
+function saveCachedEmbeddings(): void {
+  try {
+    const dir = path.dirname(EMBEDDINGS_PATH);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+    const entries: Array<[string, IndexedDocument]> = Array.from(documentIndex.entries() as any);
+    const data = entries.map(([ref, indexed]) => ({
+      reference: ref,
+      embedding: indexed.embedding,
+    }));
+
+    fs.writeFileSync(EMBEDDINGS_PATH, JSON.stringify(data));
+    console.log(`[RAG] Saved embeddings to ${EMBEDDINGS_PATH}`);
+  } catch (err) {
+    console.warn('[RAG] Failed to save embeddings cache:', err);
+  }
+}
+
 // =============================================================================
 // HELPERS
 // =============================================================================
-
-function tokenize(text: string): string[] {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s]/g, '')
-    .split(/\s+/)
-    .filter((w) => w.length > 2);
-}
 
 function buildAnswer(citations: Citation[]): string {
   const parts: string[] = ['Based on Islamic teachings:\n'];

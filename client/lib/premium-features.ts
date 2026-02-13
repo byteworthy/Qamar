@@ -5,7 +5,7 @@
  * entitlement checking via RevenueCat.
  */
 
-import Purchases from "react-native-purchases";
+import { getCustomerInfo, checkEntitlement } from "@/services/revenuecat";
 import { VALIDATION_MODE } from "./config";
 
 /**
@@ -114,12 +114,21 @@ export async function hasFeature(
       return false;
     }
 
-    const customerInfo = await Purchases.getCustomerInfo();
+    const customerInfo = await getCustomerInfo();
+    if (!customerInfo) return false;
 
     // Check if user has this specific entitlement
     const hasAccess = customerInfo.entitlements.active[feature] !== undefined;
 
-    console.log(`[RevenueCat] Feature ${feature}: ${hasAccess ? "✓" : "✗"}`);
+    // Pro tier includes all Plus features
+    const tier = getRequiredTier(feature);
+    if (!hasAccess && tier === "plus") {
+      const hasProFallback =
+        customerInfo.entitlements.active["noor_pro_access"] !== undefined;
+      if (hasProFallback) return true;
+    }
+
+    console.log(`[RevenueCat] Feature ${feature}: ${hasAccess ? "granted" : "denied"}`);
     return hasAccess;
   } catch (error) {
     console.error("[RevenueCat] Error checking premium feature:", error);
@@ -146,7 +155,9 @@ export async function isPremiumUser(): Promise<boolean> {
       return false;
     }
 
-    const customerInfo = await Purchases.getCustomerInfo();
+    const customerInfo = await getCustomerInfo();
+    if (!customerInfo) return false;
+
     const hasAnyEntitlement =
       Object.keys(customerInfo.entitlements.active).length > 0;
 
@@ -175,7 +186,9 @@ export async function getActiveFeatures(): Promise<string[]> {
       return [];
     }
 
-    const customerInfo = await Purchases.getCustomerInfo();
+    const customerInfo = await getCustomerInfo();
+    if (!customerInfo) return [];
+
     const activeFeatures = Object.keys(customerInfo.entitlements.active);
 
     console.log(`[RevenueCat] Active features: ${activeFeatures.join(", ")}`);

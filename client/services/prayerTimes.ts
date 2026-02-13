@@ -8,7 +8,7 @@
  * npm install adhan
  */
 
-import { Coordinates, CalculationMethod, CalculationParameters, PrayerTimes, Prayer, Madhab } from 'adhan';
+import { Coordinates, CalculationMethod, CalculationParameters, PrayerTimes, Madhab } from 'adhan';
 
 export interface PrayerTimesResult {
   fajr: Date;
@@ -129,7 +129,7 @@ function getCalculationMethod(methodId?: string): CalculationParameters {
 /**
  * Get madhab from string ID
  */
-function getMadhab(madhabId?: string): Madhab {
+function getMadhab(madhabId?: string): typeof Madhab[keyof typeof Madhab] {
   return madhabId === 'Hanafi' ? Madhab.Hanafi : Madhab.Shafi;
 }
 

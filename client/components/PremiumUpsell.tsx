@@ -5,10 +5,12 @@
  * Displays feature benefits and upgrade CTA.
  */
 
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import React, { useMemo } from "react";
+import { View, Text, StyleSheet, Pressable, ActivityIndicator, Alert } from "react-native";
 import { PremiumFeature } from "@/lib/premium-features";
 import { logPaywallDismissed } from "@/lib/analytics";
+import { useOfferings, usePurchase, useRestorePurchases } from "@/hooks/useRevenueCat";
+import { VALIDATION_MODE } from "@/lib/config";
 import { GlassCard } from "./GlassCard";
 import { Button } from "./Button";
 
@@ -203,10 +205,67 @@ export function PremiumUpsell({
   onDismiss,
 }: PremiumUpsellProps): React.JSX.Element {
   const benefit = FEATURE_BENEFITS[feature];
+  const { offerings, isLoading: offeringsLoading } = useOfferings();
+  const { purchase, isLoading: purchaseLoading } = usePurchase();
+  const { restore, isLoading: restoreLoading } = useRestorePurchases();
+
+  const isLoading = purchaseLoading || restoreLoading;
+
+  // Resolve the correct package from offerings
+  const targetPackage = useMemo(() => {
+    if (!offerings?.current) return null;
+    const packages = offerings.current.availablePackages;
+    // Convention: offering contains packages whose identifiers match tier
+    // Try RC standard identifiers first, then custom
+    const tierKey = requiredTier === "pro" ? "$rc_annual" : "$rc_monthly";
+    return (
+      packages.find((p) => p.identifier === tierKey) ||
+      packages.find((p) =>
+        p.identifier.toLowerCase().includes(requiredTier || "plus"),
+      ) ||
+      packages[0] ||
+      null
+    );
+  }, [offerings, requiredTier]);
+
+  const priceLabel = targetPackage?.product?.priceString;
 
   const handleDismiss = () => {
     logPaywallDismissed(feature);
     onDismiss?.();
+  };
+
+  const handleUpgrade = async () => {
+    if (VALIDATION_MODE) {
+      Alert.alert("Coming Soon", "Subscriptions are not yet available.");
+      return;
+    }
+
+    if (!targetPackage) {
+      Alert.alert("Unavailable", "Unable to load subscription options. Please try again later.");
+      return;
+    }
+
+    const result = await purchase(targetPackage);
+    if (result.success) {
+      onUpgrade();
+    } else if (result.error) {
+      Alert.alert("Purchase Error", result.error);
+    }
+    // Cancelled -- do nothing
+  };
+
+  const handleRestore = async () => {
+    const result = await restore();
+    if (result.success) {
+      Alert.alert("Restored", "Your subscription has been restored.");
+      onUpgrade();
+    } else {
+      Alert.alert(
+        "No Subscription Found",
+        "We couldn't find an active subscription for this account.",
+      );
+    }
   };
 
   return (
@@ -244,11 +303,25 @@ export function PremiumUpsell({
 
         {/* Upgrade button */}
         <Button
-          onPress={onUpgrade}
+          onPress={handleUpgrade}
           style={styles.upgradeButton}
+          disabled={isLoading}
         >
-          Upgrade to {requiredTier === "pro" ? "Pro" : "Plus"}
+          {isLoading ? (
+            <ActivityIndicator color="#fff" size="small" />
+          ) : offeringsLoading ? (
+            "Loading..."
+          ) : priceLabel ? (
+            `Upgrade to ${requiredTier === "pro" ? "Pro" : "Plus"} — ${priceLabel}`
+          ) : (
+            `Upgrade to ${requiredTier === "pro" ? "Pro" : "Plus"}`
+          )}
         </Button>
+
+        {/* Restore link */}
+        <Pressable onPress={handleRestore} disabled={isLoading}>
+          <Text style={styles.restoreText}>Restore Purchases</Text>
+        </Pressable>
 
         {/* Secondary info */}
         <Text style={styles.footer}>
@@ -335,6 +408,13 @@ const styles = StyleSheet.create({
   },
   upgradeButton: {
     marginBottom: 16,
+  },
+  restoreText: {
+    fontSize: 13,
+    color: "#aaa",
+    textAlign: "center",
+    textDecorationLine: "underline",
+    marginBottom: 12,
   },
   footer: {
     fontSize: 12,
