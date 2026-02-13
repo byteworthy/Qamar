@@ -18,6 +18,7 @@
     "db:seed:vocabulary": "tsx server/scripts/seed-vocabulary.ts",
     "db:seed:hadiths": "tsx server/scripts/seed-hadiths.ts",
     "db:seed:adhkar": "tsx server/scripts/seed-adhkar.ts",
+    "db:seed:all": "tsx server/scripts/seed-quran-metadata.ts && tsx server/scripts/seed-hadiths.ts && tsx server/scripts/seed-vocabulary.ts && tsx server/scripts/seed-adhkar.ts",
     "lint": "npx expo lint",
     "lint:fix": "npx expo lint --fix",
     "check:types": "tsc --noEmit",

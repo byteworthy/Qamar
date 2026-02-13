@@ -1,8 +1,7 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
-import pkg from "pg";
+import { Pool } from "pg";
 import { hadithCollections, hadiths } from "../../shared/schema";
-const { Pool } = pkg;
 
 // Database connection
 const pool = new Pool({

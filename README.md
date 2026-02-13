@@ -75,6 +75,29 @@ npm start
 
 ---
 
+## ✨ Features
+
+### Spiritual Wellness
+- **CBT-based reflection** - Structured thought capture, AI-powered cognitive distortion analysis, and Islamic reframing
+- **Progress dashboard** - Track spiritual growth and reflection patterns over time
+- **Intention setting (Niyyah)** - Ground actions in Islamic values with clarity and purpose
+
+### Islamic Content & Tools
+- **Quran Reader** - Complete 114 surahs with translations and authentic audio recitation
+- **Prayer Times** - Precise prayer schedules using Adhan library with Qibla compass and calibration
+- **Hadith Library** - 200+ authentic hadiths from Kutub al-Sittah (six most authentic collections)
+- **Arabic Learning** - 356 vocabulary words with FSRS spaced repetition flashcards
+- **Adhkar & Duas** - 100+ authentic morning, evening, and prayer adhkar
+- **Islamic Calendar** - Hijri date conversion and Islamic date tracking
+
+### Technical Features
+- **Offline-first** - SQLite caching for seamless offline access
+- **Premium tiers** - Free / Plus / Pro subscriptions via RevenueCat
+- **Enterprise security** - Biometric auth, secure storage, jailbreak detection
+- **Encrypted storage** - AES-256-GCM encryption for all user data
+
+---
+
 ## 📱 What Noor Helps With
 
 - **Slowing repetitive or circular thinking** - Break free from rumination patterns
