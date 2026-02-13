@@ -119,9 +119,11 @@ export const quranMetadata = pgTable(
     surahNumber: integer("surah_number").notNull().unique(),
     nameArabic: text("name_arabic").notNull(),
     nameEnglish: text("name_english").notNull(),
+    englishMeaning: text("english_meaning").notNull(),
     versesCount: integer("verses_count").notNull(),
     revelationPlace: text("revelation_place").notNull(), // "Makkah" or "Madinah"
     orderInRevelation: integer("order_in_revelation"),
+    juzStart: integer("juz_start").notNull(), // Which juz this surah starts in (1-30)
   },
   (table) => ({
     // Index on surah number for fast lookups
@@ -309,6 +311,26 @@ export const hadiths = pgTable(
   }),
 );
 
+// Adhkar/Duas (reference data - remembrance and supplications)
+export const adhkar = pgTable(
+  "adhkar",
+  {
+    id: text("id").primaryKey(), // e.g., "morning-1", "evening-1", "protection-1"
+    category: text("category").notNull(), // "morning", "evening", "after-prayer", "sleep", "protection", "travel", "eating", "general"
+    arabic: text("arabic").notNull(), // Arabic text
+    transliteration: text("transliteration").notNull(), // Romanized pronunciation
+    translation: text("translation").notNull(), // English translation
+    reference: text("reference").notNull(), // e.g., "Sahih Muslim 2723", "Abu Dawud 4/318"
+    repetitions: integer("repetitions").notNull().default(1), // How many times to recite
+    virtue: text("virtue"), // Optional reward/benefit description
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    // Index on category for fast filtering
+    categoryIdx: index("adhkar_category_idx").on(table.category),
+  }),
+);
+
 // ============================================================================
 // TYPE EXPORTS
 // ============================================================================
@@ -333,6 +355,8 @@ export type HadithCollection = typeof hadithCollections.$inferSelect;
 export type InsertHadithCollection = typeof hadithCollections.$inferInsert;
 export type Hadith = typeof hadiths.$inferSelect;
 export type InsertHadith = typeof hadiths.$inferInsert;
+export type Adhkar = typeof adhkar.$inferSelect;
+export type InsertAdhkar = typeof adhkar.$inferInsert;
 
 export const sessionSchema = z.object({
   thought: z.string(),

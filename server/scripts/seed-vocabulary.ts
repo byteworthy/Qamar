@@ -5,17 +5,25 @@
  * Data extracted from client-side vocabulary and expanded with authentic Arabic words.
  *
  * Categories:
- * - greetings (18 words)
- * - prayer (25 words)
- * - family (18 words)
- * - food (20 words)
- * - nature (18 words)
- * - numbers (15 words)
- * - daily_life (20 words)
- * - islamic_terms (28 words)
+ * - greetings (25 words)
+ * - prayer (30 words)
+ * - family (25 words)
+ * - food (28 words)
+ * - nature (25 words)
+ * - numbers (20 words)
+ * - daily_life (28 words)
+ * - islamic_terms (35 words)
+ * - body (16 words)
+ * - clothing (13 words)
+ * - animals (13 words)
+ * - colors (11 words)
+ * - time (13 words)
+ * - emotions (13 words)
+ * - places (13 words)
+ * - verbs (21 words)
  * - alphabet (28 letters)
  *
- * Total: 190 vocabulary items
+ * Total: 356 vocabulary items
  *
  * Usage:
  *   npm run seed:vocabulary
@@ -34,11 +42,11 @@ interface VocabularyEntry {
 }
 
 /**
- * Complete vocabulary dataset with 190+ Arabic words and letters
+ * Complete vocabulary dataset with 356 Arabic words and letters
  */
 const VOCABULARY: VocabularyEntry[] = [
   // ============================================================================
-  // GREETINGS (18 words)
+  // GREETINGS (25 words)
   // ============================================================================
   {
     arabic: 'السلام عليكم',
@@ -166,9 +174,58 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'greetings',
     difficulty: 1,
   },
+  {
+    arabic: 'نعم',
+    transliteration: 'Naam',
+    english: 'Yes',
+    category: 'greetings',
+    difficulty: 1,
+  },
+  {
+    arabic: 'لا',
+    transliteration: 'La',
+    english: 'No',
+    category: 'greetings',
+    difficulty: 1,
+  },
+  {
+    arabic: 'إن شاء الله',
+    transliteration: 'In sha Allah',
+    english: 'If God wills',
+    category: 'greetings',
+    difficulty: 2,
+  },
+  {
+    arabic: 'سبحان الله',
+    transliteration: 'Subhan Allah',
+    english: 'Glory be to God',
+    category: 'greetings',
+    difficulty: 2,
+  },
+  {
+    arabic: 'الله أكبر',
+    transliteration: 'Allahu Akbar',
+    english: 'God is the Greatest',
+    category: 'greetings',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أستغفر الله',
+    transliteration: 'Astaghfirullah',
+    english: 'I seek forgiveness from God',
+    category: 'greetings',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بسم الله',
+    transliteration: 'Bismillah',
+    english: 'In the name of God',
+    category: 'greetings',
+    difficulty: 1,
+  },
 
   // ============================================================================
-  // PRAYER (25 words)
+  // PRAYER (30 words)
   // ============================================================================
   {
     arabic: 'صلاة',
@@ -345,9 +402,44 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'prayer',
     difficulty: 2,
   },
+  {
+    arabic: 'مغرب',
+    transliteration: 'Maghrib',
+    english: 'Sunset prayer',
+    category: 'prayer',
+    difficulty: 2,
+  },
+  {
+    arabic: 'عشاء',
+    transliteration: 'Isha',
+    english: 'Night prayer',
+    category: 'prayer',
+    difficulty: 2,
+  },
+  {
+    arabic: 'جمعة',
+    transliteration: 'Jumuah',
+    english: 'Friday prayer',
+    category: 'prayer',
+    difficulty: 2,
+  },
+  {
+    arabic: 'خطبة',
+    transliteration: 'Khutbah',
+    english: 'Sermon',
+    category: 'prayer',
+    difficulty: 3,
+  },
+  {
+    arabic: 'مؤذن',
+    transliteration: 'Muadhin',
+    english: 'Caller to prayer',
+    category: 'prayer',
+    difficulty: 3,
+  },
 
   // ============================================================================
-  // FAMILY (18 words)
+  // FAMILY (25 words)
   // ============================================================================
   {
     arabic: 'أب',
@@ -475,9 +567,58 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'family',
     difficulty: 2,
   },
+  {
+    arabic: 'والد',
+    transliteration: 'Walid',
+    english: 'Parent (male)',
+    category: 'family',
+    difficulty: 2,
+  },
+  {
+    arabic: 'والدة',
+    transliteration: 'Walidah',
+    english: 'Parent (female)',
+    category: 'family',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أولاد',
+    transliteration: 'Awlad',
+    english: 'Children',
+    category: 'family',
+    difficulty: 2,
+  },
+  {
+    arabic: 'طفل',
+    transliteration: 'Tifl',
+    english: 'Child',
+    category: 'family',
+    difficulty: 1,
+  },
+  {
+    arabic: 'رضيع',
+    transliteration: 'Radhee',
+    english: 'Infant',
+    category: 'family',
+    difficulty: 2,
+  },
+  {
+    arabic: 'صديق',
+    transliteration: 'Sadeeq',
+    english: 'Friend',
+    category: 'family',
+    difficulty: 1,
+  },
+  {
+    arabic: 'جار',
+    transliteration: 'Jar',
+    english: 'Neighbor',
+    category: 'family',
+    difficulty: 2,
+  },
 
   // ============================================================================
-  // FOOD (20 words)
+  // FOOD (28 words)
   // ============================================================================
   {
     arabic: 'ماء',
@@ -619,9 +760,65 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'food',
     difficulty: 1,
   },
+  {
+    arabic: 'تفاح',
+    transliteration: 'Tuffah',
+    english: 'Apple',
+    category: 'food',
+    difficulty: 1,
+  },
+  {
+    arabic: 'برتقال',
+    transliteration: 'Burtuqal',
+    english: 'Orange',
+    category: 'food',
+    difficulty: 2,
+  },
+  {
+    arabic: 'موز',
+    transliteration: 'Mawz',
+    english: 'Banana',
+    category: 'food',
+    difficulty: 1,
+  },
+  {
+    arabic: 'عنب',
+    transliteration: 'Inab',
+    english: 'Grapes',
+    category: 'food',
+    difficulty: 1,
+  },
+  {
+    arabic: 'زيتون',
+    transliteration: 'Zaytun',
+    english: 'Olives',
+    category: 'food',
+    difficulty: 2,
+  },
+  {
+    arabic: 'حمص',
+    transliteration: 'Hummus',
+    english: 'Chickpeas/Hummus',
+    category: 'food',
+    difficulty: 2,
+  },
+  {
+    arabic: 'زبدة',
+    transliteration: 'Zubdah',
+    english: 'Butter',
+    category: 'food',
+    difficulty: 2,
+  },
+  {
+    arabic: 'فلفل',
+    transliteration: 'Fulful',
+    english: 'Pepper',
+    category: 'food',
+    difficulty: 2,
+  },
 
   // ============================================================================
-  // NATURE (18 words)
+  // NATURE (25 words)
   // ============================================================================
   {
     arabic: 'شمس',
@@ -749,9 +946,58 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'nature',
     difficulty: 1,
   },
+  {
+    arabic: 'حجر',
+    transliteration: 'Hajar',
+    english: 'Stone',
+    category: 'nature',
+    difficulty: 2,
+  },
+  {
+    arabic: 'رمل',
+    transliteration: 'Raml',
+    english: 'Sand',
+    category: 'nature',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بحيرة',
+    transliteration: 'Buhayrah',
+    english: 'Lake',
+    category: 'nature',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ورق',
+    transliteration: 'Waraq',
+    english: 'Leaf/Paper',
+    category: 'nature',
+    difficulty: 2,
+  },
+  {
+    arabic: 'جذر',
+    transliteration: 'Jidhr',
+    english: 'Root',
+    category: 'nature',
+    difficulty: 3,
+  },
+  {
+    arabic: 'بذرة',
+    transliteration: 'Bidhrah',
+    english: 'Seed',
+    category: 'nature',
+    difficulty: 2,
+  },
+  {
+    arabic: 'عشب',
+    transliteration: 'Ushb',
+    english: 'Grass',
+    category: 'nature',
+    difficulty: 2,
+  },
 
   // ============================================================================
-  // NUMBERS (15 words)
+  // NUMBERS (20 words)
   // ============================================================================
   {
     arabic: 'واحد',
@@ -858,9 +1104,44 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'numbers',
     difficulty: 1,
   },
+  {
+    arabic: 'أحد عشر',
+    transliteration: 'Ahad ashar',
+    english: 'Eleven',
+    category: 'numbers',
+    difficulty: 2,
+  },
+  {
+    arabic: 'خمسة عشر',
+    transliteration: 'Khamsah ashar',
+    english: 'Fifteen',
+    category: 'numbers',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أربعون',
+    transliteration: 'Arbaun',
+    english: 'Forty',
+    category: 'numbers',
+    difficulty: 2,
+  },
+  {
+    arabic: 'خمسون',
+    transliteration: 'Khamsun',
+    english: 'Fifty',
+    category: 'numbers',
+    difficulty: 2,
+  },
+  {
+    arabic: 'مليون',
+    transliteration: 'Milyun',
+    english: 'Million',
+    category: 'numbers',
+    difficulty: 3,
+  },
 
   // ============================================================================
-  // DAILY LIFE (20 words)
+  // DAILY LIFE (28 words)
   // ============================================================================
   {
     arabic: 'كتاب',
@@ -1002,9 +1283,65 @@ const VOCABULARY: VocabularyEntry[] = [
     category: 'daily_life',
     difficulty: 2,
   },
+  {
+    arabic: 'غرفة',
+    transliteration: 'Ghurfah',
+    english: 'Room',
+    category: 'daily_life',
+    difficulty: 1,
+  },
+  {
+    arabic: 'سرير',
+    transliteration: 'Sareer',
+    english: 'Bed',
+    category: 'daily_life',
+    difficulty: 1,
+  },
+  {
+    arabic: 'مرآة',
+    transliteration: 'Mirah',
+    english: 'Mirror',
+    category: 'daily_life',
+    difficulty: 2,
+  },
+  {
+    arabic: 'صابون',
+    transliteration: 'Sabun',
+    english: 'Soap',
+    category: 'daily_life',
+    difficulty: 2,
+  },
+  {
+    arabic: 'منشفة',
+    transliteration: 'Minshafah',
+    english: 'Towel',
+    category: 'daily_life',
+    difficulty: 2,
+  },
+  {
+    arabic: 'صحن',
+    transliteration: 'Sahn',
+    english: 'Plate',
+    category: 'daily_life',
+    difficulty: 1,
+  },
+  {
+    arabic: 'كوب',
+    transliteration: 'Kub',
+    english: 'Cup',
+    category: 'daily_life',
+    difficulty: 1,
+  },
+  {
+    arabic: 'ملعقة',
+    transliteration: 'Milaqah',
+    english: 'Spoon',
+    category: 'daily_life',
+    difficulty: 2,
+  },
 
   // ============================================================================
-  // ISLAMIC TERMS (28 words)
+  // ISLAMIC TERMS (35 words)
   // ============================================================================
   {
     arabic: 'إسلام',
@@ -1201,6 +1538,878 @@ const VOCABULARY: VocabularyEntry[] = [
     english: 'Moral character',
     category: 'islamic_terms',
     difficulty: 3,
+  },
+  {
+    arabic: 'جهاد',
+    transliteration: 'Jihad',
+    english: 'Struggle/Effort',
+    category: 'islamic_terms',
+    difficulty: 3,
+  },
+  {
+    arabic: 'عمرة',
+    transliteration: 'Umrah',
+    english: 'Minor pilgrimage',
+    category: 'islamic_terms',
+    difficulty: 3,
+  },
+  {
+    arabic: 'رمضان',
+    transliteration: 'Ramadan',
+    english: 'Month of fasting',
+    category: 'islamic_terms',
+    difficulty: 2,
+  },
+  {
+    arabic: 'عيد',
+    transliteration: 'Eid',
+    english: 'Festival/Celebration',
+    category: 'islamic_terms',
+    difficulty: 2,
+  },
+  {
+    arabic: 'سورة',
+    transliteration: 'Surah',
+    english: 'Chapter of Quran',
+    category: 'islamic_terms',
+    difficulty: 2,
+  },
+  {
+    arabic: 'آية',
+    transliteration: 'Ayah',
+    english: 'Verse of Quran',
+    category: 'islamic_terms',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بركة',
+    transliteration: 'Barakah',
+    english: 'Blessing',
+    category: 'islamic_terms',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // BODY (16 words)
+  // ============================================================================
+  {
+    arabic: 'رأس',
+    transliteration: 'Ras',
+    english: 'Head',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'يد',
+    transliteration: 'Yad',
+    english: 'Hand',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'عين',
+    transliteration: 'Ayn',
+    english: 'Eye',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'قلب',
+    transliteration: 'Qalb',
+    english: 'Heart',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'رجل',
+    transliteration: 'Rijl',
+    english: 'Foot/Leg',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أذن',
+    transliteration: 'Udhn',
+    english: 'Ear',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أنف',
+    transliteration: 'Anf',
+    english: 'Nose',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'فم',
+    transliteration: 'Fam',
+    english: 'Mouth',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'شعر',
+    transliteration: 'Shaar',
+    english: 'Hair',
+    category: 'body',
+    difficulty: 1,
+  },
+  {
+    arabic: 'ظهر',
+    transliteration: 'Dhahr',
+    english: 'Back',
+    category: 'body',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بطن',
+    transliteration: 'Batn',
+    english: 'Stomach/Belly',
+    category: 'body',
+    difficulty: 2,
+  },
+  {
+    arabic: 'إصبع',
+    transliteration: 'Isbaa',
+    english: 'Finger',
+    category: 'body',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ركبة',
+    transliteration: 'Rukbah',
+    english: 'Knee',
+    category: 'body',
+    difficulty: 2,
+  },
+  {
+    arabic: 'كتف',
+    transliteration: 'Katif',
+    english: 'Shoulder',
+    category: 'body',
+    difficulty: 2,
+  },
+  {
+    arabic: 'صدر',
+    transliteration: 'Sadr',
+    english: 'Chest',
+    category: 'body',
+    difficulty: 2,
+  },
+  {
+    arabic: 'لسان',
+    transliteration: 'Lisan',
+    english: 'Tongue',
+    category: 'body',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // CLOTHING (13 words)
+  // ============================================================================
+  {
+    arabic: 'ثوب',
+    transliteration: 'Thawb',
+    english: 'Thobe/Garment',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'حجاب',
+    transliteration: 'Hijab',
+    english: 'Hijab/Headscarf',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'عباءة',
+    transliteration: 'Abaya',
+    english: 'Abaya/Cloak',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'قميص',
+    transliteration: 'Qamis',
+    english: 'Shirt',
+    category: 'clothing',
+    difficulty: 1,
+  },
+  {
+    arabic: 'حذاء',
+    transliteration: 'Hidha',
+    english: 'Shoes',
+    category: 'clothing',
+    difficulty: 1,
+  },
+  {
+    arabic: 'خاتم',
+    transliteration: 'Khatim',
+    english: 'Ring',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ساعة',
+    transliteration: 'Saah',
+    english: 'Watch',
+    category: 'clothing',
+    difficulty: 1,
+  },
+  {
+    arabic: 'نظارة',
+    transliteration: 'Nadharah',
+    english: 'Glasses',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'حقيبة',
+    transliteration: 'Haqibah',
+    english: 'Bag',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'قبعة',
+    transliteration: 'Qubbah',
+    english: 'Hat/Cap',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'جوارب',
+    transliteration: 'Jawarib',
+    english: 'Socks',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'سروال',
+    transliteration: 'Sirwal',
+    english: 'Pants',
+    category: 'clothing',
+    difficulty: 2,
+  },
+  {
+    arabic: 'فستان',
+    transliteration: 'Fustan',
+    english: 'Dress',
+    category: 'clothing',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // ANIMALS (13 words)
+  // ============================================================================
+  {
+    arabic: 'قط',
+    transliteration: 'Qit',
+    english: 'Cat',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'كلب',
+    transliteration: 'Kalb',
+    english: 'Dog',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'حصان',
+    transliteration: 'Hisan',
+    english: 'Horse',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'جمل',
+    transliteration: 'Jamal',
+    english: 'Camel',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'طائر',
+    transliteration: 'Tair',
+    english: 'Bird',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'سمك',
+    transliteration: 'Samak',
+    english: 'Fish',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أسد',
+    transliteration: 'Asad',
+    english: 'Lion',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'فيل',
+    transliteration: 'Fil',
+    english: 'Elephant',
+    category: 'animals',
+    difficulty: 1,
+  },
+  {
+    arabic: 'نحلة',
+    transliteration: 'Nahlah',
+    english: 'Bee',
+    category: 'animals',
+    difficulty: 2,
+  },
+  {
+    arabic: 'فراشة',
+    transliteration: 'Farashah',
+    english: 'Butterfly',
+    category: 'animals',
+    difficulty: 2,
+  },
+  {
+    arabic: 'حمامة',
+    transliteration: 'Hamamah',
+    english: 'Dove/Pigeon',
+    category: 'animals',
+    difficulty: 2,
+  },
+  {
+    arabic: 'خروف',
+    transliteration: 'Kharuf',
+    english: 'Sheep',
+    category: 'animals',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بقرة',
+    transliteration: 'Baqarah',
+    english: 'Cow',
+    category: 'animals',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // COLORS (11 words)
+  // ============================================================================
+  {
+    arabic: 'أحمر',
+    transliteration: 'Ahmar',
+    english: 'Red',
+    category: 'colors',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أزرق',
+    transliteration: 'Azraq',
+    english: 'Blue',
+    category: 'colors',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أخضر',
+    transliteration: 'Akhdar',
+    english: 'Green',
+    category: 'colors',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أصفر',
+    transliteration: 'Asfar',
+    english: 'Yellow',
+    category: 'colors',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أبيض',
+    transliteration: 'Abyad',
+    english: 'White',
+    category: 'colors',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أسود',
+    transliteration: 'Aswad',
+    english: 'Black',
+    category: 'colors',
+    difficulty: 1,
+  },
+  {
+    arabic: 'بني',
+    transliteration: 'Bunni',
+    english: 'Brown',
+    category: 'colors',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بنفسجي',
+    transliteration: 'Banafsaji',
+    english: 'Purple',
+    category: 'colors',
+    difficulty: 2,
+  },
+  {
+    arabic: 'برتقالي',
+    transliteration: 'Burtuqali',
+    english: 'Orange',
+    category: 'colors',
+    difficulty: 2,
+  },
+  {
+    arabic: 'وردي',
+    transliteration: 'Wardi',
+    english: 'Pink',
+    category: 'colors',
+    difficulty: 2,
+  },
+  {
+    arabic: 'رمادي',
+    transliteration: 'Ramadi',
+    english: 'Gray',
+    category: 'colors',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // TIME (13 words)
+  // ============================================================================
+  {
+    arabic: 'يوم',
+    transliteration: 'Yawm',
+    english: 'Day',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'ليلة',
+    transliteration: 'Laylah',
+    english: 'Night',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'صباح',
+    transliteration: 'Sabah',
+    english: 'Morning',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'مساء',
+    transliteration: 'Masaa',
+    english: 'Evening',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'أسبوع',
+    transliteration: 'Usbu',
+    english: 'Week',
+    category: 'time',
+    difficulty: 2,
+  },
+  {
+    arabic: 'شهر',
+    transliteration: 'Shahr',
+    english: 'Month',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'سنة',
+    transliteration: 'Sanah',
+    english: 'Year',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'ساعة',
+    transliteration: 'Saah',
+    english: 'Hour',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'دقيقة',
+    transliteration: 'Daqiqah',
+    english: 'Minute',
+    category: 'time',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أمس',
+    transliteration: 'Ams',
+    english: 'Yesterday',
+    category: 'time',
+    difficulty: 2,
+  },
+  {
+    arabic: 'غدا',
+    transliteration: 'Ghadan',
+    english: 'Tomorrow',
+    category: 'time',
+    difficulty: 2,
+  },
+  {
+    arabic: 'الآن',
+    transliteration: 'Al-an',
+    english: 'Now',
+    category: 'time',
+    difficulty: 1,
+  },
+  {
+    arabic: 'وقت',
+    transliteration: 'Waqt',
+    english: 'Time',
+    category: 'time',
+    difficulty: 1,
+  },
+
+  // ============================================================================
+  // EMOTIONS (13 words)
+  // ============================================================================
+  {
+    arabic: 'سعيد',
+    transliteration: 'Saeed',
+    english: 'Happy',
+    category: 'emotions',
+    difficulty: 1,
+  },
+  {
+    arabic: 'حزين',
+    transliteration: 'Hazin',
+    english: 'Sad',
+    category: 'emotions',
+    difficulty: 1,
+  },
+  {
+    arabic: 'غاضب',
+    transliteration: 'Ghadib',
+    english: 'Angry',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'خائف',
+    transliteration: 'Khaif',
+    english: 'Afraid',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'متعب',
+    transliteration: 'Mutaab',
+    english: 'Tired',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'جائع',
+    transliteration: 'Jai',
+    english: 'Hungry',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'عطشان',
+    transliteration: 'Atshan',
+    english: 'Thirsty',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'مريض',
+    transliteration: 'Marid',
+    english: 'Sick',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'قوي',
+    transliteration: 'Qawi',
+    english: 'Strong',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ضعيف',
+    transliteration: 'Daeef',
+    english: 'Weak',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'فرح',
+    transliteration: 'Farah',
+    english: 'Joy',
+    category: 'emotions',
+    difficulty: 2,
+  },
+  {
+    arabic: 'حب',
+    transliteration: 'Hubb',
+    english: 'Love',
+    category: 'emotions',
+    difficulty: 1,
+  },
+  {
+    arabic: 'خوف',
+    transliteration: 'Khawf',
+    english: 'Fear',
+    category: 'emotions',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // PLACES (13 words)
+  // ============================================================================
+  {
+    arabic: 'مدينة',
+    transliteration: 'Madinah',
+    english: 'City',
+    category: 'places',
+    difficulty: 1,
+  },
+  {
+    arabic: 'قرية',
+    transliteration: 'Qaryah',
+    english: 'Village',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'سوق',
+    transliteration: 'Suq',
+    english: 'Market',
+    category: 'places',
+    difficulty: 1,
+  },
+  {
+    arabic: 'مستشفى',
+    transliteration: 'Mustashfa',
+    english: 'Hospital',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'مطار',
+    transliteration: 'Matar',
+    english: 'Airport',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'شارع',
+    transliteration: 'Sharia',
+    english: 'Street',
+    category: 'places',
+    difficulty: 1,
+  },
+  {
+    arabic: 'حديقة',
+    transliteration: 'Hadiqah',
+    english: 'Garden/Park',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ملعب',
+    transliteration: 'Malāb',
+    english: 'Playground/Stadium',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'مكتبة',
+    transliteration: 'Maktabah',
+    english: 'Library',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'جامعة',
+    transliteration: 'Jamiāh',
+    english: 'University',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'مطعم',
+    transliteration: 'Matām',
+    english: 'Restaurant',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'فندق',
+    transliteration: 'Funduq',
+    english: 'Hotel',
+    category: 'places',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بنك',
+    transliteration: 'Bank',
+    english: 'Bank',
+    category: 'places',
+    difficulty: 2,
+  },
+
+  // ============================================================================
+  // VERBS (21 words)
+  // ============================================================================
+  {
+    arabic: 'كتب',
+    transliteration: 'Kataba',
+    english: 'Wrote',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'قرأ',
+    transliteration: 'Qaraa',
+    english: 'Read',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أكل',
+    transliteration: 'Akala',
+    english: 'Ate',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'شرب',
+    transliteration: 'Shariba',
+    english: 'Drank',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'نام',
+    transliteration: 'Nama',
+    english: 'Slept',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'مشى',
+    transliteration: 'Masha',
+    english: 'Walked',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'جلس',
+    transliteration: 'Jalasa',
+    english: 'Sat',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'وقف',
+    transliteration: 'Waqafa',
+    english: 'Stood',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'فتح',
+    transliteration: 'Fataha',
+    english: 'Opened',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أغلق',
+    transliteration: 'Aghlaqa',
+    english: 'Closed',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'دخل',
+    transliteration: 'Dakhala',
+    english: 'Entered',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'خرج',
+    transliteration: 'Kharaja',
+    english: 'Exited',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'سمع',
+    transliteration: 'Samiaa',
+    english: 'Heard',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'نظر',
+    transliteration: 'Nadhara',
+    english: 'Looked',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'عرف',
+    transliteration: 'Aarafa',
+    english: 'Knew',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أحب',
+    transliteration: 'Ahabba',
+    english: 'Loved',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'سأل',
+    transliteration: 'Saala',
+    english: 'Asked',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'أجاب',
+    transliteration: 'Ajaba',
+    english: 'Answered',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ساعد',
+    transliteration: 'Saaada',
+    english: 'Helped',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'بدأ',
+    transliteration: 'Badaa',
+    english: 'Began',
+    category: 'verbs',
+    difficulty: 2,
+  },
+  {
+    arabic: 'ذهب',
+    transliteration: 'Dhahaba',
+    english: 'Went',
+    category: 'verbs',
+    difficulty: 2,
   },
 
   // ============================================================================
