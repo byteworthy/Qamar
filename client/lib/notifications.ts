@@ -229,6 +229,16 @@ async function setupAndroidChannels() {
     sound: "default",
   });
 
+  // Prayer time reminders
+  await Notifications.setNotificationChannelAsync("prayer-reminders", {
+    name: "Prayer Reminders",
+    description: "Notifications before each prayer time",
+    importance: Notifications.AndroidImportance.HIGH,
+    vibrationPattern: [0, 250, 250, 250],
+    lightColor: "#3a5a5a",
+    sound: "default",
+  });
+
   // General notifications
   await Notifications.setNotificationChannelAsync("general", {
     name: "General",
@@ -584,4 +594,75 @@ export async function cancelAllNotifications(): Promise<void> {
  */
 export async function setBadgeCount(count: number): Promise<void> {
   await Notifications.setBadgeCountAsync(count);
+}
+
+// =============================================================================
+// PRAYER TIME NOTIFICATIONS
+// =============================================================================
+
+const PRAYER_MESSAGES: Record<string, { title: string; body: string }> = {
+  Fajr: { title: "Fajr Prayer", body: "Dawn has arrived. Time for Fajr prayer." },
+  Dhuhr: { title: "Dhuhr Prayer", body: "The sun has passed its zenith. Time for Dhuhr." },
+  Asr: { title: "Asr Prayer", body: "Afternoon prayer time has entered." },
+  Maghrib: { title: "Maghrib Prayer", body: "The sun has set. Time for Maghrib." },
+  Isha: { title: "Isha Prayer", body: "Night prayer time has arrived." },
+};
+
+/**
+ * Schedule notifications for all 5 daily prayers.
+ *
+ * @param prayers - Array of { name, time } where time is an ISO string
+ * @param minutesBefore - Minutes before prayer time to notify (default 10)
+ */
+export async function schedulePrayerReminders(
+  prayers: Array<{ name: string; time: string }>,
+  minutesBefore: number = 10,
+): Promise<void> {
+  // Cancel existing prayer reminders
+  await cancelPrayerReminders();
+
+  const now = Date.now();
+
+  for (const prayer of prayers) {
+    const prayerTime = new Date(prayer.time).getTime();
+    const notifyAt = prayerTime - minutesBefore * 60 * 1000;
+
+    // Only schedule if the notification time is in the future
+    if (notifyAt <= now) continue;
+
+    const msg = PRAYER_MESSAGES[prayer.name] || {
+      title: `${prayer.name} Prayer`,
+      body: `Time for ${prayer.name} prayer.`,
+    };
+
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: msg.title,
+          body: msg.body,
+          sound: true,
+          data: { type: "prayer_reminder", prayer: prayer.name },
+          ...(Platform.OS === "android" && { channelId: "prayer-reminders" }),
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date: new Date(notifyAt),
+        },
+      });
+    } catch (error) {
+      console.error(`[Notifications] Failed to schedule ${prayer.name}:`, error);
+    }
+  }
+}
+
+/**
+ * Cancel all scheduled prayer reminder notifications.
+ */
+export async function cancelPrayerReminders(): Promise<void> {
+  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+  for (const notification of scheduled) {
+    if (notification.content.data?.type === "prayer_reminder") {
+      await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+    }
+  }
 }

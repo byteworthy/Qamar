@@ -18,7 +18,7 @@ import type { Surah, Verse, Hadith, VocabularyWord } from "../../shared/offline-
 // MOCK FLAG - mirrors the pattern in useQuranData.ts
 // ============================================================================
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 // ============================================================================
 // TYPES

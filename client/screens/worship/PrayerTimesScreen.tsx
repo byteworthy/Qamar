@@ -15,6 +15,7 @@ import * as Location from "expo-location";
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
+import { schedulePrayerReminders } from "@/lib/notifications";
 import {
   calculatePrayerTimes,
   getNextPrayer,
@@ -173,6 +174,18 @@ export default function PrayerTimesScreen() {
         );
         setPrayerTimes(times);
         setLoading(false);
+
+        // Schedule prayer notifications for today
+        const isToday = selectedDate.toDateString() === new Date().toDateString();
+        if (isToday) {
+          schedulePrayerReminders([
+            { name: "Fajr", time: times.fajr.toISOString() },
+            { name: "Dhuhr", time: times.dhuhr.toISOString() },
+            { name: "Asr", time: times.asr.toISOString() },
+            { name: "Maghrib", time: times.maghrib.toISOString() },
+            { name: "Isha", time: times.isha.toISOString() },
+          ]).catch(() => {}); // Silent fail for notification scheduling
+        }
       } catch (error) {
         console.error("Error calculating prayer times:", error);
         setLoading(false);
