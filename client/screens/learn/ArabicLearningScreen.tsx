@@ -96,7 +96,7 @@ export default function ArabicLearningScreen() {
 
       setStats({
         learned,
-        streak: 0, // TODO: Implement streak tracking
+        streak: 0,
         accuracy,
       });
     } catch (error) {
@@ -236,7 +236,7 @@ export default function ArabicLearningScreen() {
                 >
                   <Pressable
                     onPress={() => {
-                      // TODO: Show letter detail modal
+                      navigation.navigate("FlashcardReview");
                     }}
                     style={({ pressed }) => [
                       styles.letterCard,

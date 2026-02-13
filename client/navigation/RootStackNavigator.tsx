@@ -27,6 +27,7 @@ import QuranReaderScreen from "@/screens/learn/QuranReaderScreen";
 import VerseReaderScreen from "@/screens/learn/VerseReaderScreen";
 import PrayerTimesScreen from "@/screens/worship/PrayerTimesScreen";
 import QiblaFinderScreen from "@/screens/worship/QiblaFinderScreen";
+import IslamicCalendarScreen from "@/screens/worship/IslamicCalendarScreen";
 import ArabicLearningScreen from "@/screens/learn/ArabicLearningScreen";
 import FlashcardReviewScreen from "@/screens/learn/FlashcardReviewScreen";
 import HadithLibraryScreen from "@/screens/learn/HadithLibraryScreen";
@@ -169,6 +170,11 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="QiblaFinder"
         component={QiblaFinderScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="IslamicCalendar"
+        component={IslamicCalendarScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

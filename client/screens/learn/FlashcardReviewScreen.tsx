@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Pressable, Dimensions } from "react-native";
+import { View, StyleSheet, Pressable, Dimensions, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,7 +15,9 @@ import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useEntitlements } from "@/hooks/useEntitlements";
 import { ThemedText } from "@/components/ThemedText";
+import { PremiumGate } from "@/components/PremiumGate";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import {
   ARABIC_VOCABULARY,
@@ -33,6 +35,7 @@ import { BorderRadius, Fonts } from "@/constants/theme";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const STORAGE_KEY = "@noor_arabic_flashcards";
+const SESSION_COUNT_KEY = "@noor_flashcard_sessions";
 
 interface FlashcardData {
   wordId: string;
@@ -47,6 +50,7 @@ export default function FlashcardReviewScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const { isFreeUser } = useEntitlements();
 
   const [flashcards, setFlashcards] = useState<FlashcardData[]>([]);
   const [dueCards, setDueCards] = useState<FlashcardData[]>([]);
@@ -56,13 +60,40 @@ export default function FlashcardReviewScreen() {
     reviewed: 0,
     correct: 0,
   });
+  const [sessionCount, setSessionCount] = useState(0);
+  const [hasCompletedFirstSession, setHasCompletedFirstSession] = useState(false);
 
   const flipRotation = useSharedValue(0);
 
-  // Load flashcards
+  // Load flashcards and session count
   useEffect(() => {
     loadFlashcards();
+    loadSessionCount();
   }, []);
+
+  const loadSessionCount = async () => {
+    try {
+      const stored = await AsyncStorage.getItem(SESSION_COUNT_KEY);
+      if (stored) {
+        const count = parseInt(stored, 10);
+        setSessionCount(count);
+        setHasCompletedFirstSession(count > 0);
+      }
+    } catch (error) {
+      console.error("Failed to load session count:", error);
+    }
+  };
+
+  const incrementSessionCount = async () => {
+    try {
+      const newCount = sessionCount + 1;
+      await AsyncStorage.setItem(SESSION_COUNT_KEY, newCount.toString());
+      setSessionCount(newCount);
+      setHasCompletedFirstSession(true);
+    } catch (error) {
+      console.error("Failed to save session count:", error);
+    }
+  };
 
   const loadFlashcards = async () => {
     try {
@@ -168,11 +199,23 @@ export default function FlashcardReviewScreen() {
 
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
-    // TODO: Show modal with session summary
-    // For now, just navigate back
-    setTimeout(() => {
-      navigation.goBack();
-    }, 500);
+    // Increment session count after completing a session
+    incrementSessionCount();
+
+    Alert.alert(
+      "Session Complete!",
+      `Cards Reviewed: ${sessionStats.reviewed}\nCorrect: ${sessionStats.correct}\nIncorrect: ${sessionStats.reviewed - sessionStats.correct}\nAccuracy: ${accuracy}%`,
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            setTimeout(() => {
+              navigation.goBack();
+            }, 500);
+          },
+        },
+      ]
+    );
   };
 
   const currentWord = dueCards[currentIndex]
@@ -252,6 +295,31 @@ export default function FlashcardReviewScreen() {
 
   if (!currentWord) {
     return null;
+  }
+
+  // Check if free user has completed first session - gate further sessions
+  const shouldShowGate = isFreeUser && hasCompletedFirstSession;
+
+  if (shouldShowGate) {
+    return (
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
+        <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
+          <Pressable
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+          >
+            <Feather name="arrow-left" size={24} color={theme.text} />
+          </Pressable>
+        </View>
+        <PremiumGate requiredTier="plus" featureName="Unlimited Flashcard Reviews">
+          {null}
+        </PremiumGate>
+      </View>
+    );
   }
 
   return (

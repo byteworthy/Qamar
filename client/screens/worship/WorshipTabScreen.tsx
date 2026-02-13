@@ -115,8 +115,8 @@ export default function WorshipTabScreen() {
       description: "Hijri dates and important events",
       gradient: ["#4a3a3a", "#7a6a6a"],
       icon: "calendar" as const,
-      screen: undefined, // TODO: Implement IslamicCalendarScreen
-      comingSoon: true,
+      screen: "IslamicCalendar" as const,
+      comingSoon: false,
     },
   ];
 

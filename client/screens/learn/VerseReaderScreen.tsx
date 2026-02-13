@@ -23,6 +23,7 @@ import {
 } from "@/hooks/useQuranData";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
+import { PremiumGate } from "@/components/PremiumGate";
 import { RouteType } from "@/navigation/types";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
@@ -320,16 +321,17 @@ export default function VerseReaderScreen() {
 
       {/* Audio Player Bar */}
       {audioData && (
-        <Animated.View
-          entering={FadeInDown.duration(400)}
-          style={[
-            styles.audioPlayerContainer,
-            {
-              bottom: insets.bottom + 16,
-            },
-          ]}
-        >
-          <GlassCard style={styles.audioPlayer} elevated>
+        <PremiumGate requiredTier="plus" featureName="Quran Audio Recitation">
+          <Animated.View
+            entering={FadeInDown.duration(400)}
+            style={[
+              styles.audioPlayerContainer,
+              {
+                bottom: insets.bottom + 16,
+              },
+            ]}
+          >
+            <GlassCard style={styles.audioPlayer} elevated>
             {/* Surah Info */}
             <View style={styles.audioHeader}>
               <Feather name="music" size={18} color={theme.primary} />
@@ -426,6 +428,7 @@ export default function VerseReaderScreen() {
             )}
           </GlassCard>
         </Animated.View>
+        </PremiumGate>
       )}
     </View>
   );
