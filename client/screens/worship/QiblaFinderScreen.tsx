@@ -5,6 +5,7 @@ import {
   Dimensions,
   Platform,
   Alert,
+  ViewStyle,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
@@ -390,7 +391,7 @@ export default function QiblaFinderScreen() {
                   ? accuracyInfo.color + "15"
                   : accuracyInfo.color + "10",
               },
-            ]}
+            ] as ViewStyle}
           >
             <View style={styles.accuracyRow}>
               <Feather

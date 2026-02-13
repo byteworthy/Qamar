@@ -237,6 +237,78 @@ export const userProgress = pgTable(
   }),
 );
 
+// Vocabulary words table (reference data for Arabic learning)
+export const vocabularyWords = pgTable(
+  "vocabulary_words",
+  {
+    id: serial("id").primaryKey(),
+    arabic: text("arabic").notNull(),
+    english: text("english").notNull(),
+    transliteration: text("transliteration").notNull(),
+    category: text("category").notNull(), // e.g., "greetings", "prayer", "family"
+    difficulty: integer("difficulty").notNull().default(1), // 1-5 scale
+    audioUrl: text("audio_url"),
+    exampleSentence: text("example_sentence"),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    // Index on category for fast filtering
+    categoryIdx: index("vocabulary_words_category_idx").on(table.category),
+    // Index on difficulty for filtering
+    difficultyIdx: index("vocabulary_words_difficulty_idx").on(table.difficulty),
+  }),
+);
+
+// Hadith collections (reference data - the six authentic collections)
+export const hadithCollections = pgTable(
+  "hadith_collections",
+  {
+    id: text("id").primaryKey(), // e.g., "bukhari", "muslim", "tirmidhi"
+    name: text("name").notNull(), // English name
+    nameArabic: text("name_arabic").notNull(), // Arabic name
+    compiler: text("compiler").notNull(), // e.g., "Imam Muhammad al-Bukhari"
+    description: text("description").notNull(),
+    totalHadiths: integer("total_hadiths").notNull(),
+  },
+  (table) => ({
+    // Index on name for search
+    nameIdx: index("hadith_collections_name_idx").on(table.name),
+  }),
+);
+
+// Hadith texts (reference data - individual hadiths)
+export const hadiths = pgTable(
+  "hadiths",
+  {
+    id: text("id").primaryKey(), // e.g., "bukhari-1", "muslim-55"
+    collectionId: text("collection_id").notNull(), // FK to hadithCollections.id
+    bookNumber: integer("book_number").notNull(),
+    hadithNumber: integer("hadith_number").notNull(),
+    narrator: text("narrator").notNull(), // e.g., "Abu Hurairah (RA)"
+    textArabic: text("text_arabic").notNull(),
+    textEnglish: text("text_english").notNull(),
+    grade: text("grade").notNull(), // "Sahih", "Hasan", "Da'if"
+    chapter: text("chapter"), // Optional chapter/book name
+    reference: text("reference"), // Optional detailed reference
+  },
+  (table) => ({
+    collectionFk: foreignKey({
+      columns: [table.collectionId],
+      foreignColumns: [hadithCollections.id],
+      name: "hadiths_collection_fk",
+    }).onDelete("cascade"),
+    // Index on collectionId for collection queries
+    collectionIdx: index("hadiths_collection_idx").on(table.collectionId),
+    // Index on grade for filtering
+    gradeIdx: index("hadiths_grade_idx").on(table.grade),
+    // Composite index for collection + hadith number
+    collectionNumberIdx: index("hadiths_collection_number_idx").on(
+      table.collectionId,
+      table.hadithNumber,
+    ),
+  }),
+);
+
 // ============================================================================
 // TYPE EXPORTS
 // ============================================================================
@@ -255,6 +327,12 @@ export type ArabicFlashcard = typeof arabicFlashcards.$inferSelect;
 export type InsertArabicFlashcard = typeof arabicFlashcards.$inferInsert;
 export type UserProgress = typeof userProgress.$inferSelect;
 export type InsertUserProgress = typeof userProgress.$inferInsert;
+export type VocabularyWord = typeof vocabularyWords.$inferSelect;
+export type InsertVocabularyWord = typeof vocabularyWords.$inferInsert;
+export type HadithCollection = typeof hadithCollections.$inferSelect;
+export type InsertHadithCollection = typeof hadithCollections.$inferInsert;
+export type Hadith = typeof hadiths.$inferSelect;
+export type InsertHadith = typeof hadiths.$inferInsert;
 
 export const sessionSchema = z.object({
   thought: z.string(),

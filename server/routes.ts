@@ -9,6 +9,8 @@ import { registerInsightDuaRoutes } from "./routes/insight-dua-routes";
 import { registerQuranRoutes } from "./routes/quran-routes";
 import { registerPrayerRoutes } from "./routes/prayer-routes";
 import { registerProgressRoutes } from "./routes/progress-routes";
+import { registerHadithRoutes } from "./routes/hadith-routes";
+import { registerVocabularyRoutes } from "./routes/vocabulary-routes";
 import { registerCompanionRoutes } from "./routes/companion-routes";
 import { registerRagRoutes } from "./routes/rag-routes";
 
@@ -26,7 +28,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register Islamic feature routes
   registerQuranRoutes(app);
   registerPrayerRoutes(app);
+  registerHadithRoutes(app);
   registerProgressRoutes(app);
+  registerVocabularyRoutes(app);
 
   // Register AI companion routes
   registerCompanionRoutes(app);
