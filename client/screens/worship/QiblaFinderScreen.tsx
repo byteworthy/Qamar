@@ -391,7 +391,7 @@ export default function QiblaFinderScreen() {
                   ? accuracyInfo.color + "15"
                   : accuracyInfo.color + "10",
               },
-            ] as ViewStyle}
+            ] as unknown as ViewStyle}
           >
             <View style={styles.accuracyRow}>
               <Feather

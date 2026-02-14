@@ -288,28 +288,23 @@ export function registerAdhkarRoutes(app: Express): void {
 
       const { category, limit, offset } = validationResult.data;
 
-      // Build query
-      let query = db.select().from(adhkar);
-
-      if (category) {
-        query = query.where(eq(adhkar.category, category));
-      }
+      // Build where clause
+      const whereClause = category ? eq(adhkar.category, category) : undefined;
 
       // Fetch adhkar with pagination
-      const adhkarList = await query
+      const adhkarList = await db
+        .select()
+        .from(adhkar)
+        .where(whereClause)
         .orderBy(adhkar.category, adhkar.id)
         .limit(limit)
         .offset(offset);
 
       // Count total adhkar
-      const countQuery = category
-        ? db
-            .select({ count: sql<number>`count(*)` })
-            .from(adhkar)
-            .where(eq(adhkar.category, category))
-        : db.select({ count: sql<number>`count(*)` }).from(adhkar);
-
-      const [{ count }] = await countQuery;
+      const [{ count }] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(adhkar)
+        .where(whereClause);
 
       const duration = Date.now() - startTime;
 
