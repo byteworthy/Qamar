@@ -16,6 +16,7 @@ import { registerCompanionRoutes } from "./routes/companion-routes";
 import { registerRagRoutes } from "./routes/rag-routes";
 import { registerIslamicQaRoutes } from "./routes/islamic-qa-routes";
 import { registerOfflineSyncRoutes } from "./routes/offline-sync-routes";
+import { registerKhalilRoutes } from "./routes/khalil-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -47,6 +48,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register offline content sync routes
   registerOfflineSyncRoutes(app);
+
+  // Register Khalil conversational muhasaba routes
+  registerKhalilRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;

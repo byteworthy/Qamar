@@ -36,6 +36,7 @@ import HadithDetailScreen from "@/screens/learn/HadithDetailScreen";
 import AdhkarListScreen from "@/screens/adhkar/AdhkarListScreen";
 import AlphabetGridScreen from "@/screens/arabic/AlphabetGridScreen";
 import ProgressDashboardScreen from "@/screens/progress/ProgressDashboardScreen";
+import AskKarimScreen from "@/screens/learn/AskKarimScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -216,6 +217,11 @@ export default function RootStackNavigator() {
         name="ProgressDashboard"
         component={ProgressDashboardScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AskKarim"
+        component={AskKarimScreen}
+        options={{ headerTitle: "Ask Karim" }}
       />
     </Stack.Navigator>
   );

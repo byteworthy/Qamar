@@ -350,6 +350,10 @@ export default function HomeScreen() {
     () => navigation.navigate("ThoughtCapture"),
     [navigation],
   );
+  const handleNavigateKhalil = useCallback(
+    () => navigation.navigate("Main", { screen: "Khalil" } as any),
+    [navigation],
+  );
   const handleNavigateCalmingPractice = useCallback(
     () => navigation.navigate("CalmingPractice"),
     [navigation],
@@ -655,7 +659,7 @@ export default function HomeScreen() {
                   <QuickActionButton
                     icon="edit-3"
                     label="Reflect"
-                    onPress={handleNavigateThoughtCapture}
+                    onPress={handleNavigateKhalil}
                     color={NoorColors.gold}
                     delay={200}
                   />

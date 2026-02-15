@@ -16,14 +16,14 @@ import { NiyyahColors } from "@/constants/theme";
 import { hapticLight } from "@/lib/haptics";
 
 import HomeScreen from "@/screens/HomeScreen";
-import ExploreScreen from "@/screens/ExploreScreen";
+import KhalilScreen from "@/screens/KhalilScreen";
 import LearnTabScreen from "@/screens/learn/LearnTabScreen";
 import WorshipTabScreen from "@/screens/worship/WorshipTabScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 
 export type TabParamList = {
   HomeTab: undefined;
-  Companion: undefined;
+  Khalil: undefined;
   Learn: undefined;
   Worship: undefined;
   Profile: undefined;
@@ -130,12 +130,12 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Companion"
-        component={ExploreScreen}
+        name="Khalil"
+        component={KhalilScreen}
         options={{
-          tabBarLabel: "Companion",
+          tabBarLabel: "Khalil",
           tabBarIcon: ({ color, focused }) => (
-            <AnimatedTabIcon name="message-circle" color={color} focused={focused} />
+            <AnimatedTabIcon name="heart" color={color} focused={focused} />
           ),
         }}
       />

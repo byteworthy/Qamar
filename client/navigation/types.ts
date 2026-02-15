@@ -83,6 +83,7 @@ export type RootStackParamList = {
   AlphabetGrid: undefined;
   ProgressDashboard: undefined;
   IslamicCalendar: undefined;
+  AskKarim: undefined;
 };
 
 /**

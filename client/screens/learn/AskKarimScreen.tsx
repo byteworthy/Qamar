@@ -61,10 +61,6 @@ const QUICK_PROMPTS = [
     icon: "compass" as const,
   },
   {
-    text: "I'm feeling anxious today",
-    icon: "heart" as const,
-  },
-  {
     text: "Help me understand Surah Al-Fatiha",
     icon: "sunrise" as const,
   },
@@ -72,10 +68,14 @@ const QUICK_PROMPTS = [
     text: "What are the morning adhkar?",
     icon: "sun" as const,
   },
+  {
+    text: "How did the Prophet deal with sadness?",
+    icon: "heart" as const,
+  },
 ];
 
 // =============================================================================
-// TYPING INDICATOR COMPONENT
+// TYPING INDICATOR
 // =============================================================================
 
 function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"] }) {
@@ -88,29 +88,29 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
     dot1.value = withRepeat(
       withSequence(
         withTiming(-6, { duration, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0, { duration, easing: Easing.inOut(Easing.ease) })
+        withTiming(0, { duration, easing: Easing.inOut(Easing.ease) }),
       ),
       -1,
-      false
+      false,
     );
     const timer2 = setTimeout(() => {
       dot2.value = withRepeat(
         withSequence(
           withTiming(-6, { duration, easing: Easing.inOut(Easing.ease) }),
-          withTiming(0, { duration, easing: Easing.inOut(Easing.ease) })
+          withTiming(0, { duration, easing: Easing.inOut(Easing.ease) }),
         ),
         -1,
-        false
+        false,
       );
     }, 150);
     const timer3 = setTimeout(() => {
       dot3.value = withRepeat(
         withSequence(
           withTiming(-6, { duration, easing: Easing.inOut(Easing.ease) }),
-          withTiming(0, { duration, easing: Easing.inOut(Easing.ease) })
+          withTiming(0, { duration, easing: Easing.inOut(Easing.ease) }),
         ),
         -1,
-        false
+        false,
       );
     }, 300);
     return () => {
@@ -149,7 +149,7 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
 }
 
 // =============================================================================
-// CITATION CARD COMPONENT
+// CITATION CARD
 // =============================================================================
 
 function CitationCard({
@@ -196,7 +196,7 @@ function CitationCard({
 }
 
 // =============================================================================
-// MESSAGE BUBBLE COMPONENT
+// MESSAGE BUBBLE
 // =============================================================================
 
 function MessageBubble({
@@ -220,7 +220,7 @@ function MessageBubble({
     >
       {!isUser && (
         <View style={[styles.avatarContainer, { backgroundColor: NoorColors.gold + "20" }]}>
-          <ThemedText style={styles.avatarText}>N</ThemedText>
+          <ThemedText style={styles.avatarText}>K</ThemedText>
         </View>
       )}
       <View
@@ -231,13 +231,7 @@ function MessageBubble({
             : { backgroundColor: theme.glassSurface, borderColor: theme.glassStroke },
         ]}
       >
-        <ThemedText
-          style={[
-            styles.messageText,
-            { color: theme.text },
-            isUser && { color: theme.text },
-          ]}
-        >
+        <ThemedText style={[styles.messageText, { color: theme.text }]}>
           {message.content}
         </ThemedText>
       </View>
@@ -256,7 +250,7 @@ function MessageBubble({
 // MAIN SCREEN
 // =============================================================================
 
-export default function ExploreScreen() {
+export default function AskKarimScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
@@ -269,7 +263,6 @@ export default function ExploreScreen() {
 
   const conversationHistory = useRef<Array<{ role: "user" | "assistant"; content: string }>>([]);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     if (messages.length > 0) {
       setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
@@ -292,9 +285,8 @@ export default function ExploreScreen() {
       setIsLoading(true);
       Keyboard.dismiss();
 
-      // Track companion message sent
       Sentry.startSpan(
-        { name: "companion.message_sent", op: "ui.action" },
+        { name: "ask_karim.message_sent", op: "ui.action" },
         () => {},
       );
 
@@ -324,13 +316,12 @@ export default function ExploreScreen() {
 
         setMessages((prev) => [...prev, assistantMessage]);
 
-        // Update conversation history for context
         conversationHistory.current = [
           ...conversationHistory.current,
           { role: "user" as const, content: text.trim() },
           { role: "assistant" as const, content: data.response },
-        ].slice(-20); // Keep last 20 messages for context window
-      } catch (error) {
+        ].slice(-20);
+      } catch {
         const errorMessage: ChatMessage = {
           id: `error-${Date.now()}`,
           role: "assistant",
@@ -343,14 +334,7 @@ export default function ExploreScreen() {
         setIsLoading(false);
       }
     },
-    [isLoading]
-  );
-
-  const handleQuickPrompt = useCallback(
-    (text: string) => {
-      sendMessage(text);
-    },
-    [sendMessage]
+    [isLoading],
   );
 
   const handleSend = useCallback(() => {
@@ -363,18 +347,19 @@ export default function ExploreScreen() {
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
     >
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
         <Animated.View entering={FadeInDown.duration(300)} style={styles.headerInner}>
           <View style={[styles.headerAvatar, { backgroundColor: NoorColors.gold + "20" }]}>
-            <ThemedText style={styles.headerAvatarText}>N</ThemedText>
+            <ThemedText style={styles.headerAvatarText}>K</ThemedText>
           </View>
           <View>
-            <ThemedText style={styles.headerTitle} accessibilityRole="header">Noor</ThemedText>
+            <ThemedText style={styles.headerTitle} accessibilityRole="header">
+              Karim
+            </ThemedText>
             <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
-              Your Islamic companion
+              Your Islamic knowledge companion
             </ThemedText>
           </View>
         </Animated.View>
@@ -390,7 +375,7 @@ export default function ExploreScreen() {
         >
           <Feather name="wifi-off" size={14} color={NoorColors.gold} />
           <ThemedText style={[styles.offlineBannerText, { color: NoorColors.gold }]}>
-            You're offline. Noor needs a connection to respond.
+            You're offline. Karim needs a connection to respond.
           </ThemedText>
         </View>
       )}
@@ -410,15 +395,13 @@ export default function ExploreScreen() {
           <View style={styles.emptyState}>
             <Animated.View entering={FadeIn.duration(400)} style={styles.emptyHeader}>
               <View style={[styles.emptyAvatar, { backgroundColor: NoorColors.gold + "15" }]}>
-                <ThemedText style={styles.emptyAvatarText}>
-                  {"\u2728"}
-                </ThemedText>
+                <ThemedText style={styles.emptyAvatarText}>{"\u2728"}</ThemedText>
               </View>
               <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                 Assalamu Alaikum
               </ThemedText>
               <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-                I'm Noor, your companion for Islamic reflection and learning. Ask me anything or choose a topic below.
+                I'm Karim, your companion for Islamic reflection and learning. Ask me anything or choose a topic below.
               </ThemedText>
             </Animated.View>
 
@@ -429,7 +412,7 @@ export default function ExploreScreen() {
                   entering={FadeInUp.duration(300).delay(150 + index * 80)}
                 >
                   <Pressable
-                    onPress={() => handleQuickPrompt(prompt.text)}
+                    onPress={() => sendMessage(prompt.text)}
                     style={({ pressed }) => [
                       styles.quickPromptCard,
                       {
@@ -462,12 +445,7 @@ export default function ExploreScreen() {
         ) : (
           <View style={styles.messagesContainer}>
             {messages.map((msg, index) => (
-              <MessageBubble
-                key={msg.id}
-                message={msg}
-                theme={theme}
-                index={index}
-              />
+              <MessageBubble key={msg.id} message={msg} theme={theme} index={index} />
             ))}
             {isLoading && <TypingIndicator theme={theme} />}
           </View>
@@ -496,7 +474,7 @@ export default function ExploreScreen() {
         >
           <TextInput
             style={[styles.textInput, { color: theme.text }]}
-            placeholder="Ask Noor anything..."
+            placeholder="Ask Karim anything..."
             placeholderTextColor={theme.textSecondary}
             value={inputText}
             onChangeText={setInputText}
@@ -506,7 +484,7 @@ export default function ExploreScreen() {
             returnKeyType="default"
             blurOnSubmit={false}
             accessibilityLabel="Message input"
-            accessibilityHint="Type a question or message for Noor"
+            accessibilityHint="Type a question or message for Karim"
           />
           <Pressable
             onPress={handleSend}
@@ -530,11 +508,7 @@ export default function ExploreScreen() {
               <Feather
                 name="arrow-up"
                 size={18}
-                color={
-                  inputText.trim()
-                    ? NoorColors.background
-                    : theme.textSecondary
-                }
+                color={inputText.trim() ? NoorColors.background : theme.textSecondary}
               />
             )}
           </Pressable>
@@ -549,22 +523,15 @@ export default function ExploreScreen() {
 // =============================================================================
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
 
-  // Header
   header: {
     paddingHorizontal: 20,
     paddingBottom: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(255,255,255,0.06)",
   },
-  headerInner: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
+  headerInner: { flexDirection: "row", alignItems: "center", gap: 12 },
   headerAvatar: {
     width: 36,
     height: 36,
@@ -572,21 +539,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  headerAvatarText: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: NoorColors.gold,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  headerSubtitle: {
-    fontSize: 12,
-    opacity: 0.8,
-  },
+  headerAvatarText: { fontSize: 16, fontWeight: "700", color: NoorColors.gold },
+  headerTitle: { fontSize: 18, fontWeight: "700" },
+  headerSubtitle: { fontSize: 12, opacity: 0.8 },
 
-  // Offline banner
   offlineBanner: {
     flexDirection: "row",
     alignItems: "center",
@@ -598,34 +554,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
   },
-  offlineBannerText: {
-    fontSize: 13,
-    fontWeight: "500",
-    flex: 1,
-  },
+  offlineBannerText: { fontSize: 13, fontWeight: "500", flex: 1 },
 
-  // Scroll
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-  },
-  scrollContentEmpty: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
+  scrollView: { flex: 1 },
+  scrollContent: { paddingHorizontal: 16, paddingVertical: 16 },
+  scrollContentEmpty: { flexGrow: 1, justifyContent: "center" },
 
-  // Empty state
-  emptyState: {
-    alignItems: "center",
-    paddingHorizontal: 8,
-  },
-  emptyHeader: {
-    alignItems: "center",
-    marginBottom: 32,
-  },
+  emptyState: { alignItems: "center", paddingHorizontal: 8 },
+  emptyHeader: { alignItems: "center", marginBottom: 32 },
   emptyAvatar: {
     width: 64,
     height: 64,
@@ -634,14 +570,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 16,
   },
-  emptyAvatarText: {
-    fontSize: 28,
-  },
-  emptyTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    marginBottom: 8,
-  },
+  emptyAvatarText: { fontSize: 28 },
+  emptyTitle: { fontSize: 22, fontWeight: "700", marginBottom: 8 },
   emptySubtitle: {
     fontSize: 14,
     textAlign: "center",
@@ -649,11 +579,7 @@ const styles = StyleSheet.create({
     maxWidth: 300,
   },
 
-  // Quick prompts
-  quickPromptsGrid: {
-    width: "100%",
-    gap: 10,
-  },
+  quickPromptsGrid: { width: "100%", gap: 10 },
   quickPromptCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -663,29 +589,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     gap: 12,
   },
-  quickPromptIcon: {
-    flexShrink: 0,
-  },
-  quickPromptText: {
-    fontSize: 14,
-    lineHeight: 20,
-    flex: 1,
-  },
+  quickPromptIcon: { flexShrink: 0 },
+  quickPromptText: { fontSize: 14, lineHeight: 20, flex: 1 },
 
-  // Messages
-  messagesContainer: {
-    gap: 4,
-    paddingBottom: 8,
-  },
-  messageRow: {
-    marginBottom: 8,
-  },
-  messageRowUser: {
-    alignItems: "flex-end",
-  },
-  messageRowAssistant: {
-    alignItems: "flex-start",
-  },
+  messagesContainer: { gap: 4, paddingBottom: 8 },
+  messageRow: { marginBottom: 8 },
+  messageRowUser: { alignItems: "flex-end" },
+  messageRowAssistant: { alignItems: "flex-start" },
   messageBubbleUser: {
     maxWidth: "82%",
     paddingVertical: 12,
@@ -713,17 +623,9 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
   },
-  avatarText: {
-    fontSize: 13,
-    fontWeight: "700",
-    color: NoorColors.gold,
-  },
-  messageText: {
-    fontSize: 15,
-    lineHeight: 22,
-  },
+  avatarText: { fontSize: 13, fontWeight: "700", color: NoorColors.gold },
+  messageText: { fontSize: 15, lineHeight: 22 },
 
-  // Citations
   citationsContainer: {
     marginTop: 8,
     marginLeft: 40,
@@ -749,18 +651,9 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
-  citationRef: {
-    fontSize: 11,
-    flex: 1,
-    textAlign: "right",
-  },
-  citationText: {
-    fontSize: 13,
-    lineHeight: 19,
-    fontStyle: "italic",
-  },
+  citationRef: { fontSize: 11, flex: 1, textAlign: "right" },
+  citationText: { fontSize: 13, lineHeight: 19, fontStyle: "italic" },
 
-  // Typing indicator
   typingContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -768,7 +661,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
 
-  // Input bar
   inputBar: {
     paddingHorizontal: 16,
     paddingTop: 10,
