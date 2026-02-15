@@ -14,6 +14,7 @@ import { registerAdhkarRoutes } from "./routes/adhkar-routes";
 import { registerVocabularyRoutes } from "./routes/vocabulary-routes";
 import { registerCompanionRoutes } from "./routes/companion-routes";
 import { registerRagRoutes } from "./routes/rag-routes";
+import { registerIslamicQaRoutes } from "./routes/islamic-qa-routes";
 import { registerOfflineSyncRoutes } from "./routes/offline-sync-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -40,6 +41,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register RAG knowledge base routes
   registerRagRoutes(app);
+
+  // Register Islamic Q&A routes (keyword search)
+  registerIslamicQaRoutes(app);
 
   // Register offline content sync routes
   registerOfflineSyncRoutes(app);

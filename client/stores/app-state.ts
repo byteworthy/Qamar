@@ -33,6 +33,21 @@ export interface QuranState {
   autoScroll: boolean;
 }
 
+export type PrayerName = "Fajr" | "Dhuhr" | "Asr" | "Maghrib" | "Isha";
+
+export type ReminderOffset = 0 | 5 | 10 | 15 | 30;
+
+export interface PrayerNotificationPreferences {
+  /** Per-prayer notification toggles */
+  perPrayer: Record<PrayerName, boolean>;
+  /** Minutes before prayer time to send notification */
+  reminderOffset: ReminderOffset;
+  /** Daily reflection/learning reminder */
+  dailyReflectionEnabled: boolean;
+  dailyReflectionHour: number;
+  dailyReflectionMinute: number;
+}
+
 export interface PrayerState {
   userLocation: Location | null;
   calculationMethod: string; // MWL, ISNA, Egypt, Makkah, Karachi, Tehran, Jafari
@@ -40,6 +55,7 @@ export interface PrayerState {
   highLatitudeRule: "MiddleOfTheNight" | "SeventhOfTheNight" | "TwilightAngle";
   notificationsEnabled: boolean;
   notificationMinutesBefore: number; // 0, 5, 10, 15, 30
+  notificationPreferences: PrayerNotificationPreferences;
 }
 
 export interface ArabicState {
@@ -89,6 +105,11 @@ export interface AppState {
   ) => void;
   togglePrayerNotifications: () => void;
   setNotificationMinutesBefore: (minutes: number) => void;
+  togglePrayerNotification: (prayer: PrayerName) => void;
+  setReminderOffset: (offset: ReminderOffset) => void;
+  toggleDailyReflection: () => void;
+  setDailyReflectionTime: (hour: number, minute: number) => void;
+  setNotificationPreferences: (prefs: Partial<PrayerNotificationPreferences>) => void;
 
   // Arabic actions
   setCurrentLevel: (level: number) => void;
@@ -132,6 +153,19 @@ const initialPrayerState: PrayerState = {
   highLatitudeRule: "MiddleOfTheNight",
   notificationsEnabled: false,
   notificationMinutesBefore: 0,
+  notificationPreferences: {
+    perPrayer: {
+      Fajr: true,
+      Dhuhr: true,
+      Asr: true,
+      Maghrib: true,
+      Isha: true,
+    },
+    reminderOffset: 5,
+    dailyReflectionEnabled: false,
+    dailyReflectionHour: 20,
+    dailyReflectionMinute: 0,
+  },
 };
 
 const initialArabicState: ArabicState = {
@@ -244,6 +278,66 @@ export const useAppState = create<AppState>()(
       setNotificationMinutesBefore: (minutes) =>
         set((state) => ({
           prayer: { ...state.prayer, notificationMinutesBefore: minutes },
+        })),
+
+      togglePrayerNotification: (prayer) =>
+        set((state) => ({
+          prayer: {
+            ...state.prayer,
+            notificationPreferences: {
+              ...state.prayer.notificationPreferences,
+              perPrayer: {
+                ...state.prayer.notificationPreferences.perPrayer,
+                [prayer]: !state.prayer.notificationPreferences.perPrayer[prayer],
+              },
+            },
+          },
+        })),
+
+      setReminderOffset: (offset) =>
+        set((state) => ({
+          prayer: {
+            ...state.prayer,
+            notificationPreferences: {
+              ...state.prayer.notificationPreferences,
+              reminderOffset: offset,
+            },
+          },
+        })),
+
+      toggleDailyReflection: () =>
+        set((state) => ({
+          prayer: {
+            ...state.prayer,
+            notificationPreferences: {
+              ...state.prayer.notificationPreferences,
+              dailyReflectionEnabled:
+                !state.prayer.notificationPreferences.dailyReflectionEnabled,
+            },
+          },
+        })),
+
+      setDailyReflectionTime: (hour, minute) =>
+        set((state) => ({
+          prayer: {
+            ...state.prayer,
+            notificationPreferences: {
+              ...state.prayer.notificationPreferences,
+              dailyReflectionHour: hour,
+              dailyReflectionMinute: minute,
+            },
+          },
+        })),
+
+      setNotificationPreferences: (prefs) =>
+        set((state) => ({
+          prayer: {
+            ...state.prayer,
+            notificationPreferences: {
+              ...state.prayer.notificationPreferences,
+              ...prefs,
+            },
+          },
         })),
 
       // Arabic actions

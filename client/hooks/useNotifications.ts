@@ -21,6 +21,7 @@ import {
   type NotificationSettings,
   DEFAULT_NOTIFICATION_SETTINGS,
 } from "@/lib/notifications";
+import { rescheduleAllNotifications } from "@/services/notifications";
 
 export interface UseNotificationsReturn {
   // State
@@ -131,7 +132,7 @@ export function useNotifications(): UseNotificationsReturn {
     };
   }, []);
 
-  // Re-check permissions when app comes to foreground
+  // Re-check permissions and reschedule when app comes to foreground
   useEffect(() => {
     const subscription = AppState.addEventListener(
       "change",
@@ -139,6 +140,13 @@ export function useNotifications(): UseNotificationsReturn {
         if (state === "active") {
           const enabled = await areNotificationsEnabled();
           setIsEnabled(enabled);
+
+          // Reschedule prayer notifications for current location/timezone
+          if (enabled) {
+            rescheduleAllNotifications().catch((err) =>
+              console.error("[useNotifications] Reschedule error:", err),
+            );
+          }
         }
       },
     );
@@ -230,6 +238,10 @@ export function useNotificationNavigation(
 
       if (data?.navigateTo) {
         navigate(data.navigateTo as string, data.params as object | undefined);
+      } else if (data?.type === "prayer_reminder") {
+        navigate("PrayerTimes");
+      } else if (data?.type === "daily_reflection") {
+        navigate("ThoughtCapture");
       } else if (data?.type === "daily_reminder") {
         navigate("ThoughtCapture");
       } else if (data?.type === "streak_reminder") {

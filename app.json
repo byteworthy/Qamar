@@ -2,13 +2,13 @@
   "expo": {
     "name": "Noor",
     "slug": "noor",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "noor",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "description": "Islamic companion app combining guided reflection with Quran, prayer times, Arabic learning, hadith, and daily adhkar",
+    "description": "Your Islamic Companion - Quran, Prayer Times, Arabic Learning & Personal Reflection",
     "primaryColor": "#D4C4A8",
     "ios": {
       "supportsTablet": true,
@@ -16,9 +16,14 @@
       "infoPlist": {
         "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries.",
         "NSLocationWhenInUseUsageDescription": "Noor uses your location to display accurate prayer times and qibla direction for your area.",
-        "NSUserTrackingUsageDescription": "We do not track you"
+        "NSMotionUsageDescription": "Noor uses device motion sensors to provide an accurate Qibla compass direction.",
+        "NSUserTrackingUsageDescription": "We do not track you.",
+        "NSCameraUsageDescription": "Noor uses the camera to enhance Qibla direction finding with augmented reality."
       },
-      "category": "EDUCATION"
+      "category": "LIFESTYLE",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -34,7 +39,12 @@
         "USE_BIOMETRIC",
         "USE_FINGERPRINT",
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "HIGH_SAMPLING_RATE_SENSORS",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED",
+        "SCHEDULE_EXACT_ALARM"
       ],
       "intentFilters": [
         {
@@ -72,7 +82,7 @@
         "expo-notifications",
         {
           "icon": "./assets/images/icon.png",
-          "color": "#4fd1a8",
+          "color": "#D4C4A8",
           "defaultChannel": "default",
           "sounds": []
         }
@@ -80,7 +90,13 @@
       "@sentry/react-native",
       "expo-secure-store",
       "expo-local-authentication",
-      "expo-location"
+      "expo-location",
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Noor uses device motion to provide Qibla compass direction."
+        }
+      ]
     ],
     "experiments": {
       "reactCompiler": true

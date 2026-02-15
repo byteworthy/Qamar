@@ -28,7 +28,9 @@ import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { clearSessions } from "@/lib/storage";
-import { useAppState } from "@/stores/app-state";
+import { useAppState, type PrayerName, type ReminderOffset } from "@/stores/app-state";
+import { rescheduleAllNotifications } from "@/services/notifications";
+import { requestNotificationPermissions } from "@/lib/notifications";
 
 const USER_NAME_KEY = "@noor_user_name";
 const USER_EMAIL_KEY = "@noor_user_email";
@@ -396,6 +398,49 @@ export default function ProfileScreen() {
   const setCalculationMethod = useAppState((s) => s.setCalculationMethod);
   const setAsrCalculation = useAppState((s) => s.setAsrCalculation);
   const setHighLatitudeRule = useAppState((s) => s.setHighLatitudeRule);
+  const togglePrayerNotifications = useAppState((s) => s.togglePrayerNotifications);
+  const togglePrayerNotification = useAppState((s) => s.togglePrayerNotification);
+  const setReminderOffset = useAppState((s) => s.setReminderOffset);
+  const toggleDailyReflection = useAppState((s) => s.toggleDailyReflection);
+  const setDailyReflectionTime = useAppState((s) => s.setDailyReflectionTime);
+
+  const handleToggleNotifications = useCallback(async () => {
+    if (!prayerState.notificationsEnabled) {
+      const granted = await requestNotificationPermissions();
+      if (!granted) {
+        Alert.alert(
+          "Notifications Disabled",
+          "Please enable notifications in your device settings to receive prayer reminders.",
+          [{ text: "OK" }],
+        );
+        return;
+      }
+    }
+    togglePrayerNotifications();
+    // Reschedule after state update settles
+    setTimeout(() => rescheduleAllNotifications().catch(() => {}), 100);
+  }, [prayerState.notificationsEnabled, togglePrayerNotifications]);
+
+  const handleTogglePrayer = useCallback(
+    (prayer: PrayerName) => {
+      togglePrayerNotification(prayer);
+      setTimeout(() => rescheduleAllNotifications().catch(() => {}), 100);
+    },
+    [togglePrayerNotification],
+  );
+
+  const handleOffsetChange = useCallback(
+    (offset: ReminderOffset) => {
+      setReminderOffset(offset);
+      setTimeout(() => rescheduleAllNotifications().catch(() => {}), 100);
+    },
+    [setReminderOffset],
+  );
+
+  const handleToggleDailyReflection = useCallback(() => {
+    toggleDailyReflection();
+    setTimeout(() => rescheduleAllNotifications().catch(() => {}), 100);
+  }, [toggleDailyReflection]);
 
   // Load user info
   useEffect(() => {
@@ -600,6 +645,86 @@ export default function ProfileScreen() {
               currentLabel={currentHighLatLabel}
               onPress={() => setShowHighLatPicker(true)}
             />
+          </GlassCard>
+        </Animated.View>
+
+        {/* ── Notification Settings ──────────────────────────── */}
+        <SectionHeader title="Prayer Notifications" delay={220} />
+        <Animated.View entering={FadeInUp.duration(350).delay(240)}>
+          <GlassCard style={styles.settingsCard}>
+            <SettingRow label="Prayer Reminders">
+              <Switch
+                value={prayerState.notificationsEnabled}
+                onValueChange={handleToggleNotifications}
+                trackColor={{ false: theme.border, true: NoorColors.gold }}
+              />
+            </SettingRow>
+
+            {prayerState.notificationsEnabled && (
+              <>
+                <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+
+                {(["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as const).map(
+                  (prayer) => (
+                    <React.Fragment key={prayer}>
+                      <SettingRow label={`  ${prayer}`}>
+                        <Switch
+                          value={prayerState.notificationPreferences.perPrayer[prayer]}
+                          onValueChange={() => handleTogglePrayer(prayer)}
+                          trackColor={{ false: theme.border, true: NoorColors.gold }}
+                        />
+                      </SettingRow>
+                    </React.Fragment>
+                  ),
+                )}
+
+                <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+
+                <SettingRow label="Remind me" subtitle="Before adhan">
+                  <SegmentedControl
+                    options={[
+                      { label: "At time", value: "0" },
+                      { label: "5 min", value: "5" },
+                      { label: "15 min", value: "15" },
+                      { label: "30 min", value: "30" },
+                    ]}
+                    selectedValue={String(prayerState.notificationPreferences.reminderOffset)}
+                    onSelect={(val: string) =>
+                      handleOffsetChange(Number(val) as ReminderOffset)
+                    }
+                  />
+                </SettingRow>
+
+                <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+
+                <SettingRow label="Daily Reflection Reminder">
+                  <Switch
+                    value={prayerState.notificationPreferences.dailyReflectionEnabled}
+                    onValueChange={handleToggleDailyReflection}
+                    trackColor={{ false: theme.border, true: NoorColors.gold }}
+                  />
+                </SettingRow>
+
+                {prayerState.notificationPreferences.dailyReflectionEnabled && (
+                  <SettingRow
+                    label="  Reminder time"
+                    subtitle={`${prayerState.notificationPreferences.dailyReflectionHour > 12 ? prayerState.notificationPreferences.dailyReflectionHour - 12 : prayerState.notificationPreferences.dailyReflectionHour}:${String(prayerState.notificationPreferences.dailyReflectionMinute).padStart(2, "0")} ${prayerState.notificationPreferences.dailyReflectionHour >= 12 ? "PM" : "AM"}`}
+                  >
+                    <SegmentedControl
+                      options={[
+                        { label: "8 PM", value: "20" },
+                        { label: "9 PM", value: "21" },
+                        { label: "10 PM", value: "22" },
+                      ]}
+                      selectedValue={String(prayerState.notificationPreferences.dailyReflectionHour)}
+                      onSelect={(val: string) =>
+                        setDailyReflectionTime(Number(val), 0)
+                      }
+                    />
+                  </SettingRow>
+                )}
+              </>
+            )}
           </GlassCard>
         </Animated.View>
 

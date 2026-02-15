@@ -21,6 +21,8 @@ import { getAnthropicClient } from "./constants";
 import { detectIslamicQuery, fetchIslamicContext } from "../services/islamic-context";
 import { buildCompanionSystemPrompt } from "../services/companion-prompts";
 import type { IslamicContext } from "../services/islamic-context";
+import { findRelevantContent, isIslamicKnowledgeQuery } from "../services/islamic-knowledge";
+import type { Citation as KnowledgeCitation } from "../services/islamic-knowledge";
 
 // =============================================================================
 // VALIDATION SCHEMAS
@@ -162,30 +164,48 @@ export function registerCompanionRoutes(app: Express): void {
       let islamicContext: IslamicContext | undefined;
       const citations: Citation[] = [];
 
-      if (detectIslamicQuery(message)) {
+      const isIslamic = detectIslamicQuery(message) || isIslamicKnowledgeQuery(message);
+
+      if (isIslamic) {
+        // Fetch lightweight keyword-matched context for the system prompt
         islamicContext = await fetchIslamicContext(message);
 
-        // Build citations from context
-        if (islamicContext.relevantVerse) {
+        // Also run the full knowledge search for richer citations
+        const knowledgeResult = findRelevantContent(message, 3);
+
+        for (const cite of knowledgeResult.citations) {
           citations.push({
-            type: "quran",
-            reference: islamicContext.relevantVerse.reference,
-            text: islamicContext.relevantVerse.translation,
+            type: cite.type,
+            reference: cite.reference,
+            text: cite.english,
           });
         }
-        if (islamicContext.relevantHadith) {
-          citations.push({
-            type: "hadith",
-            reference: islamicContext.relevantHadith.source,
-            text: islamicContext.relevantHadith.text,
-          });
-        }
-        if (islamicContext.islamicConcept) {
+
+        // Add concept citations if detected
+        for (const concept of knowledgeResult.concepts) {
           citations.push({
             type: "concept",
             reference: "Islamic Concept",
-            text: islamicContext.islamicConcept,
+            text: concept,
           });
+        }
+
+        // If knowledge search found verses/hadiths not in the basic context,
+        // enrich the islamic context for the system prompt
+        if (!islamicContext.relevantVerse && knowledgeResult.citations.some(c => c.type === 'quran')) {
+          const topVerse = knowledgeResult.citations.find(c => c.type === 'quran')!;
+          islamicContext.relevantVerse = {
+            arabic: topVerse.arabic,
+            translation: topVerse.english,
+            reference: topVerse.reference,
+          };
+        }
+        if (!islamicContext.relevantHadith && knowledgeResult.citations.some(c => c.type === 'hadith')) {
+          const topHadith = knowledgeResult.citations.find(c => c.type === 'hadith')!;
+          islamicContext.relevantHadith = {
+            text: topHadith.english,
+            source: topHadith.reference,
+          };
         }
       }
 
