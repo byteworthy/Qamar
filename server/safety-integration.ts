@@ -315,7 +315,7 @@ function buildSafetyGuidance(params: {
   // Crisis handling
   if (params.crisisDetected && params.crisisDetected.level !== "none") {
     guidance += "\n⚠️  CRISIS DETECTED\n";
-    guidance += "- Do NOT continue normal CBT flow\n";
+    guidance += "- Do NOT continue normal reflection journey\n";
     guidance += "- Provide crisis resources immediately\n";
     guidance += "- Use simple, caring language\n";
     guidance += "- No analysis, no exercises, no verses\n";

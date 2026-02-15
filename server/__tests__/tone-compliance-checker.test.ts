@@ -2,7 +2,7 @@
  * Tone Compliance Checker Test Suite for Noor
  *
  * Tests detailed tone analysis and compliance checking to ensure
- * all AI responses maintain therapeutic, merciful, and non-judgmental language.
+ * all AI responses maintain supportive, merciful, and non-judgmental language.
  *
  * Charter Version: 1.0
  */
@@ -578,7 +578,7 @@ describe("Integration Tests", () => {
     expect(result.emotionalTone).toBe("harsh");
   });
 
-  test("passes therapeutic language", () => {
+  test("passes supportive language", () => {
     const result = checkToneCompliance(
       "I hear you. That sounds really difficult. What's the hardest part about this right now? Your feelings are real and valid.",
     );

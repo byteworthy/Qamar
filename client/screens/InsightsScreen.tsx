@@ -12,6 +12,7 @@ import { Layout } from "@/constants/layout";
 import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
+import { PremiumGate } from "@/components/PremiumGate";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
 import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
@@ -211,11 +212,12 @@ function InsightsScreen() {
       showBack
       contentStyle={{ paddingBottom: spacing.xxl }}
     >
-      <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
-        <ThemedText style={[styles.introText, { color: theme.textSecondary }]}>
-          Based on your stored reflections.
-        </ThemedText>
-      </Animated.View>
+      <PremiumGate requiredTier="pro" featureName="Advanced Insights">
+        <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
+          <ThemedText style={[styles.introText, { color: theme.textSecondary }]}>
+            Based on your stored reflections.
+          </ThemedText>
+        </Animated.View>
 
       {/* Stats Section - REAL DATA */}
       <Animated.View
@@ -345,6 +347,7 @@ function InsightsScreen() {
           Insights update as you complete sessions.
         </ThemedText>
       </Animated.View>
+      </PremiumGate>
     </Screen>
   );
 }

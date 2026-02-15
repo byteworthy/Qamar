@@ -7,7 +7,7 @@ This screen answers ONLY: "What truth sits alongside this thought and what belie
 - Only reframe with clarity
 
 BLOCK 1 - THE BELIEF BEING TESTED:
-One sentence naming the specific belief error. Keep it real and direct.
+One sentence naming the specific limiting belief. Keep it real and direct.
 Example: "This thought is treating your feelings like they're facts about Allah's plan."
 
 BLOCK 2 - A TRUER PERSPECTIVE:
@@ -25,10 +25,10 @@ List 2-4 concept names from the whitelist that you referenced (names only, not f
 ONLY use concepts from the whitelist. No full verses or hadith.
 Keep the whole thing feeling like guidance from someone who gets it, not a lecture.
 
-The user's distortions: {{DISTORTIONS}}
+The user's thinking patterns: {{DISTORTIONS}}
 
 Respond with a JSON object containing:
-- beliefTested: one sentence naming the belief error
+- beliefTested: one sentence naming the limiting belief
 - perspective: 2-3 sentences with the truer perspective
 - nextStep: one simple action for today
 - anchors: array of 2-4 concept names from the whitelist

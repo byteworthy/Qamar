@@ -1,147 +1,194 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView, Pressable, Linking } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeIn,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius } from "@/constants/theme";
+import {
+  Spacing,
+  BorderRadius,
+  Fonts,
+  Shadows,
+  Gradients,
+} from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
+import { ProgressDots } from "./WelcomeScreen";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const PRIVACY_POINTS = [
+  {
+    icon: "lock" as const,
+    title: "Your reflections are encrypted",
+    desc: "All personal data is protected with industry-standard encryption",
+  },
+  {
+    icon: "eye-off" as const,
+    title: "We never share your data",
+    desc: "Your reflections remain private and are never sold or shared",
+  },
+  {
+    icon: "smartphone" as const,
+    title: "Biometric lock available",
+    desc: "Add Face ID or fingerprint protection for extra security",
+  },
+  {
+    icon: "trash-2" as const,
+    title: "Delete your data anytime",
+    desc: "Full control to remove all your data whenever you choose",
+  },
+];
+
 export default function PrivacyScreen() {
   const insets = useSafeAreaInsets();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const gradients = isDark ? Gradients.dark : Gradients.light;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      {/* Atmospheric gradient background */}
+      <LinearGradient
+        colors={gradients.atmospheric.colors as readonly [string, string, ...string[]]}
+        locations={gradients.atmospheric.locations as readonly [number, number, ...number[]]}
+        start={gradients.atmospheric.start}
+        end={gradients.atmospheric.end}
+        style={StyleSheet.absoluteFill}
+      />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
           styles.scrollContent,
           {
-            paddingTop: insets.top + Spacing["4xl"],
+            paddingTop: insets.top + Spacing["3xl"],
             paddingBottom: insets.bottom + Spacing["4xl"],
           },
         ]}
         showsVerticalScrollIndicator={false}
       >
+        {/* Progress dots */}
+        <Animated.View entering={FadeIn.duration(500)}>
+          <ProgressDots current={1} />
+        </Animated.View>
+
+        {/* Header */}
         <Animated.View
-          entering={FadeInDown.duration(400)}
+          entering={FadeInDown.duration(600)}
           style={styles.header}
         >
           <View
             style={[
               styles.iconContainer,
-              { backgroundColor: theme.highlightAccentSubtle },
+              {
+                backgroundColor: theme.highlightAccent + "18",
+                borderColor: theme.highlightAccent + "30",
+              },
             ]}
           >
-            <Feather name="shield" size={48} color={theme.highlightAccent} />
+            <Feather name="shield" size={40} color={theme.highlightAccent} />
           </View>
-          <ThemedText style={styles.title}>Your Privacy Matters</ThemedText>
+
+          <ThemedText
+            style={[
+              styles.title,
+              { fontFamily: Fonts?.serifBold, color: theme.text },
+            ]}
+          >
+            Your Privacy Matters
+          </ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Noor is designed to respect your privacy while still working
-            properly
+            Your sacred space is protected
           </ThemedText>
         </Animated.View>
 
+        {/* Privacy point cards */}
         <Animated.View
-          entering={FadeInUp.duration(400).delay(100)}
+          entering={FadeInUp.duration(500).delay(200)}
           style={styles.content}
         >
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather name="lock" size={20} color={theme.highlightAccent} />
-              <ThemedText style={styles.cardTitle}>
-                What Happens to Your Reflections
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Reflections are stored securely on our servers (encrypted)
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Your text is processed by AI to generate responses
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Processing may occur on secure servers
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • You control your data and can delete it anytime
-              </ThemedText>
-            </View>
-          </View>
+          {PRIVACY_POINTS.map((point, i) => (
+            <Animated.View
+              key={point.title}
+              entering={FadeInUp.duration(400).delay(250 + i * 80)}
+            >
+              <GlassCard style={styles.pointCard}>
+                <View style={styles.pointRow}>
+                  <View
+                    style={[
+                      styles.pointIconWrap,
+                      { backgroundColor: theme.highlightAccent + "15" },
+                    ]}
+                  >
+                    <Feather
+                      name={point.icon}
+                      size={20}
+                      color={theme.highlightAccent}
+                    />
+                  </View>
+                  <View style={styles.pointText}>
+                    <ThemedText
+                      style={[
+                        styles.pointTitle,
+                        { fontFamily: Fonts?.sansMedium },
+                      ]}
+                    >
+                      {point.title}
+                    </ThemedText>
+                    <ThemedText
+                      style={[
+                        styles.pointDesc,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      {point.desc}
+                    </ThemedText>
+                  </View>
+                </View>
+              </GlassCard>
+            </Animated.View>
+          ))}
+        </Animated.View>
 
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
+        {/* Privacy policy link */}
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(600)}
+          style={styles.policyLink}
+        >
+          <Pressable
+            onPress={() =>
+              Linking.openURL("https://noorapp.co/privacy")
+            }
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
           >
-            <View style={styles.cardHeader}>
-              <Feather name="shield" size={20} color={theme.highlightAccent} />
-              <ThemedText style={styles.cardTitle}>
-                What We Do Not Do
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • We do not require an account
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • We do not collect your contacts or location
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • We do not track you across other apps or websites
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather
-                name="alert-circle"
-                size={20}
-                color={theme.highlightAccent}
-              />
-              <ThemedText style={styles.cardTitle}>Important Limits</ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This app uses AI and may make mistakes
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not therapy
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not medical care
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not diagnosis
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not religious authority
-              </ThemedText>
-            </View>
-          </View>
+            <ThemedText
+              style={[
+                styles.policyText,
+                { color: theme.highlightAccent },
+              ]}
+            >
+              Read full privacy policy
+            </ThemedText>
+          </Pressable>
         </Animated.View>
       </ScrollView>
 
+      {/* Footer */}
       <Animated.View
-        entering={FadeInUp.duration(400).delay(200)}
+        entering={FadeInUp.duration(400).delay(500)}
         style={[
           styles.footer,
-          {
-            paddingBottom: insets.bottom + Spacing.xl,
-            backgroundColor: theme.backgroundRoot,
-            borderTopColor: theme.overlayLight,
-          },
+          { paddingBottom: insets.bottom + Spacing.lg },
         ]}
       >
         <View style={styles.buttonRow}>
@@ -150,31 +197,41 @@ export default function PrivacyScreen() {
             style={({ pressed }) => [
               styles.backButton,
               {
-                backgroundColor: theme.backgroundDefault,
+                backgroundColor: theme.glassSurface,
+                borderColor: theme.glassStroke,
                 opacity: pressed ? 0.7 : 1,
               },
             ]}
           >
             <Feather name="arrow-left" size={20} color={theme.text} />
-            <ThemedText style={styles.backButtonText}>Back</ThemedText>
           </Pressable>
 
           <Pressable
             onPress={() => navigation.navigate("Onboarding_Safety")}
             style={({ pressed }) => [
               styles.continueButton,
-              {
-                backgroundColor: theme.primary,
-                opacity: pressed ? 0.9 : 1,
-              },
+              { opacity: pressed ? 0.9 : 1 },
             ]}
           >
-            <ThemedText
-              style={[styles.continueButtonText, { color: theme.onPrimary }]}
+            <LinearGradient
+              colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}
+              locations={
+                gradients.buttonGradient.locations as readonly [number, number, ...number[]]
+              }
+              start={gradients.buttonGradient.start}
+              end={gradients.buttonGradient.end}
+              style={styles.buttonGradient}
             >
-              Continue
-            </ThemedText>
-            <Feather name="arrow-right" size={20} color={theme.onPrimary} />
+              <ThemedText
+                style={[
+                  styles.continueButtonText,
+                  { color: theme.onPrimary, fontFamily: Fonts?.sansBold },
+                ]}
+              >
+                Continue
+              </ThemedText>
+              <Feather name="arrow-right" size={20} color={theme.onPrimary} />
+            </LinearGradient>
           </Pressable>
         </View>
       </Animated.View>
@@ -199,13 +256,14 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 80,
     height: 80,
-    borderRadius: BorderRadius["3xl"],
+    borderRadius: 40,
+    borderWidth: 1.5,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: Spacing.xl,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "700",
     textAlign: "center",
     marginBottom: Spacing.sm,
@@ -213,64 +271,81 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     textAlign: "center",
+    fontStyle: "italic",
   },
   content: {
-    gap: Spacing.lg,
-  },
-  card: {
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.xl,
-  },
-  cardHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.sm,
-    marginBottom: Spacing.lg,
-  },
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-  },
-  cardContent: {
     gap: Spacing.md,
   },
-  cardText: {
+  pointCard: {
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+  },
+  pointRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.lg,
+  },
+  pointIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pointText: {
+    flex: 1,
+    gap: 2,
+  },
+  pointTitle: {
     fontSize: 15,
-    lineHeight: 22,
+    fontWeight: "600",
+  },
+  pointDesc: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  policyLink: {
+    alignItems: "center",
+    marginTop: Spacing.xl,
+  },
+  policyText: {
+    fontSize: 14,
+    textDecorationLine: "underline",
+    opacity: 0.8,
   },
   footer: {
     paddingHorizontal: Spacing["2xl"],
     paddingTop: Spacing.lg,
-    borderTopWidth: 1,
   },
   buttonRow: {
     flexDirection: "row",
     gap: Spacing.md,
   },
   backButton: {
-    flex: 1,
-    flexDirection: "row",
+    width: 56,
+    height: 56,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    gap: Spacing.sm,
-  },
-  backButtonText: {
-    fontSize: 17,
-    fontWeight: "600",
   },
   continueButton: {
-    flex: 2,
+    flex: 1,
+    borderRadius: BorderRadius.md,
+    overflow: "hidden",
+    ...Shadows.medium,
+    shadowColor: "#D4AF37",
+  },
+  buttonGradient: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
     gap: Spacing.sm,
   },
   continueButtonText: {
     fontSize: 17,
-    fontWeight: "600",
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
 });

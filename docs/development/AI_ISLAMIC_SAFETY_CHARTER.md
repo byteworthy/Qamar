@@ -400,7 +400,7 @@ The AI must **say less or nothing at all** when:
 2. **Maximum:** 1 ayah per response
 3. **Source:** `shared/islamic-framework.ts` QURAN_BY_STATE whitelist only
 4. **Translation:** Sahih International (as specified in whitelist)
-5. **Context Required:** Must include therapeuticContext from whitelist
+5. **Context Required:** Must include supportiveContext from whitelist
 6. **Forbidden:**
    - Verse stacking (multiple ayat in one response)
    - Out-of-context usage
@@ -423,7 +423,7 @@ The AI must **say less or nothing at all** when:
 ### Islamic Concept Usage Rules
 1. **Whitelist:** Only the 12 concepts in `shared/islamic-framework.ts`
    - niyyah, sabr, tawakkul, tazkiyah, shukr, tawbah, dhikr, muraqaba, muhasaba, ridha, khushu, ikhlas
-2. **Context Required:** Must use therapeuticApplication and cbtConnection from whitelist
+2. **Context Required:** Must use supportiveApplication and cbtConnection from whitelist
 3. **Application Rules:** Must follow CONCEPT_RULES in framework
    - Check applyWhen conditions
    - Respect neverApplyWhen constraints

@@ -2,17 +2,27 @@
   "expo": {
     "name": "Noor",
     "slug": "noor",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "noor",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "description": "Your Islamic Companion - Quran, Prayer Times, Arabic Learning & Personal Reflection",
+    "primaryColor": "#D4C4A8",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.noor.app",
+      "bundleIdentifier": "com.byteworthy.noor",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries."
+        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries.",
+        "NSLocationWhenInUseUsageDescription": "Noor uses your location to display accurate prayer times and qibla direction for your area.",
+        "NSMotionUsageDescription": "Noor uses device motion sensors to provide an accurate Qibla compass direction.",
+        "NSUserTrackingUsageDescription": "We do not track you.",
+        "NSCameraUsageDescription": "Noor uses the camera to enhance Qibla direction finding with augmented reality."
+      },
+      "category": "LIFESTYLE",
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
     "android": {
@@ -22,12 +32,31 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "package": "com.noor.app",
+      "package": "com.byteworthy.noor",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "USE_BIOMETRIC",
-        "USE_FINGERPRINT"
+        "USE_FINGERPRINT",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "HIGH_SAMPLING_RATE_SENSORS",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED",
+        "SCHEDULE_EXACT_ALARM"
+      ],
+      "intentFilters": [
+        {
+          "action": "android.intent.action.VIEW",
+          "data": {
+            "scheme": "noor"
+          },
+          "category": [
+            "android.intent.category.DEFAULT",
+            "android.intent.category.BROWSABLE"
+          ]
+        }
       ]
     },
     "web": {
@@ -53,20 +82,25 @@
         "expo-notifications",
         {
           "icon": "./assets/images/icon.png",
-          "color": "#4fd1a8",
+          "color": "#D4C4A8",
           "defaultChannel": "default",
           "sounds": []
         }
       ],
       "@sentry/react-native",
       "expo-secure-store",
-      "expo-local-authentication"
+      "expo-local-authentication",
+      "expo-location",
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Noor uses device motion to provide Qibla compass direction."
+        }
+      ]
     ],
     "experiments": {
       "reactCompiler": true
     },
-    "primaryColor": "#D4C4A8",
-    "description": "Personal growth and reflection journaling with Islamic spiritual guidance. Not professional counseling, not for urgent situations.",
     "extra": {
       "privacyPolicyUrl": "https://byteworthy.github.io/noor-legal/privacy-policy",
       "termsOfServiceUrl": "https://byteworthy.github.io/noor-legal/terms-of-service",

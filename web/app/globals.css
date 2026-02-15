@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+:root {
+  /* Noor Brand Colors - Dark Theme */
+  --background: #0f1419;
+  --background-card: #242f42;
+  --background-light: #1a2332;
+  --background-card-light: #2d3a52;
+
+  --moonlight: #e8f0f8;
+  --moonlight-dim: #c5d5e6;
+  --moonlight-muted: #9fb3c9;
+
+  --gold: #D4AF37;
+  --gold-light: #f0d473;
+  --gold-dim: #b8944d;
+
+  --emerald: #009688;
+  --emerald-light: #4db6ac;
+  --emerald-dark: #00695c;
+
+  --indigo: #1A237E;
+  --indigo-light: #3f51b5;
+  --indigo-dark: #0d1642;
+}
+
+@theme inline {
+  /* Noor Colors */
+  --color-background: var(--background);
+  --color-background-card: var(--background-card);
+  --color-moonlight: var(--moonlight);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-emerald: var(--emerald);
+  --color-indigo: var(--indigo);
+
+  /* Typography */
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-arabic: var(--font-arabic);
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+
+  /* Border Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--moonlight);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}

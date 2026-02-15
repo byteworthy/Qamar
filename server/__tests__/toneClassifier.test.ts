@@ -6,7 +6,7 @@
  * - Thinkers: Analytical language detection
  * - Balanced: Mixed or neutral language
  *
- * Purpose: Ensure therapeutic effectiveness by matching user's processing style.
+ * Purpose: Ensure supportive effectiveness by matching user's processing style.
  */
 
 import { describe, test, expect } from "@jest/globals";

@@ -115,7 +115,7 @@ describe("ThoughtCaptureScreen", () => {
   });
 
   describe("Navigation", () => {
-    it("should navigate to Distortion screen when Continue pressed with valid input", async () => {
+    it("should navigate to Noticing screen when Continue pressed with valid input", async () => {
       render(<ThoughtCaptureScreen />);
 
       const input = screen.getByPlaceholderText(/Write what's on your mind/i);
@@ -131,7 +131,7 @@ describe("ThoughtCaptureScreen", () => {
 
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalledWith(
-          "Distortion",
+          "Noticing",
           expect.objectContaining({
             thought: "I'm worried about failing this important test",
             emotionalIntensity: 3,
