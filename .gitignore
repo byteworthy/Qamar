@@ -95,3 +95,12 @@ test-minimal.bats
 # Local directories
 .local/
 scripts/test-offline.db
+
+# Windows artifacts
+nul
+
+# Export temp files
+/tmp/noor-*
+
+# Maestro output
+screenshots/

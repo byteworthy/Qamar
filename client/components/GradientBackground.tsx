@@ -28,13 +28,14 @@ export function GradientBackground({
 }: GradientBackgroundProps) {
   const colorScheme = useColorScheme();
 
-  const gradientConfig = Gradients[colorScheme ?? "light"][type];
+  const scheme = colorScheme === "dark" ? "dark" : "light";
+  const gradientConfig = Gradients[scheme][type];
 
   return (
     <View style={[styles.container, style]}>
       <LinearGradient
-        colors={[...gradientConfig.colors]}
-        locations={[...gradientConfig.locations]}
+        colors={gradientConfig.colors as unknown as [string, string, ...string[]]}
+        locations={gradientConfig.locations as unknown as [number, number, ...number[]]}
         start={gradientConfig.start}
         end={gradientConfig.end}
         style={StyleSheet.absoluteFill}
