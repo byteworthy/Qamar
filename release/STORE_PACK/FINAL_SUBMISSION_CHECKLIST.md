@@ -35,10 +35,10 @@ This is your final gate before submission. Complete every item in order. Do not 
 - [ ] Database is accessible and data persists correctly
 
 ### 3. Legal & Safety Content Verification
-- [ ] Open `https://byteworthy.github.io/noor-legal/privacy-policy` in browser
+- [ ] Open `https://byteworthy.github.io/Noor/legal/privacy.html` in browser
 - [ ] Privacy Policy loads without 404 error
 - [ ] Contact email `support@byteworthy.com` is correct
-- [ ] Open `https://byteworthy.github.io/noor-legal/terms-of-service` in browser
+- [ ] Open `https://byteworthy.github.io/Noor/legal/terms.html` in browser
 - [ ] Terms of Service loads without 404 error
 - [ ] Email inbox `support@byteworthy.com` is monitored and can receive messages
 
@@ -51,7 +51,7 @@ This is your final gate before submission. Complete every item in order. Do not 
 #### App Information Section
 - [ ] **Name**: Noor
 - [ ] **Subtitle**: Private AI journaling for reflection and clarity.
-- [ ] **Privacy Policy URL**: https://byteworthy.github.io/noor-legal/privacy-policy
+- [ ] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
 - [ ] **Primary Category**: Health & Fitness
 - [ ] **Secondary Category**: (Leave blank or set to Lifestyle)
 - [ ] **Content Rights**: "I own all rights" or appropriate declaration

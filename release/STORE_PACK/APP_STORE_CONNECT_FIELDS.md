@@ -106,7 +106,7 @@ mailto:support@byteworthy.com
 ## G. Privacy Policy URL
 
 ```
-https://byteworthy.github.io/noor-legal/privacy-policy
+https://byteworthy.github.io/Noor/legal/privacy.html
 ```
 
 ---
@@ -114,7 +114,7 @@ https://byteworthy.github.io/noor-legal/privacy-policy
 ## H. Terms of Service URL (if requested)
 
 ```
-https://byteworthy.github.io/noor-legal/terms-of-service
+https://byteworthy.github.io/Noor/legal/terms.html
 ```
 
 ---
@@ -147,7 +147,7 @@ Privacy:
 - User journal entries processed by OpenAI API for reflection generation
 - No data selling or advertising
 - Data deletion available on request
-- Privacy Policy: https://byteworthy.github.io/noor-legal/privacy-policy
+- Privacy Policy: https://byteworthy.github.io/Noor/legal/privacy.html
 ```
 
 ---

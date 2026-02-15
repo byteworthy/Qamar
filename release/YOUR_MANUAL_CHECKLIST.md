@@ -685,7 +685,7 @@ Reflect, Reframe, Grow
 
 **Privacy Policy URL:**
 ```
-https://byteworthy.github.io/noor-legal/privacy-policy
+https://byteworthy.github.io/Noor/legal/privacy.html
 ```
 
 **Category:**
@@ -703,7 +703,7 @@ https://byteworthy.github.io/noor-legal/privacy-policy
 
 **Support URL:**
 ```
-https://byteworthy.github.io/noor-legal/
+https://byteworthy.github.io/Noor/legal/
 ```
 
 **Marketing URL:** (leave blank)
@@ -865,7 +865,7 @@ Subscription Testing:
 Privacy:
 - All user data is encrypted
 - Thoughts are private and secure
-- Privacy policy: https://byteworthy.github.io/noor-legal/privacy-policy
+- Privacy policy: https://byteworthy.github.io/Noor/legal/privacy.html
 
 The app is ready for review. Thank you!
 ```

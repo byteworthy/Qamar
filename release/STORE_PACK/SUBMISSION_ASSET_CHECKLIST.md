@@ -96,7 +96,7 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 ### App Information
 - [x] **App Name**: Noor
 - [x] **Subtitle**: Private AI journaling for reflection and clarity.
-- [x] **Privacy Policy URL**: https://byteworthy.github.io/noor-legal/privacy-policy
+- [x] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
 - [x] **Category**: Health & Fitness (primary)
 - [ ] **Category**: Lifestyle (optional secondary)
 - [x] **Support URL**: mailto:support@byteworthy.com or website with contact form

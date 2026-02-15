@@ -132,8 +132,8 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - Disclaimers: `legal/DISCLAIMERS_DRAFT.md`
 
 **URLs for Play Console:**
-- Terms of Service: https://byteworthy.github.io/noor-legal/terms-of-service
-- Privacy Policy: https://byteworthy.github.io/noor-legal/privacy-policy
+- Terms of Service: https://byteworthy.github.io/Noor/legal/terms.html
+- Privacy Policy: https://byteworthy.github.io/Noor/legal/privacy.html
 - Support/Contact: support@byteworthy.com
 
 ⚠️ **Legal documents are DRAFTS and require review by qualified legal counsel before publication.**

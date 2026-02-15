@@ -7,14 +7,14 @@
 These URLs must be entered in App Store Connect and Google Play Console.
 
 ### Privacy Policy
-**URL:** https://byteworthy.github.io/noor-legal/privacy-policy
+**URL:** https://byteworthy.github.io/Noor/legal/privacy.html
 
 **Use in:**
 - App Store Connect → App Information → Privacy Policy URL
 - Google Play Console → Store Presence → Privacy Policy
 
 ### Terms of Service
-**URL:** https://byteworthy.github.io/noor-legal/terms-of-service
+**URL:** https://byteworthy.github.io/Noor/legal/terms.html
 
 **Use in:**
 - App Store Connect → App Information (if requested)
@@ -38,8 +38,8 @@ The source markdown files are maintained in this repository:
 
 ## Publishing Repository
 
-**GitHub Repository:** https://github.com/byteworthy/noor-legal
-**GitHub Pages Site:** https://byteworthy.github.io/noor-legal/
+**GitHub Repository:** https://github.com/byteworthy/Noor
+**GitHub Pages Site:** https://byteworthy.github.io/Noor/legal/
 
 ---
 

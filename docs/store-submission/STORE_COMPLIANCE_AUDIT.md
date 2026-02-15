@@ -25,8 +25,8 @@ Noor's store metadata is largely compliant with Apple App Store and Google Play 
 **Requirement**: Google Play requires working URLs before submission.
 
 **Fix**: Update to match Apple URLs:
-- Terms: `https://byteworthy.github.io/noor-legal/terms-of-service`
-- Privacy: `https://byteworthy.github.io/noor-legal/privacy-policy`
+- Terms: `https://byteworthy.github.io/Noor/legal/terms.html`
+- Privacy: `https://byteworthy.github.io/Noor/legal/privacy.html`
 - Support: `support@byteworthy.com`
 
 ---
@@ -145,7 +145,7 @@ Optional Noor Plus ($6.99/mo) and Noor Pro ($11.99/mo) subscriptions unlock addi
 
 1. **Fix Google Play URLs** in `PLAY_STORE_METADATA.md`
 2. **Add subscription section** to Apple description in `APP_STORE_DESCRIPTION_FINAL.md`
-3. **Publish legal pages** to `byteworthy.github.io/noor-legal/`
+3. **Publish legal pages** to `byteworthy.github.io/Noor/legal/`
 
 ### Before First Build
 
@@ -168,6 +168,6 @@ Optional Noor Plus ($6.99/mo) and Noor Pro ($11.99/mo) subscriptions unlock addi
 **All 3 critical issues fixed on 2026-01-20**
 
 ### Fixes Applied:
-1. ✅ Google Play URLs → Real byteworthy.github.io URLs
+1. ✅ Google Play URLs → Real byteworthy.github.io/Noor/legal/ URLs
 2. ✅ Apple subscription disclosure → Added "Subscription Options" section
 3. ✅ Google crisis resources → Added 988 crisis line

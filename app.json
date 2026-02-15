@@ -102,8 +102,8 @@
       "reactCompiler": true
     },
     "extra": {
-      "privacyPolicyUrl": "https://byteworthy.github.io/noor-legal/privacy-policy",
-      "termsOfServiceUrl": "https://byteworthy.github.io/noor-legal/terms-of-service",
+      "privacyPolicyUrl": "https://byteworthy.github.io/Noor/legal/privacy.html",
+      "termsOfServiceUrl": "https://byteworthy.github.io/Noor/legal/terms.html",
       "supportEmail": "scale@getbyteworthy.com",
       "eas": {
         "projectId": "b3e205eb-b119-4976-a275-df7bcef85275"

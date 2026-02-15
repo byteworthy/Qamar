@@ -30,7 +30,7 @@
 - [x] IAP setup guide (release/STORE_PACK/IAP_SETUP_GUIDE.md)
 - [x] Icon generation instructions (release/STORE_PACK/ICON_GENERATION.md)
 - [x] Build commands reference (release/BUILD_COMMANDS.md)
-- [x] Legal URLs live (https://byteworthy.github.io/noor-legal/)
+- [x] Legal URLs live (https://byteworthy.github.io/Noor/legal/)
 - [x] Final submission checklist (release/STORE_PACK/FINAL_SUBMISSION_CHECKLIST.md)
 - [x] App Store review notes (release/STORE_PACK/APP_STORE_REVIEW_NOTES.md)
 - [x] Pricing strategy Option C documented (release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md)

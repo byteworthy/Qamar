@@ -215,12 +215,12 @@ support@byteworthy.com
 
 ### Privacy Policy URL
 ```
-https://byteworthy.github.io/noor-legal/privacy-policy
+https://byteworthy.github.io/Noor/legal/privacy.html
 ```
 
 ### Terms URL
 ```
-https://byteworthy.github.io/noor-legal/terms-of-service
+https://byteworthy.github.io/Noor/legal/terms.html
 ```
 
 ---

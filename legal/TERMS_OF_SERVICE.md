@@ -209,7 +209,7 @@ By using Noor, you acknowledge that:
 - You can delete data anytime from the app
 
 **Privacy Policy:**
-- Full details at: https://byteworthy.github.io/Noor/privacy
+- Full details at: https://byteworthy.github.io/Noor/legal/privacy.html
 - By using the App, you also agree to our Privacy Policy
 
 ## 11. Changes to Terms
@@ -292,7 +292,7 @@ By using Noor, you acknowledge that:
 **Email:** scale@getbyteworthy.com
 **Company:** ByteWorthy LLC
 **Location:** Texas, United States
-**Terms URL:** https://byteworthy.github.io/Noor/terms
+**Terms URL:** https://byteworthy.github.io/Noor/legal/terms.html
 
 **Response time:** We aim to respond within 7 business days.
 

@@ -262,7 +262,7 @@ We may update this Privacy Policy from time to time to reflect:
 **Email:** scale@getbyteworthy.com
 **Company:** ByteWorthy LLC
 **Location:** Texas, United States
-**Policy URL:** https://byteworthy.github.io/Noor/privacy
+**Policy URL:** https://byteworthy.github.io/Noor/legal/privacy.html
 
 **Response time:** We aim to respond within 7 business days.
 

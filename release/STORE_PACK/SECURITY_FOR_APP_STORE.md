@@ -179,7 +179,7 @@ Noor is a **personal reflection and growth app** with **enterprise-grade mobile 
 **Delete:** Individual reflections + full account deletion
 **Retention:** 30-day automatic cleanup of expired sessions
 
-**Privacy Policy:** https://byteworthy.github.io/noor-legal/privacy-policy.html
+**Privacy Policy:** https://byteworthy.github.io/Noor/legal/privacy.html
 
 ---
 

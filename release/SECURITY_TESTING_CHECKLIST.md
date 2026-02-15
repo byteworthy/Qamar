@@ -977,7 +977,7 @@ grep -r "aiRateLimiter" server/routes/reflections.ts
   - Encryption at rest (AES-256-GCM)
 
 - [ ] **Privacy policy accessible**
-  - PRIVACY_POLICY.md at https://byteworthy.github.io/noor-legal/privacy-policy.html
+  - PRIVACY_POLICY.md at https://byteworthy.github.io/Noor/legal/privacy.html
   - App Store submission includes privacy URL
   - GDPR/CCPA/COPPA compliant
 
