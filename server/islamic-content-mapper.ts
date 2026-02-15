@@ -346,21 +346,21 @@ export class IslamicContentMapper {
 
     // Add concept
     modifier += `Primary Concept: ${selection.concept.transliteration} (${selection.concept.arabic}) - ${selection.concept.meaning}\n`;
-    modifier += `Supportive Application: ${selection.concept.therapeuticApplication}\n`;
+    modifier += `Supportive Application: ${selection.concept.supportiveApplication}\n`;
     modifier += `Reflection Connection: ${selection.concept.cbtConnection}\n`;
 
     // Add Quran if available
     if (selection.quran) {
       modifier += `\nQuranic Reminder (${selection.quran.reference}):\n`;
       modifier += `"${selection.quran.translation}"\n`;
-      modifier += `Supportive Context: ${selection.quran.therapeuticContext}\n`;
+      modifier += `Supportive Context: ${selection.quran.supportiveContext}\n`;
     }
 
     // Add Hadith if available
     if (selection.hadith) {
       modifier += `\nHadith Reminder (${selection.hadith.source}):\n`;
       modifier += `"${selection.hadith.translation}"\n`;
-      modifier += `Supportive Context: ${selection.hadith.therapeuticContext}\n`;
+      modifier += `Supportive Context: ${selection.hadith.supportiveContext}\n`;
     }
 
     // Add tone and emphasis guidance
@@ -442,7 +442,7 @@ export function getSimpleReminder(emotionalState: EmotionalState): string {
 export function getConceptGuidance(concept: IslamicConcept): string {
   const rule = CONCEPT_RULES.find((r) => r.concept === concept);
   if (!rule) {
-    return ISLAMIC_CONCEPTS[concept].therapeuticApplication;
+    return ISLAMIC_CONCEPTS[concept].supportiveApplication;
   }
 
   return rule.exampleApplication;

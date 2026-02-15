@@ -37,7 +37,7 @@ export const SOURCING_RULES = {
       "Out of context usage",
       "After crisis detection (except mercy verses in urgent)",
       "As argument to convince user",
-      "Without proper therapeutic context",
+      "Without proper supportive context",
     ],
   },
   hadith: {
@@ -71,7 +71,7 @@ export const SOURCING_RULES = {
     forbidden: [
       "Concepts outside the 12",
       "Sectarian interpretations",
-      "Concepts without therapeutic framing",
+      "Concepts without supportive framing",
     ],
   },
 };
@@ -98,7 +98,7 @@ export const DISTRESS_CONTENT_RESTRICTIONS: Record<
     quranAllowed: true,
     hadithAllowed: true,
     conceptComplexity: "balanced",
-    notes: "Balanced approach. Standard therapeutic usage.",
+    notes: "Balanced approach. Standard supportive usage.",
   },
   high: {
     quranAllowed: true, // Only mercy verses
@@ -123,7 +123,7 @@ export interface AuthenticatedContent {
   source: string;
   authenticityLevel: "quran" | "sahih" | "hassan" | "weak" | "unknown";
   scholarApproved: boolean;
-  therapeuticContext: string;
+  supportiveContext: string;
   usageConstraints: string[];
   reviewDate?: Date;
   reviewedBy?: string;
@@ -237,7 +237,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     applyWhen: string[];
     neverWhen: string[];
     example: string;
-    therapeuticBoundary: string;
+    supportiveBoundary: string;
   }
 > = {
   tawakkul: {
@@ -249,7 +249,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'After effort, not instead of effort. "You\'ve done what you can. The rest is not yours to carry."',
-    therapeuticBoundary:
+    supportiveBoundary:
       "Tawakkul is not passivity. It requires doing your part first.",
   },
   sabr: {
@@ -261,7 +261,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     neverWhen: ["Abuse situation", "Change is needed now", "Tolerating harm"],
     example:
       'Active endurance, not passive tolerance. "Sabr doesn\'t mean staying stuck. It means staying steady while working toward change."',
-    therapeuticBoundary:
+    supportiveBoundary:
       "Never use sabr to keep someone in a harmful situation.",
   },
   shukr: {
@@ -277,7 +277,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       "Validate pain first. \"What's one thing, even small, that's working right now?\"",
-    therapeuticBoundary:
+    supportiveBoundary:
       "Gratitude alongside struggle, not instead of acknowledging it.",
   },
   tawbah: {
@@ -289,7 +289,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'Frame as return, not failure. "The door is always open. Starting fresh is always possible."',
-    therapeuticBoundary: "Tawbah breaks shame cycles; it doesn't create them.",
+    supportiveBoundary: "Tawbah breaks shame cycles; it doesn't create them.",
   },
   dhikr: {
     applyWhen: ["Overwhelm", "Anxiety", "Need for grounding", "Rumination"],
@@ -300,7 +300,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'As one tool among many. "Dhikr can be an anchor. Would you like to try a simple practice?"',
-    therapeuticBoundary: "Dhikr is grounding, not a cure-all.",
+    supportiveBoundary: "Dhikr is grounding, not a cure-all.",
   },
   muraqaba: {
     applyWhen: [
@@ -310,7 +310,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     neverWhen: ["Acute crisis", "High distress", "Overwhelming emotion"],
     example: 'The observer stance. "Notice the thought without becoming it."',
-    therapeuticBoundary: "Requires emotional capacity. Not for crisis states.",
+    supportiveBoundary: "Requires emotional capacity. Not for crisis states.",
   },
   muhasaba: {
     applyWhen: [
@@ -325,7 +325,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'Honest inventory without self-destruction. "What can you learn here?"',
-    therapeuticBoundary: "Assessment, not judgment. Never fuel self-attack.",
+    supportiveBoundary: "Assessment, not judgment. Never fuel self-attack.",
   },
   ridha: {
     applyWhen: ["Over-attachment to outcome", "Comparison", "Control struggle"],
@@ -336,7 +336,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'Peace from acceptance, not achievement. "Contentment with effort, not outcome."',
-    therapeuticBoundary: "Ridha is not complacency or giving up.",
+    supportiveBoundary: "Ridha is not complacency or giving up.",
   },
   tazkiyah: {
     applyWhen: [
@@ -351,7 +351,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'Soul work, not performance. "This work is purifying, even when it\'s hard."',
-    therapeuticBoundary: "Growth-oriented, not perfection-driven.",
+    supportiveBoundary: "Growth-oriented, not perfection-driven.",
   },
   niyyah: {
     applyWhen: ["Beginning of work", "Values clarification", "Purpose-setting"],
@@ -362,7 +362,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'Setting direction, not overthinking. "What\'s your intention for this work?"',
-    therapeuticBoundary: "Simple and clear. Not obsessive.",
+    supportiveBoundary: "Simple and clear. Not obsessive.",
   },
   khushu: {
     applyWhen: ["Distracted", "Surface-level", "Lack of presence"],
@@ -373,7 +373,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
     ],
     example:
       'Presence without pressure. "Full attention, without judgment about how well you\'re doing."',
-    therapeuticBoundary: "Quality of presence, not performance metric.",
+    supportiveBoundary: "Quality of presence, not performance metric.",
   },
   ikhlas: {
     applyWhen: ["People-pleasing", "Validation-seeking", "Audience anxiety"],
@@ -383,7 +383,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
       "Using sincerity to reject support",
     ],
     example: 'For Allah, not for show. "Who is this really for?"',
-    therapeuticBoundary: "Sincerity, not isolation or pride.",
+    supportiveBoundary: "Sincerity, not isolation or pride.",
   },
 };
 

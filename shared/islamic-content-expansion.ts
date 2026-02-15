@@ -30,7 +30,7 @@ export const CATASTROPHIZING_AYAT: QuranicReminder[] = [
     reference: "Surah Al-Baqarah 2:286",
     arabicText: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
     translation: "Allah does not burden a soul beyond that it can bear.",
-    therapeuticContext:
+    supportiveContext:
       "When catastrophizing predicts you cannot handle the outcome, this ayah reminds you that Allah has already factored in your capacity.",
     whenToUse: [
       "Fear of overwhelming outcomes",
@@ -42,7 +42,7 @@ export const CATASTROPHIZING_AYAT: QuranicReminder[] = [
     reference: "Surah At-Talaq 65:3",
     arabicText: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     translation: "Whoever relies upon Allah – then He is sufficient for him.",
-    therapeuticContext:
+    supportiveContext:
       "Catastrophic thoughts assume you face threats alone. Tawakkul reminds you that Allah's sufficiency covers what you cannot.",
     whenToUse: [
       "Fear of being alone in crisis",
@@ -54,7 +54,7 @@ export const CATASTROPHIZING_AYAT: QuranicReminder[] = [
     reference: "Surah At-Talaq 65:2-3",
     arabicText: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا",
     translation: "Whoever fears Allah – He will make for him a way out.",
-    therapeuticContext:
+    supportiveContext:
       "Even when catastrophe seems certain, a way out exists. Trust that solutions are possible even when you cannot see them.",
     whenToUse: [
       "Feeling trapped",
@@ -74,7 +74,7 @@ export const BLACK_WHITE_THINKING_AYAT: QuranicReminder[] = [
     arabicText: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا إِنَّ مَعَ الْعُسْرِ يُسْرًا",
     translation:
       "Indeed, with hardship comes ease. Indeed, with hardship comes ease.",
-    therapeuticContext:
+    supportiveContext:
       "The repetition emphasizes that ease coexists WITH hardship, not after. Reality contains both, not one or the other.",
     whenToUse: [
       "Seeing situations as total failure or total success",
@@ -88,7 +88,7 @@ export const BLACK_WHITE_THINKING_AYAT: QuranicReminder[] = [
       "وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ وَعَسَىٰ أَن تُحِبُّوا شَيْئًا وَهُوَ شَرٌّ لَّكُمْ",
     translation:
       "Perhaps you hate a thing and it is good for you; and perhaps you love a thing and it is bad for you.",
-    therapeuticContext:
+    supportiveContext:
       "What seems entirely bad may contain good, and vice versa. Reality is more nuanced than absolute categories.",
     whenToUse: [
       "Labeling situations as completely bad",
@@ -109,7 +109,7 @@ export const OVERGENERALIZATION_AYAT: QuranicReminder[] = [
       "إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ",
     translation:
       "Indeed, Allah will not change the condition of a people until they change what is in themselves.",
-    therapeuticContext:
+    supportiveContext:
       "One failure does not mean permanent state. Change is possible when you address the pattern, not just the outcome.",
     whenToUse: [
       "Believing one failure means always failing",
@@ -122,7 +122,7 @@ export const OVERGENERALIZATION_AYAT: QuranicReminder[] = [
     arabicText: "وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ",
     translation:
       "And that there is not for man except that for which he strives.",
-    therapeuticContext:
+    supportiveContext:
       "Each effort stands on its own. Past failures don't determine future outcomes—your current striving does.",
     whenToUse: [
       "Past defines present thinking",
@@ -141,7 +141,7 @@ export const EMOTIONAL_REASONING_AYAT: QuranicReminder[] = [
     reference: "Surah Yusuf 12:86",
     arabicText: "إِنَّمَا أَشْكُو بَثِّي وَحُزْنِي إِلَى اللَّهِ",
     translation: "I only complain of my suffering and my grief to Allah.",
-    therapeuticContext:
+    supportiveContext:
       "Prophet Yaqub acknowledged his grief was real, but he didn't let feelings dictate truth. Feelings are valid data, not ultimate reality.",
     whenToUse: [
       "Feelings taken as facts",
@@ -155,7 +155,7 @@ export const EMOTIONAL_REASONING_AYAT: QuranicReminder[] = [
       "يَا أَيُّهَا الَّذِينَ آمَنُوا إِن جَاءَكُمْ فَاسِقٌ بِنَبَإٍ فَتَبَيَّنُوا",
     translation:
       "O you who believe, if there comes to you a disobedient one with information, investigate.",
-    therapeuticContext:
+    supportiveContext:
       "Even strong feelings need investigation. Verify before accepting emotion as complete truth.",
     whenToUse: [
       "Acting on feeling without checking",
@@ -174,7 +174,7 @@ export const FORTUNE_TELLING_AYAT: QuranicReminder[] = [
     reference: "Surah Luqman 31:34",
     arabicText: "وَمَا تَدْرِي نَفْسٌ مَّاذَا تَكْسِبُ غَدًا",
     translation: "And no soul knows what it will earn tomorrow.",
-    therapeuticContext:
+    supportiveContext:
       "The future is unknown by design. Your prediction of disaster is not knowledge—it's a thought.",
     whenToUse: [
       "Predicting failure with certainty",
@@ -188,7 +188,7 @@ export const FORTUNE_TELLING_AYAT: QuranicReminder[] = [
       "مَا أَصَابَ مِن مُّصِيبَةٍ فِي الْأَرْضِ وَلَا فِي أَنفُسِكُمْ إِلَّا فِي كِتَابٍ مِّن قَبْلِ أَن نَّبْرَأَهَا",
     translation:
       "No disaster strikes upon the earth or among yourselves except that it is in a register before We bring it into being.",
-    therapeuticContext:
+    supportiveContext:
       "What will happen is already written, but not by you. Your worry doesn't grant you knowledge of the future.",
     whenToUse: [
       "Anxiety about controlling future",
@@ -209,7 +209,7 @@ export const SHAME_AYAT: QuranicReminder[] = [
       "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
     translation:
       "Say: O My servants who have transgressed against themselves, despair not of the mercy of Allah.",
-    therapeuticContext:
+    supportiveContext:
       "Allah addresses those who have 'gone too far' directly. No one is beyond mercy. Shame says you're unredeemable; Allah says otherwise.",
     whenToUse: [
       "Feeling unworthy of forgiveness",
@@ -223,7 +223,7 @@ export const SHAME_AYAT: QuranicReminder[] = [
       "وَمَن يَعْمَلْ سُوءًا أَوْ يَظْلِمْ نَفْسَهُ ثُمَّ يَسْتَغْفِرِ اللَّهَ يَجِدِ اللَّهَ غَفُورًا رَّحِيمًا",
     translation:
       "Whoever does evil or wrongs himself, then seeks forgiveness of Allah, will find Allah Forgiving and Merciful.",
-    therapeuticContext:
+    supportiveContext:
       "The door of return is always open. Your worst act does not close it. Tawbah is the exit from shame.",
     whenToUse: [
       "Cannot forgive self",
@@ -237,7 +237,7 @@ export const SHAME_AYAT: QuranicReminder[] = [
       "وَإِنِّي لَغَفَّارٌ لِّمَن تَابَ وَآمَنَ وَعَمِلَ صَالِحًا ثُمَّ اهْتَدَىٰ",
     translation:
       "But indeed, I am the Perpetual Forgiver of whoever repents and believes and does righteousness and then continues in guidance.",
-    therapeuticContext:
+    supportiveContext:
       "Allah's forgiveness is not one-time—it's perpetual. Return is always possible, no matter how many times you've fallen.",
     whenToUse: [
       "Repeated failures creating shame",
@@ -258,7 +258,7 @@ export const COMPARISON_AYAT: QuranicReminder[] = [
       "وَلَا تَتَمَنَّوْا مَا فَضَّلَ اللَّهُ بِهِ بَعْضَكُمْ عَلَىٰ بَعْضٍ",
     translation:
       "And do not wish for that by which Allah has made some of you exceed others.",
-    therapeuticContext:
+    supportiveContext:
       "Comparison creates suffering. Your portion is designed for you. Their blessing doesn't diminish yours.",
     whenToUse: [
       "Envy of others' circumstances",
@@ -271,7 +271,7 @@ export const COMPARISON_AYAT: QuranicReminder[] = [
     arabicText: "لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ",
     translation:
       "It will have what it has earned, and it will bear what it has earned.",
-    therapeuticContext:
+    supportiveContext:
       "Each soul's journey is individual. What others have or lack is not your concern. Focus on your own earning.",
     whenToUse: [
       "Obsessing over others' success",
@@ -292,7 +292,7 @@ export const TRUST_AYAT: QuranicReminder[] = [
       "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ إِنَّ اللَّهَ بَالِغُ أَمْرِهِ",
     translation:
       "Whoever relies upon Allah – then He is sufficient for him. Indeed, Allah will accomplish His purpose.",
-    therapeuticContext:
+    supportiveContext:
       "Your effort is required, but the outcome is not your burden. After you've done your part, trust.",
     whenToUse: [
       "Trying to control outcomes",
@@ -304,7 +304,7 @@ export const TRUST_AYAT: QuranicReminder[] = [
     reference: "Surah Hud 11:123",
     arabicText: "وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ",
     translation: "And upon Allah rely, if you should be believers.",
-    therapeuticContext:
+    supportiveContext:
       "Tawakkul is not optional decoration—it's central to faith. Relying on Allah is how believers respond to uncertainty.",
     whenToUse: [
       "Fear of letting go",
@@ -328,7 +328,7 @@ export const CATASTROPHIZING_HADITH: HadithReminder[] = [
     arabicText: "عَجَبًا لِأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ",
     translation:
       "How wonderful is the affair of the believer, for all of it is good.",
-    therapeuticContext:
+    supportiveContext:
       "Even what seems catastrophic contains good for the believer. This doesn't deny pain, but reframes ultimate meaning.",
     authenticity: "Sahih Muslim",
   },
@@ -339,7 +339,7 @@ export const CATASTROPHIZING_HADITH: HadithReminder[] = [
       "وَاعْلَمْ أَنَّ الْأُمَّةَ لَوْ اجْتَمَعَتْ عَلَى أَنْ يَنْفَعُوكَ بِشَيْءٍ لَمْ يَنْفَعُوكَ إِلَّا بِشَيْءٍ قَدْ كَتَبَهُ اللَّهُ لَكَ",
     translation:
       "Know that if the entire nation were to gather together to benefit you, they could not benefit you except with what Allah has already written for you.",
-    therapeuticContext:
+    supportiveContext:
       "What is written for you will reach you. Catastrophic worry doesn't change outcomes—it only steals present peace.",
     authenticity: "Sahih Bukhari",
   },
@@ -356,7 +356,7 @@ export const SHAME_HADITH: HadithReminder[] = [
       "وَالَّذِي نَفْسِي بِيَدِهِ لَوْ لَمْ تُذْنِبُوا لَذَهَبَ اللَّهُ بِكُمْ وَلَجَاءَ بِقَوْمٍ يُذْنِبُونَ فَيَسْتَغْفِرُونَ اللَّهَ فَيَغْفِرُ لَهُمْ",
     translation:
       "By Him in Whose Hand is my soul, if you did not sin, Allah would replace you with people who would sin and then seek forgiveness from Allah, and He would forgive them.",
-    therapeuticContext:
+    supportiveContext:
       "Sin is part of the human experience. The goal is not sinlessness but sincere return. Shame tries to keep you from returning—this hadith breaks that lie.",
     authenticity: "Sahih Muslim",
   },
@@ -367,7 +367,7 @@ export const SHAME_HADITH: HadithReminder[] = [
       "كُلُّ ابْنِ آدَمَ خَطَّاءٌ وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
     translation:
       "Every son of Adam makes mistakes, and the best of those who make mistakes are those who repent.",
-    therapeuticContext:
+    supportiveContext:
       "Mistakes don't disqualify you—they're expected. Excellence is measured by return, not by never falling.",
     authenticity: "Sahih Bukhari",
   },
@@ -383,7 +383,7 @@ export const OVERWHELM_HADITH: HadithReminder[] = [
     arabicText: "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
     translation:
       "The most beloved deeds to Allah are those done consistently, even if small.",
-    therapeuticContext:
+    supportiveContext:
       "When overwhelmed, perfection is the enemy. Small, consistent actions are more beloved than burnout-inducing heroics.",
     authenticity: "Sahih Bukhari",
   },
@@ -393,7 +393,7 @@ export const OVERWHELM_HADITH: HadithReminder[] = [
     arabicText: "يَسِّرُوا وَلَا تُعَسِّرُوا وَبَشِّرُوا وَلَا تُنَفِّرُوا",
     translation:
       "Make things easy and do not make them difficult; give glad tidings and do not repel.",
-    therapeuticContext:
+    supportiveContext:
       "When overwhelmed, the path is ease, not force. Gentleness with yourself is Islamic, not weak.",
     authenticity: "Sahih Bukhari",
   },
@@ -408,7 +408,7 @@ export const ANXIETY_HADITH: HadithReminder[] = [
     source: "Sahih Bukhari 6369",
     arabicText: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
     translation: "O Allah, I seek refuge in You from anxiety and sorrow.",
-    therapeuticContext:
+    supportiveContext:
       "The Prophet ﷺ himself sought refuge from anxiety. This normalizes the struggle and provides a direct response.",
     authenticity: "Sahih Bukhari",
   },
@@ -419,7 +419,7 @@ export const ANXIETY_HADITH: HadithReminder[] = [
       "اللَّهُمَّ إِنِّي عَبْدُكَ ابْنُ عَبْدِكَ ابْنُ أَمَتِكَ نَاصِيَتِي بِيَدِكَ مَاضٍ فِيَّ حُكْمُكَ عَدْلٌ فِيَّ قَضَاؤُكَ",
     translation:
       "O Allah, I am Your servant, son of Your servant, son of Your maidservant. My forelock is in Your hand, Your command over me is forever executed, and Your decree over me is just.",
-    therapeuticContext:
+    supportiveContext:
       "This dua for anxiety contains theological truth: You are not in control, and that is mercy. Allah's governance is trustworthy.",
     authenticity: "Sahih Muslim",
   },
@@ -436,7 +436,7 @@ export const GRIEF_HADITH: HadithReminder[] = [
       "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
     translation:
       "To Allah we belong and to Him we return. O Allah, reward me in my affliction and replace it with something better.",
-    therapeuticContext:
+    supportiveContext:
       "This dua was taught during loss. It doesn't deny grief—it holds space for both pain and trust in future good.",
     authenticity: "Sahih Muslim",
   },
@@ -447,7 +447,7 @@ export const GRIEF_HADITH: HadithReminder[] = [
       "مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلاَ وَصَبٍ وَلاَ هَمٍّ وَلاَ حَزَنٍ وَلاَ أَذًى وَلاَ غَمٍّ حَتَّى الشَّوْكَةِ يُشَاكُهَا إِلاَّ كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ",
     translation:
       "No fatigue, disease, sorrow, sadness, hurt, or distress befalls a Muslim, even if it were the prick of a thorn, but Allah expiates some of his sins for that.",
-    therapeuticContext:
+    supportiveContext:
       "Nothing is wasted. Even the smallest pain carries spiritual meaning. This reframes suffering as purifying, not pointless.",
     authenticity: "Agreed Upon",
   },
@@ -464,7 +464,7 @@ export const FEAR_HADITH: HadithReminder[] = [
       "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ",
     translation:
       "The strong believer is better and more beloved to Allah than the weak believer.",
-    therapeuticContext:
+    supportiveContext:
       "Strength includes facing fear and acting anyway. Courage is not absence of fear—it's trust alongside it.",
     authenticity: "Sahih Bukhari",
   },
@@ -479,7 +479,7 @@ export const DESPAIR_HADITH: HadithReminder[] = [
     source: "Sahih Bukhari 7405",
     arabicText: "أَنَا عِنْدَ ظَنِّ عَبْدِي بِي",
     translation: "I am as My servant thinks of Me.",
-    therapeuticContext:
+    supportiveContext:
       "Your expectation of Allah shapes your experience. Good opinion (husn al-dhann) of Allah is itself healing.",
     authenticity: "Sahih Bukhari",
   },
@@ -494,7 +494,7 @@ export const PATIENCE_AYAT: QuranicReminder[] = [
     arabicText:
       "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
     translation: "O you who believe, seek help through patience and prayer.",
-    therapeuticContext:
+    supportiveContext:
       "When overwhelmed, sabr (patience) and salah (connection) are your resources. This is how you navigate difficulty.",
     whenToUse: [
       "Feeling alone in struggle",
@@ -508,7 +508,7 @@ export const PATIENCE_AYAT: QuranicReminder[] = [
       "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى الْخَاشِعِينَ",
     translation:
       "And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive.",
-    therapeuticContext:
+    supportiveContext:
       "It IS hard. The ayah validates difficulty while pointing to the path. Humility (khushu) makes the hard things bearable.",
     whenToUse: [
       "Struggling feels too hard",
@@ -520,7 +520,7 @@ export const PATIENCE_AYAT: QuranicReminder[] = [
     reference: "Surah Al-Anfal 8:46",
     arabicText: "وَاصْبِرُوا إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
     translation: "And be patient. Indeed, Allah is with the patient.",
-    therapeuticContext:
+    supportiveContext:
       "Sabr is not isolation—it's companionship with Allah. When you endure with patience, you are not alone.",
     whenToUse: [
       "Enduring prolonged difficulty",
@@ -538,7 +538,7 @@ export const GRATITUDE_AYAT: QuranicReminder[] = [
     reference: "Surah Ibrahim 14:7",
     arabicText: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
     translation: "If you are grateful, I will surely increase you.",
-    therapeuticContext:
+    supportiveContext:
       "Gratitude (shukr) is not just politeness—it opens the door to more blessing. Notice what's working to invite more of it.",
     whenToUse: [
       "Ingratitude spiral",
@@ -550,7 +550,7 @@ export const GRATITUDE_AYAT: QuranicReminder[] = [
     reference: "Surah Ar-Rahman 55:13",
     arabicText: "فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ",
     translation: "So which of the favors of your Lord would you deny?",
-    therapeuticContext:
+    supportiveContext:
       "This ayah repeats 31 times in the surah. Blessings surround you—the question is, can you see them?",
     whenToUse: [
       "Blind to blessings",
@@ -571,7 +571,7 @@ export const LONELINESS_HADITH: HadithReminder[] = [
       "إِنَّ اللَّهَ قَالَ: مَنْ عَادَى لِي وَلِيًّا فَقَدْ آذَنْتُهُ بِالْحَرْبِ",
     translation:
       "Allah said: Whoever shows enmity to a friend of Mine, I shall be at war with him.",
-    therapeuticContext:
+    supportiveContext:
       "You are under divine protection. Those who care for you are defended by Allah. You are not as vulnerable as you feel.",
     authenticity: "Sahih Bukhari",
   },
@@ -586,7 +586,7 @@ export const HOPE_HADITH: HadithReminder[] = [
     source: "Sahih Muslim 2675",
     arabicText: "إِنَّ رَحْمَتِي سَبَقَتْ غَضَبِي",
     translation: "My mercy precedes My wrath.",
-    therapeuticContext:
+    supportiveContext:
       "Allah's default is mercy, not anger. When you fear His displeasure, remember: mercy came first and mercy is greater.",
     authenticity: "Sahih Muslim",
   },
@@ -597,7 +597,7 @@ export const HOPE_HADITH: HadithReminder[] = [
       "لَلَّهُ أَشَدُّ فَرَحًا بِتَوْبَةِ عَبْدِهِ مِنْ أَحَدِكُمْ سَقَطَ عَلَى بَعِيرِهِ",
     translation:
       "Allah is more pleased with the repentance of His servant than one of you would be if he found his camel in the desert after having lost it.",
-    therapeuticContext:
+    supportiveContext:
       "Your return brings Allah JOY. Tawbah is not grudgingly accepted—it's celebrated. Come back without shame.",
     authenticity: "Agreed Upon",
   },

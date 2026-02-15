@@ -28,7 +28,7 @@ export interface ConceptDefinition {
   arabic: string;
   transliteration: string;
   meaning: string;
-  therapeuticApplication: string;
+  supportiveApplication: string;
   cbtConnection: string;
 }
 
@@ -37,7 +37,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "نِيَّة",
     transliteration: "Niyyah",
     meaning: "Intention",
-    therapeuticApplication:
+    supportiveApplication:
       "Setting clear intention transforms cognitive work into spiritual practice. Every reflection begins with purpose.",
     cbtConnection:
       "Aligns with values clarification and goal-oriented therapy. Intention shapes attention and attention amplifies state.",
@@ -46,7 +46,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "صَبْر",
     transliteration: "Sabr",
     meaning: "Patient Perseverance",
-    therapeuticApplication:
+    supportiveApplication:
       "Active endurance during difficulty, not passive resignation. The muscle that develops through cognitive struggle.",
     cbtConnection:
       "Connects to distress tolerance and emotional regulation. Sabr is the practice ground for building cognitive resilience.",
@@ -55,7 +55,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "تَوَكُّل",
     transliteration: "Tawakkul",
     meaning: "Trust and Reliance on Allah",
-    therapeuticApplication:
+    supportiveApplication:
       "The letting go that comes after doing your part. Separating your effort from your anxiety about outcomes.",
     cbtConnection:
       "Addresses control-related distortions. You are responsible for effort, not outcomes. This distinction reduces anxiety.",
@@ -64,7 +64,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "تَزْكِيَة",
     transliteration: "Tazkiyah",
     meaning: "Purification of the Soul",
-    therapeuticApplication:
+    supportiveApplication:
       "Cognitive work as spiritual cleansing. Removing distortions is not just thinking better—it is purifying the heart.",
     cbtConnection:
       "Reframes CBT as soul work. Cognitive distortions are impurities; reframing is tahara (purification) of thought.",
@@ -73,7 +73,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "شُكْر",
     transliteration: "Shukr",
     meaning: "Gratitude",
-    therapeuticApplication:
+    supportiveApplication:
       "Gratitude is not ignoring pain—it is expanding awareness to include blessing alongside struggle.",
     cbtConnection:
       "Counteracts negativity bias and ingratitude distortion. Gratitude practices are evidence-based interventions.",
@@ -82,7 +82,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "تَوْبَة",
     transliteration: "Tawbah",
     meaning: "Repentance and Return",
-    therapeuticApplication:
+    supportiveApplication:
       "Every moment offers return. Shame about the past does not need to define the present.",
     cbtConnection:
       "Addresses shame-based cognitions. Tawbah breaks the cycle of self-condemnation and hopelessness.",
@@ -91,7 +91,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "ذِكْر",
     transliteration: "Dhikr",
     meaning: "Remembrance of Allah",
-    therapeuticApplication:
+    supportiveApplication:
       "Grounding the mind through sacred repetition. Dhikr is the anchor when thoughts spiral.",
     cbtConnection:
       "Aligns with mindfulness and grounding techniques. Dhikr is pattern interruption with spiritual depth.",
@@ -100,7 +100,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "مُرَاقَبَة",
     transliteration: "Muraqaba",
     meaning: "Watchful Self-Awareness",
-    therapeuticApplication:
+    supportiveApplication:
       "Observing your thoughts without becoming them. The witness stance that enables cognitive flexibility.",
     cbtConnection:
       'Core to metacognitive awareness. Muraqaba is the Islamic root of "observing your thoughts."',
@@ -109,7 +109,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "مُحَاسَبَة",
     transliteration: "Muhasaba",
     meaning: "Self-Accountability",
-    therapeuticApplication:
+    supportiveApplication:
       "Taking honest inventory without self-destruction. Accountability that leads to growth, not despair.",
     cbtConnection:
       "Supports behavioral analysis without harsh self-judgment. Honest assessment is not self-attack.",
@@ -118,7 +118,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "رِضَا",
     transliteration: "Ridha",
     meaning: "Contentment with Divine Decree",
-    therapeuticApplication:
+    supportiveApplication:
       "Peace that comes from acceptance, not achievement. Ridha is the fruit of tawakkul practice.",
     cbtConnection:
       "Addresses comparison-based and outcome-attached distortions. Contentment is not complacency.",
@@ -127,7 +127,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "خُشُوع",
     transliteration: "Khushu",
     meaning: "Humble Presence",
-    therapeuticApplication:
+    supportiveApplication:
       "Full presence in the moment, aware of Allah. The quality that makes reflection transformative.",
     cbtConnection:
       "Connects to mindful engagement. Khushu is presence without performance anxiety.",
@@ -136,7 +136,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     arabic: "إِخْلَاص",
     transliteration: "Ikhlas",
     meaning: "Sincerity",
-    therapeuticApplication:
+    supportiveApplication:
       "Doing the work for Allah, not for show. Sincerity protects against spiritual bypassing.",
     cbtConnection:
       "Addresses people-pleasing and validation-seeking patterns. Ikhlas liberates from audience anxiety.",
@@ -304,7 +304,7 @@ export interface QuranicReminder {
   reference: string;
   arabicText: string;
   translation: string;
-  therapeuticContext: string;
+  supportiveContext: string;
   whenToUse: string[];
 }
 
@@ -313,7 +313,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah Al-Baqarah 2:286",
     arabicText: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
     translation: "Allah does not burden a soul beyond that it can bear.",
-    therapeuticContext:
+    supportiveContext:
       "When anxiety tells you that you cannot handle this, remember: Allah already factored in your capacity.",
     whenToUse: [
       "Feeling overwhelmed by responsibilities",
@@ -325,7 +325,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah Ad-Duha 93:3",
     arabicText: "مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ",
     translation: "Your Lord has not abandoned you, nor has He become hateful.",
-    therapeuticContext:
+    supportiveContext:
       "Grief can whisper that you are forgotten. This ayah speaks directly to that lie.",
     whenToUse: ["Loss of loved one", "Feeling abandoned", "Spiritual dryness"],
   },
@@ -333,7 +333,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah At-Talaq 65:3",
     arabicText: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     translation: "Whoever relies upon Allah – then He is sufficient for him.",
-    therapeuticContext:
+    supportiveContext:
       "Fear often comes from feeling alone against threat. Tawakkul is the antidote.",
     whenToUse: [
       "Fear of harm",
@@ -347,7 +347,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
       "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
     translation:
       "Say: O My servants who have transgressed against themselves, despair not of the mercy of Allah.",
-    therapeuticContext:
+    supportiveContext:
       'Shame says you are beyond redemption. Allah directly addresses those who have "gone too far."',
     whenToUse: [
       "Past sins weighing heavily",
@@ -359,7 +359,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah Aal-Imran 3:134",
     arabicText: "وَالْكَاظِمِينَ الْغَيْظَ وَالْعَافِينَ عَنِ النَّاسِ",
     translation: "Those who restrain anger and pardon the people.",
-    therapeuticContext:
+    supportiveContext:
       "Anger is not prohibited—restraining it is praised. The goal is mastery, not suppression.",
     whenToUse: ["Feeling wronged", "Resentment building", "Urge to retaliate"],
   },
@@ -367,7 +367,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah Al-Hadid 57:4",
     arabicText: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ",
     translation: "And He is with you wherever you are.",
-    therapeuticContext:
+    supportiveContext:
       "Loneliness is painful and real. But being alone and being abandoned are different.",
     whenToUse: ["Social isolation", "Feeling unseen", "No one understands"],
   },
@@ -376,7 +376,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     arabicText: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ",
     translation:
       "And when My servants ask you concerning Me – indeed I am near.",
-    therapeuticContext:
+    supportiveContext:
       "Doubt often includes doubt about whether Allah hears. This ayah answers directly.",
     whenToUse: [
       "Questioning faith",
@@ -388,7 +388,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah Yusuf 12:87",
     arabicText: "وَلَا تَيْأَسُوا مِن رَّوْحِ اللَّهِ",
     translation: "Do not despair of relief from Allah.",
-    therapeuticContext:
+    supportiveContext:
       "Despair says nothing will change. This ayah names despair and commands against it.",
     whenToUse: ["Feeling hopeless", "Nothing is working", "Wanting to give up"],
   },
@@ -397,7 +397,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     arabicText: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا إِنَّ مَعَ الْعُسْرِ يُسْرًا",
     translation:
       "Indeed, with hardship comes ease. Indeed, with hardship comes ease.",
-    therapeuticContext:
+    supportiveContext:
       "The repetition is intentional. Ease is not after hardship—it is with it, hidden inside it.",
     whenToUse: ["Burnout", "Caregiver fatigue", "Prolonged difficulty"],
   },
@@ -405,7 +405,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah At-Talaq 65:7",
     arabicText: "سَيَجْعَلُ اللَّهُ بَعْدَ عُسْرٍ يُسْرًا",
     translation: "Allah will bring about, after hardship, ease.",
-    therapeuticContext:
+    supportiveContext:
       "When everything feels like too much, remember: your current capacity is not your permanent state.",
     whenToUse: ["Too many demands", "Cannot see a way out", "System overload"],
   },
@@ -413,7 +413,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
     reference: "Surah Ar-Ra'd 13:28",
     arabicText: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
     translation: "Verily, in the remembrance of Allah do hearts find rest.",
-    therapeuticContext:
+    supportiveContext:
       "Hopelessness is a state, not a truth. The heart can find rest—dhikr is the pathway.",
     whenToUse: [
       "Lost sense of meaning",
@@ -427,7 +427,7 @@ export const QURAN_BY_STATE: Record<EmotionalState, QuranicReminder> = {
       "وَمَن يَعْمَلْ سُوءًا أَوْ يَظْلِمْ نَفْسَهُ ثُمَّ يَسْتَغْفِرِ اللَّهَ يَجِدِ اللَّهَ غَفُورًا رَّحِيمًا",
     translation:
       "Whoever does evil or wrongs himself, then seeks forgiveness of Allah, will find Allah Forgiving and Merciful.",
-    therapeuticContext:
+    supportiveContext:
       "Guilt can be productive (leads to tawbah) or destructive (leads to despair). This ayah redirects guilt toward hope.",
     whenToUse: [
       "Past mistakes haunting",
@@ -446,7 +446,7 @@ export interface HadithReminder {
   source: string;
   arabicText: string;
   translation: string;
-  therapeuticContext: string;
+  supportiveContext: string;
   authenticity: "Sahih Bukhari" | "Sahih Muslim" | "Agreed Upon";
 }
 
@@ -457,7 +457,7 @@ export const HADITH_BY_STATE: Partial<Record<EmotionalState, HadithReminder>> =
       source: "Sahih Bukhari 6369",
       arabicText: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
       translation: "O Allah, I seek refuge in You from anxiety and sorrow.",
-      therapeuticContext:
+      supportiveContext:
         "The Prophet ﷺ himself sought refuge from anxiety. This normalizes the struggle and provides a response.",
       authenticity: "Sahih Bukhari",
     },
@@ -468,7 +468,7 @@ export const HADITH_BY_STATE: Partial<Record<EmotionalState, HadithReminder>> =
         "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
       translation:
         "To Allah we belong and to Him we return. O Allah, reward me in my affliction and replace it with something better.",
-      therapeuticContext:
+      supportiveContext:
         "This dua was taught during loss. It acknowledges the pain while opening to future good.",
       authenticity: "Sahih Muslim",
     },
@@ -479,7 +479,7 @@ export const HADITH_BY_STATE: Partial<Record<EmotionalState, HadithReminder>> =
         "مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلاَ وَصَبٍ وَلاَ هَمٍّ وَلاَ حَزَنٍ وَلاَ أَذًى وَلاَ غَمٍّ حَتَّى الشَّوْكَةِ يُشَاكُهَا إِلاَّ كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ",
       translation:
         "No fatigue, disease, sorrow, sadness, hurt, or distress befalls a Muslim, even if it were the prick of a thorn, but Allah expiates some of his sins for that.",
-      therapeuticContext:
+      supportiveContext:
         "Nothing is wasted. Even the smallest pain carries meaning. This reframes suffering as spiritually productive.",
       authenticity: "Agreed Upon",
     },
@@ -490,7 +490,7 @@ export const HADITH_BY_STATE: Partial<Record<EmotionalState, HadithReminder>> =
         "وَالَّذِي نَفْسِي بِيَدِهِ لَوْ لَمْ تُذْنِبُوا لَذَهَبَ اللَّهُ بِكُمْ وَلَجَاءَ بِقَوْمٍ يُذْنِبُونَ فَيَسْتَغْفِرُونَ اللَّهَ فَيَغْفِرُ لَهُمْ",
       translation:
         "By Him in Whose Hand is my soul, if you did not sin, Allah would replace you with people who would sin and then seek forgiveness from Allah, and He would forgive them.",
-      therapeuticContext:
+      supportiveContext:
         "Sin is part of the human condition. The goal is not sinlessness but sincere return.",
       authenticity: "Sahih Muslim",
     },
@@ -500,7 +500,7 @@ export const HADITH_BY_STATE: Partial<Record<EmotionalState, HadithReminder>> =
       arabicText: "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
       translation:
         "The most beloved deeds to Allah are those done consistently, even if small.",
-      therapeuticContext:
+      supportiveContext:
         "When exhausted, perfection is not required. Small consistent acts are more beloved than burnout-inducing efforts.",
       authenticity: "Sahih Bukhari",
     },
@@ -509,7 +509,7 @@ export const HADITH_BY_STATE: Partial<Record<EmotionalState, HadithReminder>> =
       source: "Sahih Bukhari 7405",
       arabicText: "أَنَا عِنْدَ ظَنِّ عَبْدِي بِي",
       translation: "I am as My servant thinks of Me.",
-      therapeuticContext:
+      supportiveContext:
         "Your expectation of Allah matters. Good opinion (husn al-dhann) of Allah is itself an act of worship.",
       authenticity: "Sahih Bukhari",
     },
