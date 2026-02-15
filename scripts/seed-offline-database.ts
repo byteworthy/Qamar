@@ -72,16 +72,16 @@ function initializeSchema(db: Database.Database): void {
 /**
  * Load JSON seed data file
  */
-function loadSeedData<T>(filename: string): T[] {
+function loadSeedData<T>(filename: string): T {
   const filepath = path.join(SEED_DATA_DIR, filename);
 
   if (!fs.existsSync(filepath)) {
     console.log(`⚠ Seed data file not found: ${filename}`);
-    return [];
+    return (Array.isArray([] as unknown as T) ? [] : {}) as T;
   }
 
   const data = fs.readFileSync(filepath, "utf-8");
-  return JSON.parse(data) as T[];
+  return JSON.parse(data) as T;
 }
 
 /**
@@ -192,18 +192,27 @@ function populateFTS(db: Database.Database): void {
 }
 
 /**
- * Seed Hadiths table
+ * Seed Hadiths table from nested JSON structure
+ * JSON has { collections: [...], hadiths: [{ id, collectionId, bookNumber, hadithNumber, narrator, textArabic, textEnglish, grade, chapter, reference }] }
+ * DB schema: hadiths (id, collection, book_number, hadith_number, narrator, arabic_text, translation_en, grade)
  */
-function seedHadiths(db: Database.Database, hadiths: Hadith[]): void {
+function seedHadiths(db: Database.Database, hadithsData: { collections: any[]; hadiths: any[] }): void {
+  const hadiths = hadithsData.hadiths || [];
   if (hadiths.length === 0) {
     console.log("⚠ No hadiths to seed");
     return;
   }
 
+  // Build a lookup from collectionId to collection name
+  const collectionNames: Record<string, string> = {};
+  for (const col of hadithsData.collections || []) {
+    collectionNames[col.id] = col.name;
+  }
+
   console.log("Seeding Hadiths...");
 
   const insert = db.prepare(`
-    INSERT INTO hadiths (
+    INSERT OR IGNORE INTO hadiths (
       collection,
       book_number,
       hadith_number,
@@ -214,16 +223,16 @@ function seedHadiths(db: Database.Database, hadiths: Hadith[]): void {
     ) VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
 
-  const insertMany = db.transaction((hadiths: Hadith[]) => {
-    for (const hadith of hadiths) {
+  const insertMany = db.transaction((hadiths: any[]) => {
+    for (const h of hadiths) {
       insert.run(
-        hadith.collection,
-        hadith.book_number || null,
-        hadith.hadith_number || null,
-        hadith.narrator || null,
-        hadith.arabic_text,
-        hadith.translation_en,
-        hadith.grade || null,
+        h.collectionId, // collection (short id: bukhari, muslim, etc.)
+        h.bookNumber || null,                               // book_number
+        h.hadithNumber || null,                             // hadith_number
+        h.narrator || null,                                 // narrator
+        h.textArabic || null,                               // arabic_text
+        h.textEnglish || null,                              // translation_en
+        h.grade ? h.grade.toLowerCase() : null,             // grade (lowercase)
       );
     }
   });
@@ -277,6 +286,102 @@ function seedVocabulary(
 
   insertMany(vocabulary);
   console.log(`✓ Seeded ${vocabulary.length} vocabulary words`);
+}
+
+/**
+ * Seed Conversation Scenarios table
+ * JSON has { scenarios: [{ id, title, difficulty, category, ... }] }
+ * DB schema: conversation_scenarios (id TEXT PK, title TEXT, difficulty TEXT, category TEXT, dialogues_json TEXT, audio_url TEXT)
+ */
+function seedConversationScenarios(db: Database.Database, data: { scenarios: any[] }): void {
+  const scenarios = data.scenarios || [];
+  if (scenarios.length === 0) {
+    console.log("⚠ No conversation scenarios to seed");
+    return;
+  }
+
+  console.log("Seeding Conversation Scenarios...");
+
+  const insert = db.prepare(`
+    INSERT INTO conversation_scenarios (
+      id,
+      title,
+      difficulty,
+      category,
+      dialogues_json,
+      audio_url
+    ) VALUES (?, ?, ?, ?, ?, ?)
+  `);
+
+  const insertMany = db.transaction((scenarios: any[]) => {
+    for (const s of scenarios) {
+      // Store the full scenario object (minus large fields already in columns) as dialogues_json
+      const dialoguesPayload = {
+        titleArabic: s.titleArabic,
+        description: s.description,
+        culturalContext: s.culturalContext,
+        learningGoals: s.learningGoals,
+        keyPhrases: s.keyPhrases,
+        estimatedMinutes: s.estimatedMinutes,
+        dialogues: s.dialogues || [],
+      };
+      insert.run(
+        s.id,
+        s.title,
+        s.difficulty ? s.difficulty.toLowerCase() : null,
+        s.category || null,
+        JSON.stringify(dialoguesPayload),
+        s.audioUrl || null,
+      );
+    }
+  });
+
+  insertMany(scenarios);
+  console.log(`✓ Seeded ${scenarios.length} conversation scenarios`);
+}
+
+/**
+ * Seed Arabic Alphabet as vocabulary entries with category='alphabet'
+ * JSON is a flat array of letters: [{ id, name, nameArabic, isolated, initial, medial, final, pronunciation, phoneticSound, examples }]
+ */
+function seedArabicAlphabet(db: Database.Database, letters: any[]): void {
+  if (letters.length === 0) {
+    console.log("⚠ No Arabic alphabet data to seed");
+    return;
+  }
+
+  console.log("Seeding Arabic Alphabet (as vocabulary)...");
+
+  const insert = db.prepare(`
+    INSERT INTO vocabulary (
+      id,
+      arabic_word,
+      transliteration,
+      translation_en,
+      root,
+      category,
+      difficulty_level,
+      quran_frequency
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const insertMany = db.transaction((letters: any[]) => {
+    for (const letter of letters) {
+      insert.run(
+        `alphabet-${letter.id}`,          // id (prefixed to avoid collisions with vocabulary)
+        letter.isolated,                   // arabic_word (the letter in isolated form)
+        letter.pronunciation,              // transliteration
+        letter.name,                       // translation_en (letter name e.g. "Alif")
+        null,                              // root
+        "alphabet",                        // category
+        1,                                 // difficulty_level
+        0,                                 // quran_frequency
+      );
+    }
+  });
+
+  insertMany(letters);
+  console.log(`✓ Seeded ${letters.length} Arabic alphabet letters`);
 }
 
 /**
@@ -347,6 +452,22 @@ function verifyDatabase(db: Database.Database): void {
     console.log(`✓ Vocabulary: ${vocabCount.count}`);
   }
 
+  // Check conversation scenarios (optional)
+  const scenarioCount = db
+    .prepare("SELECT COUNT(*) as count FROM conversation_scenarios")
+    .get() as { count: number };
+  if (scenarioCount.count > 0) {
+    console.log(`✓ Conversation Scenarios: ${scenarioCount.count}`);
+  }
+
+  // Check alphabet entries in vocabulary (optional)
+  const alphabetCount = db
+    .prepare("SELECT COUNT(*) as count FROM vocabulary WHERE category = 'alphabet'")
+    .get() as { count: number };
+  if (alphabetCount.count > 0) {
+    console.log(`✓ Arabic Alphabet (vocabulary): ${alphabetCount.count}`);
+  }
+
   console.log("✓ All integrity checks passed");
 }
 
@@ -374,18 +495,22 @@ export async function seedOfflineDatabase(db: Database.Database): Promise<void> 
 
     // Load seed data
     console.log("\nLoading seed data...");
-    const surahs = loadSeedData<any>("surahs.json");
-    const verses = loadSeedData<any>("verses.json");
-    const hadiths = loadSeedData<any>("hadiths.json");
-    const vocabulary = loadSeedData<any>("vocabulary.json");
+    const surahs = loadSeedData<any[]>("surahs.json");
+    const verses = loadSeedData<any[]>("verses.json");
+    const hadithsData = loadSeedData<{ collections: any[]; hadiths: any[] }>("hadiths.json");
+    const vocabulary = loadSeedData<any[]>("vocabulary.json");
+    const conversationData = loadSeedData<{ scenarios: any[] }>("conversation_scenarios.json");
+    const arabicAlphabet = loadSeedData<any[]>("arabic_alphabet.json");
     console.log("✓ Seed data loaded\n");
 
     // Seed tables
     seedSurahs(db, surahs);
     seedVerses(db, verses);
     populateFTS(db);
-    seedHadiths(db, hadiths);
+    seedHadiths(db, hadithsData);
     seedVocabulary(db, vocabulary);
+    seedConversationScenarios(db, conversationData);
+    seedArabicAlphabet(db, arabicAlphabet);
 
     // Verify integrity
     verifyDatabase(db);

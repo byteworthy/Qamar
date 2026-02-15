@@ -14,7 +14,7 @@ const db = drizzle(pool);
 // HADITH COLLECTIONS DATA (Kutub al-Sittah - The Six Books)
 // ============================================================================
 
-const collectionsData = [
+export const collectionsData = [
   {
     id: "bukhari",
     name: "Sahih al-Bukhari",
@@ -69,7 +69,7 @@ const collectionsData = [
 // HADITH DATA - SAHIH AL-BUKHARI (40 Hadiths)
 // ============================================================================
 
-const bukhariHadiths = [
+export const bukhariHadiths = [
   {
     id: "bukhari-1",
     collectionId: "bukhari",
@@ -568,7 +568,7 @@ const bukhariHadiths = [
 // HADITH DATA - SAHIH MUSLIM (35 Hadiths)
 // ============================================================================
 
-const muslimHadiths = [
+export const muslimHadiths = [
   {
     id: "muslim-2564",
     collectionId: "muslim",

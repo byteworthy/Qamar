@@ -144,6 +144,25 @@ export const CREATE_CONVERSATION_SCENARIOS_TABLE = `
   );
 `;
 
+/**
+ * SQL for creating the Flashcard Progress table
+ * Stores FSRS spaced repetition state for learning cards
+ */
+export const CREATE_FLASHCARD_PROGRESS_TABLE = `
+  CREATE TABLE IF NOT EXISTS flashcard_progress (
+    id TEXT PRIMARY KEY,
+    card_type TEXT NOT NULL CHECK(card_type IN ('alphabet', 'vocabulary', 'phrase')),
+    card_ref_id TEXT NOT NULL,
+    difficulty REAL NOT NULL DEFAULT 0.3,
+    stability REAL NOT NULL DEFAULT 1.0,
+    next_review TEXT NOT NULL,
+    state TEXT NOT NULL DEFAULT 'new' CHECK(state IN ('new', 'learning', 'review', 'relearning')),
+    review_count INTEGER NOT NULL DEFAULT 0,
+    last_review TEXT,
+    UNIQUE(card_type, card_ref_id)
+  );
+`;
+
 // ============================================================================
 // INDEXES FOR PERFORMANCE OPTIMIZATION
 // ============================================================================
@@ -166,6 +185,10 @@ export const CREATE_INDEXES = `
   CREATE INDEX IF NOT EXISTS idx_vocabulary_category ON vocabulary(category);
   CREATE INDEX IF NOT EXISTS idx_vocabulary_difficulty ON vocabulary(difficulty_level);
   CREATE INDEX IF NOT EXISTS idx_vocabulary_frequency ON vocabulary(quran_frequency DESC);
+
+  -- Flashcard progress indexes
+  CREATE INDEX IF NOT EXISTS idx_flashcard_state ON flashcard_progress(state);
+  CREATE INDEX IF NOT EXISTS idx_flashcard_next_review ON flashcard_progress(next_review);
 `;
 
 // ============================================================================
@@ -184,6 +207,7 @@ export const INIT_OFFLINE_DATABASE = [
   CREATE_HADITHS_TABLE,
   CREATE_VOCABULARY_TABLE,
   CREATE_CONVERSATION_SCENARIOS_TABLE,
+  CREATE_FLASHCARD_PROGRESS_TABLE,
   CREATE_INDEXES,
   // Enable foreign key constraints
   'PRAGMA foreign_keys = ON;',
@@ -246,6 +270,18 @@ export interface ConversationScenario {
   category?: string;
   dialogues_json: string; // JSON array of dialogue turns
   audio_url?: string;
+}
+
+export interface FlashcardProgress {
+  id: string;
+  card_type: 'alphabet' | 'vocabulary' | 'phrase';
+  card_ref_id: string;
+  difficulty: number;
+  stability: number;
+  next_review: string;
+  state: 'new' | 'learning' | 'review' | 'relearning';
+  review_count: number;
+  last_review?: string;
 }
 
 export interface DialogueTurn {
