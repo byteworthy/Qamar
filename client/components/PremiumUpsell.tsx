@@ -170,25 +170,25 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
     ],
   },
 
-  // CBT features
-  [PremiumFeature.CBT_EXERCISES]: {
-    title: "CBT Therapy Tools",
-    description: "Access professional cognitive behavioral therapy exercises.",
+  // Reflection features
+  [PremiumFeature.REFLECTION_EXERCISES]: {
+    title: "Islamic Reflection Tools",
+    description: "Access guided reflection and spiritual growth exercises.",
     benefits: [
-      "Evidence-based CBT techniques",
+      "Evidence-based reflection techniques",
       "Guided thought records",
       "Mood tracking",
-      "Therapeutic exercises",
+      "Guided exercises",
     ],
   },
-  [PremiumFeature.CBT_ADVANCED]: {
-    title: "Advanced CBT Analytics",
-    description: "Deep insights into your mental health journey.",
+  [PremiumFeature.REFLECTION_ADVANCED]: {
+    title: "Advanced Reflection Analytics",
+    description: "Deep insights into your personal growth journey.",
     benefits: [
       "Detailed progress analytics",
       "Pattern recognition",
       "Personalized recommendations",
-      "Export therapy notes",
+      "Export reflection notes",
     ],
   },
 };

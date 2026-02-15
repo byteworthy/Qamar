@@ -78,16 +78,16 @@ export enum PremiumFeature {
    */
   PRAYER_HISTORY = "pro_prayer_history",
 
-  // ========== CBT FEATURES (existing) ==========
+  // ========== REFLECTION FEATURES (existing) ==========
   /**
-   * Access to CBT therapy tools and exercises
+   * Access to guided reflection tools and exercises
    */
-  CBT_EXERCISES = "noor_plus_access",
+  REFLECTION_EXERCISES = "noor_plus_access",
 
   /**
-   * Advanced CBT analytics and insights
+   * Advanced reflection analytics and insights
    */
-  CBT_ADVANCED = "noor_pro_access",
+  REFLECTION_ADVANCED = "noor_pro_access",
 }
 
 /**
@@ -233,7 +233,7 @@ export const FEATURE_TIERS = {
     PremiumFeature.QURAN_OFFLINE,
     PremiumFeature.ARABIC_ALL_SCENARIOS,
     PremiumFeature.PRAYER_CUSTOM_ADHAN,
-    PremiumFeature.CBT_EXERCISES,
+    PremiumFeature.REFLECTION_EXERCISES,
   ],
 
   // Pro tier features (higher tier)
@@ -247,7 +247,7 @@ export const FEATURE_TIERS = {
     PremiumFeature.PRAYER_WIDGET,
     PremiumFeature.PRAYER_QIBLA,
     PremiumFeature.PRAYER_HISTORY,
-    PremiumFeature.CBT_ADVANCED,
+    PremiumFeature.REFLECTION_ADVANCED,
   ],
 } as const;
 

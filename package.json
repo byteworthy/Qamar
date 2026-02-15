@@ -1,6 +1,6 @@
 {
   "name": "noor",
-  "description": "Islamic wellness app combining CBT-based mental health tools with Quran, prayer times, Arabic learning, hadith, and daily adhkar",
+  "description": "Islamic wellness app combining guided reflection tools with Quran, prayer times, Arabic learning, hadith, and daily adhkar",
   "main": "client/index.js",
   "version": "1.0.0",
   "scripts": {

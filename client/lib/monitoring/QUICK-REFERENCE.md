@@ -113,9 +113,9 @@ try {
 - `PremiumFeature.PRAYER_QIBLA` - Qibla finder (Pro)
 - `PremiumFeature.PRAYER_HISTORY` - Prayer history (Pro)
 
-### CBT (2 features)
-- `PremiumFeature.CBT_EXERCISES` - CBT exercises (Plus)
-- `PremiumFeature.CBT_ADVANCED` - Advanced analytics (Pro)
+### Reflection (2 features)
+- `PremiumFeature.REFLECTION_EXERCISES` - Reflection exercises (Plus)
+- `PremiumFeature.REFLECTION_ADVANCED` - Advanced analytics (Pro)
 
 ## 📦 Single Import
 

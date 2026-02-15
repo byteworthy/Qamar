@@ -14,6 +14,7 @@ import { registerAdhkarRoutes } from "./routes/adhkar-routes";
 import { registerVocabularyRoutes } from "./routes/vocabulary-routes";
 import { registerCompanionRoutes } from "./routes/companion-routes";
 import { registerRagRoutes } from "./routes/rag-routes";
+import { registerOfflineSyncRoutes } from "./routes/offline-sync-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -39,6 +40,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register RAG knowledge base routes
   registerRagRoutes(app);
+
+  // Register offline content sync routes
+  registerOfflineSyncRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;

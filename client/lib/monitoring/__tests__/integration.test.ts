@@ -270,9 +270,9 @@ describe('Monitoring Integration', () => {
       expect(PremiumFeature.ARABIC_CUSTOM_LISTS).toBeDefined();
     });
 
-    it('should have CBT features defined', () => {
-      expect(PremiumFeature.CBT_EXERCISES).toBeDefined();
-      expect(PremiumFeature.CBT_ADVANCED).toBeDefined();
+    it('should have reflection features defined', () => {
+      expect(PremiumFeature.REFLECTION_EXERCISES).toBeDefined();
+      expect(PremiumFeature.REFLECTION_ADVANCED).toBeDefined();
     });
   });
 });
