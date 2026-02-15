@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Linking,
   Animated,
-  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -16,10 +15,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "@/hooks/useTheme";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { VALIDATION_MODE } from "@/lib/config";
-import { Layout } from "@/constants/layout";
 import {
   Fonts,
-  SiraatColors,
   NoorColors,
   Spacing,
   BorderRadius,
@@ -31,10 +28,8 @@ import { Screen } from "@/components/Screen";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import {
   BILLING_QUERY_KEY,
-  BillingTier,
   getBillingProfile,
   isPaidTier,
-  isProTier,
   isStoreBillingActive,
   openManageSubscriptions,
   purchaseTier,
@@ -180,7 +175,6 @@ const PLAN_OPTIONS: PlanOption[] = [
 // ---------------------------------------------------------------------------
 
 const GOLD = NoorColors.gold;
-const GOLD_LIGHT = NoorColors.goldLight;
 
 function FeatureComparisonRow({
   feature,
@@ -355,7 +349,6 @@ function PlanSelector({
 // Main screen
 // ---------------------------------------------------------------------------
 
-const { spacing, radii, container, typeScale } = Layout;
 
 export default function PricingScreen() {
   const { theme } = useTheme();
@@ -590,6 +583,7 @@ export default function PricingScreen() {
             styles.sectionTitle,
             { color: theme.text, fontFamily: Fonts?.serifMedium },
           ]}
+          accessibilityRole="header"
         >
           Choose Your Plan
         </ThemedText>
@@ -616,6 +610,7 @@ export default function PricingScreen() {
             disabled={loading}
             activeOpacity={0.85}
             accessibilityRole="button"
+            accessibilityLabel={loading ? "Processing purchase" : "Start Free Trial"}
             accessibilityHint={`Subscribe to ${selectedPlan} plan`}
             style={styles.ctaButtonOuter}
           >
@@ -713,6 +708,7 @@ export default function PricingScreen() {
             <TouchableOpacity
               onPress={openTerms}
               accessibilityRole="link"
+              accessibilityLabel="Terms of Service"
               accessibilityHint="Opens Terms of Service in browser"
             >
               <ThemedText style={[styles.linkText, { color: theme.accent }]}>
@@ -729,6 +725,7 @@ export default function PricingScreen() {
             <TouchableOpacity
               onPress={openPrivacy}
               accessibilityRole="link"
+              accessibilityLabel="Privacy Policy"
               accessibilityHint="Opens Privacy Policy in browser"
             >
               <ThemedText style={[styles.linkText, { color: theme.accent }]}>
@@ -746,6 +743,7 @@ export default function PricingScreen() {
               onPress={handleRestorePurchase}
               disabled={syncing}
               accessibilityRole="link"
+              accessibilityLabel={syncing ? "Restoring purchases" : "Restore Purchases"}
               accessibilityHint="Restores previous purchases from your Apple ID"
             >
               <ThemedText style={[styles.linkText, { color: theme.accent }]}>

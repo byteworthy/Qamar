@@ -130,7 +130,7 @@ export default function WelcomeScreen() {
                   { borderColor: theme.highlightAccent + "50" },
                 ]}
               >
-                <Feather name="sun" size={32} color={theme.highlightAccent} />
+                <Feather name="sun" size={32} color={theme.highlightAccent} accessible={false} />
               </View>
             </View>
           </View>
@@ -237,6 +237,9 @@ export default function WelcomeScreen() {
             styles.continueButton,
             { opacity: pressed ? 0.9 : 1 },
           ]}
+          accessibilityRole="button"
+          accessibilityLabel="Get Started"
+          accessibilityHint="Continues to the next onboarding step"
         >
           <LinearGradient
             colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}

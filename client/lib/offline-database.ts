@@ -447,13 +447,25 @@ export function getOfflineDatabase(): OfflineDatabase {
 
 /**
  * Initialize the offline database. Safe to call multiple times.
+ * If SQLite fails, falls back to mock database so the app still works.
  */
 export async function initializeOfflineDatabase(): Promise<OfflineDatabase> {
   const db = getOfflineDatabase();
   if (!db.isReady()) {
-    await db.initialize();
+    try {
+      await db.initialize();
+    } catch (error) {
+      console.warn("[OfflineDB] SQLite init failed, falling back to mock database:", error);
+      // Reset and fall back to mock so the app doesn't crash
+      if (instance) {
+        try { await instance.close(); } catch (_) { /* ignore */ }
+        instance = null;
+      }
+      instance = new MockOfflineDatabase();
+      await instance.initialize();
+    }
   }
-  return db;
+  return instance!;
 }
 
 /**

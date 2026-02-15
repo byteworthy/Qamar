@@ -80,6 +80,7 @@ function PrayerCard({ name, time, icon, status, delay }: PrayerCardProps) {
             borderColor: colors.border,
           },
         ]}
+        accessibilityLabel={`${name}, ${formatPrayerTime(time)}${status === "current" ? ", current prayer" : ""}`}
       >
         <View style={styles.prayerCardLeft}>
           <View
@@ -151,7 +152,7 @@ export default function PrayerTimesScreen() {
           longitude: loc.coords.longitude,
         });
       } catch (error) {
-        console.error("Error getting location:", error);
+        if (__DEV__) console.error("Error getting location:", error);
         Alert.alert(
           "Location Error",
           "Could not get your location. Please check your settings.",
@@ -181,7 +182,7 @@ export default function PrayerTimesScreen() {
           reschedulePrayerNotifications().catch(() => {});
         }
       } catch (error) {
-        console.error("Error calculating prayer times:", error);
+        if (__DEV__) console.error("Error calculating prayer times:", error);
         setLoading(false);
       }
     }
@@ -266,7 +267,7 @@ export default function PrayerTimesScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
-          <ThemedText style={styles.headerTitle}>Prayer Times</ThemedText>
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">Prayer Times</ThemedText>
           <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
             {selectedDate.toLocaleDateString("en-US", {
               weekday: "long",
@@ -299,6 +300,8 @@ export default function PrayerTimesScreen() {
                   opacity: pressed ? 0.7 : 1,
                 },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Previous day"
             >
               <Feather name="chevron-left" size={24} color={theme.text} />
             </Pressable>
@@ -313,6 +316,8 @@ export default function PrayerTimesScreen() {
                     opacity: pressed ? 0.8 : 1,
                   },
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel="Go to today"
               >
                 <ThemedText
                   style={[styles.todayButtonText, { color: theme.onPrimary }]}
@@ -332,6 +337,8 @@ export default function PrayerTimesScreen() {
                   opacity: pressed ? 0.7 : 1,
                 },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Next day"
             >
               <Feather name="chevron-right" size={24} color={theme.text} />
             </Pressable>

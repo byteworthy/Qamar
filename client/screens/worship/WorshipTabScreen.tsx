@@ -8,7 +8,6 @@ import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NiyyahColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 

@@ -53,6 +53,7 @@ function DailyHadithCard() {
         }
         style={styles.dailyCard}
         elevated
+        accessibilityLabel="Daily hadith. Tap to read full hadith"
       >
         <View style={styles.dailyHeader}>
           <View style={styles.dailyBadge}>
@@ -126,7 +127,7 @@ function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
 
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(100 + index * 50)}>
-      <GlassCard onPress={onPress} style={styles.collectionCard} elevated>
+      <GlassCard onPress={onPress} style={styles.collectionCard} elevated accessibilityLabel={`${collection.name} by ${collection.compiler}, ${collection.totalHadiths} hadiths`}>
         <View style={styles.collectionContent}>
           <View style={styles.collectionIcon}>
             <Feather name="book" size={20} color={theme.primary} />
@@ -221,7 +222,7 @@ function HadithSearchResult({
 
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(index * 50)}>
-      <GlassCard onPress={onPress} style={styles.collectionCard} elevated>
+      <GlassCard onPress={onPress} style={styles.collectionCard} elevated accessibilityLabel={`Hadith: ${hadith.textEnglish}, grade: ${hadith.grade}`}>
         <View style={styles.collectionContent}>
           <View style={styles.collectionInfo}>
             <ThemedText
@@ -371,9 +372,14 @@ export default function HadithLibraryScreen() {
             onChangeText={setSearchQuery}
             autoCapitalize="none"
             autoCorrect={false}
+            accessibilityLabel="Search hadiths"
           />
           {searchQuery.length > 0 && (
-            <Pressable onPress={() => setSearchQuery("")}>
+            <Pressable
+              onPress={() => setSearchQuery("")}
+              accessibilityRole="button"
+              accessibilityLabel="Clear search"
+            >
               <Feather name="x" size={20} color={theme.textSecondary} />
             </Pressable>
           )}

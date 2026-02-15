@@ -647,6 +647,7 @@ export default function HomeScreen() {
                     styles.quickActionsLabel,
                     { color: theme.textSecondary },
                   ]}
+                  accessibilityRole="header"
                 >
                   Quick Actions
                 </ThemedText>
@@ -795,6 +796,7 @@ export default function HomeScreen() {
                         styles.reflectionsSectionTitle,
                         { color: theme.textSecondary },
                       ]}
+                      accessibilityRole="header"
                     >
                       Recent Reflections
                     </ThemedText>
@@ -963,6 +965,7 @@ export default function HomeScreen() {
                   styles.sectionLabel,
                   { color: theme.textSecondary },
                 ]}
+                accessibilityRole="header"
               >
                 Tools for Your Journey
               </ThemedText>

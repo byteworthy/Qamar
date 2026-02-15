@@ -40,6 +40,7 @@ import RootStackNavigator, {
   RootStackParamList,
 } from "@/navigation/RootStackNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { useOfflineDatabase } from "@/hooks/useOfflineData";
 
 // Initialize Sentry (no-op if EXPO_PUBLIC_SENTRY_DSN not configured)
 initSentry();
@@ -88,6 +89,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Home: "",
       ThoughtCapture: "thought-capture",
       Noticing: "noticing",
+      BeliefInspection: "belief-inspection",
       Reframe: "reframe",
       Regulation: "regulation",
       Intention: "intention",
@@ -98,6 +100,19 @@ const linking: LinkingOptions<RootStackParamList> = {
       CalmingPractice: "calming-practice",
       Dua: "dua",
       Insights: "insights",
+      QuranReader: "quran",
+      VerseReader: "quran/:surahId",
+      PrayerTimes: "prayer-times",
+      QiblaFinder: "qibla",
+      IslamicCalendar: "islamic-calendar",
+      ArabicLearning: "arabic-learning",
+      FlashcardReview: "flashcard-review",
+      HadithLibrary: "hadith",
+      HadithList: "hadith/collection/:collectionId",
+      HadithDetail: "hadith/:hadithId",
+      AdhkarList: "adhkar",
+      AlphabetGrid: "alphabet",
+      ProgressDashboard: "progress",
     },
   },
 };
@@ -176,6 +191,20 @@ function BiometricGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function OfflineDatabaseInitializer() {
+  const { isReady, error } = useOfflineDatabase();
+
+  useEffect(() => {
+    if (error) {
+      console.error("[App] Offline database failed to initialize:", error);
+    } else if (isReady) {
+      console.log("[App] Offline database initialized");
+    }
+  }, [isReady, error]);
+
+  return null;
+}
+
 function NotificationInitializer() {
   // Initialize notifications - this hook handles permission requests,
   // daily reminder scheduling, and notification listeners
@@ -218,6 +247,7 @@ export default function App() {
           <GestureHandlerRootView style={styles.root}>
             <KeyboardProvider>
               <BiometricGuard>
+                <OfflineDatabaseInitializer />
                 <NotificationInitializer />
                 <NavigationContainer linking={linking}>
                   <RootStackNavigator />

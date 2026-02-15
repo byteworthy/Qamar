@@ -20,7 +20,6 @@ import { syncBillingStatus, isPaidStatus } from "@/lib/billing";
 import { useQueryClient } from "@tanstack/react-query";
 
 const GOLD = NoorColors.gold;
-const GOLD_LIGHT = NoorColors.goldLight;
 
 const UNLOCKED_FEATURES = [
   { icon: "message-circle" as const, label: "Unlimited AI conversations" },

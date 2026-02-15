@@ -241,7 +241,7 @@ class QuranAudioService {
         await this.sound.pauseAsync();
       }
     } catch (err) {
-      console.error('QuranAudio: pause error', err);
+      if (__DEV__) console.error('QuranAudio: pause error', err);
     }
   }
 
@@ -251,7 +251,7 @@ class QuranAudioService {
         await this.sound.playAsync();
       }
     } catch (err) {
-      console.error('QuranAudio: resume error', err);
+      if (__DEV__) console.error('QuranAudio: resume error', err);
     }
   }
 
@@ -263,7 +263,7 @@ class QuranAudioService {
         this.sound = null;
       }
     } catch (err) {
-      console.error('QuranAudio: stop error', err);
+      if (__DEV__) console.error('QuranAudio: stop error', err);
     }
 
     this.verseList = [];
@@ -305,7 +305,7 @@ class QuranAudioService {
         await this.sound.setPositionAsync(positionMillis);
       }
     } catch (err) {
-      console.error('QuranAudio: seek error', err);
+      if (__DEV__) console.error('QuranAudio: seek error', err);
     }
   }
 

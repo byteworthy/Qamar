@@ -1,9 +1,12 @@
 /**
  * Sentry Error Tracking (Mobile)
  *
+ * Uses @sentry/react-native for production error tracking.
  * Disabled by default. Set EXPO_PUBLIC_SENTRY_DSN environment variable to enable.
- * When disabled, all functions are no-ops.
+ * When disabled, all functions are no-ops with console logging.
  */
+
+import * as Sentry from "@sentry/react-native";
 
 let sentryInitialized = false;
 
@@ -19,13 +22,21 @@ export function initSentry(): void {
     return;
   }
 
-  // When ready to enable Sentry:
-  // 1. npx expo install @sentry/react-native
-  // 2. Configure native builds
-  // 3. Uncomment the initialization code below
-  console.log("[Sentry] DSN found - Sentry package not yet installed");
-  console.log("[Sentry] To enable: npx expo install @sentry/react-native");
-  sentryInitialized = false;
+  try {
+    Sentry.init({
+      dsn,
+      tracesSampleRate: __DEV__ ? 1.0 : 0.2,
+      profilesSampleRate: __DEV__ ? 1.0 : 0.1,
+      environment: __DEV__ ? "development" : "production",
+      enabled: !__DEV__,
+      debug: __DEV__,
+    });
+    sentryInitialized = true;
+    console.log("[Sentry] Initialized successfully");
+  } catch (error) {
+    console.error("[Sentry] Failed to initialize:", error);
+    sentryInitialized = false;
+  }
 }
 
 /**
@@ -44,13 +55,11 @@ export function captureException(
   context?: Record<string, unknown>,
 ): void {
   if (!isSentryEnabled()) {
-    // Sentry not configured - just log to console
     console.error("[Error]", error.message, context || "");
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.captureException
-  console.error("[Sentry]", error.message, context || "");
+  Sentry.captureException(error, { extra: context });
 }
 
 /**
@@ -66,8 +75,7 @@ export function captureMessage(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.captureMessage
-  console.log(`[Sentry:${level}]`, message);
+  Sentry.captureMessage(message, level);
 }
 
 /**
@@ -79,7 +87,7 @@ export function setUser(userId: string | null): void {
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.setUser
+  Sentry.setUser(userId ? { id: userId } : null);
 }
 
 /**
@@ -91,7 +99,7 @@ export function addBreadcrumb(message: string, category?: string): void {
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.addBreadcrumb
+  Sentry.addBreadcrumb({ message, category: category || "app" });
 }
 
 // ============================================================================
@@ -114,10 +122,11 @@ export function addQuranBreadcrumb(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.addBreadcrumb
-  console.log(
-    `[Sentry:Quran] ${action} - Surah ${surahId}${verseNumber ? `:${verseNumber}` : ""}`,
-  );
+  Sentry.addBreadcrumb({
+    message: `${action} - Surah ${surahId}${verseNumber ? `:${verseNumber}` : ""}`,
+    category: "quran",
+    data: { surahId, verseNumber },
+  });
 }
 
 /**
@@ -130,10 +139,11 @@ export function addPrayerBreadcrumb(action: string, prayerName?: string): void {
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.addBreadcrumb
-  console.log(
-    `[Sentry:Prayer] ${action}${prayerName ? ` - ${prayerName}` : ""}`,
-  );
+  Sentry.addBreadcrumb({
+    message: `${action}${prayerName ? ` - ${prayerName}` : ""}`,
+    category: "prayer",
+    data: prayerName ? { prayerName } : undefined,
+  });
 }
 
 /**
@@ -151,10 +161,11 @@ export function addArabicLearningBreadcrumb(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.addBreadcrumb
-  console.log(
-    `[Sentry:Arabic] ${action}${wordCount ? ` - ${wordCount} words` : ""}`,
-  );
+  Sentry.addBreadcrumb({
+    message: `${action}${wordCount ? ` - ${wordCount} words` : ""}`,
+    category: "arabic-learning",
+    data: wordCount ? { wordCount } : undefined,
+  });
 }
 
 // ============================================================================
@@ -171,19 +182,18 @@ export function addArabicLearningBreadcrumb(
  * finishTransaction();
  */
 export function trackQuranLoad(surahId: number): () => void {
-  if (!isSentryEnabled()) {
-    const startTime = Date.now();
-    return () => {
-      const duration = Date.now() - startTime;
-      console.log(`[Perf:Quran] Load Surah ${surahId} - ${duration}ms`);
-    };
-  }
-
-  // When Sentry is installed, this will create a performance transaction
   const startTime = Date.now();
   return () => {
     const duration = Date.now() - startTime;
-    console.log(`[Sentry:Perf] Quran load - Surah ${surahId} - ${duration}ms`);
+    if (isSentryEnabled()) {
+      Sentry.addBreadcrumb({
+        message: `Load Surah ${surahId} - ${duration}ms`,
+        category: "performance.quran",
+        data: { surahId, duration },
+      });
+    } else {
+      console.log(`[Perf:Quran] Load Surah ${surahId} - ${duration}ms`);
+    }
   };
 }
 
@@ -197,19 +207,18 @@ export function trackQuranLoad(surahId: number): () => void {
  * finishTransaction();
  */
 export function trackPrayerTimeCalculation(): () => void {
-  if (!isSentryEnabled()) {
-    const startTime = Date.now();
-    return () => {
-      const duration = Date.now() - startTime;
-      console.log(`[Perf:Prayer] Calculate times - ${duration}ms`);
-    };
-  }
-
-  // When Sentry is installed, this will create a performance transaction
   const startTime = Date.now();
   return () => {
     const duration = Date.now() - startTime;
-    console.log(`[Sentry:Perf] Prayer calculation - ${duration}ms`);
+    if (isSentryEnabled()) {
+      Sentry.addBreadcrumb({
+        message: `Calculate prayer times - ${duration}ms`,
+        category: "performance.prayer",
+        data: { duration },
+      });
+    } else {
+      console.log(`[Perf:Prayer] Calculate times - ${duration}ms`);
+    }
   };
 }
 
@@ -223,19 +232,18 @@ export function trackPrayerTimeCalculation(): () => void {
  * finishTransaction();
  */
 export function trackArabicLearningLoad(): () => void {
-  if (!isSentryEnabled()) {
-    const startTime = Date.now();
-    return () => {
-      const duration = Date.now() - startTime;
-      console.log(`[Perf:Arabic] Load learning data - ${duration}ms`);
-    };
-  }
-
-  // When Sentry is installed, this will create a performance transaction
   const startTime = Date.now();
   return () => {
     const duration = Date.now() - startTime;
-    console.log(`[Sentry:Perf] Arabic learning load - ${duration}ms`);
+    if (isSentryEnabled()) {
+      Sentry.addBreadcrumb({
+        message: `Load learning data - ${duration}ms`,
+        category: "performance.arabic",
+        data: { duration },
+      });
+    } else {
+      console.log(`[Perf:Arabic] Load learning data - ${duration}ms`);
+    }
   };
 }
 
@@ -259,10 +267,7 @@ export function setQuranContext(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.setContext
-  console.log(
-    `[Sentry:Context] Quran - Surah ${surahId}, ${versesRead} verses`,
-  );
+  Sentry.setContext("quran", { surahId, versesRead, timestamp });
 }
 
 /**
@@ -278,8 +283,7 @@ export function setPrayerContext(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.setContext
-  console.log(`[Sentry:Context] Prayer - ${prayerName}`);
+  Sentry.setContext("prayer", { prayerName, timestamp });
 }
 
 /**
@@ -298,8 +302,7 @@ export function setArabicLearningContext(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.setContext
-  console.log(`[Sentry:Context] Arabic - Card ${cardId}, rating ${rating}`);
+  Sentry.setContext("arabic-learning", { rating, cardId, timestamp });
 }
 
 /**
@@ -315,6 +318,5 @@ export function setPremiumConversionContext(
     return;
   }
 
-  // When Sentry is installed, this will forward to Sentry.setContext
-  console.log(`[Sentry:Context] Premium conversion - ${feature}`);
+  Sentry.setContext("premium-conversion", { feature, timestamp });
 }

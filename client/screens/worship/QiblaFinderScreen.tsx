@@ -20,6 +20,7 @@ import Animated, {
 } from "react-native-reanimated";
 import * as Location from "expo-location";
 import { Magnetometer } from "expo-sensors";
+import type { EventSubscription } from "expo-modules-core";
 import * as Haptics from "expo-haptics";
 
 import { useTheme } from "@/hooks/useTheme";
@@ -167,7 +168,7 @@ export default function QiblaFinderScreen() {
 
         setLoading(false);
       } catch (error) {
-        console.error("Error getting location:", error);
+        if (__DEV__) console.error("Error getting location:", error);
         Alert.alert(
           "Location Error",
           "Could not get your location. Please check your settings.",
@@ -180,7 +181,7 @@ export default function QiblaFinderScreen() {
 
   // Subscribe to magnetometer
   useEffect(() => {
-    let subscription: any;
+    let subscription: EventSubscription | null = null;
 
     const startMagnetometer = async () => {
       try {
@@ -231,7 +232,7 @@ export default function QiblaFinderScreen() {
           }
         );
       } catch (error) {
-        console.error("Error starting magnetometer:", error);
+        if (__DEV__) console.error("Error starting magnetometer:", error);
       }
     };
 
@@ -369,7 +370,7 @@ export default function QiblaFinderScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
-          <ThemedText style={styles.headerTitle}>Qibla Finder</ThemedText>
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">Qibla Finder</ThemedText>
           <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
             Point your device toward Makkah
           </ThemedText>
@@ -523,13 +524,14 @@ export default function QiblaFinderScreen() {
             </Animated.View>
 
             {/* Qibla Arrow (fixed, points to Qibla) */}
-            <View style={styles.arrowContainer}>
+            <View style={styles.arrowContainer} accessibilityLabel={`Qibla direction arrow, ${degreesToQibla} degrees`}>
               <Animated.View style={arrowRotationStyle}>
                 <Feather
                   name="navigation"
                   size={80}
                   color={isDark ? "#f0d473" : "#D4AF37"}
                   style={styles.arrowIcon}
+                  accessible={false}
                 />
               </Animated.View>
             </View>

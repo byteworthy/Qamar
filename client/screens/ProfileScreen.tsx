@@ -21,8 +21,7 @@ import Constants from "expo-constants";
 
 import { useTheme } from "@/hooks/useTheme";
 import { VALIDATION_MODE, config } from "@/lib/config";
-import { NoorColors } from "@/constants/theme";
-import { Spacing, BorderRadius } from "@/constants/theme";
+import { NoorColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -93,6 +92,7 @@ function SectionHeader({ title, delay }: { title: string; delay: number }) {
     >
       <ThemedText
         style={[styles.sectionHeaderText, { color: NoorColors.gold }]}
+        accessibilityRole="header"
       >
         {title}
       </ThemedText>
@@ -518,7 +518,7 @@ export default function ProfileScreen() {
           entering={FadeInDown.duration(300)}
           style={styles.header}
         >
-          <ThemedText style={styles.headerTitle}>Settings</ThemedText>
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">Settings</ThemedText>
         </Animated.View>
 
         {/* ── User Info ─────────────────────────────────────── */}
@@ -657,6 +657,7 @@ export default function ProfileScreen() {
                 value={prayerState.notificationsEnabled}
                 onValueChange={handleToggleNotifications}
                 trackColor={{ false: theme.border, true: NoorColors.gold }}
+                accessibilityLabel={`Prayer reminders ${prayerState.notificationsEnabled ? "on" : "off"}`}
               />
             </SettingRow>
 
@@ -672,6 +673,7 @@ export default function ProfileScreen() {
                           value={prayerState.notificationPreferences.perPrayer[prayer]}
                           onValueChange={() => handleTogglePrayer(prayer)}
                           trackColor={{ false: theme.border, true: NoorColors.gold }}
+                          accessibilityLabel={`${prayer} notification ${prayerState.notificationPreferences.perPrayer[prayer] ? "on" : "off"}`}
                         />
                       </SettingRow>
                     </React.Fragment>
@@ -702,6 +704,7 @@ export default function ProfileScreen() {
                     value={prayerState.notificationPreferences.dailyReflectionEnabled}
                     onValueChange={handleToggleDailyReflection}
                     trackColor={{ false: theme.border, true: NoorColors.gold }}
+                    accessibilityLabel={`Daily reflection reminder ${prayerState.notificationPreferences.dailyReflectionEnabled ? "on" : "off"}`}
                   />
                 </SettingRow>
 

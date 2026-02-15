@@ -36,6 +36,7 @@ function SurahCard({ surah, onPress, index }: SurahCardProps) {
         onPress={onPress}
         style={styles.surahCard}
         elevated
+        accessibilityLabel={`Surah ${surah.id}, ${surah.transliteration}, ${surah.translation}, ${surah.numberOfVerses} verses`}
       >
         <View style={styles.surahContent}>
           <View style={styles.surahNumber}>
@@ -187,9 +188,14 @@ export default function QuranReaderScreen() {
             onChangeText={setSearchQuery}
             autoCapitalize="none"
             autoCorrect={false}
+            accessibilityLabel="Search surahs"
           />
           {searchQuery.length > 0 && (
-            <Pressable onPress={() => setSearchQuery("")}>
+            <Pressable
+              onPress={() => setSearchQuery("")}
+              accessibilityRole="button"
+              accessibilityLabel="Clear search"
+            >
               <Feather name="x" size={20} color={theme.textSecondary} />
             </Pressable>
           )}

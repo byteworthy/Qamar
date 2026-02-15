@@ -91,7 +91,7 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
       -1,
       false
     );
-    setTimeout(() => {
+    const timer2 = setTimeout(() => {
       dot2.value = withRepeat(
         withSequence(
           withTiming(-6, { duration, easing: Easing.inOut(Easing.ease) }),
@@ -101,7 +101,7 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
         false
       );
     }, 150);
-    setTimeout(() => {
+    const timer3 = setTimeout(() => {
       dot3.value = withRepeat(
         withSequence(
           withTiming(-6, { duration, easing: Easing.inOut(Easing.ease) }),
@@ -111,6 +111,10 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
         false
       );
     }, 300);
+    return () => {
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
   }, []);
 
   const animStyle1 = useAnimatedStyle(() => ({ transform: [{ translateY: dot1.value }] }));
@@ -252,7 +256,7 @@ function MessageBubble({
 
 export default function ExploreScreen() {
   const insets = useSafeAreaInsets();
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -358,7 +362,7 @@ export default function ExploreScreen() {
             <ThemedText style={styles.headerAvatarText}>N</ThemedText>
           </View>
           <View>
-            <ThemedText style={styles.headerTitle}>Noor</ThemedText>
+            <ThemedText style={styles.headerTitle} accessibilityRole="header">Noor</ThemedText>
             <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
               Your Islamic companion
             </ThemedText>
@@ -476,6 +480,8 @@ export default function ExploreScreen() {
             editable={!isLoading}
             returnKeyType="default"
             blurOnSubmit={false}
+            accessibilityLabel="Message input"
+            accessibilityHint="Type a question or message for Noor"
           />
           <Pressable
             onPress={handleSend}
