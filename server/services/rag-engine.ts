@@ -43,139 +43,110 @@ interface IndexedDocument {
 // KNOWLEDGE BASE
 // =============================================================================
 
-const KNOWLEDGE_BASE: KnowledgeDocument[] = [
-  // --- Quran Verses ---
-  {
-    type: 'quran',
-    reference: 'Al-Baqarah 2:286',
-    text: 'Allah does not burden a soul beyond that it can bear.',
-    keywords: ['burden', 'soul', 'bear', 'hardship', 'struggle', 'difficulty', 'capacity', 'overwhelm'],
-  },
-  {
-    type: 'quran',
-    reference: 'Ash-Sharh 94:5-6',
-    text: 'Verily, with hardship comes ease. Verily, with hardship comes ease.',
-    keywords: ['hardship', 'ease', 'difficulty', 'relief', 'patience', 'struggle', 'hope'],
-  },
-  {
-    type: 'quran',
-    reference: 'Al-Baqarah 2:153',
-    text: 'O you who believe, seek help through patience and prayer. Indeed, Allah is with the patient.',
-    keywords: ['patience', 'prayer', 'sabr', 'help', 'salah', 'steadfast', 'perseverance'],
-  },
-  {
-    type: 'quran',
-    reference: "Ar-Ra'd 13:28",
-    text: 'Verily, in the remembrance of Allah do hearts find rest.',
-    keywords: ['remembrance', 'dhikr', 'heart', 'rest', 'peace', 'calm', 'tranquility', 'anxiety'],
-  },
-  {
-    type: 'quran',
-    reference: 'At-Talaq 65:2-3',
-    text: 'And whoever fears Allah, He will make for him a way out. And will provide for him from where he does not expect.',
-    keywords: ['taqwa', 'fear', 'allah', 'provision', 'trust', 'way out', 'solution', 'hope'],
-  },
-  {
-    type: 'quran',
-    reference: 'Al-Ankabut 29:2-3',
-    text: 'Do people think they will be left alone because they say "We believe" and will not be tested?',
-    keywords: ['test', 'trial', 'faith', 'believe', 'struggle', 'tribulation', 'challenge'],
-  },
-  {
-    type: 'quran',
-    reference: 'Az-Zumar 39:53',
-    text: 'Say, O My servants who have transgressed against themselves: do not despair of the mercy of Allah. Indeed, Allah forgives all sins.',
-    keywords: ['mercy', 'forgiveness', 'sin', 'despair', 'hope', 'guilt', 'repentance', 'tawbah'],
-  },
-  {
-    type: 'quran',
-    reference: 'Al-Imran 3:139',
-    text: 'Do not lose heart and do not grieve, for you will have the upper hand if you are believers.',
-    keywords: ['grief', 'sadness', 'heart', 'believe', 'hope', 'strength', 'depression', 'loss'],
-  },
-  {
-    type: 'quran',
-    reference: 'Al-Hadid 57:22-23',
-    text: 'No calamity befalls on the earth or in yourselves but it is inscribed in the Book of Decrees before We bring it into existence.',
-    keywords: ['qadr', 'decree', 'calamity', 'destiny', 'predestination', 'acceptance', 'fate'],
-  },
-  {
-    type: 'quran',
-    reference: 'Taha 20:46',
-    text: 'Allah said: Fear not. Indeed, I am with you both; I hear and I see.',
-    keywords: ['fear', 'anxiety', 'allah', 'presence', 'comfort', 'support', 'alone', 'lonely'],
-  },
-
-  // --- Hadiths ---
-  {
-    type: 'hadith',
-    reference: 'Sahih Muslim 2999',
-    text: 'How wonderful is the affair of the believer, for his affairs are all good. If something good happens to him, he is thankful and that is good for him. If something bad happens, he bears it with patience and that is good for him.',
-    keywords: ['patience', 'gratitude', 'shukr', 'sabr', 'good', 'bad', 'believer', 'trial'],
-  },
-  {
-    type: 'hadith',
-    reference: 'Sahih Bukhari 5641',
-    text: 'No fatigue, illness, anxiety, sorrow, harm, or sadness afflicts any Muslim, even the prick of a thorn, but that Allah will expiate some of his sins because of it.',
-    keywords: ['fatigue', 'illness', 'anxiety', 'sorrow', 'sadness', 'sin', 'expiation', 'suffering', 'pain'],
-  },
-  {
-    type: 'hadith',
-    reference: 'Jami at-Tirmidhi 2398',
-    text: 'When Allah loves a servant, He tests him.',
-    keywords: ['test', 'trial', 'love', 'allah', 'difficulty', 'purpose', 'meaning'],
-  },
-  {
-    type: 'hadith',
-    reference: 'Sahih Bukhari 6011',
-    text: 'The believers, in their mutual love, mercy, and compassion, are like one body. When one limb aches, the whole body reacts with sleeplessness and fever.',
-    keywords: ['community', 'ummah', 'love', 'mercy', 'compassion', 'support', 'connection', 'loneliness'],
-  },
-  {
-    type: 'hadith',
-    reference: 'Sahih Muslim 2713',
-    text: 'O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and being overpowered by men.',
-    keywords: ['dua', 'prayer', 'anxiety', 'sorrow', 'weakness', 'supplication', 'refuge', 'stress'],
-  },
-  {
-    type: 'hadith',
-    reference: 'Sunan Ibn Majah 3866',
-    text: 'The supplication of a distressed person: O Allah, I hope for Your mercy. Do not leave me to myself even for the blink of an eye. Rectify all my affairs.',
-    keywords: ['dua', 'distress', 'mercy', 'supplication', 'help', 'crisis', 'desperate'],
-  },
-
-  // --- Islamic Concepts ---
+// Core concepts always available (fallback if seed data fails to load)
+const CORE_CONCEPTS: KnowledgeDocument[] = [
   {
     type: 'concept',
     reference: 'Sabr (Patience)',
-    text: 'Sabr means patience, perseverance, and steadfastness in the face of difficulty. It is one of the highest virtues in Islam. The Quran mentions sabr over 90 times. It includes patience in obedience, patience in avoiding sin, and patience during trials.',
+    text: 'Sabr means patience, perseverance, and steadfastness in the face of difficulty. It is one of the highest virtues in Islam. The Quran mentions sabr over 90 times.',
     keywords: ['sabr', 'patience', 'perseverance', 'steadfast', 'endurance', 'waiting', 'difficult'],
   },
   {
     type: 'concept',
     reference: 'Tawakkul (Trust in Allah)',
-    text: 'Tawakkul means placing complete trust in Allah while taking practical steps. It is not passive resignation but active reliance on Allah after doing one\'s best. The Prophet said: "Tie your camel and then trust in Allah."',
+    text: 'Tawakkul means placing complete trust in Allah while taking practical steps. It is not passive resignation but active reliance on Allah after doing one\'s best.',
     keywords: ['tawakkul', 'trust', 'reliance', 'allah', 'control', 'worry', 'future', 'uncertainty'],
   },
   {
     type: 'concept',
     reference: 'Tawbah (Repentance)',
-    text: 'Tawbah means turning back to Allah with sincere repentance. It involves recognizing the wrong, feeling genuine remorse, stopping the sin, and resolving not to return to it. Allah loves those who repent.',
+    text: 'Tawbah means turning back to Allah with sincere repentance. It involves recognizing the wrong, feeling genuine remorse, stopping the sin, and resolving not to return to it.',
     keywords: ['tawbah', 'repentance', 'forgiveness', 'sin', 'guilt', 'shame', 'change', 'regret'],
   },
   {
     type: 'concept',
     reference: 'Dhikr (Remembrance of Allah)',
-    text: 'Dhikr is the practice of remembering Allah through phrases like SubhanAllah, Alhamdulillah, and Allahu Akbar. It calms the heart, reduces anxiety, and strengthens the connection with Allah. It can be done at any time.',
+    text: 'Dhikr is the practice of remembering Allah through phrases like SubhanAllah, Alhamdulillah, and Allahu Akbar. It calms the heart and strengthens the connection with Allah.',
     keywords: ['dhikr', 'remembrance', 'meditation', 'calm', 'anxiety', 'peace', 'mindfulness', 'prayer'],
   },
   {
     type: 'concept',
     reference: 'Shukr (Gratitude)',
-    text: 'Shukr means gratitude and thankfulness to Allah. It involves recognizing blessings, feeling grateful in the heart, and expressing thanks through words and actions. Gratitude increases blessings and improves mental well-being.',
+    text: 'Shukr means gratitude and thankfulness to Allah. It involves recognizing blessings, feeling grateful in the heart, and expressing thanks through words and actions.',
     keywords: ['shukr', 'gratitude', 'thankful', 'blessing', 'positive', 'appreciation', 'contentment'],
   },
 ];
+
+// Dynamically loaded from seed data
+let KNOWLEDGE_BASE: KnowledgeDocument[] = [...CORE_CONCEPTS];
+
+/**
+ * Load knowledge base from seed data JSON files.
+ * Expands from ~5 core concepts to 6,236+ Quran verses + adhkar.
+ */
+function loadSeedData(): void {
+  const seedDir = path.join(__dirname, '..', '..', 'shared', 'seed-data');
+
+  // Load Quran verses
+  try {
+    const versesPath = path.join(seedDir, 'verses.json');
+    if (fs.existsSync(versesPath)) {
+      const verses: Array<{ surahNumber: number; verseNumber: number; translationEn: string; arabicText: string }> =
+        JSON.parse(fs.readFileSync(versesPath, 'utf-8'));
+      const surahsPath = path.join(seedDir, 'surahs.json');
+      const surahs: Array<{ number: number; nameEnglish: string }> = fs.existsSync(surahsPath)
+        ? JSON.parse(fs.readFileSync(surahsPath, 'utf-8'))
+        : [];
+      const surahMap = new Map(surahs.map(s => [s.number, s.nameEnglish]));
+
+      for (const v of verses) {
+        if (!v.translationEn) continue;
+        const surahName = surahMap.get(v.surahNumber) || `Surah ${v.surahNumber}`;
+        KNOWLEDGE_BASE.push({
+          type: 'quran',
+          reference: `${surahName} ${v.surahNumber}:${v.verseNumber}`,
+          text: v.translationEn,
+          keywords: extractKeywords(v.translationEn),
+        });
+      }
+      console.log(`[RAG] Loaded ${verses.length} Quran verses from seed data`);
+    }
+  } catch (err) {
+    console.warn('[RAG] Failed to load Quran verses:', err);
+  }
+
+  // Load adhkar
+  try {
+    const adhkarPath = path.join(seedDir, 'adhkar.json');
+    if (fs.existsSync(adhkarPath)) {
+      const adhkar: Array<{ category: string; arabic: string; transliteration: string; translation: string; reference: string }> =
+        JSON.parse(fs.readFileSync(adhkarPath, 'utf-8'));
+      for (const d of adhkar) {
+        if (!d.translation) continue;
+        KNOWLEDGE_BASE.push({
+          type: 'concept',
+          reference: `Dhikr: ${d.reference || d.category}`,
+          text: `${d.translation} (${d.transliteration || ''})`.trim(),
+          keywords: extractKeywords(d.translation),
+        });
+      }
+      console.log(`[RAG] Loaded ${adhkar.length} adhkar from seed data`);
+    }
+  } catch (err) {
+    console.warn('[RAG] Failed to load adhkar:', err);
+  }
+
+  console.log(`[RAG] Total knowledge base: ${KNOWLEDGE_BASE.length} documents`);
+}
+
+/** Extract simple keywords from text for keyword-based fallback search */
+function extractKeywords(text: string): string[] {
+  const stopWords = new Set(['the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'shall', 'can', 'to', 'of', 'in', 'for', 'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'between', 'out', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'and', 'but', 'or', 'nor', 'not', 'so', 'yet', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'only', 'own', 'same', 'than', 'too', 'very', 'just', 'because', 'if', 'when', 'while', 'how', 'all', 'any', 'about', 'up', 'there', 'their', 'them', 'they', 'this', 'that', 'these', 'those', 'he', 'she', 'it', 'his', 'her', 'its', 'who', 'whom', 'which', 'what', 'where', 'why', 'you', 'your', 'we', 'our', 'i', 'my', 'me']);
+  return text.toLowerCase().split(/\W+/).filter(w => w.length > 2 && !stopWords.has(w)).slice(0, 10);
+}
+
+// Load seed data on module import
+loadSeedData();
 
 // =============================================================================
 // STATE
@@ -354,7 +325,9 @@ function loadCachedEmbeddings(): boolean {
     if (!fs.existsSync(EMBEDDINGS_PATH)) return false;
 
     const data = JSON.parse(fs.readFileSync(EMBEDDINGS_PATH, 'utf-8'));
-    if (!Array.isArray(data) || data.length !== KNOWLEDGE_BASE.length) return false;
+    if (!Array.isArray(data) || data.length === 0) return false;
+    // If cached count differs from current knowledge base, re-index
+    if (data.length !== KNOWLEDGE_BASE.length) return false;
 
     for (const entry of data) {
       const doc = KNOWLEDGE_BASE.find((d) => d.reference === entry.reference);

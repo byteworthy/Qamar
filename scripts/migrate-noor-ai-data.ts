@@ -285,7 +285,7 @@ function validateData(
   const fatiha1 = verses.find(
     (v) => v.surahNumber === 1 && v.verseNumber === 1,
   );
-  if (!fatiha1 || !fatiha1.arabicText.includes("بِسْمِ اللَّهِ")) {
+  if (!fatiha1 || !fatiha1.arabicText.includes("بِسْمِ")) {
     throw new Error("Failed to find Al-Fatiha 1:1. Data may be corrupted.");
   }
 

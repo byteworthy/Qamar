@@ -1,0 +1,646 @@
+[
+  {
+    "id": 1,
+    "name": "Alif",
+    "nameArabic": "ألف",
+    "isolated": "ا",
+    "initial": "ا",
+    "medial": "ـا",
+    "final": "ـا",
+    "pronunciation": "alif",
+    "phoneticSound": "aa",
+    "examples": [
+      {
+        "word": "أسد",
+        "transliteration": "asad",
+        "meaning": "lion"
+      },
+      {
+        "word": "أب",
+        "transliteration": "ab",
+        "meaning": "father"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Ba",
+    "nameArabic": "باء",
+    "isolated": "ب",
+    "initial": "بـ",
+    "medial": "ـبـ",
+    "final": "ـب",
+    "pronunciation": "baa",
+    "phoneticSound": "b",
+    "examples": [
+      {
+        "word": "بيت",
+        "transliteration": "bayt",
+        "meaning": "house"
+      },
+      {
+        "word": "باب",
+        "transliteration": "baab",
+        "meaning": "door"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Ta",
+    "nameArabic": "تاء",
+    "isolated": "ت",
+    "initial": "تـ",
+    "medial": "ـتـ",
+    "final": "ـت",
+    "pronunciation": "taa",
+    "phoneticSound": "t",
+    "examples": [
+      {
+        "word": "تفاح",
+        "transliteration": "tuffah",
+        "meaning": "apple"
+      },
+      {
+        "word": "تمر",
+        "transliteration": "tamr",
+        "meaning": "dates"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Tha",
+    "nameArabic": "ثاء",
+    "isolated": "ث",
+    "initial": "ثـ",
+    "medial": "ـثـ",
+    "final": "ـث",
+    "pronunciation": "thaa",
+    "phoneticSound": "th",
+    "examples": [
+      {
+        "word": "ثوب",
+        "transliteration": "thawb",
+        "meaning": "garment"
+      },
+      {
+        "word": "ثلج",
+        "transliteration": "thalj",
+        "meaning": "snow"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Jeem",
+    "nameArabic": "جيم",
+    "isolated": "ج",
+    "initial": "جـ",
+    "medial": "ـجـ",
+    "final": "ـج",
+    "pronunciation": "jeem",
+    "phoneticSound": "j",
+    "examples": [
+      {
+        "word": "جبل",
+        "transliteration": "jabal",
+        "meaning": "mountain"
+      },
+      {
+        "word": "جمل",
+        "transliteration": "jamal",
+        "meaning": "camel"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Ha",
+    "nameArabic": "حاء",
+    "isolated": "ح",
+    "initial": "حـ",
+    "medial": "ـحـ",
+    "final": "ـح",
+    "pronunciation": "haa",
+    "phoneticSound": "ḥ",
+    "examples": [
+      {
+        "word": "حب",
+        "transliteration": "hubb",
+        "meaning": "love"
+      },
+      {
+        "word": "حديث",
+        "transliteration": "hadith",
+        "meaning": "hadith"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Kha",
+    "nameArabic": "خاء",
+    "isolated": "خ",
+    "initial": "خـ",
+    "medial": "ـخـ",
+    "final": "ـخ",
+    "pronunciation": "khaa",
+    "phoneticSound": "kh",
+    "examples": [
+      {
+        "word": "خبز",
+        "transliteration": "khubz",
+        "meaning": "bread"
+      },
+      {
+        "word": "خير",
+        "transliteration": "khayr",
+        "meaning": "goodness"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Dal",
+    "nameArabic": "دال",
+    "isolated": "د",
+    "initial": "د",
+    "medial": "ـد",
+    "final": "ـد",
+    "pronunciation": "daal",
+    "phoneticSound": "d",
+    "examples": [
+      {
+        "word": "دار",
+        "transliteration": "daar",
+        "meaning": "home"
+      },
+      {
+        "word": "دين",
+        "transliteration": "deen",
+        "meaning": "religion"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Thal",
+    "nameArabic": "ذال",
+    "isolated": "ذ",
+    "initial": "ذ",
+    "medial": "ـذ",
+    "final": "ـذ",
+    "pronunciation": "dhaal",
+    "phoneticSound": "dh",
+    "examples": [
+      {
+        "word": "ذهب",
+        "transliteration": "dhahab",
+        "meaning": "gold"
+      },
+      {
+        "word": "ذكر",
+        "transliteration": "dhikr",
+        "meaning": "remembrance"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Ra",
+    "nameArabic": "راء",
+    "isolated": "ر",
+    "initial": "ر",
+    "medial": "ـر",
+    "final": "ـر",
+    "pronunciation": "raa",
+    "phoneticSound": "r",
+    "examples": [
+      {
+        "word": "رحمة",
+        "transliteration": "rahmah",
+        "meaning": "mercy"
+      },
+      {
+        "word": "رسول",
+        "transliteration": "rasool",
+        "meaning": "messenger"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Zay",
+    "nameArabic": "زاي",
+    "isolated": "ز",
+    "initial": "ز",
+    "medial": "ـز",
+    "final": "ـز",
+    "pronunciation": "zaay",
+    "phoneticSound": "z",
+    "examples": [
+      {
+        "word": "زيت",
+        "transliteration": "zayt",
+        "meaning": "oil"
+      },
+      {
+        "word": "زمن",
+        "transliteration": "zaman",
+        "meaning": "time"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Seen",
+    "nameArabic": "سين",
+    "isolated": "س",
+    "initial": "سـ",
+    "medial": "ـسـ",
+    "final": "ـس",
+    "pronunciation": "seen",
+    "phoneticSound": "s",
+    "examples": [
+      {
+        "word": "سلام",
+        "transliteration": "salaam",
+        "meaning": "peace"
+      },
+      {
+        "word": "سماء",
+        "transliteration": "samaa",
+        "meaning": "sky"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Sheen",
+    "nameArabic": "شين",
+    "isolated": "ش",
+    "initial": "شـ",
+    "medial": "ـشـ",
+    "final": "ـش",
+    "pronunciation": "sheen",
+    "phoneticSound": "sh",
+    "examples": [
+      {
+        "word": "شمس",
+        "transliteration": "shams",
+        "meaning": "sun"
+      },
+      {
+        "word": "شكر",
+        "transliteration": "shukr",
+        "meaning": "gratitude"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Sad",
+    "nameArabic": "صاد",
+    "isolated": "ص",
+    "initial": "صـ",
+    "medial": "ـصـ",
+    "final": "ـص",
+    "pronunciation": "saad",
+    "phoneticSound": "ṣ",
+    "examples": [
+      {
+        "word": "صلاة",
+        "transliteration": "salah",
+        "meaning": "prayer"
+      },
+      {
+        "word": "صبر",
+        "transliteration": "sabr",
+        "meaning": "patience"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Dad",
+    "nameArabic": "ضاد",
+    "isolated": "ض",
+    "initial": "ضـ",
+    "medial": "ـضـ",
+    "final": "ـض",
+    "pronunciation": "daad",
+    "phoneticSound": "ḍ",
+    "examples": [
+      {
+        "word": "ضوء",
+        "transliteration": "daw",
+        "meaning": "light"
+      },
+      {
+        "word": "أرض",
+        "transliteration": "ard",
+        "meaning": "earth"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Ta (emphatic)",
+    "nameArabic": "طاء",
+    "isolated": "ط",
+    "initial": "طـ",
+    "medial": "ـطـ",
+    "final": "ـط",
+    "pronunciation": "taa",
+    "phoneticSound": "ṭ",
+    "examples": [
+      {
+        "word": "طير",
+        "transliteration": "tayr",
+        "meaning": "bird"
+      },
+      {
+        "word": "طعام",
+        "transliteration": "ta'aam",
+        "meaning": "food"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Dha (emphatic)",
+    "nameArabic": "ظاء",
+    "isolated": "ظ",
+    "initial": "ظـ",
+    "medial": "ـظـ",
+    "final": "ـظ",
+    "pronunciation": "dhaa",
+    "phoneticSound": "ẓ",
+    "examples": [
+      {
+        "word": "ظل",
+        "transliteration": "dhil",
+        "meaning": "shade"
+      },
+      {
+        "word": "ظهر",
+        "transliteration": "dhuhr",
+        "meaning": "noon"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Ayn",
+    "nameArabic": "عين",
+    "isolated": "ع",
+    "initial": "عـ",
+    "medial": "ـعـ",
+    "final": "ـع",
+    "pronunciation": "ayn",
+    "phoneticSound": "'",
+    "examples": [
+      {
+        "word": "علم",
+        "transliteration": "'ilm",
+        "meaning": "knowledge"
+      },
+      {
+        "word": "عمل",
+        "transliteration": "'amal",
+        "meaning": "work"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Ghayn",
+    "nameArabic": "غين",
+    "isolated": "غ",
+    "initial": "غـ",
+    "medial": "ـغـ",
+    "final": "ـغ",
+    "pronunciation": "ghayn",
+    "phoneticSound": "gh",
+    "examples": [
+      {
+        "word": "غد",
+        "transliteration": "ghad",
+        "meaning": "tomorrow"
+      },
+      {
+        "word": "غرفة",
+        "transliteration": "ghurfa",
+        "meaning": "room"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Fa",
+    "nameArabic": "فاء",
+    "isolated": "ف",
+    "initial": "فـ",
+    "medial": "ـفـ",
+    "final": "ـف",
+    "pronunciation": "faa",
+    "phoneticSound": "f",
+    "examples": [
+      {
+        "word": "فجر",
+        "transliteration": "fajr",
+        "meaning": "dawn"
+      },
+      {
+        "word": "فكر",
+        "transliteration": "fikr",
+        "meaning": "thought"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Qaf",
+    "nameArabic": "قاف",
+    "isolated": "ق",
+    "initial": "قـ",
+    "medial": "ـقـ",
+    "final": "ـق",
+    "pronunciation": "qaaf",
+    "phoneticSound": "q",
+    "examples": [
+      {
+        "word": "قرآن",
+        "transliteration": "qur'an",
+        "meaning": "Quran"
+      },
+      {
+        "word": "قلب",
+        "transliteration": "qalb",
+        "meaning": "heart"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Kaf",
+    "nameArabic": "كاف",
+    "isolated": "ك",
+    "initial": "كـ",
+    "medial": "ـكـ",
+    "final": "ـك",
+    "pronunciation": "kaaf",
+    "phoneticSound": "k",
+    "examples": [
+      {
+        "word": "كتاب",
+        "transliteration": "kitaab",
+        "meaning": "book"
+      },
+      {
+        "word": "كلمة",
+        "transliteration": "kalima",
+        "meaning": "word"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Lam",
+    "nameArabic": "لام",
+    "isolated": "ل",
+    "initial": "لـ",
+    "medial": "ـلـ",
+    "final": "ـل",
+    "pronunciation": "laam",
+    "phoneticSound": "l",
+    "examples": [
+      {
+        "word": "ليل",
+        "transliteration": "layl",
+        "meaning": "night"
+      },
+      {
+        "word": "لغة",
+        "transliteration": "lugha",
+        "meaning": "language"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Meem",
+    "nameArabic": "ميم",
+    "isolated": "م",
+    "initial": "مـ",
+    "medial": "ـمـ",
+    "final": "ـم",
+    "pronunciation": "meem",
+    "phoneticSound": "m",
+    "examples": [
+      {
+        "word": "ماء",
+        "transliteration": "maa",
+        "meaning": "water"
+      },
+      {
+        "word": "مسجد",
+        "transliteration": "masjid",
+        "meaning": "mosque"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Noon",
+    "nameArabic": "نون",
+    "isolated": "ن",
+    "initial": "نـ",
+    "medial": "ـنـ",
+    "final": "ـن",
+    "pronunciation": "noon",
+    "phoneticSound": "n",
+    "examples": [
+      {
+        "word": "نور",
+        "transliteration": "noor",
+        "meaning": "light"
+      },
+      {
+        "word": "نجم",
+        "transliteration": "najm",
+        "meaning": "star"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Ha",
+    "nameArabic": "هاء",
+    "isolated": "ه",
+    "initial": "هـ",
+    "medial": "ـهـ",
+    "final": "ـه",
+    "pronunciation": "haa",
+    "phoneticSound": "h",
+    "examples": [
+      {
+        "word": "هدى",
+        "transliteration": "huda",
+        "meaning": "guidance"
+      },
+      {
+        "word": "هواء",
+        "transliteration": "hawaa",
+        "meaning": "air"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Waw",
+    "nameArabic": "واو",
+    "isolated": "و",
+    "initial": "و",
+    "medial": "ـو",
+    "final": "ـو",
+    "pronunciation": "waaw",
+    "phoneticSound": "w/oo",
+    "examples": [
+      {
+        "word": "وقت",
+        "transliteration": "waqt",
+        "meaning": "time"
+      },
+      {
+        "word": "ورد",
+        "transliteration": "ward",
+        "meaning": "rose"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Ya",
+    "nameArabic": "ياء",
+    "isolated": "ي",
+    "initial": "يـ",
+    "medial": "ـيـ",
+    "final": "ـي",
+    "pronunciation": "yaa",
+    "phoneticSound": "y/ee",
+    "examples": [
+      {
+        "word": "يد",
+        "transliteration": "yad",
+        "meaning": "hand"
+      },
+      {
+        "word": "يوم",
+        "transliteration": "yawm",
+        "meaning": "day"
+      }
+    ]
+  }
+]

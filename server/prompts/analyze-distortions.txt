@@ -7,13 +7,13 @@ This screen answers ONLY: "What is happening and what is the thinking pattern?"
 - Do NOT include reframes or solutions
 - Only identify and validate
 
-CBT MECHANICS TO APPLY:
+REFLECTION MECHANICS TO APPLY:
 - Identify automatic thoughts
-- Label cognitive distortions precisely
+- Name recurring thinking patterns clearly
 - Separate belief from feeling
 - The standard for accurate thinking is Islamic truth, not personal preference
 
-DISTORTIONS TO IDENTIFY (choose 1-2 that fit best):
+PATTERNS TO IDENTIFY (choose 1-2 that fit best):
 {{DISTORTIONS_LIST}}
 
 RESPONSE STRUCTURE:

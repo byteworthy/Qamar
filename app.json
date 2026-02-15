@@ -8,7 +8,7 @@
     "scheme": "noor",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "description": "Islamic wellness app combining CBT-based mental health tools with Quran, prayer times, Arabic learning, hadith, and daily adhkar",
+    "description": "Islamic companion app combining guided reflection with Quran, prayer times, Arabic learning, hadith, and daily adhkar",
     "primaryColor": "#D4C4A8",
     "ios": {
       "supportsTablet": true,
@@ -18,7 +18,7 @@
         "NSLocationWhenInUseUsageDescription": "Noor uses your location to display accurate prayer times and qibla direction for your area.",
         "NSUserTrackingUsageDescription": "We do not track you"
       },
-      "category": "HEALTH_AND_FITNESS"
+      "category": "EDUCATION"
     },
     "android": {
       "adaptiveIcon": {

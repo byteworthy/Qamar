@@ -1,0 +1,464 @@
+{
+  "scenarios": [
+    {
+      "id": "greetings",
+      "title": "Greetings and Introductions",
+      "titleArabic": "التحيات والتعارف",
+      "description": "Learn essential Arabic greetings and how to introduce yourself in various social situations.",
+      "category": "Daily Life",
+      "difficulty": "Beginner",
+      "culturalContext": "Arabic greetings often include religious phrases and vary by time of day and formality level.",
+      "learningGoals": [
+        "Master basic greetings like السلام عليكم",
+        "Learn to ask and answer 'How are you?'",
+        "Practice introducing yourself with name and origin"
+      ],
+      "keyPhrases": [
+        "السلام عليكم - As-salamu alaykum",
+        "كيف حالك؟ - Kayfa halak?",
+        "أنا اسمي... - Ana ismi..."
+      ],
+      "estimatedMinutes": 10
+    },
+    {
+      "id": "mosque",
+      "title": "At the Mosque",
+      "titleArabic": "في المسجد",
+      "description": "Practice respectful communication in mosque settings, from asking for prayer times to seeking guidance.",
+      "category": "Islamic Practice",
+      "difficulty": "Beginner",
+      "culturalContext": "Mosques are sacred spaces requiring respectful language and behavior. Lower your voice and use Islamic greetings.",
+      "learningGoals": [
+        "Learn mosque-related vocabulary",
+        "Practice asking about prayer times",
+        "Use appropriate religious phrases"
+      ],
+      "keyPhrases": [
+        "متى الصلاة؟ - Mata as-salah?",
+        "أين الوضوء؟ - Ayna al-wudu?",
+        "جزاك الله خيرا - Jazakallah khayran"
+      ],
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "shopping",
+      "title": "Shopping at the Souk",
+      "titleArabic": "التسوق في السوق",
+      "description": "Navigate traditional markets, ask for prices, and practice polite negotiation in Arabic.",
+      "category": "Daily Life",
+      "difficulty": "Intermediate",
+      "culturalContext": "Bargaining is expected in traditional souks. Use polite phrases and show respect while negotiating.",
+      "learningGoals": [
+        "Learn numbers and prices in Arabic",
+        "Practice asking 'How much?'",
+        "Negotiate prices respectfully"
+      ],
+      "keyPhrases": [
+        "بكم هذا؟ - Bikam hadha?",
+        "غالي جدا - Ghali jiddan",
+        "أعطني تخفيض - A'tini takhfid"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "restaurant",
+      "title": "Ordering at a Restaurant",
+      "titleArabic": "الطلب في المطعم",
+      "description": "Order food, ask about menu items, and handle restaurant interactions confidently.",
+      "category": "Daily Life",
+      "difficulty": "Beginner",
+      "culturalContext": "Arabic cuisine varies by region. Be aware of halal requirements and traditional meal customs.",
+      "learningGoals": [
+        "Learn food vocabulary",
+        "Practice ordering meals",
+        "Ask about ingredients and preparation"
+      ],
+      "keyPhrases": [
+        "أريد... - Ureed...",
+        "ما هذا؟ - Ma hadha?",
+        "الحساب من فضلك - Al-hisab min fadlak"
+      ],
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "airport",
+      "title": "At the Airport",
+      "titleArabic": "في المطار",
+      "description": "Handle airport procedures, from check-in to customs, using formal Arabic.",
+      "category": "Travel",
+      "difficulty": "Intermediate",
+      "culturalContext": "Airport staff expect formal language. Be prepared with travel documents and use respectful terms.",
+      "learningGoals": [
+        "Learn travel vocabulary",
+        "Practice asking for directions",
+        "Handle immigration questions"
+      ],
+      "keyPhrases": [
+        "أين البوابة؟ - Ayna al-bawaba?",
+        "جواز السفر - Jawaz as-safar",
+        "متى الرحلة؟ - Mata ar-rihla?"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "hotel",
+      "title": "Hotel Check-in",
+      "titleArabic": "تسجيل الدخول في الفندق",
+      "description": "Check into hotels, request services, and handle accommodation needs in Arabic.",
+      "category": "Travel",
+      "difficulty": "Beginner",
+      "culturalContext": "Hotels in Arabic countries offer varying levels of formality. Adjust your language accordingly.",
+      "learningGoals": [
+        "Learn hotel vocabulary",
+        "Practice making requests",
+        "Handle check-in procedures"
+      ],
+      "keyPhrases": [
+        "عندي حجز - Indi hajz",
+        "أريد غرفة - Ureed ghurfa",
+        "هل يوجد واي فاي؟ - Hal yujad wifi?"
+      ],
+      "estimatedMinutes": 10
+    },
+    {
+      "id": "doctor",
+      "title": "Doctor's Visit",
+      "titleArabic": "زيارة الطبيب",
+      "description": "Describe symptoms, understand medical advice, and communicate health concerns.",
+      "category": "Healthcare",
+      "difficulty": "Advanced",
+      "culturalContext": "Medical terminology can be complex. Be prepared to describe symptoms clearly and ask for clarification.",
+      "learningGoals": [
+        "Learn body parts vocabulary",
+        "Describe symptoms accurately",
+        "Understand medical instructions"
+      ],
+      "keyPhrases": [
+        "أشعر بألم - Ash'ur bi-alam",
+        "عندي صداع - Indi suda'",
+        "أين الصيدلية؟ - Ayna as-saydaliya?"
+      ],
+      "estimatedMinutes": 18
+    },
+    {
+      "id": "school",
+      "title": "At School",
+      "titleArabic": "في المدرسة",
+      "description": "Practice classroom interactions, ask questions, and discuss academic topics.",
+      "category": "Education",
+      "difficulty": "Intermediate",
+      "culturalContext": "Educational settings in Arabic countries emphasize respect for teachers and formal language.",
+      "learningGoals": [
+        "Learn school vocabulary",
+        "Ask questions in class",
+        "Discuss subjects and homework"
+      ],
+      "keyPhrases": [
+        "لا أفهم - La afham",
+        "ممكن تكرر؟ - Mumkin tukarrir?",
+        "عندي سؤال - Indi su'al"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "family",
+      "title": "Family Gathering",
+      "titleArabic": "لقاء العائلة",
+      "description": "Engage in family conversations, discuss relationships, and use kinship terms correctly.",
+      "category": "Social",
+      "difficulty": "Beginner",
+      "culturalContext": "Family is central in Arabic culture. Use proper kinship terms and show respect to elders.",
+      "learningGoals": [
+        "Learn family member names",
+        "Practice introducing relatives",
+        "Discuss family events"
+      ],
+      "keyPhrases": [
+        "هذه أمي - Hadhihi ummi",
+        "أخي الكبير - Akhi al-kabir",
+        "كيف العائلة؟ - Kayfa al-a'ila?"
+      ],
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "weather",
+      "title": "Discussing Weather",
+      "titleArabic": "مناقشة الطقس",
+      "description": "Talk about weather conditions, seasons, and climate in everyday conversations.",
+      "category": "Daily Life",
+      "difficulty": "Beginner",
+      "culturalContext": "Weather talk is a common icebreaker. Different regions have varying climates to discuss.",
+      "learningGoals": [
+        "Learn weather vocabulary",
+        "Describe current conditions",
+        "Discuss seasonal changes"
+      ],
+      "keyPhrases": [
+        "الجو حار - Al-jaw harr",
+        "يمطر اليوم - Yumtir al-yawm",
+        "الطقس جميل - At-taqs jamil"
+      ],
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "directions",
+      "title": "Asking for Directions",
+      "titleArabic": "السؤال عن الاتجاهات",
+      "description": "Navigate cities by asking for and giving directions in Arabic.",
+      "category": "Travel",
+      "difficulty": "Intermediate",
+      "culturalContext": "Arabs are generally helpful with directions. Use polite phrases and be prepared for detailed explanations.",
+      "learningGoals": [
+        "Learn directional vocabulary",
+        "Ask where places are located",
+        "Understand navigation instructions"
+      ],
+      "keyPhrases": [
+        "أين...؟ - Ayna...?",
+        "على اليمين - Ala al-yamin",
+        "استمر مباشرة - Istamirr mubashira"
+      ],
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "phone",
+      "title": "Phone Conversation",
+      "titleArabic": "محادثة هاتفية",
+      "description": "Handle phone calls professionally, take messages, and schedule appointments.",
+      "category": "Business",
+      "difficulty": "Advanced",
+      "culturalContext": "Phone etiquette varies. Start with greetings and state your purpose clearly.",
+      "learningGoals": [
+        "Learn phone vocabulary",
+        "Practice formal greetings",
+        "Take and leave messages"
+      ],
+      "keyPhrases": [
+        "ألو؟ - Alo?",
+        "من المتحدث؟ - Man al-mutahaddith?",
+        "انتظر من فضلك - Intazir min fadlak"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "interview",
+      "title": "Job Interview",
+      "titleArabic": "مقابلة عمل",
+      "description": "Prepare for job interviews with professional Arabic conversation skills.",
+      "category": "Business",
+      "difficulty": "Advanced",
+      "culturalContext": "Professionalism and respect are paramount. Use formal language and emphasize qualifications.",
+      "learningGoals": [
+        "Learn professional vocabulary",
+        "Discuss experience and skills",
+        "Answer common interview questions"
+      ],
+      "keyPhrases": [
+        "عندي خبرة - Indi khibra",
+        "أنا مؤهل - Ana mu'ahhil",
+        "ما هو الراتب؟ - Ma huwa ar-ratib?"
+      ],
+      "estimatedMinutes": 20
+    },
+    {
+      "id": "bank",
+      "title": "At the Bank",
+      "titleArabic": "في البنك",
+      "description": "Handle banking transactions, open accounts, and discuss financial matters.",
+      "category": "Business",
+      "difficulty": "Intermediate",
+      "culturalContext": "Islamic banking principles may apply. Be clear about transaction types and requirements.",
+      "learningGoals": [
+        "Learn banking vocabulary",
+        "Open accounts and make deposits",
+        "Discuss exchange rates"
+      ],
+      "keyPhrases": [
+        "أريد فتح حساب - Ureed fath hisab",
+        "سعر الصرف - Si'r as-sarf",
+        "بطاقة الصراف - Bitaqat as-sarraf"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "post",
+      "title": "Post Office",
+      "titleArabic": "مكتب البريد",
+      "description": "Send letters and packages, buy stamps, and handle postal services.",
+      "category": "Daily Life",
+      "difficulty": "Beginner",
+      "culturalContext": "Post offices offer various services. Be clear about delivery speed and destination.",
+      "learningGoals": [
+        "Learn postal vocabulary",
+        "Send letters and packages",
+        "Ask about delivery times"
+      ],
+      "keyPhrases": [
+        "أريد إرسال رسالة - Ureed irsal risala",
+        "كم الطابع؟ - Kam at-tabi'?",
+        "بريد سريع - Barid sari'"
+      ],
+      "estimatedMinutes": 10
+    },
+    {
+      "id": "transport",
+      "title": "Public Transportation",
+      "titleArabic": "المواصلات العامة",
+      "description": "Use buses, trains, and taxis effectively with Arabic communication.",
+      "category": "Travel",
+      "difficulty": "Intermediate",
+      "culturalContext": "Transport systems vary by country. Always confirm prices before boarding taxis.",
+      "learningGoals": [
+        "Learn transport vocabulary",
+        "Ask about routes and fares",
+        "Give destination addresses"
+      ],
+      "keyPhrases": [
+        "إلى أين؟ - Ila ayna?",
+        "كم الأجرة؟ - Kam al-ujra?",
+        "أوقفني هنا - Awqifni huna"
+      ],
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "emergency",
+      "title": "Emergency Situations",
+      "titleArabic": "حالات الطوارئ",
+      "description": "Handle emergencies by calling for help and explaining urgent situations.",
+      "category": "Healthcare",
+      "difficulty": "Advanced",
+      "culturalContext": "Emergency numbers vary by country (often 999 or 112). Stay calm and speak clearly.",
+      "learningGoals": [
+        "Learn emergency vocabulary",
+        "Call for help effectively",
+        "Describe urgent situations"
+      ],
+      "keyPhrases": [
+        "ساعدوني! - Sa'iduni!",
+        "الإسعاف! - Al-is'af!",
+        "حادث! - Hadith!"
+      ],
+      "estimatedMinutes": 18
+    },
+    {
+      "id": "hajj",
+      "title": "Hajj and Umrah",
+      "titleArabic": "الحج والعمرة",
+      "description": "Navigate the pilgrimage with essential Arabic phrases and religious vocabulary.",
+      "category": "Islamic Practice",
+      "difficulty": "Intermediate",
+      "culturalContext": "Pilgrimage is a deeply spiritual journey. Use respectful religious language and help fellow pilgrims.",
+      "learningGoals": [
+        "Learn pilgrimage vocabulary",
+        "Ask for ritual guidance",
+        "Use appropriate Islamic phrases"
+      ],
+      "keyPhrases": [
+        "لبيك اللهم لبيك - Labbayka Allahumma labbayk",
+        "أين الكعبة؟ - Ayna al-Ka'ba?",
+        "تقبل الله - Taqabbal Allah"
+      ],
+      "estimatedMinutes": 20
+    },
+    {
+      "id": "ramadan",
+      "title": "Ramadan Greetings",
+      "titleArabic": "تهاني رمضان",
+      "description": "Exchange Ramadan greetings and discuss fasting and iftar plans.",
+      "category": "Islamic Practice",
+      "difficulty": "Beginner",
+      "culturalContext": "Ramadan is the holy month of fasting. Use special greetings and be mindful of those fasting.",
+      "learningGoals": [
+        "Learn Ramadan vocabulary",
+        "Exchange holiday greetings",
+        "Discuss fasting and prayers"
+      ],
+      "keyPhrases": [
+        "رمضان كريم - Ramadan Kareem",
+        "متى الإفطار؟ - Mata al-iftar?",
+        "صوم مقبول - Sawm maqbul"
+      ],
+      "estimatedMinutes": 10
+    },
+    {
+      "id": "eid",
+      "title": "Eid Celebrations",
+      "titleArabic": "احتفالات العيد",
+      "description": "Celebrate Eid with proper greetings and festive conversations.",
+      "category": "Islamic Practice",
+      "difficulty": "Beginner",
+      "culturalContext": "Eid is a joyous celebration after Ramadan or during Hajj. Exchange gifts and share meals.",
+      "learningGoals": [
+        "Learn Eid vocabulary",
+        "Exchange holiday wishes",
+        "Discuss celebrations and plans"
+      ],
+      "keyPhrases": [
+        "عيد مبارك - Eid Mubarak",
+        "كل عام وأنتم بخير - Kul 'am wa antum bi-khayr",
+        "تقبل الله منا ومنكم - Taqabbal Allah minna wa minkum"
+      ],
+      "estimatedMinutes": 10
+    },
+    {
+      "id": "wedding",
+      "title": "Wedding Ceremony",
+      "titleArabic": "حفل الزفاف",
+      "description": "Participate in wedding celebrations with appropriate greetings and conversations.",
+      "category": "Social",
+      "difficulty": "Intermediate",
+      "culturalContext": "Weddings are elaborate celebrations. Men and women may celebrate separately in some cultures.",
+      "learningGoals": [
+        "Learn wedding vocabulary",
+        "Offer congratulations",
+        "Discuss marriage customs"
+      ],
+      "keyPhrases": [
+        "مبروك! - Mabrook!",
+        "الله يبارك فيكم - Allah yubarik fikum",
+        "زواج سعيد - Zawaj sa'id"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "funeral",
+      "title": "Funeral and Condolences",
+      "titleArabic": "الجنازة والعزاء",
+      "description": "Express condolences and participate in funeral rites with respectful language.",
+      "category": "Social",
+      "difficulty": "Advanced",
+      "culturalContext": "Funerals are solemn occasions. Use quiet, respectful language and offer support to the bereaved.",
+      "learningGoals": [
+        "Learn condolence vocabulary",
+        "Express sympathy appropriately",
+        "Understand funeral customs"
+      ],
+      "keyPhrases": [
+        "إنا لله وإنا إليه راجعون - Inna lillahi wa inna ilayhi raji'un",
+        "البقية في حياتك - Al-baqiya fi hayatak",
+        "الله يرحمه - Allah yarhamu"
+      ],
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "prayers",
+      "title": "Daily Prayers",
+      "titleArabic": "الصلوات اليومية",
+      "description": "Discuss prayer times, prepare for salah, and coordinate with prayer schedules.",
+      "category": "Islamic Practice",
+      "difficulty": "Beginner",
+      "culturalContext": "Five daily prayers are fundamental to Islamic practice. Respect prayer times and mosque etiquette.",
+      "learningGoals": [
+        "Learn prayer vocabulary",
+        "Ask about prayer times",
+        "Coordinate schedules around prayers"
+      ],
+      "keyPhrases": [
+        "متى صلاة الظهر؟ - Mata salat adh-dhuhr?",
+        "أين المسجد؟ - Ayna al-masjid?",
+        "حان وقت الصلاة - Han waqt as-salah"
+      ],
+      "estimatedMinutes": 12
+    }
+  ]
+}
