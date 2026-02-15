@@ -87,11 +87,11 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Home: "",
       ThoughtCapture: "thought-capture",
-      Distortion: "distortion",
+      Noticing: "noticing",
       Reframe: "reframe",
       Regulation: "regulation",
       Intention: "intention",
-      SessionComplete: "session-complete",
+      ReflectionComplete: "reflection-complete",
       History: "history",
       Pricing: "pricing",
       BillingSuccess: "billing/success",

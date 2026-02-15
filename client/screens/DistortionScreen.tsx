@@ -30,9 +30,9 @@ import { CrisisResource, AnalysisResult } from "./DistortionScreen.data";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "Distortion"
+  "Noticing"
 >;
-type RouteType = RouteProp<RootStackParamList, "Distortion">;
+type RouteType = RouteProp<RootStackParamList, "Noticing">;
 
 function DistortionScreen() {
   const [loading, setLoading] = useState(true);
@@ -359,7 +359,7 @@ function DistortionScreen() {
         ]}
       >
         {/* Progress Indicator */}
-        <ReflectionProgressCompact currentStep="Distortion" />
+        <ReflectionProgressCompact currentStep="Noticing" />
 
         {/* Loading message */}
         <Animated.View
@@ -456,7 +456,7 @@ function DistortionScreen() {
         ]}
       >
         {/* Progress Indicator */}
-        <ReflectionProgressCompact currentStep="Distortion" />
+        <ReflectionProgressCompact currentStep="Noticing" />
 
         <Animated.View
           entering={FadeIn.duration(400)}
@@ -525,7 +525,7 @@ function DistortionScreen() {
       ]}
     >
       {/* Progress Indicator */}
-      <ReflectionProgressCompact currentStep="Distortion" />
+      <ReflectionProgressCompact currentStep="Noticing" />
       <Animated.View
         entering={FadeInUp.duration(400).delay(100)}
         style={styles.section}

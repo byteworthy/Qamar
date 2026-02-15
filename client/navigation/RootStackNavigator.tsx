@@ -93,7 +93,7 @@ export default function RootStackNavigator() {
         options={{ headerTitle: "Capture Your Thought" }}
       />
       <Stack.Screen
-        name="Distortion"
+        name="Noticing"
         component={DistortionScreen}
         options={{ headerTitle: "Reflection", gestureEnabled: false }}
       />
@@ -118,7 +118,7 @@ export default function RootStackNavigator() {
         options={{ headerTitle: "Set Intention", gestureEnabled: false }}
       />
       <Stack.Screen
-        name="SessionComplete"
+        name="ReflectionComplete"
         component={SessionCompleteScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />

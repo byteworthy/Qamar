@@ -220,7 +220,7 @@ export default function ThoughtCaptureScreen() {
   const handleContinue = () => {
     if (canContinue) {
       hapticMedium();
-      navigation.navigate("Distortion", {
+      navigation.navigate("Noticing", {
         thought: thought.trim(),
         emotionalIntensity,
         somaticAwareness: selectedSomatic || undefined,

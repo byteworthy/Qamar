@@ -7,11 +7,11 @@ import { ThemedText } from "@/components/ThemedText";
 
 type ReflectionStep =
   | "ThoughtCapture"
-  | "Distortion"
+  | "Noticing"
   | "Reframe"
   | "Regulation"
   | "Intention"
-  | "SessionComplete";
+  | "ReflectionComplete";
 
 interface ReflectionProgressProps {
   currentStep: ReflectionStep;
@@ -20,20 +20,20 @@ interface ReflectionProgressProps {
 
 const STEPS: ReflectionStep[] = [
   "ThoughtCapture",
-  "Distortion",
+  "Noticing",
   "Reframe",
   "Regulation",
   "Intention",
-  "SessionComplete",
+  "ReflectionComplete",
 ];
 
 const STEP_LABELS: Record<ReflectionStep, string> = {
   ThoughtCapture: "Capture",
-  Distortion: "Notice",
+  Noticing: "Notice",
   Reframe: "Reframe",
   Regulation: "Settle",
   Intention: "Intend",
-  SessionComplete: "Complete",
+  ReflectionComplete: "Complete",
 };
 
 /**

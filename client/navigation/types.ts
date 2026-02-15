@@ -19,7 +19,7 @@ export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
   ThoughtCapture: undefined;
-  Distortion: {
+  Noticing: {
     thought: string;
     emotionalIntensity?: number; // 1-5 scale from emotional anchoring
     somaticAwareness?: string; // Body sensation from somatic prompt
@@ -53,7 +53,7 @@ export type RootStackParamList = {
     detectedState?: string;
     emotionalIntensity?: number;
   };
-  SessionComplete: {
+  ReflectionComplete: {
     thought: string;
     distortions: string[];
     reframe: string;
@@ -93,14 +93,14 @@ export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamLi
 
 /**
  * Navigation prop for a specific screen
- * Example: NavigationProp<'SessionComplete'>
+ * Example: NavigationProp<'ReflectionComplete'>
  */
 export type NavigationProp<T extends keyof RootStackParamList> =
   NativeStackNavigationProp<RootStackParamList, T>;
 
 /**
  * Route prop for a specific screen
- * Example: RouteType<'SessionComplete'>
+ * Example: RouteType<'ReflectionComplete'>
  */
 export type RouteType<T extends keyof RootStackParamList> =
   RouteProp<RootStackParamList, T>;
