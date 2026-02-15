@@ -226,12 +226,15 @@ Production debugging currently relies on scattered console logs. Structured logg
 
 **Plans:** 4 plans
 
+**Status:** ✓ Complete
+**Completed:** 2026-02-03
+
 Plans:
 
-- [ ] 05-01-PLAN.md — Coverage thresholds + CI caching (INFRA-06, INFRA-07)
-- [ ] 05-02-PLAN.md — Security scanning with CodeQL + Dependabot (INFRA-04, INFRA-05)
-- [ ] 05-03-PLAN.md — E2E tests in CI/CD pipeline (TEST-09, INFRA-02)
-- [ ] 05-04-PLAN.md — Staging deployment automation (INFRA-03)
+- [x] 05-01-PLAN.md — Coverage thresholds + CI caching (INFRA-06, INFRA-07)
+- [x] 05-02-PLAN.md — Security scanning with CodeQL + Dependabot (INFRA-04, INFRA-05)
+- [x] 05-03-PLAN.md — E2E tests in CI/CD pipeline (TEST-09, INFRA-02)
+- [x] 05-04-PLAN.md — Staging deployment automation (INFRA-03)
 
 **Requirements:**
 - TEST-09: Configure Detox E2E tests in CI/CD pipeline

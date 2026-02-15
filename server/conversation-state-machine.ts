@@ -277,7 +277,7 @@ export const STATE_TRANSITION_RULES: TransitionRule[] = [
       "User safe",
       "Explicit signal to continue",
     ],
-    forbidden: ["Return to CBT without confirmation"],
+    forbidden: ["Return to reflection without confirmation"],
   },
   {
     from: "crisis",
@@ -705,7 +705,7 @@ export const STATE_GUIDANCE: Record<ConversationState, StateGuidance> = {
       "Provide crisis resources immediately",
       "Express care simply",
       "Stay present without overwhelming",
-      "Do NOT continue CBT",
+      "Do NOT continue reflection journey",
     ],
     avoidThis: [
       "Continuing normal flow",

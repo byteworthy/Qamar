@@ -8,10 +8,10 @@
 
 **Sabr** excels at guided meditation, sleep support, and calming audio content with high production quality and strong Islamic authenticity. It's perfect for passive relaxation and spiritual listening.
 
-**Noor** is built for active cognitive work—exploring intrusive thoughts, reframing anxiety spirals, and structured emotional processing through CBT-inspired tools in an Islamic framework.
+**Noor** is built for active reflective work—exploring intrusive thoughts, reframing anxiety spirals, and structured emotional processing through structured reflection tools in an Islamic framework.
 
 **Choose Sabr if** you want meditation, sleep stories, and calming audio content for relaxation.
-**Choose Noor if** you need to explore and reframe specific thought patterns, rumination, or cognitive distortions.
+**Choose Noor if** you need to explore and reframe specific thought patterns, rumination, or thinking patterns.
 
 **Best together**: Many users find Sabr and Noor complementary—use Noor to explore difficult thoughts, then use Sabr to calm your body and mind.
 
@@ -24,7 +24,7 @@
 | **Primary Focus** | Cognitive exploration & reframing | Meditation & calming audio |
 | **Interaction Model** | Interactive conversation | Passive listening |
 | **Best For** | Intrusive thoughts, rumination, anxiety spirals | Sleep support, relaxation, meditation |
-| **Methodology** | CBT-inspired cognitive work | Mindfulness & meditation |
+| **Methodology** | Structured reflection | Mindfulness & meditation |
 | **Content Type** | Guided reflection prompts | Audio content (guided meditations, nasheeds, Quran) |
 | **AI Features** | Conversational AI with emotional intelligence | No AI (pre-recorded content) |
 | **Safety Features** | Crisis detection, adaptive tone | No safety monitoring |
@@ -55,10 +55,10 @@ Sabr takes a **passive consumption model**: you select guided meditation, breath
 
 ## What Is Noor?
 
-Noor is a reflective companion for Muslims navigating difficult emotions through **structured CBT-inspired cognitive work** rooted in Islamic values. Unlike meditation apps, Noor is designed for **active thought exploration**—helping you identify cognitive distortions, reframe anxiety spirals, and process intrusive thoughts.
+Noor is a reflective companion for Muslims navigating difficult emotions through **structured reflection** rooted in Islamic values. Unlike meditation apps, Noor is designed for **active thought exploration**—helping you identify thinking patterns, reframe anxiety spirals, and process intrusive thoughts.
 
 ### Noor's Strengths
-- ✅ **CBT-inspired structure** for cognitive reframing (not just calming)
+- ✅ **Structured reflection** for cognitive reframing (not just calming)
 - ✅ **Interactive conversational AI** that adapts to your emotional state
 - ✅ **Crisis detection** with multi-tier safety monitoring
 - ✅ **Deep Islamic psychology** (Nafs states, Qalb levels, distortion-to-concept mapping)
@@ -66,7 +66,7 @@ Noor is a reflective companion for Muslims navigating difficult emotions through
 - ✅ **Personalized reflection** based on your distress level and patterns
 
 ### Noor's Approach
-Noor uses a **conversational dialogue model**: you share a difficult thought, and Noor guides you through a 6-step journey to explore, identify distortions, challenge beliefs, reframe perspectives, ground yourself, and set an intention—all within 10-15 minutes.
+Noor uses a **conversational dialogue model**: you share a difficult thought, and Noor guides you through a 6-step journey to explore, identify thinking patterns, challenge beliefs, reframe perspectives, ground yourself, and set an intention—all within 10-15 minutes.
 
 ---
 
@@ -78,16 +78,16 @@ Noor uses a **conversational dialogue model**: you share a difficult thought, an
 Sabr's core strength. Offers guided meditations created with Muslim therapists, breathing exercises, sleep stories, Quranic recitations, nasheeds, and nature soundscapes. High production quality and authentic Islamic feel.
 
 **Noor**: ⭐☆☆☆☆
-Noor doesn't currently offer meditation or audio content. It's text-based conversational reflection focused on cognitive work.
+Noor doesn't currently offer meditation or audio content. It's text-based conversational reflection focused on reflective work.
 
 **Winner**: **Sabr** — If you want meditation or audio content, Sabr is the clear choice.
 
 ---
 
-### 2. Cognitive Work (CBT Tools)
+### 2. Reflective Work (Structured Reflection Tools)
 
 **Noor**: ⭐⭐⭐⭐⭐
-Noor's core strength. Structured thought exploration, distortion identification (catastrophizing, all-or-nothing thinking, mind reading), belief examination, and cognitive reframing. Built on CBT principles adapted for Islamic context.
+Noor's core strength. Structured thought exploration, pattern recognition (catastrophizing, all-or-nothing thinking, mind reading), belief examination, and cognitive reframing. Built on structured reflection principles adapted for Islamic context.
 
 **Sabr**: ⭐☆☆☆☆
 Sabr focuses on mindfulness and meditation, not cognitive behavioral techniques. It calms the mind but doesn't explore thought patterns.
@@ -177,7 +177,7 @@ Sabr is the right choice if you:
 - ✅ Find **relaxation** through meditation effective for you
 - ✅ Want an **established app** with proven track record
 
-**Ideal Sabr user**: A Muslim experiencing general stress or anxiety who finds calm through meditation, sleep stories, and spiritual audio. Prefers passive listening to active cognitive work.
+**Ideal Sabr user**: A Muslim experiencing general stress or anxiety who finds calm through meditation, sleep stories, and spiritual audio. Prefers passive listening to active reflective work.
 
 ---
 
@@ -187,12 +187,12 @@ Noor is built for Muslims who:
 - ✅ Experience **intrusive thoughts** or **rumination**
 - ✅ Struggle with **anxiety spirals** that meditation doesn't resolve
 - ✅ Face **guilt loops** or **shame spirals**
-- ✅ Need **structured cognitive work**, not just calming
+- ✅ Need **structured reflective work**, not just calming
 - ✅ Want to **explore and reframe** specific thought patterns
 - ✅ Prefer **interactive guidance** over passive content
 - ✅ Need **safety monitoring** for vulnerable emotional states
 
-**Ideal Noor user**: A Muslim dealing with racing thoughts, cognitive distortions, or emotional patterns that require exploration and reframing. Tried meditation but found it insufficient for thought-based struggles.
+**Ideal Noor user**: A Muslim dealing with racing thoughts, unhelpful thinking patterns, or emotional patterns that require exploration and reframing. Tried meditation but found it insufficient for thought-based struggles.
 
 ---
 
@@ -201,13 +201,13 @@ Noor is built for Muslims who:
 Many users find **Sabr and Noor work beautifully together**:
 
 ### Morning/Daytime: Use Noor
-When difficult thoughts arise during the day, use Noor to explore and reframe them. Do structured cognitive work to understand patterns and shift perspectives.
+When difficult thoughts arise during the day, use Noor to explore and reframe them. Do structured reflective work to understand patterns and shift perspectives.
 
 ### Evening: Use Sabr
 Before bed, use Sabr's meditation content, sleep stories, or Quranic recitations to calm your body and mind, preparing for rest.
 
 ### The Workflow
-1. **Process with Noor** — Explore the thought, identify distortions, reframe
+1. **Process with Noor** — Explore the thought, identify patterns, reframe
 2. **Regulate with Sabr** — Calm your nervous system through meditation
 
 This combination addresses both **cognitive patterns** (Noor) and **nervous system regulation** (Sabr).
@@ -264,7 +264,7 @@ If you're using Sabr but finding meditation insufficient for thought patterns, y
 **What to expect**:
 - Noor requires more active engagement (typing, reflecting)
 - Sessions are structured (6-step journey)
-- More cognitive work, less passive relaxation
+- More reflective work, less passive relaxation
 - Both apps can coexist—use each for its strength
 
 **No migration needed**: These aren't mutually exclusive. Use both for complete emotional wellness.
@@ -275,7 +275,7 @@ If you're using Sabr but finding meditation insufficient for thought patterns, y
 
 ### Can I use both Sabr and Noor?
 
-**Yes!** In fact, many users find they complement each other perfectly. Use Noor for cognitive work and Sabr for relaxation/sleep.
+**Yes!** In fact, many users find they complement each other perfectly. Use Noor for reflective work and Sabr for relaxation/sleep.
 
 ### Is Noor replacing Sabr?
 
@@ -284,7 +284,7 @@ No. Noor serves a different need—cognitive exploration vs. meditation. We resp
 ### Which is better for anxiety?
 
 - **Sabr** is better for general stress relief and calming the nervous system through meditation.
-- **Noor** is better for anxiety spirals, catastrophic thinking, and cognitive distortions that require reframing.
+- **Noor** is better for anxiety spirals, catastrophic thinking, and thinking patterns that require reframing.
 
 ### Which is more Islamic?
 
@@ -296,7 +296,7 @@ Neither is "more" Islamic—they integrate Islam differently.
 
 ### Do I need therapy if I use either app?
 
-Both Sabr and Noor are **not therapy** and don't replace professional mental health care. If you're struggling significantly, please seek a licensed therapist. Muslim therapy platforms like [Ruh Care](https://www.ruhcare.com/), [Shifa Therapy](https://shifatherapy.com), or [Naseeha](https://www.naseeha.org/) can help.
+Both Sabr and Noor are **not therapy** and don't replace professional mental health care. If you're struggling significantly, please seek a licensed therapist. Muslim wellness platforms like [Ruh Care](https://www.ruhcare.com/), [Shifa Therapy](https://shifatherapy.com), or [Naseeha](https://www.naseeha.org/) can help.
 
 ---
 
@@ -309,10 +309,10 @@ Both Sabr and Noor are **not therapy** and don't replace professional mental hea
 - Proven, established app
 
 ### Choose Noor if you want:
-- Cognitive work and thought exploration
+- Reflective work and thought exploration
 - Interactive reflection
 - Crisis detection
-- CBT-inspired structure
+- Structured reflection
 
 ### Choose Both if you want:
 - Complete emotional wellness toolkit

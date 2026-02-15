@@ -41,9 +41,9 @@ import { apiRequest } from "@/lib/query-client";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "SessionComplete"
+  "ReflectionComplete"
 >;
-type RouteType = RouteProp<RootStackParamList, "SessionComplete">;
+type RouteType = RouteProp<RootStackParamList, "ReflectionComplete">;
 
 interface ContextualDua {
   arabic: string;

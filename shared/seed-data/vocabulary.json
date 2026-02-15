@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "318dc9b5-6a4f-422a-be60-11e32a3777b0",
+    "arabic": "إِنَّ",
+    "transliteration": "inna",
+    "meaning": "Indeed, verily",
+    "root": null,
+    "quranFrequency": 4479,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "febb91d1-25b8-46ac-a22e-d84c6011e8d7",
+    "arabic": "مَا",
+    "transliteration": "mā",
+    "meaning": "What, that which, not",
+    "root": null,
+    "quranFrequency": 3893,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "e28fbb64-4c8b-481d-a8ed-559818cefbe4",
+    "arabic": "مِن",
+    "transliteration": "min",
+    "meaning": "From, of, than",
+    "root": null,
+    "quranFrequency": 3226,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "68a4db03-a7b7-4c92-a1f3-486ce13df88b",
+    "arabic": "لَا",
+    "transliteration": "lā",
+    "meaning": "No, not",
+    "root": null,
+    "quranFrequency": 3069,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "254b3d2a-636b-4cc7-af4e-abbd59accb77",
+    "arabic": "فِي",
+    "transliteration": "fī",
+    "meaning": "In, within",
+    "root": null,
+    "quranFrequency": 2801,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c2bc821b-ca67-4453-995f-73c25b266e44",
+    "arabic": "اللَّهُ",
+    "transliteration": "Allāh",
+    "meaning": "Allah, God",
+    "root": "أله",
+    "quranFrequency": 2699,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "33026c32-5065-46ce-b26d-1c33d25bac33",
+    "arabic": "قَالَ",
+    "transliteration": "qāla",
+    "meaning": "He said",
+    "root": "قول",
+    "quranFrequency": 1722,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "474d59e4-7438-4426-97ba-3e27b9c2b7e3",
+    "arabic": "أَنْ",
+    "transliteration": "an",
+    "meaning": "That, to",
+    "root": null,
+    "quranFrequency": 1718,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "e865c8c0-6501-4ca8-9721-55c244c6bf40",
+    "arabic": "عَلَى",
+    "transliteration": "ʿalā",
+    "meaning": "On, upon, over",
+    "root": null,
+    "quranFrequency": 1687,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "dfb96b4f-7e81-4cef-8a06-4334b9408ec2",
+    "arabic": "هُوَ",
+    "transliteration": "huwa",
+    "meaning": "He, it",
+    "root": null,
+    "quranFrequency": 1508,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "2ac81b81-adcf-41ba-bec2-437155adef2f",
+    "arabic": "كَانَ",
+    "transliteration": "kāna",
+    "meaning": "He was/It was",
+    "root": "كون",
+    "quranFrequency": 1358,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "90f05cce-2b4b-47f5-864e-261fd739f0a1",
+    "arabic": "الَّذِينَ",
+    "transliteration": "alladhīna",
+    "meaning": "Those who",
+    "root": "ذو",
+    "quranFrequency": 1252,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "8f5b774e-1b94-4f2a-8d8e-8a8c3bb22676",
+    "arabic": "لَهُم",
+    "transliteration": "lahum",
+    "meaning": "For them",
+    "root": null,
+    "quranFrequency": 1250,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "2e4d997d-943b-414b-a6ca-a13d08a6174c",
+    "arabic": "رَبّ",
+    "transliteration": "Rabb",
+    "meaning": "Lord, Master",
+    "root": "ربب",
+    "quranFrequency": 980,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "ba82995f-123f-42a8-b457-874f15faaf67",
+    "arabic": "آمَنُوا",
+    "transliteration": "āmanū",
+    "meaning": "They believed",
+    "root": "أمن",
+    "quranFrequency": 811,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "b1879741-8ea3-4807-815d-2b9c9be35efa",
+    "arabic": "كَافِر",
+    "transliteration": "kāfir",
+    "meaning": "Disbeliever",
+    "root": "كفر",
+    "quranFrequency": 525,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "259c5cce-db54-4ac9-8af5-c7ae70c3410b",
+    "arabic": "يَوْم",
+    "transliteration": "yawm",
+    "meaning": "Day",
+    "root": "يوم",
+    "quranFrequency": 475,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "eb508685-d172-4e2d-ac79-9b8617667e46",
+    "arabic": "أَرْض",
+    "transliteration": "arḍ",
+    "meaning": "Earth, land",
+    "root": "أرض",
+    "quranFrequency": 461,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c93eb678-81f3-4aac-ac13-44686c288f8b",
+    "arabic": "سَمَاء",
+    "transliteration": "samāʾ",
+    "meaning": "Heaven, sky",
+    "root": "سمو",
+    "quranFrequency": 387,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "5ea7d199-d7ed-456d-a163-5243eaf1cf1f",
+    "arabic": "آيَة",
+    "transliteration": "āyah",
+    "meaning": "Sign, verse",
+    "root": "أيي",
+    "quranFrequency": 382,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "909c2a0a-0409-4c8c-b185-6947c3ac7749",
+    "arabic": "كُلّ",
+    "transliteration": "kull",
+    "meaning": "All, every, each",
+    "root": null,
+    "quranFrequency": 380,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "3053446e-b2ff-438e-872c-334d871ff958",
+    "arabic": "عَذَاب",
+    "transliteration": "ʿadhāb",
+    "meaning": "Punishment, torment",
+    "root": "عذب",
+    "quranFrequency": 373,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "0d9c8097-4cbd-43d8-b375-8af25243ca65",
+    "arabic": "عَمَل",
+    "transliteration": "ʿamal",
+    "meaning": "Deed, action",
+    "root": "عمل",
+    "quranFrequency": 360,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "4874f72f-36f3-4bdd-8774-ac0acd6cd89d",
+    "arabic": "رَسُول",
+    "transliteration": "rasūl",
+    "meaning": "Messenger, apostle",
+    "root": "رسل",
+    "quranFrequency": 332,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "9d69cd51-6e6e-49bb-9239-794a7d95e6e8",
+    "arabic": "كِتَاب",
+    "transliteration": "kitāb",
+    "meaning": "Book, scripture",
+    "root": "كتب",
+    "quranFrequency": 319,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "628f8d88-2811-449c-90b8-a7914a92180f",
+    "arabic": "ظُلْم",
+    "transliteration": "ẓulm",
+    "meaning": "Wrongdoing, injustice",
+    "root": "ظلم",
+    "quranFrequency": 315,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "83c1cd36-858f-4953-8363-b60bc2ad657d",
+    "arabic": "نَفْس",
+    "transliteration": "nafs",
+    "meaning": "Soul, self",
+    "root": "نفس",
+    "quranFrequency": 298,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "8402ef90-dabd-4667-9a1a-94eef9d66fa7",
+    "arabic": "أَنْزَلَ",
+    "transliteration": "anzala",
+    "meaning": "He sent down, revealed",
+    "root": "نزل",
+    "quranFrequency": 293,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "2b096038-33d8-46c7-a05d-3596ff334019",
+    "arabic": "ذَكَرَ",
+    "transliteration": "dhakara",
+    "meaning": "He remembered, mentioned",
+    "root": "ذكر",
+    "quranFrequency": 292,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "521e8cc4-659f-4e56-bf62-14adc17de22f",
+    "arabic": "حَقّ",
+    "transliteration": "ḥaqq",
+    "meaning": "Truth, right",
+    "root": "حقق",
+    "quranFrequency": 287,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "906189be-3c8b-4348-8aa8-3a6c038463bb",
+    "arabic": "عَبَدَ",
+    "transliteration": "ʿabada",
+    "meaning": "He worshipped",
+    "root": "عبد",
+    "quranFrequency": 275,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "3106f38f-e5c5-4c70-a198-266a780c8c71",
+    "arabic": "خَلَقَ",
+    "transliteration": "khalaqa",
+    "meaning": "He created",
+    "root": "خلق",
+    "quranFrequency": 261,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "f2a45e3e-2409-43b0-9340-6e95bcf59aa3",
+    "arabic": "تَقْوَى",
+    "transliteration": "taqwā",
+    "meaning": "God-consciousness, piety",
+    "root": "وقي",
+    "quranFrequency": 258,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c9247443-83ce-456f-bd14-c99476e76adc",
+    "arabic": "نَاس",
+    "transliteration": "nās",
+    "meaning": "People, mankind",
+    "root": "نوس",
+    "quranFrequency": 241,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c9f54826-e618-4c07-a624-817e57428a20",
+    "arabic": "مُؤْمِن",
+    "transliteration": "muʾmin",
+    "meaning": "Believer",
+    "root": "أمن",
+    "quranFrequency": 231,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "42ab1423-b3f6-4018-98a8-a564b3d902ed",
+    "arabic": "الرَّحِيم",
+    "transliteration": "Ar-Raḥīm",
+    "meaning": "The Most Merciful",
+    "root": "رحم",
+    "quranFrequency": 227,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c1fca54f-739e-4533-b8d0-71018d33fe21",
+    "arabic": "أَمَرَ",
+    "transliteration": "amara",
+    "meaning": "He commanded",
+    "root": "أمر",
+    "quranFrequency": 189,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "28481283-725b-4300-b342-950db5ba4695",
+    "arabic": "خَيْر",
+    "transliteration": "khayr",
+    "meaning": "Good, better",
+    "root": "خير",
+    "quranFrequency": 180,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "d17f5176-762f-4221-bab8-a9a75c01ffd4",
+    "arabic": "سَبِيل",
+    "transliteration": "sabīl",
+    "meaning": "Way, path",
+    "root": "سبل",
+    "quranFrequency": 176,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "147b3e5b-5394-4460-b7f2-e54fff6a76c3",
+    "arabic": "الرَّحْمَٰن",
+    "transliteration": "Ar-Raḥmān",
+    "meaning": "The Most Gracious",
+    "root": "رحم",
+    "quranFrequency": 170,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "bc106e4e-05f0-4c6f-a7d0-923f09e07f45",
+    "arabic": "قَلْب",
+    "transliteration": "qalb",
+    "meaning": "Heart",
+    "root": "قلب",
+    "quranFrequency": 168,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "3dca1ab0-272a-419f-a0be-0a3c849b13d7",
+    "arabic": "مَوْت",
+    "transliteration": "mawt",
+    "meaning": "Death",
+    "root": "موت",
+    "quranFrequency": 165,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "641efaa4-0c4e-48ec-ba5d-82dc1fd7fbb0",
+    "arabic": "عَلِيم",
+    "transliteration": "ʿalīm",
+    "meaning": "All-Knowing",
+    "root": "علم",
+    "quranFrequency": 157,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "5d37c222-ecc8-4f47-99ca-4e9858a8049e",
+    "arabic": "إِلَٰه",
+    "transliteration": "ilāh",
+    "meaning": "God, deity",
+    "root": "أله",
+    "quranFrequency": 147,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "448be4df-58cc-429b-af57-9c95ae825982",
+    "arabic": "جَنَّة",
+    "transliteration": "jannah",
+    "meaning": "Paradise, garden",
+    "root": "جنن",
+    "quranFrequency": 147,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "9020f165-1c25-487d-9ddd-4574dc939ffb",
+    "arabic": "نَار",
+    "transliteration": "nār",
+    "meaning": "Fire, hellfire",
+    "root": "نور",
+    "quranFrequency": 145,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "435c693d-828e-416d-91fb-07f1b3954add",
+    "arabic": "حَيَاة",
+    "transliteration": "ḥayāh",
+    "meaning": "Life",
+    "root": "حيي",
+    "quranFrequency": 145,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "14b21803-bace-4043-9f6e-a38dc10f5a48",
+    "arabic": "مُوسَى",
+    "transliteration": "Mūsā",
+    "meaning": "Moses",
+    "root": null,
+    "quranFrequency": 136,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "bb909c25-6641-4032-b24e-cde95a1f58b0",
+    "arabic": "خَافَ",
+    "transliteration": "khāfa",
+    "meaning": "He feared",
+    "root": "خوف",
+    "quranFrequency": 124,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c85173ae-9bb1-404f-ba5e-e47dc206d5c9",
+    "arabic": "رِزْق",
+    "transliteration": "rizq",
+    "meaning": "Provision, sustenance",
+    "root": "رزق",
+    "quranFrequency": 123,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "ea600aee-7200-4a9a-980b-aff1d90f2291",
+    "arabic": "آخِرَة",
+    "transliteration": "ākhirah",
+    "meaning": "Hereafter, afterlife",
+    "root": "أخر",
+    "quranFrequency": 115,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "bab6e5d7-4129-446c-bcb0-67bd62358ea1",
+    "arabic": "دُنْيَا",
+    "transliteration": "dunyā",
+    "meaning": "Worldly life",
+    "root": "دنو",
+    "quranFrequency": 115,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "a9adebd1-430d-4db8-8bc2-d40245266e6a",
+    "arabic": "رَحْمَة",
+    "transliteration": "raḥmah",
+    "meaning": "Mercy, compassion",
+    "root": "رحم",
+    "quranFrequency": 114,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "f722b500-c690-4e96-9d5c-2464f9503e51",
+    "arabic": "عَظِيم",
+    "transliteration": "ʿaẓīm",
+    "meaning": "Most Great",
+    "root": "عظم",
+    "quranFrequency": 107,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "a60cc8da-3f07-47f9-8aae-40bdb776aa3c",
+    "arabic": "عِلْم",
+    "transliteration": "ʿilm",
+    "meaning": "Knowledge",
+    "root": "علم",
+    "quranFrequency": 105,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "cbcbdcdb-9065-4fc9-94a9-d458b6daf3d0",
+    "arabic": "صَبْر",
+    "transliteration": "ṣabr",
+    "meaning": "Patience",
+    "root": "صبر",
+    "quranFrequency": 103,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "77b56b7f-f526-4b30-a1fa-2eab0164707e",
+    "arabic": "حَكِيم",
+    "transliteration": "ḥakīm",
+    "meaning": "All-Wise",
+    "root": "حكم",
+    "quranFrequency": 97,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "fd1bb4cc-3347-4e21-8838-3fc99d9aab72",
+    "arabic": "سَجَدَ",
+    "transliteration": "sajada",
+    "meaning": "He prostrated",
+    "root": "سجد",
+    "quranFrequency": 92,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "eebca86f-358e-47ad-a535-8e1e7d352c7b",
+    "arabic": "غَفُور",
+    "transliteration": "ghafūr",
+    "meaning": "Most Forgiving",
+    "root": "غفر",
+    "quranFrequency": 91,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "4e810406-5c57-4b61-bd3e-d561e4fc094a",
+    "arabic": "مَلَائِكَة",
+    "transliteration": "malāʾikah",
+    "meaning": "Angels",
+    "root": "ملك",
+    "quranFrequency": 88,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "e1550cf0-24f1-4f8b-87b0-db2da5f0257a",
+    "arabic": "شَيْطَان",
+    "transliteration": "shayṭān",
+    "meaning": "Satan, devil",
+    "root": "شطن",
+    "quranFrequency": 88,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "b83bb316-14ab-426a-8d03-99ba02f59df3",
+    "arabic": "صَلَاة",
+    "transliteration": "ṣalāh",
+    "meaning": "Prayer, salah",
+    "root": "صلو",
+    "quranFrequency": 83,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "a73f09b2-17df-42ad-97a9-d8e080bcbc8b",
+    "arabic": "هُدًى",
+    "transliteration": "hudā",
+    "meaning": "Guidance",
+    "root": "هدي",
+    "quranFrequency": 79,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c279f104-b821-424e-adba-425cf05434fe",
+    "arabic": "وَلَد",
+    "transliteration": "walad",
+    "meaning": "Child, offspring",
+    "root": "ولد",
+    "quranFrequency": 79,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "77d2496b-0e24-41d1-9914-b8aa9ea81635",
+    "arabic": "شُكْر",
+    "transliteration": "shukr",
+    "meaning": "Gratitude, thanks",
+    "root": "شكر",
+    "quranFrequency": 75,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "b4b6d6f1-502c-4a53-9987-c523e6980966",
+    "arabic": "نَبِيّ",
+    "transliteration": "nabī",
+    "meaning": "Prophet",
+    "root": "نبأ",
+    "quranFrequency": 75,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "9bcc2d4f-2669-419b-a6be-773ef1a36f08",
+    "arabic": "قِيَامَة",
+    "transliteration": "qiyāmah",
+    "meaning": "Resurrection, Day of Judgment",
+    "root": "قوم",
+    "quranFrequency": 70,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "2798c07d-fd27-40bd-bfe6-0377c78fd661",
+    "arabic": "إِبْرَاهِيم",
+    "transliteration": "Ibrāhīm",
+    "meaning": "Abraham",
+    "root": null,
+    "quranFrequency": 69,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "0d7715ce-c369-4022-aa28-5a91e7fdb6d4",
+    "arabic": "قُرْآن",
+    "transliteration": "Qurʾān",
+    "meaning": "Quran, recitation",
+    "root": "قرأ",
+    "quranFrequency": 68,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "7e7acd67-d967-4cb7-b20d-847fec6f0b4c",
+    "arabic": "ضَلَال",
+    "transliteration": "ḍalāl",
+    "meaning": "Misguidance, error",
+    "root": "ضلل",
+    "quranFrequency": 61,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "89b3427e-30a2-4770-8629-ffd932b42a2b",
+    "arabic": "شَرّ",
+    "transliteration": "sharr",
+    "meaning": "Evil, bad",
+    "root": "شرر",
+    "quranFrequency": 57,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "8006d3c1-ce69-4426-97fb-4fff389e1f70",
+    "arabic": "نُور",
+    "transliteration": "nūr",
+    "meaning": "Light",
+    "root": "نور",
+    "quranFrequency": 49,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "4c66df90-6116-486f-b0f5-39dd32d55653",
+    "arabic": "عَقْل",
+    "transliteration": "ʿaql",
+    "meaning": "Intellect, reason",
+    "root": "عقل",
+    "quranFrequency": 49,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "1c545e63-201f-43a1-ba0c-a62f44d14a0e",
+    "arabic": "كَرِيم",
+    "transliteration": "karīm",
+    "meaning": "Most Generous",
+    "root": "كرم",
+    "quranFrequency": 47,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "a6fce8f3-bc86-4af8-91f1-39d1eea2ebce",
+    "arabic": "إِيمَان",
+    "transliteration": "īmān",
+    "meaning": "Faith, belief",
+    "root": "أمن",
+    "quranFrequency": 45,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "73359d82-a34f-4cf6-a782-37870ab2ddc4",
+    "arabic": "سَمِيع",
+    "transliteration": "samīʿ",
+    "meaning": "All-Hearing",
+    "root": "سمع",
+    "quranFrequency": 45,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "afbc2162-f4b1-40db-8d91-4561098a290c",
+    "arabic": "قَدِير",
+    "transliteration": "qadīr",
+    "meaning": "All-Powerful",
+    "root": "قدر",
+    "quranFrequency": 45,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "15be4976-c7eb-42bc-aaec-345c68857b28",
+    "arabic": "نُوح",
+    "transliteration": "Nūḥ",
+    "meaning": "Noah",
+    "root": null,
+    "quranFrequency": 43,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "65ac7f6e-dac2-4174-ab5f-2176c33b3ff8",
+    "arabic": "بَصِير",
+    "transliteration": "baṣīr",
+    "meaning": "All-Seeing",
+    "root": "بصر",
+    "quranFrequency": 42,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "cca0d60a-e11c-4f9f-8339-d7c77c633072",
+    "arabic": "نَهَى",
+    "transliteration": "nahā",
+    "meaning": "He forbade",
+    "root": "نهي",
+    "quranFrequency": 39,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "a78634e4-f491-41dd-8134-ea58813134dd",
+    "arabic": "مُنَافِق",
+    "transliteration": "munāfiq",
+    "meaning": "Hypocrite",
+    "root": "نفق",
+    "quranFrequency": 37,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "a2915e17-e249-4a77-a56b-99201c92c211",
+    "arabic": "بَاطِل",
+    "transliteration": "bāṭil",
+    "meaning": "Falsehood, vanity",
+    "root": "بطل",
+    "quranFrequency": 36,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "4c96c6c3-482a-4465-bdaf-828bfd4d05c5",
+    "arabic": "مَغْفِرَة",
+    "transliteration": "maghfirah",
+    "meaning": "Forgiveness",
+    "root": "غفر",
+    "quranFrequency": 36,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "9e2296a1-65aa-441a-93b1-ef62385880b7",
+    "arabic": "زَكَاة",
+    "transliteration": "zakāh",
+    "meaning": "Charity, zakah",
+    "root": "زكو",
+    "quranFrequency": 32,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "ca067600-d8a8-4c5a-b453-2d2f8a4ee22c",
+    "arabic": "عَدْل",
+    "transliteration": "ʿadl",
+    "meaning": "Justice",
+    "root": "عدل",
+    "quranFrequency": 28,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "94d97ea9-3112-4a06-9be7-8a4a4336ae83",
+    "arabic": "عِيسَى",
+    "transliteration": "ʿĪsā",
+    "meaning": "Jesus",
+    "root": null,
+    "quranFrequency": 25,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "09ba719f-95c7-4baa-b35d-ad0a48a45ad4",
+    "arabic": "آدَم",
+    "transliteration": "Ādam",
+    "meaning": "Adam",
+    "root": null,
+    "quranFrequency": 25,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "6e11840f-3bbe-4730-9cf7-317ef9c2e941",
+    "arabic": "وَاحِد",
+    "transliteration": "wāḥid",
+    "meaning": "One, Unique",
+    "root": "وحد",
+    "quranFrequency": 25,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "978897fd-904b-4565-9e75-6ba52466c77b",
+    "arabic": "ظُلُمَات",
+    "transliteration": "ẓulumāt",
+    "meaning": "Darkness",
+    "root": "ظلم",
+    "quranFrequency": 23,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "c3ef3c7b-1c1f-4c47-ad61-2539b85cbf88",
+    "arabic": "حِكْمَة",
+    "transliteration": "ḥikmah",
+    "meaning": "Wisdom",
+    "root": "حكم",
+    "quranFrequency": 20,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "3048e288-c84d-4299-b05b-e090a88ec46f",
+    "arabic": "تَوْبَة",
+    "transliteration": "tawbah",
+    "meaning": "Repentance",
+    "root": "توب",
+    "quranFrequency": 17,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "89d9fda9-c687-4679-a81d-6984bc46eec3",
+    "arabic": "حَمِيد",
+    "transliteration": "ḥamīd",
+    "meaning": "All-Praiseworthy",
+    "root": "حمد",
+    "quranFrequency": 17,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "50648c02-4637-4c73-8f08-f60f0fac5918",
+    "arabic": "صَوْم",
+    "transliteration": "ṣawm",
+    "meaning": "Fasting",
+    "root": "صوم",
+    "quranFrequency": 14,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "9dd2ff0e-f85b-41aa-b6da-8584bbaf1b86",
+    "arabic": "إِحْسَان",
+    "transliteration": "iḥsān",
+    "meaning": "Excellence, kindness",
+    "root": "حسن",
+    "quranFrequency": 13,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "cfbdf87f-3567-4ca0-a153-7792fc4f64a0",
+    "arabic": "حَجّ",
+    "transliteration": "ḥajj",
+    "meaning": "Pilgrimage",
+    "root": "حجج",
+    "quranFrequency": 11,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "13a3accd-60fd-469e-9179-83c93f4574e1",
+    "arabic": "تَوَّاب",
+    "transliteration": "tawwāb",
+    "meaning": "Acceptor of Repentance",
+    "root": "توب",
+    "quranFrequency": 11,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "42afdd08-c8c0-452d-a8cd-270f5a2d7d3c",
+    "arabic": "رَجَا",
+    "transliteration": "rajā",
+    "meaning": "He hoped",
+    "root": "رجو",
+    "quranFrequency": 11,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "2074cef4-c8c5-4fcd-b524-47bbbfddde93",
+    "arabic": "مُحَمَّد",
+    "transliteration": "Muḥammad",
+    "meaning": "Muhammad",
+    "root": "حمد",
+    "quranFrequency": 4,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "d87275bc-5fb7-4ae8-a881-69f81c4cadc7",
+    "arabic": "صَمَد",
+    "transliteration": "ṣamad",
+    "meaning": "Eternal, Absolute",
+    "root": "صمد",
+    "quranFrequency": 1,
+    "deckId": "quranic_top_100"
+  },
+  {
+    "id": "68bbecd1-93e6-40a2-a6e0-4ce368fd4616",
+    "arabic": "أ",
+    "transliteration": "alif",
+    "meaning": "Pronounced as \"a\" (short) or \"aa\" (long)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "68c7202a-1d1e-43c6-9e8f-fe4c165b7173",
+    "arabic": "ب",
+    "transliteration": "bāʾ",
+    "meaning": "Pronounced as \"b\" as in \"bat\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "20306328-e075-410d-9a05-9405bcd90e2c",
+    "arabic": "ت",
+    "transliteration": "tāʾ",
+    "meaning": "Pronounced as \"t\" as in \"tap\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "c88bc087-8c0e-450f-bf12-b2328510d59b",
+    "arabic": "ث",
+    "transliteration": "thāʾ",
+    "meaning": "Pronounced as \"th\" as in \"think\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "5c4ebd63-c4ea-4cb7-bb93-7666241b984e",
+    "arabic": "ج",
+    "transliteration": "jīm",
+    "meaning": "Pronounced as \"j\" as in \"jam\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "1543449e-a84d-4fe0-a7f6-45baa9494d7e",
+    "arabic": "ح",
+    "transliteration": "ḥāʾ",
+    "meaning": "Pronounced as strong \"h\" from the throat",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "cf2f4dcd-e0fe-4205-ab5a-f0509013622b",
+    "arabic": "خ",
+    "transliteration": "khāʾ",
+    "meaning": "Pronounced as \"kh\" as in Scottish \"loch\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "b156358d-5bdf-46e7-b35a-019b312189fe",
+    "arabic": "د",
+    "transliteration": "dāl",
+    "meaning": "Pronounced as \"d\" as in \"dog\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "3853a0df-3ce4-4841-a5af-cffcac2420b3",
+    "arabic": "ذ",
+    "transliteration": "dhāl",
+    "meaning": "Pronounced as \"th\" as in \"this\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "2ed3f001-5f3a-4a0c-ba82-f33a8f3fcd68",
+    "arabic": "ر",
+    "transliteration": "rāʾ",
+    "meaning": "Pronounced as rolled \"r\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "00e4216e-77ba-4e59-adf7-ae29a3e3192d",
+    "arabic": "ز",
+    "transliteration": "zāy",
+    "meaning": "Pronounced as \"z\" as in \"zoo\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "84429f91-c12a-48fd-99b4-5db42f8da4c2",
+    "arabic": "س",
+    "transliteration": "sīn",
+    "meaning": "Pronounced as \"s\" as in \"sun\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "00f182c3-98c1-439d-808a-2b6426a66d8b",
+    "arabic": "ش",
+    "transliteration": "shīn",
+    "meaning": "Pronounced as \"sh\" as in \"ship\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "c1bc2aee-0a20-415d-9f9b-103a6b491188",
+    "arabic": "ص",
+    "transliteration": "ṣād",
+    "meaning": "Pronounced as emphatic \"s\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "7c7e4760-b5ed-484b-9e06-c6177e145df3",
+    "arabic": "ض",
+    "transliteration": "ḍād",
+    "meaning": "Pronounced as emphatic \"d\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "370ba9d8-bd06-4185-a0d6-deb5777c7815",
+    "arabic": "ط",
+    "transliteration": "ṭāʾ",
+    "meaning": "Pronounced as emphatic \"t\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "492fd8d3-fd9f-4432-865b-8451968787f6",
+    "arabic": "ظ",
+    "transliteration": "ẓāʾ",
+    "meaning": "Pronounced as emphatic \"th\" or \"z\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "1730d7a6-1b77-493c-8000-4dd31e1d41bd",
+    "arabic": "ع",
+    "transliteration": "ʿayn",
+    "meaning": "Pronounced from deep in the throat",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "e36b409c-cd81-4445-9c1e-57a430a8bd05",
+    "arabic": "غ",
+    "transliteration": "ghayn",
+    "meaning": "Pronounced as guttural \"gh\" (like gargling)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "4cd7b25c-ef8d-4d08-bc69-b2859045137a",
+    "arabic": "ف",
+    "transliteration": "fāʾ",
+    "meaning": "Pronounced as \"f\" as in \"fish\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "a9e55b18-eeb2-4782-9596-51e62617bfee",
+    "arabic": "ق",
+    "transliteration": "qāf",
+    "meaning": "Pronounced as deep \"q\" from the throat",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "523b2f6b-b16e-4951-9d40-ae255b363bfa",
+    "arabic": "ك",
+    "transliteration": "kāf",
+    "meaning": "Pronounced as \"k\" as in \"kite\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "af1e8531-3762-46d9-997b-ebc37a23ad76",
+    "arabic": "ل",
+    "transliteration": "lām",
+    "meaning": "Pronounced as \"l\" as in \"lamp\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "5ae8dd4d-0497-4ff1-97a2-299d7b3c8270",
+    "arabic": "م",
+    "transliteration": "mīm",
+    "meaning": "Pronounced as \"m\" as in \"moon\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "b84f1e36-832e-49b6-85e1-b49f83350a85",
+    "arabic": "ن",
+    "transliteration": "nūn",
+    "meaning": "Pronounced as \"n\" as in \"noon\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "d73d7b03-78c3-4ec3-8b1b-738ed1cc3690",
+    "arabic": "ه",
+    "transliteration": "hāʾ",
+    "meaning": "Pronounced as \"h\" as in \"house\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "06feac9e-4fd3-4228-8a98-67d2fff22d62",
+    "arabic": "و",
+    "transliteration": "wāw",
+    "meaning": "Pronounced as \"w\" as in \"water\" or \"oo\" as in \"moon\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "f125a842-82aa-461d-806e-492fb4bafadf",
+    "arabic": "ي",
+    "transliteration": "yāʾ",
+    "meaning": "Pronounced as \"y\" as in \"yes\" or \"ee\" as in \"see\"",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "arabic_alphabet"
+  },
+  {
+    "id": "dd0237c8-244b-41c0-89ec-976c8936cb82",
+    "arabic": "السَّلَامُ عَلَيْكُمْ",
+    "transliteration": "As-salāmu ʿalaykum",
+    "meaning": "Peace be upon you (greeting)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "4bdedaa8-c266-477a-bfdc-3c817952eef3",
+    "arabic": "وَعَلَيْكُمُ السَّلَامُ",
+    "transliteration": "Wa-ʿalaykumu s-salām",
+    "meaning": "And upon you be peace (response to greeting)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "cd804984-627d-484d-8038-a9e12d5d5a63",
+    "arabic": "صَبَاحُ الخَيْر",
+    "transliteration": "Ṣabāḥu l-khayr",
+    "meaning": "Good morning",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "f697246a-549d-4086-9ff1-7b4fb6c0267b",
+    "arabic": "مَسَاءُ الخَيْر",
+    "transliteration": "Masāʾu l-khayr",
+    "meaning": "Good evening",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "f812d2b2-d897-4dd8-9b3e-6ab136752836",
+    "arabic": "أَهْلاً وَسَهْلاً",
+    "transliteration": "Ahlan wa-sahlan",
+    "meaning": "Welcome",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "9272cb8a-9c0c-4c3c-bec9-e94fdc2caa4d",
+    "arabic": "مَرْحَبًا",
+    "transliteration": "Marḥaban",
+    "meaning": "Hello, welcome",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "a8122371-d817-4d5f-840f-6db0aa4d2ca6",
+    "arabic": "كَيْفَ حَالُكَ؟",
+    "transliteration": "Kayfa ḥāluka?",
+    "meaning": "How are you? (masculine)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "c58f7865-f0f6-4d66-9fba-c8ffaed57718",
+    "arabic": "الحَمْدُ لِلَّهِ",
+    "transliteration": "Al-ḥamdu lillāh",
+    "meaning": "Praise be to God (common response to \"how are you\")",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "9746e4b5-718a-412f-a6b5-a8ddda98812c",
+    "arabic": "بِخَيْر",
+    "transliteration": "Bi-khayr",
+    "meaning": "I am well, fine",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "ed2f0d85-533a-4d83-868a-f4a89c2f1325",
+    "arabic": "شُكْرًا",
+    "transliteration": "Shukran",
+    "meaning": "Thank you",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "bbc0dff2-2447-43a8-a132-d8dd0cdc5b57",
+    "arabic": "جَزَاكَ اللَّهُ خَيْرًا",
+    "transliteration": "Jazāka Llāhu khayran",
+    "meaning": "May Allah reward you with goodness",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "ede24ddd-2235-4ac4-9815-928d5029e135",
+    "arabic": "عَفْوًا",
+    "transliteration": "ʿAfwan",
+    "meaning": "You're welcome, excuse me",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "7f9feeb7-262e-4c4f-8e34-5062013d95ae",
+    "arabic": "مِنْ فَضْلِكَ",
+    "transliteration": "Min faḍlika",
+    "meaning": "Please (masculine)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "4012533c-48a2-4bb4-97df-ee43e42caa63",
+    "arabic": "لَوْ سَمَحْتَ",
+    "transliteration": "Law samaḥta",
+    "meaning": "If you please (masculine)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "85d6f679-4a4e-4f7c-8cc8-a4ea561516df",
+    "arabic": "آسِف",
+    "transliteration": "Āsif",
+    "meaning": "Sorry (masculine)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "0e8edb4c-1b23-48b2-8db8-28b2affedc32",
+    "arabic": "مَعْذِرَةً",
+    "transliteration": "Maʿdhiratan",
+    "meaning": "Excuse me, pardon me",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "1f9ca1ac-5717-4b4f-be7b-3956015ac721",
+    "arabic": "إِلَى اللِّقَاء",
+    "transliteration": "Ilā l-liqāʾ",
+    "meaning": "Goodbye, until we meet",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "18ca255b-6441-409f-a79e-5988c18bb543",
+    "arabic": "مَعَ السَّلَامَة",
+    "transliteration": "Maʿa s-salāmah",
+    "meaning": "Goodbye (with safety)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "ed119c81-4965-47ba-a9cc-0e5174d735ac",
+    "arabic": "فِي أَمَانِ اللَّهِ",
+    "transliteration": "Fī amāni Llāh",
+    "meaning": "In Allah's protection (farewell)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "207fe2ae-9e84-4d5c-8ea6-e55a84606210",
+    "arabic": "نَعَمْ",
+    "transliteration": "Naʿam",
+    "meaning": "Yes",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "7dc2a7d1-2d4d-4ddd-9577-fd861faf4272",
+    "arabic": "لَا",
+    "transliteration": "Lā",
+    "meaning": "No",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "95883ac3-8fd1-49f6-99f6-8691516daf73",
+    "arabic": "طَيِّب",
+    "transliteration": "Ṭayyib",
+    "meaning": "Okay, good",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "5a75cd27-2c23-4927-88f8-e6ba8ea045f7",
+    "arabic": "إِنْ شَاءَ اللَّهُ",
+    "transliteration": "In shāʾa Llāh",
+    "meaning": "If Allah wills",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "22f4418a-edf4-4a26-bed5-6a02592664fa",
+    "arabic": "مَاشَاءَ اللَّهُ",
+    "transliteration": "Mā shāʾa Llāh",
+    "meaning": "What Allah has willed",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "96b7ba3c-d6d6-49e2-86f4-697908f9fe03",
+    "arabic": "بَارَكَ اللَّهُ فِيكَ",
+    "transliteration": "Bāraka Llāhu fīka",
+    "meaning": "May Allah bless you (masculine)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "5435efa5-137e-4b27-9aa1-911666998f8c",
+    "arabic": "تَصَبَّحْ عَلَى خَيْر",
+    "transliteration": "Taṣabbaḥ ʿalā khayr",
+    "meaning": "Good night (before sleep)",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "0b186d3d-f7d1-4e34-a0df-08de15804e30",
+    "arabic": "أَسْتَغْفِرُ اللَّهَ",
+    "transliteration": "Astaghfiru Llāh",
+    "meaning": "I seek forgiveness from Allah",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  },
+  {
+    "id": "4ebee596-a6c3-46f3-ac3c-4f4633f59ed0",
+    "arabic": "سُبْحَانَ اللَّهِ",
+    "transliteration": "Subḥāna Llāh",
+    "meaning": "Glory be to Allah",
+    "root": null,
+    "quranFrequency": 0,
+    "deckId": "greetings"
+  }
+]

@@ -403,16 +403,16 @@ export class CharterCompliance {
       context.crisisDetected &&
       context.crisisDetected.level === "emergency"
     ) {
-      const hasCBTContent =
-        context.outputText.toLowerCase().includes("distortion") ||
+      const hasReflectionContent =
+        context.outputText.toLowerCase().includes("pattern") ||
         context.outputText.toLowerCase().includes("reframe") ||
         context.outputText.toLowerCase().includes("belief");
 
-      if (hasCBTContent) {
+      if (hasReflectionContent) {
         violations.push({
           category: "crisis_mishandling",
-          rule: "Must not continue CBT flow after emergency crisis detection",
-          evidence: "Crisis detected but CBT content present in output",
+          rule: "Must not continue reflection journey after emergency crisis detection",
+          evidence: "Crisis detected but reflection content present in output",
           severity: "critical",
           charterSection: "Part 4.1: Emergency-level crisis detected",
         });

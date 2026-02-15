@@ -1,0 +1,18 @@
+{
+  "migrationDate": "2026-02-15T14:30:27.894Z",
+  "sourceDatabase": "C:\\Coding Projects - ByteWorthy\\Noor-AI\\assets\\data\\noor_ai_seed.db",
+  "outputDirectory": "C:\\Coding Projects - ByteWorthy\\Noor-CBT\\shared\\seed-data",
+  "statistics": {
+    "surahs": 114,
+    "verses": 6236,
+    "hadiths": 0,
+    "vocabulary": 155,
+    "totalSize": "3.26 MB"
+  },
+  "dataIntegrity": {
+    "surahsComplete": true,
+    "versesComplete": true,
+    "hadithsPresent": false,
+    "vocabularyPresent": true
+  }
+}

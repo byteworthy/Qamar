@@ -17,11 +17,15 @@ import { hapticLight } from "@/lib/haptics";
 
 import HomeScreen from "@/screens/HomeScreen";
 import ExploreScreen from "@/screens/ExploreScreen";
+import LearnTabScreen from "@/screens/learn/LearnTabScreen";
+import WorshipTabScreen from "@/screens/worship/WorshipTabScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 
 export type TabParamList = {
   HomeTab: undefined;
-  Explore: undefined;
+  Companion: undefined;
+  Learn: undefined;
+  Worship: undefined;
   Profile: undefined;
 };
 
@@ -126,12 +130,32 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Explore"
+        name="Companion"
         component={ExploreScreen}
         options={{
-          tabBarLabel: "Explore",
+          tabBarLabel: "Companion",
           tabBarIcon: ({ color, focused }) => (
-            <AnimatedTabIcon name="compass" color={color} focused={focused} />
+            <AnimatedTabIcon name="message-circle" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Learn"
+        component={LearnTabScreen}
+        options={{
+          tabBarLabel: "Learn",
+          tabBarIcon: ({ color, focused }) => (
+            <AnimatedTabIcon name="book-open" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Worship"
+        component={WorshipTabScreen}
+        options={{
+          tabBarLabel: "Worship",
+          tabBarIcon: ({ color, focused }) => (
+            <AnimatedTabIcon name="sun" color={color} focused={focused} />
           ),
         }}
       />

@@ -163,7 +163,7 @@ spiritual growth Muslim, Quranic guidance, Islamic self-care, Muslim personal de
 - **Caption:** "Private journaling rooted in your tradition"
 
 ### Screenshot 3: Pattern Recognition
-- **Title:** "See Your Thought Patterns"
+- **Title:** "Gentle Thought Pattern Recognition"
 - **Caption:** "Recognize how your mind works"
 
 ### Screenshot 4: Reframe
@@ -199,8 +199,8 @@ May Allah grant you clarity and ease.
 
 ❌ **Avoid:**
 ```
-• CBT-based therapy tools
-• Clinical distortion analysis
+• Therapy-based tools
+• Clinical analysis
 • Mental health tracking
 • Therapeutic interventions
 ```
@@ -319,7 +319,7 @@ Required disclaimers:
 
 Before submitting to App Store:
 
-- [ ] Search all code for "therapy", "CBT", "treatment", "diagnosis" → replaced
+- [ ] Search all code for "therapy", "treatment", "diagnosis" → replaced
 - [ ] Update ScreenCopy in [client/constants/brand.ts](client/constants/brand.ts)
 - [ ] Revise App Store description (no medical claims)
 - [ ] Update privacy policy disclaimers

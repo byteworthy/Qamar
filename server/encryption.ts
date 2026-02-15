@@ -211,3 +211,138 @@ export function redactForLogging(text: string): string {
 
   return `[REDACTED: ${charCount} chars, ${wordCount} words]`;
 }
+
+// =============================================================================
+// ISLAMIC DATA ENCRYPTION HELPERS
+// =============================================================================
+
+export interface EncryptedQuranBookmark {
+  surahNumber: number;
+  verseNumber: number;
+  note?: string; // Encrypted
+  createdAt?: Date;
+}
+
+export interface DecryptedQuranBookmark {
+  surahNumber: number;
+  verseNumber: number;
+  note?: string; // Decrypted
+  createdAt?: Date;
+}
+
+/**
+ * Encrypt sensitive fields in a Quran bookmark
+ */
+export function encryptQuranBookmark(
+  bookmark: DecryptedQuranBookmark,
+): EncryptedQuranBookmark {
+  return {
+    ...bookmark,
+    note: bookmark.note ? encryptData(bookmark.note) : undefined,
+  };
+}
+
+/**
+ * Decrypt sensitive fields in a Quran bookmark
+ */
+export function decryptQuranBookmark(
+  encrypted: EncryptedQuranBookmark,
+): DecryptedQuranBookmark {
+  return {
+    ...encrypted,
+    note: encrypted.note ? decryptData(encrypted.note) : undefined,
+  };
+}
+
+export interface EncryptedPrayerPreferences {
+  calculationMethod: string;
+  madhab?: string;
+  notificationsEnabled: boolean;
+  latitude?: string; // Encrypted
+  longitude?: string; // Encrypted
+  locationName?: string;
+}
+
+export interface DecryptedPrayerPreferences {
+  calculationMethod: string;
+  madhab?: string;
+  notificationsEnabled: boolean;
+  latitude?: number; // Decrypted
+  longitude?: number; // Decrypted
+  locationName?: string;
+}
+
+/**
+ * Encrypt sensitive location data in prayer preferences
+ * GPS coordinates are sensitive PII under GDPR
+ */
+export function encryptPrayerPreferences(
+  prefs: DecryptedPrayerPreferences,
+): EncryptedPrayerPreferences {
+  return {
+    ...prefs,
+    latitude:
+      prefs.latitude !== undefined
+        ? encryptData(prefs.latitude.toString())
+        : undefined,
+    longitude:
+      prefs.longitude !== undefined
+        ? encryptData(prefs.longitude.toString())
+        : undefined,
+  };
+}
+
+/**
+ * Decrypt location data in prayer preferences
+ */
+export function decryptPrayerPreferences(
+  encrypted: EncryptedPrayerPreferences,
+): DecryptedPrayerPreferences {
+  let latitude: number | undefined;
+  let longitude: number | undefined;
+
+  if (encrypted.latitude) {
+    try {
+      latitude = parseFloat(decryptData(encrypted.latitude));
+    } catch (error) {
+      encryptionLogger.error("Failed to decrypt latitude", error, {
+        operation: "decrypt_prayer_preferences",
+      });
+    }
+  }
+
+  if (encrypted.longitude) {
+    try {
+      longitude = parseFloat(decryptData(encrypted.longitude));
+    } catch (error) {
+      encryptionLogger.error("Failed to decrypt longitude", error, {
+        operation: "decrypt_prayer_preferences",
+      });
+    }
+  }
+
+  return {
+    calculationMethod: encrypted.calculationMethod,
+    madhab: encrypted.madhab,
+    notificationsEnabled: encrypted.notificationsEnabled,
+    latitude,
+    longitude,
+    locationName: encrypted.locationName,
+  };
+}
+
+/**
+ * Redact GPS coordinates for logging (GDPR compliance)
+ */
+export function redactGPSForLogging(
+  latitude?: number,
+  longitude?: number,
+): string {
+  if (!latitude && !longitude) return "[no location]";
+
+  // Round to 2 decimal places for general area (~1km precision)
+  const lat = latitude ? latitude.toFixed(2) : "N/A";
+  const lon = longitude ? longitude.toFixed(2) : "N/A";
+
+  return `[GPS: ~${lat}, ~${lon}]`;
+}

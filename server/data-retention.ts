@@ -434,3 +434,308 @@ export function verifyAdminToken(token: string | undefined): boolean {
 export function isAdminEndpointEnabled(): boolean {
   return Boolean(process.env.ADMIN_TOKEN);
 }
+
+// =============================================================================
+// ISLAMIC DATA EXPORT & DELETION (GDPR compliance)
+// =============================================================================
+
+export interface IslamicDataExport {
+  exportedAt: string;
+  userId: string;
+  quranBookmarks: {
+    surahNumber: number;
+    verseNumber: number;
+    note?: string;
+    createdAt: string;
+  }[];
+  prayerPreferences?: {
+    calculationMethod: string;
+    madhab?: string;
+    notificationsEnabled: boolean;
+    locationName?: string;
+    // GPS coordinates excluded for privacy
+  };
+  arabicFlashcards: {
+    wordId: string;
+    reviewCount: number;
+    state: string;
+    lastReview?: string;
+    nextReview?: string;
+  }[];
+  progress?: {
+    quranVersesRead: number;
+    arabicWordsLearned: number;
+    prayerTimesChecked: number;
+    reflectionSessionsCompleted: number;
+    streakDays: number;
+    lastActiveDate: string;
+  };
+}
+
+/**
+ * Export all Islamic feature data for a user (GDPR Article 20 - Right to Data Portability)
+ *
+ * @param userId - User ID to export data for
+ * @returns Complete Islamic data export in JSON format
+ */
+export async function exportIslamicData(
+  userId: string,
+): Promise<IslamicDataExport> {
+  defaultLogger.info("Data Retention: Exporting Islamic data", {
+    operation: "data_retention_export_islamic",
+    userIdPrefix: userId.substring(0, 8),
+  });
+
+  try {
+    // Import here to avoid circular dependencies
+    const { db } = await import("./db");
+    const {
+      quranBookmarks,
+      prayerPreferences,
+      arabicFlashcards,
+      userProgress,
+    } = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const { decryptQuranBookmark, decryptPrayerPreferences } = await import(
+      "./encryption"
+    );
+
+    // Get Quran bookmarks (decrypt notes)
+    const bookmarks = await db
+      .select()
+      .from(quranBookmarks)
+      .where(eq(quranBookmarks.userId, userId));
+
+    const decryptedBookmarks = bookmarks.map((b) => ({
+      surahNumber: b.surahNumber,
+      verseNumber: b.verseNumber,
+      note: b.note
+        ? decryptQuranBookmark({ surahNumber: b.surahNumber, verseNumber: b.verseNumber, note: b.note }).note
+        : undefined,
+      createdAt: b.createdAt?.toISOString() || new Date().toISOString(),
+    }));
+
+    // Get prayer preferences (decrypt location, exclude GPS for privacy)
+    const [prayerPrefs] = await db
+      .select()
+      .from(prayerPreferences)
+      .where(eq(prayerPreferences.userId, userId));
+
+    let prayerData: IslamicDataExport["prayerPreferences"];
+    if (prayerPrefs) {
+      prayerData = {
+        calculationMethod: prayerPrefs.calculationMethod,
+        madhab: prayerPrefs.madhab || undefined,
+        notificationsEnabled: prayerPrefs.notificationsEnabled || false,
+        locationName: prayerPrefs.locationName || undefined,
+        // GPS coordinates intentionally excluded for privacy
+      };
+    }
+
+    // Get Arabic flashcards
+    const flashcards = await db
+      .select()
+      .from(arabicFlashcards)
+      .where(eq(arabicFlashcards.userId, userId));
+
+    const flashcardData = flashcards.map((f) => ({
+      wordId: f.wordId,
+      reviewCount: f.reviewCount || 0,
+      state: f.state,
+      lastReview: f.lastReview?.toISOString(),
+      nextReview: f.nextReview?.toISOString(),
+    }));
+
+    // Get user progress
+    const [progress] = await db
+      .select()
+      .from(userProgress)
+      .where(eq(userProgress.userId, userId));
+
+    let progressData: IslamicDataExport["progress"];
+    if (progress) {
+      progressData = {
+        quranVersesRead: progress.quranVersesRead || 0,
+        arabicWordsLearned: progress.arabicWordsLearned || 0,
+        prayerTimesChecked: progress.prayerTimesChecked || 0,
+        reflectionSessionsCompleted: progress.reflectionSessionsCompleted || 0,
+        streakDays: progress.streakDays || 0,
+        lastActiveDate:
+          progress.lastActiveDate?.toISOString() || new Date().toISOString(),
+      };
+    }
+
+    return {
+      exportedAt: new Date().toISOString(),
+      userId,
+      quranBookmarks: decryptedBookmarks,
+      prayerPreferences: prayerData,
+      arabicFlashcards: flashcardData,
+      progress: progressData,
+    };
+  } catch (error) {
+    defaultLogger.error(
+      "Data Retention: Failed to export Islamic data",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "data_retention_export_islamic",
+        userIdPrefix: userId.substring(0, 8),
+      },
+    );
+    throw new Error("Failed to export Islamic data");
+  }
+}
+
+/**
+ * Delete all Islamic feature data for a user (GDPR Article 17 - Right to Erasure)
+ *
+ * @param userId - User ID to delete data for
+ * @returns Deletion summary with counts
+ */
+export async function deleteAllIslamicData(userId: string): Promise<{
+  success: boolean;
+  bookmarksDeleted: number;
+  preferencesDeleted: number;
+  flashcardsDeleted: number;
+  progressDeleted: number;
+}> {
+  defaultLogger.info("Data Retention: Deleting all Islamic data", {
+    operation: "data_retention_delete_islamic",
+    userIdPrefix: userId.substring(0, 8),
+  });
+
+  try {
+    const { db } = await import("./db");
+    const {
+      quranBookmarks,
+      prayerPreferences,
+      arabicFlashcards,
+      userProgress,
+    } = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+
+    // Delete Quran bookmarks
+    const bookmarksResult = await db
+      .delete(quranBookmarks)
+      .where(eq(quranBookmarks.userId, userId));
+
+    // Delete prayer preferences
+    const prefsResult = await db
+      .delete(prayerPreferences)
+      .where(eq(prayerPreferences.userId, userId));
+
+    // Delete Arabic flashcards
+    const flashcardsResult = await db
+      .delete(arabicFlashcards)
+      .where(eq(arabicFlashcards.userId, userId));
+
+    // Delete user progress
+    const progressResult = await db
+      .delete(userProgress)
+      .where(eq(userProgress.userId, userId));
+
+    const result = {
+      success: true,
+      bookmarksDeleted: bookmarksResult.rowCount || 0,
+      preferencesDeleted: prefsResult.rowCount || 0,
+      flashcardsDeleted: flashcardsResult.rowCount || 0,
+      progressDeleted: progressResult.rowCount || 0,
+    };
+
+    defaultLogger.info("Data Retention: Deleted all Islamic data", {
+      operation: "data_retention_delete_islamic",
+      userIdPrefix: userId.substring(0, 8),
+      ...result,
+    });
+
+    return result;
+  } catch (error) {
+    defaultLogger.error(
+      "Data Retention: Failed to delete Islamic data",
+      error instanceof Error ? error : new Error(String(error)),
+      {
+        operation: "data_retention_delete_islamic",
+        userIdPrefix: userId.substring(0, 8),
+      },
+    );
+    return {
+      success: false,
+      bookmarksDeleted: 0,
+      preferencesDeleted: 0,
+      flashcardsDeleted: 0,
+      progressDeleted: 0,
+    };
+  }
+}
+
+/**
+ * Export COMPLETE user data including both CBT and Islamic features
+ *
+ * @param userId - User ID to export data for
+ * @returns Complete data export in JSON format
+ */
+export async function exportCompleteUserData(userId: string): Promise<{
+  cbtData: UserDataExport;
+  islamicData: IslamicDataExport;
+}> {
+  defaultLogger.info("Data Retention: Exporting complete user data", {
+    operation: "data_retention_export_complete",
+    userIdPrefix: userId.substring(0, 8),
+  });
+
+  const [cbtData, islamicData] = await Promise.all([
+    exportUserData(userId), // Existing CBT data export
+    exportIslamicData(userId), // New Islamic data export
+  ]);
+
+  return {
+    cbtData,
+    islamicData,
+  };
+}
+
+/**
+ * Delete COMPLETE user data including both CBT and Islamic features
+ *
+ * @param userId - User ID to delete data for
+ * @returns Complete deletion summary
+ */
+export async function deleteCompleteUserData(userId: string): Promise<{
+  success: boolean;
+  cbt: {
+    reflectionsDeleted: number;
+    summariesDeleted: number;
+    assumptionsDeleted: number;
+  };
+  islamic: {
+    bookmarksDeleted: number;
+    preferencesDeleted: number;
+    flashcardsDeleted: number;
+    progressDeleted: number;
+  };
+}> {
+  defaultLogger.info("Data Retention: Deleting complete user data", {
+    operation: "data_retention_delete_complete",
+    userIdPrefix: userId.substring(0, 8),
+  });
+
+  const [cbtResult, islamicResult] = await Promise.all([
+    deleteAllUserData(userId), // Existing CBT data deletion
+    deleteAllIslamicData(userId), // New Islamic data deletion
+  ]);
+
+  return {
+    success: cbtResult.success && islamicResult.success,
+    cbt: {
+      reflectionsDeleted: cbtResult.reflectionsDeleted,
+      summariesDeleted: cbtResult.summariesDeleted,
+      assumptionsDeleted: cbtResult.assumptionsDeleted,
+    },
+    islamic: {
+      bookmarksDeleted: islamicResult.bookmarksDeleted,
+      preferencesDeleted: islamicResult.preferencesDeleted,
+      flashcardsDeleted: islamicResult.flashcardsDeleted,
+      progressDeleted: islamicResult.progressDeleted,
+    },
+  };
+}
