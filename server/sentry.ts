@@ -64,7 +64,7 @@ export function initSentry(): void {
     Sentry.init({
       dsn,
       environment: process.env.NODE_ENV || "development",
-      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.5 : 1.0,
 
       // Scrub PII from events before sending
       beforeSend(event) {

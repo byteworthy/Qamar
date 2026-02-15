@@ -97,9 +97,15 @@ function CelebrationCheckmark({ theme }: { theme: Theme }) {
     glowOpacity.value = withDelay(400, withSpring(0.3, { damping: 12 }));
 
     // Haptic symphony
-    setTimeout(() => hapticSuccess(), 100); // Initial success
-    setTimeout(() => hapticMedium(), 350); // Burst
-    setTimeout(() => hapticLight(), 550); // Afterglow
+    const t1 = setTimeout(() => hapticSuccess(), 100); // Initial success
+    const t2 = setTimeout(() => hapticMedium(), 350); // Burst
+    const t3 = setTimeout(() => hapticLight(), 550); // Afterglow
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

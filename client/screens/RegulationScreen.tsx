@@ -191,17 +191,32 @@ function RegulationScreen() {
   }, [reframe]);
 
   // Enhanced haptic patterns for different actions
+  const groundingTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const completionTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const dhikrTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Cleanup all timeouts on unmount
+  useEffect(() => {
+    return () => {
+      groundingTimeoutsRef.current.forEach(clearTimeout);
+      completionTimeoutsRef.current.forEach(clearTimeout);
+      if (dhikrTimeoutRef.current) clearTimeout(dhikrTimeoutRef.current);
+    };
+  }, []);
+
   const playGroundingHaptic = useCallback(() => {
     // Gentle pulsing pattern for grounding
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setTimeout(
-      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
-      200,
-    );
-    setTimeout(
-      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium),
-      400,
-    );
+    groundingTimeoutsRef.current = [
+      setTimeout(
+        () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+        200,
+      ),
+      setTimeout(
+        () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium),
+        400,
+      ),
+    ];
   }, []);
 
   const playDhikrHaptic = useCallback(() => {
@@ -212,14 +227,16 @@ function RegulationScreen() {
   const playCompletionHaptic = useCallback(() => {
     // Celebration pattern
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    setTimeout(
-      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
-      300,
-    );
-    setTimeout(
-      () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
-      500,
-    );
+    completionTimeoutsRef.current = [
+      setTimeout(
+        () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+        300,
+      ),
+      setTimeout(
+        () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+        500,
+      ),
+    ];
   }, []);
 
   const handleStartPractice = () => {
@@ -256,7 +273,7 @@ function RegulationScreen() {
       // Complete dhikr
       if (newCount >= selectedDhikr.count) {
         playCompletionHaptic();
-        setTimeout(() => {
+        dhikrTimeoutRef.current = setTimeout(() => {
           setShowDhikr(false);
           setCompleted(true);
         }, 1000);

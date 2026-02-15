@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
+import * as Sentry from "@sentry/react-native";
 import { useTheme } from "@/hooks/useTheme";
 import { useQuranSurahs, Surah } from "@/hooks/useQuranData";
 import { ThemedText } from "@/components/ThemedText";
@@ -27,7 +28,7 @@ interface SurahCardProps {
   index: number;
 }
 
-function SurahCard({ surah, onPress, index }: SurahCardProps) {
+const SurahCard = React.memo(function SurahCard({ surah, onPress, index }: SurahCardProps) {
   const { theme } = useTheme();
 
   return (
@@ -105,7 +106,7 @@ function SurahCard({ surah, onPress, index }: SurahCardProps) {
       </GlassCard>
     </Animated.View>
   );
-}
+});
 
 export default function QuranReaderScreen() {
   const insets = useSafeAreaInsets();
@@ -128,9 +129,26 @@ export default function QuranReaderScreen() {
     );
   }, [surahs, searchQuery]);
 
-  const handleSurahPress = (surah: Surah) => {
+  const handleSurahPress = useCallback((surah: Surah) => {
+    // Track surah opened metric
+    Sentry.startSpan(
+      {
+        name: "quran.surah_opened",
+        op: "ui.action",
+        attributes: { "quran.surah_id": surah.id },
+      },
+      () => {},
+    );
     navigation.navigate("VerseReader", { surahId: surah.id });
-  };
+  }, [navigation]);
+
+  const renderSurahItem = useCallback(({ item, index }: { item: Surah; index: number }) => (
+    <SurahCard
+      surah={item}
+      onPress={() => handleSurahPress(item)}
+      index={index}
+    />
+  ), [handleSurahPress]);
 
   if (isLoading) {
     return (
@@ -206,18 +224,15 @@ export default function QuranReaderScreen() {
       <FlatList
         data={filteredSurahs}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => (
-          <SurahCard
-            surah={item}
-            onPress={() => handleSurahPress(item)}
-            index={index}
-          />
-        )}
+        renderItem={renderSurahItem}
         contentContainerStyle={[
           styles.listContent,
           { paddingBottom: 100 + insets.bottom },
         ]}
         showsVerticalScrollIndicator={false}
+        windowSize={11}
+        maxToRenderPerBatch={15}
+        removeClippedSubviews
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Feather name="book" size={48} color={theme.textSecondary} />

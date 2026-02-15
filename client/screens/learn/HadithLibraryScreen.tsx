@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -122,7 +122,7 @@ interface CollectionCardProps {
   index: number;
 }
 
-function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
+const CollectionCard = React.memo(function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
   const { theme } = useTheme();
 
   return (
@@ -194,7 +194,7 @@ function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
       </GlassCard>
     </Animated.View>
   );
-}
+});
 
 // ============================================================================
 // Search Result Card
@@ -206,7 +206,7 @@ interface HadithSearchResultProps {
   index: number;
 }
 
-function HadithSearchResult({
+const HadithSearchResult = React.memo(function HadithSearchResult({
   hadith,
   onPress,
   index,
@@ -264,7 +264,7 @@ function HadithSearchResult({
       </GlassCard>
     </Animated.View>
   );
-}
+});
 
 // ============================================================================
 // Main Screen
@@ -297,13 +297,29 @@ export default function HadithLibraryScreen() {
     );
   }, [collections, searchQuery]);
 
-  const handleCollectionPress = (collection: HadithCollection) => {
+  const handleCollectionPress = useCallback((collection: HadithCollection) => {
     navigation.navigate("HadithList", { collectionId: collection.id });
-  };
+  }, [navigation]);
 
-  const handleHadithPress = (hadith: Hadith) => {
+  const handleHadithPress = useCallback((hadith: Hadith) => {
     navigation.navigate("HadithDetail", { hadithId: hadith.id });
-  };
+  }, [navigation]);
+
+  const renderSearchResult = useCallback(({ item, index }: { item: Hadith; index: number }) => (
+    <HadithSearchResult
+      hadith={item}
+      onPress={() => handleHadithPress(item)}
+      index={index}
+    />
+  ), [handleHadithPress]);
+
+  const renderCollectionItem = useCallback(({ item, index }: { item: HadithCollection; index: number }) => (
+    <CollectionCard
+      collection={item}
+      onPress={() => handleCollectionPress(item)}
+      index={index}
+    />
+  ), [handleCollectionPress]);
 
   if (collectionsLoading) {
     return (
@@ -391,18 +407,15 @@ export default function HadithLibraryScreen() {
         <FlatList
           data={searchResults}
           keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => (
-            <HadithSearchResult
-              hadith={item}
-              onPress={() => handleHadithPress(item)}
-              index={index}
-            />
-          )}
+          renderItem={renderSearchResult}
           contentContainerStyle={[
             styles.listContent,
             { paddingBottom: 100 + insets.bottom },
           ]}
           showsVerticalScrollIndicator={false}
+          windowSize={11}
+          maxToRenderPerBatch={15}
+          removeClippedSubviews
           ListHeaderComponent={
             searchLoading ? (
               <View style={styles.searchLoadingContainer}>
@@ -415,18 +428,15 @@ export default function HadithLibraryScreen() {
         <FlatList
           data={isSearching ? filteredCollections : collections}
           keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => (
-            <CollectionCard
-              collection={item}
-              onPress={() => handleCollectionPress(item)}
-              index={index}
-            />
-          )}
+          renderItem={renderCollectionItem}
           contentContainerStyle={[
             styles.listContent,
             { paddingBottom: 100 + insets.bottom },
           ]}
           showsVerticalScrollIndicator={false}
+          windowSize={11}
+          maxToRenderPerBatch={15}
+          removeClippedSubviews
           ListHeaderComponent={!isSearching ? <DailyHadithCard /> : null}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>

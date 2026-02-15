@@ -9,6 +9,7 @@
 
 import type { Express, Request, Response } from 'express';
 import { z } from 'zod';
+import * as Sentry from '@sentry/node';
 import {
   findRelevantContent,
   searchQuran,
@@ -69,6 +70,19 @@ export function registerIslamicQaRoutes(app: Express): void {
       }
 
       const { question, mode, limit, source } = parsed.data;
+
+      // Track Islamic QA query metric
+      Sentry.startSpan(
+        {
+          name: "islamic_qa.query",
+          op: "islamic_qa.metric",
+          attributes: {
+            "islamic_qa.mode": mode,
+            "islamic_qa.source": source,
+          },
+        },
+        () => {},
+      );
 
       // Get citations based on source filter
       let citations;

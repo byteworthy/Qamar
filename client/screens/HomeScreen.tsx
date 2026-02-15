@@ -289,7 +289,7 @@ export default function HomeScreen() {
   useEffect(() => {
     secureStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
       if (name && name.trim()) setUserName(name);
-    });
+    }).catch(() => {});
 
     secureStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
       if (stats) {
@@ -299,7 +299,7 @@ export default function HomeScreen() {
           // silently fail
         }
       }
-    });
+    }).catch(() => {});
 
     secureStorage
       .getItem(REFLECTIONS_KEY)
@@ -319,7 +319,7 @@ export default function HomeScreen() {
             // silently fail
           }
         }
-      });
+      }).catch(() => {});
   }, []);
 
   // Prayer countdown timer — update every second

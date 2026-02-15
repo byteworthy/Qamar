@@ -41,7 +41,7 @@ interface VerseCardProps {
   index: number;
 }
 
-function VerseCard({
+const VerseCard = React.memo(function VerseCard({
   verse,
   isBookmarked,
   isCurrentlyPlaying,
@@ -130,7 +130,7 @@ function VerseCard({
       </GlassCard>
     </Animated.View>
   );
-}
+});
 
 // =============================================================================
 // RECITER SELECTOR MODAL
@@ -268,28 +268,25 @@ export default function VerseReaderScreen() {
     }
   }, [audio.currentVerse, audio.isPlaying, audio.currentSurah, surahId, verses]);
 
-  // Check if verse is bookmarked
-  const isVerseBookmarked = (verseNumber: number) => {
-    return bookmarks?.some(
-      (b) => b.surahId === surahId && b.verseNumber === verseNumber
-    );
-  };
+  // Memoize bookmark lookups into a Map for O(1) access per verse
+  const bookmarkMap = useMemo(() => {
+    const map = new Map<number, string>();
+    bookmarks?.forEach((b) => {
+      if (b.surahId === surahId) {
+        map.set(b.verseNumber, b.id);
+      }
+    });
+    return map;
+  }, [bookmarks, surahId]);
 
-  // Get bookmark ID for a verse
-  const getBookmarkId = (verseNumber: number) => {
-    return bookmarks?.find(
-      (b) => b.surahId === surahId && b.verseNumber === verseNumber
-    )?.id;
-  };
-
-  const handleBookmarkToggle = (verseNumber: number) => {
-    const bookmarkId = getBookmarkId(verseNumber);
+  const handleBookmarkToggle = useCallback((verseNumber: number) => {
+    const bookmarkId = bookmarkMap.get(verseNumber);
     if (bookmarkId) {
       deleteBookmark.mutate(bookmarkId);
     } else {
       createBookmark.mutate({ surahId, verseNumber });
     }
-  };
+  }, [bookmarkMap, surahId, createBookmark, deleteBookmark]);
 
   // Audio controls
   const handlePlayPause = async () => {
@@ -342,6 +339,19 @@ export default function VerseReaderScreen() {
 
   // Show bismillah at top (except for Surah 9 - At-Tawbah)
   const shouldShowBismillah = surahId !== 9;
+
+  const renderVerseItem = useCallback(({ item, index }: { item: Verse; index: number }) => (
+    <VerseCard
+      verse={item}
+      isBookmarked={bookmarkMap.has(item.verseNumber)}
+      isCurrentlyPlaying={
+        isThisSurahActive && audio.currentVerse === item.verseNumber
+      }
+      onBookmarkToggle={() => handleBookmarkToggle(item.verseNumber)}
+      onPlayVerse={() => handlePlayVerse(item.verseNumber)}
+      index={index}
+    />
+  ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse]);
 
   // Handle scrollToIndex failures gracefully
   const onScrollToIndexFailed = useCallback(
@@ -398,18 +408,7 @@ export default function VerseReaderScreen() {
         ref={flatListRef}
         data={verses}
         keyExtractor={(item) => `${item.surahId}-${item.verseNumber}`}
-        renderItem={({ item, index }) => (
-          <VerseCard
-            verse={item}
-            isBookmarked={!!isVerseBookmarked(item.verseNumber)}
-            isCurrentlyPlaying={
-              isThisSurahActive && audio.currentVerse === item.verseNumber
-            }
-            onBookmarkToggle={() => handleBookmarkToggle(item.verseNumber)}
-            onPlayVerse={() => handlePlayVerse(item.verseNumber)}
-            index={index}
-          />
-        )}
+        renderItem={renderVerseItem}
         contentContainerStyle={[
           styles.listContent,
           {
@@ -419,6 +418,9 @@ export default function VerseReaderScreen() {
           },
         ]}
         showsVerticalScrollIndicator={false}
+        windowSize={7}
+        maxToRenderPerBatch={10}
+        removeClippedSubviews
         onScrollToIndexFailed={onScrollToIndexFailed}
         ListHeaderComponent={
           <View style={styles.header}>

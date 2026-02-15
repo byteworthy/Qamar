@@ -40,6 +40,7 @@ import {
   csrfTokenRoute,
   csrfErrorHandler,
 } from "./middleware/csrf";
+import { sentryMetricsMiddleware } from "./middleware/sentry-metrics";
 import * as fs from "fs";
 import * as path from "path";
 import { defaultLogger } from "./utils/logger";
@@ -436,6 +437,9 @@ async function initStripe() {
   // Production middleware: request ID and rate limiting
   app.use(requestIdMiddleware);
   app.use(rateLimiterMiddleware);
+
+  // Sentry performance metrics (before routes, after rate limiting)
+  app.use(sentryMetricsMiddleware);
 
   // Health check endpoint (before other routes)
   registerHealthRoute(app);

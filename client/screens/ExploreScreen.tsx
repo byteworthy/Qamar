@@ -26,6 +26,8 @@ import Animated, {
 import { useTheme } from "@/hooks/useTheme";
 import { NoorColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
+import * as Sentry from "@sentry/react-native";
+import { useAppState, selectIsOffline } from "@/stores/app-state";
 
 // =============================================================================
 // TYPES
@@ -259,6 +261,8 @@ export default function ExploreScreen() {
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
 
+  const isOffline = useAppState(selectIsOffline);
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -287,6 +291,12 @@ export default function ExploreScreen() {
       setInputText("");
       setIsLoading(true);
       Keyboard.dismiss();
+
+      // Track companion message sent
+      Sentry.startSpan(
+        { name: "companion.message_sent", op: "ui.action" },
+        () => {},
+      );
 
       try {
         const response = await fetch("/api/companion/message", {
@@ -369,6 +379,21 @@ export default function ExploreScreen() {
           </View>
         </Animated.View>
       </View>
+
+      {/* Offline Banner */}
+      {isOffline && (
+        <View
+          style={[
+            styles.offlineBanner,
+            { backgroundColor: NoorColors.gold + "18", borderColor: NoorColors.gold + "30" },
+          ]}
+        >
+          <Feather name="wifi-off" size={14} color={NoorColors.gold} />
+          <ThemedText style={[styles.offlineBannerText, { color: NoorColors.gold }]}>
+            You're offline. Noor needs a connection to respond.
+          </ThemedText>
+        </View>
+      )}
 
       {/* Messages or Empty State */}
       <ScrollView
@@ -485,12 +510,12 @@ export default function ExploreScreen() {
           />
           <Pressable
             onPress={handleSend}
-            disabled={!inputText.trim() || isLoading}
+            disabled={!inputText.trim() || isLoading || isOffline}
             style={({ pressed }) => [
               styles.sendButton,
               {
                 backgroundColor:
-                  inputText.trim() && !isLoading
+                  inputText.trim() && !isLoading && !isOffline
                     ? NoorColors.gold
                     : theme.border,
                 opacity: pressed ? 0.8 : 1,
@@ -559,6 +584,24 @@ const styles = StyleSheet.create({
   headerSubtitle: {
     fontSize: 12,
     opacity: 0.8,
+  },
+
+  // Offline banner
+  offlineBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginHorizontal: 16,
+    marginTop: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  offlineBannerText: {
+    fontSize: 13,
+    fontWeight: "500",
+    flex: 1,
   },
 
   // Scroll

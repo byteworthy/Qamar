@@ -41,6 +41,7 @@ import RootStackNavigator, {
 } from "@/navigation/RootStackNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useOfflineDatabase } from "@/hooks/useOfflineData";
+import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 
 // Initialize Sentry (no-op if EXPO_PUBLIC_SENTRY_DSN not configured)
 initSentry();
@@ -191,6 +192,11 @@ function BiometricGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function NetworkStatusMonitor() {
+  useNetworkStatus();
+  return null;
+}
+
 function OfflineDatabaseInitializer() {
   const { isReady, error } = useOfflineDatabase();
 
@@ -247,6 +253,7 @@ export default function App() {
           <GestureHandlerRootView style={styles.root}>
             <KeyboardProvider>
               <BiometricGuard>
+                <NetworkStatusMonitor />
                 <OfflineDatabaseInitializer />
                 <NotificationInitializer />
                 <NavigationContainer linking={linking}>

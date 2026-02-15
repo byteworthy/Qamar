@@ -43,10 +43,14 @@ export default function HadithDetailScreen() {
   useEffect(() => {
     AsyncStorage.getItem(BOOKMARKS_KEY).then((raw) => {
       if (raw) {
-        const bookmarks: string[] = JSON.parse(raw);
-        setIsBookmarked(bookmarks.includes(hadithId));
+        try {
+          const bookmarks: string[] = JSON.parse(raw);
+          setIsBookmarked(bookmarks.includes(hadithId));
+        } catch {
+          // silently fail on corrupt data
+        }
       }
-    });
+    }).catch(() => {});
   }, [hadithId]);
 
   const toggleBookmark = useCallback(async () => {

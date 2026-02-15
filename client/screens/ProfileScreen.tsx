@@ -446,10 +446,10 @@ export default function ProfileScreen() {
   useEffect(() => {
     AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
       if (name && name.trim()) setUserName(name);
-    });
+    }).catch(() => {});
     AsyncStorage.getItem(USER_EMAIL_KEY).then((email) => {
       if (email && email.trim()) setUserEmail(email);
-    });
+    }).catch(() => {});
   }, []);
 
   const handleSaveName = useCallback(async () => {

@@ -12,6 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import * as Location from "expo-location";
 
+import * as Sentry from "@sentry/react-native";
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
@@ -175,6 +176,16 @@ export default function PrayerTimesScreen() {
         );
         setPrayerTimes(times);
         setLoading(false);
+
+        // Track prayer times viewed metric
+        Sentry.startSpan(
+          {
+            name: "prayer.times_viewed",
+            op: "ui.action",
+            attributes: { "prayer.calculation_method": calculationMethod },
+          },
+          () => {},
+        );
 
         // Reschedule prayer notifications when times recalculate
         const isToday = selectedDate.toDateString() === new Date().toDateString();

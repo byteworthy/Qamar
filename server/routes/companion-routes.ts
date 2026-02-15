@@ -7,6 +7,7 @@
 
 import type { Express } from "express";
 import { z } from "zod";
+import * as Sentry from "@sentry/node";
 import { aiRateLimiter } from "../middleware/ai-rate-limiter";
 import {
   VALIDATION_MODE,
@@ -160,87 +161,104 @@ export function registerCompanionRoutes(app: Express): void {
         );
       }
 
-      // Detect Islamic query and fetch context
-      let islamicContext: IslamicContext | undefined;
-      const citations: Citation[] = [];
+      // Wrap entire companion logic in a Sentry span for end-to-end tracing
+      await Sentry.startSpan(
+        { name: "POST /api/companion/message", op: "ai.companion" },
+        async () => {
+          // Detect Islamic query and fetch context
+          let islamicContext: IslamicContext | undefined;
+          const citations: Citation[] = [];
 
-      const isIslamic = detectIslamicQuery(message) || isIslamicKnowledgeQuery(message);
+          const isIslamic = detectIslamicQuery(message) || isIslamicKnowledgeQuery(message);
 
-      if (isIslamic) {
-        // Fetch lightweight keyword-matched context for the system prompt
-        islamicContext = await fetchIslamicContext(message);
+          if (isIslamic) {
+            // Child span: Islamic knowledge search
+            await Sentry.startSpan(
+              { name: "islamic_knowledge_search", op: "ai.companion.knowledge" },
+              async () => {
+                // Fetch lightweight keyword-matched context for the system prompt
+                islamicContext = await fetchIslamicContext(message);
 
-        // Also run the full knowledge search for richer citations
-        const knowledgeResult = findRelevantContent(message, 3);
+                // Also run the full knowledge search for richer citations
+                const knowledgeResult = findRelevantContent(message, 3);
 
-        for (const cite of knowledgeResult.citations) {
-          citations.push({
-            type: cite.type,
-            reference: cite.reference,
-            text: cite.english,
+                for (const cite of knowledgeResult.citations) {
+                  citations.push({
+                    type: cite.type,
+                    reference: cite.reference,
+                    text: cite.english,
+                  });
+                }
+
+                // Add concept citations if detected
+                for (const concept of knowledgeResult.concepts) {
+                  citations.push({
+                    type: "concept",
+                    reference: "Islamic Concept",
+                    text: concept,
+                  });
+                }
+
+                // If knowledge search found verses/hadiths not in the basic context,
+                // enrich the islamic context for the system prompt
+                if (!islamicContext!.relevantVerse && knowledgeResult.citations.some(c => c.type === 'quran')) {
+                  const topVerse = knowledgeResult.citations.find(c => c.type === 'quran')!;
+                  islamicContext!.relevantVerse = {
+                    arabic: topVerse.arabic,
+                    translation: topVerse.english,
+                    reference: topVerse.reference,
+                  };
+                }
+                if (!islamicContext!.relevantHadith && knowledgeResult.citations.some(c => c.type === 'hadith')) {
+                  const topHadith = knowledgeResult.citations.find(c => c.type === 'hadith')!;
+                  islamicContext!.relevantHadith = {
+                    text: topHadith.english,
+                    source: topHadith.reference,
+                  };
+                }
+              },
+            );
+          }
+
+          // Build system prompt with Islamic context
+          const systemPrompt = buildCompanionSystemPrompt(islamicContext);
+
+          // Build messages array
+          const messages: Array<{ role: "user" | "assistant"; content: string }> = [];
+
+          if (conversationHistory) {
+            for (const msg of conversationHistory) {
+              messages.push({ role: msg.role, content: msg.content });
+            }
+          }
+
+          messages.push({ role: "user", content: message });
+
+          // Child span: Claude API call
+          const response = await Sentry.startSpan(
+            { name: "claude_api_call", op: "ai.companion.claude" },
+            async () => {
+              return getAnthropicClient().messages.create({
+                model: "claude-sonnet-4-5",
+                max_tokens: 1024,
+                system: systemPrompt,
+                messages,
+              });
+            },
+          );
+
+          const firstBlock = response.content[0];
+          const responseText =
+            firstBlock?.type === "text"
+              ? firstBlock.text
+              : "I'm here for you. Could you tell me more about what's on your mind?";
+
+          res.json({
+            response: responseText,
+            citations: citations.length > 0 ? citations : undefined,
           });
-        }
-
-        // Add concept citations if detected
-        for (const concept of knowledgeResult.concepts) {
-          citations.push({
-            type: "concept",
-            reference: "Islamic Concept",
-            text: concept,
-          });
-        }
-
-        // If knowledge search found verses/hadiths not in the basic context,
-        // enrich the islamic context for the system prompt
-        if (!islamicContext.relevantVerse && knowledgeResult.citations.some(c => c.type === 'quran')) {
-          const topVerse = knowledgeResult.citations.find(c => c.type === 'quran')!;
-          islamicContext.relevantVerse = {
-            arabic: topVerse.arabic,
-            translation: topVerse.english,
-            reference: topVerse.reference,
-          };
-        }
-        if (!islamicContext.relevantHadith && knowledgeResult.citations.some(c => c.type === 'hadith')) {
-          const topHadith = knowledgeResult.citations.find(c => c.type === 'hadith')!;
-          islamicContext.relevantHadith = {
-            text: topHadith.english,
-            source: topHadith.reference,
-          };
-        }
-      }
-
-      // Build system prompt with Islamic context
-      const systemPrompt = buildCompanionSystemPrompt(islamicContext);
-
-      // Build messages array
-      const messages: Array<{ role: "user" | "assistant"; content: string }> = [];
-
-      if (conversationHistory) {
-        for (const msg of conversationHistory) {
-          messages.push({ role: msg.role, content: msg.content });
-        }
-      }
-
-      messages.push({ role: "user", content: message });
-
-      // Call Claude API
-      const response = await getAnthropicClient().messages.create({
-        model: "claude-sonnet-4-5",
-        max_tokens: 1024,
-        system: systemPrompt,
-        messages,
-      });
-
-      const firstBlock = response.content[0];
-      const responseText =
-        firstBlock?.type === "text"
-          ? firstBlock.text
-          : "I'm here for you. Could you tell me more about what's on your mind?";
-
-      res.json({
-        response: responseText,
-        citations: citations.length > 0 ? citations : undefined,
-      });
+        },
+      );
     } catch (error) {
       req.logger.error("Companion message failed", error, {
         operation: "companion_message",
