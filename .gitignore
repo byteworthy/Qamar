@@ -94,3 +94,4 @@ test-minimal.bats
 
 # Local directories
 .local/
+scripts/test-offline.db
