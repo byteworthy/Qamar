@@ -16,8 +16,8 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { useTheme } from "@/hooks/useTheme";
 import {
   useHadithCollections,
-  useHadiths,
   useHadithSearch,
+  useDailyHadith,
   HadithCollection,
   Hadith,
 } from "@/hooks/useHadithData";
@@ -26,6 +26,94 @@ import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+// ============================================================================
+// Daily Hadith Card
+// ============================================================================
+
+function DailyHadithCard() {
+  const { theme } = useTheme();
+  const navigation = useNavigation<NavigationProp>();
+  const { data: dailyHadith, isLoading } = useDailyHadith();
+
+  if (isLoading || !dailyHadith) return null;
+
+  const gradeColor =
+    dailyHadith.grade === "Sahih"
+      ? "#4CAF50"
+      : dailyHadith.grade === "Hasan"
+        ? "#FF9800"
+        : "#f44336";
+
+  return (
+    <Animated.View entering={FadeInUp.duration(400).delay(0)}>
+      <GlassCard
+        onPress={() =>
+          navigation.navigate("HadithDetail", { hadithId: dailyHadith.id })
+        }
+        style={styles.dailyCard}
+        elevated
+      >
+        <View style={styles.dailyHeader}>
+          <View style={styles.dailyBadge}>
+            <Feather name="sun" size={14} color="#D4AF37" />
+            <ThemedText style={styles.dailyBadgeText}>
+              Daily Hadith
+            </ThemedText>
+          </View>
+          <View
+            style={[
+              styles.gradeBadgeSmall,
+              { backgroundColor: `${gradeColor}20` },
+            ]}
+          >
+            <ThemedText
+              style={[styles.gradeBadgeSmallText, { color: gradeColor }]}
+            >
+              {dailyHadith.grade}
+            </ThemedText>
+          </View>
+        </View>
+
+        {dailyHadith.textArabic ? (
+          <ThemedText
+            style={[styles.dailyArabic, { fontFamily: "Amiri-Bold" }]}
+            numberOfLines={2}
+          >
+            {dailyHadith.textArabic}
+          </ThemedText>
+        ) : null}
+
+        <ThemedText
+          style={[styles.dailyEnglish, { color: theme.text }]}
+          numberOfLines={3}
+        >
+          {dailyHadith.textEnglish}
+        </ThemedText>
+
+        <ThemedText
+          style={[styles.dailyNarrator, { color: theme.textSecondary }]}
+          numberOfLines={1}
+        >
+          {dailyHadith.narrator}
+        </ThemedText>
+
+        <View style={styles.dailyFooter}>
+          <ThemedText
+            style={[styles.dailyTap, { color: theme.textSecondary }]}
+          >
+            Tap to read full hadith
+          </ThemedText>
+          <Feather name="arrow-right" size={14} color={theme.textSecondary} />
+        </View>
+      </GlassCard>
+    </Animated.View>
+  );
+}
+
+// ============================================================================
+// Collection Card
+// ============================================================================
 
 interface CollectionCardProps {
   collection: HadithCollection;
@@ -37,7 +125,7 @@ function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
   const { theme } = useTheme();
 
   return (
-    <Animated.View entering={FadeInUp.duration(350).delay(index * 50)}>
+    <Animated.View entering={FadeInUp.duration(350).delay(100 + index * 50)}>
       <GlassCard onPress={onPress} style={styles.collectionCard} elevated>
         <View style={styles.collectionContent}>
           <View style={styles.collectionIcon}>
@@ -107,6 +195,10 @@ function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
   );
 }
 
+// ============================================================================
+// Search Result Card
+// ============================================================================
+
 interface HadithSearchResultProps {
   hadith: Hadith;
   onPress: () => void;
@@ -124,8 +216,8 @@ function HadithSearchResult({
     hadith.grade === "Sahih"
       ? "#4CAF50"
       : hadith.grade === "Hasan"
-        ? "#2196F3"
-        : "#9E9E9E";
+        ? "#FF9800"
+        : "#f44336";
 
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(index * 50)}>
@@ -172,6 +264,10 @@ function HadithSearchResult({
     </Animated.View>
   );
 }
+
+// ============================================================================
+// Main Screen
+// ============================================================================
 
 export default function HadithLibraryScreen() {
   const insets = useSafeAreaInsets();
@@ -301,6 +397,13 @@ export default function HadithLibraryScreen() {
             { paddingBottom: 100 + insets.bottom },
           ]}
           showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            searchLoading ? (
+              <View style={styles.searchLoadingContainer}>
+                <ActivityIndicator size="small" color={theme.primary} />
+              </View>
+            ) : null
+          }
         />
       ) : (
         <FlatList
@@ -318,6 +421,7 @@ export default function HadithLibraryScreen() {
             { paddingBottom: 100 + insets.bottom },
           ]}
           showsVerticalScrollIndicator={false}
+          ListHeaderComponent={!isSearching ? <DailyHadithCard /> : null}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Feather
@@ -387,10 +491,71 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter-Regular",
   },
+  searchLoadingContainer: {
+    paddingVertical: 16,
+    alignItems: "center",
+  },
   listContent: {
     paddingHorizontal: 20,
     gap: 12,
   },
+  // Daily Hadith Card
+  dailyCard: {
+    padding: 20,
+    marginBottom: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: "#D4AF37",
+  },
+  dailyHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  dailyBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "rgba(212, 175, 55, 0.15)",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  dailyBadgeText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#D4AF37",
+  },
+  dailyArabic: {
+    fontSize: 22,
+    lineHeight: 36,
+    textAlign: "right",
+    writingDirection: "rtl",
+    marginBottom: 10,
+  },
+  dailyEnglish: {
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 8,
+  },
+  dailyNarrator: {
+    fontSize: 12,
+    fontStyle: "italic",
+    marginBottom: 12,
+  },
+  dailyFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 4,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(128, 128, 128, 0.2)",
+    paddingTop: 10,
+  },
+  dailyTap: {
+    fontSize: 12,
+  },
+  // Collection Card
   collectionCard: {
     flexDirection: "row",
     alignItems: "center",

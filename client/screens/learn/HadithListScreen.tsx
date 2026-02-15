@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import {
   View,
   StyleSheet,
   FlatList,
+  Pressable,
+  TextInput,
   ActivityIndicator,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { useHadiths, Hadith } from "@/hooks/useHadithData";
+import {
+  useHadiths,
+  useHadithCollections,
+  Hadith,
+} from "@/hooks/useHadithData";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { RouteType } from "@/navigation/types";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+// ============================================================================
+// Hadith Card
+// ============================================================================
 
 interface HadithCardProps {
   hadith: Hadith;
@@ -33,16 +43,16 @@ function HadithCard({ hadith, onPress, index }: HadithCardProps) {
     hadith.grade === "Sahih"
       ? "#4CAF50"
       : hadith.grade === "Hasan"
-        ? "#2196F3"
-        : "#9E9E9E";
+        ? "#FF9800"
+        : "#f44336";
 
   return (
-    <Animated.View entering={FadeInUp.duration(350).delay(index * 50)}>
+    <Animated.View entering={FadeInUp.duration(350).delay(index * 40)}>
       <GlassCard onPress={onPress} style={styles.hadithCard} elevated>
         <View style={styles.hadithContent}>
           <View style={styles.hadithHeader}>
             <View style={styles.hadithNumber}>
-              <ThemedText style={styles.hadithNumberText}>
+              <ThemedText style={[styles.hadithNumberText, { color: theme.primary }]}>
                 {hadith.hadithNumber}
               </ThemedText>
             </View>
@@ -74,6 +84,7 @@ function HadithCard({ hadith, onPress, index }: HadithCardProps) {
 
           <ThemedText
             style={[styles.narratorText, { color: theme.textSecondary }]}
+            numberOfLines={1}
           >
             {hadith.narrator}
           </ThemedText>
@@ -90,6 +101,10 @@ function HadithCard({ hadith, onPress, index }: HadithCardProps) {
   );
 }
 
+// ============================================================================
+// Main Screen
+// ============================================================================
+
 export default function HadithListScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
@@ -97,6 +112,26 @@ export default function HadithListScreen() {
   const route = useRoute<RouteType<"HadithList">>();
   const { collectionId } = route.params;
   const { data: hadiths, isLoading, error } = useHadiths(collectionId);
+  const { data: collections } = useHadithCollections();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const collection = useMemo(
+    () => collections?.find((c) => c.id === collectionId),
+    [collections, collectionId]
+  );
+
+  const filteredHadiths = useMemo(() => {
+    if (!hadiths) return [];
+    if (!searchQuery.trim()) return hadiths;
+    const q = searchQuery.toLowerCase();
+    return hadiths.filter(
+      (h) =>
+        h.textEnglish.toLowerCase().includes(q) ||
+        h.textArabic.includes(searchQuery) ||
+        h.narrator.toLowerCase().includes(q) ||
+        String(h.hadithNumber).includes(searchQuery)
+    );
+  }, [hadiths, searchQuery]);
 
   const handleHadithPress = (hadith: Hadith) => {
     navigation.navigate("HadithDetail", { hadithId: hadith.id });
@@ -139,16 +174,96 @@ export default function HadithListScreen() {
     );
   }
 
+  const ListHeader = () => (
+    <View style={styles.listHeader}>
+      {/* Collection Info */}
+      {collection && (
+        <Animated.View entering={FadeInDown.duration(350)}>
+          <GlassCard style={styles.collectionHeader} elevated>
+            <ThemedText
+              style={[
+                styles.collectionArabic,
+                { fontFamily: "Amiri-Bold", color: theme.primary },
+              ]}
+            >
+              {collection.nameArabic}
+            </ThemedText>
+            <ThemedText style={styles.collectionName}>
+              {collection.name}
+            </ThemedText>
+            <ThemedText
+              style={[
+                styles.collectionCompiler,
+                { color: theme.textSecondary },
+              ]}
+            >
+              {collection.compiler}
+            </ThemedText>
+            <ThemedText
+              style={[
+                styles.collectionDesc,
+                { color: theme.textSecondary },
+              ]}
+            >
+              {collection.description}
+            </ThemedText>
+            <View style={styles.collectionStats}>
+              <View
+                style={[
+                  styles.statBadge,
+                  { backgroundColor: "rgba(212, 175, 55, 0.15)" },
+                ]}
+              >
+                <ThemedText
+                  style={[styles.statText, { color: theme.primary }]}
+                >
+                  {hadiths?.length ?? 0} hadiths loaded
+                </ThemedText>
+              </View>
+            </View>
+          </GlassCard>
+        </Animated.View>
+      )}
+
+      {/* Search within collection */}
+      <View
+        style={[
+          styles.searchBar,
+          {
+            backgroundColor: theme.inputBackground,
+            borderColor: theme.border,
+          },
+        ]}
+      >
+        <Feather name="search" size={18} color={theme.textSecondary} />
+        <TextInput
+          style={[styles.searchInput, { color: theme.text }]}
+          placeholder="Search within collection..."
+          placeholderTextColor={theme.textSecondary}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        {searchQuery.length > 0 && (
+          <Pressable onPress={() => setSearchQuery("")}>
+            <Feather name="x" size={18} color={theme.textSecondary} />
+          </Pressable>
+        )}
+      </View>
+    </View>
+  );
+
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <FlatList
-        data={hadiths}
+        data={filteredHadiths}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
           <HadithCard
             hadith={item}
             onPress={() => handleHadithPress(item)}
-            index={index}
+            index={Math.min(index, 10)}
           />
         )}
         contentContainerStyle={[
@@ -156,13 +271,16 @@ export default function HadithListScreen() {
           { paddingBottom: 100 + insets.bottom, paddingTop: 16 },
         ]}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={<ListHeader />}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Feather name="file-text" size={48} color={theme.textSecondary} />
             <ThemedText
               style={[styles.emptyText, { color: theme.textSecondary }]}
             >
-              No hadiths available
+              {searchQuery
+                ? "No hadiths match your search"
+                : "No hadiths available"}
             </ThemedText>
           </View>
         }
@@ -204,6 +322,68 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     gap: 12,
   },
+  listHeader: {
+    gap: 12,
+    marginBottom: 4,
+  },
+  // Collection Header
+  collectionHeader: {
+    padding: 20,
+    alignItems: "center",
+  },
+  collectionArabic: {
+    fontSize: 28,
+    lineHeight: 40,
+    textAlign: "center",
+    marginBottom: 4,
+  },
+  collectionName: {
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 2,
+  },
+  collectionCompiler: {
+    fontSize: 13,
+    fontStyle: "italic",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  collectionDesc: {
+    fontSize: 13,
+    lineHeight: 19,
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  collectionStats: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  statBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+  statText: {
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  // Search
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    gap: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 15,
+    fontFamily: "Inter-Regular",
+  },
+  // Hadith Card
   hadithCard: {
     flexDirection: "row",
     alignItems: "center",

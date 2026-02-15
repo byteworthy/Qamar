@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Pressable,
+  Share,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
 import { useHadithById } from "@/hooks/useHadithData";
@@ -16,12 +20,73 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { RouteType } from "@/navigation/types";
 
+const BOOKMARKS_KEY = "@noor_hadith_bookmarks";
+
+const COLLECTION_NAMES: Record<string, string> = {
+  bukhari: "Sahih al-Bukhari",
+  muslim: "Sahih Muslim",
+  tirmidhi: "Jami at-Tirmidhi",
+  abudawud: "Sunan Abu Dawud",
+  nasai: "Sunan an-Nasa'i",
+  ibnmajah: "Sunan Ibn Majah",
+};
+
 export default function HadithDetailScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const route = useRoute<RouteType<"HadithDetail">>();
   const { hadithId } = route.params;
   const { data: hadith, isLoading, error } = useHadithById(hadithId);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // Load bookmark state
+  useEffect(() => {
+    AsyncStorage.getItem(BOOKMARKS_KEY).then((raw) => {
+      if (raw) {
+        const bookmarks: string[] = JSON.parse(raw);
+        setIsBookmarked(bookmarks.includes(hadithId));
+      }
+    });
+  }, [hadithId]);
+
+  const toggleBookmark = useCallback(async () => {
+    try {
+      const raw = await AsyncStorage.getItem(BOOKMARKS_KEY);
+      const bookmarks: string[] = raw ? JSON.parse(raw) : [];
+      let updated: string[];
+      if (bookmarks.includes(hadithId)) {
+        updated = bookmarks.filter((id) => id !== hadithId);
+        setIsBookmarked(false);
+      } else {
+        updated = [...bookmarks, hadithId];
+        setIsBookmarked(true);
+      }
+      await AsyncStorage.setItem(BOOKMARKS_KEY, JSON.stringify(updated));
+    } catch {
+      Alert.alert("Error", "Could not update bookmark.");
+    }
+  }, [hadithId]);
+
+  const handleShare = useCallback(async () => {
+    if (!hadith) return;
+    const collectionName = COLLECTION_NAMES[hadith.collection] ?? hadith.collection;
+    const text = [
+      hadith.textArabic,
+      "",
+      hadith.textEnglish,
+      "",
+      `- ${hadith.narrator}`,
+      `[${collectionName}, Hadith #${hadith.hadithNumber}]`,
+      "",
+      "Shared via Noor App",
+    ].join("\n");
+
+    try {
+      await Share.share({ message: text });
+    } catch {
+      // user cancelled
+    }
+  }, [hadith]);
 
   if (isLoading) {
     return (
@@ -64,17 +129,10 @@ export default function HadithDetailScreen() {
     hadith.grade === "Sahih"
       ? "#4CAF50"
       : hadith.grade === "Hasan"
-        ? "#2196F3"
-        : "#9E9E9E";
+        ? "#FF9800"
+        : "#f44336";
 
-  const collectionName =
-    hadith.collection === "bukhari"
-      ? "Sahih al-Bukhari"
-      : hadith.collection === "muslim"
-        ? "Sahih Muslim"
-        : hadith.collection === "tirmidhi"
-          ? "Jami at-Tirmidhi"
-          : hadith.collection;
+  const collectionName = COLLECTION_NAMES[hadith.collection] ?? hadith.collection;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
@@ -85,7 +143,7 @@ export default function HadithDetailScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Reference & Grade */}
+        {/* Reference, Grade & Actions */}
         <Animated.View entering={FadeInUp.duration(350).delay(0)}>
           <View style={styles.referenceRow}>
             <View
@@ -117,6 +175,53 @@ export default function HadithDetailScreen() {
                 {hadith.grade}
               </ThemedText>
             </View>
+          </View>
+
+          {/* Action Buttons */}
+          <View style={styles.actionsRow}>
+            <Pressable
+              onPress={toggleBookmark}
+              style={[
+                styles.actionButton,
+                {
+                  backgroundColor: isBookmarked
+                    ? "rgba(212, 175, 55, 0.15)"
+                    : "transparent",
+                  borderColor: theme.border,
+                },
+              ]}
+            >
+              <Feather
+                name={isBookmarked ? "bookmark" : "bookmark"}
+                size={18}
+                color={isBookmarked ? "#D4AF37" : theme.textSecondary}
+              />
+              <ThemedText
+                style={[
+                  styles.actionText,
+                  {
+                    color: isBookmarked ? "#D4AF37" : theme.textSecondary,
+                  },
+                ]}
+              >
+                {isBookmarked ? "Saved" : "Save"}
+              </ThemedText>
+            </Pressable>
+
+            <Pressable
+              onPress={handleShare}
+              style={[
+                styles.actionButton,
+                { borderColor: theme.border },
+              ]}
+            >
+              <Feather name="share-2" size={18} color={theme.textSecondary} />
+              <ThemedText
+                style={[styles.actionText, { color: theme.textSecondary }]}
+              >
+                Share
+              </ThemedText>
+            </Pressable>
           </View>
         </Animated.View>
 
@@ -171,6 +276,67 @@ export default function HadithDetailScreen() {
           </GlassCard>
         </Animated.View>
 
+        {/* Metadata */}
+        <Animated.View entering={FadeInUp.duration(350).delay(350)}>
+          <GlassCard style={styles.metadataCard} elevated>
+            <View style={styles.sectionHeader}>
+              <Feather name="info" size={16} color={theme.textSecondary} />
+              <ThemedText
+                style={[
+                  styles.sectionTitle,
+                  { color: theme.textSecondary },
+                ]}
+              >
+                Reference
+              </ThemedText>
+            </View>
+            <View style={styles.metadataGrid}>
+              <View style={styles.metadataItem}>
+                <ThemedText
+                  style={[styles.metadataLabel, { color: theme.textSecondary }]}
+                >
+                  Collection
+                </ThemedText>
+                <ThemedText style={[styles.metadataValue, { color: theme.text }]}>
+                  {collectionName}
+                </ThemedText>
+              </View>
+              {hadith.bookNumber > 0 && (
+                <View style={styles.metadataItem}>
+                  <ThemedText
+                    style={[styles.metadataLabel, { color: theme.textSecondary }]}
+                  >
+                    Book
+                  </ThemedText>
+                  <ThemedText style={[styles.metadataValue, { color: theme.text }]}>
+                    {hadith.bookNumber}
+                  </ThemedText>
+                </View>
+              )}
+              <View style={styles.metadataItem}>
+                <ThemedText
+                  style={[styles.metadataLabel, { color: theme.textSecondary }]}
+                >
+                  Hadith No.
+                </ThemedText>
+                <ThemedText style={[styles.metadataValue, { color: theme.text }]}>
+                  {hadith.hadithNumber}
+                </ThemedText>
+              </View>
+              <View style={styles.metadataItem}>
+                <ThemedText
+                  style={[styles.metadataLabel, { color: theme.textSecondary }]}
+                >
+                  Grade
+                </ThemedText>
+                <ThemedText style={[styles.metadataValue, { color: gradeColor }]}>
+                  {hadith.grade}
+                </ThemedText>
+              </View>
+            </View>
+          </GlassCard>
+        </Animated.View>
+
         {/* Topics */}
         {hadith.topics.length > 0 && (
           <Animated.View entering={FadeInUp.duration(350).delay(400)}>
@@ -209,6 +375,18 @@ export default function HadithDetailScreen() {
             </GlassCard>
           </Animated.View>
         )}
+
+        {/* Citation Footer */}
+        <Animated.View entering={FadeInUp.duration(350).delay(450)}>
+          <View style={styles.citationContainer}>
+            <ThemedText
+              style={[styles.citationText, { color: theme.textSecondary }]}
+            >
+              {collectionName}, Book {hadith.bookNumber || "-"}, Hadith{" "}
+              {hadith.hadithNumber}. Graded {hadith.grade}.
+            </ThemedText>
+          </View>
+        </Animated.View>
       </ScrollView>
     </View>
   );
@@ -273,6 +451,26 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
   },
+  // Actions
+  actionsRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 4,
+  },
+  actionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  actionText: {
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  // Arabic
   arabicCard: {
     padding: 24,
   },
@@ -282,6 +480,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     writingDirection: "rtl",
   },
+  // Translation
   translationCard: {
     padding: 20,
   },
@@ -301,6 +500,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 26,
   },
+  // Narrator
   narratorCard: {
     padding: 20,
   },
@@ -309,6 +509,30 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontStyle: "italic",
   },
+  // Metadata
+  metadataCard: {
+    padding: 20,
+  },
+  metadataGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 16,
+  },
+  metadataItem: {
+    minWidth: "40%",
+    gap: 2,
+  },
+  metadataLabel: {
+    fontSize: 11,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  metadataValue: {
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  // Topics
   topicsCard: {
     padding: 20,
   },
@@ -325,5 +549,18 @@ const styles = StyleSheet.create({
   topicText: {
     fontSize: 13,
     fontWeight: "500",
+  },
+  // Citation
+  citationContainer: {
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(128, 128, 128, 0.2)",
+  },
+  citationText: {
+    fontSize: 12,
+    lineHeight: 18,
+    fontStyle: "italic",
+    textAlign: "center",
   },
 });
