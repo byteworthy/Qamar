@@ -2,37 +2,48 @@
  * Premium Upsell Component
  *
  * Shows an attractive upgrade prompt when users encounter locked features.
- * Displays feature benefits and upgrade CTA.
+ * Displays feature benefits and upgrade CTA with themed styling.
  */
 
-import React, { useMemo } from "react";
-import { View, Text, StyleSheet, Pressable, ActivityIndicator, Alert } from "react-native";
+import React, { useMemo, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+  Alert,
+  Animated,
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { PremiumFeature } from "@/lib/premium-features";
 import { logPaywallDismissed } from "@/lib/analytics";
 import { useOfferings, usePurchase, useRestorePurchases } from "@/hooks/useRevenueCat";
+import { useTheme } from "@/hooks/useTheme";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import { VALIDATION_MODE } from "@/lib/config";
 import { GlassCard } from "./GlassCard";
 import { Button } from "./Button";
+import {
+  NoorColors,
+  Fonts,
+  Spacing,
+  BorderRadius,
+  Gradients,
+} from "@/constants/theme";
+
+const GOLD = NoorColors.gold;
+const GOLD_LIGHT = NoorColors.goldLight;
 
 interface PremiumUpsellProps {
-  /**
-   * The feature that is locked
-   */
+  /** The feature that is locked */
   feature: PremiumFeature;
-
-  /**
-   * Required subscription tier (plus/pro)
-   */
+  /** Required subscription tier (plus/pro) */
   requiredTier: "plus" | "pro" | null;
-
-  /**
-   * Callback when user taps upgrade button
-   */
+  /** Callback when user taps upgrade button */
   onUpgrade: () => void;
-
-  /**
-   * Callback when user dismisses the upsell
-   */
+  /** Callback when user dismisses the upsell */
   onDismiss?: () => void;
 }
 
@@ -42,12 +53,14 @@ interface PremiumUpsellProps {
 const FEATURE_BENEFITS: Record<PremiumFeature, {
   title: string;
   description: string;
+  icon: keyof typeof Feather.glyphMap;
   benefits: string[];
 }> = {
   // Quran features
   [PremiumFeature.QURAN_OFFLINE]: {
     title: "Offline Quran Access",
-    description: "Read the Quran anytime, anywhere - even without internet.",
+    description: "Read the Quran anytime, anywhere -- even without internet.",
+    icon: "download-cloud",
     benefits: [
       "Download all 114 surahs",
       "Access translations offline",
@@ -58,6 +71,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.QURAN_ALL_TRANSLATIONS]: {
     title: "All Quran Translations",
     description: "Understand the Quran in your preferred language.",
+    icon: "globe",
     benefits: [
       "20+ translations in multiple languages",
       "Compare translations side-by-side",
@@ -68,6 +82,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.QURAN_AUDIO]: {
     title: "Quran Audio Recitations",
     description: "Listen to beautiful recitations by renowned Qaris.",
+    icon: "headphones",
     benefits: [
       "10+ famous reciters",
       "High-quality audio",
@@ -78,6 +93,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.QURAN_ADVANCED_SEARCH]: {
     title: "Advanced Quran Search",
     description: "Find verses quickly with powerful search filters.",
+    icon: "search",
     benefits: [
       "Search by keyword, topic, or theme",
       "Filter by surah or juz",
@@ -90,6 +106,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.ARABIC_ALL_SCENARIOS]: {
     title: "All Conversation Scenarios",
     description: "Master everyday Arabic conversations.",
+    icon: "message-circle",
     benefits: [
       "50+ real-world scenarios",
       "From greetings to complex discussions",
@@ -100,6 +117,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.ARABIC_UNLIMITED_REVIEWS]: {
     title: "Unlimited Flashcard Reviews",
     description: "Practice as much as you want, whenever you want.",
+    icon: "layers",
     benefits: [
       "No daily review limits",
       "Accelerate your learning",
@@ -110,6 +128,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.ARABIC_PRONUNCIATION]: {
     title: "AI Pronunciation Feedback",
     description: "Perfect your Arabic pronunciation with AI coaching.",
+    icon: "mic",
     benefits: [
       "Real-time pronunciation analysis",
       "Detailed feedback and tips",
@@ -120,6 +139,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.ARABIC_CUSTOM_LISTS]: {
     title: "Custom Vocabulary Lists",
     description: "Create personalized word lists for focused learning.",
+    icon: "list",
     benefits: [
       "Unlimited custom lists",
       "Import/export word lists",
@@ -132,6 +152,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.PRAYER_CUSTOM_ADHAN]: {
     title: "Custom Adhan Sounds",
     description: "Wake up to your favorite call to prayer.",
+    icon: "volume-2",
     benefits: [
       "20+ beautiful adhan options",
       "Reciters from Mecca and Medina",
@@ -142,6 +163,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.PRAYER_WIDGET]: {
     title: "Prayer Times Widget",
     description: "See prayer times at a glance on your home screen.",
+    icon: "clock",
     benefits: [
       "Beautiful home screen widget",
       "Next prayer countdown",
@@ -152,6 +174,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.PRAYER_QIBLA]: {
     title: "Qibla Direction Finder",
     description: "Never miss the direction of prayer.",
+    icon: "compass",
     benefits: [
       "Accurate compass-based Qibla",
       "Works anywhere in the world",
@@ -162,6 +185,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.PRAYER_HISTORY]: {
     title: "Prayer History & Streaks",
     description: "Track your prayer consistency and build habits.",
+    icon: "bar-chart-2",
     benefits: [
       "Complete prayer history",
       "Streak tracking and goals",
@@ -174,6 +198,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.REFLECTION_EXERCISES]: {
     title: "Islamic Reflection Tools",
     description: "Access guided reflection and spiritual growth exercises.",
+    icon: "heart",
     benefits: [
       "Evidence-based reflection techniques",
       "Guided thought records",
@@ -184,6 +209,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   [PremiumFeature.REFLECTION_ADVANCED]: {
     title: "Advanced Reflection Analytics",
     description: "Deep insights into your personal growth journey.",
+    icon: "trending-up",
     benefits: [
       "Detailed progress analytics",
       "Pattern recognition",
@@ -196,7 +222,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
 /**
  * Premium Upsell Component
  *
- * Shows a beautiful paywall with feature benefits.
+ * Shows a themed paywall with feature benefits, gold accents, and animated entrance.
  */
 export function PremiumUpsell({
   feature,
@@ -204,6 +230,8 @@ export function PremiumUpsell({
   onUpgrade,
   onDismiss,
 }: PremiumUpsellProps): React.JSX.Element {
+  const { theme } = useTheme();
+  const colorScheme = useColorScheme() ?? "dark";
   const benefit = FEATURE_BENEFITS[feature];
   const { offerings, isLoading: offeringsLoading } = useOfferings();
   const { purchase, isLoading: purchaseLoading } = usePurchase();
@@ -211,12 +239,29 @@ export function PremiumUpsell({
 
   const isLoading = purchaseLoading || restoreLoading;
 
+  // Entrance animation
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(40)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 350,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 350,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
   // Resolve the correct package from offerings
   const targetPackage = useMemo(() => {
     if (!offerings?.current) return null;
     const packages = offerings.current.availablePackages;
-    // Convention: offering contains packages whose identifiers match tier
-    // Try RC standard identifiers first, then custom
     const tierKey = requiredTier === "pro" ? "$rc_annual" : "$rc_monthly";
     return (
       packages.find((p) => p.identifier === tierKey) ||
@@ -252,7 +297,6 @@ export function PremiumUpsell({
     } else if (result.error) {
       Alert.alert("Purchase Error", result.error);
     }
-    // Cancelled -- do nothing
   };
 
   const handleRestore = async () => {
@@ -268,66 +312,125 @@ export function PremiumUpsell({
     }
   };
 
+  const gradientColors =
+    colorScheme === "dark"
+      ? Gradients.dark.buttonGradient.colors
+      : Gradients.light.buttonGradient.colors;
+
+  const tierLabel = requiredTier === "pro" ? "Pro" : "Plus";
+
   return (
-    <View style={styles.container}>
-      <GlassCard style={styles.card}>
-        {/* Dismiss button */}
-        {onDismiss && (
-          <Pressable onPress={handleDismiss} style={styles.dismissButton}>
-            <Text style={styles.dismissText}>✕</Text>
-          </Pressable>
-        )}
-
-        {/* Premium badge */}
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>
-            {requiredTier === "pro" ? "PRO" : "PLUS"}
-          </Text>
-        </View>
-
-        {/* Feature title */}
-        <Text style={styles.title}>{benefit.title}</Text>
-
-        {/* Description */}
-        <Text style={styles.description}>{benefit.description}</Text>
-
-        {/* Benefits list */}
-        <View style={styles.benefitsList}>
-          {benefit.benefits.map((item, index) => (
-            <View key={index} style={styles.benefitItem}>
-              <Text style={styles.checkmark}>✓</Text>
-              <Text style={styles.benefitText}>{item}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Upgrade button */}
-        <Button
-          onPress={handleUpgrade}
-          style={styles.upgradeButton}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color="#fff" size="small" />
-          ) : offeringsLoading ? (
-            "Loading..."
-          ) : priceLabel ? (
-            `Upgrade to ${requiredTier === "pro" ? "Pro" : "Plus"} — ${priceLabel}`
-          ) : (
-            `Upgrade to ${requiredTier === "pro" ? "Pro" : "Plus"}`
+    <View style={[styles.container, { backgroundColor: "rgba(0, 0, 0, 0.6)" }]}>
+      <Animated.View
+        style={{
+          width: "100%",
+          maxWidth: 400,
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }],
+        }}
+      >
+        <GlassCard style={styles.card}>
+          {/* Dismiss button */}
+          {onDismiss && (
+            <Pressable
+              onPress={handleDismiss}
+              style={styles.dismissButton}
+              accessibilityRole="button"
+              accessibilityLabel="Close"
+            >
+              <Feather name="x" size={20} color={theme.textSecondary} />
+            </Pressable>
           )}
-        </Button>
 
-        {/* Restore link */}
-        <Pressable onPress={handleRestore} disabled={isLoading}>
-          <Text style={styles.restoreText}>Restore Purchases</Text>
-        </Pressable>
+          {/* Premium badge */}
+          <LinearGradient
+            colors={[...gradientColors]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.badge}
+          >
+            <Text style={styles.badgeText}>{tierLabel.toUpperCase()}</Text>
+          </LinearGradient>
 
-        {/* Secondary info */}
-        <Text style={styles.footer}>
-          Cancel anytime • 7-day free trial
-        </Text>
-      </GlassCard>
+          {/* Feature icon */}
+          <View style={[styles.featureIcon, { backgroundColor: GOLD + "15" }]}>
+            <Feather name={benefit.icon} size={24} color={GOLD} />
+          </View>
+
+          {/* Feature title */}
+          <Text
+            style={[
+              styles.title,
+              { color: theme.text, fontFamily: Fonts?.serifBold },
+            ]}
+          >
+            {benefit.title}
+          </Text>
+
+          {/* Description */}
+          <Text style={[styles.description, { color: theme.textSecondary }]}>
+            {benefit.description}
+          </Text>
+
+          {/* Benefits list */}
+          <View style={styles.benefitsList}>
+            {benefit.benefits.map((item, index) => (
+              <View key={index} style={styles.benefitItem}>
+                <Feather name="check" size={14} color={GOLD} style={{ marginTop: 3 }} />
+                <Text style={[styles.benefitText, { color: theme.text }]}>
+                  {item}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Upgrade button */}
+          <Pressable
+            onPress={handleUpgrade}
+            disabled={isLoading}
+            style={({ pressed }) => [
+              styles.upgradeButtonOuter,
+              { opacity: pressed ? 0.85 : 1 },
+            ]}
+          >
+            <LinearGradient
+              colors={[...gradientColors]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.upgradeButton}
+            >
+              {isLoading ? (
+                <ActivityIndicator color="#1a1a2e" size="small" />
+              ) : (
+                <Text
+                  style={[
+                    styles.upgradeButtonText,
+                    { fontFamily: Fonts?.sansBold },
+                  ]}
+                >
+                  {offeringsLoading
+                    ? "Loading..."
+                    : priceLabel
+                      ? `Upgrade to ${tierLabel} -- ${priceLabel}`
+                      : `Upgrade to ${tierLabel}`}
+                </Text>
+              )}
+            </LinearGradient>
+          </Pressable>
+
+          {/* Restore link */}
+          <Pressable onPress={handleRestore} disabled={isLoading}>
+            <Text style={[styles.restoreText, { color: theme.textSecondary }]}>
+              Restore Purchases
+            </Text>
+          </Pressable>
+
+          {/* Footer */}
+          <Text style={[styles.footer, { color: theme.textSecondary + "80" }]}>
+            Cancel anytime  |  7-day free trial
+          </Text>
+        </GlassCard>
+      </Animated.View>
     </View>
   );
 }
@@ -337,88 +440,91 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: Spacing.xl,
   },
   card: {
-    padding: 24,
+    padding: Spacing["2xl"],
     width: "100%",
-    maxWidth: 400,
     position: "relative",
   },
   dismissButton: {
     position: "absolute",
-    top: 16,
-    right: 16,
+    top: Spacing.lg,
+    right: Spacing.lg,
     zIndex: 10,
     width: 32,
     height: 32,
     justifyContent: "center",
     alignItems: "center",
   },
-  dismissText: {
-    fontSize: 24,
-    color: "#666",
-  },
   badge: {
     alignSelf: "flex-start",
-    backgroundColor: "#FFD700",
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 6,
-    borderRadius: 16,
-    marginBottom: 16,
+    borderRadius: BorderRadius.full,
+    marginBottom: Spacing.lg,
   },
   badgeText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "bold",
-    color: "#000",
-    letterSpacing: 1,
+    color: "#1a1a2e",
+    letterSpacing: 1.5,
+  },
+  featureIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: Spacing.lg,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 8,
+    fontSize: 22,
+    marginBottom: Spacing.sm,
   },
   description: {
-    fontSize: 16,
-    color: "#ccc",
-    marginBottom: 24,
+    fontSize: 15,
+    marginBottom: Spacing["2xl"],
     lineHeight: 22,
   },
   benefitsList: {
-    marginBottom: 24,
+    marginBottom: Spacing["2xl"],
+    gap: Spacing.md,
   },
   benefitItem: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 12,
-  },
-  checkmark: {
-    fontSize: 18,
-    color: "#4CAF50",
-    marginRight: 12,
-    marginTop: 2,
+    gap: Spacing.md,
   },
   benefitText: {
     fontSize: 14,
-    color: "#fff",
     flex: 1,
     lineHeight: 20,
   },
+  upgradeButtonOuter: {
+    borderRadius: BorderRadius.lg,
+    overflow: "hidden",
+    marginBottom: Spacing.lg,
+  },
   upgradeButton: {
-    marginBottom: 16,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: BorderRadius.lg,
+  },
+  upgradeButtonText: {
+    color: "#1a1a2e",
+    fontSize: 15,
+    letterSpacing: 0.3,
   },
   restoreText: {
     fontSize: 13,
-    color: "#aaa",
     textAlign: "center",
     textDecorationLine: "underline",
-    marginBottom: 12,
+    marginBottom: Spacing.md,
   },
   footer: {
     fontSize: 12,
-    color: "#999",
     textAlign: "center",
   },
 });

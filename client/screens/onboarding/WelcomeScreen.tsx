@@ -4,154 +4,230 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeIn,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius } from "@/constants/theme";
+import {
+  Spacing,
+  BorderRadius,
+  Fonts,
+  Shadows,
+  Gradients,
+} from "@/constants/theme";
+import { NoorColors } from "@/constants/theme/colors";
 import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import { Brand } from "@/constants/brand";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const FEATURES = [
+  {
+    icon: "book-open" as const,
+    title: "Quran & Hadith",
+    desc: "Wisdom from the Quran and Prophetic traditions",
+  },
+  {
+    icon: "clock" as const,
+    title: "Prayer Times",
+    desc: "Accurate prayer times and Qibla direction",
+  },
+  {
+    icon: "heart" as const,
+    title: "Personal Reflection",
+    desc: "Guided journaling rooted in Islamic wisdom",
+  },
+];
+
+function ProgressDots({ current }: { current: number }) {
+  const { theme } = useTheme();
+  return (
+    <View style={styles.progressDots}>
+      {[0, 1, 2].map((i) => (
+        <View
+          key={i}
+          style={[
+            styles.dot,
+            {
+              backgroundColor:
+                i === current ? theme.highlightAccent : theme.overlayMedium,
+              width: i === current ? 24 : 8,
+            },
+          ]}
+        />
+      ))}
+    </View>
+  );
+}
+
+export { ProgressDots };
+
 export default function WelcomeScreen() {
   const insets = useSafeAreaInsets();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const gradients = isDark ? Gradients.dark : Gradients.light;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      {/* Atmospheric gradient background */}
+      <LinearGradient
+        colors={gradients.atmospheric.colors as readonly [string, string, ...string[]]}
+        locations={gradients.atmospheric.locations as readonly [number, number, ...number[]]}
+        start={gradients.atmospheric.start}
+        end={gradients.atmospheric.end}
+        style={StyleSheet.absoluteFill}
+      />
+
+      {/* Subtle gold vignette at bottom */}
+      <LinearGradient
+        colors={[
+          "transparent",
+          isDark ? "rgba(212, 175, 55, 0.04)" : "rgba(212, 175, 55, 0.06)",
+        ]}
+        start={{ x: 0.5, y: 0.3 }}
+        end={{ x: 0.5, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
           styles.scrollContent,
           {
-            paddingTop: insets.top + Spacing["4xl"],
+            paddingTop: insets.top + Spacing["3xl"],
             paddingBottom: insets.bottom + Spacing["4xl"],
           },
         ]}
         showsVerticalScrollIndicator={false}
       >
+        {/* Progress dots */}
+        <Animated.View entering={FadeIn.duration(500)}>
+          <ProgressDots current={0} />
+        </Animated.View>
+
+        {/* Hero section */}
         <Animated.View
-          entering={FadeInDown.duration(400)}
+          entering={FadeInDown.duration(600)}
           style={styles.header}
         >
-          <View
+          {/* Decorative geometric accent */}
+          <View style={styles.geometricAccent}>
+            <View
+              style={[
+                styles.geometricOuter,
+                { borderColor: theme.highlightAccent + "30" },
+              ]}
+            >
+              <View
+                style={[
+                  styles.geometricInner,
+                  { borderColor: theme.highlightAccent + "50" },
+                ]}
+              >
+                <Feather name="sun" size={32} color={theme.highlightAccent} />
+              </View>
+            </View>
+          </View>
+
+          {/* Title */}
+          <ThemedText
             style={[
-              styles.iconContainer,
-              { backgroundColor: theme.highlightAccentSubtle },
+              styles.title,
+              {
+                fontFamily: Fonts?.serifBold,
+                color: theme.text,
+                textShadowColor: isDark
+                  ? "rgba(212, 175, 55, 0.3)"
+                  : "rgba(212, 175, 55, 0.2)",
+                textShadowOffset: { width: 0, height: 0 },
+                textShadowRadius: 20,
+              },
             ]}
           >
-            <Feather name="sun" size={48} color={theme.highlightAccent} />
-          </View>
-          <ThemedText style={styles.title}>Welcome to {Brand.name}</ThemedText>
+            Noor
+          </ThemedText>
+
+          {/* Arabic subtitle */}
+          <ThemedText
+            style={[
+              styles.arabicSubtitle,
+              {
+                fontFamily: Fonts?.spiritual,
+                color: theme.highlightAccent,
+              },
+            ]}
+          >
+            {"نور"}
+          </ThemedText>
+
+          {/* Tagline */}
           <ThemedText style={[styles.tagline, { color: theme.textSecondary }]}>
-            {Brand.tagline}
+            Your Islamic Companion
           </ThemedText>
         </Animated.View>
 
+        {/* Feature highlights */}
         <Animated.View
-          entering={FadeInUp.duration(400).delay(100)}
-          style={styles.content}
+          entering={FadeInUp.duration(500).delay(200)}
+          style={styles.features}
         >
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather
-                name="check-circle"
-                size={20}
-                color={theme.highlightAccent}
-              />
-              <ThemedText style={styles.cardTitle}>
-                What Makes Noor Different
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Connects your thoughts to Quranic wisdom and Prophetic
-                guidance
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Helps you recognize patterns in how you think
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Offers Islamic reframes for limiting beliefs
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Private, structured reflection rooted in your tradition
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not just a journal—a companion for spiritual growth
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather
-                name="alert-circle"
-                size={20}
-                color={theme.textSecondary}
-              />
-              <ThemedText style={styles.cardTitle}>
-                What This App Is Not
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not therapy
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not medical care
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not diagnosis
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not religious authority
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[
-              styles.disclaimerBox,
-              { backgroundColor: theme.backgroundRoot },
-            ]}
-          >
-            <ThemedText
-              style={[styles.disclaimer, { color: theme.textSecondary }]}
+          {FEATURES.map((feature, i) => (
+            <Animated.View
+              key={feature.title}
+              entering={FadeInUp.duration(400).delay(300 + i * 100)}
             >
-              {Brand.betaDisclaimer}
-            </ThemedText>
-          </View>
-
-          <View
-            style={[
-              styles.disclaimerBox,
-              { backgroundColor: theme.backgroundRoot },
-            ]}
-          >
-            <ThemedText
-              style={[styles.disclaimer, { color: theme.textSecondary }]}
-            >
-              {Brand.disclaimer}
-            </ThemedText>
-          </View>
+              <GlassCard style={styles.featureCard}>
+                <View style={styles.featureRow}>
+                  <View
+                    style={[
+                      styles.featureIconWrap,
+                      { backgroundColor: theme.highlightAccent + "18" },
+                    ]}
+                  >
+                    <Feather
+                      name={feature.icon}
+                      size={22}
+                      color={theme.highlightAccent}
+                    />
+                  </View>
+                  <View style={styles.featureText}>
+                    <ThemedText
+                      style={[
+                        styles.featureTitle,
+                        { fontFamily: Fonts?.sansMedium },
+                      ]}
+                    >
+                      {feature.title}
+                    </ThemedText>
+                    <ThemedText
+                      style={[
+                        styles.featureDesc,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      {feature.desc}
+                    </ThemedText>
+                  </View>
+                </View>
+              </GlassCard>
+            </Animated.View>
+          ))}
         </Animated.View>
       </ScrollView>
 
+      {/* Footer with gradient button */}
       <Animated.View
-        entering={FadeInUp.duration(400).delay(200)}
+        entering={FadeInUp.duration(400).delay(600)}
         style={[
           styles.footer,
           {
-            paddingBottom: insets.bottom + Spacing.xl,
-            backgroundColor: theme.backgroundRoot,
-            borderTopColor: theme.overlayLight,
+            paddingBottom: insets.bottom + Spacing.lg,
           },
         ]}
       >
@@ -159,18 +235,31 @@ export default function WelcomeScreen() {
           onPress={() => navigation.navigate("Onboarding_Privacy")}
           style={({ pressed }) => [
             styles.continueButton,
-            {
-              backgroundColor: theme.primary,
-              opacity: pressed ? 0.9 : 1,
-            },
+            { opacity: pressed ? 0.9 : 1 },
           ]}
         >
-          <ThemedText
-            style={[styles.continueButtonText, { color: theme.onPrimary }]}
+          <LinearGradient
+            colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}
+            locations={
+              gradients.buttonGradient.locations as readonly [number, number, ...number[]]
+            }
+            start={gradients.buttonGradient.start}
+            end={gradients.buttonGradient.end}
+            style={styles.buttonGradient}
           >
-            Continue
-          </ThemedText>
-          <Feather name="arrow-right" size={20} color={theme.onPrimary} />
+            <ThemedText
+              style={[
+                styles.continueButtonText,
+                {
+                  color: theme.onPrimary,
+                  fontFamily: Fonts?.sansBold,
+                },
+              ]}
+            >
+              Get Started
+            </ThemedText>
+            <Feather name="arrow-right" size={20} color={theme.onPrimary} />
+          </LinearGradient>
         </Pressable>
       </Animated.View>
     </View>
@@ -187,79 +276,115 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: Spacing["2xl"],
   },
+  progressDots: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: Spacing["3xl"],
+  },
+  dot: {
+    height: 8,
+    borderRadius: 4,
+  },
   header: {
     alignItems: "center",
     marginBottom: Spacing["3xl"],
   },
-  iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: BorderRadius["3xl"],
+  geometricAccent: {
+    marginBottom: Spacing.xl,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: Spacing.xl,
+  },
+  geometricOuter: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    borderWidth: 1.5,
+    alignItems: "center",
+    justifyContent: "center",
+    transform: [{ rotate: "45deg" }],
+  },
+  geometricInner: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    transform: [{ rotate: "-45deg" }],
   },
   title: {
-    fontSize: 28,
+    fontSize: 52,
     fontWeight: "700",
     textAlign: "center",
-    marginBottom: Spacing.sm,
+    letterSpacing: 2,
+    marginBottom: 2,
+  },
+  arabicSubtitle: {
+    fontSize: 32,
+    textAlign: "center",
+    marginBottom: Spacing.md,
+    opacity: 0.85,
   },
   tagline: {
-    fontSize: 16,
-    textAlign: "center",
-    fontStyle: "italic",
-  },
-  content: {
-    gap: Spacing.lg,
-  },
-  card: {
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.xl,
-  },
-  cardHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.sm,
-    marginBottom: Spacing.lg,
-  },
-  cardTitle: {
     fontSize: 17,
-    fontWeight: "600",
+    textAlign: "center",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    opacity: 0.7,
   },
-  cardContent: {
+  features: {
     gap: Spacing.md,
   },
-  cardText: {
-    fontSize: 15,
-    lineHeight: 22,
+  featureCard: {
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
   },
-  disclaimerBox: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    marginTop: Spacing.sm,
+  featureRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.lg,
   },
-  disclaimer: {
-    fontSize: 13,
-    textAlign: "center",
+  featureIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  featureText: {
+    flex: 1,
+    gap: 2,
+  },
+  featureTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  featureDesc: {
+    fontSize: 14,
     lineHeight: 20,
-    fontStyle: "italic",
   },
   footer: {
     paddingHorizontal: Spacing["2xl"],
     paddingTop: Spacing.lg,
-    borderTopWidth: 1,
   },
   continueButton: {
+    borderRadius: BorderRadius.md,
+    overflow: "hidden",
+    ...Shadows.medium,
+    shadowColor: "#D4AF37",
+  },
+  buttonGradient: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
     gap: Spacing.sm,
   },
   continueButtonText: {
     fontSize: 17,
-    fontWeight: "600",
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
 });
