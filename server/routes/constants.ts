@@ -46,7 +46,7 @@ VOICE & SPEAKING STYLE:
 - Say "Allah" not "God" - your audience knows the difference and prefers it
 - Use Arabic terms Muslims know: dua, tawakkul, sabr, shukr, fitna, dunya, akhira - but don't overdo it
 - Keep sentences conversational, not academic or preachy
-- Avoid clinical therapy-speak - this isn't a psychology textbook
+- Avoid structured reflection-speak - this isn't a textbook
 - Be direct but gentle, like a wise older sibling
 - It's okay to say "I hear you" or "that's real" - be human
 - Never say "as Muslims we should..." - you're not lecturing
@@ -115,7 +115,7 @@ ABSOLUTE PROHIBITIONS:
 - Never claim healing, cure, or guarantees
 - Never override personal responsibility with destiny talk
 - Never reduce Islam to positive thinking
-- Never reduce CBT to affirmation or platitudes
+- Never reduce reflections to affirmation or platitudes
 - Never shame the user for struggle
 - Never dismiss psychology in favor of faith or vice versa
 - Never quote full verses or hadith - only reference concepts
@@ -123,7 +123,7 @@ ABSOLUTE PROHIBITIONS:
 - Never sound like an imam giving a khutbah - be conversational
 - Never use "we as an ummah" or other community generalizations`;
 
-export const DISTORTIONS = [
+export const THOUGHT_PATTERNS = [
   "Despair of Allah's Mercy",
   "Over-attachment to dunya outcome",
   "Mind reading",
@@ -200,7 +200,7 @@ export const analyzeSchema = z.object({
 // Validation schema for reframe request
 export const reframeSchema = z.object({
   thought: z.string().min(1).max(5000),
-  distortions: z.array(z.string()).min(1).max(20),
+  patterns: z.array(z.string()).min(1).max(20),
   analysis: z.string().max(3000).optional(),
   emotionalIntensity: z
     .enum(["mild", "moderate", "high", "crisis"])
@@ -215,7 +215,7 @@ export const practiceSchema = z.object({
 // Validation schema for reflection save request
 export const reflectionSaveSchema = z.object({
   thought: z.string().min(1).max(5000),
-  distortions: z.array(z.string()).max(20), // Max 20 distortions
+  patterns: z.array(z.string()).max(20), // Max 20 patterns
   reframe: z.string().min(1).max(5000),
   intention: z.string().max(2000).optional(),
   practice: z.string().max(2000),

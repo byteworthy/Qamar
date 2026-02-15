@@ -55,8 +55,9 @@ export function registerReframePracticeRoutes(app: Express): void {
         );
       }
 
-      const { thought, distortions, analysis, emotionalIntensity } =
+      const { thought, patterns, analysis, emotionalIntensity } =
         validationResult.data;
+      const distortions = patterns; // backward compat
 
       // VALIDATION MODE GUARD
       if (VALIDATION_MODE && !isAnthropicConfigured()) {

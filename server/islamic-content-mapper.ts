@@ -55,16 +55,16 @@ export interface ContentSelectionContext {
   emotionalState: EmotionalState;
   distressLevel: DistressLevel;
   context: "analyze" | "reframe" | "practice" | "dua" | "insight";
-  cognitiveDistortions?: string[];
+  thoughtPatterns?: string[];
   beliefType?: string;
   previousConcepts?: IslamicConcept[];
 }
 
 // =============================================================================
-// COGNITIVE DISTORTION TO CONCEPT MAPPING
+// THOUGHT PATTERN TO CONCEPT MAPPING
 // =============================================================================
 
-const DISTORTION_TO_CONCEPT: Record<string, IslamicConcept[]> = {
+const PATTERN_TO_CONCEPT: Record<string, IslamicConcept[]> = {
   "Despair of Allah's Mercy": ["tawbah", "shukr", "ridha"],
   "Over-attachment to dunya outcome": ["tawakkul", "sabr", "ridha"],
   "Mind reading": ["muraqaba", "tawakkul", "ikhlas"],
@@ -105,7 +105,7 @@ export class IslamicContentMapper {
       emotionalState,
       distressLevel,
       context: useContext,
-      cognitiveDistortions,
+      thoughtPatterns,
       beliefType,
       previousConcepts,
     } = context;
@@ -143,7 +143,7 @@ export class IslamicContentMapper {
   private static selectConcept(
     context: ContentSelectionContext,
   ): IslamicConcept {
-    const { emotionalState, distressLevel, cognitiveDistortions, beliefType } =
+    const { emotionalState, distressLevel, thoughtPatterns, beliefType } =
       context;
 
     // Priority 1: Distress-level based selection for high distress
@@ -151,10 +151,10 @@ export class IslamicContentMapper {
       return DISTRESS_RESPONSE_MATRIX[distressLevel].primaryConcept;
     }
 
-    // Priority 2: Cognitive distortion based selection
-    if (cognitiveDistortions && cognitiveDistortions.length > 0) {
-      const primaryDistortion = cognitiveDistortions[0];
-      const concepts = DISTORTION_TO_CONCEPT[primaryDistortion];
+    // Priority 2: Thought pattern based selection
+    if (thoughtPatterns && thoughtPatterns.length > 0) {
+      const primaryPattern = thoughtPatterns[0];
+      const concepts = PATTERN_TO_CONCEPT[primaryPattern];
       if (concepts && concepts.length > 0) {
         return concepts[0];
       }
@@ -176,12 +176,12 @@ export class IslamicContentMapper {
     context: ContentSelectionContext,
     previousConcepts: IslamicConcept[],
   ): IslamicConcept {
-    const { cognitiveDistortions, beliefType, emotionalState } = context;
+    const { thoughtPatterns, beliefType, emotionalState } = context;
 
-    // Try distortion-based alternatives
-    if (cognitiveDistortions && cognitiveDistortions.length > 0) {
-      const primaryDistortion = cognitiveDistortions[0];
-      const concepts = DISTORTION_TO_CONCEPT[primaryDistortion];
+    // Try pattern-based alternatives
+    if (thoughtPatterns && thoughtPatterns.length > 0) {
+      const primaryPattern = thoughtPatterns[0];
+      const concepts = PATTERN_TO_CONCEPT[primaryPattern];
       if (concepts) {
         for (const concept of concepts) {
           if (previousConcepts.indexOf(concept) === -1) {
@@ -346,21 +346,21 @@ export class IslamicContentMapper {
 
     // Add concept
     modifier += `Primary Concept: ${selection.concept.transliteration} (${selection.concept.arabic}) - ${selection.concept.meaning}\n`;
-    modifier += `Therapeutic Application: ${selection.concept.therapeuticApplication}\n`;
-    modifier += `CBT Connection: ${selection.concept.cbtConnection}\n`;
+    modifier += `Supportive Application: ${selection.concept.therapeuticApplication}\n`;
+    modifier += `Reflection Connection: ${selection.concept.cbtConnection}\n`;
 
     // Add Quran if available
     if (selection.quran) {
       modifier += `\nQuranic Reminder (${selection.quran.reference}):\n`;
       modifier += `"${selection.quran.translation}"\n`;
-      modifier += `Therapeutic Context: ${selection.quran.therapeuticContext}\n`;
+      modifier += `Supportive Context: ${selection.quran.therapeuticContext}\n`;
     }
 
     // Add Hadith if available
     if (selection.hadith) {
       modifier += `\nHadith Reminder (${selection.hadith.source}):\n`;
       modifier += `"${selection.hadith.translation}"\n`;
-      modifier += `Therapeutic Context: ${selection.hadith.therapeuticContext}\n`;
+      modifier += `Supportive Context: ${selection.hadith.therapeuticContext}\n`;
     }
 
     // Add tone and emphasis guidance

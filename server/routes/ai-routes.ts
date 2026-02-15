@@ -41,7 +41,7 @@ import {
   analyzeSchema,
   getAnthropicClient,
   SYSTEM_FOUNDATION,
-  DISTORTIONS,
+  THOUGHT_PATTERNS,
 } from "./constants";
 
 export function registerAiRoutes(app: Express): void {
@@ -230,7 +230,7 @@ export function registerAiRoutes(app: Express): void {
 
           // Load analyze-distortions prompt with DISTORTIONS_LIST replacement
           const analyzePrompt = loadPrompt("analyze-distortions.txt", {
-            DISTORTIONS_LIST: DISTORTIONS.map((d) => `- ${d}`).join("\n"),
+            DISTORTIONS_LIST: THOUGHT_PATTERNS.map((d: string) => `- ${d}`).join("\n"),
           });
 
           const response = await getAnthropicClient().messages.create({

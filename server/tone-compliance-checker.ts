@@ -6,7 +6,7 @@
  * Last Reviewed: 2026-01-17
  *
  * This module provides detailed tone analysis and compliance checking
- * to ensure all AI responses maintain therapeutic, merciful, and
+ * to ensure all AI responses maintain supportive, merciful, and
  * non-judgmental language.
  */
 

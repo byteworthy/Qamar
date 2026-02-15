@@ -28,8 +28,8 @@ Noor helps users slow down their thinking, examine inner dialogue with disciplin
 
 **App Store Ready** - Production-ready with enterprise mobile security
 
-- ✅ Core reflection flows (thought capture, CBT reframe, intention setting)
-- ✅ AI-powered cognitive distortion analysis (Claude integration)
+- ✅ Core reflection flows (thought capture, Islamic reframe, intention setting)
+- ✅ AI-powered thought pattern recognition (Claude integration)
 - ✅ Enterprise mobile security (biometric auth, secure storage, jailbreak detection)
 - ✅ Backend deployed to Railway (production environment live)
 - ✅ Backend encryption (AES-256-GCM)
@@ -78,7 +78,7 @@ npm start
 ## ✨ Features
 
 ### Spiritual Wellness
-- **CBT-based reflection** - Structured thought capture, AI-powered cognitive distortion analysis, and Islamic reframing
+- **Structured reflection** - Guided thought capture, AI-powered thought pattern recognition, and Islamic reframing
 - **Progress dashboard** - Track spiritual growth and reflection patterns over time
 - **Intention setting (Niyyah)** - Ground actions in Islamic values with clarity and purpose
 
@@ -102,7 +102,7 @@ npm start
 
 - **Slowing repetitive or circular thinking** - Break free from rumination patterns
 - **Clarifying intention before decisions** - Align actions with Islamic values
-- **Examining assumptions without judgment** - Identify cognitive distortions
+- **Examining assumptions without judgment** - Recognize thought patterns
 - **Practicing disciplined inner dialogue** - Structured reflection with AI guidance
 
 ---
@@ -112,8 +112,8 @@ npm start
 Noor guides users through short, structured reflection sessions:
 
 1. **Thought Capture** - Record a distressing or intrusive thought
-2. **AI Analysis** - Claude identifies cognitive distortions (catastrophizing, black-and-white thinking, etc.)
-3. **Islamic Reframe** - Receive an alternative perspective rooted in CBT + Islamic principles
+2. **AI Analysis** - Claude recognizes thought patterns (catastrophizing, black-and-white thinking, etc.)
+3. **Islamic Reframe** - Receive an alternative perspective rooted in Islamic principles
 4. **Intention Setting** - Set a grounded niyyah (intention) for action
 5. **Progress Tracking** - View insights and patterns over time
 
@@ -349,7 +349,7 @@ Noor is currently in App Store submission phase. Once launched, we'll welcome co
 
 ## 🙏 Acknowledgments
 
-- **Claude by Anthropic** - AI-powered cognitive distortion analysis
+- **Claude by Anthropic** - AI-powered thought pattern recognition
 - **Islamic Scholars** - Content review and guidance
 - **Mental Health Professionals** - Safety charter and crisis detection design
 - **Beta Testers** - Early feedback and testing

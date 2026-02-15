@@ -30,7 +30,7 @@
 1. **Offline-First**: Core Islamic features (Quran, Prayer, Arabic) work 100% offline
 2. **Progressive Enhancement**: Basic features free, advanced features require internet/premium
 3. **Layered Architecture**: Clean separation between presentation, business logic, and data
-4. **Security-First**: All therapeutic data encrypted at rest and in transit
+4. **Security-First**: All reflection data encrypted at rest and in transit
 5. **Mobile-Optimized**: Designed for 4" to 7" screens, 3G networks, budget devices
 
 ### High-Level Architecture
@@ -42,7 +42,7 @@
 │                                                                          │
 │  ┌──────────┬──────────┬──────────┬──────────┬─────────┬─────────────┐ │
 │  │  Home    │Companion │  Learn   │ Worship  │ Quran   │   Profile   │ │
-│  │  Tab     │(CBT)     │(Arabic)  │ (Prayer) │ Reader  │  Settings   │ │
+│  │  Tab     │(Reflect) │(Arabic)  │ (Prayer) │ Reader  │  Settings   │ │
 │  └──────────┴──────────┴──────────┴──────────┴─────────┴─────────────┘ │
 └──────────────────────────────────────────────────────────────────────────┘
                                     │
@@ -72,7 +72,7 @@
 │  Express.js Server (Node.js)                                             │
 │                                                                          │
 │  ┌──────────────┬──────────────┬──────────────┬───────────────────────┐│
-│  │  Auth API    │  CBT AI API  │  Billing API │  Sync API             ││
+│  │  Auth API    │  Reflect API │  Billing API │  Sync API             ││
 │  │  /api/auth/* │  /api/*/     │  /api/billing│  /api/sync/*          ││
 │  └──────────────┴──────────────┴──────────────┴───────────────────────┘│
 │                                                                          │
@@ -83,7 +83,7 @@
 │                                                                          │
 │  ┌──────────────────────────────────────────────────────────────────┐  │
 │  │  External Services                                               │  │
-│  │  - Anthropic Claude API (CBT conversations)                      │  │
+│  │  - Anthropic Claude API (reflection conversations)               │  │
 │  │  - RevenueCat (subscription management)                          │  │
 │  │  - Sentry (error tracking)                                       │  │
 │  │  - Expo Push Notifications                                       │  │
@@ -213,7 +213,7 @@
 
 ---
 
-### Sequence Diagram: CBT Reflection Flow
+### Sequence Diagram: Structured Reflection Flow
 
 ```
 User          Client App        API Server      PostgreSQL    Anthropic API
@@ -883,7 +883,7 @@ export function useQuranVerses(surahId: number) {
 | **Flashcard Review** | ✅ Full (local FSRS) | Progress syncs when online |
 | **Adhkar/Dhikr** | ✅ Full (embedded JSON) | Counter syncs when online |
 | **Bookmarks** | ✅ Full (local DB) | Syncs when online (last-write-wins) |
-| **CBT Reflections** | ❌ Requires internet (Claude API) | N/A (real-time only) |
+| **Structured Reflections** | ❌ Requires internet (Claude API) | N/A (real-time only) |
 | **Thematic Search (Keyword)** | ✅ Full (SQLite FTS) | No sync needed |
 | **Thematic Search (Semantic)** | ❌ Requires internet (embeddings) | N/A |
 | **Progress/Streaks** | ⚠️ Local tracking, syncs when online | Periodic sync (every 15min) |
@@ -1248,7 +1248,7 @@ python scripts/embed_quran.py --model all-MiniLM-L6-v2 --input assets/data/noor_
 ### Threat Model
 
 **Assets to Protect:**
-1. User reflections (CBT content - highly sensitive)
+1. User reflections (reflection content - highly sensitive)
 2. User credentials (email/password)
 3. Premium subscription status
 4. User location (for prayer times)

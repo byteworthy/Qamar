@@ -49,8 +49,9 @@ export function registerReflectionRoutes(app: Express): void {
         );
       }
 
-      const { thought, distortions, reframe, intention, practice, anchor } =
+      const { thought, patterns, reframe, intention, practice, anchor } =
         validationResult.data;
+      const distortions = patterns; // backward compat for DB field
 
       const user = await storage.getOrCreateUser(userId);
       const { status } = await billingService.getBillingStatus(userId);
