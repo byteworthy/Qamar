@@ -51,6 +51,7 @@
     "build:e2e:android": "detox build --configuration android.emu.debug",
     "build:e2e:ios:release": "detox build --configuration ios.sim.release",
     "build:e2e:android:release": "detox build --configuration android.emu.release",
+    "screenshots": "bash scripts/take-screenshots.sh",
     "verify": "npm run check:types && npm test",
     "verify:local": "npm run check:types && npm test",
     "ship": "node tools/ship.mjs",
@@ -70,7 +71,8 @@
     "ios": "expo run:ios",
     "deploy:backend": "bash scripts/deploy-backend.sh",
     "sentry:release": "bash scripts/sentry-release.sh",
-    "version:bump": "bash scripts/bump-version.sh"
+    "version:bump": "bash scripts/bump-version.sh",
+    "bundle:analyze": "npx expo export --platform ios --no-bytecode --output-dir /tmp/noor-bundle-analyze && echo '--- Bundle Size Report ---' && du -sh /tmp/noor-bundle-analyze /tmp/noor-bundle-analyze/assets /tmp/noor-bundle-analyze/_expo"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
@@ -117,6 +119,7 @@
     "expo-status-bar": "~3.0.8",
     "expo-symbols": "~1.0.7",
     "expo-system-ui": "~6.0.8",
+    "expo-updates": "~29.0.16",
     "expo-web-browser": "~15.0.9",
     "express": "^4.21.2",
     "express-rate-limit": "^8.2.1",

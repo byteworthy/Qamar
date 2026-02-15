@@ -1,0 +1,14 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Companion (AI Chat)"
+---
+
+# Companion / AI chat tab
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd
+- tapOn: "Companion"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Companion"
+    timeout: 10000
+- takeScreenshot: screenshots/03-companion

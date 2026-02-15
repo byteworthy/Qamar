@@ -191,6 +191,8 @@ function DistortionScreen() {
     // Extract phone number or handle special cases
     if (contact.includes("911")) {
       Linking.openURL("tel:911");
+    } else if (contact.includes("988")) {
+      Linking.openURL("tel:988");
     } else if (contact.includes("1-800")) {
       const phoneNumber = contact.replace(/[^0-9]/g, "");
       Linking.openURL(`tel:${phoneNumber}`);

@@ -1,0 +1,14 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Profile & Settings"
+---
+
+# Profile / Settings tab
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd
+- tapOn: "Profile"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Profile"
+    timeout: 10000
+- takeScreenshot: screenshots/08-profile

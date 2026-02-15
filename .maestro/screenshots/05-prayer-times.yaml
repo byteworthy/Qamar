@@ -1,0 +1,16 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Prayer Times"
+---
+
+# Navigate to Worship tab, then open Prayer Times
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd
+- tapOn: "Worship"
+- waitForAnimationToEnd
+- tapOn: "Prayer"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Prayer"
+    timeout: 10000
+- takeScreenshot: screenshots/05-prayer-times

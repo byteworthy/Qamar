@@ -406,7 +406,7 @@ describe("API Routes", () => {
         .post("/api/reframe")
         .send({
           thought: "I'm going to fail",
-          distortions: ["Catastrophizing"],
+          patterns: ["Catastrophizing"],
           analysis: "You're predicting the worst outcome",
         });
 
@@ -421,7 +421,7 @@ describe("API Routes", () => {
       const res = await request(app)
         .post("/api/reframe")
         .send({
-          distortions: ["Catastrophizing"],
+          patterns: ["Catastrophizing"],
         });
 
       expect(res.status).toBe(400);
@@ -429,7 +429,7 @@ describe("API Routes", () => {
       expect(res.body.error).toBe(true);
     });
 
-    test("returns validation error for missing distortions", async () => {
+    test("returns validation error for missing patterns", async () => {
       const res = await request(app).post("/api/reframe").send({
         thought: "I'm going to fail",
       });
@@ -447,7 +447,7 @@ describe("API Routes", () => {
         .post("/api/reframe")
         .send({
           thought: "I'm going to fail",
-          distortions: ["Catastrophizing"],
+          patterns: ["Catastrophizing"],
         });
 
       expect(res.status).toBe(200);
@@ -526,7 +526,7 @@ describe("API Routes", () => {
         .post("/api/reflection/save")
         .send({
           thought: "I'm worried about my future",
-          distortions: ["Catastrophizing"],
+          patterns: ["Catastrophizing"],
           reframe: "The future is uncertain but I can prepare",
           intention: "To trust Allah",
           practice: "Dhikr breathing",
@@ -555,7 +555,7 @@ describe("API Routes", () => {
         .post("/api/reflection/save")
         .send({
           thought: "Test thought",
-          distortions: ["Test"],
+          patterns: ["Test"],
           reframe: "Test reframe",
           practice: "Test practice",
         });
@@ -584,7 +584,7 @@ describe("API Routes", () => {
         .post("/api/reflection/save")
         .send({
           thought: "Test thought",
-          distortions: ["Test"],
+          patterns: ["Test"],
           reframe: "Test reframe",
           practice: "Test practice",
         });
@@ -607,7 +607,7 @@ describe("API Routes", () => {
         .post("/api/reflection/save")
         .send({
           thought: "Test thought",
-          distortions: ["Test"],
+          patterns: ["Test"],
           reframe: "Test reframe",
           practice: "Test practice",
         });
@@ -625,7 +625,7 @@ describe("API Routes", () => {
         .post("/api/reflection/save")
         .send({
           thought: "Test thought",
-          distortions: ["Test"],
+          patterns: ["Test"],
           reframe: "Test reframe",
           practice: "Test practice",
         });

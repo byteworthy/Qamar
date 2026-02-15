@@ -1,0 +1,12 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Welcome Screen"
+---
+
+# Welcome / Onboarding screen
+- launchApp:
+    clearState: true
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Noor"
+    timeout: 10000
+- takeScreenshot: screenshots/01-welcome

@@ -408,7 +408,7 @@ describe("Transition Manager", () => {
       const transition = TransitionManager.createTransition(
         "reflection",
         "reframing",
-        { distortionFound: true },
+        { patternFound: true },
       );
 
       expect(transition).toContain("pattern");

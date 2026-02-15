@@ -1,0 +1,16 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Hadith Library"
+---
+
+# Navigate to Learn tab, then open Hadith Library
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd
+- tapOn: "Learn"
+- waitForAnimationToEnd
+- tapOn: "Hadith"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Hadith"
+    timeout: 10000
+- takeScreenshot: screenshots/06-hadith-library

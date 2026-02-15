@@ -1,0 +1,14 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Home Dashboard"
+---
+
+# Home dashboard (main tab)
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd
+- tapOn: "Home"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 10000
+- takeScreenshot: screenshots/02-home

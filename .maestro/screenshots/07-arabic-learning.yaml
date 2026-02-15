@@ -1,0 +1,16 @@
+appId: com.byteworthy.noor
+name: "Screenshot - Arabic Learning"
+---
+
+# Navigate to Learn tab, then open Arabic Learning
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd
+- tapOn: "Learn"
+- waitForAnimationToEnd
+- tapOn: "Arabic"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "Arabic"
+    timeout: 10000
+- takeScreenshot: screenshots/07-arabic-learning
