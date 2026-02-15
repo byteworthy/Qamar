@@ -4,7 +4,7 @@ export const Brand = {
   tagline: "A sacred space to untangle your thoughts, guided by faith.",
 
   disclaimer:
-    "Noor is a reflection companion for personal growth. For urgent situations, please reach out to trusted support or call 988 Lifeline.",
+    "Noor is an Islamic companion for spiritual growth and reflection. For urgent situations, please reach out to trusted support or call 988 Lifeline.",
   betaDisclaimer:
     "🌱 Early Access: Islamic content is being refined with scholarly guidance. Current reflections use foundational spiritual principles. Early supporters receive permanent discounted pricing.",
   methodCallout: "Powered by the Siraat Method",

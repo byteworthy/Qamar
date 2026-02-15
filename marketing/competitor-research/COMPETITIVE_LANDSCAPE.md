@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Noor operates in a **unique intersection**: Islamic mental health awareness × CBT-based tools × conversational AI. Our competitive landscape includes three distinct segments:
+Noor operates in a **unique intersection**: Islamic mental health awareness × structured reflection tools × conversational AI. Our competitive landscape includes three distinct segments:
 
 1. **Muslim Meditation/Mindfulness Apps** (Sabr, Sakeenah, Mindful Muslim, Muraqaba)
 2. **Islamic Guidance Apps** (Niyyah, Ruh Mindfulness)
@@ -16,7 +16,7 @@ Noor operates in a **unique intersection**: Islamic mental health awareness × C
 4. **Muslim Therapy Platforms** (Ruh Care, Shifa Therapy, Naseeha, Khalil Center)
 
 **Noor's Differentiation**: We are the **ONLY** app combining:
-- CBT-inspired cognitive reframing (not just meditation)
+- Structured reflection and cognitive reframing (not just meditation)
 - Conversational AI with emotional intelligence
 - Islamic psychological framework (Nafs states, Qalb levels)
 - Safety-first architecture (crisis detection, theological validation)
@@ -74,7 +74,7 @@ Noor operates in a **unique intersection**: Islamic mental health awareness × C
 - Muslims wanting Islamic meditation practices
 - Sleep support and anxiety reduction through listening
 - Those who prefer guided audio over interactive tools
-- Users seeking spiritual content first, therapeutic second
+- Users seeking spiritual content first, reflective support second
 
 #### Not Ideal For
 - Users needing structured cognitive work
@@ -129,7 +129,7 @@ Noor operates in a **unique intersection**: Islamic mental health awareness × C
 #### Weaknesses
 - Not focused on mental health or emotional work
 - Educational/informational, not therapeutic
-- No structured CBT or cognitive reframing
+- No structured reflection or cognitive reframing
 - No crisis support infrastructure
 - Guidance model (prescriptive) vs. reflection model (exploratory)
 
@@ -142,7 +142,7 @@ Noor operates in a **unique intersection**: Islamic mental health awareness × C
 #### Not Ideal For
 - Users needing emotional processing tools
 - Those with anxiety spirals or intrusive thoughts
-- People seeking therapeutic structure
+- People seeking reflective structure
 - Users wanting self-reflection vs. external guidance
 
 ---
@@ -200,7 +200,7 @@ Noor operates in a **unique intersection**: Islamic mental health awareness × C
 
 #### Weaknesses
 - Audio/meditation focus only
-- No therapeutic structure
+- No reflective structure
 - No conversational or interactive elements
 
 ---
@@ -273,7 +273,7 @@ Noor operates in a **unique intersection**: Islamic mental health awareness × C
 
 #### Noor's Advantage
 We address this gap by:
-- Rooting therapeutic work in Islamic framework
+- Rooting reflective work in Islamic framework
 - No religious appropriation or secularization
 - Scholar-reviewed Islamic content
 - Values-aligned design and language
@@ -332,7 +332,7 @@ These are **not direct competitors** but complementary services:
 
 ### Gap 1: Cognitive Work in Islamic Context
 **Market Reality**: All Muslim wellness apps focus on meditation/mindfulness or guidance
-**Noor Fills**: Structured CBT-inspired cognitive reframing with Islamic integration
+**Noor Fills**: Structured reflection-based cognitive reframing with Islamic integration
 **Unique Value**: Explore and reframe thoughts, not just calm them or get answers
 
 ### Gap 2: Interactive Emotional Processing
@@ -347,7 +347,7 @@ These are **not direct competitors** but complementary services:
 
 ### Gap 4: Psychological + Spiritual Integration
 **Market Reality**: Apps choose either psychological OR spiritual emphasis
-**Noor Fills**: Nafs states + CBT distortions; Qalb levels + emotional processing
+**Noor Fills**: Nafs states + thinking patterns; Qalb levels + emotional processing
 **Unique Value**: No false dichotomy between psychology and Islam
 
 ### Gap 5: Scrupulosity (Waswasa) Handling
@@ -362,10 +362,10 @@ These are **not direct competitors** but complementary services:
 ### What We Say
 
 **Primary Positioning**:
-> "Noor is a reflective companion for Muslims navigating difficult emotions through structured CBT-inspired tools rooted in Islamic values."
+> "Noor is a reflective companion for Muslims navigating difficult emotions through structured reflection tools rooted in Islamic values."
 
 **Key Differentiators**:
-1. **Not just meditation** — Active cognitive work, not passive listening
+1. **Not just meditation** — Active reflective work, not passive listening
 2. **Not just guidance** — Self-discovery through reflection, not external answers
 3. **Not therapy** — Structured companion tool, not clinical treatment
 4. **Safety-first** — Built for vulnerable moments with crisis detection
@@ -386,9 +386,9 @@ These are **not direct competitors** but complementary services:
 - Only app with adaptive tone based on distress level
 - Only app with safety architecture (crisis detection, theological validation)
 
-### 2. Therapeutic Depth
-- Only Islamic app with structured CBT methodology
-- Only app exploring cognitive distortions in Islamic framework
+### 2. Reflective Depth
+- Only Islamic app with structured reflection methodology
+- Only app exploring thinking patterns in Islamic framework
 - Only app with guided reframing (not just calming or guidance)
 
 ### 3. Islamic Integration
@@ -438,7 +438,7 @@ These are **not direct competitors** but complementary services:
 - **Well-funded Islamic mental health startup** with similar vision
   - Mitigation: First-mover advantage, safety architecture, technical depth
 - **Niyyah pivoting to emotional wellness** (already has AI + Muslim trust)
-  - Mitigation: Our therapeutic structure and CBT expertise
+  - Mitigation: Our reflective structure and structured reflection expertise
 
 ---
 
@@ -484,6 +484,6 @@ These are **not direct competitors** but complementary services:
 
 **Next Steps**:
 1. Create competitor comparison pages (Noor vs. Sabr, Noor vs. Niyyah)
-2. Build SEO content around "Sabr alternative", "Islamic CBT app"
+2. Build SEO content around "Sabr alternative", "Islamic reflection app"
 3. Develop partnership outreach strategy
 4. Monitor competitor product updates quarterly

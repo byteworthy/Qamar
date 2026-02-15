@@ -1,7 +1,7 @@
 /**
  * AI Safety & Guardrails System for Noor
  *
- * This module ensures that AI-generated content is safe, therapeutic,
+ * This module ensures that AI-generated content is safe, supportive,
  * and aligned with Islamic principles. It includes crisis detection,
  * theological validation, and output filtering.
  */
@@ -83,7 +83,7 @@ export function detectCrisis(text: string): CrisisDetectionResult {
           "Negation detected - user is NOT expressing crisis intent",
         ],
         recommendedAction:
-          "Proceed with standard CBT flow. User is clarifying they are not in crisis.",
+          "Proceed with standard reflection journey. User is clarifying they are not in crisis.",
         requiresHumanReview: false,
       };
     }
@@ -104,7 +104,7 @@ export function detectCrisis(text: string): CrisisDetectionResult {
       level: "emergency",
       indicators,
       recommendedAction:
-        "Provide crisis resources immediately. Do not proceed with CBT flow. Log for review.",
+        "Provide crisis resources immediately. Do not proceed with reflection journey. Log for review.",
       requiresHumanReview: true,
     };
   }
@@ -124,7 +124,7 @@ export function detectCrisis(text: string): CrisisDetectionResult {
       level: "urgent",
       indicators,
       recommendedAction:
-        "Provide support resources. Emphasize immediate help availability. Consider pausing CBT flow.",
+        "Provide support resources. Emphasize immediate help availability. Consider pausing reflection journey.",
       requiresHumanReview: true,
     };
   }
@@ -153,7 +153,7 @@ export function detectCrisis(text: string): CrisisDetectionResult {
     detected: false,
     level: "none",
     indicators: [],
-    recommendedAction: "Proceed with standard CBT flow.",
+    recommendedAction: "Proceed with standard reflection journey.",
     requiresHumanReview: false,
   };
 }
@@ -530,11 +530,11 @@ export const promptVersionManager = new PromptVersionManager();
 
 export const AI_BOUNDARIES = {
   canDo: [
-    "Provide CBT tools and cognitive reframing",
+    "Provide reflection tools and perspective reframing",
     "Offer Islamic concepts from authenticated whitelist",
     "Suggest breathing exercises and grounding techniques",
     "Validate emotional experiences",
-    "Identify cognitive distortions",
+    "Identify thought patterns",
     "Encourage professional help when appropriate",
     "Provide multiple perspectives on a thought",
   ],
@@ -555,7 +555,7 @@ export const AI_BOUNDARIES = {
     "Emphasize Allah's mercy when discussing sin",
     "Suggest professional help for persistent struggles",
     "Distinguish between effort and outcome",
-    "Maintain therapeutic boundaries",
+    "Maintain supportive boundaries",
     "Use concepts from authenticated whitelist only",
     "Detect and respond to crisis language",
   ],
@@ -586,7 +586,7 @@ export interface SafeLogEntry {
     | "crisis_detected";
   metadata: {
     emotionalIntensity?: number;
-    distortionsDetected?: string[];
+    patternsDetected?: string[];
     crisisLevel?: CrisisDetectionResult["level"];
     safetyChecksPassed?: boolean;
   };

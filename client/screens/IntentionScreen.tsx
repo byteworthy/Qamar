@@ -170,7 +170,7 @@ export default function IntentionScreen() {
         ? `بسم الله\n\n${intention.trim()}`
         : intention.trim();
 
-      navigation.navigate("SessionComplete", {
+      navigation.navigate("ReflectionComplete", {
         thought,
         distortions,
         reframe,

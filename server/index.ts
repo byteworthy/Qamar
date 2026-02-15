@@ -79,6 +79,10 @@ function setupCors(app: express.Application): void {
   // Build allowed origins from Replit environment variables
   const allowedOrigins: string[] = [];
 
+  if (process.env.WEB_APP_URL) {
+    allowedOrigins.push(process.env.WEB_APP_URL);
+  }
+
   if (process.env.REPLIT_DEV_DOMAIN) {
     allowedOrigins.push(`https://${process.env.REPLIT_DEV_DOMAIN}`);
   }

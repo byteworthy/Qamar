@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import {
   View,
-  StyleSheet,
   ScrollView,
   Pressable,
   TextInput,
@@ -22,7 +21,7 @@ import Animated, {
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Fonts, NiyyahColors } from "@/constants/theme";
+import { Fonts, NiyyahColors, NoorColors } from "@/constants/theme";
 import { secureStorage } from "@/lib/secure-storage";
 import { ThemedText } from "@/components/ThemedText";
 import { AtmosphericBackground } from "@/components/AtmosphericBackground";
@@ -31,89 +30,38 @@ import { IslamicPattern } from "@/components/IslamicPattern";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
-
-const USER_NAME_KEY = "@noor_user_name";
-const JOURNEY_STATS_KEY = "@noor_journey_stats";
-
-// Journey tracking data
-interface JourneyStats {
-  totalReflections: number;
-  currentStreak: number;
-  longestStreak: number;
-  lastReflectionDate: string | null;
-  topDistortions: string[];
-  favoriteAnchors: string[];
-}
-
-// Spiritual journey levels based on reflections
-const JOURNEY_LEVELS = [
-  {
-    level: 1,
-    name: "Seedling",
-    minReflections: 0,
-    icon: "🌱",
-    description: "Beginning your journey",
-  },
-  {
-    level: 2,
-    name: "Growing",
-    minReflections: 5,
-    icon: "🌿",
-    description: "Developing awareness",
-  },
-  {
-    level: 3,
-    name: "Rooted",
-    minReflections: 15,
-    icon: "🌳",
-    description: "Building resilience",
-  },
-  {
-    level: 4,
-    name: "Flourishing",
-    minReflections: 30,
-    icon: "🌸",
-    description: "Deepening understanding",
-  },
-  {
-    level: 5,
-    name: "Illuminated",
-    minReflections: 50,
-    icon: "✨",
-    description: "Radiating light",
-  },
-];
-
-function getJourneyLevel(totalReflections: number) {
-  for (let i = JOURNEY_LEVELS.length - 1; i >= 0; i--) {
-    if (totalReflections >= JOURNEY_LEVELS[i].minReflections) {
-      return JOURNEY_LEVELS[i];
-    }
-  }
-  return JOURNEY_LEVELS[0];
-}
-
-function getNextLevel(totalReflections: number) {
-  const currentLevel = getJourneyLevel(totalReflections);
-  const nextIndex =
-    JOURNEY_LEVELS.findIndex((l) => l.level === currentLevel.level) + 1;
-  if (nextIndex < JOURNEY_LEVELS.length) {
-    return JOURNEY_LEVELS[nextIndex];
-  }
-  return null;
-}
+import { useDailyHadith } from "@/hooks/useHadithData";
+import {
+  useAppState,
+  selectUserLocation,
+  selectArabicState,
+  selectDailyProgress,
+} from "@/stores/app-state";
+import {
+  calculatePrayerTimes,
+  getNextPrayer,
+  formatPrayerTime,
+  formatCountdown,
+} from "@/services/prayerTimes";
+import { styles } from "./HomeScreen.styles";
+import {
+  USER_NAME_KEY,
+  JOURNEY_STATS_KEY,
+  REFLECTIONS_KEY,
+  JourneyStats,
+  ReflectionPreview,
+  ModuleCardProps,
+  getJourneyLevel,
+  getNextLevel,
+  getIslamicGreeting,
+  getHijriDate,
+} from "./HomeScreen.data";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-interface ModuleCardProps {
-  icon: keyof typeof Feather.glyphMap;
-  title: string;
-  description: string;
-  onPress: () => void;
-  gradient: string[];
-  delay: number;
-  locked?: boolean;
-}
+// ─────────────────────────────────────────────────────────────────────────────
+// Module Card (preserved from original)
+// ─────────────────────────────────────────────────────────────────────────────
 
 const ModuleCard = React.memo(function ModuleCard({
   icon,
@@ -126,8 +74,6 @@ const ModuleCard = React.memo(function ModuleCard({
 }: ModuleCardProps) {
   const scale = useSharedValue(1);
   const rotation = useSharedValue(0);
-
-  // Staggered rotation for visual interest (alternating left/right)
   const initialRotation = (delay % 2 === 0 ? -1 : 1) * 0.5;
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -187,6 +133,60 @@ const ModuleCard = React.memo(function ModuleCard({
   );
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Quick Action Button
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface QuickActionButtonProps {
+  icon: keyof typeof Feather.glyphMap;
+  label: string;
+  onPress: () => void;
+  color: string;
+  delay: number;
+}
+
+const QuickActionButton = React.memo(function QuickActionButton({
+  icon,
+  label,
+  onPress,
+  color,
+  delay,
+}: QuickActionButtonProps) {
+  const { theme } = useTheme();
+
+  return (
+    <Animated.View
+      entering={FadeInUp.duration(350).delay(delay)}
+      style={styles.quickActionItem}
+    >
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        style={styles.quickActionItem}
+      >
+        <View
+          style={[
+            styles.quickActionCircle,
+            { backgroundColor: color + "18" },
+          ]}
+        >
+          <Feather name={icon} size={22} color={color} />
+        </View>
+        <ThemedText
+          style={[styles.quickActionLabel, { color: theme.textSecondary }]}
+        >
+          {label}
+        </ThemedText>
+      </Pressable>
+    </Animated.View>
+  );
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
 function getDailyReminder(): string {
   const dayOfYear = Math.floor(
     (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) /
@@ -195,11 +195,33 @@ function getDailyReminder(): string {
   return Brand.dailyReminders[dayOfYear % Brand.dailyReminders.length];
 }
 
+function truncate(text: string, maxLen: number): string {
+  if (text.length <= maxLen) return text;
+  return text.slice(0, maxLen).trimEnd() + "...";
+}
+
+function formatRelativeDate(isoString: string): string {
+  const date = new Date(isoString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 7) return `${diffDays} days ago`;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Main Screen
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
 
+  // ── State ───────────────────────────────────────────────────────────
   const [userName, setUserName] = useState<string>("Friend");
   const [showNameModal, setShowNameModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
@@ -211,25 +233,42 @@ export default function HomeScreen() {
     topDistortions: [],
     favoriteAnchors: [],
   });
+  const [recentReflections, setRecentReflections] = useState<
+    ReflectionPreview[]
+  >([]);
+  const [prayerCountdown, setPrayerCountdown] = useState<string>("");
 
-  useEffect(() => {
-    secureStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
-      if (name && name.trim()) {
-        setUserName(name);
-      }
-    });
+  // ── Store selectors ─────────────────────────────────────────────────
+  const userLocation = useAppState(selectUserLocation);
+  const arabicState = useAppState(selectArabicState);
+  const dailyProgress = useAppState(selectDailyProgress);
 
-    // Load journey stats
-    secureStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
-      if (stats) {
-        try {
-          setJourneyStats(JSON.parse(stats));
-        } catch {
-          // Failed to parse journey stats - silently fail and use defaults
-        }
-      }
-    });
-  }, []);
+  // ── Data hooks ──────────────────────────────────────────────────────
+  const { data: dailyHadith } = useDailyHadith();
+  const { data: billingStatus } = useQuery({
+    queryKey: ["/api/billing/status"],
+    queryFn: getBillingStatus,
+    staleTime: 60000,
+  });
+  const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
+
+  // ── Computed values ─────────────────────────────────────────────────
+  const greeting = useMemo(() => getIslamicGreeting(), []);
+  const hijriDate = useMemo(() => getHijriDate(), []);
+  const dailyReminder = useMemo(() => getDailyReminder(), []);
+
+  const prayerTimes = useMemo(() => {
+    if (!userLocation) return null;
+    return calculatePrayerTimes(
+      userLocation.latitude,
+      userLocation.longitude,
+    );
+  }, [userLocation]);
+
+  const nextPrayer = useMemo(() => {
+    if (!prayerTimes) return null;
+    return getNextPrayer(prayerTimes);
+  }, [prayerTimes]);
 
   const currentLevel = getJourneyLevel(journeyStats.totalReflections);
   const nextLevel = getNextLevel(journeyStats.totalReflections);
@@ -239,6 +278,64 @@ export default function HomeScreen() {
       100
     : 100;
 
+  // Check if Arabic review happened today
+  const today = new Date().toISOString().split("T")[0];
+  const hasArabicActivity =
+    arabicState.lastReviewDate === today && arabicState.reviewsCompleted > 0;
+
+  // ── Effects ─────────────────────────────────────────────────────────
+
+  // Load persisted data
+  useEffect(() => {
+    secureStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
+      if (name && name.trim()) setUserName(name);
+    });
+
+    secureStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
+      if (stats) {
+        try {
+          setJourneyStats(JSON.parse(stats));
+        } catch {
+          // silently fail
+        }
+      }
+    });
+
+    secureStorage
+      .getItem(REFLECTIONS_KEY)
+      .then((data: string | null) => {
+        if (data) {
+          try {
+            const all: ReflectionPreview[] = JSON.parse(data);
+            // Sort by date descending, take latest 3
+            const sorted = all
+              .sort(
+                (a, b) =>
+                  new Date(b.date).getTime() - new Date(a.date).getTime(),
+              )
+              .slice(0, 3);
+            setRecentReflections(sorted);
+          } catch {
+            // silently fail
+          }
+        }
+      });
+  }, []);
+
+  // Prayer countdown timer — update every second
+  useEffect(() => {
+    if (!prayerTimes) return;
+
+    const update = () => {
+      const next = getNextPrayer(prayerTimes);
+      setPrayerCountdown(formatCountdown(next.timeUntil));
+    };
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [prayerTimes]);
+
+  // ── Handlers ────────────────────────────────────────────────────────
   const handleSaveName = async () => {
     const trimmedName = nameInput.trim();
     if (trimmedName) {
@@ -249,37 +346,52 @@ export default function HomeScreen() {
     setNameInput("");
   };
 
-  const dailyReminder = useMemo(() => getDailyReminder(), []);
+  const handleNavigateThoughtCapture = useCallback(
+    () => navigation.navigate("ThoughtCapture"),
+    [navigation],
+  );
+  const handleNavigateCalmingPractice = useCallback(
+    () => navigation.navigate("CalmingPractice"),
+    [navigation],
+  );
+  const handleNavigateDua = useCallback(
+    () => navigation.navigate("Dua", { state: undefined }),
+    [navigation],
+  );
+  const handleNavigateInsights = useCallback(
+    () => navigation.navigate("Insights"),
+    [navigation],
+  );
+  const handleNavigatePricing = useCallback(
+    () => navigation.navigate("Pricing"),
+    [navigation],
+  );
+  const handleNavigatePrayerTimes = useCallback(
+    () => navigation.navigate("PrayerTimes"),
+    [navigation],
+  );
+  const handleNavigateQuran = useCallback(
+    () => navigation.navigate("QuranReader"),
+    [navigation],
+  );
+  const handleNavigateArabic = useCallback(
+    () => navigation.navigate("ArabicLearning"),
+    [navigation],
+  );
+  const handleNavigateAdhkar = useCallback(
+    () => navigation.navigate("AdhkarList"),
+    [navigation],
+  );
+  const handleNavigateHistory = useCallback(
+    () => navigation.navigate("History"),
+    [navigation],
+  );
+  const handleNavigateHadithDetail = useCallback(
+    (hadithId: string) => navigation.navigate("HadithDetail", { hadithId }),
+    [navigation],
+  );
 
-  // Memoized navigation handlers to prevent unnecessary re-renders
-  const handleNavigateThoughtCapture = useCallback(() => {
-    navigation.navigate("ThoughtCapture");
-  }, [navigation]);
-
-  const handleNavigateCalmingPractice = useCallback(() => {
-    navigation.navigate("CalmingPractice");
-  }, [navigation]);
-
-  const handleNavigateDua = useCallback(() => {
-    navigation.navigate("Dua", { state: undefined });
-  }, [navigation]);
-
-  const handleNavigateInsights = useCallback(() => {
-    navigation.navigate("Insights");
-  }, [navigation]);
-
-  const handleNavigatePricing = useCallback(() => {
-    navigation.navigate("Pricing");
-  }, [navigation]);
-
-  const { data: billingStatus } = useQuery({
-    queryKey: ["/api/billing/status"],
-    queryFn: getBillingStatus,
-    staleTime: 60000,
-  });
-
-  const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
-
+  // ── Render ──────────────────────────────────────────────────────────
   return (
     <>
       <View style={styles.container}>
@@ -289,252 +401,672 @@ export default function HomeScreen() {
             contentContainerStyle={[
               styles.scrollContent,
               {
-                paddingTop: insets.top + 20,
+                paddingTop: insets.top + 16,
                 paddingBottom: 100 + insets.bottom,
               },
             ]}
             showsVerticalScrollIndicator={false}
           >
-          <Animated.View
-            entering={FadeInDown.duration(300)}
-            style={styles.header}
-          >
-            <Pressable
-              onPress={() => {
-                setNameInput(userName);
-                setShowNameModal(true);
-              }}
-              style={styles.greetingRow}
-              accessibilityRole="button"
-              accessibilityLabel={`Greeting: Salaam, ${userName}. Edit name`}
-              accessibilityHint="Opens dialog to change your name"
+            {/* ── Header with Hijri Date + Islamic Greeting ── */}
+            <Animated.View
+              entering={FadeInDown.duration(300)}
+              style={styles.header}
             >
-              <View style={styles.greetingContent}>
-                <ThemedText
-                  style={[styles.salaamText, { color: theme.textSecondary }]}
-                >
-                  Salaam,
-                </ThemedText>
-                <ThemedText style={styles.nameText}> {userName}</ThemedText>
-              </View>
-              <Feather
-                name="edit-2"
-                size={12}
-                color={theme.textSecondary}
-                style={{ opacity: 0.4 }}
-              />
-            </Pressable>
-            <ThemedText
-              style={[styles.subtitle, { color: theme.textSecondary }]}
-            >
-              {"What's on your mind today?"}
-            </ThemedText>
-          </Animated.View>
-
-          <Animated.View entering={FadeInUp.duration(350).delay(80)}>
-            <GlassCard style={styles.anchorCard} elevated breathing>
-              <IslamicPattern variant="moonstar" opacity={0.03} />
-              <View style={styles.anchorHeader}>
-                <View
-                  style={[
-                    styles.anchorBadge,
-                    { backgroundColor: NiyyahColors.accent + "20" },
-                  ]}
-                >
-                  <Feather name="anchor" size={14} color={NiyyahColors.accent} />
-                </View>
-                <ThemedText
-                  style={[styles.anchorLabel, { color: theme.textSecondary }]}
-                >
-                  {"Today's Anchor"}
-                </ThemedText>
-              </View>
               <ThemedText
-                style={[styles.anchorText, { fontFamily: Fonts?.serif }]}
+                style={[
+                  styles.hijriDate,
+                  {
+                    color: theme.textSecondary,
+                    fontFamily: Fonts?.sansMedium,
+                  },
+                ]}
               >
-                {dailyReminder}
+                {hijriDate}
               </ThemedText>
-            </GlassCard>
-          </Animated.View>
 
-          {/* Journey Progress Card */}
-          <Animated.View entering={FadeInUp.duration(350).delay(100)}>
-            <GlassCard style={styles.journeyCard} elevated>
-            <View style={styles.journeyHeader}>
-              <View style={styles.journeyLevel}>
-                <ThemedText style={styles.journeyIcon}>
-                  {currentLevel.icon}
-                </ThemedText>
-                <View>
-                  <ThemedText
-                    style={[styles.journeyLevelName, { color: theme.text }]}
-                  >
-                    {currentLevel.name}
-                  </ThemedText>
+              <Pressable
+                onPress={() => {
+                  setNameInput(userName);
+                  setShowNameModal(true);
+                }}
+                style={styles.greetingRow}
+                accessibilityRole="button"
+                accessibilityLabel={`Greeting: ${greeting.greeting}, ${userName}. Edit name`}
+                accessibilityHint="Opens dialog to change your name"
+              >
+                <View style={styles.greetingContent}>
                   <ThemedText
                     style={[
-                      styles.journeyLevelDesc,
-                      { color: theme.textSecondary },
-                    ]}
-                  >
-                    {currentLevel.description}
-                  </ThemedText>
-                </View>
-              </View>
-              <View style={styles.journeyStats}>
-                <ThemedText
-                  style={[styles.statNumber, { color: NiyyahColors.accent }]}
-                >
-                  {journeyStats.totalReflections}
-                </ThemedText>
-                <ThemedText
-                  style={[styles.statLabel, { color: theme.textSecondary }]}
-                >
-                  reflections
-                </ThemedText>
-              </View>
-            </View>
-
-            {nextLevel && (
-              <View style={styles.progressSection}>
-                <View
-                  style={[
-                    styles.progressBar,
-                    { backgroundColor: theme.backgroundRoot },
-                  ]}
-                >
-                  <View
-                    style={[
-                      styles.progressFill,
+                      styles.salaamText,
                       {
-                        width: `${Math.min(progressToNext, 100)}%`,
-                        backgroundColor: NiyyahColors.accent,
+                        color: theme.textSecondary,
+                        fontFamily: Fonts?.serif,
                       },
                     ]}
-                  />
-                </View>
-                <ThemedText
-                  style={[styles.progressText, { color: theme.textSecondary }]}
-                >
-                  {nextLevel.minReflections - journeyStats.totalReflections}{" "}
-                  more to reach {nextLevel.icon} {nextLevel.name}
-                </ThemedText>
-              </View>
-            )}
-
-              {journeyStats.currentStreak > 0 && (
-                <View
-                  style={[
-                    styles.streakBadge,
-                    { backgroundColor: NiyyahColors.accent + "15" },
-                  ]}
-                >
-                  <ThemedText style={styles.streakText}>
-                    🔥 {journeyStats.currentStreak} day streak
+                  >
+                    {greeting.greeting},
                   </ThemedText>
-                </View>
-              )}
-            </GlassCard>
-          </Animated.View>
-
-          <View style={styles.modulesSection}>
-            <ThemedText
-              style={[styles.sectionLabel, { color: theme.textSecondary }]}
-            >
-              Tools for Your Journey
-            </ThemedText>
-
-            <View style={styles.modulesGrid}>
-              <ModuleCard
-                icon="edit-3"
-                title="Reflection"
-                description="Process a troubling thought with structured prompts"
-                onPress={handleNavigateThoughtCapture}
-                gradient={["#6a5a4a", "#4a3a2a"]}
-                delay={120}
-              />
-              <ModuleCard
-                icon="wind"
-                title="Calming Practice"
-                description="Quick grounding exercises with dhikr"
-                onPress={handleNavigateCalmingPractice}
-                gradient={["#4a6a5a", "#2a4a3a"]}
-                delay={160}
-              />
-              <ModuleCard
-                icon="heart"
-                title="Dua"
-                description="Find the right words for what you carry"
-                onPress={handleNavigateDua}
-                gradient={["#4a5a6a", "#2a3a4a"]}
-                delay={200}
-              />
-              <ModuleCard
-                icon="bar-chart-2"
-                title="Insights"
-                description="See patterns in your reflections"
-                onPress={handleNavigateInsights}
-                gradient={["#5a4a5a", "#3a2a3a"]}
-                delay={240}
-                locked={!isPaid}
-              />
-            </View>
-          </View>
-
-          {!isPaid && (
-            <Animated.View
-              entering={FadeInUp.duration(300).delay(320)}
-              style={styles.upgradeSection}
-            >
-              <Pressable
-                onPress={handleNavigatePricing}
-                style={({ pressed }) => [
-                  styles.upgradeButton,
-                  { opacity: pressed ? 0.9 : 1 },
-                ]}
-                accessibilityRole="button"
-                accessibilityLabel="Upgrade to Noor Plus"
-                accessibilityHint="Opens pricing options for Noor Plus subscription"
-              >
-                <View style={styles.upgradeContent}>
-                  <Feather
-                    name="star"
-                    size={16}
-                    color={NiyyahColors.background}
-                  />
-                  <ThemedText style={styles.upgradeText}>
-                    Upgrade to Noor Plus
+                  <ThemedText
+                    style={[styles.nameText, { fontFamily: Fonts?.sansBold }]}
+                  >
+                    {" "}
+                    {userName}
                   </ThemedText>
                 </View>
                 <Feather
-                  name="chevron-right"
-                  size={18}
-                  color={NiyyahColors.background}
-                  style={{ opacity: 0.6 }}
+                  name="edit-2"
+                  size={12}
+                  color={theme.textSecondary}
+                  style={{ opacity: 0.4 }}
                 />
               </Pressable>
-            </Animated.View>
-          )}
 
-          <Animated.View
-            entering={FadeInUp.duration(300).delay(380)}
-            style={styles.footer}
-          >
-            <ThemedText
-              style={[styles.methodCallout, { color: theme.textSecondary }]}
+              <ThemedText
+                style={[
+                  styles.subtitle,
+                  {
+                    color: theme.textSecondary,
+                    fontFamily: Fonts?.sans,
+                  },
+                ]}
+              >
+                {greeting.timeMessage}
+              </ThemedText>
+            </Animated.View>
+
+            {/* ── Next Prayer Card ── */}
+            <Animated.View entering={FadeInUp.duration(350).delay(60)}>
+              <Pressable
+                onPress={handleNavigatePrayerTimes}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  nextPrayer
+                    ? `Next prayer: ${nextPrayer.name} in ${prayerCountdown}. Tap to see all prayer times.`
+                    : "Prayer times. Tap to set your location."
+                }
+              >
+                <GlassCard style={styles.prayerCard} elevated>
+                  <IslamicPattern variant="moonstar" opacity={0.03} />
+                  {prayerTimes && nextPrayer ? (
+                    <View style={styles.prayerCardInner}>
+                      <View style={styles.prayerCardLeft}>
+                        <ThemedText
+                          style={[
+                            styles.prayerLabel,
+                            { color: NoorColors.emerald },
+                          ]}
+                        >
+                          Next Prayer
+                        </ThemedText>
+                        <ThemedText
+                          style={[
+                            styles.prayerName,
+                            {
+                              color: theme.text,
+                              fontFamily: Fonts?.serifBold,
+                            },
+                          ]}
+                        >
+                          {nextPrayer.name}
+                        </ThemedText>
+                        <ThemedText
+                          style={[
+                            styles.prayerTime,
+                            { color: theme.textSecondary },
+                          ]}
+                        >
+                          {formatPrayerTime(nextPrayer.time)}
+                        </ThemedText>
+                      </View>
+                      <View style={styles.prayerCountdown}>
+                        <ThemedText
+                          style={[
+                            styles.countdownText,
+                            {
+                              color: NoorColors.gold,
+                              fontFamily: Fonts?.sansBold,
+                            },
+                          ]}
+                        >
+                          {prayerCountdown}
+                        </ThemedText>
+                        <ThemedText
+                          style={[
+                            styles.countdownLabel,
+                            { color: theme.textSecondary },
+                          ]}
+                        >
+                          remaining
+                        </ThemedText>
+                      </View>
+                    </View>
+                  ) : (
+                    <View>
+                      <ThemedText
+                        style={[
+                          styles.prayerLabel,
+                          { color: NoorColors.emerald },
+                        ]}
+                      >
+                        Prayer Times
+                      </ThemedText>
+                      <ThemedText
+                        style={[
+                          styles.prayerLocationHint,
+                          { color: theme.textSecondary },
+                        ]}
+                      >
+                        Tap to set your location for accurate prayer times
+                      </ThemedText>
+                    </View>
+                  )}
+                </GlassCard>
+              </Pressable>
+            </Animated.View>
+
+            {/* ── Daily Hadith Card ── */}
+            {dailyHadith && (
+              <Animated.View entering={FadeInUp.duration(350).delay(120)}>
+                <Pressable
+                  onPress={() => handleNavigateHadithDetail(dailyHadith.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Daily hadith. Tap to read full hadith."
+                >
+                  <GlassCard style={styles.hadithCard} elevated>
+                    <View style={styles.hadithHeader}>
+                      <View
+                        style={[
+                          styles.hadithBadge,
+                          {
+                            backgroundColor: NoorColors.gold + "20",
+                          },
+                        ]}
+                      >
+                        <Feather
+                          name="book-open"
+                          size={14}
+                          color={NoorColors.gold}
+                        />
+                      </View>
+                      <ThemedText
+                        style={[
+                          styles.hadithLabel,
+                          { color: theme.textSecondary },
+                        ]}
+                      >
+                        Daily Hadith
+                      </ThemedText>
+                    </View>
+
+                    {dailyHadith.textArabic ? (
+                      <ThemedText
+                        style={[
+                          styles.hadithArabic,
+                          {
+                            color: theme.text,
+                            fontFamily: Fonts?.spiritual,
+                          },
+                        ]}
+                        numberOfLines={2}
+                      >
+                        {truncate(dailyHadith.textArabic, 120)}
+                      </ThemedText>
+                    ) : null}
+
+                    <ThemedText
+                      style={[
+                        styles.hadithEnglish,
+                        {
+                          color: theme.text,
+                          fontFamily: Fonts?.sans,
+                        },
+                      ]}
+                      numberOfLines={3}
+                    >
+                      {truncate(dailyHadith.textEnglish, 180)}
+                    </ThemedText>
+
+                    <ThemedText
+                      style={[
+                        styles.hadithSource,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      {dailyHadith.collection} - Hadith #{dailyHadith.hadithNumber}
+                    </ThemedText>
+                  </GlassCard>
+                </Pressable>
+              </Animated.View>
+            )}
+
+            {/* ── Quick Actions Row ── */}
+            <Animated.View entering={FadeInUp.duration(350).delay(180)}>
+              <View style={styles.quickActionsSection}>
+                <ThemedText
+                  style={[
+                    styles.quickActionsLabel,
+                    { color: theme.textSecondary },
+                  ]}
+                  accessibilityRole="header"
+                >
+                  Quick Actions
+                </ThemedText>
+                <View style={styles.quickActionsRow}>
+                  <QuickActionButton
+                    icon="edit-3"
+                    label="Reflect"
+                    onPress={handleNavigateThoughtCapture}
+                    color={NoorColors.gold}
+                    delay={200}
+                  />
+                  <QuickActionButton
+                    icon="book"
+                    label="Quran"
+                    onPress={handleNavigateQuran}
+                    color={NoorColors.emerald}
+                    delay={240}
+                  />
+                  <QuickActionButton
+                    icon="type"
+                    label="Arabic"
+                    onPress={handleNavigateArabic}
+                    color={NoorColors.twilightLight}
+                    delay={280}
+                  />
+                  <QuickActionButton
+                    icon="sun"
+                    label="Adhkar"
+                    onPress={handleNavigateAdhkar}
+                    color={NoorColors.goldLight}
+                    delay={320}
+                  />
+                </View>
+              </View>
+            </Animated.View>
+
+            {/* ── Today's Anchor ── */}
+            <Animated.View entering={FadeInUp.duration(350).delay(240)}>
+              <GlassCard style={styles.anchorCard} elevated breathing>
+                <IslamicPattern variant="moonstar" opacity={0.03} />
+                <View style={styles.anchorHeader}>
+                  <View
+                    style={[
+                      styles.anchorBadge,
+                      { backgroundColor: NiyyahColors.accent + "20" },
+                    ]}
+                  >
+                    <Feather
+                      name="anchor"
+                      size={14}
+                      color={NiyyahColors.accent}
+                    />
+                  </View>
+                  <ThemedText
+                    style={[
+                      styles.anchorLabel,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
+                    {"Today's Anchor"}
+                  </ThemedText>
+                </View>
+                <ThemedText
+                  style={[
+                    styles.anchorText,
+                    { fontFamily: Fonts?.serif },
+                  ]}
+                >
+                  {dailyReminder}
+                </ThemedText>
+              </GlassCard>
+            </Animated.View>
+
+            {/* ── Arabic Learning Streak ── */}
+            {hasArabicActivity && (
+              <Animated.View entering={FadeInUp.duration(350).delay(300)}>
+                <Pressable
+                  onPress={handleNavigateArabic}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Arabic learning progress: ${dailyProgress.completed} of ${dailyProgress.goal} cards reviewed`}
+                >
+                  <GlassCard style={styles.streakCard} elevated>
+                    <View style={styles.streakHeader}>
+                      <View style={styles.streakHeaderLeft}>
+                        <Feather
+                          name="zap"
+                          size={18}
+                          color={NoorColors.gold}
+                        />
+                        <ThemedText
+                          style={[
+                            styles.streakTitle,
+                            { color: theme.text },
+                          ]}
+                        >
+                          Arabic Review
+                        </ThemedText>
+                      </View>
+                      <ThemedText
+                        style={[
+                          styles.streakCount,
+                          { color: NoorColors.gold },
+                        ]}
+                      >
+                        {dailyProgress.completed}/{dailyProgress.goal}
+                      </ThemedText>
+                    </View>
+                    <View style={styles.streakProgressRow}>
+                      <View
+                        style={[
+                          styles.streakProgressBar,
+                          { backgroundColor: theme.backgroundRoot },
+                        ]}
+                      >
+                        <View
+                          style={[
+                            styles.streakProgressFill,
+                            {
+                              width: `${Math.min(dailyProgress.percentage, 100)}%`,
+                              backgroundColor: NoorColors.emerald,
+                            },
+                          ]}
+                        />
+                      </View>
+                      <ThemedText
+                        style={[
+                          styles.streakProgressText,
+                          { color: theme.textSecondary },
+                        ]}
+                      >
+                        {Math.round(dailyProgress.percentage)}%
+                      </ThemedText>
+                    </View>
+                  </GlassCard>
+                </Pressable>
+              </Animated.View>
+            )}
+
+            {/* ── Recent Reflections ── */}
+            {recentReflections.length > 0 && (
+              <Animated.View entering={FadeInUp.duration(350).delay(340)}>
+                <View style={styles.reflectionsSection}>
+                  <View style={styles.reflectionsSectionHeader}>
+                    <ThemedText
+                      style={[
+                        styles.reflectionsSectionTitle,
+                        { color: theme.textSecondary },
+                      ]}
+                      accessibilityRole="header"
+                    >
+                      Recent Reflections
+                    </ThemedText>
+                    <Pressable
+                      onPress={handleNavigateHistory}
+                      accessibilityRole="button"
+                      accessibilityLabel="See all reflections"
+                    >
+                      <ThemedText
+                        style={[
+                          styles.reflectionsSeeAll,
+                          { color: NoorColors.gold },
+                        ]}
+                      >
+                        See All
+                      </ThemedText>
+                    </Pressable>
+                  </View>
+
+                  {recentReflections.map((reflection, index) => (
+                    <Animated.View
+                      key={reflection.id}
+                      entering={FadeInUp.duration(300).delay(360 + index * 60)}
+                    >
+                      <Pressable
+                        onPress={handleNavigateHistory}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Reflection from ${formatRelativeDate(reflection.date)}: ${reflection.thought}`}
+                      >
+                        <GlassCard style={styles.reflectionItem}>
+                          <View style={styles.reflectionItemInner}>
+                            <ThemedText
+                              style={[
+                                styles.reflectionDate,
+                                { color: theme.textSecondary },
+                              ]}
+                            >
+                              {formatRelativeDate(reflection.date)}
+                            </ThemedText>
+                            <ThemedText
+                              style={[
+                                styles.reflectionThought,
+                                { color: theme.text },
+                              ]}
+                              numberOfLines={2}
+                            >
+                              {truncate(reflection.thought, 100)}
+                            </ThemedText>
+                            {reflection.reframe ? (
+                              <ThemedText
+                                style={[
+                                  styles.reflectionReframe,
+                                  { color: theme.textSecondary },
+                                ]}
+                                numberOfLines={1}
+                              >
+                                {truncate(reflection.reframe, 80)}
+                              </ThemedText>
+                            ) : null}
+                          </View>
+                        </GlassCard>
+                      </Pressable>
+                    </Animated.View>
+                  ))}
+                </View>
+              </Animated.View>
+            )}
+
+            {/* ── Journey Progress Card ── */}
+            <Animated.View entering={FadeInUp.duration(350).delay(380)}>
+              <GlassCard style={styles.journeyCard} elevated>
+                <View style={styles.journeyHeader}>
+                  <View style={styles.journeyLevel}>
+                    <ThemedText style={styles.journeyIcon}>
+                      {currentLevel.icon}
+                    </ThemedText>
+                    <View>
+                      <ThemedText
+                        style={[
+                          styles.journeyLevelName,
+                          { color: theme.text },
+                        ]}
+                      >
+                        {currentLevel.name}
+                      </ThemedText>
+                      <ThemedText
+                        style={[
+                          styles.journeyLevelDesc,
+                          { color: theme.textSecondary },
+                        ]}
+                      >
+                        {currentLevel.description}
+                      </ThemedText>
+                    </View>
+                  </View>
+                  <View style={styles.journeyStats}>
+                    <ThemedText
+                      style={[
+                        styles.statNumber,
+                        { color: NiyyahColors.accent },
+                      ]}
+                    >
+                      {journeyStats.totalReflections}
+                    </ThemedText>
+                    <ThemedText
+                      style={[
+                        styles.statLabel,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      reflections
+                    </ThemedText>
+                  </View>
+                </View>
+
+                {nextLevel && (
+                  <View style={styles.progressSection}>
+                    <View
+                      style={[
+                        styles.progressBar,
+                        { backgroundColor: theme.backgroundRoot },
+                      ]}
+                    >
+                      <View
+                        style={[
+                          styles.progressFill,
+                          {
+                            width: `${Math.min(progressToNext, 100)}%`,
+                            backgroundColor: NiyyahColors.accent,
+                          },
+                        ]}
+                      />
+                    </View>
+                    <ThemedText
+                      style={[
+                        styles.progressText,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      {nextLevel.minReflections -
+                        journeyStats.totalReflections}{" "}
+                      more to reach {nextLevel.icon} {nextLevel.name}
+                    </ThemedText>
+                  </View>
+                )}
+
+                {journeyStats.currentStreak > 0 && (
+                  <View
+                    style={[
+                      styles.streakBadge,
+                      { backgroundColor: NiyyahColors.accent + "15" },
+                    ]}
+                  >
+                    <ThemedText style={styles.streakText}>
+                      {journeyStats.currentStreak} day streak
+                    </ThemedText>
+                  </View>
+                )}
+              </GlassCard>
+            </Animated.View>
+
+            {/* ── Module Cards (Tools for Your Journey) ── */}
+            <View style={styles.modulesSection}>
+              <ThemedText
+                style={[
+                  styles.sectionLabel,
+                  { color: theme.textSecondary },
+                ]}
+                accessibilityRole="header"
+              >
+                Tools for Your Journey
+              </ThemedText>
+
+              <View style={styles.modulesGrid}>
+                <ModuleCard
+                  icon="edit-3"
+                  title="Reflection"
+                  description="Process a troubling thought with structured prompts"
+                  onPress={handleNavigateThoughtCapture}
+                  gradient={["#6a5a4a", "#4a3a2a"]}
+                  delay={420}
+                />
+                <ModuleCard
+                  icon="wind"
+                  title="Calming Practice"
+                  description="Quick grounding exercises with dhikr"
+                  onPress={handleNavigateCalmingPractice}
+                  gradient={["#4a6a5a", "#2a4a3a"]}
+                  delay={460}
+                />
+                <ModuleCard
+                  icon="heart"
+                  title="Dua"
+                  description="Find the right words for what you carry"
+                  onPress={handleNavigateDua}
+                  gradient={["#4a5a6a", "#2a3a4a"]}
+                  delay={500}
+                />
+                <ModuleCard
+                  icon="bar-chart-2"
+                  title="Insights"
+                  description="See patterns in your reflections"
+                  onPress={handleNavigateInsights}
+                  gradient={["#5a4a5a", "#3a2a3a"]}
+                  delay={540}
+                  locked={!isPaid}
+                />
+              </View>
+            </View>
+
+            {/* ── Upgrade Banner ── */}
+            {!isPaid && (
+              <Animated.View
+                entering={FadeInUp.duration(300).delay(580)}
+                style={styles.upgradeSection}
+              >
+                <Pressable
+                  onPress={handleNavigatePricing}
+                  style={({ pressed }) => [
+                    styles.upgradeButton,
+                    { opacity: pressed ? 0.9 : 1 },
+                  ]}
+                  accessibilityRole="button"
+                  accessibilityLabel="Upgrade to Noor Plus"
+                  accessibilityHint="Opens pricing options for Noor Plus subscription"
+                >
+                  <View style={styles.upgradeContent}>
+                    <Feather
+                      name="star"
+                      size={16}
+                      color={NiyyahColors.background}
+                    />
+                    <ThemedText style={styles.upgradeText}>
+                      Upgrade to Noor Plus
+                    </ThemedText>
+                  </View>
+                  <Feather
+                    name="chevron-right"
+                    size={18}
+                    color={NiyyahColors.background}
+                    style={{ opacity: 0.6 }}
+                  />
+                </Pressable>
+              </Animated.View>
+            )}
+
+            {/* ── Footer ── */}
+            <Animated.View
+              entering={FadeInUp.duration(300).delay(620)}
+              style={styles.footer}
             >
-              {Brand.betaDisclaimer}
-            </ThemedText>
-            <ThemedText
-              style={[styles.disclaimer, { color: theme.textSecondary }]}
-            >
-              {Brand.disclaimer}
-            </ThemedText>
-          </Animated.View>
-        </ScrollView>
+              <ThemedText
+                style={[
+                  styles.methodCallout,
+                  { color: theme.textSecondary },
+                ]}
+              >
+                {Brand.betaDisclaimer}
+              </ThemedText>
+              <ThemedText
+                style={[styles.disclaimer, { color: theme.textSecondary }]}
+              >
+                {Brand.disclaimer}
+              </ThemedText>
+            </Animated.View>
+          </ScrollView>
         </AtmosphericBackground>
       </View>
 
+      {/* ── Name Edit Modal ── */}
       <Modal
         visible={showNameModal}
         transparent
@@ -549,7 +1081,7 @@ export default function HomeScreen() {
             ]}
           >
             <ThemedText style={styles.modalTitle}>
-              {"What’s your name?"}
+              {"What's your name?"}
             </ThemedText>
             <TextInput
               value={nameInput}
@@ -558,7 +1090,10 @@ export default function HomeScreen() {
               placeholderTextColor={theme.textSecondary}
               style={[
                 styles.nameInput,
-                { backgroundColor: theme.backgroundRoot, color: theme.text },
+                {
+                  backgroundColor: theme.backgroundRoot,
+                  color: theme.text,
+                },
               ]}
               autoFocus
               maxLength={20}
@@ -580,7 +1115,10 @@ export default function HomeScreen() {
               </Pressable>
               <Pressable
                 onPress={handleSaveName}
-                style={[styles.modalButton, { backgroundColor: theme.primary }]}
+                style={[
+                  styles.modalButton,
+                  { backgroundColor: theme.primary },
+                ]}
                 accessibilityRole="button"
                 accessibilityLabel="Save name"
                 accessibilityHint="Saves your name and closes dialog"
@@ -596,276 +1134,3 @@ export default function HomeScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: 24, // Increased from 20 for more breathing space
-  },
-  header: {
-    marginBottom: 32, // Increased from 24 for more breathing space
-    paddingHorizontal: 4, // Asymmetric padding
-  },
-  greetingRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 4,
-  },
-  greetingContent: {
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
-  salaamText: {
-    fontSize: 22,
-  },
-  nameText: {
-    fontSize: 22,
-    fontWeight: "600",
-  },
-  subtitle: {
-    fontSize: 15,
-    marginTop: 2,
-  },
-  anchorCard: {
-    marginBottom: -20, // Negative margin for overlapping effect
-    zIndex: 1,
-  },
-  anchorHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 10,
-  },
-  anchorBadge: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  anchorLabel: {
-    fontSize: 12,
-    textTransform: "uppercase",
-    letterSpacing: 0.8,
-    fontWeight: "500",
-  },
-  anchorText: {
-    fontSize: 20, // Increased from 16 for hero treatment
-    lineHeight: 32, // Increased from 24 for better readability
-    fontWeight: "500",
-  },
-  modulesSection: {
-    marginBottom: 32, // Increased breathing space
-    paddingHorizontal: 4, // Asymmetric padding for visual interest
-  },
-  sectionLabel: {
-    fontSize: 13,
-    textTransform: "uppercase",
-    letterSpacing: 0.8,
-    marginBottom: 14,
-    fontWeight: "500",
-  },
-  modulesGrid: {
-    gap: 16, // Increased from 12 for more breathing room
-  },
-  moduleCard: {
-    borderRadius: 18, // Increased from 16
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 4,
-  },
-  moduleGradient: {
-    padding: 20, // Increased from 18
-    minHeight: 110, // Increased from 100
-  },
-  moduleHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 12,
-  },
-  moduleContent: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  moduleTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#fff",
-    marginBottom: 4,
-  },
-  moduleDescription: {
-    fontSize: 13,
-    color: "rgba(255,255,255,0.85)", // Increased from 0.75 for better contrast
-    lineHeight: 18,
-  },
-  proBadge: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-  },
-  proBadgeText: {
-    color: "#fff",
-    fontSize: 10,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-  },
-  upgradeSection: {
-    marginBottom: 32, // Increased breathing space
-    marginTop: 8,
-  },
-  upgradeButton: {
-    backgroundColor: NiyyahColors.accent,
-    paddingVertical: 18, // Increased from 14
-    paddingHorizontal: 24, // Increased from 18
-    borderRadius: 16, // Increased from 14
-    flexDirection: "row",
-    alignItems: "center",
-    shadowColor: NiyyahColors.accent,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  upgradeContent: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
-  upgradeText: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: NiyyahColors.background,
-  },
-  footer: {
-    alignItems: "center",
-    gap: 8,
-    paddingTop: 8,
-  },
-  methodCallout: {
-    textAlign: "center",
-    fontStyle: "italic",
-    fontSize: 12,
-    opacity: 0.7,
-  },
-  disclaimer: {
-    textAlign: "center",
-    lineHeight: 16,
-    paddingHorizontal: 16,
-    fontSize: 10,
-    opacity: 0.5,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.6)",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
-  },
-  modalContent: {
-    width: "100%",
-    maxWidth: 320,
-    borderRadius: 16,
-    padding: 24,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 16,
-    textAlign: "center",
-  },
-  nameInput: {
-    borderRadius: 12,
-    padding: 14,
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  modalButtons: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  modalButton: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-  },
-  // Journey Card
-  journeyCard: {
-    marginBottom: 32, // Increased breathing space
-    marginTop: 32, // Extra space for overlapping anchor card
-  },
-  journeyHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  journeyLevel: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  journeyIcon: {
-    fontSize: 32,
-  },
-  journeyLevelName: {
-    fontSize: 17,
-    fontWeight: "600",
-  },
-  journeyLevelDesc: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  journeyStats: {
-    alignItems: "flex-end",
-  },
-  statNumber: {
-    fontSize: 24,
-    fontWeight: "700",
-  },
-  statLabel: {
-    fontSize: 11,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  progressSection: {
-    marginTop: 16,
-  },
-  progressBar: {
-    height: 6,
-    borderRadius: 3,
-    overflow: "hidden",
-  },
-  progressFill: {
-    height: "100%",
-    borderRadius: 3,
-  },
-  progressText: {
-    fontSize: 12,
-    marginTop: 8,
-    textAlign: "center",
-  },
-  streakBadge: {
-    marginTop: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-    alignSelf: "flex-start",
-  },
-  streakText: {
-    fontSize: 13,
-    fontWeight: "600",
-  },
-});

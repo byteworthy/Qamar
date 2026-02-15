@@ -228,7 +228,7 @@ export class ConversationalFluency {
     const metaphors: Record<string, string> = {
       anxiety: "like carrying a heavy backpack you forgot you could set down",
       rumination: "like walking in circles in the same room",
-      distortion: "like looking through a warped mirror",
+      pattern: "like looking through a warped mirror",
       shame: "like wearing a coat that never belonged to you",
       fear: "like shadows that grow in the dark",
       overwhelm: "like trying to hold water in your hands",
@@ -498,12 +498,12 @@ export class PatternDetector {
 
 export class TransitionManager {
   /**
-   * Create smooth transitions between CBT flow steps
+   * Create smooth transitions between reflection journey steps
    */
   static createTransition(
     fromMode: ConversationalMode,
     toMode: ConversationalMode,
-    context?: { distortionFound?: boolean; reframeReady?: boolean },
+    context?: { patternFound?: boolean; reframeReady?: boolean },
   ): string {
     const transitions: Record<string, Record<string, string>> = {
       listening: {
@@ -512,7 +512,7 @@ export class TransitionManager {
         grounding: "Let's find a way to settle this.",
       },
       reflection: {
-        reframing: context?.distortionFound
+        reframing: context?.patternFound
           ? "I notice a pattern here. Let's explore it together."
           : "Here's what I'm seeing.",
         grounding: "Now let's bring this home.",

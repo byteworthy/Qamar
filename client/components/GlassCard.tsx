@@ -37,6 +37,9 @@ interface GlassCardProps {
   elevated?: boolean;
   onPress?: () => void;
   breathing?: boolean; // Subtle breathing animation (contemplative)
+  accessibilityRole?: "button" | "link" | "none";
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
 }
 
 // Contemplative spring config - serene, meditative feel
@@ -58,6 +61,9 @@ export function GlassCard({
   elevated = false,
   onPress,
   breathing = false,
+  accessibilityRole,
+  accessibilityLabel,
+  accessibilityHint,
 }: GlassCardProps) {
   const { theme, isDark } = useTheme();
   const scale = useSharedValue(1);
@@ -121,6 +127,9 @@ export function GlassCard({
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           style={[styles.fallbackCard, cardStyle, animatedStyle]}
+          accessibilityRole={accessibilityRole ?? "button"}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint={accessibilityHint}
         >
           {children}
         </AnimatedPressable>
@@ -142,6 +151,9 @@ export function GlassCard({
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           style={styles.pressableContent}
+          accessibilityRole={accessibilityRole ?? "button"}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint={accessibilityHint}
         >
           {children}
         </Pressable>

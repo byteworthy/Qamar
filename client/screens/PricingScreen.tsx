@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Alert,
   TouchableOpacity,
   Linking,
+  Animated,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import { VALIDATION_MODE } from "@/lib/config";
-import { Layout } from "@/constants/layout";
-import { Fonts, SiraatColors } from "@/constants/theme";
+import {
+  Fonts,
+  NoorColors,
+  Spacing,
+  BorderRadius,
+  Gradients,
+} from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import {
   BILLING_QUERY_KEY,
-  BillingTier,
   getBillingProfile,
   isPaidTier,
-  isProTier,
   isStoreBillingActive,
   openManageSubscriptions,
   purchaseTier,
@@ -41,18 +47,15 @@ function getBillingUserMessage(
   err: unknown,
   context: "purchase" | "restore" | "manage",
 ): { title: string; message: string } {
-  // Extract message safely
   const rawMessage =
     err instanceof Error
       ? err.message.toLowerCase()
       : String(err).toLowerCase();
 
-  // Log for debugging (dev only shows in console)
   if (__DEV__) {
     console.error(`[Billing ${context}] Raw error:`, err);
   }
 
-  // Detect user cancellation patterns
   const isCanceled =
     rawMessage.includes("cancel") ||
     rawMessage.includes("cancelled") ||
@@ -68,7 +71,6 @@ function getBillingUserMessage(
     };
   }
 
-  // Detect not available patterns
   const isNotAvailable =
     rawMessage.includes("not available") ||
     rawMessage.includes("unavailable") ||
@@ -83,7 +85,6 @@ function getBillingUserMessage(
     };
   }
 
-  // Context-specific fallback messages
   switch (context) {
     case "restore":
       return {
@@ -107,139 +108,258 @@ function getBillingUserMessage(
   }
 }
 
-interface PlanFeature {
-  text: string;
-  included: boolean;
+// ---------------------------------------------------------------------------
+// Feature comparison data
+// ---------------------------------------------------------------------------
+
+interface ComparisonFeature {
+  label: string;
+  free: boolean;
+  plus: boolean;
 }
 
-interface PlanCardProps {
-  name: string;
+const COMPARISON_FEATURES: ComparisonFeature[] = [
+  { label: "Daily reflection (1/day)", free: true, plus: true },
+  { label: "Basic journaling", free: true, plus: true },
+  { label: "Islamic reframes", free: true, plus: true },
+  { label: "Unlimited AI conversations", free: false, plus: true },
+  { label: "Full Quran audio recitations", free: false, plus: true },
+  { label: "All Arabic scenarios", free: false, plus: true },
+  { label: "Hadith library access", free: false, plus: true },
+  { label: "Pattern insights & analytics", free: false, plus: true },
+  { label: "Export reflections", free: false, plus: true },
+  { label: "Contextual duas", free: false, plus: true },
+  { label: "30-day full history", free: false, plus: true },
+];
+
+// ---------------------------------------------------------------------------
+// Plan selector types
+// ---------------------------------------------------------------------------
+
+type PlanId = "monthly" | "yearly" | "lifetime";
+
+interface PlanOption {
+  id: PlanId;
+  label: string;
   price: string;
   period?: string;
-  features: PlanFeature[];
-  isCurrentPlan: boolean;
-  isPremium?: boolean;
-  onSelect?: () => void;
-  loading?: boolean;
-  comingSoon?: boolean;
+  badge?: string;
+  perMonth?: string;
 }
 
-const { spacing, radii, container, typeScale } = Layout;
+const PLAN_OPTIONS: PlanOption[] = [
+  {
+    id: "monthly",
+    label: "Monthly",
+    price: "$2.99",
+    period: "/month",
+  },
+  {
+    id: "yearly",
+    label: "Yearly",
+    price: "$19.99",
+    period: "/year",
+    badge: "Best Value",
+    perMonth: "$1.67/mo",
+  },
+  {
+    id: "lifetime",
+    label: "Lifetime",
+    price: "$49.99",
+    period: "one-time",
+  },
+];
 
-function PlanCard({
-  name,
-  price,
-  period,
-  features,
-  isCurrentPlan,
-  isPremium,
-  onSelect,
-  loading,
-  comingSoon,
-}: PlanCardProps) {
-  const { theme } = useTheme();
+// ---------------------------------------------------------------------------
+// Sub-components
+// ---------------------------------------------------------------------------
+
+const GOLD = NoorColors.gold;
+
+function FeatureComparisonRow({
+  feature,
+  theme,
+  index,
+}: {
+  feature: ComparisonFeature;
+  theme: ReturnType<typeof useTheme>["theme"];
+  index: number;
+}) {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      delay: index * 40,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   return (
-    <View
+    <Animated.View
       style={[
-        styles.planCard,
+        styles.comparisonRow,
         {
-          backgroundColor: theme.cardBackground,
-          borderColor: isPremium ? theme.accent : theme.border,
-          borderWidth: isPremium ? 2 : 1,
+          backgroundColor: index % 2 === 0 ? "transparent" : theme.backgroundDefault + "40",
+          opacity: fadeAnim,
         },
       ]}
     >
-      {comingSoon ? (
-        <View style={[styles.badge, { backgroundColor: theme.textSecondary }]}>
-          <ThemedText style={styles.badgeText}>COMING SOON</ThemedText>
-        </View>
-      ) : null}
-
-      <ThemedText style={[styles.planName, { fontFamily: Fonts?.serif }]}>
-        {name}
+      <ThemedText style={[styles.comparisonLabel, { color: theme.text }]} numberOfLines={1}>
+        {feature.label}
       </ThemedText>
-
-      <View style={styles.priceContainer}>
-        <ThemedText style={styles.price}>{price}</ThemedText>
-        {period ? (
-          <ThemedText style={[styles.period, { color: theme.textSecondary }]}>
-            {period}
-          </ThemedText>
-        ) : null}
-      </View>
-
-      <View style={styles.featuresContainer}>
-        {features.map((feature, index) => (
-          <View key={index} style={styles.featureRow}>
-            <Feather
-              name={feature.included ? "check" : "x"}
-              size={16}
-              color={feature.included ? theme.success : theme.textSecondary}
-            />
-            <ThemedText
-              style={[
-                styles.featureText,
-                { color: feature.included ? theme.text : theme.textSecondary },
-              ]}
-            >
-              {feature.text}
-            </ThemedText>
-          </View>
-        ))}
-      </View>
-
-      {comingSoon ? (
-        <View
-          style={[
-            styles.currentPlanBadge,
-            { backgroundColor: theme.backgroundDefault },
-          ]}
-        >
-          <ThemedText
-            style={[styles.currentPlanText, { color: theme.textSecondary }]}
-          >
-            Available at launch
-          </ThemedText>
+      <View style={styles.comparisonChecks}>
+        <View style={styles.comparisonCell}>
+          {feature.free ? (
+            <Feather name="check" size={16} color={theme.success} />
+          ) : (
+            <Feather name="minus" size={14} color={theme.textSecondary + "60"} />
+          )}
         </View>
-      ) : isCurrentPlan ? (
-        <View
-          style={[
-            styles.currentPlanBadge,
-            { backgroundColor: theme.backgroundDefault },
-          ]}
-        >
-          <ThemedText
-            style={[styles.currentPlanText, { color: theme.textSecondary }]}
-          >
-            Current Plan
-          </ThemedText>
+        <View style={styles.comparisonCell}>
+          <Feather
+            name="check"
+            size={16}
+            color={GOLD}
+          />
         </View>
-      ) : onSelect ? (
-        <Button
-          onPress={onSelect}
-          disabled={loading}
-          style={{
-            backgroundColor: isPremium ? theme.accent : theme.backgroundDefault,
-            marginTop: spacing.lg,
-          }}
-          accessibilityHint={`Subscribes to ${name} plan. ${price}${period || ""}`}
-        >
-          {loading ? "Loading..." : `Select ${name}`}
-        </Button>
-      ) : null}
-    </View>
+      </View>
+    </Animated.View>
   );
 }
 
+function PlanSelector({
+  plan,
+  selected,
+  onSelect,
+  theme,
+  colorScheme,
+}: {
+  plan: PlanOption;
+  selected: boolean;
+  onSelect: () => void;
+  theme: ReturnType<typeof useTheme>["theme"];
+  colorScheme: string;
+}) {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePress = () => {
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.97,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 80,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    onSelect();
+  };
+
+  const gradientColors =
+    colorScheme === "dark"
+      ? (Gradients.dark.buttonGradient.colors as unknown as [string, string])
+      : (Gradients.light.buttonGradient.colors as unknown as [string, string]);
+
+  return (
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <TouchableOpacity
+        onPress={handlePress}
+        activeOpacity={0.8}
+        accessibilityRole="radio"
+        accessibilityState={{ selected }}
+        accessibilityLabel={`${plan.label} plan, ${plan.price} ${plan.period || ""}`}
+        style={[
+          styles.planSelector,
+          {
+            backgroundColor: selected
+              ? theme.cardBackground
+              : theme.backgroundDefault,
+            borderColor: selected ? GOLD : theme.border,
+            borderWidth: selected ? 2 : 1,
+          },
+        ]}
+      >
+        {plan.badge ? (
+          <LinearGradient
+            colors={[...gradientColors]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.planBadge}
+          >
+            <ThemedText style={styles.planBadgeText}>{plan.badge}</ThemedText>
+          </LinearGradient>
+        ) : null}
+
+        {/* Radio indicator */}
+        <View
+          style={[
+            styles.radioOuter,
+            { borderColor: selected ? GOLD : theme.textSecondary + "60" },
+          ]}
+        >
+          {selected ? (
+            <View style={[styles.radioInner, { backgroundColor: GOLD }]} />
+          ) : null}
+        </View>
+
+        <View style={styles.planSelectorInfo}>
+          <ThemedText
+            style={[
+              styles.planSelectorLabel,
+              { fontFamily: Fonts?.sansMedium, color: theme.text },
+            ]}
+          >
+            {plan.label}
+          </ThemedText>
+          {plan.perMonth ? (
+            <ThemedText style={[styles.planPerMonth, { color: GOLD }]}>
+              {plan.perMonth}
+            </ThemedText>
+          ) : null}
+        </View>
+
+        <View style={styles.planSelectorPriceBlock}>
+          <ThemedText
+            style={[
+              styles.planSelectorPrice,
+              { color: theme.text, fontFamily: Fonts?.sansBold },
+            ]}
+          >
+            {plan.price}
+          </ThemedText>
+          {plan.period ? (
+            <ThemedText
+              style={[styles.planSelectorPeriod, { color: theme.textSecondary }]}
+            >
+              {plan.period}
+            </ThemedText>
+          ) : null}
+        </View>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Main screen
+// ---------------------------------------------------------------------------
+
+
 export default function PricingScreen() {
   const { theme } = useTheme();
+  const colorScheme = useColorScheme() ?? "dark";
   const navigation = useNavigation<NavigationProp>();
   const queryClient = useQueryClient();
 
   const [loading, setLoading] = useState(false);
   const [managingBilling, setManagingBilling] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>("yearly");
 
   const { data: billingProfile } = useQuery({
     queryKey: BILLING_QUERY_KEY,
@@ -247,11 +367,28 @@ export default function PricingScreen() {
   });
 
   const isPaid = billingProfile ? isPaidTier(billingProfile.tier) : false;
-  const isPro = billingProfile ? isProTier(billingProfile.tier) : false;
-
-  // Billing is disabled if in validation mode OR store billing is not configured
   const billingDisabled = VALIDATION_MODE || !isStoreBillingActive();
 
+  // Animations
+  const headerFade = useRef(new Animated.Value(0)).current;
+  const headerSlide = useRef(new Animated.Value(20)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(headerFade, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(headerSlide, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
+  // Handlers
   const handleRestorePurchase = async () => {
     setSyncing(true);
     try {
@@ -279,19 +416,18 @@ export default function PricingScreen() {
     }
   };
 
-  const handleUpgrade = async (
-    tier: BillingTier,
-    period: "monthly" | "yearly",
-  ) => {
+  const handleUpgrade = async () => {
     setLoading(true);
     try {
-      const result = await purchaseTier(tier, period);
+      // Map selectedPlan to billing provider params
+      const period = selectedPlan === "yearly" ? "yearly" : "monthly";
+      const result = await purchaseTier("plus", period);
       queryClient.invalidateQueries({ queryKey: BILLING_QUERY_KEY });
       queryClient.invalidateQueries({
         queryKey: ["/api/reflection/can-reflect"],
       });
       if (isPaidTier(result.tier)) {
-        Alert.alert("Subscription Activated", "Your subscription is active.");
+        navigation.navigate("BillingSuccess" as never);
       }
     } catch (error: unknown) {
       const { title, message } = getBillingUserMessage(error, "purchase");
@@ -313,33 +449,6 @@ export default function PricingScreen() {
     }
   };
 
-  const freeFeatures: PlanFeature[] = [
-    { text: "1 reflection per day", included: true },
-    { text: "Basic journaling", included: true },
-    { text: "Islamic reframes", included: true },
-    { text: "Unlimited reflections", included: false },
-    { text: "Pattern insights", included: false },
-    { text: "Contextual duas", included: false },
-  ];
-
-  const plusFeatures: PlanFeature[] = [
-    { text: "Unlimited reflections", included: true },
-    { text: "Pattern insights", included: true },
-    { text: "Contextual duas", included: true },
-    { text: "Full history (30 days)", included: true },
-    { text: "Lock in $2.99 rate forever", included: true },
-    { text: "Cancel anytime", included: true },
-  ];
-
-  const proFeatures: PlanFeature[] = [
-    { text: "Everything in Plus", included: true },
-    { text: "All personas", included: true },
-    { text: "Advanced insights", included: true },
-    { text: "Deeper pattern tracking", included: true },
-    { text: "Export data", included: true },
-    { text: "Priority features", included: true },
-  ];
-
   const openTerms = () => {
     Linking.openURL("https://byteworthy.github.io/Noor/legal/terms.html");
   };
@@ -348,19 +457,47 @@ export default function PricingScreen() {
     Linking.openURL("https://byteworthy.github.io/Noor/legal/privacy.html");
   };
 
+  const gradientColors =
+    colorScheme === "dark"
+      ? Gradients.dark.buttonGradient.colors
+      : Gradients.light.buttonGradient.colors;
+
   return (
     <Screen title="Upgrade" showBack>
-      <View style={styles.header}>
-        <ThemedText style={[styles.title, { fontFamily: Fonts?.serif }]}>
-          Early Access Pricing
+      {/* Hero header */}
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            opacity: headerFade,
+            transform: [{ translateY: headerSlide }],
+          },
+        ]}
+      >
+        {/* Star/crescent icon */}
+        <View
+          style={[
+            styles.heroIcon,
+            { backgroundColor: GOLD + "18" },
+          ]}
+        >
+          <Feather name="star" size={32} color={GOLD} />
+        </View>
+
+        <ThemedText
+          style={[
+            styles.title,
+            { fontFamily: Fonts?.serifBold, color: theme.text },
+          ]}
+        >
+          Unlock the Full{"\n"}Noor Experience
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Lock in beta rates forever. Price increases to $6.99/month after
-          launch.
+          Deepen your faith with unlimited access to all premium features.
         </ThemedText>
-      </View>
+      </Animated.View>
 
-      {/* Show banner when billing is disabled (validation mode or not configured) */}
+      {/* Validation mode banner */}
       {billingDisabled ? (
         <View
           style={[
@@ -368,50 +505,186 @@ export default function PricingScreen() {
             { backgroundColor: theme.backgroundDefault },
           ]}
         >
+          <Feather
+            name="info"
+            size={14}
+            color={theme.textSecondary}
+            style={{ marginRight: 6 }}
+          />
           <ThemedText
             style={[styles.validationText, { color: theme.textSecondary }]}
           >
             {VALIDATION_MODE
-              ? "Validation Build — Paid tiers coming soon"
+              ? "Validation Build -- Paid tiers coming soon"
               : "Subscriptions coming soon"}
           </ThemedText>
         </View>
       ) : null}
 
-      <View style={styles.plansContainer}>
-        <PlanCard
-          name="Free"
-          price="$0"
-          features={freeFeatures}
-          isCurrentPlan={!isPaid}
-        />
+      {/* Feature comparison table */}
+      <View
+        style={[
+          styles.comparisonCard,
+          {
+            backgroundColor: theme.cardBackground,
+            borderColor: theme.border,
+          },
+        ]}
+      >
+        {/* Table header */}
+        <View style={styles.comparisonHeader}>
+          <ThemedText
+            style={[
+              styles.comparisonHeaderLabel,
+              { color: theme.textSecondary, fontFamily: Fonts?.sansMedium },
+            ]}
+          >
+            Features
+          </ThemedText>
+          <View style={styles.comparisonChecks}>
+            <View style={styles.comparisonCell}>
+              <ThemedText
+                style={[
+                  styles.comparisonHeaderCol,
+                  { color: theme.textSecondary },
+                ]}
+              >
+                Free
+              </ThemedText>
+            </View>
+            <View style={styles.comparisonCell}>
+              <ThemedText
+                style={[
+                  styles.comparisonHeaderCol,
+                  { color: GOLD, fontFamily: Fonts?.sansBold },
+                ]}
+              >
+                Plus
+              </ThemedText>
+            </View>
+          </View>
+        </View>
 
-        <PlanCard
-          name="Noor Plus (Beta)"
-          price="$2.99"
-          period="/month"
-          features={plusFeatures}
-          isCurrentPlan={!billingDisabled && billingProfile?.tier === "plus"}
-          isPremium={!billingDisabled}
-          comingSoon={billingDisabled}
-          onSelect={
-            billingDisabled || isPaid
-              ? undefined
-              : () => handleUpgrade("plus", "monthly")
-          }
-          loading={loading}
-        />
+        {/* Comparison rows */}
+        {COMPARISON_FEATURES.map((feature, index) => (
+          <FeatureComparisonRow
+            key={feature.label}
+            feature={feature}
+            theme={theme}
+            index={index}
+          />
+        ))}
+      </View>
 
-        <PlanCard
-          name="Noor Pro"
-          price="$6.99"
-          period="/month"
-          features={proFeatures}
-          isCurrentPlan={!billingDisabled && billingProfile?.tier === "pro"}
-          comingSoon={true}
-          onSelect={undefined}
-          loading={loading}
+      {/* Plan selection */}
+      <View style={styles.planSection}>
+        <ThemedText
+          style={[
+            styles.sectionTitle,
+            { color: theme.text, fontFamily: Fonts?.serifMedium },
+          ]}
+          accessibilityRole="header"
+        >
+          Choose Your Plan
+        </ThemedText>
+
+        <View style={styles.planCards}>
+          {PLAN_OPTIONS.map((plan) => (
+            <PlanSelector
+              key={plan.id}
+              plan={plan}
+              selected={selectedPlan === plan.id}
+              onSelect={() => setSelectedPlan(plan.id)}
+              theme={theme}
+              colorScheme={colorScheme}
+            />
+          ))}
+        </View>
+      </View>
+
+      {/* CTA button */}
+      {!billingDisabled && !isPaid ? (
+        <View style={styles.ctaSection}>
+          <TouchableOpacity
+            onPress={handleUpgrade}
+            disabled={loading}
+            activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel={loading ? "Processing purchase" : "Start Free Trial"}
+            accessibilityHint={`Subscribe to ${selectedPlan} plan`}
+            style={styles.ctaButtonOuter}
+          >
+            <LinearGradient
+              colors={[...gradientColors]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.ctaButton}
+            >
+              <ThemedText
+                style={[
+                  styles.ctaButtonText,
+                  { fontFamily: Fonts?.sansBold },
+                ]}
+              >
+                {loading ? "Processing..." : "Start Free Trial"}
+              </ThemedText>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <ThemedText
+            style={[styles.reassuranceText, { color: theme.textSecondary }]}
+          >
+            Cancel anytime. No commitment required.
+          </ThemedText>
+        </View>
+      ) : isPaid ? (
+        <View style={styles.ctaSection}>
+          <View
+            style={[
+              styles.currentPlanBanner,
+              { backgroundColor: GOLD + "15", borderColor: GOLD + "30" },
+            ]}
+          >
+            <Feather name="check-circle" size={18} color={GOLD} />
+            <ThemedText
+              style={[
+                styles.currentPlanBannerText,
+                { color: GOLD, fontFamily: Fonts?.sansMedium },
+              ]}
+            >
+              You're on Noor Plus
+            </ThemedText>
+          </View>
+        </View>
+      ) : null}
+
+      {/* Social proof */}
+      <View
+        style={[
+          styles.socialProofCard,
+          { backgroundColor: theme.cardBackground, borderColor: theme.border },
+        ]}
+      >
+        <Feather
+          name="message-circle"
+          size={16}
+          color={GOLD}
+          style={{ marginBottom: 8 }}
         />
+        <ThemedText
+          style={[
+            styles.socialProofQuote,
+            { color: theme.text, fontFamily: Fonts?.serif },
+          ]}
+        >
+          "Noor has become part of my daily spiritual routine. The reflections
+          help me stay grounded and connected to my faith."
+        </ThemedText>
+        <ThemedText
+          style={[styles.socialProofAuthor, { color: theme.textSecondary }]}
+        >
+          -- A Noor Plus member
+        </ThemedText>
       </View>
 
       {/* Subscription Legal Disclosure (Required by Guideline 3.1.2) */}
@@ -435,6 +708,7 @@ export default function PricingScreen() {
             <TouchableOpacity
               onPress={openTerms}
               accessibilityRole="link"
+              accessibilityLabel="Terms of Service"
               accessibilityHint="Opens Terms of Service in browser"
             >
               <ThemedText style={[styles.linkText, { color: theme.accent }]}>
@@ -445,185 +719,311 @@ export default function PricingScreen() {
             <ThemedText
               style={[styles.linkSeparator, { color: theme.textSecondary }]}
             >
-              {" • "}
+              {" | "}
             </ThemedText>
 
             <TouchableOpacity
               onPress={openPrivacy}
               accessibilityRole="link"
+              accessibilityLabel="Privacy Policy"
               accessibilityHint="Opens Privacy Policy in browser"
             >
               <ThemedText style={[styles.linkText, { color: theme.accent }]}>
                 Privacy Policy
               </ThemedText>
             </TouchableOpacity>
+
+            <ThemedText
+              style={[styles.linkSeparator, { color: theme.textSecondary }]}
+            >
+              {" | "}
+            </ThemedText>
+
+            <TouchableOpacity
+              onPress={handleRestorePurchase}
+              disabled={syncing}
+              accessibilityRole="link"
+              accessibilityLabel={syncing ? "Restoring purchases" : "Restore Purchases"}
+              accessibilityHint="Restores previous purchases from your Apple ID"
+            >
+              <ThemedText style={[styles.linkText, { color: theme.accent }]}>
+                {syncing ? "Restoring..." : "Restore Purchases"}
+              </ThemedText>
+            </TouchableOpacity>
           </View>
         </View>
       ) : null}
 
-      {/* Hide billing actions when billing is disabled */}
-      {!billingDisabled ? (
-        <>
-          <View
-            style={[
-              styles.restoreContainer,
-              { backgroundColor: theme.backgroundDefault },
-            ]}
+      {/* Manage subscriptions (for existing subscribers) */}
+      {!billingDisabled && isPaid ? (
+        <View style={styles.manageBillingContainer}>
+          <Button
+            onPress={handleManageBilling}
+            disabled={managingBilling}
+            variant="secondary"
+            style={{ backgroundColor: theme.backgroundDefault }}
+            accessibilityHint="Opens App Store or Google Play to manage your active subscriptions"
           >
-            <ThemedText
-              style={[styles.restoreLabel, { color: theme.textSecondary }]}
-            >
-              Already purchased?
-            </ThemedText>
-            <Button
-              onPress={handleRestorePurchase}
-              disabled={syncing}
-              variant="secondary"
-              style={{ backgroundColor: "transparent" }}
-              accessibilityHint="Restores previous purchases from your Apple ID or Google Play account"
-            >
-              {syncing ? "Checking..." : "Restore Purchase"}
-            </Button>
-          </View>
-
-          <View style={styles.manageBillingContainer}>
-            <Button
-              onPress={handleManageBilling}
-              disabled={managingBilling}
-              style={{ backgroundColor: theme.backgroundDefault }}
-              accessibilityHint="Opens App Store or Google Play to manage your active subscriptions"
-            >
-              {managingBilling ? "Loading..." : "Manage Subscriptions"}
-            </Button>
-          </View>
-        </>
+            {managingBilling ? "Loading..." : "Manage Subscription"}
+          </Button>
+        </View>
       ) : null}
     </Screen>
   );
 }
 
+// ---------------------------------------------------------------------------
+// Styles
+// ---------------------------------------------------------------------------
+
 const styles = StyleSheet.create({
+  // Header
   header: {
     alignItems: "center",
-    marginBottom: spacing.xl,
+    marginBottom: Spacing["2xl"],
+    paddingTop: Spacing.sm,
+  },
+  heroIcon: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: Spacing.lg,
   },
   title: {
-    fontSize: typeScale.h2,
-    marginBottom: spacing.xs,
+    fontSize: 26,
+    lineHeight: 34,
     textAlign: "center",
+    marginBottom: Spacing.sm,
   },
   subtitle: {
     textAlign: "center",
-    fontSize: typeScale.body,
-    lineHeight: 20,
+    fontSize: 15,
+    lineHeight: 22,
+    paddingHorizontal: Spacing.lg,
   },
-  plansContainer: {
-    gap: spacing.lg,
-    marginBottom: spacing.xl,
-  },
-  planCard: {
-    width: "100%",
-    padding: container.cardPad,
-    borderRadius: radii.lg,
-    position: "relative",
-  },
-  badge: {
-    position: "absolute",
-    top: -12,
-    right: spacing.lg,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: radii.sm,
-  },
-  badgeText: {
-    color: "#fff",
-    fontSize: typeScale.small,
-    fontWeight: "600",
-  },
-  planName: {
-    fontSize: typeScale.h2,
-    marginBottom: spacing.sm,
-  },
-  priceContainer: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    marginBottom: spacing.lg,
-  },
-  price: {
-    fontSize: 22,
-    fontWeight: "700",
-  },
-  period: {
-    fontSize: typeScale.body,
-    marginLeft: 2,
-  },
-  featuresContainer: {
-    gap: spacing.sm,
-  },
-  featureRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.sm,
-  },
-  featureText: {
-    flex: 1,
-    fontSize: 13,
-  },
-  currentPlanBadge: {
-    alignItems: "center",
-    paddingVertical: spacing.md,
-    borderRadius: radii.md,
-    marginTop: spacing.lg,
-  },
-  currentPlanText: {
-    fontSize: typeScale.body,
-  },
-  restoreContainer: {
-    padding: container.cardPad,
-    borderRadius: radii.lg,
-    marginBottom: spacing.lg,
-    alignItems: "center",
-  },
-  restoreLabel: {
-    fontSize: typeScale.small,
-    textAlign: "center",
-    marginBottom: spacing.sm,
-  },
-  manageBillingContainer: {
-    alignItems: "center",
-    marginBottom: spacing.lg,
-  },
+
+  // Validation banner
   validationBanner: {
-    padding: spacing.md,
-    borderRadius: radii.md,
-    marginBottom: spacing.lg,
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    padding: Spacing.md,
+    borderRadius: BorderRadius.sm,
+    marginBottom: Spacing.lg,
   },
   validationText: {
-    fontSize: typeScale.small,
+    fontSize: 13,
     textAlign: "center",
   },
+
+  // Feature comparison
+  comparisonCard: {
+    borderRadius: BorderRadius.lg,
+    borderWidth: 1,
+    overflow: "hidden",
+    marginBottom: Spacing["2xl"],
+  },
+  comparisonHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(128, 128, 128, 0.15)",
+  },
+  comparisonHeaderLabel: {
+    flex: 1,
+    fontSize: 12,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  comparisonHeaderCol: {
+    fontSize: 12,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    textAlign: "center",
+  },
+  comparisonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.lg,
+  },
+  comparisonLabel: {
+    flex: 1,
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  comparisonChecks: {
+    flexDirection: "row",
+    width: 100,
+  },
+  comparisonCell: {
+    width: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  // Plan section
+  planSection: {
+    marginBottom: Spacing["2xl"],
+  },
+  sectionTitle: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: Spacing.lg,
+  },
+  planCards: {
+    gap: Spacing.md,
+  },
+  planSelector: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    position: "relative",
+    overflow: "hidden",
+  },
+  planBadge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderBottomLeftRadius: BorderRadius.xs,
+  },
+  planBadgeText: {
+    color: "#1a1a2e",
+    fontSize: 10,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
+  },
+  radioOuter: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: Spacing.md,
+  },
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  planSelectorInfo: {
+    flex: 1,
+  },
+  planSelectorLabel: {
+    fontSize: 15,
+  },
+  planPerMonth: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  planSelectorPriceBlock: {
+    alignItems: "flex-end",
+  },
+  planSelectorPrice: {
+    fontSize: 18,
+  },
+  planSelectorPeriod: {
+    fontSize: 12,
+    marginTop: 1,
+  },
+
+  // CTA
+  ctaSection: {
+    alignItems: "center",
+    marginBottom: Spacing["2xl"],
+  },
+  ctaButtonOuter: {
+    width: "100%",
+    borderRadius: BorderRadius.lg,
+    overflow: "hidden",
+  },
+  ctaButton: {
+    paddingVertical: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: BorderRadius.lg,
+  },
+  ctaButtonText: {
+    color: "#1a1a2e",
+    fontSize: 17,
+    letterSpacing: 0.3,
+  },
+  reassuranceText: {
+    fontSize: 13,
+    marginTop: Spacing.md,
+    textAlign: "center",
+  },
+  currentPlanBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.xl,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+  },
+  currentPlanBannerText: {
+    fontSize: 15,
+  },
+
+  // Social proof
+  socialProofCard: {
+    padding: Spacing.xl,
+    borderRadius: BorderRadius.lg,
+    borderWidth: 1,
+    alignItems: "center",
+    marginBottom: Spacing["2xl"],
+  },
+  socialProofQuote: {
+    fontSize: 15,
+    lineHeight: 24,
+    textAlign: "center",
+    fontStyle: "italic",
+  },
+  socialProofAuthor: {
+    fontSize: 13,
+    marginTop: Spacing.sm,
+    textAlign: "center",
+  },
+
+  // Legal / footer
   subscriptionLegal: {
-    padding: container.cardPad,
-    borderRadius: radii.lg,
-    marginBottom: spacing.lg,
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.lg,
+    marginBottom: Spacing.lg,
   },
   legalText: {
-    fontSize: typeScale.small,
+    fontSize: 12,
     lineHeight: 18,
     textAlign: "center",
-    marginBottom: spacing.sm,
+    marginBottom: Spacing.sm,
   },
   legalLinks: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   linkText: {
-    fontSize: typeScale.small,
+    fontSize: 12,
     fontWeight: "600",
   },
   linkSeparator: {
-    fontSize: typeScale.small,
+    fontSize: 12,
+    marginHorizontal: 4,
+  },
+  manageBillingContainer: {
+    alignItems: "center",
+    marginBottom: Spacing.xl,
   },
 });

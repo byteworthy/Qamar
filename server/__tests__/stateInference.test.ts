@@ -3,7 +3,7 @@
  *
  * Tests the inner state detection system that identifies emotional states
  * from user reflections. This drives Islamic context selection and
- * therapeutic response framing.
+ * supportive response framing.
  *
  * Coverage:
  * - All 11 inner emotional states

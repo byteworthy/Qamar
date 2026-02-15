@@ -229,6 +229,16 @@ async function setupAndroidChannels() {
     sound: "default",
   });
 
+  // Prayer time reminders
+  await Notifications.setNotificationChannelAsync("prayer-reminders", {
+    name: "Prayer Reminders",
+    description: "Notifications before each prayer time",
+    importance: Notifications.AndroidImportance.HIGH,
+    vibrationPattern: [0, 250, 250, 250],
+    lightColor: "#3a5a5a",
+    sound: "default",
+  });
+
   // General notifications
   await Notifications.setNotificationChannelAsync("general", {
     name: "General",
@@ -584,4 +594,154 @@ export async function cancelAllNotifications(): Promise<void> {
  */
 export async function setBadgeCount(count: number): Promise<void> {
   await Notifications.setBadgeCountAsync(count);
+}
+
+// =============================================================================
+// PRAYER TIME NOTIFICATIONS
+// =============================================================================
+
+const PRAYER_MESSAGES: Record<string, { title: string; body: string }> = {
+  Fajr: { title: "Fajr", body: "Rise with light. Fajr is calling." },
+  Dhuhr: { title: "Dhuhr", body: "Pause and reconnect. Dhuhr time." },
+  Asr: { title: "Asr", body: "The afternoon prayer awaits." },
+  Maghrib: { title: "Maghrib", body: "As the sun sets, turn to Allah." },
+  Isha: { title: "Isha", body: "End your day in remembrance. Isha time." },
+};
+
+/**
+ * Schedule notifications for daily prayers.
+ *
+ * @param prayers - Array of { name, time } where time is an ISO string
+ * @param minutesBefore - Minutes before prayer time to notify (default 5)
+ * @param enabledPrayers - Optional map of prayer name to enabled boolean. If omitted, all prayers are scheduled.
+ */
+export async function schedulePrayerReminders(
+  prayers: Array<{ name: string; time: string }>,
+  minutesBefore: number = 5,
+  enabledPrayers?: Record<string, boolean>,
+): Promise<void> {
+  // Cancel existing prayer reminders
+  await cancelPrayerReminders();
+
+  const now = Date.now();
+
+  for (const prayer of prayers) {
+    // Skip if this specific prayer is disabled
+    if (enabledPrayers && enabledPrayers[prayer.name] === false) continue;
+
+    const prayerTime = new Date(prayer.time).getTime();
+    const notifyAt = prayerTime - minutesBefore * 60 * 1000;
+
+    // Only schedule if the notification time is in the future
+    if (notifyAt <= now) continue;
+
+    const msg = PRAYER_MESSAGES[prayer.name] || {
+      title: prayer.name,
+      body: `Time for ${prayer.name} prayer.`,
+    };
+
+    const formattedTime = new Date(prayer.time).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: msg.title,
+          body: minutesBefore > 0
+            ? `${msg.body} (${formattedTime})`
+            : msg.body,
+          sound: true,
+          data: {
+            type: "prayer_reminder",
+            prayer: prayer.name,
+            navigateTo: "PrayerTimes",
+          },
+          ...(Platform.OS === "android" && { channelId: "prayer-reminders" }),
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date: new Date(notifyAt),
+        },
+      });
+    } catch (error) {
+      console.error(`[Notifications] Failed to schedule ${prayer.name}:`, error);
+    }
+  }
+}
+
+/**
+ * Schedule a daily reflection reminder at a specific time.
+ * Uses the "daily-reminders" Android channel.
+ *
+ * @param hour - Hour (0-23)
+ * @param minute - Minute (0-59)
+ * @param message - Optional custom message
+ */
+export async function scheduleDailyReflectionReminder(
+  hour: number = 20,
+  minute: number = 0,
+  message?: { title: string; body: string },
+): Promise<string | null> {
+  try {
+    // Cancel existing reflection reminders
+    await cancelDailyReflectionReminder();
+
+    const content = message || {
+      title: "Daily Reflection",
+      body: "A moment of stillness is waiting for you.",
+    };
+
+    const identifier = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: content.title,
+        body: content.body,
+        sound: true,
+        data: {
+          type: "daily_reflection",
+          navigateTo: "ThoughtCapture",
+        },
+        ...(Platform.OS === "android" && { channelId: "daily-reminders" }),
+      },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DAILY,
+        hour,
+        minute,
+      },
+    });
+
+    console.log(
+      `[Notifications] Daily reflection scheduled for ${hour}:${minute.toString().padStart(2, "0")}`,
+    );
+    return identifier;
+  } catch (error) {
+    console.error("[Notifications] Failed to schedule reflection:", error);
+    return null;
+  }
+}
+
+/**
+ * Cancel all scheduled daily reflection reminder notifications.
+ */
+export async function cancelDailyReflectionReminder(): Promise<void> {
+  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+  for (const notification of scheduled) {
+    if (notification.content.data?.type === "daily_reflection") {
+      await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+    }
+  }
+}
+
+/**
+ * Cancel all scheduled prayer reminder notifications.
+ */
+export async function cancelPrayerReminders(): Promise<void> {
+  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+  for (const notification of scheduled) {
+    if (notification.content.data?.type === "prayer_reminder") {
+      await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+    }
+  }
 }

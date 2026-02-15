@@ -4,24 +4,52 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeIn,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius } from "@/constants/theme";
+import {
+  Spacing,
+  BorderRadius,
+  Fonts,
+  Shadows,
+  Gradients,
+} from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { setOnboardingCompleted } from "@/lib/storage";
+import { ProgressDots } from "./WelcomeScreen";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const SAFETY_POINTS = [
+  {
+    icon: "user-x" as const,
+    text: "Noor is not a therapist, counselor, or Islamic scholar",
+  },
+  {
+    icon: "users" as const,
+    text: "Always consult qualified professionals for serious matters",
+  },
+  {
+    icon: "phone-call" as const,
+    text: "Crisis resources are available if you need urgent help",
+  },
+];
+
 export default function SafetyScreen() {
   const insets = useSafeAreaInsets();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const navigation = useNavigation<NavigationProp>();
+  const gradients = isDark ? Gradients.dark : Gradients.light;
 
   const handleGetStarted = async () => {
     await setOnboardingCompleted();
-    // Navigate to Main which is the TabNavigator containing Home
     navigation.reset({
       index: 0,
       routes: [{ name: "Main" }],
@@ -30,119 +58,148 @@ export default function SafetyScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      {/* Atmospheric gradient background */}
+      <LinearGradient
+        colors={gradients.atmospheric.colors as readonly [string, string, ...string[]]}
+        locations={gradients.atmospheric.locations as readonly [number, number, ...number[]]}
+        start={gradients.atmospheric.start}
+        end={gradients.atmospheric.end}
+        style={StyleSheet.absoluteFill}
+      />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
           styles.scrollContent,
           {
-            paddingTop: insets.top + Spacing["4xl"],
+            paddingTop: insets.top + Spacing["3xl"],
             paddingBottom: insets.bottom + Spacing["4xl"],
           },
         ]}
         showsVerticalScrollIndicator={false}
       >
+        {/* Progress dots */}
+        <Animated.View entering={FadeIn.duration(500)}>
+          <ProgressDots current={2} />
+        </Animated.View>
+
+        {/* Header */}
         <Animated.View
-          entering={FadeInDown.duration(400)}
+          entering={FadeInDown.duration(600)}
           style={styles.header}
         >
           <View
             style={[
               styles.iconContainer,
-              { backgroundColor: theme.highlightAccentSubtle },
+              {
+                backgroundColor: theme.highlightAccent + "18",
+                borderColor: theme.highlightAccent + "30",
+              },
             ]}
           >
-            <Feather name="book-open" size={48} color={theme.highlightAccent} />
+            <Feather name="heart" size={40} color={theme.highlightAccent} />
           </View>
-          <ThemedText style={styles.title}>Before You Begin</ThemedText>
+
+          <ThemedText
+            style={[
+              styles.title,
+              { fontFamily: Fonts?.serifBold, color: theme.text },
+            ]}
+          >
+            A Companion, Not a Replacement
+          </ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Please read this carefully
+            Please read this carefully before continuing
           </ThemedText>
         </Animated.View>
 
+        {/* Main message card */}
+        <Animated.View entering={FadeInUp.duration(500).delay(200)}>
+          <GlassCard style={styles.messageCard}>
+            <ThemedText
+              style={[
+                styles.messageText,
+                { color: theme.text, fontFamily: Fonts?.sansMedium },
+              ]}
+            >
+              Noor is a companion for spiritual growth and personal reflection.
+              It is not a replacement for professional guidance, medical care, or
+              scholarly advice.
+            </ThemedText>
+          </GlassCard>
+        </Animated.View>
+
+        {/* Safety points */}
         <Animated.View
-          entering={FadeInUp.duration(400).delay(100)}
-          style={styles.content}
+          entering={FadeInUp.duration(500).delay(300)}
+          style={styles.points}
         >
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather name="compass" size={20} color={theme.highlightAccent} />
-              <ThemedText style={styles.cardTitle}>
-                Faith and Grounding
-              </ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Islamic values are used as grounding lenses for reflection
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Concepts include intention, patience, accountability, and
-                trust
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • This is not religious authority or instruction
-              </ThemedText>
-            </View>
-          </View>
+          {SAFETY_POINTS.map((point, i) => (
+            <Animated.View
+              key={point.text}
+              entering={FadeInUp.duration(400).delay(350 + i * 80)}
+            >
+              <View style={styles.pointRow}>
+                <View
+                  style={[
+                    styles.pointIconWrap,
+                    { backgroundColor: theme.highlightAccent + "15" },
+                  ]}
+                >
+                  <Feather
+                    name={point.icon}
+                    size={18}
+                    color={theme.highlightAccent}
+                  />
+                </View>
+                <ThemedText
+                  style={[styles.pointText, { color: theme.textSecondary }]}
+                >
+                  {point.text}
+                </ThemedText>
+              </View>
+            </Animated.View>
+          ))}
+        </Animated.View>
 
-          <View
-            style={[styles.card, { backgroundColor: theme.cardBackground }]}
-          >
-            <View style={styles.cardHeader}>
-              <Feather
-                name="alert-circle"
-                size={20}
-                color={theme.textSecondary}
-              />
-              <ThemedText style={styles.cardTitle}>What This Is Not</ThemedText>
-            </View>
-            <View style={styles.cardContent}>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not professional counseling
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not religious instruction
-              </ThemedText>
-              <ThemedText style={[styles.cardText, { color: theme.text }]}>
-                • Not for urgent situations
-              </ThemedText>
-            </View>
-          </View>
-
-          <View
-            style={[
-              styles.readyCard,
-              { backgroundColor: theme.cardBackground },
-            ]}
-          >
+        {/* Reassuring closing */}
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(600)}
+          style={styles.closingWrap}
+        >
+          <GlassCard style={styles.closingCard}>
             <Feather
-              name="check-circle"
-              size={32}
+              name="sunrise"
+              size={28}
               color={theme.highlightAccent}
+              style={{ alignSelf: "center", marginBottom: Spacing.md }}
             />
-            <ThemedText style={[styles.readyTitle, { color: theme.text }]}>
-              Ready to Begin?
+            <ThemedText
+              style={[
+                styles.closingText,
+                {
+                  color: theme.textSecondary,
+                  fontFamily: Fonts?.spiritual,
+                },
+              ]}
+            >
+              "Verily, with hardship comes ease."
             </ThemedText>
             <ThemedText
-              style={[styles.readyText, { color: theme.textSecondary }]}
+              style={[styles.closingRef, { color: theme.textSecondary }]}
             >
-              Noor is a structured reflection practice. Use your own discernment
-              and reach out to trusted support for urgent situations.
+              Quran 94:6
             </ThemedText>
-          </View>
+          </GlassCard>
         </Animated.View>
       </ScrollView>
 
+      {/* Footer */}
       <Animated.View
-        entering={FadeInUp.duration(400).delay(200)}
+        entering={FadeInUp.duration(400).delay(700)}
         style={[
           styles.footer,
-          {
-            paddingBottom: insets.bottom + Spacing.xl,
-            backgroundColor: theme.backgroundRoot,
-            borderTopColor: theme.overlayLight,
-          },
+          { paddingBottom: insets.bottom + Spacing.lg },
         ]}
       >
         <View style={styles.buttonRow}>
@@ -151,31 +208,41 @@ export default function SafetyScreen() {
             style={({ pressed }) => [
               styles.backButton,
               {
-                backgroundColor: theme.backgroundDefault,
+                backgroundColor: theme.glassSurface,
+                borderColor: theme.glassStroke,
                 opacity: pressed ? 0.7 : 1,
               },
             ]}
           >
             <Feather name="arrow-left" size={20} color={theme.text} />
-            <ThemedText style={styles.backButtonText}>Back</ThemedText>
           </Pressable>
 
           <Pressable
             onPress={handleGetStarted}
             style={({ pressed }) => [
-              styles.getStartedButton,
-              {
-                backgroundColor: theme.primary,
-                opacity: pressed ? 0.9 : 1,
-              },
+              styles.continueButton,
+              { opacity: pressed ? 0.9 : 1 },
             ]}
           >
-            <ThemedText
-              style={[styles.getStartedButtonText, { color: theme.onPrimary }]}
+            <LinearGradient
+              colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}
+              locations={
+                gradients.buttonGradient.locations as readonly [number, number, ...number[]]
+              }
+              start={gradients.buttonGradient.start}
+              end={gradients.buttonGradient.end}
+              style={styles.buttonGradient}
             >
-              Get Started
-            </ThemedText>
-            <Feather name="check" size={20} color={theme.onPrimary} />
+              <ThemedText
+                style={[
+                  styles.continueButtonText,
+                  { color: theme.onPrimary, fontFamily: Fonts?.sansBold },
+                ]}
+              >
+                I Understand
+              </ThemedText>
+              <Feather name="check" size={20} color={theme.onPrimary} />
+            </LinearGradient>
           </Pressable>
         </View>
       </Animated.View>
@@ -195,12 +262,13 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    marginBottom: Spacing["3xl"],
+    marginBottom: Spacing["2xl"],
   },
   iconContainer: {
     width: 80,
     height: 80,
-    borderRadius: BorderRadius["3xl"],
+    borderRadius: 40,
+    borderWidth: 1.5,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: Spacing.xl,
@@ -214,81 +282,91 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     textAlign: "center",
+    fontStyle: "italic",
   },
-  content: {
+  messageCard: {
+    paddingVertical: Spacing.xl,
+    paddingHorizontal: Spacing.xl,
+    marginBottom: Spacing.xl,
+  },
+  messageText: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: "center",
+  },
+  points: {
     gap: Spacing.lg,
+    marginBottom: Spacing.xl,
   },
-  card: {
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.xl,
-  },
-  cardHeader: {
+  pointRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: Spacing.sm,
-    marginBottom: Spacing.lg,
+    gap: Spacing.lg,
   },
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: "600",
+  pointIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  cardContent: {
-    gap: Spacing.md,
-  },
-  cardText: {
+  pointText: {
+    flex: 1,
     fontSize: 15,
     lineHeight: 22,
   },
-  readyCard: {
-    borderRadius: BorderRadius.lg,
-    padding: Spacing["2xl"],
-    alignItems: "center",
-    gap: Spacing.md,
+  closingWrap: {
     marginTop: Spacing.sm,
   },
-  readyTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    textAlign: "center",
+  closingCard: {
+    paddingVertical: Spacing.xl,
+    paddingHorizontal: Spacing.xl,
   },
-  readyText: {
-    fontSize: 15,
-    lineHeight: 22,
+  closingText: {
+    fontSize: 20,
     textAlign: "center",
+    lineHeight: 28,
+    fontStyle: "italic",
+    marginBottom: Spacing.xs,
+  },
+  closingRef: {
+    fontSize: 13,
+    textAlign: "center",
+    opacity: 0.6,
   },
   footer: {
     paddingHorizontal: Spacing["2xl"],
     paddingTop: Spacing.lg,
-    borderTopWidth: 1,
   },
   buttonRow: {
     flexDirection: "row",
     gap: Spacing.md,
   },
   backButton: {
+    width: 56,
+    height: 56,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  continueButton: {
     flex: 1,
+    borderRadius: BorderRadius.md,
+    overflow: "hidden",
+    ...Shadows.medium,
+    shadowColor: "#D4AF37",
+  },
+  buttonGradient: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
     gap: Spacing.sm,
   },
-  backButtonText: {
+  continueButtonText: {
     fontSize: 17,
-    fontWeight: "600",
-  },
-  getStartedButton: {
-    flex: 2,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    gap: Spacing.sm,
-  },
-  getStartedButtonText: {
-    fontSize: 17,
-    fontWeight: "600",
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
 });

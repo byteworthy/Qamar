@@ -1,0 +1,158 @@
+/**
+ * Seed Quran Metadata
+ *
+ * Populates the quran_metadata table with all 114 surahs.
+ * Data sourced from authentic Islamic references.
+ *
+ * Usage:
+ *   npm run seed:quran
+ */
+
+import { db } from '../db';
+import { quranMetadata } from '@shared/schema';
+import { defaultLogger } from '../utils/logger';
+
+/**
+ * Complete list of all 114 Surahs with metadata
+ * Source: Quran.com, tanzil.net, and other authenticated Islamic databases
+ */
+const SURAHS = [
+  { surahNumber: 1, nameArabic: 'الفاتحة', nameEnglish: 'Al-Fatihah', englishMeaning: 'The Opening', versesCount: 7, revelationPlace: 'Makkah', orderInRevelation: 5, juzStart: 1 },
+  { surahNumber: 2, nameArabic: 'البقرة', nameEnglish: 'Al-Baqarah', englishMeaning: 'The Cow', versesCount: 286, revelationPlace: 'Madinah', orderInRevelation: 87, juzStart: 1 },
+  { surahNumber: 3, nameArabic: 'آل عمران', nameEnglish: 'Aal-E-Imran', englishMeaning: 'The Family of Imran', versesCount: 200, revelationPlace: 'Madinah', orderInRevelation: 89, juzStart: 3 },
+  { surahNumber: 4, nameArabic: 'النساء', nameEnglish: 'An-Nisa', englishMeaning: 'The Women', versesCount: 176, revelationPlace: 'Madinah', orderInRevelation: 92, juzStart: 4 },
+  { surahNumber: 5, nameArabic: 'المائدة', nameEnglish: 'Al-Maidah', englishMeaning: 'The Table Spread', versesCount: 120, revelationPlace: 'Madinah', orderInRevelation: 112, juzStart: 6 },
+  { surahNumber: 6, nameArabic: 'الأنعام', nameEnglish: 'Al-Anam', englishMeaning: 'The Cattle', versesCount: 165, revelationPlace: 'Makkah', orderInRevelation: 55, juzStart: 7 },
+  { surahNumber: 7, nameArabic: 'الأعراف', nameEnglish: 'Al-Araf', englishMeaning: 'The Heights', versesCount: 206, revelationPlace: 'Makkah', orderInRevelation: 39, juzStart: 8 },
+  { surahNumber: 8, nameArabic: 'الأنفال', nameEnglish: 'Al-Anfal', englishMeaning: 'The Spoils of War', versesCount: 75, revelationPlace: 'Madinah', orderInRevelation: 88, juzStart: 9 },
+  { surahNumber: 9, nameArabic: 'التوبة', nameEnglish: 'At-Tawbah', englishMeaning: 'The Repentance', versesCount: 129, revelationPlace: 'Madinah', orderInRevelation: 113, juzStart: 10 },
+  { surahNumber: 10, nameArabic: 'يونس', nameEnglish: 'Yunus', englishMeaning: 'Jonah', versesCount: 109, revelationPlace: 'Makkah', orderInRevelation: 51, juzStart: 11 },
+  { surahNumber: 11, nameArabic: 'هود', nameEnglish: 'Hud', englishMeaning: 'Hud', versesCount: 123, revelationPlace: 'Makkah', orderInRevelation: 52, juzStart: 11 },
+  { surahNumber: 12, nameArabic: 'يوسف', nameEnglish: 'Yusuf', englishMeaning: 'Joseph', versesCount: 111, revelationPlace: 'Makkah', orderInRevelation: 53, juzStart: 12 },
+  { surahNumber: 13, nameArabic: 'الرعد', nameEnglish: 'Ar-Rad', englishMeaning: 'The Thunder', versesCount: 43, revelationPlace: 'Madinah', orderInRevelation: 96, juzStart: 13 },
+  { surahNumber: 14, nameArabic: 'ابراهيم', nameEnglish: 'Ibrahim', englishMeaning: 'Abraham', versesCount: 52, revelationPlace: 'Makkah', orderInRevelation: 72, juzStart: 13 },
+  { surahNumber: 15, nameArabic: 'الحجر', nameEnglish: 'Al-Hijr', englishMeaning: 'The Rocky Tract', versesCount: 99, revelationPlace: 'Makkah', orderInRevelation: 54, juzStart: 14 },
+  { surahNumber: 16, nameArabic: 'النحل', nameEnglish: 'An-Nahl', englishMeaning: 'The Bee', versesCount: 128, revelationPlace: 'Makkah', orderInRevelation: 70, juzStart: 14 },
+  { surahNumber: 17, nameArabic: 'الإسراء', nameEnglish: 'Al-Isra', englishMeaning: 'The Night Journey', versesCount: 111, revelationPlace: 'Makkah', orderInRevelation: 50, juzStart: 15 },
+  { surahNumber: 18, nameArabic: 'الكهف', nameEnglish: 'Al-Kahf', englishMeaning: 'The Cave', versesCount: 110, revelationPlace: 'Makkah', orderInRevelation: 69, juzStart: 15 },
+  { surahNumber: 19, nameArabic: 'مريم', nameEnglish: 'Maryam', englishMeaning: 'Mary', versesCount: 98, revelationPlace: 'Makkah', orderInRevelation: 44, juzStart: 16 },
+  { surahNumber: 20, nameArabic: 'طه', nameEnglish: 'Ta-Ha', englishMeaning: 'Ta-Ha', versesCount: 135, revelationPlace: 'Makkah', orderInRevelation: 45, juzStart: 16 },
+  { surahNumber: 21, nameArabic: 'الأنبياء', nameEnglish: 'Al-Anbiya', englishMeaning: 'The Prophets', versesCount: 112, revelationPlace: 'Makkah', orderInRevelation: 73, juzStart: 17 },
+  { surahNumber: 22, nameArabic: 'الحج', nameEnglish: 'Al-Hajj', englishMeaning: 'The Pilgrimage', versesCount: 78, revelationPlace: 'Madinah', orderInRevelation: 103, juzStart: 17 },
+  { surahNumber: 23, nameArabic: 'المؤمنون', nameEnglish: 'Al-Muminun', englishMeaning: 'The Believers', versesCount: 118, revelationPlace: 'Makkah', orderInRevelation: 74, juzStart: 18 },
+  { surahNumber: 24, nameArabic: 'النور', nameEnglish: 'An-Nur', englishMeaning: 'The Light', versesCount: 64, revelationPlace: 'Madinah', orderInRevelation: 102, juzStart: 18 },
+  { surahNumber: 25, nameArabic: 'الفرقان', nameEnglish: 'Al-Furqan', englishMeaning: 'The Criterion', versesCount: 77, revelationPlace: 'Makkah', orderInRevelation: 42, juzStart: 18 },
+  { surahNumber: 26, nameArabic: 'الشعراء', nameEnglish: 'Ash-Shuara', englishMeaning: 'The Poets', versesCount: 227, revelationPlace: 'Makkah', orderInRevelation: 47, juzStart: 19 },
+  { surahNumber: 27, nameArabic: 'النمل', nameEnglish: 'An-Naml', englishMeaning: 'The Ant', versesCount: 93, revelationPlace: 'Makkah', orderInRevelation: 48, juzStart: 19 },
+  { surahNumber: 28, nameArabic: 'القصص', nameEnglish: 'Al-Qasas', englishMeaning: 'The Stories', versesCount: 88, revelationPlace: 'Makkah', orderInRevelation: 49, juzStart: 20 },
+  { surahNumber: 29, nameArabic: 'العنكبوت', nameEnglish: 'Al-Ankabut', englishMeaning: 'The Spider', versesCount: 69, revelationPlace: 'Makkah', orderInRevelation: 85, juzStart: 20 },
+  { surahNumber: 30, nameArabic: 'الروم', nameEnglish: 'Ar-Rum', englishMeaning: 'The Romans', versesCount: 60, revelationPlace: 'Makkah', orderInRevelation: 84, juzStart: 21 },
+  { surahNumber: 31, nameArabic: 'لقمان', nameEnglish: 'Luqman', englishMeaning: 'Luqman', versesCount: 34, revelationPlace: 'Makkah', orderInRevelation: 57, juzStart: 21 },
+  { surahNumber: 32, nameArabic: 'السجدة', nameEnglish: 'As-Sajdah', englishMeaning: 'The Prostration', versesCount: 30, revelationPlace: 'Makkah', orderInRevelation: 75, juzStart: 21 },
+  { surahNumber: 33, nameArabic: 'الأحزاب', nameEnglish: 'Al-Ahzab', englishMeaning: 'The Combined Forces', versesCount: 73, revelationPlace: 'Madinah', orderInRevelation: 90, juzStart: 21 },
+  { surahNumber: 34, nameArabic: 'سبأ', nameEnglish: 'Saba', englishMeaning: 'Sheba', versesCount: 54, revelationPlace: 'Makkah', orderInRevelation: 58, juzStart: 22 },
+  { surahNumber: 35, nameArabic: 'فاطر', nameEnglish: 'Fatir', englishMeaning: 'The Originator', versesCount: 45, revelationPlace: 'Makkah', orderInRevelation: 43, juzStart: 22 },
+  { surahNumber: 36, nameArabic: 'يس', nameEnglish: 'Ya-Sin', englishMeaning: 'Ya-Sin', versesCount: 83, revelationPlace: 'Makkah', orderInRevelation: 41, juzStart: 22 },
+  { surahNumber: 37, nameArabic: 'الصافات', nameEnglish: 'As-Saffat', englishMeaning: 'Those Ranged in Ranks', versesCount: 182, revelationPlace: 'Makkah', orderInRevelation: 56, juzStart: 23 },
+  { surahNumber: 38, nameArabic: 'ص', nameEnglish: 'Sad', englishMeaning: 'Sad', versesCount: 88, revelationPlace: 'Makkah', orderInRevelation: 38, juzStart: 23 },
+  { surahNumber: 39, nameArabic: 'الزمر', nameEnglish: 'Az-Zumar', englishMeaning: 'The Groups', versesCount: 75, revelationPlace: 'Makkah', orderInRevelation: 59, juzStart: 23 },
+  { surahNumber: 40, nameArabic: 'غافر', nameEnglish: 'Ghafir', englishMeaning: 'The Forgiver', versesCount: 85, revelationPlace: 'Makkah', orderInRevelation: 60, juzStart: 24 },
+  { surahNumber: 41, nameArabic: 'فصلت', nameEnglish: 'Fussilat', englishMeaning: 'Explained in Detail', versesCount: 54, revelationPlace: 'Makkah', orderInRevelation: 61, juzStart: 24 },
+  { surahNumber: 42, nameArabic: 'الشورى', nameEnglish: 'Ash-Shura', englishMeaning: 'The Consultation', versesCount: 53, revelationPlace: 'Makkah', orderInRevelation: 62, juzStart: 25 },
+  { surahNumber: 43, nameArabic: 'الزخرف', nameEnglish: 'Az-Zukhruf', englishMeaning: 'The Gold Adornments', versesCount: 89, revelationPlace: 'Makkah', orderInRevelation: 63, juzStart: 25 },
+  { surahNumber: 44, nameArabic: 'الدخان', nameEnglish: 'Ad-Dukhan', englishMeaning: 'The Smoke', versesCount: 59, revelationPlace: 'Makkah', orderInRevelation: 64, juzStart: 25 },
+  { surahNumber: 45, nameArabic: 'الجاثية', nameEnglish: 'Al-Jathiyah', englishMeaning: 'The Kneeling', versesCount: 37, revelationPlace: 'Makkah', orderInRevelation: 65, juzStart: 25 },
+  { surahNumber: 46, nameArabic: 'الأحقاف', nameEnglish: 'Al-Ahqaf', englishMeaning: 'The Wind-Curved Sandhills', versesCount: 35, revelationPlace: 'Makkah', orderInRevelation: 66, juzStart: 26 },
+  { surahNumber: 47, nameArabic: 'محمد', nameEnglish: 'Muhammad', englishMeaning: 'Muhammad', versesCount: 38, revelationPlace: 'Madinah', orderInRevelation: 95, juzStart: 26 },
+  { surahNumber: 48, nameArabic: 'الفتح', nameEnglish: 'Al-Fath', englishMeaning: 'The Victory', versesCount: 29, revelationPlace: 'Madinah', orderInRevelation: 111, juzStart: 26 },
+  { surahNumber: 49, nameArabic: 'الحجرات', nameEnglish: 'Al-Hujurat', englishMeaning: 'The Rooms', versesCount: 18, revelationPlace: 'Madinah', orderInRevelation: 106, juzStart: 26 },
+  { surahNumber: 50, nameArabic: 'ق', nameEnglish: 'Qaf', englishMeaning: 'Qaf', versesCount: 45, revelationPlace: 'Makkah', orderInRevelation: 34, juzStart: 26 },
+  { surahNumber: 51, nameArabic: 'الذاريات', nameEnglish: 'Adh-Dhariyat', englishMeaning: 'The Winnowing Winds', versesCount: 60, revelationPlace: 'Makkah', orderInRevelation: 67, juzStart: 26 },
+  { surahNumber: 52, nameArabic: 'الطور', nameEnglish: 'At-Tur', englishMeaning: 'The Mount', versesCount: 49, revelationPlace: 'Makkah', orderInRevelation: 76, juzStart: 27 },
+  { surahNumber: 53, nameArabic: 'النجم', nameEnglish: 'An-Najm', englishMeaning: 'The Star', versesCount: 62, revelationPlace: 'Makkah', orderInRevelation: 23, juzStart: 27 },
+  { surahNumber: 54, nameArabic: 'القمر', nameEnglish: 'Al-Qamar', englishMeaning: 'The Moon', versesCount: 55, revelationPlace: 'Makkah', orderInRevelation: 37, juzStart: 27 },
+  { surahNumber: 55, nameArabic: 'الرحمن', nameEnglish: 'Ar-Rahman', englishMeaning: 'The Most Merciful', versesCount: 78, revelationPlace: 'Madinah', orderInRevelation: 97, juzStart: 27 },
+  { surahNumber: 56, nameArabic: 'الواقعة', nameEnglish: 'Al-Waqiah', englishMeaning: 'The Inevitable', versesCount: 96, revelationPlace: 'Makkah', orderInRevelation: 46, juzStart: 27 },
+  { surahNumber: 57, nameArabic: 'الحديد', nameEnglish: 'Al-Hadid', englishMeaning: 'The Iron', versesCount: 29, revelationPlace: 'Madinah', orderInRevelation: 94, juzStart: 27 },
+  { surahNumber: 58, nameArabic: 'المجادلة', nameEnglish: 'Al-Mujadilah', englishMeaning: 'The Pleading Woman', versesCount: 22, revelationPlace: 'Madinah', orderInRevelation: 105, juzStart: 28 },
+  { surahNumber: 59, nameArabic: 'الحشر', nameEnglish: 'Al-Hashr', englishMeaning: 'The Exile', versesCount: 24, revelationPlace: 'Madinah', orderInRevelation: 101, juzStart: 28 },
+  { surahNumber: 60, nameArabic: 'الممتحنة', nameEnglish: 'Al-Mumtahanah', englishMeaning: 'The Examined One', versesCount: 13, revelationPlace: 'Madinah', orderInRevelation: 91, juzStart: 28 },
+  { surahNumber: 61, nameArabic: 'الصف', nameEnglish: 'As-Saff', englishMeaning: 'The Ranks', versesCount: 14, revelationPlace: 'Madinah', orderInRevelation: 109, juzStart: 28 },
+  { surahNumber: 62, nameArabic: 'الجمعة', nameEnglish: 'Al-Jumuah', englishMeaning: 'The Congregation', versesCount: 11, revelationPlace: 'Madinah', orderInRevelation: 110, juzStart: 28 },
+  { surahNumber: 63, nameArabic: 'المنافقون', nameEnglish: 'Al-Munafiqun', englishMeaning: 'The Hypocrites', versesCount: 11, revelationPlace: 'Madinah', orderInRevelation: 104, juzStart: 28 },
+  { surahNumber: 64, nameArabic: 'التغابن', nameEnglish: 'At-Taghabun', englishMeaning: 'The Mutual Loss and Gain', versesCount: 18, revelationPlace: 'Madinah', orderInRevelation: 108, juzStart: 28 },
+  { surahNumber: 65, nameArabic: 'الطلاق', nameEnglish: 'At-Talaq', englishMeaning: 'The Divorce', versesCount: 12, revelationPlace: 'Madinah', orderInRevelation: 99, juzStart: 28 },
+  { surahNumber: 66, nameArabic: 'التحريم', nameEnglish: 'At-Tahrim', englishMeaning: 'The Prohibition', versesCount: 12, revelationPlace: 'Madinah', orderInRevelation: 107, juzStart: 28 },
+  { surahNumber: 67, nameArabic: 'الملك', nameEnglish: 'Al-Mulk', englishMeaning: 'The Dominion', versesCount: 30, revelationPlace: 'Makkah', orderInRevelation: 77, juzStart: 29 },
+  { surahNumber: 68, nameArabic: 'القلم', nameEnglish: 'Al-Qalam', englishMeaning: 'The Pen', versesCount: 52, revelationPlace: 'Makkah', orderInRevelation: 2, juzStart: 29 },
+  { surahNumber: 69, nameArabic: 'الحاقة', nameEnglish: 'Al-Haqqah', englishMeaning: 'The Inevitable Reality', versesCount: 52, revelationPlace: 'Makkah', orderInRevelation: 78, juzStart: 29 },
+  { surahNumber: 70, nameArabic: 'المعارج', nameEnglish: 'Al-Maarij', englishMeaning: 'The Ascending Stairways', versesCount: 44, revelationPlace: 'Makkah', orderInRevelation: 79, juzStart: 29 },
+  { surahNumber: 71, nameArabic: 'نوح', nameEnglish: 'Nuh', englishMeaning: 'Noah', versesCount: 28, revelationPlace: 'Makkah', orderInRevelation: 71, juzStart: 29 },
+  { surahNumber: 72, nameArabic: 'الجن', nameEnglish: 'Al-Jinn', englishMeaning: 'The Jinn', versesCount: 28, revelationPlace: 'Makkah', orderInRevelation: 40, juzStart: 29 },
+  { surahNumber: 73, nameArabic: 'المزمل', nameEnglish: 'Al-Muzzammil', englishMeaning: 'The Enshrouded One', versesCount: 20, revelationPlace: 'Makkah', orderInRevelation: 3, juzStart: 29 },
+  { surahNumber: 74, nameArabic: 'المدثر', nameEnglish: 'Al-Muddaththir', englishMeaning: 'The Cloaked One', versesCount: 56, revelationPlace: 'Makkah', orderInRevelation: 4, juzStart: 29 },
+  { surahNumber: 75, nameArabic: 'القيامة', nameEnglish: 'Al-Qiyamah', englishMeaning: 'The Resurrection', versesCount: 40, revelationPlace: 'Makkah', orderInRevelation: 31, juzStart: 29 },
+  { surahNumber: 76, nameArabic: 'الانسان', nameEnglish: 'Al-Insan', englishMeaning: 'The Human', versesCount: 31, revelationPlace: 'Madinah', orderInRevelation: 98, juzStart: 29 },
+  { surahNumber: 77, nameArabic: 'المرسلات', nameEnglish: 'Al-Mursalat', englishMeaning: 'Those Sent Forth', versesCount: 50, revelationPlace: 'Makkah', orderInRevelation: 33, juzStart: 29 },
+  { surahNumber: 78, nameArabic: 'النبأ', nameEnglish: 'An-Naba', englishMeaning: 'The Great News', versesCount: 40, revelationPlace: 'Makkah', orderInRevelation: 80, juzStart: 30 },
+  { surahNumber: 79, nameArabic: 'النازعات', nameEnglish: 'An-Naziat', englishMeaning: 'Those Who Pull Out', versesCount: 46, revelationPlace: 'Makkah', orderInRevelation: 81, juzStart: 30 },
+  { surahNumber: 80, nameArabic: 'عبس', nameEnglish: 'Abasa', englishMeaning: 'He Frowned', versesCount: 42, revelationPlace: 'Makkah', orderInRevelation: 24, juzStart: 30 },
+  { surahNumber: 81, nameArabic: 'التكوير', nameEnglish: 'At-Takwir', englishMeaning: 'The Overthrowing', versesCount: 29, revelationPlace: 'Makkah', orderInRevelation: 7, juzStart: 30 },
+  { surahNumber: 82, nameArabic: 'الإنفطار', nameEnglish: 'Al-Infitar', englishMeaning: 'The Cleaving', versesCount: 19, revelationPlace: 'Makkah', orderInRevelation: 82, juzStart: 30 },
+  { surahNumber: 83, nameArabic: 'المطففين', nameEnglish: 'Al-Mutaffifin', englishMeaning: 'Those Who Deal in Fraud', versesCount: 36, revelationPlace: 'Makkah', orderInRevelation: 86, juzStart: 30 },
+  { surahNumber: 84, nameArabic: 'الإنشقاق', nameEnglish: 'Al-Inshiqaq', englishMeaning: 'The Splitting Asunder', versesCount: 25, revelationPlace: 'Makkah', orderInRevelation: 83, juzStart: 30 },
+  { surahNumber: 85, nameArabic: 'البروج', nameEnglish: 'Al-Buruj', englishMeaning: 'The Mansions of the Stars', versesCount: 22, revelationPlace: 'Makkah', orderInRevelation: 27, juzStart: 30 },
+  { surahNumber: 86, nameArabic: 'الطارق', nameEnglish: 'At-Tariq', englishMeaning: 'The Night-Comer', versesCount: 17, revelationPlace: 'Makkah', orderInRevelation: 36, juzStart: 30 },
+  { surahNumber: 87, nameArabic: 'الأعلى', nameEnglish: 'Al-Ala', englishMeaning: 'The Most High', versesCount: 19, revelationPlace: 'Makkah', orderInRevelation: 8, juzStart: 30 },
+  { surahNumber: 88, nameArabic: 'الغاشية', nameEnglish: 'Al-Ghashiyah', englishMeaning: 'The Overwhelming', versesCount: 26, revelationPlace: 'Makkah', orderInRevelation: 68, juzStart: 30 },
+  { surahNumber: 89, nameArabic: 'الفجر', nameEnglish: 'Al-Fajr', englishMeaning: 'The Dawn', versesCount: 30, revelationPlace: 'Makkah', orderInRevelation: 10, juzStart: 30 },
+  { surahNumber: 90, nameArabic: 'البلد', nameEnglish: 'Al-Balad', englishMeaning: 'The City', versesCount: 20, revelationPlace: 'Makkah', orderInRevelation: 35, juzStart: 30 },
+  { surahNumber: 91, nameArabic: 'الشمس', nameEnglish: 'Ash-Shams', englishMeaning: 'The Sun', versesCount: 15, revelationPlace: 'Makkah', orderInRevelation: 26, juzStart: 30 },
+  { surahNumber: 92, nameArabic: 'الليل', nameEnglish: 'Al-Layl', englishMeaning: 'The Night', versesCount: 21, revelationPlace: 'Makkah', orderInRevelation: 9, juzStart: 30 },
+  { surahNumber: 93, nameArabic: 'الضحى', nameEnglish: 'Ad-Duha', englishMeaning: 'The Morning Brightness', versesCount: 11, revelationPlace: 'Makkah', orderInRevelation: 11, juzStart: 30 },
+  { surahNumber: 94, nameArabic: 'الشرح', nameEnglish: 'Ash-Sharh', englishMeaning: 'The Relief', versesCount: 8, revelationPlace: 'Makkah', orderInRevelation: 12, juzStart: 30 },
+  { surahNumber: 95, nameArabic: 'التين', nameEnglish: 'At-Tin', englishMeaning: 'The Fig', versesCount: 8, revelationPlace: 'Makkah', orderInRevelation: 28, juzStart: 30 },
+  { surahNumber: 96, nameArabic: 'العلق', nameEnglish: 'Al-Alaq', englishMeaning: 'The Clot', versesCount: 19, revelationPlace: 'Makkah', orderInRevelation: 1, juzStart: 30 },
+  { surahNumber: 97, nameArabic: 'القدر', nameEnglish: 'Al-Qadr', englishMeaning: 'The Night of Decree', versesCount: 5, revelationPlace: 'Makkah', orderInRevelation: 25, juzStart: 30 },
+  { surahNumber: 98, nameArabic: 'البينة', nameEnglish: 'Al-Bayyinah', englishMeaning: 'The Clear Evidence', versesCount: 8, revelationPlace: 'Madinah', orderInRevelation: 100, juzStart: 30 },
+  { surahNumber: 99, nameArabic: 'الزلزلة', nameEnglish: 'Az-Zalzalah', englishMeaning: 'The Earthquake', versesCount: 8, revelationPlace: 'Madinah', orderInRevelation: 93, juzStart: 30 },
+  { surahNumber: 100, nameArabic: 'العاديات', nameEnglish: 'Al-Adiyat', englishMeaning: 'The Courser', versesCount: 11, revelationPlace: 'Makkah', orderInRevelation: 14, juzStart: 30 },
+  { surahNumber: 101, nameArabic: 'القارعة', nameEnglish: 'Al-Qariah', englishMeaning: 'The Striking Hour', versesCount: 11, revelationPlace: 'Makkah', orderInRevelation: 30, juzStart: 30 },
+  { surahNumber: 102, nameArabic: 'التكاثر', nameEnglish: 'At-Takathur', englishMeaning: 'The Rivalry in World Increase', versesCount: 8, revelationPlace: 'Makkah', orderInRevelation: 16, juzStart: 30 },
+  { surahNumber: 103, nameArabic: 'العصر', nameEnglish: 'Al-Asr', englishMeaning: 'The Time', versesCount: 3, revelationPlace: 'Makkah', orderInRevelation: 13, juzStart: 30 },
+  { surahNumber: 104, nameArabic: 'الهمزة', nameEnglish: 'Al-Humazah', englishMeaning: 'The Slanderer', versesCount: 9, revelationPlace: 'Makkah', orderInRevelation: 32, juzStart: 30 },
+  { surahNumber: 105, nameArabic: 'الفيل', nameEnglish: 'Al-Fil', englishMeaning: 'The Elephant', versesCount: 5, revelationPlace: 'Makkah', orderInRevelation: 19, juzStart: 30 },
+  { surahNumber: 106, nameArabic: 'قريش', nameEnglish: 'Quraysh', englishMeaning: 'The Quraysh', versesCount: 4, revelationPlace: 'Makkah', orderInRevelation: 29, juzStart: 30 },
+  { surahNumber: 107, nameArabic: 'الماعون', nameEnglish: 'Al-Maun', englishMeaning: 'The Small Kindnesses', versesCount: 7, revelationPlace: 'Makkah', orderInRevelation: 17, juzStart: 30 },
+  { surahNumber: 108, nameArabic: 'الكوثر', nameEnglish: 'Al-Kawthar', englishMeaning: 'The Abundance', versesCount: 3, revelationPlace: 'Makkah', orderInRevelation: 15, juzStart: 30 },
+  { surahNumber: 109, nameArabic: 'الكافرون', nameEnglish: 'Al-Kafirun', englishMeaning: 'The Disbelievers', versesCount: 6, revelationPlace: 'Makkah', orderInRevelation: 18, juzStart: 30 },
+  { surahNumber: 110, nameArabic: 'النصر', nameEnglish: 'An-Nasr', englishMeaning: 'The Divine Support', versesCount: 3, revelationPlace: 'Madinah', orderInRevelation: 114, juzStart: 30 },
+  { surahNumber: 111, nameArabic: 'المسد', nameEnglish: 'Al-Masad', englishMeaning: 'The Palm Fiber', versesCount: 5, revelationPlace: 'Makkah', orderInRevelation: 6, juzStart: 30 },
+  { surahNumber: 112, nameArabic: 'الإخلاص', nameEnglish: 'Al-Ikhlas', englishMeaning: 'The Sincerity', versesCount: 4, revelationPlace: 'Makkah', orderInRevelation: 22, juzStart: 30 },
+  { surahNumber: 113, nameArabic: 'الفلق', nameEnglish: 'Al-Falaq', englishMeaning: 'The Daybreak', versesCount: 5, revelationPlace: 'Makkah', orderInRevelation: 20, juzStart: 30 },
+  { surahNumber: 114, nameArabic: 'الناس', nameEnglish: 'An-Nas', englishMeaning: 'Mankind', versesCount: 6, revelationPlace: 'Makkah', orderInRevelation: 21, juzStart: 30 },
+];
+
+async function seedQuranMetadata() {
+  try {
+    defaultLogger.info('Starting Quran metadata seed...');
+
+    // Insert all surahs (on conflict do nothing for idempotency)
+    await db.insert(quranMetadata).values(SURAHS).onConflictDoNothing();
+
+    defaultLogger.info('Quran metadata seed complete', {
+      totalSurahs: SURAHS.length,
+    });
+
+    process.exit(0);
+  } catch (error) {
+    defaultLogger.error(
+      'Error seeding Quran metadata',
+      error instanceof Error ? error : new Error(String(error))
+    );
+    process.exit(1);
+  }
+}
+
+// Run seed
+seedQuranMetadata();
