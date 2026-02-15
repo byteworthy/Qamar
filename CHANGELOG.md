@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 #### Complete Store Metadata Files (Commit: TBD)
 - **Apple App Store Metadata** (`release/STORE_PACK/apple/APP_STORE_METADATA.md`)
   - Full app description with Islamic CBT positioning
-  - 4 subscription tiers: Free, Noor Plus (Monthly/Yearly), Noor Premium (Monthly/Yearly)
+  - 2 subscription tiers: Free and Noor Plus (Monthly $2.99, Yearly $19.99, Lifetime $49.99)
   - Product IDs for Apple In-App Purchase
   - Comprehensive App Review notes with safety/theological boundaries
   - Testing instructions and compliance checklist
@@ -42,7 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Clear boundaries**: Not therapy, not crisis intervention, not religious authority
 - **AI disclosure**: Explicit mention of AI companion usage
 - **Native billing**: Apple IAP and Google Play Billing (no external payment)
-- **Subscription tiers**: Free, Plus ($9.99/mo or $79.99/yr), Premium ($19.99/mo or $159.99/yr)
+- **Subscription tiers**: Free and Noor Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
 
 ### Added - Onboarding Flow & Copy Refinement
 
@@ -77,14 +77,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - [ ] Scholar theological review
 - [ ] Legal review (Terms of Service, Privacy Policy)
 - [ ] Crisis resource verification (988, local resources)
-- [ ] Production environment setup
-- [ ] Monitoring/alerting configuration
+- [x] Production environment setup ✅ Complete (EAS config, build scripts)
+- [x] Monitoring/alerting configuration ✅ Complete (Sentry integration)
 
 ---
 
 ## [Previous] - 2026-01-17
 
-### Added - MVP 1 Release Candidate
+### Added - v2.0.0 Release Candidate
 
 #### Core Safety Infrastructure (Commit: 1687dc8)
 - **Islamic AI Safety Charter**: 8-part framework governing all AI interactions
@@ -195,9 +195,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## Release Notes - MVP 1
+## Release Notes - v2.0.0
 
-**Status**: ⚠️ Internal alpha only (not production-ready)  
+**Status**: ⚠️ Internal alpha only (not production-ready)
 **Test Status**: All 79 tests passing  
 **Security Status**: 0 high severity vulnerabilities  
 **Type Check**: Passing  
@@ -216,15 +216,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 4 moderate vulnerabilities in dev dependency (esbuild via drizzle-kit)
 - Scholar review pending for Islamic content
 - Crisis resource links need final verification (pending verification; evidence log template added)
-- User onboarding flow not yet implemented
+- User onboarding flow complete (Welcome, Privacy, Safety screens)
 
 ### Pre-Launch Checklist
 - [ ] Scholar theological review
 - [ ] Legal review (Terms of Service, Privacy Policy)  
 - [ ] Crisis resource verification (988, local resources)
 - [x] User onboarding flow ✅ Complete (2026-01-19)
-- [ ] Production environment setup
-- [ ] Monitoring/alerting configuration
+- [x] Production environment setup ✅ Complete (EAS config, build scripts)
+- [x] Monitoring/alerting configuration ✅ Complete (Sentry integration)
 
 ---
 

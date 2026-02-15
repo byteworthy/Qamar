@@ -10,6 +10,10 @@ import {
   registerBillingRoutes,
   getStripeSync,
 } from "./billing";
+// NOTE: stripe-replit-sync is a web-only billing dependency. It is NOT used for
+// mobile billing. Mobile subscriptions are handled exclusively via Apple IAP /
+// Google Play Billing through RevenueCat (react-native-purchases).
+// This import is conditionally used in initStripe() only when Stripe keys are configured.
 import { runMigrations } from "stripe-replit-sync";
 import { sessionMiddleware } from "./middleware/auth";
 import { errorHandler } from "./middleware/error-handler";
@@ -41,7 +45,14 @@ import * as path from "path";
 import { defaultLogger } from "./utils/logger";
 
 /**
- * Environment Variables:
+ * BILLING ARCHITECTURE:
+ * - MOBILE (iOS/Android): Apple IAP & Google Play Billing via RevenueCat.
+ *   Managed entirely client-side with react-native-purchases. No server-side
+ *   Stripe involvement for mobile users.
+ * - WEB (if applicable): Stripe is used ONLY for web-based subscriptions.
+ *   The Stripe integration below is inactive unless STRIPE_SECRET_KEY is set.
+ *
+ * Environment Variables (web billing only):
  * - STRIPE_WEBHOOK_DOMAIN: Explicit domain for Stripe webhooks (preferred)
  *   Example: "myapp.example.com"
  *   Falls back to first domain in REPLIT_DOMAINS if not set.
@@ -333,7 +344,21 @@ function setupErrorHandler(app: express.Application): void {
   app.use(errorHandler);
 }
 
+/**
+ * Initialize Stripe for WEB BILLING ONLY.
+ * Mobile billing uses Apple IAP / Google Play via RevenueCat -- Stripe is never
+ * involved for mobile clients. This function is a no-op unless STRIPE_SECRET_KEY
+ * is present in the environment, ensuring Stripe is completely dormant for
+ * mobile-only deployments.
+ */
 async function initStripe() {
+  if (!isStripeConfigured()) {
+    defaultLogger.info(
+      "Stripe not configured -- skipping (mobile billing uses RevenueCat/IAP)",
+    );
+    return;
+  }
+
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
     defaultLogger.warn("DATABASE_URL not set, skipping Stripe initialization");
@@ -415,9 +440,9 @@ async function initStripe() {
   // Health check endpoint (before other routes)
   registerHealthRoute(app);
 
-  // CRITICAL: Webhook route MUST be registered BEFORE body parsing middleware.
-  // Stripe webhook verification requires the raw request body as a Buffer.
-  // If express.json() runs first, it will parse the body and break signature verification.
+  // WEB BILLING ONLY: Webhook route registered before body parsing so Stripe
+  // signature verification can access the raw request body. This is a no-op
+  // stub when Stripe is not configured (mobile uses RevenueCat/IAP instead).
   registerBillingWebhookRoute(app);
 
   setupBodyParsing(app);

@@ -93,8 +93,12 @@
 
 ## In-App Products
 
-- [ ] Product: Noor Plus Monthly ($4.99/month)
+- [ ] Product: Noor Plus Monthly ($2.99/month)
 - [ ] Product ID: com.noor.app.plus.monthly
+- [ ] Product: Noor Plus Yearly ($19.99/year — save 44%)
+- [ ] Product ID: com.noor.app.plus.yearly
+- [ ] Product: Noor Plus Lifetime ($49.99 one-time)
+- [ ] Product ID: com.noor.app.plus.lifetime
 - [ ] Description: "Advanced growth insights, full dua library & priority AI guidance"
 - [ ] 7-day free trial
 
@@ -103,8 +107,8 @@
 ## Build Requirements
 
 - [ ] **Signed AAB** with release keystore
-- [ ] **Version code:** 1
-- [ ] **Version name:** 1.0.0
+- [ ] **Version code:** 2
+- [ ] **Version name:** 2.0.0
 - [ ] **Minimum SDK:** API 21 (Android 5.0)
 - [ ] **Target SDK:** API 34 (Android 14)
 

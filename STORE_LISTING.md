@@ -102,7 +102,7 @@ PRIVACY & SECURITY
 Your reflections are sacred. Noor protects them with biometric authentication, AES-256 encryption, and a strict no-tracking policy. No ads. No data selling. Ever.
 
 PREMIUM OPTIONS
-Noor is free to use with core features. Upgrade to Plus or Pro for unlimited AI reflections, advanced analytics, and premium content.
+Noor is free to use with core features. Upgrade to Noor Plus ($2.99/month, $19.99/year, or $49.99 lifetime) for unlimited AI reflections, advanced analytics, and premium content.
 
 Download Noor today and bring consistency and depth to your daily spiritual practice.
 

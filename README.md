@@ -45,6 +45,7 @@ Noor is an all-in-one Islamic companion app that brings together the tools Musli
 ### Learn
 
 - **Quran Reader** — All 114 surahs with English translations and authentic audio recitation
+- **Arabic Alphabet Grid** — Interactive letter forms learning (isolated, initial, medial, final)
 - **Arabic Vocabulary** — 356 words with FSRS spaced-repetition flashcards
 - **Hadith Library** — 200+ authentic hadiths from Kutub al-Sittah
 
@@ -53,12 +54,15 @@ Noor is an all-in-one Islamic companion app that brings together the tools Musli
 - **Prayer Times** — Precise schedules using the Adhan library, adjusted for your location
 - **Qibla Compass** — Device-sensor compass with calibration guidance
 - **Adhkar & Duas** — 100+ morning, evening, and prayer adhkar with counters
+- **Dua Collection** — Curated supplications for daily occasions
+- **Calming Practice** — Guided breathing exercises with dhikr integration
 - **Islamic Calendar** — Hijri date conversion and tracking
 
 ### Profile
 
+- Insights dashboard with reflection trends and spiritual growth analytics
 - Spiritual growth statistics and streak tracking
-- Premium subscription management (Free / Plus / Pro)
+- Premium subscription management (Free / Plus)
 - Biometric lock and privacy settings
 - Data export and account controls
 

@@ -109,10 +109,10 @@ Start each day with a relevant Quranic verse and authentic Hadith from Sahih Buk
 🧘 CALMING PRACTICES
 Islamic mindfulness practices including dhikr (remembrance), breathing exercises, and guided reflection sessions. Reduce stress and find inner peace using methods aligned with Islamic tradition.
 
-🤲 DUA LIBRARY (PREMIUM)
+🤲 DUA LIBRARY (PLUS)
 Access a comprehensive collection of authentic duas for different life situations—work challenges, family matters, personal growth, and spiritual connection. All sourced from Quran and Sahih Hadith collections.
 
-📊 GROWTH INSIGHTS (PREMIUM)
+📊 GROWTH INSIGHTS (PLUS)
 Track your reflection journey with meaningful progress indicators. See your growth through journey levels, reflection streaks, and patterns in your personal development—gamification for spiritual and personal growth.
 
 WHY NOOR IS DIFFERENT:
@@ -145,7 +145,7 @@ FREE FOREVER FEATURES:
 • Complete privacy and encryption
 • Crisis detection and professional resource links
 
-PREMIUM FEATURES (OPTIONAL):
+NOOR PLUS FEATURES (OPTIONAL):
 • Advanced growth insights and journey tracking
 • Full dua library (100+ authentic duas)
 • Priority AI guidance
@@ -317,28 +317,33 @@ https://noor-app.com/privacy
 
 ## In-App Purchases
 
-### Product Name
-Noor Plus - Monthly Subscription
+### Product 1: Noor Plus - Monthly Subscription
 
-### Product ID
-`com.noor.app.plus.monthly`
+- **Product ID:** `com.noor.app.plus.monthly`
+- **Display Name:** Noor Plus
+- **Price:** **$2.99/month**
+- **Subscription Duration:** 1 month (auto-renewable)
 
-### Display Name
-Noor Plus
+### Product 2: Noor Plus - Yearly Subscription
 
-### Description
+- **Product ID:** `com.noor.app.plus.yearly`
+- **Display Name:** Noor Plus (Yearly)
+- **Price:** **$19.99/year** (save 44%)
+- **Subscription Duration:** 1 year (auto-renewable)
+
+### Product 3: Noor Plus - Lifetime
+
+- **Product ID:** `com.noor.app.plus.lifetime`
+- **Display Name:** Noor Plus (Lifetime)
+- **Price:** **$49.99 one-time**
+
+### Description (all products)
 ```
 Unlock advanced growth insights, full dua library, and priority AI guidance. Track your reflection journey with journey levels, extended history, and custom templates.
 ```
 
-### Price
-**$4.99/month** (Tier 5)
-
 ### Subscription Group
 Noor Plus Subscriptions
-
-### Subscription Duration
-1 month (auto-renewable)
 
 ### Introductory Offer (Recommended)
 **7-day free trial**
@@ -358,7 +363,7 @@ Noor Plus Subscriptions
 1. Launch app
 2. Tap "Get Started"
 3. Sign in with demo account email/password
-4. Demo account has Premium access enabled
+4. Demo account has Plus access enabled
 5. Explore: Reflection → Daily Content → Calming Practice → Insights
 ```
 
@@ -373,7 +378,7 @@ Core Features:
 1. Structured Reflection Journal - Examine thoughts and situations with Islamic guidance
 2. Quran Wisdom & Hadith - Daily authentic Islamic content for spiritual growth
 3. Calming Practices - Islamic mindfulness (dhikr, breathing, reflection)
-4. Growth Insights (Premium) - Track personal development journey
+4. Growth Insights (Plus) - Track personal development journey
 
 Islamic Authenticity:
 - Quran: Verified translations from authentic sources
@@ -411,7 +416,7 @@ Testing Instructions:
 3. View Islamic guidance and reframing
 4. Check Daily Content (Quran verse + Hadith)
 5. Try Calming Practice (dhikr or breathing exercise)
-6. View Insights page (demo account has Premium access)
+6. View Insights page (demo account has Plus access)
 
 Contact: support@noor-app.com
 Privacy Policy: https://noor-app.com/privacy
@@ -435,7 +440,7 @@ Privacy Policy: https://noor-app.com/privacy
 2. **Reflection Tool** - Thought capture with structured prompts
 3. **Islamic Guidance** - AI reframe with Quran verse overlay
 4. **Daily Content** - Quran verse + Hadith of the day
-5. **Growth Insights** - Journey level, streaks, progress (Premium)
+5. **Growth Insights** - Journey level, streaks, progress (Plus)
 6. **Privacy Features** (optional) - Biometric auth, encryption messaging
 
 ### Screenshots (iPhone 6.5" - 1284x2778)

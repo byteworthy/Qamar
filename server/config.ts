@@ -39,7 +39,7 @@ export const config = {
   // Anthropic Claude
   anthropicApiKey: process.env.ANTHROPIC_API_KEY,
 
-  // Stripe (server-side, not for mobile IAP)
+  // Stripe -- WEB BILLING ONLY. Not used for mobile (iOS/Android use RevenueCat/IAP).
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
   stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
 
@@ -96,7 +96,8 @@ export function isAnthropicConfigured(): boolean {
 }
 
 /**
- * Check if Stripe is properly configured
+ * Check if Stripe is properly configured for WEB BILLING.
+ * Mobile billing uses Apple IAP / Google Play via RevenueCat -- not Stripe.
  */
 export function isStripeConfigured(): boolean {
   return (
