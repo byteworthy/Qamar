@@ -258,7 +258,7 @@ async function queryInMemory(question: string, topK: number): Promise<RAGResult>
 
 async function queryViaQdrant(question: string, topK: number): Promise<RAGResult> {
   try {
-    // @ts-ignore - optional dependency, only needed when QDRANT_URL is set
+    // @ts-expect-error - optional dependency, only needed when QDRANT_URL is set
     const { QdrantClient } = await import('@qdrant/js-client-rest');
     const client = new QdrantClient({ url: process.env.QDRANT_URL });
     const queryEmbedding = await generateEmbedding(question);

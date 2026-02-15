@@ -131,19 +131,20 @@ export async function purchasePackage(
     const result: MakePurchaseResult =
       await Purchases.purchasePackage(pkg);
     return { success: true, customerInfo: result.customerInfo };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as { userCancelled?: boolean; code?: string; message?: string };
     // User cancelled -- not an error
-    if (error.userCancelled || error.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) {
+    if (err.userCancelled || err.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) {
       return { success: false, cancelled: true };
     }
 
     // Payment pending (e.g. Ask to Buy, pending bank approval)
-    if (error.code === PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR) {
+    if (err.code === PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR) {
       return { success: false, error: "Payment is pending approval." };
     }
 
     // Network error
-    if (error.code === PURCHASES_ERROR_CODE.NETWORK_ERROR) {
+    if (err.code === PURCHASES_ERROR_CODE.NETWORK_ERROR) {
       return {
         success: false,
         error: "Network error. Please check your connection and try again.",
@@ -151,7 +152,7 @@ export async function purchasePackage(
     }
 
     console.error("[RevenueCat] Purchase failed:", error);
-    return { success: false, error: error.message || "Purchase failed" };
+    return { success: false, error: err.message || "Purchase failed" };
   }
 }
 
@@ -172,9 +173,10 @@ export async function restorePurchases(): Promise<PurchaseResult> {
     const hasPremium =
       Object.keys(customerInfo.entitlements.active).length > 0;
     return { success: hasPremium, customerInfo };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[RevenueCat] Restore failed:", error);
-    return { success: false, error: error.message || "Restore failed" };
+    const msg = error instanceof Error ? error.message : "Restore failed";
+    return { success: false, error: msg };
   }
 }
 

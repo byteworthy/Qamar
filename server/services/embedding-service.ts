@@ -5,8 +5,14 @@
  * Falls back to deterministic mock embeddings if model fails to load.
  */
 
-let pipeline: any = null;
-let extractor: any = null;
+/** Minimal type for a feature-extraction pipeline instance. */
+interface FeatureExtractor {
+  (text: string, options?: Record<string, unknown>): Promise<{ data: Float32Array }>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- @xenova/transformers pipeline factory has complex generics
+let pipeline: ((task: string, model: string, options?: Record<string, unknown>) => Promise<unknown>) | null = null;
+let extractor: FeatureExtractor | null = null;
 let loadFailed = false;
 
 export const EMBEDDING_MODEL = 'Xenova/all-MiniLM-L6-v2';
@@ -17,18 +23,18 @@ export let RAG_DEGRADED = false;
 // Model Loading (lazy, cached)
 // ---------------------------------------------------------------------------
 
-async function getExtractor(): Promise<any> {
+async function getExtractor(): Promise<FeatureExtractor | null> {
   if (extractor) return extractor;
   if (loadFailed) return null;
 
   try {
     if (!pipeline) {
       const transformers = await import('@xenova/transformers');
-      pipeline = transformers.pipeline;
+      pipeline = transformers.pipeline as unknown as typeof pipeline;
     }
-    extractor = await pipeline('feature-extraction', EMBEDDING_MODEL, {
+    extractor = await pipeline!('feature-extraction', EMBEDDING_MODEL, {
       quantized: true,
-    });
+    }) as FeatureExtractor;
     console.log('[Embedding] Model loaded:', EMBEDDING_MODEL);
     return extractor;
   } catch (err) {

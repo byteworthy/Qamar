@@ -273,9 +273,25 @@ class MockOfflineDatabase implements OfflineDatabase {
 // REAL SQLITE DATABASE IMPLEMENTATION (expo-sqlite)
 // ============================================================================
 
+/** Minimal type for expo-sqlite's async database handle (optional dependency). */
+interface SQLiteDatabaseHandle {
+  execAsync(sql: string): Promise<void>;
+  closeAsync(): Promise<void>;
+  getAllAsync<T = Record<string, unknown>>(sql: string, params?: unknown[]): Promise<T[]>;
+  getFirstAsync<T = Record<string, unknown>>(sql: string, params?: unknown[]): Promise<T | null>;
+  runAsync(sql: string, params?: unknown[]): Promise<{ changes: number }>;
+  withTransactionAsync(fn: () => Promise<void>): Promise<void>;
+}
+
 class SQLiteOfflineDatabase implements OfflineDatabase {
-  private db: any = null;
+  private db: SQLiteDatabaseHandle | null = null;
   private ready = false;
+
+  /** Return the db handle, throwing if not yet initialized. */
+  private getDb(): SQLiteDatabaseHandle {
+    if (!this.db) throw new Error("[OfflineDB] Database not initialized");
+    return this.db;
+  }
 
   async initialize(): Promise<void> {
     try {
@@ -284,7 +300,7 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
 
       // Run all schema creation statements
       for (const sql of INIT_OFFLINE_DATABASE) {
-        await this.db.execAsync(sql);
+        await this.db!.execAsync(sql);
       }
 
       this.ready = true;
@@ -309,11 +325,13 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
   // -- Surahs --
 
   async getAllSurahs(): Promise<Surah[]> {
-    return this.db.getAllAsync(GET_ALL_SURAHS);
+    const db = this.getDb();
+    return db.getAllAsync(GET_ALL_SURAHS);
   }
 
   async getSurah(surahNumber: number): Promise<Surah | null> {
-    const result = await this.db.getFirstAsync(
+    const db = this.getDb();
+    const result = await db.getFirstAsync<Surah>(
       "SELECT * FROM surahs WHERE surah_number = ? LIMIT 1",
       [surahNumber]
     );
@@ -321,9 +339,10 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
   }
 
   async upsertSurahs(surahs: Surah[]): Promise<void> {
-    await this.db.withTransactionAsync(async () => {
+    const db = this.getDb();
+    await db.withTransactionAsync(async () => {
       for (const s of surahs) {
-        await this.db.runAsync(
+        await db.runAsync(
           `INSERT OR REPLACE INTO surahs (surah_number, name_arabic, name_english, name_transliteration, verses_count, revelation_place)
            VALUES (?, ?, ?, ?, ?, ?)`,
           [s.surah_number, s.name_arabic, s.name_english, s.name_transliteration ?? null, s.verses_count, s.revelation_place]
@@ -335,22 +354,26 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
   // -- Verses --
 
   async getVersesBySurah(surahNumber: number): Promise<Verse[]> {
-    return this.db.getAllAsync(GET_VERSES_BY_SURAH, [surahNumber]);
+    const db = this.getDb();
+    return db.getAllAsync(GET_VERSES_BY_SURAH, [surahNumber]);
   }
 
   async getVerse(surahNumber: number, verseNumber: number): Promise<Verse | null> {
-    const result = await this.db.getFirstAsync(GET_VERSE, [surahNumber, verseNumber]);
+    const db = this.getDb();
+    const result = await db.getFirstAsync<Verse>(GET_VERSE, [surahNumber, verseNumber]);
     return result ?? null;
   }
 
   async searchVerses(query: string): Promise<Verse[]> {
-    return this.db.getAllAsync(SEARCH_VERSES_FTS, [query]);
+    const db = this.getDb();
+    return db.getAllAsync(SEARCH_VERSES_FTS, [query]);
   }
 
   async upsertVerses(verses: Verse[]): Promise<void> {
-    await this.db.withTransactionAsync(async () => {
+    const db = this.getDb();
+    await db.withTransactionAsync(async () => {
       for (const v of verses) {
-        await this.db.runAsync(
+        await db.runAsync(
           `INSERT OR REPLACE INTO verses (surah_number, verse_number, arabic_text, translation_en, translation_ur, transliteration, juz_number, page_number, hizb_quarter, audio_url)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [v.surah_number, v.verse_number, v.arabic_text, v.translation_en, v.translation_ur ?? null, v.transliteration ?? null, v.juz_number ?? null, v.page_number ?? null, v.hizb_quarter ?? null, v.audio_url ?? null]
@@ -362,24 +385,27 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
   // -- Hadiths --
 
   async getHadithsByCollection(collection: string, grade?: string): Promise<Hadith[]> {
+    const db = this.getDb();
     if (grade) {
-      return this.db.getAllAsync(GET_SAHIH_HADITHS_BY_COLLECTION.replace("grade = 'sahih'", "grade = ?"), [collection, grade]);
+      return db.getAllAsync(GET_SAHIH_HADITHS_BY_COLLECTION.replace("grade = 'sahih'", "grade = ?"), [collection, grade]);
     }
-    return this.db.getAllAsync(
+    return db.getAllAsync(
       "SELECT * FROM hadiths WHERE collection = ? ORDER BY book_number, hadith_number LIMIT 50",
       [collection]
     );
   }
 
   async getHadith(id: number): Promise<Hadith | null> {
-    const result = await this.db.getFirstAsync("SELECT * FROM hadiths WHERE id = ?", [id]);
+    const db = this.getDb();
+    const result = await db.getFirstAsync<Hadith>("SELECT * FROM hadiths WHERE id = ?", [id]);
     return result ?? null;
   }
 
   async upsertHadiths(hadiths: Hadith[]): Promise<void> {
-    await this.db.withTransactionAsync(async () => {
+    const db = this.getDb();
+    await db.withTransactionAsync(async () => {
       for (const h of hadiths) {
-        await this.db.runAsync(
+        await db.runAsync(
           `INSERT OR REPLACE INTO hadiths (collection, book_number, hadith_number, narrator, arabic_text, translation_en, grade)
            VALUES (?, ?, ?, ?, ?, ?, ?)`,
           [h.collection, h.book_number ?? null, h.hadith_number ?? null, h.narrator ?? null, h.arabic_text, h.translation_en, h.grade ?? null]
@@ -391,20 +417,23 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
   // -- Vocabulary --
 
   async getVocabularyByCategory(category: string): Promise<VocabularyWord[]> {
-    return this.db.getAllAsync(GET_VOCABULARY_BY_CATEGORY, [category]);
+    const db = this.getDb();
+    return db.getAllAsync(GET_VOCABULARY_BY_CATEGORY, [category]);
   }
 
   async getVocabularyByDifficulty(level: number): Promise<VocabularyWord[]> {
-    return this.db.getAllAsync(
+    const db = this.getDb();
+    return db.getAllAsync(
       "SELECT * FROM vocabulary WHERE difficulty_level = ? ORDER BY quran_frequency DESC",
       [level]
     );
   }
 
   async upsertVocabulary(words: VocabularyWord[]): Promise<void> {
-    await this.db.withTransactionAsync(async () => {
+    const db = this.getDb();
+    await db.withTransactionAsync(async () => {
       for (const w of words) {
-        await this.db.runAsync(
+        await db.runAsync(
           `INSERT OR REPLACE INTO vocabulary (id, arabic_word, transliteration, translation_en, root, category, difficulty_level, quran_frequency)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
           [w.id, w.arabic_word, w.transliteration, w.translation_en, w.root ?? null, w.category ?? null, w.difficulty_level, w.quran_frequency]
@@ -416,9 +445,10 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
   // -- Metadata --
 
   async getRowCount(table: string): Promise<number> {
+    const db = this.getDb();
     const allowedTables = ["surahs", "verses", "hadiths", "vocabulary", "conversation_scenarios"];
     if (!allowedTables.includes(table)) return 0;
-    const result = await this.db.getFirstAsync(`SELECT COUNT(*) as count FROM ${table}`);
+    const result = await db.getFirstAsync<{ count: number }>(`SELECT COUNT(*) as count FROM ${table}`);
     return result?.count ?? 0;
   }
 
