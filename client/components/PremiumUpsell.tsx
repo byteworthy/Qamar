@@ -239,6 +239,39 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
       "Unlimited explanations",
     ],
   },
+  [PremiumFeature.HIFZ_UNLIMITED]: {
+    title: "Unlimited Hifz Reviews",
+    description: "Memorize the Quran at your own pace with unlimited daily reviews.",
+    icon: "book",
+    benefits: [
+      "Review 50+ verses per day",
+      "No daily review limits",
+      "Flexible scheduling",
+      "Progress at your own speed",
+    ],
+  },
+  [PremiumFeature.HIFZ_AI_ANALYSIS]: {
+    title: "AI Tajweed Coaching",
+    description: "Get advanced pronunciation feedback with AI-powered Tajweed analysis.",
+    icon: "mic",
+    benefits: [
+      "Advanced Tajweed feedback",
+      "Rule-specific correction tips",
+      "Pronunciation scoring",
+      "Unlimited AI analysis",
+    ],
+  },
+  [PremiumFeature.HIFZ_CIRCLES]: {
+    title: "Memorization Circles",
+    description: "Join group memorization circles and share progress with others.",
+    icon: "users",
+    benefits: [
+      "Create or join circles",
+      "Shared progress tracking",
+      "Group motivation",
+      "Accountability partners",
+    ],
+  },
 };
 
 /**
