@@ -173,6 +173,14 @@ export default function LearnTabScreen() {
       screen: "Translator" as const,
       comingSoon: false,
     },
+    {
+      title: "Find a Dua",
+      description: "Get personalized dua recommendations for any situation",
+      gradient: ["#5a3a3a", "#8a6a5a"],
+      icon: "heart" as const,
+      screen: "DuaFinder" as const,
+      comingSoon: false,
+    },
   ];
 
   return (

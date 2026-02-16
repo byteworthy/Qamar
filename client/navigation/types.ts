@@ -96,6 +96,7 @@ export type RootStackParamList = {
   PronunciationCoach: { surahNumber?: number; verseNumber?: number };
   Translator: undefined;
   TajweedGuide: undefined;
+  DuaFinder: undefined;
   HifzDashboard: undefined;
   HifzRecitation: {
     surahNumber: number;
