@@ -45,6 +45,8 @@ import ArabicTutorScreen from "@/screens/learn/ArabicTutorScreen";
 import PronunciationCoachScreen from "@/screens/learn/PronunciationCoachScreen";
 import TranslatorScreen from "@/screens/learn/TranslatorScreen";
 import TajweedGuideScreen from "@/screens/learn/TajweedGuideScreen";
+import HifzDashboardScreen from "@/screens/learn/HifzDashboardScreen";
+import HifzRecitationScreen from "@/screens/learn/HifzRecitationScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -269,6 +271,16 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="TajweedGuide"
         component={TajweedGuideScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HifzDashboard"
+        component={HifzDashboardScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HifzRecitation"
+        component={HifzRecitationScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

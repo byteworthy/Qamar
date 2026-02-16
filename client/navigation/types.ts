@@ -92,6 +92,12 @@ export type RootStackParamList = {
   PronunciationCoach: { surahNumber?: number; verseNumber?: number };
   Translator: undefined;
   TajweedGuide: undefined;
+  HifzDashboard: undefined;
+  HifzRecitation: {
+    surahNumber: number;
+    verseNumber: number;
+    mode?: "review" | "memorize";
+  };
 };
 
 /**

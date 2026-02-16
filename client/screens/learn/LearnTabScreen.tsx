@@ -118,6 +118,14 @@ export default function LearnTabScreen() {
       comingSoon: false,
     },
     {
+      title: "Hifz Memorization",
+      description: "Memorize the Quran with spaced repetition and AI-powered feedback",
+      gradient: ["#2a4a5a", "#5a7a8a"],
+      icon: "book" as const,
+      screen: "HifzDashboard" as const,
+      comingSoon: false,
+    },
+    {
       title: "Arabic Learning",
       description: "Learn Arabic with interactive flashcards and spaced repetition",
       gradient: ["#5a4a3a", "#8a7a6a"],
