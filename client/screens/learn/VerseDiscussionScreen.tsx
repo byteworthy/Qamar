@@ -96,7 +96,7 @@ export default function VerseDiscussionScreen() {
                 style={[
                   styles.messageCard,
                   msg.role === 'user' ? styles.userMessage : styles.assistantMessage,
-                ]}
+                ] as any}
               >
                 <ThemedText style={[styles.messageText, { color: theme.text }]}>
                   {msg.content}
