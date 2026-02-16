@@ -272,6 +272,78 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
       "Accountability partners",
     ],
   },
+
+  // Phase 6B: Tafsir & Verse Discussion
+  [PremiumFeature.TAFSIR_UNLIMITED]: {
+    title: "Unlimited AI Tafsir",
+    description: "Get unlimited access to AI-powered Tafsir explanations with classical sources.",
+    icon: "book-open",
+    benefits: [
+      "Unlimited verse explanations",
+      "Classical scholar citations",
+      "Context and key terms",
+      "Cross-reference connections",
+    ],
+  },
+  [PremiumFeature.VERSE_DISCUSSION_UNLIMITED]: {
+    title: "Unlimited Verse Discussions",
+    description: "Have unlimited conversations with AI about any Quranic verse.",
+    icon: "message-square",
+    benefits: [
+      "Unlimited verse Q&A",
+      "Multi-turn discussions",
+      "Persistent chat history",
+      "Deep understanding",
+    ],
+  },
+
+  // Phase 6C: Dua Recommender
+  [PremiumFeature.DUA_UNLIMITED]: {
+    title: "Unlimited Dua Recommendations",
+    description: "Get unlimited AI-powered dua recommendations for any situation.",
+    icon: "compass",
+    benefits: [
+      "Unlimited dua searches",
+      "Authentic Quran and Hadith sources",
+      "Context-aware recommendations",
+      "Save unlimited favorites",
+    ],
+  },
+
+  // Phase 6D: Study Plan
+  [PremiumFeature.STUDY_PLAN_REGENERATE]: {
+    title: "Regenerate Study Plans",
+    description: "Regenerate your weekly study plan as many times as needed.",
+    icon: "refresh-cw",
+    benefits: [
+      "Unlimited plan regeneration",
+      "Adjust to your schedule",
+      "Try different approaches",
+      "Optimize for your pace",
+    ],
+  },
+  [PremiumFeature.STUDY_PLAN_ADAPT]: {
+    title: "Adaptive Study Plans",
+    description: "Let AI adapt your study plan based on your progress and performance.",
+    icon: "trending-up",
+    benefits: [
+      "AI-powered adaptation",
+      "Progress-based adjustments",
+      "Difficulty optimization",
+      "Personalized pacing",
+    ],
+  },
+  [PremiumFeature.STUDY_PLAN_MULTIPLE]: {
+    title: "Multiple Study Plans",
+    description: "Run multiple concurrent study plans for different goals.",
+    icon: "layers",
+    benefits: [
+      "Up to 3 concurrent plans",
+      "Different goals per plan",
+      "Track multiple objectives",
+      "Comprehensive learning",
+    ],
+  },
 };
 
 /**
