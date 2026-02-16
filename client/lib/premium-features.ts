@@ -67,6 +67,22 @@ export enum PremiumFeature {
    */
   ARABIC_CUSTOM_LISTS = "pro_arabic_custom_lists",
 
+  // ========== HIFZ FEATURES ==========
+  /**
+   * Unlimited Hifz reviews (50+ verses at once)
+   */
+  HIFZ_UNLIMITED = "pro_hifz_unlimited",
+
+  /**
+   * Advanced AI Tajweed and pronunciation coaching
+   */
+  HIFZ_AI_ANALYSIS = "pro_hifz_ai_analysis",
+
+  /**
+   * Group memorization circles with shared progress
+   */
+  HIFZ_CIRCLES = "pro_hifz_circles",
+
   // ========== PRAYER FEATURES ==========
   /**
    * Custom adhan (call to prayer) audio
@@ -249,11 +265,14 @@ export const FEATURE_TIERS = {
     PremiumFeature.ARABIC_PRONUNCIATION,
     PremiumFeature.AI_TUTOR_UNLIMITED,
     PremiumFeature.AI_TRANSLATION_EXPLAIN,
+    PremiumFeature.HIFZ_UNLIMITED,
+    PremiumFeature.HIFZ_AI_ANALYSIS,
   ],
 
-  // Pro tier features (advanced AI + analytics)
+  // Pro tier features (advanced AI + analytics + social)
   pro: [
     PremiumFeature.REFLECTION_ADVANCED,
+    PremiumFeature.HIFZ_CIRCLES,
   ],
 } as const;
 

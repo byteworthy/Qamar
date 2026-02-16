@@ -31,6 +31,10 @@ export type FeatureName =
   | "hadith_search"
   | "adhkar_basic"
   | "offline_content"
+  // Hifz features
+  | "hifz_unlimited"
+  | "hifz_ai_analysis"
+  | "hifz_circles"
   // Premium features
   | "ai_companion_unlimited"
   | "ai_tutor_unlimited"
@@ -51,7 +55,7 @@ const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
   hadith_search: "free",
   offline_content: "free",
 
-  // Plus tier features (AI-powered only)
+  // Plus tier features (AI-powered + advanced)
   unlimited_cbt_sessions: "plus",
   ai_companion_unlimited: "plus",
   ai_tutor_unlimited: "plus",
@@ -59,6 +63,11 @@ const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
   ai_translation_explain: "plus",
   advanced_insights: "plus",
   priority_support: "plus",
+  hifz_unlimited: "plus",
+  hifz_ai_analysis: "plus",
+
+  // Pro tier features (social + advanced analytics)
+  hifz_circles: "pro",
 };
 
 /**
