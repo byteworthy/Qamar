@@ -17,6 +17,9 @@ import { registerRagRoutes } from "./routes/rag-routes";
 import { registerIslamicQaRoutes } from "./routes/islamic-qa-routes";
 import { registerOfflineSyncRoutes } from "./routes/offline-sync-routes";
 import { registerKhalilRoutes } from "./routes/khalil-routes";
+import { registerTutorRoutes } from "./routes/tutor-routes";
+import { registerPronunciationRoutes } from "./routes/pronunciation-routes";
+import { registerTranslationRoutes } from "./routes/translation-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -51,6 +54,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register Khalil conversational muhasaba routes
   registerKhalilRoutes(app);
+
+  // Register Arabic learning & AI routes
+  registerTutorRoutes(app);
+  registerPronunciationRoutes(app);
+  registerTranslationRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
