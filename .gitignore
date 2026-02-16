@@ -45,6 +45,9 @@ PRODUCTION_SECRETS.txt
 *_SECRETS.txt
 google-play-service-account.json
 
+# Test coverage
+coverage/
+
 # typescript
 *.tsbuildinfo
 
