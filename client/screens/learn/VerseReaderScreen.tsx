@@ -8,7 +8,7 @@ import {
   Modal,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 
@@ -24,14 +24,17 @@ import {
 } from "@/hooks/useQuranData";
 import { useQuranAudio as useQuranAudioPlayer, RECITERS, Reciter } from "@/hooks/useQuranAudio";
 import { useTajweed } from "@/hooks/useTajweed";
+import { useTafsir } from "@/hooks/useTafsir";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { PremiumGate } from "@/components/PremiumGate";
 import { TajweedText } from "@/components/TajweedText";
 import { WordByWordPlayer } from "@/components/WordByWordPlayer";
+import { TafsirPanel } from "@/components/TafsirPanel";
 import { NoorColors } from "@/constants/theme/colors";
 import { TajweedSegment } from "@/services/tajweedParser";
-import { RouteType } from "@/navigation/types";
+import { TafsirData } from "@/stores/tafsir-cache-store";
+import { RouteType, RootStackNavigationProp } from "@/navigation/types";
 
 // =============================================================================
 // VERSE CARD
@@ -43,6 +46,8 @@ interface VerseCardProps {
   isCurrentlyPlaying: boolean;
   onBookmarkToggle: () => void;
   onPlayVerse: () => void;
+  onExplain: () => void;
+  onDiscuss: () => void;
   index: number;
   tajweedEnabled: boolean;
   wordByWordEnabled: boolean;
@@ -57,6 +62,8 @@ const VerseCard = React.memo(function VerseCard({
   isCurrentlyPlaying,
   onBookmarkToggle,
   onPlayVerse,
+  onExplain,
+  onDiscuss,
   index,
   tajweedEnabled,
   wordByWordEnabled,
@@ -160,6 +167,32 @@ const VerseCard = React.memo(function VerseCard({
         >
           {verse.textEnglish}
         </ThemedText>
+
+        {/* Action buttons for Explain and Discuss */}
+        <View style={styles.verseActionButtons}>
+          <Pressable
+            onPress={onExplain}
+            style={styles.verseActionButton}
+            accessibilityLabel="Explain verse"
+            accessibilityRole="button"
+          >
+            <Feather name="book-open" size={18} color={NoorColors.gold} />
+            <ThemedText style={[styles.verseActionText, { color: NoorColors.gold }]}>
+              Explain
+            </ThemedText>
+          </Pressable>
+          <Pressable
+            onPress={onDiscuss}
+            style={styles.verseActionButton}
+            accessibilityLabel="Discuss verse"
+            accessibilityRole="button"
+          >
+            <Feather name="message-circle" size={18} color={NoorColors.gold} />
+            <ThemedText style={[styles.verseActionText, { color: NoorColors.gold }]}>
+              Discuss
+            </ThemedText>
+          </Pressable>
+        </View>
       </GlassCard>
     </Animated.View>
   );
@@ -256,6 +289,7 @@ export default function VerseReaderScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const route = useRoute<RouteType<"VerseReader">>();
+  const navigation = useNavigation<RootStackNavigationProp>();
   const { surahId } = route.params;
 
   const { data: surahs } = useQuranSurahs();
@@ -267,6 +301,14 @@ export default function VerseReaderScreen() {
 
   // Quran audio player (new hook with verse-level controls)
   const audio = useQuranAudioPlayer();
+
+  // Tafsir state and hook
+  const [selectedVerse, setSelectedVerse] = useState<{
+    number: number;
+    showTafsir: boolean;
+  } | null>(null);
+  const [tafsirData, setTafsirData] = useState<TafsirData | null>(null);
+  const { fetchTafsir, isLoading: isTafsirLoading } = useTafsir();
 
   // Tajweed & Word-by-Word toggles (mutually exclusive)
   const [tajweedEnabled, setTajweedEnabled] = useState(false);
@@ -377,6 +419,27 @@ export default function VerseReaderScreen() {
     await audio.setReciter(reciterId);
   };
 
+  // Tafsir handlers
+  const handleExplainVerse = useCallback(async (verseNumber: number) => {
+    setSelectedVerse({ number: verseNumber, showTafsir: true });
+    const data = await fetchTafsir(surahId, verseNumber);
+    if (data) {
+      setTafsirData(data);
+    }
+  }, [surahId, fetchTafsir]);
+
+  const handleDiscussVerse = useCallback((verseNumber: number) => {
+    navigation.navigate('VerseDiscussion', {
+      surahNumber: surahId,
+      verseNumber,
+    });
+  }, [navigation, surahId]);
+
+  const handleCloseTafsir = useCallback(() => {
+    setSelectedVerse(null);
+    setTafsirData(null);
+  }, []);
+
   // Format time in mm:ss
   const formatTime = (millis: number) => {
     const totalSeconds = Math.floor(millis / 1000);
@@ -403,6 +466,8 @@ export default function VerseReaderScreen() {
       }
       onBookmarkToggle={() => handleBookmarkToggle(item.verseNumber)}
       onPlayVerse={() => handlePlayVerse(item.verseNumber)}
+      onExplain={() => handleExplainVerse(item.verseNumber)}
+      onDiscuss={() => handleDiscussVerse(item.verseNumber)}
       index={index}
       tajweedEnabled={tajweedEnabled}
       wordByWordEnabled={wordByWordEnabled}
@@ -410,7 +475,7 @@ export default function VerseReaderScreen() {
       tajweedLoading={tajweedLoading}
       surahId={surahId}
     />
-  ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse, tajweedEnabled, wordByWordEnabled, tajweedVerses, tajweedLoading, surahId]);
+  ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse, handleExplainVerse, handleDiscussVerse, tajweedEnabled, wordByWordEnabled, tajweedVerses, tajweedLoading, surahId]);
 
   // Handle scrollToIndex failures gracefully
   const onScrollToIndexFailed = useCallback(
@@ -827,6 +892,11 @@ export default function VerseReaderScreen() {
         onSelect={handleReciterSelect}
         onClose={() => setReciterModalVisible(false)}
       />
+
+      {/* Tafsir Panel */}
+      {selectedVerse?.showTafsir && tafsirData && (
+        <TafsirPanel tafsir={tafsirData} onClose={handleCloseTafsir} />
+      )}
     </View>
   );
 }
@@ -1126,5 +1196,26 @@ const styles = StyleSheet.create({
   },
   reciterNameArabic: {
     fontSize: 16,
+  },
+  verseActionButtons: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 8,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: NoorColors.gold + "20",
+  },
+  verseActionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: NoorColors.gold + "10",
+  },
+  verseActionText: {
+    fontSize: 14,
+    fontWeight: "600",
   },
 });
