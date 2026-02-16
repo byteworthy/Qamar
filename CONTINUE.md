@@ -10,7 +10,7 @@ Use this document to pick up development from any fresh clone.
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)
 - **EAS Project ID**: `b3e205eb-b119-4976-a275-df7bcef85275`
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
-- **Tests**: 690/690 passing (15 new Hifz tests)
+- **Tests**: 703/703 passing (60 new tests from Phase 6A-C)
 
 ## Current Status
 
@@ -48,7 +48,32 @@ Core system implemented:
 
 **Known TypeScript errors:** Pre-existing in HifzMistakeFeedback.tsx (from subagent implementation). Non-blocking.
 
-### NEXT — Phase 6B-E: Deep AI Features
+### COMPLETE — Phase 6B: AI Tafsir + Verse Conversation
+
+**COMPLETED** on phase-6-hifz-deep-ai branch (10 commits, ~3000 lines).
+
+Core features:
+- AI Tafsir explanations with classical sources (Ibn Kathir, Al-Tabari, Al-Qurtubi, Al-Sa'di)
+- Multi-turn verse discussions with conversation history
+- AsyncStorage caching for tafsir (cache-first strategy)
+- TafsirPanel slide-up component with 5 sections (context, key terms, scholarly views, cross-references, takeaway)
+- VerseDiscussionScreen chat UI with optimistic updates
+- Server endpoints: POST /api/tafsir/explain, POST /api/verse/discuss
+- 7 new server tests (tafsir + verse-conversation routes)
+
+### COMPLETE — Phase 6C: AI Dua Recommender
+
+**COMPLETED** on phase-6-hifz-deep-ai branch (5 commits, ~2000 lines).
+
+Core features:
+- RAG-based dua search with 15 authentic duas from Quran and Sahih collections
+- DuaFinderScreen with category chips (Anxiety, Gratitude, Travel, etc.)
+- DuaCard component with Arabic (Amiri font), transliteration, TTS playback, favorites
+- Favorites persistence with AsyncStorage Zustand store
+- Server endpoint: POST /api/duas/recommend
+- 25 new tests (4 server routes + 21 store tests)
+
+### NEXT — Phase 6D-E: Remaining Deep AI Features
 
 **Design doc:** [`docs/plans/2026-02-16-hifz-and-deep-ai-design.md`](docs/plans/2026-02-16-hifz-and-deep-ai-design.md)
 
@@ -56,16 +81,12 @@ Core system implemented:
 
 | Phase | Feature | Key Deliverable |
 |-------|---------|----------------|
-| 6B | **AI Tafsir + Verse Conversation** | Tap any verse → classical tafsir explanation (cached) or open-ended AI discussion |
-| 6C | **AI Dua Recommender** | Describe situation → get authentic duas with sources, Arabic, transliteration, TTS |
 | 6D | **Personalized Study Plan** | AI-generated weekly Quran study plan that adapts to your pace and goals |
 | 6E | **Integration + Polish** | Fix HifzMistakeFeedback TypeScript errors, add E2E tests, final review |
 
 **No new dependencies needed.** All features build on existing stack (STT, TTS, FSRS, RAG, Claude Haiku).
 
 **Estimated server cost at 1K users after Phase 6:** ~$79/mo (up from ~$27/mo).
-
-**To start Phase 6B:** Ask Claude to create implementation plan for AI Tafsir + Verse Conversation using the design doc.
 
 The app still needs external setup steps for first build and store submission (see below).
 
@@ -248,6 +269,43 @@ server/routes/tutor-routes.ts          # NEW: POST /api/tutor/chat
 server/routes/pronunciation-routes.ts   # NEW: POST /api/pronunciation/check
 server/routes/translation-routes.ts     # NEW: POST /api/translate
 server/__tests__/arabic-routes.test.ts  # NEW: 32 tests for Arabic routes
+```
+
+## New File Map (AI Tafsir + Verse Conversation - Phase 6B)
+
+```
+server/services/tafsir-prompts.ts       # NEW: AI prompts for classical tafsir explanations
+server/services/verse-conversation-prompts.ts  # NEW: prompts for verse Q&A discussions
+server/routes/tafsir-routes.ts          # NEW: POST /api/tafsir/explain
+server/routes/verse-conversation-routes.ts  # NEW: POST /api/verse/discuss
+server/__tests__/tafsir-routes.test.ts  # NEW: 3 tests for tafsir endpoint
+server/__tests__/verse-conversation-routes.test.ts  # NEW: 4 tests for discussion endpoint
+client/stores/tafsir-cache-store.ts     # NEW: AsyncStorage cached tafsir by verse
+client/stores/verse-conversation-store.ts  # NEW: persisted chat history per verse
+client/hooks/useTafsir.ts               # NEW: cache-first tafsir fetching hook
+client/hooks/useVerseConversation.ts    # NEW: multi-turn discussion hook with optimistic UI
+client/components/TafsirPanel.tsx       # NEW: animated slide-up panel with 5 sections
+client/screens/learn/VerseDiscussionScreen.tsx  # NEW: chat UI for verse Q&A
+client/screens/learn/VerseReaderScreen.tsx  # MODIFIED: added Explain + Discuss buttons
+client/navigation/types.ts              # MODIFIED: added VerseDiscussion route
+client/navigation/RootStackNavigator.tsx  # MODIFIED: registered VerseDiscussionScreen
+```
+
+## New File Map (AI Dua Recommender - Phase 6C)
+
+```
+server/services/dua-recommender.ts      # NEW: RAG search with 15 authentic duas
+server/routes/dua-routes.ts             # NEW: POST /api/duas/recommend
+server/__tests__/dua-routes.test.ts     # NEW: 4 tests for dua endpoint
+client/stores/dua-favorites-store.ts    # NEW: AsyncStorage persisted favorites
+client/stores/__tests__/dua-favorites-store.test.ts  # NEW: 21 store tests
+client/hooks/useDuaRecommender.ts       # NEW: dua recommendation API hook
+client/components/DuaCard.tsx           # NEW: GlassCard with Arabic, TTS, bookmark
+client/screens/learn/DuaFinderScreen.tsx  # NEW: search input + category chips + results
+client/navigation/types.ts              # MODIFIED: added DuaFinder route
+client/navigation/RootStackNavigator.tsx  # MODIFIED: registered DuaFinderScreen
+client/screens/learn/LearnTabScreen.tsx  # MODIFIED: added "Find a Dua" feature card
+server/routes.ts                        # MODIFIED: registered tafsir, verse-conversation, dua routes
 ```
 
 ## New File Map (Hifz Memorization System - Phase 6A)
