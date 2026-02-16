@@ -35,6 +35,15 @@ export type FeatureName =
   | "hifz_unlimited"
   | "hifz_ai_analysis"
   | "hifz_circles"
+  // Tafsir & Verse features (Phase 6B)
+  | "tafsir_unlimited"
+  | "verse_discussion_unlimited"
+  // Dua features (Phase 6C)
+  | "dua_unlimited"
+  // Study Plan features (Phase 6D)
+  | "study_plan_regenerate"
+  | "study_plan_adapt"
+  | "study_plan_multiple"
   // Premium features
   | "ai_companion_unlimited"
   | "ai_tutor_unlimited"
@@ -65,9 +74,15 @@ const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
   priority_support: "plus",
   hifz_unlimited: "plus",
   hifz_ai_analysis: "plus",
+  tafsir_unlimited: "plus",
+  verse_discussion_unlimited: "plus",
+  dua_unlimited: "plus",
+  study_plan_regenerate: "plus",
+  study_plan_adapt: "plus",
 
   // Pro tier features (social + advanced analytics)
   hifz_circles: "pro",
+  study_plan_multiple: "pro",
 };
 
 /**

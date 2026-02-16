@@ -83,6 +83,39 @@ export enum PremiumFeature {
    */
   HIFZ_CIRCLES = "pro_hifz_circles",
 
+  // ========== TAFSIR & VERSE FEATURES (Phase 6B) ==========
+  /**
+   * Unlimited AI Tafsir explanations
+   */
+  TAFSIR_UNLIMITED = "pro_tafsir_unlimited",
+
+  /**
+   * Unlimited verse discussion with AI
+   */
+  VERSE_DISCUSSION_UNLIMITED = "pro_verse_discussion",
+
+  // ========== DUA FEATURES (Phase 6C) ==========
+  /**
+   * Unlimited AI Dua recommendations
+   */
+  DUA_UNLIMITED = "pro_dua_unlimited",
+
+  // ========== STUDY PLAN FEATURES (Phase 6D) ==========
+  /**
+   * Regenerate study plans unlimited times
+   */
+  STUDY_PLAN_REGENERATE = "pro_study_plan_regenerate",
+
+  /**
+   * Adaptive study plan adjustments
+   */
+  STUDY_PLAN_ADAPT = "pro_study_plan_adapt",
+
+  /**
+   * Multiple concurrent study plans
+   */
+  STUDY_PLAN_MULTIPLE = "pro_study_plan_multiple",
+
   // ========== PRAYER FEATURES ==========
   /**
    * Custom adhan (call to prayer) audio
@@ -267,12 +300,18 @@ export const FEATURE_TIERS = {
     PremiumFeature.AI_TRANSLATION_EXPLAIN,
     PremiumFeature.HIFZ_UNLIMITED,
     PremiumFeature.HIFZ_AI_ANALYSIS,
+    PremiumFeature.TAFSIR_UNLIMITED,
+    PremiumFeature.VERSE_DISCUSSION_UNLIMITED,
+    PremiumFeature.DUA_UNLIMITED,
+    PremiumFeature.STUDY_PLAN_REGENERATE,
+    PremiumFeature.STUDY_PLAN_ADAPT,
   ],
 
   // Pro tier features (advanced AI + analytics + social)
   pro: [
     PremiumFeature.REFLECTION_ADVANCED,
     PremiumFeature.HIFZ_CIRCLES,
+    PremiumFeature.STUDY_PLAN_MULTIPLE,
   ],
 } as const;
 
