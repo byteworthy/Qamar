@@ -76,7 +76,7 @@ const MODE_EMPTY_TITLES: Record<TutorMode, string> = {
 };
 
 const MODE_EMPTY_SUBTITLES: Record<TutorMode, string> = {
-  vocabulary: "Learn everyday words and phrases with your AI tutor.",
+  vocabulary: "Learn everyday words and phrases with your personal tutor.",
   grammar: "Understand the structure and rules of Arabic language.",
   conversation: "Practice speaking and comprehension in real-world scenarios.",
   quran_words: "Dive deep into the vocabulary of the Holy Quran.",
@@ -375,7 +375,7 @@ export default function ArabicTutorScreen() {
           <ThemedText
             style={[styles.headerSubtitle, { color: theme.textSecondary }]}
           >
-            AI-powered language learning
+            Interactive language learning
           </ThemedText>
         </View>
         {messages.length > 0 && (

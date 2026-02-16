@@ -22,7 +22,7 @@ This is your final gate before submission. Complete every item in order. Do not 
 - [ ] Safety screen shows crisis resources (988, 741741, 911)
 - [ ] "Not therapy" and "Not for emergencies" text is visible on Safety screen
 - [ ] Complete one full reflection session from start to finish
-- [ ] AI response generates successfully (backend is working)
+- [ ] Personalized response generates successfully (backend is working)
 - [ ] App does not crash during normal use
 - [ ] No console errors or warnings in production build
 
@@ -30,7 +30,7 @@ This is your final gate before submission. Complete every item in order. Do not 
 - [ ] Backend is deployed to production environment
 - [ ] Health check endpoint responds: `GET /health` returns 200 OK
 - [ ] Production API URL is configured in `client/lib/config.ts`
-- [ ] OpenAI API key is valid and has sufficient credits
+- [ ] Anthropic API key is valid and has sufficient credits
 - [ ] Sentry is capturing errors in production environment
 - [ ] Database is accessible and data persists correctly
 
@@ -50,10 +50,10 @@ This is your final gate before submission. Complete every item in order. Do not 
 
 #### App Information Section
 - [ ] **Name**: Noor
-- [ ] **Subtitle**: Private AI journaling for reflection and clarity.
+- [ ] **Subtitle**: Quran · Arabic Learning · Prayer · Reflection
 - [ ] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
-- [ ] **Primary Category**: Health & Fitness
-- [ ] **Secondary Category**: (Leave blank or set to Lifestyle)
+- [ ] **Primary Category**: Lifestyle
+- [ ] **Secondary Category**: Education
 - [ ] **Content Rights**: "I own all rights" or appropriate declaration
 
 #### Pricing and Availability
@@ -88,7 +88,7 @@ Complete the questionnaire:
 #### Age Rating
 - [ ] Age Rating Questionnaire Completed
 - [ ] Medical/Treatment Information: **Infrequent/Mild** (or None)
-- [ ] Final Age Rating: **17+** (or 4+ if Apple doesn't require higher)
+- [ ] Final Age Rating: **4+**
 
 ---
 
@@ -104,7 +104,7 @@ Complete the questionnaire:
 Upload in this order:
 - [ ] **Screenshot 1**: Home screen (shows main navigation)
 - [ ] **Screenshot 2**: Thought capture or reflection flow
-- [ ] **Screenshot 3**: AI-generated response
+- [ ] **Screenshot 3**: Personalized reflection response
 - [ ] **Screenshot 4**: Safety screen with crisis resources (CRITICAL)
 - [ ] **Screenshot 5**: History or insights (optional)
 
@@ -127,10 +127,10 @@ Upload in this order:
 - [ ] **Build Number**: Matches uploaded build
 - [ ] **Copyright**: © 2026 [Your Company/Name]
 - [ ] **Description**: Paste from `APP_STORE_DESCRIPTION_FINAL.md`
-  - Includes "AI-powered journaling for clarity and self-reflection"
+  - Includes Quran, Arabic learning, prayer, and reflection features
   - Includes "Not therapy" statement
   - Includes "Not for emergencies" warning
-  - Includes AI transparency section
+  - Includes technology transparency section
   - Includes privacy commitments
 
 ---
@@ -156,7 +156,7 @@ If app does NOT require account:
 - [ ] Paste content from `APP_STORE_REVIEW_NOTES.md`
 - [ ] Verify it includes:
   - App purpose (self-reflection and journaling)
-  - AI disclosure (uses OpenAI API)
+  - Technology disclosure (uses Anthropic Claude)
   - NOT therapy statement
   - NOT crisis tool statement
   - Safety disclaimer location (onboarding)
@@ -199,16 +199,16 @@ Read each statement. ALL must be TRUE.
 - [ ] App description DOES say "not for emergencies"
 - [ ] App SHOWS crisis resources (988, 741741, 911) in Safety screen
 
-### AI Disclosure ✓
-- [ ] App description mentions AI usage
-- [ ] App description mentions AI limitations
-- [ ] App review notes explain AI processing
-- [ ] Safety/Privacy screens disclose AI processing
+### Technology Disclosure ✓
+- [ ] App description mentions technology usage
+- [ ] App description mentions content limitations
+- [ ] App review notes explain content processing
+- [ ] Safety/Privacy screens disclose content processing
 
 ### Privacy Requirements ✓
 - [ ] Privacy Policy is publicly accessible (verified by opening URL)
 - [ ] Privacy Policy URL is entered in App Store Connect
-- [ ] Privacy Policy mentions AI processing
+- [ ] Privacy Policy mentions content processing
 - [ ] Privacy Policy has valid contact email
 - [ ] App Privacy questionnaire completed in App Store Connect
 
@@ -225,7 +225,7 @@ Read each statement. ALL must be TRUE.
 All sections complete:
 - [ ] App Information filled out
 - [ ] Pricing set to Free
-- [ ] Age rating completed (17+)
+- [ ] Age rating completed (4+)
 - [ ] App Privacy questionnaire completed
 - [ ] Icon uploaded (1024x1024)
 - [ ] Screenshots uploaded (minimum 3-5)

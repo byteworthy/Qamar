@@ -122,7 +122,7 @@ const COMPARISON_FEATURES: ComparisonFeature[] = [
   { label: "Daily reflection (1/day)", free: true, plus: true },
   { label: "Basic journaling", free: true, plus: true },
   { label: "Islamic reframes", free: true, plus: true },
-  { label: "Unlimited AI conversations", free: false, plus: true },
+  { label: "Unlimited conversations", free: false, plus: true },
   { label: "Full Quran audio recitations", free: false, plus: true },
   { label: "All Arabic scenarios", free: false, plus: true },
   { label: "Hadith library access", free: false, plus: true },

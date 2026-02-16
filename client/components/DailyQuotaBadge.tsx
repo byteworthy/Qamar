@@ -49,7 +49,7 @@ export function DailyQuotaBadge({
         { backgroundColor: color + '12', borderColor: color + '25' },
         style,
       ]}
-      accessibilityLabel={`${remaining} of ${limit} free AI calls remaining today`}
+      accessibilityLabel={`${remaining} of ${limit} free calls remaining today`}
     >
       <Feather
         name={isEmpty ? 'lock' : 'zap'}

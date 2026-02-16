@@ -20,7 +20,7 @@
 ### Step 1: App Information (General)
 
 1. **App Name** → Paste: `Noor`
-2. **Subtitle** → Paste: `AI Journaling for Clarity`
+2. **Subtitle** → Paste: `Quran · Arabic Learning · Prayer`
 3. **Primary Language** → Select: `English (U.S.)`
 4. **Bundle ID** → Should auto-populate from build
 5. **SKU** → Use: `noor-ios-2026` (or your preference)
@@ -45,11 +45,11 @@
 
 ### Step 4: Category and Age Rating
 
-1. **Primary Category** → Select: `Health & Fitness`
+1. **Primary Category** → Select: `Lifestyle`
 2. **Secondary Category** → Select: `Lifestyle` (optional)
 3. **Age Rating** → Click **"Set Age Rating"**
    - Answer all questions "None" or "No" (see Section K)
-   - Result should be: `17+`
+   - Result should be: `4+`
 4. **Save**
 
 ### Step 5: Version Information (for new version/submission)
@@ -59,10 +59,10 @@ Navigate to **App Store** → Select your build → **Version Information**
 1. **What's New** → For v1.0: Leave blank or write "Initial release"
 2. **Promotional Text** → Paste from Section C:
    ```
-   Write freely. Get AI-powered reflections. Noor helps you organize your thoughts and gain perspective—not therapy, just clarity.
+   Your Islamic companion for Quran reading, Arabic learning, prayer support, and daily reflection. Grow through faith.
    ```
 3. **Description** → Paste FULL description from Section D
-4. **Keywords** → Paste: `journaling,reflection,mindfulness,clarity,thoughts,writing,self reflection,mental clarity`
+4. **Keywords** → Paste: `quran,islamic,arabic,prayer,reflection,muslim,dua,learning,spiritual,faith`
 5. **Support URL** → Paste: `mailto:support@byteworthy.com`
 6. **Marketing URL** → Leave blank (optional)
 
@@ -83,11 +83,11 @@ Navigate to **App Store** → Select your build → **Version Information**
 1. Navigate to **App Store** → **Screenshots**
 2. Select device: **iPhone 6.7" Display** (iPhone 15 Pro Max)
 3. Upload screenshots in this order:
-   1. Home Screen - "Journal your thoughts. Get AI-powered reflection."
-   2. Thought Capture - "Write freely. No judgment. Just clarity."
-   3. AI Response - "AI reflects back what you wrote. You decide what matters."
-   4. Safety Screen - "Not therapy. Not for emergencies. Built for everyday reflection."
-   5. History (optional) - "Track your reflections over time."
+   1. Home Screen - "Your daily Islamic companion."
+   2. Quran Reader - "Read and reflect on the Quran with translation."
+   3. Arabic Learning - "Build your Arabic vocabulary step by step."
+   4. Daily Reflection - "Personalized reflections rooted in Islamic wisdom."
+   5. Prayer & History - "Support your daily practice and track your growth."
 4. Repeat for other device sizes if required (or use Media Manager to copy)
 
 ### Step 8: URLs (App Information)
@@ -109,7 +109,7 @@ When prompted (during submission or in build details):
 1. Review all fields in **App Store** tab
 2. Verify screenshots uploaded correctly
 3. Verify description looks correct in preview
-4. Verify age rating shows 17+
+4. Verify age rating shows 4+
 5. Verify privacy nutrition labels show correct data types
 
 ### Step 11: Submit for Review

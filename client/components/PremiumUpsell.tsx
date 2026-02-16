@@ -126,8 +126,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
     ],
   },
   [PremiumFeature.ARABIC_PRONUNCIATION]: {
-    title: "AI Pronunciation Feedback",
-    description: "Perfect your Arabic pronunciation with AI coaching.",
+    title: "Pronunciation Feedback",
+    description: "Perfect your Arabic pronunciation with expert coaching.",
     icon: "mic",
     benefits: [
       "Real-time pronunciation analysis",
@@ -218,8 +218,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
     ],
   },
   [PremiumFeature.AI_TUTOR_UNLIMITED]: {
-    title: "Unlimited AI Arabic Tutor",
-    description: "Get unlimited Arabic language lessons from your AI tutor.",
+    title: "Unlimited Arabic Tutor",
+    description: "Get unlimited Arabic language lessons from your personal tutor.",
     icon: "message-square",
     benefits: [
       "Unlimited tutor conversations",
@@ -229,8 +229,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
     ],
   },
   [PremiumFeature.AI_TRANSLATION_EXPLAIN]: {
-    title: "AI Translation Explanations",
-    description: "Get unlimited AI-powered word and phrase breakdowns.",
+    title: "Translation Explanations",
+    description: "Get unlimited word and phrase breakdowns.",
     icon: "globe",
     benefits: [
       "Root word analysis",

@@ -22,7 +22,7 @@ import { useQueryClient } from "@tanstack/react-query";
 const GOLD = NoorColors.gold;
 
 const UNLOCKED_FEATURES = [
-  { icon: "message-circle" as const, label: "Unlimited AI conversations" },
+  { icon: "message-circle" as const, label: "Unlimited conversations" },
   { icon: "headphones" as const, label: "Full Quran audio recitations" },
   { icon: "globe" as const, label: "All Arabic learning scenarios" },
   { icon: "book-open" as const, label: "Hadith library access" },

@@ -4,7 +4,7 @@
 
 ## What Noor Is
 
-Noor is a private Islamic journaling app that helps users reflect on their thoughts through the lens of Quranic wisdom. Users write reflections, gain perspective from Islamic teachings, and track patterns in their thinking over time. It's a spiritual growth tool, not a medical app.
+Noor is an Islamic companion app for Quran reading, Arabic language learning, daily reflections, and prayer support. Users engage with Quranic text, build Arabic vocabulary, reflect on their spiritual growth, and strengthen their daily practice. It's a personal development and education tool, not a medical app.
 
 ## What Noor Is Not
 
@@ -16,7 +16,7 @@ Noor is a private Islamic journaling app that helps users reflect on their thoug
 
 ## Limitation of Liability
 
-Noor is a reflective journaling tool for spiritual growth and self-awareness. By using Noor, you acknowledge that:
+Noor is a personal development and education tool for spiritual growth and self-awareness. By using Noor, you acknowledge that:
 
 1. Noor does not provide medical advice, diagnosis, or treatment
 2. Noor is not a substitute for professional care
@@ -51,9 +51,9 @@ Noor is not designed for crisis situations. If you are in immediate danger or ex
 - A trusted counselor or imam
 - Emergency services (911)
 
-## AI Limitations
+## Content Limitations
 
-Noor uses artificial intelligence to generate reflective responses. AI-generated content may be inaccurate, incomplete, or inappropriate in some cases. You should use your own judgment when reading and acting on any content produced by the app. The AI companion is not a human therapist, counselor, or religious scholar.
+Noor generates personalized content including reflective responses, learning feedback, and translations. Generated content may occasionally be inaccurate or incomplete. Use your own judgment when reading and acting on any content produced by the app. Noor is not a substitute for a human therapist, counselor, or religious scholar.
 
 ## Termination
 

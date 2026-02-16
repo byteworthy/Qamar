@@ -3,7 +3,7 @@
 
 **Decision Made:** 2026-02-01
 **Launch Strategy:** Free app with premium subscription tiers
-**Revenue Model:** Freemium with Noor Plus ($6.99/month) and Noor Pro ($11.99/month)
+**Revenue Model:** Freemium with Noor Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
 
 ---
 
@@ -15,9 +15,10 @@ This guide sets up In-App Purchases (IAP) for Noor using RevenueCat as the subsc
 
 | Tier | Price | Features |
 |------|-------|----------|
-| **Free** | $0 | 5 reflections/month, basic AI responses |
-| **Noor Plus** | $6.99/month | Unlimited reflections, advanced insights, pattern tracking |
-| **Noor Pro** | $11.99/month | All Plus features + priority support, early access to new features |
+| **Free** | $0 | Core features, 3 sessions/day for tutor/pronunciation |
+| **Noor Plus** | $2.99/month | Unlimited conversations, full Quran audio, all learning scenarios |
+| **Noor Plus** | $19.99/year | Same as monthly (save 44%) |
+| **Lifetime** | $49.99 | All Plus features forever |
 
 ---
 
@@ -159,33 +160,35 @@ REVENUECAT_SECRET_KEY=sk_aBcDeFgHiJkLmNoPqRsTuVwXyZ
 
 **Subscription Prices:**
 - Click **Add Pricing**
-- **United States:** $6.99
+- **United States:** $2.99
 - Click **Next**, review, and **Submit**
 
 **Localization (US English):**
 - **Subscription Display Name:** Noor Plus
-- **Description:** Unlimited reflections, advanced insights, and pattern tracking. Your journey to clarity, unlimited.
+- **Description:** Unlimited conversations, full Quran audio recitations, all Arabic learning scenarios, hadith library access, pattern insights, and export reflections.
 
 **Review Information:**
 - **Screenshot:** (Upload screenshot showing Plus features)
-- **Review Notes:** Premium tier with unlimited reflections and advanced AI insights.
+- **Review Notes:** Premium tier with unlimited conversations, full audio library, and all learning features.
 
-### Step 4: Create Noor Pro Subscription
+### Step 4: Create Noor Plus Yearly Subscription
 
 Repeat the same process:
-1. **Product ID:** `noor_pro_monthly`
-2. **Reference Name:** Noor Pro Monthly
-3. **Duration:** 1 month
-4. **Price:** $11.99 USD
-5. **Display Name:** Noor Pro
-6. **Description:** Everything in Plus, plus priority support and early access to new features. Experience the full potential of Noor.
+1. **Product ID:** `noor_plus_yearly`
+2. **Reference Name:** Noor Plus Yearly
+3. **Duration:** 1 year
+4. **Price:** $19.99 USD
+5. **Display Name:** Noor Plus (Annual)
+6. **Description:** All Plus features. Save 44% with annual billing.
 
-### Step 5: Set Subscription Levels
+### Step 5: Create Lifetime Purchase
 
-1. In your subscription group, drag and drop to set hierarchy:
-   - **Level 1:** Noor Plus ($6.99)
-   - **Level 2:** Noor Pro ($11.99)
-2. This allows users to upgrade from Plus → Pro
+1. **Click:** + → Non-Consumable
+2. **Product ID:** `noor_plus_lifetime`
+3. **Reference Name:** Noor Plus Lifetime
+4. **Price:** $49.99 USD
+5. **Display Name:** Noor Plus (Lifetime)
+6. **Description:** One-time payment for lifetime access to all Noor Plus features.
 
 ---
 
@@ -197,8 +200,6 @@ Repeat the same process:
 2. Click **+ New**
 3. Create entitlement: `noor_plus_access`
    - Description: "Access to Noor Plus features"
-4. Create entitlement: `noor_pro_access`
-   - Description: "Access to Noor Pro features"
 
 ### Step 2: Configure Products in RevenueCat
 
@@ -211,11 +212,17 @@ Repeat the same process:
 - **Type:** Subscription
 - **Entitlements:** `noor_plus_access`
 
-**Product 2: Noor Pro**
-- **Product ID:** `noor_pro_monthly`
+**Product 2: Noor Plus Yearly**
+- **Product ID:** `noor_plus_yearly`
 - **Store:** App Store (iOS)
 - **Type:** Subscription
-- **Entitlements:** `noor_pro_access`, `noor_plus_access` (Pro includes Plus features)
+- **Entitlements:** `noor_plus_access`
+
+**Product 3: Noor Plus Lifetime**
+- **Product ID:** `noor_plus_lifetime`
+- **Store:** App Store (iOS)
+- **Type:** Non-Consumable
+- **Entitlements:** `noor_plus_access`
 
 ### Step 3: Create Offerings
 
@@ -353,18 +360,19 @@ Before submitting to App Store:
 SUBSCRIPTION INFORMATION
 
 This app offers optional in-app subscriptions:
-- Noor Plus: $6.99/month (unlimited reflections and insights)
-- Noor Pro: $11.99/month (all features plus priority support)
+- Noor Plus Monthly: $2.99/month (unlimited conversations, full audio, all learning features)
+- Noor Plus Yearly: $19.99/year (same features, save 44%)
+- Noor Plus Lifetime: $49.99 one-time (all features forever)
 
-Subscriptions are managed through RevenueCat. The free tier allows 5 reflections per month.
+Subscriptions are managed through RevenueCat. The free tier includes core features with 3 sessions/day for tutor and pronunciation.
 
 Test Account: [Your sandbox tester email]
 Password: [Your sandbox tester password]
 
 To test premium features:
 1. Sign in with test account
-2. Tap "Upgrade" from Profile
-3. Select Noor Plus or Pro
+2. Tap "Upgrade" from Profile or hit a daily limit
+3. Select a subscription tier
 4. Complete purchase (sandbox mode, no charge)
 5. Premium features will unlock immediately
 ```
@@ -418,20 +426,19 @@ To test premium features:
 
 ### Why These Price Points?
 
-- **$6.99/month (Plus):** Standard for journaling/self-improvement apps
-- **$11.99/month (Pro):** Premium tier for power users, 70% markup is industry standard
+- **$2.99/month (Plus):** Accessible for young Muslim users, competitive with Islamic apps
+- **$19.99/year:** 44% savings incentivizes annual commitment
+- **$49.99 lifetime:** One-time option for committed users, ~17 months of monthly
 
 ### Free Tier Limits
 
-- **5 reflections/month:** Enough to try the core experience
-- **Basic AI responses:** No advanced insights or pattern tracking
-- **Conversion Goal:** ~5-10% of users upgrade after 3+ sessions
+- **3 sessions/day:** For tutor and pronunciation features
+- **Core features free:** Quran reader, Arabic alphabet, flashcards all free
+- **Conversion Goal:** ~5-10% of users upgrade after hitting daily limits
 
 ### Future Considerations
 
-- **Annual Plans:** Add discounted annual options (e.g., $59.99/year for Plus, 28% savings)
-- **Lifetime Access:** One-time purchase option (e.g., $299.99)
-- **Promo Codes:** Generate promo codes for early supporters, influencers
+- **Promo Codes:** Generate promo codes for early supporters, influencers, mosques
 
 ---
 

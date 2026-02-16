@@ -4,8 +4,7 @@
 This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md and the Chunk 1 Truth Audit. Noor is a privacy-first app that stores reflections locally on device and uses minimal data for safety and subscription entitlement.
 
 ## What We Collect
-- Reflection content submitted for AI processing
-- Emotional state indicators
+- Reflection content, Quran reading activity, Arabic learning progress, and translation requests submitted for processing
 - Session metadata (duration, interaction count, safety events)
 - Subscription status (via app store billing)
 
@@ -18,7 +17,7 @@ This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md a
 - Cross-app tracking identifiers
 
 ## How Data Is Used
-- Provide reflection flow and core features
+- Provide Quran reading, Arabic learning, reflection, prayer, and core features
 - Safety monitoring (crisis, scrupulosity, high-distress pacing)
 - Subscription entitlement validation
 - Support and data rights requests
@@ -47,4 +46,4 @@ This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md a
 - Support email: [placeholder]
 - Privacy requests: [placeholder]
 
-**Last Updated:** 2026-01-19
+**Last Updated:** 2026-02-16

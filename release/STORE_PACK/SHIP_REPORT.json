@@ -55,18 +55,18 @@
     "issues": [],
     "values": {
       "Subtitle": {
-        "value": "AI Journaling for Clarity",
-        "length": 25,
+        "value": "Quran · Arabic · Prayer",
+        "length": 23,
         "limit": 30
       },
       "Promotional Text": {
-        "value": "Write freely. Get AI-powered reflections. Noor helps you organize your thoughts and gain perspective—not therapy, just clarity.",
-        "length": 127,
+        "value": "Quran reader, Arabic learning, daily reflections, and more -- your complete Islamic companion. Learn, reflect, and grow in your faith every day.",
+        "length": 143,
         "limit": 170
       },
       "Keywords": {
-        "value": "journaling,reflection,mindfulness,clarity,thoughts,writing,self reflection,mental clarity",
-        "length": 89,
+        "value": "quran,arabic,islam,muslim,dua,hadith,prayer,tajweed,learn arabic,islamic,salah,recitation,ramadan",
+        "length": 97,
         "limit": 100
       }
     }

@@ -1,6 +1,6 @@
 # App Store Connect Fields - Paste Ready
 
-**Created:** January 2026
+**Updated:** February 2026
 **Purpose:** Copy-paste directly into App Store Connect
 
 ---
@@ -16,7 +16,7 @@ Noor
 ## B. Subtitle (30 characters max)
 
 ```
-AI Journaling for Clarity
+Quran · Arabic · Prayer
 ```
 
 ---
@@ -24,7 +24,7 @@ AI Journaling for Clarity
 ## C. Promotional Text (170 characters max)
 
 ```
-Write freely. Get AI-powered reflections. Noor helps you organize your thoughts and gain perspective through structured journaling.
+Your complete Islamic companion. Read the Quran with tajweed, learn Arabic with a personal tutor, explore hadith, journal your reflections, and grow your deen every day.
 ```
 
 ---
@@ -32,57 +32,65 @@ Write freely. Get AI-powered reflections. Noor helps you organize your thoughts 
 ## D. Description
 
 ```
-Noor
+Noor — Your Complete Islamic Companion
 
-AI-powered journaling for clarity and self-reflection
+Quran · Arabic Learning · Prayer · Reflection
 
-Noor is a private journaling and reflection app designed to help you slow down, organize your thoughts, and gain perspective using guided prompts and AI-generated reflections.
+Noor brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Noor is designed to walk with you.
 
-This app is built for everyday clarity and self-reflection.
+QURAN READER
+• Full Quran with Arabic text and English translation
+• 8 acclaimed reciters to listen and follow along
+• Word-by-word audio playback for precise learning
+• Tajweed color-coding to master proper recitation
+• Bookmark and track your reading progress
 
-What Noor helps you do
+LEARN ARABIC
+• Flashcard-based vocabulary with spaced repetition (FSRS)
+• Arabic Alphabet grid showing all letter forms
+• Conversational Arabic tutor with 4 learning modes
+• Pronunciation Coach — record yourself and get real-time feedback
+• Arabic-English translator with transliteration and detailed explanations
 
-• Write freely in a calm, focused space
-• Reflect on thoughts using structured prompts
-• See your ideas reframed in a clearer, more grounded way
-• Build a consistent journaling habit without pressure
+ASK KARIM — ISLAMIC KNOWLEDGE COMPANION
+• Ask questions about Islam and get thoughtful, grounded answers
+• Explore topics across fiqh, seerah, and daily practice
+• Responses rooted in authentic Islamic scholarship
 
-Noor responds to what you write with reflective language meant to help you think, not tell you what to do.
+HADITH LIBRARY
+• Browse and search collections of prophetic traditions
+• Save and revisit hadith that resonate with you
 
-How it works
+DAILY REFLECTIONS & JOURNALING
+• Write freely in a calm, private space
+• Receive thoughtful reflections on what you write
+• Build a consistent journaling habit tied to your spiritual growth
+• Export your reflections anytime
 
-You write
-Noor reflects
-You decide what matters
+PRAYER & SPIRITUAL GROWTH
+• Track your daily prayers and spiritual practices
+• Streaks, achievements, and milestones to keep you motivated
+• Celebrate consistency, not perfection
 
-Your entries are processed by AI to generate personalized reflective responses. This processing is essential to how the app functions.
-
-What Noor is not
-
-• Not professional counseling
-• Not for urgent situations
-
-If you are experiencing an urgent situation, contact trusted support or call 988 Lifeline.
-
-Privacy first by design
-
-• No ads
+PRIVACY FIRST
+• No ads, ever
 • No data selling
 • No tracking across apps
-• Your writing stays private
+• Your writing and conversations stay private
+• Request data deletion at any time
 
-You can request deletion of your data at any time.
+NOOR PLUS ($2.99/month or $19.99/year)
+• Unlimited tutor conversations and pronunciation sessions
+• Full Quran audio with all 8 reciters
+• All Arabic learning scenarios
+• Complete Hadith library access
+• Pattern insights and analytics
+• Export reflections
+• Lifetime option available for $49.99
 
-Who Noor is for
+Free users enjoy full access to the Quran reader, Arabic alphabet, flashcards, journaling, and prayer tracking with 3 daily tutor and pronunciation sessions included.
 
-• People who journal
-• People who overthink
-• People who want clarity without labels
-• People who want a calm, private space to reflect
-
-AI transparency
-
-Noor uses artificial intelligence to generate reflective responses. AI-generated content may occasionally be inaccurate or incomplete. Use your own judgment when reading any response.
+Built with love for the ummah. Noor is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
 ```
 
 ---
@@ -90,7 +98,7 @@ Noor uses artificial intelligence to generate reflective responses. AI-generated
 ## E. Keywords (100 characters max, comma-separated)
 
 ```
-journaling,reflection,mindfulness,clarity,thoughts,writing,self reflection,mental clarity
+quran,arabic,islam,muslim,prayer,hadith,tajweed,dua,learn arabic,islamic,recitation,journal,deen
 ```
 
 ---
@@ -122,30 +130,41 @@ https://byteworthy.github.io/Noor/legal/terms.html
 ## I. Reviewer Notes (App Review Information → Notes)
 
 ```
-Noor is a self-reflection and journaling app for adults (18+).
+Noor is a comprehensive Islamic companion app for Muslims of all ages. It combines Quran reading, Arabic language learning, hadith exploration, daily reflections, and prayer tracking in a single app.
 
 Core Functionality:
-Users write journal entries and receive AI-generated reflective responses designed to support personal self-reflection. The app uses structured reflection techniques to help users organize their thoughts.
+- Quran Reader: Full Quran text with Arabic, English translation, word-by-word audio from 8 reciters, and tajweed color-coding.
+- Arabic Learning: Flashcards with FSRS spaced repetition, alphabet grid with letter forms, conversational tutor (4 modes), pronunciation coach with recording and feedback, and Arabic-English translation with transliteration.
+- Ask Karim: An Islamic knowledge companion where users ask questions and receive grounded answers on Islamic topics.
+- Hadith Library: Browse and search prophetic traditions.
+- Reflections: Daily journaling with thoughtful responses to user entries.
+- Prayer Tracking: Track prayers and spiritual habits with streaks and achievements.
 
-AI Usage Disclosure:
-The app uses OpenAI's API to process user input and generate personalized reflective responses. This AI processing is disclosed in the app description and during onboarding (Privacy & Safety screens). It is essential to app functionality.
+AI Usage Disclosure (for reviewer reference only):
+The app uses the Anthropic Claude API to power several features: the Arabic language tutor, pronunciation feedback, Ask Karim responses, journaling reflections, and translation explanations. This is disclosed in the privacy policy and during onboarding. The API processes user input to generate contextual, Islamic-values-aligned responses. No content is used for model training.
 
-What This App Is NOT:
-- NOT professional counseling services
-- NOT an emergency or crisis tool
-- NOT involving licensed professionals
-
-Safety Disclaimers:
-- Onboarding screen explicitly states "not professional counseling" and "not for urgent situations"
-- Crisis resources displayed (988 Suicide & Crisis Lifeline, Crisis Text Line, 911)
-- App description clearly states limitations
+Content & Safety:
+- Islamic content is presented respectfully and is grounded in authentic scholarship
+- The app does not issue religious rulings or claim scholarly authority
+- No objectionable, violent, or mature content
+- No medical or mental health claims
 
 Test Account:
-App does not require login for basic functionality. Full experience available without account creation.
+App does not require login for basic functionality. Full experience available without account creation. To test premium features, use a Sandbox tester account in App Store Connect.
+
+Test Scenarios:
+1. Quran Reader: Open Quran tab → select any surah → play audio → observe word-by-word highlighting and tajweed colors
+2. Arabic Learning: Open Learn tab → try flashcards → open alphabet grid → start a tutor session
+3. Pronunciation: Record Arabic speech → receive pronunciation feedback
+4. Ask Karim: Ask an Islamic question → receive a grounded response
+5. Reflections: Write a journal entry → receive a thoughtful reflection
+6. Free tier limits: After 3 tutor/pronunciation sessions, the daily limit message appears
+7. Subscription: Tap upgrade → native iOS paywall → purchase simulation
 
 Privacy:
-- User journal entries processed by OpenAI API for reflection generation
+- User content (journal entries, conversations, audio recordings) processed via Anthropic Claude API
 - No data selling or advertising
+- No cross-app tracking
 - Data deletion available on request
 - Privacy Policy: https://byteworthy.github.io/Noor/legal/privacy.html
 ```
@@ -154,24 +173,26 @@ Privacy:
 
 ## J. Category Recommendation
 
-**Primary Category:** `Health & Fitness`
+**Primary Category:** `Lifestyle`
 
-**Why:** Journaling and mental clarity apps are typically placed in Health & Fitness on the App Store. This category is appropriate for self-improvement tools that don't make medical claims. Alternative is Lifestyle, but Health & Fitness has better discoverability for this niche.
+**Secondary Category:** `Education`
+
+**Why:** Noor is a daily-use Islamic companion app that spans lifestyle (prayer tracking, journaling, spiritual growth) and education (Quran reading, Arabic learning, hadith study). Lifestyle is the best primary fit as it reflects the app's role as a daily companion. Education captures the strong learning features.
 
 ---
 
 ## K. Age Rating Recommendation
 
-**Age Rating:** `17+` (Mature 17+)
+**Age Rating:** `4+`
 
-**Why:** The app involves personal reflection content and requires mature judgment for self-directed journaling. Crisis disclaimer is appropriate for users who can understand its limitations. Apple's guidelines recommend 17+ for apps that reference personal reflection topics without being clinical tools.
+**Why:** Noor is an educational and lifestyle app focused on Islamic learning, Quran reading, Arabic language study, journaling, and prayer tracking. There is no objectionable content, no mature themes, and no medical or mental health claims. The content is appropriate for all ages. Similar Islamic apps (Muslim Pro, Quran.com, Tarteel) are all rated 4+.
 
 **Age Rating Questionnaire Answers:**
 - Unrestricted Web Access: No
 - Gambling: No
 - Contests: No
-- Alcohol, Tobacco, Drugs: No (reference to none)
-- Medical/Treatment Information: No (not medical advice)
+- Alcohol, Tobacco, Drugs: No
+- Medical/Treatment Information: No
 - Horror/Fear Themes: No
 - Mature/Suggestive Themes: No
 - Simulated Gambling: No
@@ -182,7 +203,7 @@ Privacy:
 
 ## L. Privacy Questionnaire Answers
 
-Based on Privacy Policy (`release/STORE_PACK/privacy-policy.md`):
+Based on Privacy Policy:
 
 ### Data Types Collected
 
@@ -195,7 +216,8 @@ Based on Privacy Policy (`release/STORE_PACK/privacy-policy.md`):
 | Location | No | - | - |
 | Sensitive Info | No | - | - |
 | Contacts | No | - | - |
-| User Content (Journal entries) | Yes | Yes | No |
+| User Content (entries, conversations) | Yes | Yes | No |
+| Audio Data (pronunciation recordings) | Yes | Yes | No |
 | Browsing History | No | - | - |
 | Search History | No | - | - |
 | Identifiers (User ID) | Yes | Yes | No |
@@ -203,9 +225,13 @@ Based on Privacy Policy (`release/STORE_PACK/privacy-policy.md`):
 | Usage Data | Yes (diagnostics only) | No | No |
 | Diagnostics | Yes | No | No |
 
+### Third-Party Service
+
+- **Anthropic Claude API**: User content (text entries, conversations, audio transcriptions) is sent to Anthropic's API for generating responses (tutor conversations, reflections, pronunciation feedback, translations, Ask Karim answers). Anthropic does not use this data for model training per their API terms. Data is processed and not retained by Anthropic beyond the API request.
+
 ### Purposes for Data Use
 
-- **App Functionality**: User Content (journal entries) used to generate AI reflections
+- **App Functionality**: User content processed to generate tutor responses, reflections, pronunciation feedback, translations, and Islamic knowledge answers
 - **Analytics**: Basic device type and OS version for app compatibility
 - **No Advertising**: No data used for advertising
 - **No Third-Party Marketing**: No data shared with third parties for marketing
@@ -214,11 +240,12 @@ Based on Privacy Policy (`release/STORE_PACK/privacy-policy.md`):
 
 **Does your app collect data?** Yes
 
-**Data collected for tracking?** No (select "No" - we do not track users across apps)
+**Data collected for tracking?** No (we do not track users across apps)
 
 **Data collected and linked to identity?**
 - Email Address (optional account creation)
-- User Content (journal entries - linked to their account)
+- User Content (journal entries, conversations — linked to their account)
+- Audio Data (pronunciation recordings — linked to their account)
 - User ID (internal identifier)
 
 **Data collected but not linked to identity?**
@@ -229,15 +256,12 @@ Based on Privacy Policy (`release/STORE_PACK/privacy-policy.md`):
 
 ## M. Export Compliance
 
-**⚠️ NEEDS CONFIRMATION - Cannot prove from repo alone**
-
 **Likely Answer:** `Yes - Uses encryption, but qualifies for exemption`
 
 **Reasoning:**
 - App uses HTTPS for API communication (standard TLS encryption)
 - No custom encryption algorithms
 - Uses standard iOS/OS encryption (qualifies for ECCN 5D992 exemption)
-- Typical journaling apps using HTTPS qualify for the encryption exemption
 
 **Recommended answer in App Store Connect:**
 - "Does your app use encryption?" → Yes
@@ -254,12 +278,12 @@ Based on Privacy Policy (`release/STORE_PACK/privacy-policy.md`):
 | Field | Character Limit | Value |
 |-------|-----------------|-------|
 | App Name | 30 | Noor |
-| Subtitle | 30 | AI Journaling for Clarity |
-| Promotional Text | 170 | Write freely. Get AI-powered reflections... |
+| Subtitle | 30 | Quran · Arabic · Prayer |
+| Promotional Text | 170 | Your complete Islamic companion. Read the Quran with tajweed... |
 | Description | 4000 | [See Section D] |
-| Keywords | 100 | journaling,reflection,mindfulness... |
-| Category | - | Health & Fitness |
-| Age Rating | - | 17+ |
+| Keywords | 100 | quran,arabic,islam,muslim,prayer,hadith,tajweed,dua... |
+| Category | - | Lifestyle (primary), Education (secondary) |
+| Age Rating | - | 4+ |
 
 ---
 

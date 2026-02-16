@@ -46,33 +46,33 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 ### Recommended Screenshot Sequence
 
 **Screenshot 1: Home Screen / Welcome**
-- Shows: Main interface after onboarding
+- Shows: Main interface with daily content
 - Purpose: First impression of app layout
 - Screen: `HomeScreen.tsx`
-- Key elements: Navigation, "New Reflection" button
+- Key elements: Navigation, daily reflection prompt, Quran reading access
 
-**Screenshot 2: Reflection Flow**
-- Shows: Thought capture or distortion identification screen
-- Purpose: Demonstrates core journaling functionality
-- Screen: `ThoughtCaptureScreen.tsx` or `DistortionScreen.tsx`
-- Key elements: Input field, prompts, calm design
+**Screenshot 2: Quran Reader**
+- Shows: Quran reader with Arabic text and translation
+- Purpose: Demonstrates core Quran reading functionality
+- Screen: `QuranReaderScreen.tsx`
+- Key elements: Arabic text, English translation, surah navigation
 
-**Screenshot 3: AI Response / Reframe**
-- Shows: AI-generated reflection response
-- Purpose: Shows value of AI-powered reflection
-- Screen: `ReframeScreen.tsx` or `SessionCompleteScreen.tsx`
+**Screenshot 3: Daily Reflection**
+- Shows: Personalized reflection response
+- Purpose: Shows personalized reflection features
+- Screen: `ReflectionScreen.tsx`
 - Key elements: Reflective response, clear formatting
 
-**Screenshot 4: Safety Disclaimer (CRITICAL)**
-- Shows: Onboarding safety screen with crisis resources
-- Purpose: Demonstrates compliance with safety requirements
-- Screen: `SafetyScreen.tsx`
-- Key elements: "Not therapy" text, 988 crisis line, emergency resources
+**Screenshot 4: Arabic Learning**
+- Shows: Arabic language learning interface
+- Purpose: Demonstrates vocabulary and language features
+- Screen: `ArabicLearningScreen.tsx`
+- Key elements: Arabic vocabulary, pronunciation, learning progress
 
-**Screenshot 5: History/Insights (Optional)**
-- Shows: Past reflections or insights view
-- Purpose: Shows long-term value
-- Screen: `HistoryScreen.tsx` or `InsightsScreen.tsx`
+**Screenshot 5: Prayer & History (Optional)**
+- Shows: Prayer support and past reflections
+- Purpose: Shows daily practice support and long-term value
+- Screen: `PrayerScreen.tsx` or `HistoryScreen.tsx`
 
 ### Screenshot Preparation Tools
 - Use iOS Simulator (Xcode)
@@ -95,25 +95,25 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 
 ### App Information
 - [x] **App Name**: Noor
-- [x] **Subtitle**: Private AI journaling for reflection and clarity.
+- [x] **Subtitle**: Quran · Arabic Learning · Prayer · Reflection
 - [x] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
-- [x] **Category**: Health & Fitness (primary)
-- [ ] **Category**: Lifestyle (optional secondary)
+- [x] **Category**: Lifestyle (primary)
+- [ ] **Category**: Education (optional secondary)
 - [x] **Support URL**: mailto:support@byteworthy.com or website with contact form
 
 ### Age Rating
-- [x] **Age Rating**: 17+ (Adults Only)
+- [x] **Age Rating**: 4+
   
 **Questionnaire Answers:**
 - Simulated Gambling: NO
 - Unrestricted Web Access: NO
-- Medical/Treatment Information: **YES** (mental health reflection content)
+- Medical/Treatment Information: **NO** (education and personal development content)
 - Frequent/Intense Mature/Suggestive Themes: NO
 - Horror/Fear Themes: NO
 - Violence: NO
 - Profanity or Crude Humor: NO
 
-**Result: 17+** (due to mental health content requiring mature decision-making)
+**Result: 4+** (educational and lifestyle content suitable for all ages)
 
 ### Pricing
 - [ ] **Free with In-App Purchases** (if Noor Plus is active)
@@ -140,11 +140,11 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 - [x] Usage Data → Product Interaction (session data for improvements)
 
 **Data Use:**
-- [x] App Functionality (journal storage, AI processing)
+- [x] App Functionality (content storage, content processing)
 - [x] Analytics (crash reports via Sentry)
 
 **Third-Party Partners:**
-- [x] OpenAI (AI processing)
+- [x] Anthropic (content processing)
 - [x] Sentry (error tracking)
 
 **Data Linked to User:**
@@ -198,8 +198,8 @@ Before clicking "Submit for Review," verify:
 - [ ] ✓ NO claims of being therapy or counseling
 - [ ] ✓ NO claims of HIPAA compliance
 - [ ] ✓ NO emergency or crisis support promises
-- [ ] ✓ AI usage IS disclosed in description
-- [ ] ✓ AI limitations ARE disclosed to users
+- [ ] ✓ Technology usage IS disclosed in description
+- [ ] ✓ Content limitations ARE disclosed to users
 - [ ] ✓ Safety disclaimer IS visible during onboarding
 - [ ] ✓ Privacy Policy IS publicly accessible
 - [ ] ✓ App DOES work without login (or demo account provided)
@@ -237,8 +237,8 @@ Complete this final checklist:
 - [ ] Screenshots uploaded (3-5 minimum)
 - [ ] App description copied from `APP_STORE_DESCRIPTION_FINAL.md`
 - [ ] Privacy Policy URL entered
-- [ ] Age rating set to 17+
-- [ ] Category set to Health & Fitness
+- [ ] Age rating set to 4+
+- [ ] Category set to Lifestyle
 - [ ] Review notes pasted from `APP_STORE_REVIEW_NOTES.md`
 - [ ] Contact information verified
 - [ ] Build uploaded to App Store Connect

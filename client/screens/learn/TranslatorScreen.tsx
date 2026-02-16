@@ -296,7 +296,7 @@ export default function TranslatorScreen() {
               <View style={styles.explanationHeader}>
                 <Feather name="zap" size={18} color={NoorColors.gold} />
                 <ThemedText style={[styles.explanationTitle, { color: NoorColors.gold }]}>
-                  AI Explanation
+                  Detailed Explanation
                 </ThemedText>
               </View>
               <ThemedText style={[styles.explanationText, { color: theme.text }]}>

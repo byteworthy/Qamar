@@ -1,39 +1,40 @@
 # YOUR MANUAL ACTION CHECKLIST - Noor App Launch
 
 **Created:** 2026-02-01 Evening
+**Updated:** 2026-02-16
 **Status:** Apple enrollment pending (1-3 days wait)
 
 This is YOUR checklist. Everything I can do automatically has been done. These are the tasks that require your manual action.
 
 ---
 
-## ✅ COMPLETED (No Action Needed)
+## COMPLETED (No Action Needed)
 
 I've already handled these for you:
 
-- ✅ Backend logger fixed (Railway now deploys successfully)
-- ✅ `.env.production` file created with correct values
-- ✅ Pricing strategy Option C finalized and documented
-- ✅ Launch status tracker updated
-- ✅ All code committed to git with passing tests (277 tests ✓)
+- Backend logger fixed (Railway now deploys successfully)
+- `.env.production` file created with correct values
+- Pricing strategy finalized and documented
+- Launch status tracker updated
+- All code committed to git with passing tests (277 tests)
 
-**Backend Status:** 🟢 LIVE at `https://noor-production-9ac5.up.railway.app`
+**Backend Status:** LIVE at `https://noor-production-9ac5.up.railway.app`
 
 ---
 
-## 🎯 PHASE 1: DO NOW (While Waiting for Apple - Today/Tomorrow)
+## PHASE 1: DO NOW (While Waiting for Apple - Today/Tomorrow)
 
 These tasks you can complete immediately while waiting for Apple to approve your developer account (1-3 days).
 
-### Task 1: Generate App Icon PNG ⏱️ 30 minutes
+### Task 1: Generate App Icon PNG -- 30 minutes
 
 **What:** Convert your SVG icon to 1024x1024 PNG for App Store submission.
 
 **Why:** App Store requires PNG format, not SVG.
 
-**Source File:** `c:\Dev\Noor-CBT\assets\images\icon-source.svg`
+**Source File:** `assets/images/icon-source.svg`
 
-**Target File:** `c:\Dev\Noor-CBT\assets\images\icon.png` (replace existing placeholder)
+**Target File:** `assets/images/icon.png` (replace existing placeholder)
 
 **Instructions:**
 
@@ -46,7 +47,7 @@ These tasks you can complete immediately while waiting for Apple to approve your
    - Height: 1024
 4. Click "Convert"
 5. Download the PNG
-6. Save as: `c:\Dev\Noor-CBT\assets\images\icon.png` (overwrite existing)
+6. Save as: `assets/images/icon.png` (overwrite existing)
 
 #### Option B: Figma (Best Quality)
 
@@ -54,11 +55,10 @@ These tasks you can complete immediately while waiting for Apple to approve your
 2. Create new file
 3. Drag `icon-source.svg` into canvas
 4. Resize to exactly 1024x1024 (lock aspect ratio)
-5. Select icon → Export → PNG → 1x → Export
-6. Save as: `c:\Dev\Noor-CBT\assets\images\icon.png`
+5. Select icon -> Export -> PNG -> 1x -> Export
+6. Save as: `assets/images/icon.png`
 
 **Verify:**
-- Right-click icon.png → Properties
 - Should show: 1024 x 1024 pixels
 - File size: ~200-500 KB
 - No transparency (solid background)
@@ -74,7 +74,7 @@ git push origin main
 
 ---
 
-### Task 2: Create App Screenshots ⏱️ 4-5 hours (OR hire on Fiverr)
+### Task 2: Create App Screenshots -- 4-5 hours (OR hire on Fiverr)
 
 **What:** Create 5 screenshots at 1290x2796 pixels (iPhone 15 Pro Max size) for App Store listing.
 
@@ -82,11 +82,11 @@ git push origin main
 
 **Required Screenshots:**
 
-1. **Home Screen** - Anchor card with breathing animation
-2. **Thought Capture** - User writing a reflection
-3. **AI Response** - Generated Islamic guidance response
-4. **Safety Screen** - Disclaimers visible (CRITICAL for approval!)
-5. **History Screen** - Past reflections list
+1. **Home Screen** - Main dashboard with daily content
+2. **Quran Reader** - Quran text with Arabic and translation
+3. **Arabic Learning** - Vocabulary and language learning interface
+4. **Daily Reflection** - Personalized reflection response
+5. **Prayer & History** - Prayer support and past reflections
 
 **Choose Your Approach:**
 
@@ -105,7 +105,7 @@ git push origin main
 
 **Detailed Guide:** See `release/STORE_PACK/screenshots/SCREENSHOT_SHOTLIST.md`
 
-#### Option B: Hire on Fiverr (Recommended) ⭐
+#### Option B: Hire on Fiverr (Recommended)
 
 **Pros:** Fast (24-48 hours), professional quality
 **Cons:** $20-50 cost
@@ -126,7 +126,7 @@ git push origin main
 
 ---
 
-### Task 3: Monitor Email for Apple Approval ⏱️ Passive (check 2x/day)
+### Task 3: Monitor Email for Apple Approval -- Passive (check 2x/day)
 
 **What:** Watch for Apple's developer enrollment approval email.
 
@@ -137,9 +137,9 @@ git push origin main
 Subject line: **"Welcome to Apple Developer Program"**
 
 **Action When Received:**
-1. ✅ Mark calendar: "Apple Approved!"
-2. ✅ Move to Phase 2 tasks (below)
-3. ✅ Let me know - I'll guide you through the next steps
+1. Mark calendar: "Apple Approved!"
+2. Move to Phase 2 tasks (below)
+3. Let me know - I'll guide you through the next steps
 
 **Timeline:** Typically 1-3 days, occasionally up to 7 days
 
@@ -151,11 +151,11 @@ Subject line: **"Welcome to Apple Developer Program"**
 
 ---
 
-## 🚀 PHASE 2: AFTER APPLE APPROVAL (Day 3-5)
+## PHASE 2: AFTER APPLE APPROVAL (Day 3-5)
 
 These tasks can ONLY be done after Apple approves your developer account. When you receive the "Welcome to Apple Developer Program" email, complete these in order.
 
-### Task 4: Sign Agreements & Add Payment Info ⏱️ 30 minutes
+### Task 4: Sign Agreements & Add Payment Info -- 30 minutes
 
 **When:** Immediately after receiving Apple approval email
 
@@ -187,7 +187,6 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 6. **Complete Tax Forms:**
    - Click "Tax Forms" tab
    - **U.S. users:** Fill out W-9 form
-   - **Non-U.S. users:** Fill out W-8BEN form
    - Provide:
      * Legal name
      * Tax ID (SSN or EIN)
@@ -198,7 +197,7 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 ---
 
-### Task 5: Create App in App Store Connect ⏱️ 15 minutes
+### Task 5: Create App in App Store Connect -- 15 minutes
 
 **When:** After Task 4 is complete
 
@@ -208,7 +207,7 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 1. **Go to:** [appstoreconnect.apple.com](https://appstoreconnect.apple.com)
 2. **Navigate to:** My Apps
-3. **Click:** + (plus icon) → New App
+3. **Click:** + (plus icon) -> New App
 4. **Fill out:**
    - **Platform:** iOS
    - **Name:** Noor
@@ -227,36 +226,34 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 ---
 
-### Task 6: Create All 5 IAP Products ⏱️ 1 hour
+### Task 6: Create IAP Products -- 30 minutes
 
 **When:** After Task 5 is complete
 
-**What:** Create all 5 in-app purchase products in App Store Connect.
+**What:** Create in-app purchase products in App Store Connect.
 
-**Critical:** Follow the exact product IDs and prices documented in Option C pricing strategy.
+**Critical:** Follow the exact product IDs and prices below.
 
 **Products to Create:**
 
 | Product ID | Type | Price | Duration |
 |-----------|------|-------|----------|
-| `noor_plus_monthly` | Auto-renewable | $6.99 | 1 Month |
-| `noor_plus_yearly` | Auto-renewable | $69.99 | 1 Year |
-| `noor_pro_monthly` | Auto-renewable | $11.99 | 1 Month |
-| `noor_pro_yearly` | Auto-renewable | $119.99 | 1 Year |
-| `noor_pro_lifetime` | Non-consumable | $299.99 | N/A |
+| `noor_plus_monthly` | Auto-renewable | $2.99 | 1 Month |
+| `noor_plus_yearly` | Auto-renewable | $19.99 | 1 Year |
+| `noor_lifetime` | Non-consumable | $49.99 | N/A |
 
 **Steps:**
 
 #### Create Subscription Group First
 
-1. **Navigate to:** Your App → Features → In-App Purchases
-2. **Click:** + → Subscription Group
+1. **Navigate to:** Your App -> Features -> In-App Purchases
+2. **Click:** + -> Subscription Group
 3. **Name:** "Noor Premium Subscriptions"
 4. **Create**
 
 #### Create Product 1: Plus Monthly
 
-1. **Click:** + → Auto-Renewable Subscription
+1. **Click:** + -> Auto-Renewable Subscription
 2. **Product ID:** `noor_plus_monthly` (exactly as written)
 3. **Reference Name:** Noor Plus Monthly
 4. **Subscription Group:** Noor Premium Subscriptions
@@ -264,86 +261,51 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 6. **Subscription Prices:**
    - Click "Add Subscription Price"
    - Select: United States
-   - Price: $6.99
-   - Click "Next" → "Create"
+   - Price: $2.99
+   - Click "Next" -> "Create"
 7. **Subscription Level:** Level 1
 8. **Localizations:**
    - **Language:** English (U.S.)
    - **Display Name:** Noor Plus
-   - **Description:** "Enhanced meditation practices and 5 daily reflections with AI-powered insights rooted in Islamic wisdom. Access 30-day history."
-9. **App Store Promotion (optional):** Add promotional image later
-10. **Review Information:**
-    - **Screenshot:** Upload any app screenshot showing Plus features (can be same as app screenshots)
-11. **Save**
+   - **Description:** "Enhanced Quran reading, Arabic learning tools, extended reflections, and personalized insights rooted in Islamic wisdom."
+9. **Review Information:**
+    - **Screenshot:** Upload any app screenshot showing Plus features
+10. **Save**
 
 #### Create Product 2: Plus Yearly
 
-1. **Click:** + → Auto-Renewable Subscription
+1. **Click:** + -> Auto-Renewable Subscription
 2. **Product ID:** `noor_plus_yearly`
 3. **Reference Name:** Noor Plus Yearly
 4. **Subscription Group:** Noor Premium Subscriptions
 5. **Subscription Duration:** 1 Year
 6. **Subscription Prices:**
-   - Price: $69.99
+   - Price: $19.99
 7. **Subscription Level:** Level 1
 8. **Localizations:**
    - **Display Name:** Noor Plus (Annual)
-   - **Description:** "Enhanced meditation practices and 5 daily reflections with AI-powered insights rooted in Islamic wisdom. Access 30-day history. Save 17% with annual billing."
+   - **Description:** "Enhanced Quran reading, Arabic learning tools, extended reflections, and personalized insights rooted in Islamic wisdom. Save with annual billing."
 9. **Review Information:** Upload screenshot
 10. **Save**
 
-#### Create Product 3: Pro Monthly
+#### Create Product 3: Lifetime
 
-1. **Click:** + → Auto-Renewable Subscription
-2. **Product ID:** `noor_pro_monthly`
-3. **Reference Name:** Noor Pro Monthly
-4. **Subscription Group:** Noor Premium Subscriptions
-5. **Subscription Duration:** 1 Month
-6. **Subscription Prices:**
-   - Price: $11.99
-7. **Subscription Level:** Level 2
-8. **Localizations:**
-   - **Display Name:** Noor Pro
-   - **Description:** "Everything in Plus, plus unlimited daily reflections, advanced AI insights, lifetime history access, priority support, and exclusive premium content."
-9. **Review Information:** Upload screenshot
-10. **Save**
-
-#### Create Product 4: Pro Yearly
-
-1. **Click:** + → Auto-Renewable Subscription
-2. **Product ID:** `noor_pro_yearly`
-3. **Reference Name:** Noor Pro Yearly
-4. **Subscription Group:** Noor Premium Subscriptions
-5. **Subscription Duration:** 1 Year
-6. **Subscription Prices:**
-   - Price: $119.99
-7. **Subscription Level:** Level 2
-8. **Localizations:**
-   - **Display Name:** Noor Pro (Annual)
-   - **Description:** "Everything in Plus, plus unlimited daily reflections, advanced AI insights, lifetime history access, priority support, and exclusive premium content. Save 17% with annual billing."
-9. **Review Information:** Upload screenshot
-10. **Save**
-
-#### Create Product 5: Pro Lifetime (Different Type!)
-
-1. **Click:** + → Non-Consumable
-2. **Product ID:** `noor_pro_lifetime`
-3. **Reference Name:** Noor Pro Lifetime
+1. **Click:** + -> Non-Consumable
+2. **Product ID:** `noor_lifetime`
+3. **Reference Name:** Noor Lifetime
 4. **Subscription Prices:**
-   - Price: $299.99
+   - Price: $49.99
 5. **Localizations:**
-   - **Display Name:** Noor Pro (Lifetime)
-   - **Description:** "One-time payment for lifetime Pro access. Everything in Plus, plus unlimited reflections, advanced insights, lifetime history, priority support, and exclusive content. Never pay again."
+   - **Display Name:** Noor (Lifetime)
+   - **Description:** "One-time payment for lifetime access. Full Quran reader, Arabic learning, unlimited reflections, personalized insights, and all future features. Never pay again."
 6. **Review Information:** Upload screenshot
 7. **Save**
 
-**Verify:** All 5 products should show "Ready to Submit" status.
-
-**Detailed Reference:** See `release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md` for exact copy.
+**Verify:** All 3 products should show "Ready to Submit" status.
 
 ---
 
-### Task 7: Update eas.json with Real IDs ⏱️ 2 minutes
+### Task 7: Update eas.json with Real IDs -- 2 minutes
 
 **When:** After Task 5 is complete
 
@@ -351,11 +313,11 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 **You Need:**
 - **App Store Connect App ID** (10-digit number from Task 5)
-- **Apple Team ID** (find at: [developer.apple.com/account](https://developer.apple.com/account) → Membership Details)
+- **Apple Team ID** (find at: [developer.apple.com/account](https://developer.apple.com/account) -> Membership Details)
 
 **Steps:**
 
-1. **Open:** `c:\Dev\Noor-CBT\eas.json`
+1. **Open:** `eas.json`
 2. **Find the submit section** (around line 48)
 3. **Replace:**
 
@@ -382,7 +344,7 @@ git push origin main
 
 ---
 
-### Task 8: Configure RevenueCat with App Store Products ⏱️ 30 minutes
+### Task 8: Configure RevenueCat with App Store Products -- 30 minutes
 
 **When:** After Task 6 is complete (all IAP products created)
 
@@ -393,32 +355,26 @@ git push origin main
 1. **Go to:** [app.revenuecat.com](https://app.revenuecat.com)
 2. **Sign in** with your ByteWorthy account
 3. **Select Project:** Noor
-4. **Navigate to:** Apps → iOS
+4. **Navigate to:** Apps -> iOS
 5. **Configure App Store Connection:**
    - **Bundle ID:** com.noor.app
-   - **Shared Secret:** Get from App Store Connect → Your App → General → App Information → App-Specific Shared Secret
+   - **Shared Secret:** Get from App Store Connect -> Your App -> General -> App Information -> App-Specific Shared Secret
      * If you don't see it, click "Generate" to create one
      * Copy and paste into RevenueCat
    - **Save**
 
 6. **Create Entitlements:**
 
-   a. **Click:** Entitlements (left sidebar) → + New
+   a. **Click:** Entitlements (left sidebar) -> + New
       - **Identifier:** `noor_plus_access`
       - **Display Name:** Noor Plus Access
       - **Description:** Access to all Noor Plus features
       - **Create**
 
-   b. **Click:** + New
-      - **Identifier:** `noor_pro_access`
-      - **Display Name:** Noor Pro Access
-      - **Description:** Access to all Noor Pro features
-      - **Create**
-
 7. **Add Products:**
 
-   **Click:** Products (left sidebar) → Import from App Store
-   - RevenueCat will automatically import your 5 products
+   **Click:** Products (left sidebar) -> Import from App Store
+   - RevenueCat will automatically import your 3 products
    - Wait ~30 seconds for sync
 
    **Link Products to Entitlements:**
@@ -431,20 +387,12 @@ git push origin main
       - Entitlement: Select `noor_plus_access`
       - Save
 
-   c. Click on `noor_pro_monthly`
-      - Entitlement: Select `noor_pro_access`
-      - Save
-
-   d. Click on `noor_pro_yearly`
-      - Entitlement: Select `noor_pro_access`
-      - Save
-
-   e. Click on `noor_pro_lifetime`
-      - Entitlement: Select `noor_pro_access`
+   c. Click on `noor_lifetime`
+      - Entitlement: Select `noor_plus_access`
       - Save
 
 8. **Create Offering:**
-   - **Click:** Offerings (left sidebar) → + New
+   - **Click:** Offerings (left sidebar) -> + New
    - **Identifier:** `default`
    - **Description:** Default Noor pricing
    - **Add Packages:**
@@ -456,14 +404,8 @@ git push origin main
        - Type: $rc_annual
        - Product: noor_plus_yearly
      * **Package 3:**
-       - Type: $rc_monthly
-       - Product: noor_pro_monthly (name it "pro_monthly" to differentiate)
-     * **Package 4:**
-       - Type: $rc_annual
-       - Product: noor_pro_yearly (name it "pro_annual")
-     * **Package 5:**
        - Type: lifetime
-       - Product: noor_pro_lifetime
+       - Product: noor_lifetime
    - **Make Current:** Toggle ON
    - **Save**
 
@@ -475,7 +417,7 @@ git push origin main
    **IMPORTANT:** This is different from your test key!
 
 10. **Update .env.production:**
-    - Open: `c:\Dev\Noor-CBT\.env.production`
+    - Open: `.env.production`
     - Replace the test key line:
 
     ```bash
@@ -487,32 +429,22 @@ git push origin main
     ```
 
     - **Save**
-    - **Commit:**
-
-    ```bash
-    git add .env.production
-    git commit -m "chore: update RevenueCat production API key"
-    # Note: .env.production is in .gitignore, so this won't actually commit the file
-    # This is good for security! Just document that you updated it.
-    ```
-
-**Detailed Reference:** See `release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md` section "Step 2: RevenueCat Configuration"
 
 ---
 
-## 🏗️ PHASE 3: BUILD & TEST (Day 6-7)
+## PHASE 3: BUILD & TEST (Day 6-7)
 
-### Task 9: Run Production Build ⏱️ 1-2 hours (mostly waiting)
+### Task 9: Run Production Build -- 1-2 hours (mostly waiting)
 
 **When:** After Task 8 is complete and `.env.production` has real production RevenueCat key
 
 **What:** Build the production iOS app with EAS.
 
 **Verify Before Building:**
-- ✅ `.env.production` has real RevenueCat production key (appl_...)
-- ✅ `eas.json` has real App Store Connect IDs
-- ✅ All IAP products created in App Store Connect
-- ✅ All tests passing: `npm test` (should see 277 tests pass)
+- `.env.production` has real RevenueCat production key (appl_...)
+- `eas.json` has real App Store Connect IDs
+- All IAP products created in App Store Connect
+- All tests passing: `npm test` (should see 277 tests pass)
 
 **Steps:**
 
@@ -534,10 +466,10 @@ git push origin main
    ```
 
 4. **EAS will ask questions:**
-   - **Generate credentials?** → YES (if first time)
-   - **Apple ID:** → Use your Apple Developer email
-   - **Apple password:** → Use your Apple ID password (or app-specific password)
-   - **Team ID:** → Should auto-detect
+   - **Generate credentials?** -> YES (if first time)
+   - **Apple ID:** -> Use your Apple Developer email
+   - **Apple password:** -> Use your Apple ID password (or app-specific password)
+   - **Team ID:** -> Should auto-detect
 
 5. **Wait for build to complete:**
    - Build time: ~30-60 minutes
@@ -547,7 +479,7 @@ git push origin main
 
 6. **When build completes:**
    - EAS will send email notification
-   - Terminal will show: "✔ Build finished"
+   - Terminal will show: "Build finished"
    - You'll get a download link for the `.ipa` file
 
 7. **Download the IPA file:**
@@ -559,7 +491,7 @@ git push origin main
 
 ---
 
-### Task 10: Test on Physical iPhone ⏱️ 1-2 hours
+### Task 10: Test on Physical iPhone -- 1-2 hours
 
 **When:** After Task 9 build completes
 
@@ -578,13 +510,13 @@ git push origin main
 
 1. **Connect iPhone to Mac** with USB cable
 2. **Open Xcode**
-3. **Window → Devices and Simulators**
+3. **Window -> Devices and Simulators**
 4. **Select your iPhone** from left sidebar
 5. **Drag the `.ipa` file** from Task 9 into the "Installed Apps" section
 6. **Wait for installation** (~1 minute)
 7. **App appears on iPhone home screen**
 
-#### Option B: TestFlight Install (Easier) ⭐
+#### Option B: TestFlight Install (Easier)
 
 1. **Submit build to TestFlight:**
    ```bash
@@ -606,16 +538,17 @@ Test ALL of these on your physical iPhone:
 
 - [ ] **App launches** without crash
 - [ ] **Complete onboarding** flow (name, preferences)
+- [ ] **Quran reader** displays correctly with Arabic text and translation
+- [ ] **Arabic learning** interface works (vocabulary, exercises)
 - [ ] **Create a test reflection**
   - Tap "New Reflection"
   - Write a thought
   - Submit
-- [ ] **AI response generates** successfully
+- [ ] **Personalized response generates** successfully
   - Should see response within 5-10 seconds
   - Should be relevant to your thought
   - Should include Islamic guidance
 - [ ] **Safety screen displays** correctly
-  - Tap "Safety" or "About"
   - Should show "Not professional counseling" disclaimer
   - Should show crisis resources
 - [ ] **View history** of past reflections
@@ -624,17 +557,15 @@ Test ALL of these on your physical iPhone:
   - Tap to view details
 - [ ] **Test subscription paywall** (Sandbox mode)
   - Tap "Upgrade" or navigate to subscription screen
-  - Should see all 5 pricing options:
-    * Plus Monthly ($6.99)
-    * Plus Yearly ($69.99)
-    * Pro Monthly ($11.99)
-    * Pro Yearly ($119.99)
-    * Pro Lifetime ($299.99)
+  - Should see all 3 pricing options:
+    * Plus Monthly ($2.99)
+    * Plus Yearly ($19.99)
+    * Lifetime ($49.99)
 - [ ] **Test purchase flow** (Sandbox - won't charge!)
   - Tap any subscription
-  - Use Sandbox test account (create in App Store Connect → Users and Access → Sandbox Testers)
+  - Use Sandbox test account (create in App Store Connect -> Users and Access -> Sandbox Testers)
   - Complete purchase flow
-  - **Verify entitlement:** Check that Pro/Plus features unlock
+  - **Verify entitlement:** Check that Plus features unlock
   - **Note:** Subscription renews every ~5 minutes in Sandbox (not monthly)
 - [ ] **No console errors** (check Xcode console if using Option A)
 - [ ] **No crashes** during 10-minute usage test
@@ -646,28 +577,28 @@ Test ALL of these on your physical iPhone:
 - Re-run Task 9 (production build)
 - Re-test
 
-**If ALL tests pass:** ✅ You're ready for App Store submission!
+**If ALL tests pass:** You're ready for App Store submission!
 
 ---
 
-## 📱 PHASE 4: APP STORE SUBMISSION (Day 7-8)
+## PHASE 4: APP STORE SUBMISSION (Day 7-8)
 
-### Task 11: Fill Out App Store Connect Information ⏱️ 45-60 minutes
+### Task 11: Fill Out App Store Connect Information -- 45-60 minutes
 
 **When:** After Task 10 testing passes
 
 **What:** Complete all required information in App Store Connect for your app listing.
 
 **Prerequisites:**
-- ✅ 5 screenshots created (from Task 2)
-- ✅ App icon PNG 1024x1024 (from Task 1)
-- ✅ Production build passing all tests (from Task 10)
+- 5 screenshots created (from Task 2)
+- App icon PNG 1024x1024 (from Task 1)
+- Production build passing all tests (from Task 10)
 
 **Steps:**
 
 1. **Go to:** [appstoreconnect.apple.com](https://appstoreconnect.apple.com)
-2. **Navigate to:** My Apps → Noor
-3. **Click:** + Version or Release → 1.0.0
+2. **Navigate to:** My Apps -> Noor
+3. **Click:** + Version or Release -> 1.0.0
 
 **Fill Out Each Section:**
 
@@ -680,7 +611,7 @@ Noor
 
 **Subtitle:**
 ```
-Reflect, Reframe, Grow
+Quran · Arabic Learning · Prayer · Reflection
 ```
 
 **Privacy Policy URL:**
@@ -690,7 +621,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 
 **Category:**
 - **Primary:** Lifestyle
-- **Secondary:** Health & Fitness
+- **Secondary:** Education
 
 **Content Rights:**
 - Select: "No, it does not contain, show, or access third-party content"
@@ -698,7 +629,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 **Age Rating:**
 - Click "Edit"
 - Complete questionnaire honestly
-- Expected rating: 4+ or 12+
+- Expected rating: 4+
 - Save
 
 **Support URL:**
@@ -729,11 +660,11 @@ https://byteworthy.github.io/Noor/legal/
 **Screenshots:**
 1. Click "iPhone 15 Pro Max" display size
 2. Upload all 5 screenshots:
-   - Screenshot 1: Home screen
-   - Screenshot 2: Thought capture
-   - Screenshot 3: AI response
-   - Screenshot 4: Safety disclaimers (**CRITICAL!**)
-   - Screenshot 5: History
+   - Screenshot 1: Home screen with daily content
+   - Screenshot 2: Quran reader with Arabic text and translation
+   - Screenshot 3: Arabic learning interface
+   - Screenshot 4: Daily reflection with personalized response
+   - Screenshot 5: Prayer support and history
 3. Ensure they're in the correct order
 
 **App Icon:**
@@ -742,43 +673,46 @@ https://byteworthy.github.io/Noor/legal/
 
 **Description:**
 ```
-Noor helps you reflect on daily experiences through the wisdom of Islamic teachings.
+Noor is your Islamic companion for Quran reading, Arabic language learning, daily reflections, and prayer support.
 
-Write your thoughts and feelings, and receive personalized guidance rooted in Quran, Hadith, and scholarly insights. Noor creates a safe, private space for personal growth and spiritual development.
+Engage with the Quran in Arabic with English translation, build your Arabic vocabulary step by step, reflect on your spiritual growth, and strengthen your daily practice.
 
 KEY FEATURES:
-• Daily reflection journaling
-• AI-powered Islamic guidance
-• Personalized insights from Quran & Hadith
-• Progress tracking and patterns
-• Yemeni-inspired calming design
+- Quran reader with Arabic text and translation
+- Arabic language learning and vocabulary building
+- Daily reflections rooted in Islamic wisdom
+- Prayer support and reminders
+- Personalized insights from Quran & Hadith
+- Progress tracking and growth patterns
+- Beautiful, calming design
 
-IMPORTANT: Noor is a personal development tool, not professional counseling or therapy. For mental health emergencies, please contact a licensed professional or crisis helpline.
+IMPORTANT: Noor is a personal development and education tool, not professional counseling or therapy. For mental health emergencies, please contact a licensed professional or crisis helpline.
 
-Your reflections are private and secure. We use AI (OpenAI) to provide responses, but never share your personal thoughts.
+Your data is private and secure. We use Anthropic Claude to provide personalized responses, but never share your personal content.
 
 Choose from flexible plans:
-• Noor Plus: Enhanced features and daily guidance ($6.99/mo or $69.99/yr)
-• Noor Pro: Unlimited access, advanced insights, lifetime history ($11.99/mo, $119.99/yr, or $299.99 lifetime)
+- Noor Plus: Enhanced features and daily guidance ($2.99/mo or $19.99/yr)
+- Noor Lifetime: Full access forever ($49.99 one-time)
 
 Grow through reflection. Guided by faith.
 ```
 
 **Keywords:**
 ```
-reflection,journal,islamic,growth,mindfulness,spiritual,guidance,quran,hadith,meditation
+quran,islamic,arabic,prayer,reflection,muslim,dua,learning,spiritual,faith
 ```
 
 **Promotional Text:** (optional, leave blank for now)
 
 **What's New in This Version:**
 ```
-Welcome to Noor 1.0.0 - Your companion for personal growth through Islamic reflection.
+Welcome to Noor 1.0.0 - Your Islamic companion for Quran, Arabic, prayer, and reflection.
 
-• Beautiful Yemeni-inspired design
-• AI-powered spiritual guidance
-• Private, secure journaling
-• Flexible subscription options
+- Quran reader with Arabic and English
+- Arabic language learning tools
+- Personalized spiritual reflections
+- Prayer support
+- Flexible subscription options
 
 Begin your journey of growth and self-discovery today.
 ```
@@ -789,7 +723,7 @@ Begin your journey of growth and self-discovery today.
 
 #### D. App Privacy
 
-**Click:** App Privacy → Edit
+**Click:** App Privacy -> Edit
 
 **Does your app collect data?**
 - Select: **Yes**
@@ -804,8 +738,8 @@ Begin your journey of growth and self-discovery today.
 
 **User Content:**
 - [x] Other User Content
-  - **Description:** Journal reflections and thoughts
-  - **Used for:** App functionality (AI responses)
+  - **Description:** Reflections, learning progress, and reading activity
+  - **Used for:** App functionality (personalized responses)
   - **Linked to user:** Yes
   - **Used for tracking:** No
 
@@ -816,7 +750,7 @@ Begin your journey of growth and self-discovery today.
   - **Used for tracking:** No
 
 **Third Parties with Access:**
-- OpenAI (AI processing)
+- Anthropic Claude (content processing)
 - RevenueCat (subscription management)
 - Sentry (error tracking)
 
@@ -842,12 +776,13 @@ Email Address: scale@getbyteworthy.com
 ```
 IMPORTANT INFORMATION FOR REVIEW:
 
-AI Usage: This app uses OpenAI's GPT-4 to provide Islamic spiritual guidance based on user journal entries. The AI has been specifically trained to:
+Technology Usage: This app uses Anthropic Claude to provide personalized Islamic guidance based on user interactions. The technology has been configured to:
 - Provide thoughtful reflections rooted in Quran and Hadith
+- Support Arabic language learning with translations and vocabulary
 - Avoid medical, legal, or therapeutic advice
 - Refer users to professional help when needed
 
-NOT Professional Counseling: This app is explicitly positioned as a personal development tool, NOT professional counseling, therapy, or medical treatment. We include prominent disclaimers in:
+NOT Professional Counseling: This app is explicitly positioned as a personal development and education tool, NOT professional counseling, therapy, or medical treatment. We include prominent disclaimers in:
 - Onboarding flow
 - Safety screen (visible in screenshots)
 - App description
@@ -864,7 +799,7 @@ Subscription Testing:
 
 Privacy:
 - All user data is encrypted
-- Thoughts are private and secure
+- Personal content is private and secure
 - Privacy policy: https://byteworthy.github.io/Noor/legal/privacy.html
 
 The app is ready for review. Thank you!
@@ -887,7 +822,7 @@ The app is ready for review. Thank you!
 **Export Compliance:**
 - When prompted: "Does your app use encryption?"
 - Select: "No" (if true) OR "Yes" (if using HTTPS, which you are)
-- If Yes: Select "App uses standard encryption" → No export compliance required
+- If Yes: Select "App uses standard encryption" -> No export compliance required
 - Save
 
 ---
@@ -905,11 +840,11 @@ The app is ready for review. Thank you!
 ### Final Verification
 
 Before submitting, verify ALL sections have green checkmarks:
-- ✅ App Information
-- ✅ Pricing and Availability
-- ✅ 1.0.0 Version (with screenshots, description, build)
-- ✅ App Privacy
-- ✅ App Review Information
+- App Information
+- Pricing and Availability
+- 1.0.0 Version (with screenshots, description, build)
+- App Privacy
+- App Review Information
 
 **If ANY section has a red warning:** Click into it and complete missing fields.
 
@@ -922,11 +857,11 @@ Before submitting, verify ALL sections have green checkmarks:
 3. **Click:** "Submit"
 4. **Status changes to:** "Waiting for Review"
 
-**Congratulations!** 🎉 Your app is submitted!
+**Congratulations!** Your app is submitted!
 
 ---
 
-### Task 12: Monitor Review Status ⏱️ 24-48 hours (passive)
+### Task 12: Monitor Review Status -- 24-48 hours (passive)
 
 **When:** After Task 11 submission
 
@@ -951,18 +886,17 @@ Before submitting, verify ALL sections have green checkmarks:
 3. **If REJECTED:**
    - Read rejection reason carefully
    - Common reasons:
-     * Missing safety disclaimers → Ensure Screenshot 4 shows them
-     * AI usage not disclosed → Ensure review notes mention OpenAI
-     * Content concerns → Explain it's personal development, not therapy
+     * Missing safety disclaimers -> Ensure screenshots show them
+     * Technology usage not disclosed -> Ensure review notes mention Anthropic Claude
+     * Content concerns -> Explain it's personal development, not therapy
    - Fix the issue in your app
    - Re-run Task 9 (production build)
    - Re-submit (Tasks 11-12)
 
-4. **If APPROVED:** 🎉
+4. **If APPROVED:**
    - Status changes to "Pending Developer Release"
    - Click "Release This Version"
    - App goes live in 2-4 hours!
-   - Celebrate! 🎉
 
 **Pro Tips:**
 - Submitting Tuesday-Thursday often gets faster review
@@ -972,7 +906,7 @@ Before submitting, verify ALL sections have green checkmarks:
 
 ---
 
-## 🎉 PHASE 5: LAUNCH DAY!
+## PHASE 5: LAUNCH DAY!
 
 When Apple approves and you click "Release":
 
@@ -999,7 +933,7 @@ When Apple approves and you click "Release":
 
 ---
 
-## 📊 SUMMARY CHECKLIST
+## SUMMARY CHECKLIST
 
 Print this and check off as you go:
 
@@ -1011,7 +945,7 @@ Print this and check off as you go:
 ### Phase 2: AFTER APPLE APPROVAL
 - [ ] Task 4: Sign agreements & add payment info (30 min)
 - [ ] Task 5: Create app in App Store Connect (15 min)
-- [ ] Task 6: Create all 5 IAP products (1 hour)
+- [ ] Task 6: Create all 3 IAP products (30 min)
 - [ ] Task 7: Update eas.json with real IDs (2 min)
 - [ ] Task 8: Configure RevenueCat (30 min)
 
@@ -1031,22 +965,22 @@ Print this and check off as you go:
 
 ---
 
-## ⏱️ TIME INVESTMENT
+## TIME INVESTMENT
 
 | Phase | Hands-On Time | Wait Time | Total |
 |-------|---------------|-----------|-------|
 | Phase 1 | 5-6 hours | 1-3 days | 1-3 days |
-| Phase 2 | 2-3 hours | - | 2-3 hours |
+| Phase 2 | 2 hours | - | 2 hours |
 | Phase 3 | 2-3 hours | 1-2 hours | 3-5 hours |
 | Phase 4 | 1 hour | 1-2 days | 1-2 days |
-| **TOTAL** | **10-13 hours** | **2-5 days** | **3-7 days** |
+| **TOTAL** | **10-12 hours** | **2-5 days** | **3-7 days** |
 
 **Best Case:** App live in 5 days (if Apple approves in 1 day)
 **Realistic:** App live in 7-10 days (typical Apple approval: 2-3 days)
 
 ---
 
-## 🆘 NEED HELP?
+## NEED HELP?
 
 **Stuck on a task?** Message me with:
 - Task number (e.g., "Task 6: IAP products")
@@ -1059,20 +993,18 @@ Print this and check off as you go:
 
 ---
 
-## 📎 KEY DOCUMENTS
+## KEY DOCUMENTS
 
 Save these links - you'll need them:
 
-- 📄 Pricing strategy details: `release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md`
-- 📄 IAP setup guide: `release/STORE_PACK/IAP_SETUP_GUIDE.md`
-- 📄 Icon generation: `release/STORE_PACK/ICON_GENERATION.md`
-- 📄 Screenshot guide: `release/STORE_PACK/screenshots/SCREENSHOT_SHOTLIST.md`
-- 📄 Build commands: `release/BUILD_COMMANDS.md`
-- 📄 Master status: `release/LAUNCH_STATUS.md`
+- Pricing strategy details: `release/STORE_PACK/PRICING_STRATEGY_OPTION_C.md`
+- IAP setup guide: `release/STORE_PACK/IAP_SETUP_GUIDE.md`
+- Icon generation: `release/STORE_PACK/ICON_GENERATION.md`
+- Screenshot guide: `release/STORE_PACK/screenshots/SCREENSHOT_SHOTLIST.md`
+- Build commands: `release/BUILD_COMMANDS.md`
+- Master status: `release/LAUNCH_STATUS.md`
 
 ---
-
-**You've got this!** 🚀
 
 Everything is configured and ready. Now it's just execution.
 
