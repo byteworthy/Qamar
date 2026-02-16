@@ -4,7 +4,7 @@
  * Arabic <-> English translator with TTS playback and AI-powered explanations.
  */
 
-import React from "react";
+import React, { useRef } from "react";
 import {
   View,
   TextInput,
@@ -26,6 +26,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { TTSButton } from "@/components/TTSButton";
 import { NoorColors } from "@/constants/theme/colors";
+import { useGamification } from "@/stores/gamification-store";
 
 // ====================================================================
 // TranslatorScreen
@@ -49,6 +50,8 @@ export default function TranslatorScreen() {
     explain,
     clear,
   } = useTranslation();
+  const recordActivity = useGamification((s) => s.recordActivity);
+  const hasRecordedTranslation = useRef(false);
 
   const isArabicInput = direction === "ar-en";
   const isArabicOutput = direction === "en-ar";
@@ -65,6 +68,14 @@ export default function TranslatorScreen() {
   const toLabel = direction === "en-ar" ? "Arabic" : "English";
 
   const outputLanguage = isArabicOutput ? "ar-SA" : "en-US";
+
+  const handleTranslate = async () => {
+    await translate();
+    if (!hasRecordedTranslation.current) {
+      recordActivity("translation_used");
+      hasRecordedTranslation.current = true;
+    }
+  };
 
   const quotaLabel =
     remainingQuota !== null ? `${remainingQuota} of 3 free today` : null;
@@ -167,7 +178,7 @@ export default function TranslatorScreen() {
         {/* ==== Translate Button ==== */}
         <Animated.View entering={FadeInUp.duration(400).delay(300)}>
           <TouchableOpacity
-            onPress={translate}
+            onPress={handleTranslate}
             disabled={!inputText.trim() || isTranslating}
             activeOpacity={0.8}
             accessibilityLabel="Translate"

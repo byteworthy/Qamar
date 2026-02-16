@@ -20,7 +20,10 @@ export type ActivityType =
   | "reflection_submitted"
   | "daily_noor_completed"
   | "dhikr_completed"
-  | "hadith_read";
+  | "hadith_read"
+  | "tutor_session"
+  | "pronunciation_practice"
+  | "translation_used";
 
 export type BadgeId =
   | "first_light"

@@ -23,9 +23,14 @@ import {
   Verse,
 } from "@/hooks/useQuranData";
 import { useQuranAudio as useQuranAudioPlayer, RECITERS, Reciter } from "@/hooks/useQuranAudio";
+import { useTajweed } from "@/hooks/useTajweed";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { PremiumGate } from "@/components/PremiumGate";
+import { TajweedText } from "@/components/TajweedText";
+import { WordByWordPlayer } from "@/components/WordByWordPlayer";
+import { NoorColors } from "@/constants/theme/colors";
+import { TajweedSegment } from "@/services/tajweedParser";
 import { RouteType } from "@/navigation/types";
 
 // =============================================================================
@@ -39,6 +44,11 @@ interface VerseCardProps {
   onBookmarkToggle: () => void;
   onPlayVerse: () => void;
   index: number;
+  tajweedEnabled: boolean;
+  wordByWordEnabled: boolean;
+  tajweedSegments?: TajweedSegment[];
+  tajweedLoading: boolean;
+  surahId: number;
 }
 
 const VerseCard = React.memo(function VerseCard({
@@ -48,6 +58,11 @@ const VerseCard = React.memo(function VerseCard({
   onBookmarkToggle,
   onPlayVerse,
   index,
+  tajweedEnabled,
+  wordByWordEnabled,
+  tajweedSegments,
+  tajweedLoading,
+  surahId,
 }: VerseCardProps) {
   const { theme } = useTheme();
 
@@ -113,14 +128,32 @@ const VerseCard = React.memo(function VerseCard({
           </View>
         </View>
 
-        <ThemedText
-          style={[
-            styles.verseArabic,
-            { fontFamily: "Amiri-Regular", lineHeight: 48 },
-          ]}
-        >
-          {verse.textArabic}
-        </ThemedText>
+        {tajweedEnabled && tajweedLoading ? (
+          <View style={styles.tajweedLoadingContainer}>
+            <ActivityIndicator size="small" color={theme.primary} />
+          </View>
+        ) : tajweedEnabled && tajweedSegments ? (
+          <TajweedText
+            segments={tajweedSegments}
+            fontSize={26}
+            style={{ textAlign: "right", writingDirection: "rtl" } as any}
+          />
+        ) : wordByWordEnabled ? (
+          <WordByWordPlayer
+            surahNumber={surahId}
+            verseNumber={verse.verseNumber}
+            arabicText={verse.textArabic}
+          />
+        ) : (
+          <ThemedText
+            style={[
+              styles.verseArabic,
+              { fontFamily: "Amiri-Regular", lineHeight: 48 },
+            ]}
+          >
+            {verse.textArabic}
+          </ThemedText>
+        )}
 
         <ThemedText
           style={[styles.verseEnglish, { color: theme.textSecondary }]}
@@ -234,6 +267,27 @@ export default function VerseReaderScreen() {
 
   // Quran audio player (new hook with verse-level controls)
   const audio = useQuranAudioPlayer();
+
+  // Tajweed & Word-by-Word toggles (mutually exclusive)
+  const [tajweedEnabled, setTajweedEnabled] = useState(false);
+  const [wordByWordEnabled, setWordByWordEnabled] = useState(false);
+  const { verses: tajweedVerses, isLoading: tajweedLoading } = useTajweed(surahId);
+
+  const handleTajweedToggle = useCallback(() => {
+    setTajweedEnabled((prev) => {
+      const next = !prev;
+      if (next) setWordByWordEnabled(false);
+      return next;
+    });
+  }, []);
+
+  const handleWordByWordToggle = useCallback(() => {
+    setWordByWordEnabled((prev) => {
+      const next = !prev;
+      if (next) setTajweedEnabled(false);
+      return next;
+    });
+  }, []);
 
   // Reciter selector
   const [reciterModalVisible, setReciterModalVisible] = useState(false);
@@ -350,8 +404,13 @@ export default function VerseReaderScreen() {
       onBookmarkToggle={() => handleBookmarkToggle(item.verseNumber)}
       onPlayVerse={() => handlePlayVerse(item.verseNumber)}
       index={index}
+      tajweedEnabled={tajweedEnabled}
+      wordByWordEnabled={wordByWordEnabled}
+      tajweedSegments={tajweedVerses.get(item.verseNumber)}
+      tajweedLoading={tajweedLoading}
+      surahId={surahId}
     />
-  ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse]);
+  ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse, tajweedEnabled, wordByWordEnabled, tajweedVerses, tajweedLoading, surahId]);
 
   // Handle scrollToIndex failures gracefully
   const onScrollToIndexFailed = useCallback(
@@ -501,6 +560,71 @@ export default function VerseReaderScreen() {
                 </GlassCard>
               </Animated.View>
             )}
+
+            {/* Tajweed / Word-by-Word Toggle Bar */}
+            <Animated.View entering={FadeInUp.duration(350).delay(150)}>
+              <View style={styles.toggleBar}>
+                <Pressable
+                  onPress={handleTajweedToggle}
+                  disabled={tajweedLoading}
+                  style={[
+                    styles.togglePill,
+                    tajweedEnabled
+                      ? styles.togglePillActive
+                      : { borderColor: theme.textSecondary + "30" },
+                    tajweedLoading && { opacity: 0.5 },
+                  ]}
+                  accessibilityLabel="Toggle tajweed highlighting"
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: tajweedEnabled }}
+                >
+                  {tajweedLoading ? (
+                    <ActivityIndicator size={14} color={theme.primary} />
+                  ) : (
+                    <Feather
+                      name="eye"
+                      size={14}
+                      color={tajweedEnabled ? NoorColors.gold : theme.textSecondary}
+                    />
+                  )}
+                  <ThemedText
+                    style={[
+                      styles.togglePillText,
+                      { color: tajweedEnabled ? NoorColors.gold : theme.textSecondary },
+                    ]}
+                  >
+                    Tajweed
+                  </ThemedText>
+                </Pressable>
+
+                <Pressable
+                  onPress={handleWordByWordToggle}
+                  style={[
+                    styles.togglePill,
+                    wordByWordEnabled
+                      ? styles.togglePillActive
+                      : { borderColor: theme.textSecondary + "30" },
+                  ]}
+                  accessibilityLabel="Toggle word by word audio"
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: wordByWordEnabled }}
+                >
+                  <Feather
+                    name="type"
+                    size={14}
+                    color={wordByWordEnabled ? NoorColors.gold : theme.textSecondary}
+                  />
+                  <ThemedText
+                    style={[
+                      styles.togglePillText,
+                      { color: wordByWordEnabled ? NoorColors.gold : theme.textSecondary },
+                    ]}
+                  >
+                    Word by Word
+                  </ThemedText>
+                </Pressable>
+              </View>
+            </Animated.View>
           </View>
         }
         ListEmptyComponent={
@@ -832,6 +956,33 @@ const styles = StyleSheet.create({
     fontSize: 26,
     textAlign: "right",
     writingDirection: "rtl",
+  },
+  tajweedLoadingContainer: {
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  toggleBar: {
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 12,
+    paddingHorizontal: 20,
+  },
+  togglePill: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  togglePillActive: {
+    borderColor: NoorColors.gold,
+    backgroundColor: NoorColors.gold + "15",
+  },
+  togglePillText: {
+    fontSize: 13,
+    fontWeight: "600",
   },
   verseEnglish: {
     fontSize: 16,

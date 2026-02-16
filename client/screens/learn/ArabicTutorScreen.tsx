@@ -26,6 +26,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { NoorColors } from "@/constants/theme/colors";
 import { useAITutor, TutorMode, TutorMessage } from "@/hooks/useAITutor";
+import { useGamification } from "@/stores/gamification-store";
 
 // ============================================================
 // Types & Constants
@@ -116,6 +117,8 @@ export default function ArabicTutorScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const inputRef = useRef<TextInput>(null);
   const [inputText, setInputText] = React.useState("");
+  const recordActivity = useGamification((s) => s.recordActivity);
+  const hasRecordedSession = useRef(false);
 
   const {
     messages,
@@ -149,15 +152,23 @@ export default function ArabicTutorScreen() {
     if (!text || isLoading) return;
     setInputText("");
     await sendMessage(text);
-  }, [inputText, isLoading, sendMessage]);
+    if (!hasRecordedSession.current) {
+      recordActivity("tutor_session");
+      hasRecordedSession.current = true;
+    }
+  }, [inputText, isLoading, sendMessage, recordActivity]);
 
   const handleQuickPrompt = useCallback(
     async (prompt: string) => {
       if (isLoading) return;
       setInputText("");
       await sendMessage(prompt);
+      if (!hasRecordedSession.current) {
+        recordActivity("tutor_session");
+        hasRecordedSession.current = true;
+      }
     },
-    [isLoading, sendMessage]
+    [isLoading, sendMessage, recordActivity]
   );
 
   // ============================

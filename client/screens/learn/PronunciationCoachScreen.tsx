@@ -29,6 +29,7 @@ import { AudioRecordButton } from "@/components/AudioRecordButton";
 import { PronunciationFeedback } from "@/components/PronunciationFeedback";
 import { NoorColors } from "@/constants/theme/colors";
 import { usePronunciation } from "@/hooks/usePronunciation";
+import { useGamification } from "@/stores/gamification-store";
 
 // ====================================================================
 // Constants
@@ -81,6 +82,7 @@ export default function PronunciationCoachScreen() {
 
   // Pronunciation hook
   const pronunciation = usePronunciation();
+  const recordActivity = useGamification((s) => s.recordActivity);
 
   // Determine which text to use for submission
   const activeText = customText.trim() || practiceText;
@@ -99,7 +101,8 @@ export default function PronunciationCoachScreen() {
 
   const handleSubmit = useCallback(async () => {
     await pronunciation.submitForFeedback(activeText, surahNumber, verseNumber);
-  }, [pronunciation, activeText, surahNumber, verseNumber]);
+    recordActivity("pronunciation_practice");
+  }, [pronunciation, activeText, surahNumber, verseNumber, recordActivity]);
 
   const handleTryAgain = useCallback(() => {
     pronunciation.reset();
