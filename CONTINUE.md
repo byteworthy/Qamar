@@ -10,7 +10,7 @@ Use this document to pick up development from any fresh clone.
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)
 - **EAS Project ID**: `b3e205eb-b119-4976-a275-df7bcef85275`
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
-- **Tests**: 643/643 passing, zero TypeScript errors
+- **Tests**: 675/675 passing, zero TypeScript errors
 
 ## Current Status: COMPLETE — Arabic Language & Audio Suite
 
@@ -154,7 +154,7 @@ web/              # Web export configuration
 npm install                     # Install dependencies
 npx expo start                  # Start Expo dev server
 npm run server                  # Start backend (separate terminal)
-npm test                        # Run 643 tests
+npm test                        # Run 675 tests
 npx tsc --noEmit               # TypeScript check (0 errors)
 ```
 
@@ -209,4 +209,5 @@ server/services/translation-service.ts  # NEW: MyMemory/Google translate
 server/routes/tutor-routes.ts          # NEW: POST /api/tutor/chat
 server/routes/pronunciation-routes.ts   # NEW: POST /api/pronunciation/check
 server/routes/translation-routes.ts     # NEW: POST /api/translate
+server/__tests__/arabic-routes.test.ts  # NEW: 32 tests for Arabic routes
 ```
