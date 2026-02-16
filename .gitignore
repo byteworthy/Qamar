@@ -102,6 +102,10 @@ scripts/test-offline.db
 
 # Windows artifacts
 nul
+*.ps1
+
+# Generated data (regenerate with: npx ts-node server/scripts/index-islamic-content.ts)
+server/data/embeddings.json
 
 # Export temp files
 /tmp/noor-*
