@@ -59,7 +59,7 @@ describe('POST /api/duas/recommend', () => {
       },
     ];
 
-    mockSearchDuas.mockResolvedValue(mockDuas);
+    (mockSearchDuas as any).mockResolvedValue(mockDuas);
 
     const res = await request(app)
       .post('/api/duas/recommend')
@@ -96,7 +96,7 @@ describe('POST /api/duas/recommend', () => {
   });
 
   test('returns empty array for no matches', async () => {
-    mockSearchDuas.mockResolvedValue([]);
+    (mockSearchDuas as any).mockResolvedValue([]);
 
     const res = await request(app)
       .post('/api/duas/recommend')
@@ -109,7 +109,7 @@ describe('POST /api/duas/recommend', () => {
   });
 
   test('handles service errors gracefully', async () => {
-    mockSearchDuas.mockRejectedValue(
+    (mockSearchDuas as any).mockRejectedValue(
       new Error('Database connection failed')
     );
 
