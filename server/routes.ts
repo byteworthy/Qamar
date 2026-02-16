@@ -21,6 +21,7 @@ import { registerTutorRoutes } from "./routes/tutor-routes";
 import { registerPronunciationRoutes } from "./routes/pronunciation-routes";
 import { registerTranslationRoutes } from "./routes/translation-routes";
 import { registerHifzRoutes } from "./routes/hifz-routes";
+import { registerTafsirRoutes } from "./routes/tafsir-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -63,6 +64,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register Hifz (Quran memorization) routes
   registerHifzRoutes(app);
+
+  // Register Tafsir (Quran explanation) routes
+  registerTafsirRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
