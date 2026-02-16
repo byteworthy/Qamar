@@ -23,7 +23,8 @@ export type ActivityType =
   | "hadith_read"
   | "tutor_session"
   | "pronunciation_practice"
-  | "translation_used";
+  | "translation_used"
+  | "hifz_review_completed";
 
 export type BadgeId =
   | "first_light"

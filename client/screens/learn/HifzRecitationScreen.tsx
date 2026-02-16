@@ -25,6 +25,7 @@ import { Screen } from '@/components/Screen';
 import { HifzMistakeFeedback } from '@/components/HifzMistakeFeedback';
 import { HifzPeekOverlay } from '@/components/HifzPeekOverlay';
 import { useHifzRecitation } from '@/hooks/useHifzRecitation';
+import { useGamification } from '@/stores/gamification-store';
 import { NoorColors } from '@/constants/theme/colors';
 
 // ====================================================================
@@ -66,6 +67,9 @@ export default function HifzRecitationScreen() {
     reset,
   } = useHifzRecitation(surahNum, verseNum);
 
+  // Gamification
+  const recordActivity = useGamification((state) => state.recordActivity);
+
   // Local state
   const [showPeek, setShowPeek] = useState(false);
   const [revealedText, setRevealedText] = useState<string | null>(null);
@@ -102,13 +106,14 @@ export default function HifzRecitationScreen() {
 
   const handleRating = useCallback(
     async (rating: 'again' | 'hard' | 'good' | 'easy') => {
+      recordActivity('hifz_review_completed');
       rateAndSave(rating);
       // Navigate back after a short delay to show feedback was recorded
       setTimeout(() => {
         navigation.goBack();
       }, 300);
     },
-    [rateAndSave, navigation]
+    [recordActivity, rateAndSave, navigation]
   );
 
   const handleRetry = useCallback(() => {
