@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useTafsirCache, TafsirData } from '@/stores/tafsir-cache-store';
+import { useGamification } from '@/stores/gamification-store';
 
 export function useTafsir() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { getTafsir, setTafsir } = useTafsirCache();
+  const { recordActivity } = useGamification();
 
   const fetchTafsir = async (
     surahNumber: number,
@@ -40,6 +42,9 @@ export function useTafsir() {
 
       // Cache the result
       setTafsir(surahNumber, verseNumber, tafsirData as TafsirData);
+
+      // Record gamification activity
+      recordActivity('tafsir_viewed');
 
       return tafsirData as TafsirData;
     } catch (err) {

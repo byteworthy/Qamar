@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useVerseConversationStore, ConversationMessage } from '@/stores/verse-conversation-store';
+import { useGamification } from '@/stores/gamification-store';
 
 export function useVerseConversation(surahNumber: number, verseNumber: number) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { addMessage, getConversation, clearConversation } = useVerseConversationStore();
+  const { recordActivity } = useGamification();
 
   const messages = getConversation(surahNumber, verseNumber);
 
@@ -46,6 +48,11 @@ export function useVerseConversation(surahNumber: number, verseNumber: number) {
         timestamp: new Date().toISOString(),
       };
       addMessage(surahNumber, verseNumber, assistantMsg);
+
+      // Record gamification activity on first message
+      if (messages.length === 0) {
+        recordActivity('verse_discussion');
+      }
     } catch (err: any) {
       setError(err.message);
       // Remove the user message we optimistically added

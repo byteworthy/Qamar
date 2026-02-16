@@ -24,7 +24,11 @@ export type ActivityType =
   | "tutor_session"
   | "pronunciation_practice"
   | "translation_used"
-  | "hifz_review_completed";
+  | "hifz_review_completed"
+  | "tafsir_viewed"
+  | "verse_discussion"
+  | "dua_searched"
+  | "study_plan_task_completed";
 
 export type BadgeId =
   | "first_light"

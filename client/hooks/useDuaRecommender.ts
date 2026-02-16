@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useGamification } from '@/stores/gamification-store';
 
 interface Dua {
   arabic: string;
@@ -19,6 +20,7 @@ export function useDuaRecommender() {
   const [error, setError] = useState<string | null>(null);
   const [duas, setDuas] = useState<Dua[]>([]);
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
+  const { recordActivity } = useGamification();
 
   const recommend = async (situation: string): Promise<void> => {
     setIsLoading(true);
@@ -42,6 +44,11 @@ export function useDuaRecommender() {
 
       setDuas(data.duas);
       setRemainingQuota(data.remainingQuota);
+
+      // Record gamification activity if duas found
+      if (data.duas.length > 0) {
+        recordActivity('dua_searched');
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       setError(errorMessage);
