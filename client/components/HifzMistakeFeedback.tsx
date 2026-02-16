@@ -15,7 +15,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { NoorColors } from "@/constants/theme/colors";
-import type { RecitationResult } from "@/shared/types/hifz";
+import type { RecitationResult } from "../../shared/types/hifz";
 
 // ====================================================================
 // Types
@@ -125,7 +125,7 @@ export function HifzMistakeFeedback({
   aiTips,
   showAITips = true,
   onRequestTips,
-}: HifzMistakeFeedbackProps): JSX.Element {
+}: HifzMistakeFeedbackProps): React.JSX.Element {
   const { theme } = useTheme();
 
   // Empty state - no result yet
@@ -135,7 +135,7 @@ export function HifzMistakeFeedback({
 
   const scoreColor = getScoreColor(result.score);
   const scoreLabel = getScoreLabel(result.score);
-  const incorrectWords = result.wordResults.filter((w) => !w.isCorrect);
+  const incorrectWords = result.wordResults.filter((w: any) => !w.isCorrect);
   const mistakeCount = incorrectWords.length;
 
   return (
@@ -161,7 +161,7 @@ export function HifzMistakeFeedback({
           Your Recitation
         </ThemedText>
         <View style={[styles.wordsContainer, { direction: "rtl" }]}>
-          {result.wordResults.map((word, index) => (
+          {result.wordResults.map((word: any, index: number) => (
             <ThemedText
               key={`${word.expected}-${index}`}
               style={[
@@ -191,7 +191,7 @@ export function HifzMistakeFeedback({
           </ThemedText>
 
           <View style={styles.mistakeList}>
-            {incorrectWords.map((word, index) => (
+            {incorrectWords.map((word: any, index: number) => (
               <View key={`mistake-${index}`} style={styles.mistakeItem}>
                 <ThemedText
                   style={[styles.mistakeLabel, { color: theme.textSecondary }]}
@@ -225,7 +225,7 @@ export function HifzMistakeFeedback({
         <GlassCard style={styles.tipsCard}>
           <View style={styles.tipsHeader}>
             <Feather
-              name="lightbulb"
+              name="alert-circle"
               size={18}
               color={NoorColors.gold}
               style={styles.tipsIcon}
