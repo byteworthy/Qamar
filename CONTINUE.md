@@ -12,19 +12,23 @@ Use this document to pick up development from any fresh clone.
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
 - **Tests**: 643/643 passing, zero TypeScript errors
 
-## Current Status: ACTIVE DEVELOPMENT — Arabic Language & Audio Suite
+## Current Status: COMPLETE — Arabic Language & Audio Suite
 
-Building 7-feature Arabic Language, Audio & Pronunciation Suite:
+All 7 features of the Arabic Language, Audio & Pronunciation Suite are implemented:
 1. Enhanced Quran Audio (8 reciters, EveryAyah fallback CDN) - DONE
 2. Word-by-Word Audio with highlighting - DONE
 3. Tajweed Color-Coded Display (17 rules) - DONE
-4. Text-to-Speech for vocabulary/duas (expo-speech) - IN PROGRESS
-5. AI Arabic Language Tutor (Claude Haiku) - IN PROGRESS
-6. AI Pronunciation Coach (record → feedback) - IN PROGRESS
-7. Translation Service with TTS - IN PROGRESS
+4. Text-to-Speech for vocabulary/duas (expo-speech) - DONE
+5. AI Arabic Language Tutor (Claude Haiku, 4 modes) - DONE
+6. AI Pronunciation Coach (record → STT → AI feedback) - DONE
+7. Translation Service with TTS + AI explanations - DONE
 
-**New dependencies added:** `expo-speech`, `@react-native-voice/voice`
+**New dependencies:** `expo-speech`, `@react-native-voice/voice`
 **Dev build required** for `@react-native-voice/voice` (not Expo Go compatible).
+
+**AI Pricing:** 3 free AI calls/day across tutor + pronunciation + translation-explain. Unlimited with Plus ($2.99/mo). All Quran audio, TTS, tajweed, and basic translation are free forever.
+
+**New screens:** ArabicTutor, PronunciationCoach, Translator, TajweedGuide (all accessible from Learn tab).
 
 The app still needs external setup steps for first build and store submission (see below).
 
