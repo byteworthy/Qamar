@@ -578,7 +578,7 @@ describe("API Routes", () => {
     test("returns 402 when free user exceeds daily limit", async () => {
       (
         (storage as any).getTodayReflectionCount as jest.Mock<any>
-      ).mockResolvedValue(1);
+      ).mockResolvedValue(3);
 
       const res = await request(app)
         .post("/api/reflection/save")
@@ -663,10 +663,10 @@ describe("API Routes", () => {
       expect(res.body.history).toHaveLength(1);
       expect(res.body.history[0].thought).toBe("worried");
       expect(res.body.isLimited).toBe(true);
-      expect(res.body.limit).toBe(3);
+      expect(res.body.limit).toBe(10);
       expect((storage as any).getReflectionHistory).toHaveBeenCalledWith(
         mockUserId,
-        3,
+        10,
       );
     });
 
@@ -787,14 +787,14 @@ describe("API Routes", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.canReflect).toBe(true);
-      expect(res.body.remaining).toBe(1);
+      expect(res.body.remaining).toBe(3);
       expect(res.body.isPaid).toBe(false);
     });
 
     test("returns false when free user has no remaining reflections", async () => {
       (
         (storage as any).getTodayReflectionCount as jest.Mock<any>
-      ).mockResolvedValue(1);
+      ).mockResolvedValue(3);
 
       const res = await request(app).get("/api/reflection/can-reflect");
 
@@ -825,7 +825,7 @@ describe("API Routes", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.canReflect).toBe(true);
-      expect(res.body.remaining).toBe(1);
+      expect(res.body.remaining).toBe(3);
     });
   });
 

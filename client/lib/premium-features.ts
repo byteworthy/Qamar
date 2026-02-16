@@ -225,28 +225,22 @@ export async function canAccessPrayerWidget(): Promise<boolean> {
 
 /**
  * Feature tier configuration.
- * Maps features to their required subscription tier.
+ * New structure: all non-AI Islamic features are FREE.
+ * Only AI-powered features require Plus subscription.
+ *
+ * Free (forever): Quran, prayer, Arabic, hadith, adhkar, calendar,
+ *   Daily Noor, Ramadan mode, basic streaks, 3 Khalil reflections/day
+ * Plus: Unlimited AI, full history, advanced analytics, export, priority AI
  */
 export const FEATURE_TIERS = {
-  // Plus tier features (lower tier)
+  // Plus tier features (AI-powered)
   plus: [
-    PremiumFeature.QURAN_OFFLINE,
-    PremiumFeature.ARABIC_ALL_SCENARIOS,
-    PremiumFeature.PRAYER_CUSTOM_ADHAN,
     PremiumFeature.REFLECTION_EXERCISES,
+    PremiumFeature.ARABIC_PRONUNCIATION,
   ],
 
-  // Pro tier features (higher tier)
+  // Pro tier features (advanced AI + analytics)
   pro: [
-    PremiumFeature.QURAN_ALL_TRANSLATIONS,
-    PremiumFeature.QURAN_AUDIO,
-    PremiumFeature.QURAN_ADVANCED_SEARCH,
-    PremiumFeature.ARABIC_UNLIMITED_REVIEWS,
-    PremiumFeature.ARABIC_PRONUNCIATION,
-    PremiumFeature.ARABIC_CUSTOM_LISTS,
-    PremiumFeature.PRAYER_WIDGET,
-    PremiumFeature.PRAYER_QIBLA,
-    PremiumFeature.PRAYER_HISTORY,
     PremiumFeature.REFLECTION_ADVANCED,
   ],
 } as const;

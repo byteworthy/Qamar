@@ -275,7 +275,7 @@ describe("Full Reflection API Flow", () => {
   // =========================================================================
 
   test("second reflection blocked for free user", async () => {
-    (storage.getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(1);
+    (storage.getTodayReflectionCount as jest.Mock<any>).mockResolvedValue(3);
 
     const res = await request(app)
       .post("/api/reflection/save")
@@ -302,7 +302,7 @@ describe("Full Reflection API Flow", () => {
 
     expect(canReflectRes.status).toBe(200);
     expect(canReflectRes.body.canReflect).toBe(true);
-    expect(canReflectRes.body.remaining).toBe(1);
+    expect(canReflectRes.body.remaining).toBe(3);
   });
 
   // =========================================================================

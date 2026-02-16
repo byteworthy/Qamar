@@ -20,12 +20,15 @@ import KhalilScreen from "@/screens/KhalilScreen";
 import LearnTabScreen from "@/screens/learn/LearnTabScreen";
 import WorshipTabScreen from "@/screens/worship/WorshipTabScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
+import RamadanHubScreen from "@/screens/RamadanHubScreen";
+import { getHijriDate } from "@/services/islamicCalendar";
 
 export type TabParamList = {
   HomeTab: undefined;
   Khalil: undefined;
   Learn: undefined;
   Worship: undefined;
+  Ramadan: undefined;
   Profile: undefined;
 };
 
@@ -96,6 +99,12 @@ export default function TabNavigator() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
 
+  // Show Ramadan tab during Ramadan month (Hijri month 9)
+  const isRamadan = React.useMemo(() => {
+    const hijri = getHijriDate();
+    return hijri.monthNumber === 9;
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -159,6 +168,18 @@ export default function TabNavigator() {
           ),
         }}
       />
+      {isRamadan && (
+        <Tab.Screen
+          name="Ramadan"
+          component={RamadanHubScreen}
+          options={{
+            tabBarLabel: "Ramadan",
+            tabBarIcon: ({ color, focused }) => (
+              <AnimatedTabIcon name="moon" color={color} focused={focused} />
+            ),
+          }}
+        />
+      )}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}

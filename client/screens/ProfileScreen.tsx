@@ -30,6 +30,12 @@ import { clearSessions } from "@/lib/storage";
 import { useAppState, type PrayerName, type ReminderOffset } from "@/stores/app-state";
 import { rescheduleAllNotifications } from "@/services/notifications";
 import { requestNotificationPermissions } from "@/lib/notifications";
+import {
+  useGamification,
+  selectCurrentStreak,
+  selectEarnedBadges,
+  selectStreakPaused,
+} from "@/stores/gamification-store";
 
 const USER_NAME_KEY = "@noor_user_name";
 const USER_EMAIL_KEY = "@noor_user_email";
@@ -389,6 +395,12 @@ export default function ProfileScreen() {
   });
   const isPaid = billingStatus ? isPaidStatus(billingStatus.status) : false;
 
+  // Gamification state
+  const currentStreak = useGamification(selectCurrentStreak);
+  const earnedBadges = useGamification(selectEarnedBadges);
+  const streakPaused = useGamification(selectStreakPaused);
+  const toggleStreakPause = useGamification((s) => s.toggleStreakPause);
+
   // Zustand state
   const uiState = useAppState((s) => s.ui);
   const prayerState = useAppState((s) => s.prayer);
@@ -573,6 +585,61 @@ export default function ProfileScreen() {
             >
               <Feather name="edit-2" size={14} color={theme.textSecondary} />
             </Pressable>
+          </GlassCard>
+        </Animated.View>
+
+        {/* ── Achievements & Streaks ──────────────────────── */}
+        <SectionHeader title="Achievements & Streaks" delay={70} />
+        <Animated.View entering={FadeInUp.duration(350).delay(85)}>
+          <GlassCard style={styles.settingsCard}>
+            <Pressable
+              onPress={() => navigation.navigate("Achievements")}
+              style={styles.settingRow}
+              accessibilityRole="button"
+              accessibilityLabel={`${earnedBadges.length} badges earned. ${currentStreak} day streak. Tap to view achievements.`}
+            >
+              <View style={styles.settingRowLabel}>
+                <ThemedText style={styles.settingRowLabelText}>Your Journey</ThemedText>
+                <ThemedText style={[styles.settingRowSubtitle, { color: theme.textSecondary }]}>
+                  {earnedBadges.length} badge{earnedBadges.length !== 1 ? "s" : ""} earned
+                </ThemedText>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <View style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 4,
+                  backgroundColor: NoorColors.gold + "20",
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 12,
+                }}>
+                  <Feather name="zap" size={14} color={NoorColors.gold} />
+                  <ThemedText style={{ fontSize: 14, fontWeight: "700", color: NoorColors.gold }}>
+                    {currentStreak}
+                  </ThemedText>
+                </View>
+                <Feather name="chevron-right" size={16} color={theme.textSecondary} style={{ opacity: 0.5 }} />
+              </View>
+            </Pressable>
+
+            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+
+            <SettingRow
+              label="Pause Streaks"
+              subtitle="Pause during menstruation, illness, or travel"
+            >
+              <Switch
+                value={streakPaused}
+                onValueChange={toggleStreakPause}
+                trackColor={{
+                  false: theme.backgroundRoot,
+                  true: NoorColors.gold + "80",
+                }}
+                thumbColor={streakPaused ? NoorColors.gold : "#ccc"}
+                accessibilityLabel={`Streak pause ${streakPaused ? "on" : "off"}`}
+              />
+            </SettingRow>
           </GlassCard>
         </Animated.View>
 

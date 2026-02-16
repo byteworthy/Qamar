@@ -84,6 +84,10 @@ export type RootStackParamList = {
   ProgressDashboard: undefined;
   IslamicCalendar: undefined;
   AskKarim: undefined;
+  DailyNoor: undefined;
+  Achievements: undefined;
+  RamadanHub: undefined;
+  FastingTracker: undefined;
 };
 
 /**

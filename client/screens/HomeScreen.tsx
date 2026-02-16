@@ -43,6 +43,13 @@ import {
   formatPrayerTime,
   formatCountdown,
 } from "@/services/prayerTimes";
+import {
+  useGamification,
+  selectCurrentStreak,
+  selectStreakStatus,
+  selectPendingMilestone,
+} from "@/stores/gamification-store";
+import { getHijriDate as getHijriDateService } from "@/services/islamicCalendar";
 import { styles } from "./HomeScreen.styles";
 import {
   USER_NAME_KEY,
@@ -243,6 +250,22 @@ export default function HomeScreen() {
   const arabicState = useAppState(selectArabicState);
   const dailyProgress = useAppState(selectDailyProgress);
 
+  // ── Gamification selectors ────────────────────────────────────────
+  const currentStreak = useGamification(selectCurrentStreak);
+  const streakStatus = useGamification(selectStreakStatus);
+  const pendingMilestone = useGamification(selectPendingMilestone);
+  const clearPendingMilestone = useGamification((s) => s.clearPendingMilestone);
+  const checkAndUpdateStreak = useGamification((s) => s.checkAndUpdateStreak);
+  const todayActivities = useGamification((s) => s.todayActivities);
+
+  // Check if it's Ramadan
+  const isRamadan = useMemo(() => {
+    const hijri = getHijriDateService();
+    return hijri.monthNumber === 9;
+  }, []);
+
+  const dailyNoorDone = todayActivities.includes("daily_noor_completed");
+
   // ── Data hooks ──────────────────────────────────────────────────────
   const { data: dailyHadith } = useDailyHadith();
   const { data: billingStatus } = useQuery({
@@ -284,6 +307,11 @@ export default function HomeScreen() {
     arabicState.lastReviewDate === today && arabicState.reviewsCompleted > 0;
 
   // ── Effects ─────────────────────────────────────────────────────────
+
+  // Check streak status on mount
+  useEffect(() => {
+    checkAndUpdateStreak();
+  }, [checkAndUpdateStreak]);
 
   // Load persisted data
   useEffect(() => {
@@ -394,6 +422,18 @@ export default function HomeScreen() {
     (hadithId: string) => navigation.navigate("HadithDetail", { hadithId }),
     [navigation],
   );
+  const handleNavigateDailyNoor = useCallback(
+    () => navigation.navigate("DailyNoor"),
+    [navigation],
+  );
+  const handleNavigateAchievements = useCallback(
+    () => navigation.navigate("Achievements"),
+    [navigation],
+  );
+  const handleNavigateRamadanHub = useCallback(
+    () => navigation.navigate("RamadanHub"),
+    [navigation],
+  );
 
   // ── Render ──────────────────────────────────────────────────────────
   return (
@@ -477,6 +517,108 @@ export default function HomeScreen() {
                 {greeting.timeMessage}
               </ThemedText>
             </Animated.View>
+
+            {/* ── Streak Badge + Daily Noor CTA ── */}
+            <Animated.View entering={FadeInUp.duration(350).delay(40)}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                {/* Streak Badge */}
+                <Pressable
+                  onPress={handleNavigateAchievements}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 6,
+                    backgroundColor: streakStatus === "active" ? NoorColors.gold + "20" : streakStatus === "endangered" ? "#D4A85A20" : theme.backgroundDefault + "40",
+                    paddingHorizontal: 14,
+                    paddingVertical: 8,
+                    borderRadius: 20,
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${currentStreak} day streak. Tap to view achievements.`}
+                >
+                  <Feather
+                    name={streakStatus === "paused" ? "pause-circle" : "zap"}
+                    size={16}
+                    color={streakStatus === "active" ? NoorColors.gold : streakStatus === "endangered" ? "#D4A85A" : theme.textSecondary}
+                  />
+                  <ThemedText style={{
+                    fontSize: 14,
+                    fontWeight: "700",
+                    color: streakStatus === "active" ? NoorColors.gold : streakStatus === "endangered" ? "#D4A85A" : theme.textSecondary,
+                  }}>
+                    {currentStreak}
+                  </ThemedText>
+                </Pressable>
+
+                {/* Daily Noor CTA */}
+                <Pressable
+                  onPress={handleNavigateDailyNoor}
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                    backgroundColor: dailyNoorDone ? NoorColors.emerald + "20" : NoorColors.gold + "15",
+                    paddingHorizontal: 16,
+                    paddingVertical: 10,
+                    borderRadius: 14,
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={dailyNoorDone ? "Daily Noor completed" : "Start your Daily Noor — 4 minutes of guided practice"}
+                >
+                  <Feather
+                    name={dailyNoorDone ? "check-circle" : "sun"}
+                    size={18}
+                    color={dailyNoorDone ? NoorColors.emerald : NoorColors.gold}
+                  />
+                  <ThemedText style={{
+                    fontSize: 14,
+                    fontWeight: "600",
+                    color: dailyNoorDone ? NoorColors.emerald : theme.text,
+                    flex: 1,
+                  }}>
+                    {dailyNoorDone ? "Daily Noor Complete" : "Start Daily Noor"}
+                  </ThemedText>
+                  {!dailyNoorDone && (
+                    <ThemedText style={{ fontSize: 11, color: theme.textSecondary }}>
+                      4 min
+                    </ThemedText>
+                  )}
+                </Pressable>
+              </View>
+            </Animated.View>
+
+            {/* ── Ramadan Banner ── */}
+            {isRamadan && (
+              <Animated.View entering={FadeInUp.duration(350).delay(50)}>
+                <Pressable
+                  onPress={handleNavigateRamadanHub}
+                  accessibilityRole="button"
+                  accessibilityLabel="Ramadan Hub. Tap to open."
+                >
+                  <GlassCard style={{ marginBottom: 16 }} elevated>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                      <View style={{
+                        width: 40, height: 40, borderRadius: 20,
+                        backgroundColor: NoorColors.emerald + "20",
+                        alignItems: "center", justifyContent: "center",
+                      }}>
+                        <Feather name="moon" size={20} color={NoorColors.emerald} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <ThemedText style={{ fontSize: 16, fontWeight: "600", color: theme.text }}>
+                          Ramadan Mubarak
+                        </ThemedText>
+                        <ThemedText style={{ fontSize: 12, color: theme.textSecondary }}>
+                          Tap to open your Ramadan Hub
+                        </ThemedText>
+                      </View>
+                      <Feather name="chevron-right" size={18} color={theme.textSecondary} style={{ opacity: 0.5 }} />
+                    </View>
+                  </GlassCard>
+                </Pressable>
+              </Animated.View>
+            )}
 
             {/* ── Next Prayer Card ── */}
             <Animated.View entering={FadeInUp.duration(350).delay(60)}>
@@ -1006,7 +1148,6 @@ export default function HomeScreen() {
                   onPress={handleNavigateInsights}
                   gradient={["#5a4a5a", "#3a2a3a"]}
                   delay={540}
-                  locked={!isPaid}
                 />
               </View>
             </View>

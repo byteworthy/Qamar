@@ -19,7 +19,8 @@ import {
   ERROR_CODES,
   HTTP_STATUS,
 } from "../types/error-response";
-import { getAnthropicClient } from "./constants";
+import { getAnthropicClient, FREE_DAILY_LIMIT } from "./constants";
+import { billingService } from "../billing";
 import {
   detectCrisis,
   CRISIS_RESOURCES,
@@ -31,6 +32,7 @@ import {
   getOrCreateSession,
   updateSession,
 } from "../services/khalil-session-store";
+import { isRamadan } from "../services/ramadan";
 import type { IslamicContext } from "../services/islamic-context";
 
 // =============================================================================
@@ -85,6 +87,38 @@ type KhalilResponseBlock =
   | KhalilBasiraBlock
   | KhalilDhikrBlock
   | KhalilMuhasabaBlock;
+
+// =============================================================================
+// FREE USER DAILY LIMIT TRACKING
+// =============================================================================
+
+const khalilDailyUsage = new Map<string, { count: number; date: string }>();
+
+function getKhalilUsageToday(userId: string): number {
+  const today = new Date().toISOString().split("T")[0];
+  const usage = khalilDailyUsage.get(userId);
+  if (!usage || usage.date !== today) {
+    khalilDailyUsage.set(userId, { count: 0, date: today });
+    return 0;
+  }
+  return usage.count;
+}
+
+function incrementKhalilUsage(userId: string): void {
+  const today = new Date().toISOString().split("T")[0];
+  const usage = khalilDailyUsage.get(userId);
+  if (!usage || usage.date !== today) {
+    khalilDailyUsage.set(userId, { count: 1, date: today });
+  } else {
+    usage.count++;
+  }
+}
+
+// =============================================================================
+// RAMADAN CONTEXT
+// =============================================================================
+
+const RAMADAN_SYSTEM_CONTEXT = `\n\nRAMADAN CONTEXT: It is currently the blessed month of Ramadan. Be especially mindful of themes around fasting, patience, gratitude, generosity, night worship (qiyam), and spiritual renewal. Encourage reflection on Ramadan-specific practices.`;
 
 // =============================================================================
 // HELPERS
@@ -182,6 +216,26 @@ export function registerKhalilRoutes(app: Express): void {
 
       const sanitizedMessage = inputValidation.sanitized;
 
+      // Free user daily limit check
+      const userId = req.auth?.userId;
+      if (userId) {
+        const { status } = await billingService.getBillingStatus(userId);
+        const isPaid = billingService.isPaidUser(status);
+        if (!isPaid) {
+          const todayUsage = getKhalilUsageToday(userId);
+          if (todayUsage >= FREE_DAILY_LIMIT) {
+            return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
+              createErrorResponse(
+                HTTP_STATUS.PAYMENT_REQUIRED,
+                ERROR_CODES.PAYMENT_REQUIRED,
+                req.id,
+                "Upgrade to Noor Plus for unlimited Khalil conversations",
+              ),
+            );
+          }
+        }
+      }
+
       // Crisis detection — highest priority
       const crisisCheck = detectCrisis(sanitizedMessage);
       if (crisisCheck.level === "emergency" || crisisCheck.level === "urgent") {
@@ -220,8 +274,11 @@ export function registerKhalilRoutes(app: Express): void {
             islamicContext = await fetchIslamicContext(sanitizedMessage);
           }
 
-          // Build system prompt
-          const systemPrompt = buildKhalilSystemPrompt(islamicContext);
+          // Build system prompt with optional Ramadan context
+          let systemPrompt = buildKhalilSystemPrompt(islamicContext);
+          if (isRamadan()) {
+            systemPrompt += RAMADAN_SYSTEM_CONTEXT;
+          }
 
           // Build messages from session history
           const messages: Array<{ role: "user" | "assistant"; content: string }> = [
@@ -282,6 +339,11 @@ export function registerKhalilRoutes(app: Express): void {
           else if (hasWaswasa) state = "exploring";
 
           updateSession(sessionId, { state });
+
+          // Increment free user usage counter
+          if (userId) {
+            incrementKhalilUsage(userId);
+          }
 
           res.json({
             sessionId,

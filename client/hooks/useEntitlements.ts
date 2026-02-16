@@ -37,26 +37,22 @@ export type FeatureName =
   | "priority_support";
 
 // Feature -> Tier mapping
-// Free: basic features
-// Plus: enhanced content and functionality
-// Pro: advanced AI and insights
+// New structure: all non-AI features are free, AI features are Plus
 const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
-  // Free tier features
+  // Free tier features (all core Islamic features)
   daily_cbt_limit: "free",
   quran_basic: "free",
+  quran_audio: "free",
   adhkar_basic: "free",
+  arabic_flashcards: "free",
+  hadith_search: "free",
+  offline_content: "free",
 
-  // Plus tier features
+  // Plus tier features (AI-powered only)
   unlimited_cbt_sessions: "plus",
-  quran_audio: "plus",
-  arabic_flashcards: "plus",
-  hadith_search: "plus",
-  offline_content: "plus",
-
-  // Pro tier features
-  ai_companion_unlimited: "pro",
-  advanced_insights: "pro",
-  priority_support: "pro",
+  ai_companion_unlimited: "plus",
+  advanced_insights: "plus",
+  priority_support: "plus",
 };
 
 /**

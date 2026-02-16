@@ -16,8 +16,8 @@ export function getAnthropicClient(): Anthropic {
   return anthropicClient;
 }
 
-export const FREE_DAILY_LIMIT = 1;
-export const FREE_HISTORY_LIMIT = 3;
+export const FREE_DAILY_LIMIT = 3;
+export const FREE_HISTORY_LIMIT = 10;
 
 export const ISLAMIC_CONCEPT_WHITELIST = [
   "Allah's mercy exceeds sin",
