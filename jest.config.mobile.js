@@ -13,7 +13,8 @@ module.exports = {
 
   // Module name mapping for absolute imports
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1",
+    "^@/(.*)$": "<rootDir>/client/$1",
+    "^@shared/(.*)$": "<rootDir>/shared/$1",
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
 
