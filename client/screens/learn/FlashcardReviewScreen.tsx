@@ -28,6 +28,7 @@ import {
 import { useAppState } from "@/stores/app-state";
 import { BorderRadius, Fonts } from "@/constants/theme";
 import { NoorColors } from "@/constants/theme/colors";
+import { TTSButton } from "@/components/TTSButton";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -351,6 +352,7 @@ export default function FlashcardReviewScreen() {
               </ThemedText>
             </View>
             <ThemedText style={styles.arabicText}>{currentCard.arabic}</ThemedText>
+            <TTSButton text={currentCard.arabic} size={22} style={styles.ttsButton} />
             <ThemedText style={[styles.flipHint, { color: theme.textSecondary }]}>
               Tap to reveal
             </ThemedText>
@@ -369,9 +371,12 @@ export default function FlashcardReviewScreen() {
             <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
               {currentCard.transliteration}
             </ThemedText>
-            <ThemedText style={[styles.arabicSmall, { color: theme.primary }]}>
-              {currentCard.arabic}
-            </ThemedText>
+            <View style={styles.arabicRow}>
+              <ThemedText style={[styles.arabicSmall, { color: theme.primary }]}>
+                {currentCard.arabic}
+              </ThemedText>
+              <TTSButton text={currentCard.arabic} size={18} />
+            </View>
             <View style={styles.metaInfo}>
               <View style={[styles.categoryBadge, { backgroundColor: theme.primary + "20" }]}>
                 <ThemedText style={[styles.categoryText, { color: theme.primary }]}>
@@ -499,6 +504,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 12,
   },
+  ttsButton: { marginBottom: 8 },
+  arabicRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
   flipHint: { fontSize: 14, position: "absolute", bottom: 24 },
   metaInfo: {
     position: "absolute",

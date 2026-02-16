@@ -12,9 +12,21 @@ Use this document to pick up development from any fresh clone.
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
 - **Tests**: 643/643 passing, zero TypeScript errors
 
-## Current Status: CODE COMPLETE
+## Current Status: ACTIVE DEVELOPMENT — Arabic Language & Audio Suite
 
-All code-side work is done. The app is waiting on external setup steps before first build and store submission.
+Building 7-feature Arabic Language, Audio & Pronunciation Suite:
+1. Enhanced Quran Audio (8 reciters, EveryAyah fallback CDN) - DONE
+2. Word-by-Word Audio with highlighting - DONE
+3. Tajweed Color-Coded Display (17 rules) - DONE
+4. Text-to-Speech for vocabulary/duas (expo-speech) - IN PROGRESS
+5. AI Arabic Language Tutor (Claude Haiku) - IN PROGRESS
+6. AI Pronunciation Coach (record → feedback) - IN PROGRESS
+7. Translation Service with TTS - IN PROGRESS
+
+**New dependencies added:** `expo-speech`, `@react-native-voice/voice`
+**Dev build required** for `@react-native-voice/voice` (not Expo Go compatible).
+
+The app still needs external setup steps for first build and store submission (see below).
 
 ## Remaining Steps (In Order)
 
@@ -93,7 +105,11 @@ bash scripts/take-screenshots.sh
 | State | Zustand (client) + TanStack Query (server) |
 | Backend | Express.js on Railway |
 | Database | PostgreSQL (Railway) + SQLite (local, offline) |
-| AI | Anthropic Claude API |
+| AI | Anthropic Claude API (Haiku for tutor/pronunciation) |
+| TTS | expo-speech (on-device Arabic) |
+| STT | @react-native-voice/voice (on-device, dev build) |
+| Audio | expo-av (recording + Quran playback) |
+| Translation | MyMemory API (free) + Google Translate (free tier) |
 | Auth | Biometric (expo-local-authentication) |
 | Payments | RevenueCat (mobile IAP) |
 | Monitoring | Sentry (@sentry/react-native + @sentry/node) |
@@ -147,5 +163,46 @@ npx tsc --noEmit               # TypeScript check (0 errors)
 
 - **Not a therapy app** — Noor is an Islamic companion for education, worship tools, and personal reflection. No medical/clinical claims.
 - **Safety system** — Built-in crisis detection routes users to 988 Suicide & Crisis Lifeline. This is a safety guardrail, not a therapy feature.
-- **Offline-first** — Quran, Hadith, and prayer times work without internet. AI companion requires connectivity.
+- **Offline-first** — Quran, Hadith, prayer times, TTS, and tajweed (cached) work without internet. AI tutor/pronunciation/translation require connectivity.
+- **Dev build** — `@react-native-voice/voice` requires a dev build (not Expo Go). Run `eas build --profile development` for testing.
+- **AI daily quota** — Free users get 3 AI calls/day across tutor + pronunciation + translation-explain. Plus users get unlimited.
 - **`.env.production`** is gitignored — never commit it.
+
+## New File Map (Arabic Language Suite)
+
+```
+client/services/quranAudio.ts          # MODIFIED: 8 reciters + EveryAyah fallback
+client/services/wordByWordAudio.ts     # NEW: word-level Quran audio playback
+client/services/tajweedParser.ts       # NEW: parse tajweed HTML → colored segments
+client/services/speech/types.ts        # NEW: TTS/STT provider interfaces
+client/services/speech/ttsService.ts   # NEW: expo-speech TTS wrapper
+client/services/speech/recordingService.ts  # NEW: expo-av recording wrapper
+client/services/speech/sttService.ts   # NEW: @react-native-voice/voice wrapper
+client/data/tajweed-rules.ts           # NEW: 17 tajweed rule definitions
+client/hooks/useWordByWordAudio.ts     # NEW: word-by-word audio hook
+client/hooks/useTajweed.ts             # NEW: fetch + cache tajweed data
+client/hooks/useTTS.ts                 # NEW: text-to-speech hook
+client/hooks/useSTT.ts                 # NEW: speech-to-text hook
+client/hooks/useRecording.ts           # NEW: audio recording hook
+client/hooks/useAITutor.ts             # NEW: AI tutor chat hook
+client/hooks/usePronunciation.ts       # NEW: pronunciation flow hook
+client/hooks/useTranslation.ts         # NEW: translation hook
+client/hooks/useDailyAIQuota.ts        # NEW: daily AI quota tracking
+client/components/WordByWordPlayer.tsx  # NEW: word highlighting player
+client/components/TajweedText.tsx       # NEW: color-coded Arabic text
+client/components/TTSButton.tsx         # NEW: speaker icon button
+client/components/AudioRecordButton.tsx # NEW: recording button
+client/components/PronunciationFeedback.tsx  # NEW: score + feedback display
+client/components/DailyQuotaBadge.tsx   # NEW: "2/3 free today" badge
+client/screens/learn/TajweedGuideScreen.tsx     # NEW: tajweed rules legend
+client/screens/learn/ArabicTutorScreen.tsx      # NEW: AI tutor chat
+client/screens/learn/PronunciationCoachScreen.tsx  # NEW: pronunciation practice
+client/screens/learn/TranslatorScreen.tsx       # NEW: Arabic ↔ English translator
+server/middleware/ai-daily-quota.ts     # NEW: shared AI quota middleware
+server/services/tutor-prompts.ts       # NEW: Arabic tutor system prompt
+server/services/pronunciation-scorer.ts # NEW: Levenshtein scoring
+server/services/translation-service.ts  # NEW: MyMemory/Google translate
+server/routes/tutor-routes.ts          # NEW: POST /api/tutor/chat
+server/routes/pronunciation-routes.ts   # NEW: POST /api/pronunciation/check
+server/routes/translation-routes.ts     # NEW: POST /api/translate
+```

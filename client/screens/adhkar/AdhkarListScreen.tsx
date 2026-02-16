@@ -13,6 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
+import { TTSButton } from "@/components/TTSButton";
 import { useAdhkarCategories, Dhikr } from "@/hooks/useAdhkarData";
 
 interface DhikrCounterProps {
@@ -36,12 +37,15 @@ function DhikrCounter({ dhikr }: DhikrCounterProps) {
   return (
     <View style={[styles.dhikrCard, { backgroundColor: theme.cardBackground }]}>
       <View style={styles.dhikrContent}>
-        <ThemedText
-          style={[styles.arabicText, { textAlign: "right" }]}
-          accessibilityLabel={`Arabic text: ${dhikr.arabic}`}
-        >
-          {dhikr.arabic}
-        </ThemedText>
+        <View style={styles.arabicRow}>
+          <TTSButton text={dhikr.arabic} size={18} />
+          <ThemedText
+            style={[styles.arabicText, { textAlign: "right", flex: 1 }]}
+            accessibilityLabel={`Arabic text: ${dhikr.arabic}`}
+          >
+            {dhikr.arabic}
+          </ThemedText>
+        </View>
         <ThemedText
           style={[styles.transliterationText, { color: theme.textSecondary }]}
           accessibilityLabel={`Transliteration: ${dhikr.transliteration}`}
@@ -374,6 +378,11 @@ const styles = StyleSheet.create({
   },
   dhikrContent: {
     gap: 12,
+  },
+  arabicRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   arabicText: {
     fontSize: 24,

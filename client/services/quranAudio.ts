@@ -4,8 +4,11 @@
  * Manages audio playback for Quran recitations with support for multiple reciters,
  * verse-level navigation, and auto-advance. Uses expo-av for playback.
  *
- * Audio sources use the free Al Quran Cloud API (no API key needed).
+ * Primary CDN: Al Quran Cloud API (no API key needed).
  * Per-verse audio URLs: https://cdn.islamic.network/quran/audio/128/{reciterEdition}/{globalVerseNumber}.mp3
+ *
+ * Fallback CDN: EveryAyah.com
+ * Per-verse audio URLs: https://everyayah.com/data/{ReciterFolder}/{SSSAAA}.mp3
  */
 
 import { Audio, AVPlaybackStatus } from 'expo-av';
@@ -20,6 +23,7 @@ export interface Reciter {
   name: string;
   nameArabic: string;
   edition: string; // alquran.cloud edition identifier
+  everyAyahFolder: string; // EveryAyah.com reciter folder for fallback CDN
 }
 
 export interface VerseAudio {
@@ -52,24 +56,82 @@ export const RECITERS: Reciter[] = [
     name: 'Mishary Rashid Alafasy',
     nameArabic: 'مشاري راشد العفاسي',
     edition: 'ar.alafasy',
+    everyAyahFolder: 'Alafasy_128kbps',
   },
   {
     id: 'sudais',
     name: 'Abdul Rahman Al-Sudais',
     nameArabic: 'عبدالرحمن السديس',
     edition: 'ar.abdurrahmaansudais',
+    everyAyahFolder: 'Abdurrahmaan_As-Sudais_192kbps',
   },
   {
     id: 'shuraim',
     name: "Sa'ud ash-Shuraim",
     nameArabic: 'سعود الشريم',
     edition: 'ar.saaborshuraym',
+    everyAyahFolder: 'Saood_ash-Shuraym_128kbps',
+  },
+  {
+    id: 'husary',
+    name: 'Mahmoud Khalil Al-Husary',
+    nameArabic: 'محمود خليل الحصري',
+    edition: 'ar.husary',
+    everyAyahFolder: 'Husary_128kbps',
+  },
+  {
+    id: 'abdulbasit',
+    name: 'Abdul Basit Abdul Samad',
+    nameArabic: 'عبدالباسط عبدالصمد',
+    edition: 'ar.abdulbasitmurattal',
+    everyAyahFolder: 'Abdul_Basit_Murattal_192kbps',
+  },
+  {
+    id: 'mahermuaiqly',
+    name: 'Maher Al-Muaiqly',
+    nameArabic: 'ماهر المعيقلي',
+    edition: 'ar.mahermuaiqly',
+    everyAyahFolder: 'MauroAyalandMaworAlmaikulai_128kbps',
+  },
+  {
+    id: 'minshawi',
+    name: 'Mohamed Siddiq Al-Minshawi',
+    nameArabic: 'محمد صديق المنشاوي',
+    edition: 'ar.minshawi',
+    everyAyahFolder: 'Minshawy_Murattal_128kbps',
+  },
+  {
+    id: 'ajamy',
+    name: 'Ahmed Al-Ajamy',
+    nameArabic: 'أحمد العجمي',
+    edition: 'ar.ahmedajamy',
+    everyAyahFolder: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net',
   },
 ];
 
 const DEFAULT_RECITER_ID = 'alafasy';
 const RECITER_STORAGE_KEY = 'noor:preferred-reciter';
 const API_BASE = 'https://api.alquran.cloud/v1';
+const EVERY_AYAH_BASE = 'https://everyayah.com/data';
+
+// =============================================================================
+// HELPERS
+// =============================================================================
+
+/**
+ * Constructs a fallback audio URL from EveryAyah.com CDN.
+ * URL pattern: https://everyayah.com/data/{ReciterFolder}/{SSSAAA}.mp3
+ * where SSS = 3-digit surah number, AAA = 3-digit verse number.
+ */
+export function getEveryAyahUrl(
+  reciter: Reciter,
+  surahNumber: number,
+  verseNumber: number
+): string {
+  const surah = String(surahNumber).padStart(3, '0');
+  const verse = String(verseNumber).padStart(3, '0');
+  return `${EVERY_AYAH_BASE}/${reciter.everyAyahFolder}/${surah}${verse}.mp3`;
+}
 
 // =============================================================================
 // AUDIO SERVICE SINGLETON
@@ -178,26 +240,69 @@ class QuranAudioService {
       if (cached) return cached;
     }
 
-    const url = `${API_BASE}/surah/${surahNumber}/${edition}`;
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch audio URLs: ${response.status}`);
+    const reciter = RECITERS.find((r) => r.edition === edition) ?? RECITERS[0];
+    let verses: VerseAudio[];
+
+    try {
+      const url = `${API_BASE}/surah/${surahNumber}/${edition}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch audio URLs: ${response.status}`);
+      }
+
+      const json = await response.json();
+      if (json.code !== 200 || json.status !== 'OK') {
+        throw new Error(`API error: ${json.status}`);
+      }
+
+      const ayahs: { number: number; numberInSurah: number; audio: string }[] =
+        json.data.ayahs;
+
+      verses = ayahs.map((a) => ({
+        surahNumber,
+        verseNumber: a.numberInSurah,
+        globalVerseNumber: a.number,
+        audioUrl: a.audio,
+      }));
+    } catch (primaryError) {
+      if (__DEV__) {
+        console.warn(
+          'QuranAudio: primary CDN failed, falling back to EveryAyah.com',
+          primaryError
+        );
+      }
+
+      // Fallback: construct EveryAyah URLs.
+      // We need the verse count for this surah. Use the metadata endpoint.
+      const metaUrl = `${API_BASE}/surah/${surahNumber}`;
+      const metaResponse = await fetch(metaUrl);
+      if (!metaResponse.ok) {
+        throw new Error(
+          `Both primary and fallback CDN failed. Primary error: ${
+            primaryError instanceof Error ? primaryError.message : String(primaryError)
+          }`
+        );
+      }
+
+      const metaJson = await metaResponse.json();
+      const verseCount: number = metaJson.data?.numberOfAyahs;
+      if (!verseCount) {
+        throw new Error('Could not determine verse count for fallback');
+      }
+
+      // Compute the global verse number offset for this surah.
+      // globalVerseNumber for verse 1 of surah N = sum of all verses in surahs 1..(N-1) + 1
+      // We approximate using the ayahs array from metadata if available, or set to 0 as a placeholder.
+      verses = [];
+      for (let v = 1; v <= verseCount; v++) {
+        verses.push({
+          surahNumber,
+          verseNumber: v,
+          globalVerseNumber: 0, // Not available from fallback path
+          audioUrl: getEveryAyahUrl(reciter, surahNumber, v),
+        });
+      }
     }
-
-    const json = await response.json();
-    if (json.code !== 200 || json.status !== 'OK') {
-      throw new Error(`API error: ${json.status}`);
-    }
-
-    const ayahs: { number: number; numberInSurah: number; audio: string }[] =
-      json.data.ayahs;
-
-    const verses: VerseAudio[] = ayahs.map((a) => ({
-      surahNumber,
-      verseNumber: a.numberInSurah,
-      globalVerseNumber: a.number,
-      audioUrl: a.audio,
-    }));
 
     // Store in cache
     if (!this.audioCache.has(edition)) {

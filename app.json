@@ -18,7 +18,9 @@
         "NSLocationWhenInUseUsageDescription": "Noor uses your location to display accurate prayer times and qibla direction for your area.",
         "NSMotionUsageDescription": "Noor uses device motion sensors to provide an accurate Qibla compass direction.",
         "NSUserTrackingUsageDescription": "We do not track you.",
-        "NSCameraUsageDescription": "Noor uses the camera to enhance Qibla direction finding with augmented reality."
+        "NSCameraUsageDescription": "Noor uses the camera to enhance Qibla direction finding with augmented reality.",
+        "NSMicrophoneUsageDescription": "Noor uses the microphone to record your Quran recitation for pronunciation feedback.",
+        "NSSpeechRecognitionUsageDescription": "Noor uses speech recognition to transcribe your Arabic pronunciation for learning feedback."
       },
       "category": "LIFESTYLE",
       "config": {
@@ -42,6 +44,7 @@
         "ACCESS_COARSE_LOCATION",
         "CAMERA",
         "HIGH_SAMPLING_RATE_SENSORS",
+        "RECORD_AUDIO",
         "VIBRATE",
         "RECEIVE_BOOT_COMPLETED",
         "SCHEDULE_EXACT_ALARM",
@@ -93,6 +96,13 @@
       ],
       "@sentry/react-native",
       "expo-secure-store",
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Noor uses the microphone to record your Quran recitation for pronunciation feedback.",
+          "speechRecognitionPermission": "Noor uses speech recognition to transcribe your Arabic pronunciation."
+        }
+      ],
       "expo-local-authentication",
       "expo-location",
       [

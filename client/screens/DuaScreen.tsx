@@ -12,6 +12,7 @@ import { Fonts, SiraatColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { Screen } from "@/components/Screen";
+import { TTSButton } from "@/components/TTSButton";
 import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import type { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -368,6 +369,7 @@ function DuaScreen() {
             <ThemedText style={styles.arabicText}>
               {selectedDua.arabic}
             </ThemedText>
+            <TTSButton text={selectedDua.arabic} size={22} style={styles.ttsButton} />
           </View>
         </Animated.View>
 
@@ -613,6 +615,9 @@ const styles = StyleSheet.create({
     borderRadius: radii.sm,
     alignItems: "center",
     marginBottom: spacing.md,
+  },
+  ttsButton: {
+    marginTop: spacing.sm,
   },
   arabicText: {
     fontSize: 24,
