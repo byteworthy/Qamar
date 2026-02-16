@@ -23,6 +23,7 @@ import { registerTranslationRoutes } from "./routes/translation-routes";
 import { registerHifzRoutes } from "./routes/hifz-routes";
 import { registerTafsirRoutes } from "./routes/tafsir-routes";
 import { registerVerseConversationRoutes } from "./routes/verse-conversation-routes";
+import { registerDuaRoutes } from "./routes/dua-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -71,6 +72,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register Verse Conversation (AI discussion) routes
   registerVerseConversationRoutes(app);
+
+  // Register Dua Recommender routes
+  registerDuaRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
