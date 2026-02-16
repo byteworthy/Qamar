@@ -88,7 +88,7 @@
     "@sentry/node": "^10.36.0",
     "@sentry/profiling-node": "^10.36.0",
     "@sentry/react-native": "~7.2.0",
-    "@tanstack/react-query": "^5.90.7",
+    "@tanstack/react-query": "^5.90.21",
     "@types/cookie-parser": "^1.4.10",
     "@xenova/transformers": "^2.17.2",
     "adhan": "^4.4.3",
