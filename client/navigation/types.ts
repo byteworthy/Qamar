@@ -72,6 +72,10 @@ export type RootStackParamList = {
   Insights: undefined;
   QuranReader: undefined;
   VerseReader: { surahId: number };
+  VerseDiscussion: {
+    surahNumber: number;
+    verseNumber: number;
+  };
   PrayerTimes: undefined;
   QiblaFinder: undefined;
   ArabicLearning: undefined;

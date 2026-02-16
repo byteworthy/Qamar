@@ -25,6 +25,7 @@ import DuaScreen from "@/screens/DuaScreen";
 import InsightsScreen from "@/screens/InsightsScreen";
 import QuranReaderScreen from "@/screens/learn/QuranReaderScreen";
 import VerseReaderScreen from "@/screens/learn/VerseReaderScreen";
+import VerseDiscussionScreen from "@/screens/learn/VerseDiscussionScreen";
 import PrayerTimesScreen from "@/screens/worship/PrayerTimesScreen";
 import QiblaFinderScreen from "@/screens/worship/QiblaFinderScreen";
 import IslamicCalendarScreen from "@/screens/worship/IslamicCalendarScreen";
@@ -172,6 +173,11 @@ export default function RootStackNavigator() {
         name="VerseReader"
         component={VerseReaderScreen}
         options={{ headerTitle: "Verses" }}
+      />
+      <Stack.Screen
+        name="VerseDiscussion"
+        component={VerseDiscussionScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="PrayerTimes"
