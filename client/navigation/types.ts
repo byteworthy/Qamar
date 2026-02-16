@@ -88,6 +88,10 @@ export type RootStackParamList = {
   Achievements: undefined;
   RamadanHub: undefined;
   FastingTracker: undefined;
+  ArabicTutor: undefined;
+  PronunciationCoach: { surahNumber?: number; verseNumber?: number };
+  Translator: undefined;
+  TajweedGuide: undefined;
 };
 
 /**

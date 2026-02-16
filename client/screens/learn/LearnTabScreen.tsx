@@ -141,6 +141,30 @@ export default function LearnTabScreen() {
       screen: "AlphabetGrid" as const,
       comingSoon: false,
     },
+    {
+      title: "Arabic Tutor",
+      description: "AI-powered Arabic language tutor with vocabulary, grammar & conversation",
+      gradient: ["#4a5a4a", "#6a8a6a"],
+      icon: "message-square" as const,
+      screen: "ArabicTutor" as const,
+      comingSoon: false,
+    },
+    {
+      title: "Pronunciation Coach",
+      description: "Record your recitation and get AI-powered pronunciation feedback",
+      gradient: ["#5a3a4a", "#8a6a7a"],
+      icon: "mic" as const,
+      screen: "PronunciationCoach" as const,
+      comingSoon: false,
+    },
+    {
+      title: "Translator",
+      description: "Arabic ↔ English translation with transliteration and AI explanations",
+      gradient: ["#3a4a4a", "#6a7a7a"],
+      icon: "globe" as const,
+      screen: "Translator" as const,
+      comingSoon: false,
+    },
   ];
 
   return (
@@ -217,7 +241,7 @@ export default function LearnTabScreen() {
               icon={feature.icon}
               onPress={() => {
                 if (feature.screen) {
-                  navigation.navigate(feature.screen);
+                  navigation.navigate(feature.screen as any);
                 }
               }}
               delay={120 + index * 80}

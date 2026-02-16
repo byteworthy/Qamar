@@ -41,6 +41,10 @@ import DailyNoorScreen from "@/screens/DailyNoorScreen";
 import AchievementsScreen from "@/screens/AchievementsScreen";
 import RamadanHubScreen from "@/screens/RamadanHubScreen";
 import FastingTrackerScreen from "@/screens/FastingTrackerScreen";
+import ArabicTutorScreen from "@/screens/learn/ArabicTutorScreen";
+import PronunciationCoachScreen from "@/screens/learn/PronunciationCoachScreen";
+import TranslatorScreen from "@/screens/learn/TranslatorScreen";
+import TajweedGuideScreen from "@/screens/learn/TajweedGuideScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -246,6 +250,26 @@ export default function RootStackNavigator() {
         name="FastingTracker"
         component={FastingTrackerScreen}
         options={{ headerTitle: "Fasting Tracker" }}
+      />
+      <Stack.Screen
+        name="ArabicTutor"
+        component={ArabicTutorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PronunciationCoach"
+        component={PronunciationCoachScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Translator"
+        component={TranslatorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TajweedGuide"
+        component={TajweedGuideScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

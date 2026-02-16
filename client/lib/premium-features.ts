@@ -53,6 +53,16 @@ export enum PremiumFeature {
   ARABIC_PRONUNCIATION = "pro_arabic_pronunciation",
 
   /**
+   * Unlimited AI Arabic tutor sessions
+   */
+  AI_TUTOR_UNLIMITED = "pro_ai_tutor",
+
+  /**
+   * Unlimited AI translation explanations
+   */
+  AI_TRANSLATION_EXPLAIN = "pro_ai_translation",
+
+  /**
    * Custom vocabulary lists and progress tracking
    */
   ARABIC_CUSTOM_LISTS = "pro_arabic_custom_lists",
@@ -237,6 +247,8 @@ export const FEATURE_TIERS = {
   plus: [
     PremiumFeature.REFLECTION_EXERCISES,
     PremiumFeature.ARABIC_PRONUNCIATION,
+    PremiumFeature.AI_TUTOR_UNLIMITED,
+    PremiumFeature.AI_TRANSLATION_EXPLAIN,
   ],
 
   // Pro tier features (advanced AI + analytics)

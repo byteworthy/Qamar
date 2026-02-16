@@ -33,6 +33,9 @@ export type FeatureName =
   | "offline_content"
   // Premium features
   | "ai_companion_unlimited"
+  | "ai_tutor_unlimited"
+  | "pronunciation_unlimited"
+  | "ai_translation_explain"
   | "advanced_insights"
   | "priority_support";
 
@@ -51,6 +54,9 @@ const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
   // Plus tier features (AI-powered only)
   unlimited_cbt_sessions: "plus",
   ai_companion_unlimited: "plus",
+  ai_tutor_unlimited: "plus",
+  pronunciation_unlimited: "plus",
+  ai_translation_explain: "plus",
   advanced_insights: "plus",
   priority_support: "plus",
 };

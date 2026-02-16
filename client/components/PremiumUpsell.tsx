@@ -217,6 +217,28 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
       "Export reflection notes",
     ],
   },
+  [PremiumFeature.AI_TUTOR_UNLIMITED]: {
+    title: "Unlimited AI Arabic Tutor",
+    description: "Get unlimited Arabic language lessons from your AI tutor.",
+    icon: "message-square",
+    benefits: [
+      "Unlimited tutor conversations",
+      "4 learning modes",
+      "Personalized feedback",
+      "Quran word analysis",
+    ],
+  },
+  [PremiumFeature.AI_TRANSLATION_EXPLAIN]: {
+    title: "AI Translation Explanations",
+    description: "Get unlimited AI-powered word and phrase breakdowns.",
+    icon: "globe",
+    benefits: [
+      "Root word analysis",
+      "Morphology breakdowns",
+      "Usage examples",
+      "Unlimited explanations",
+    ],
+  },
 };
 
 /**
