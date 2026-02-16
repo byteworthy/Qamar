@@ -4,7 +4,6 @@
 # security vulnerabilities in JavaScript and TypeScript code.
 #
 # Triggers:
-# - Every push to main branch
 # - Every pull request to main branch
 # - Weekly schedule (Mondays at 6 AM UTC)
 #
@@ -20,8 +19,6 @@
 name: Security Analysis
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
   schedule:
