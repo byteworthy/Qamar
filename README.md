@@ -5,7 +5,7 @@
 <h1 align="center">Noor</h1>
 
 <p align="center">
-  <strong>The AI-Powered Islamic Companion</strong><br/>
+  <strong>Your Complete Islamic Companion</strong><br/>
   Quran &middot; Arabic Learning &middot; Prayer &middot; Reflection
 </p>
 
@@ -17,7 +17,7 @@
 
 ---
 
-One app instead of five. Noor brings together a full Quran reader, AI Arabic tutor, pronunciation coach, prayer times, and guided reflection — all ad-free and offline-capable.
+One app instead of five. Noor brings together a full Quran reader, Arabic tutor, pronunciation coach, prayer times, and guided reflection — all ad-free and offline-capable.
 
 ---
 
@@ -32,7 +32,7 @@ One app instead of five. Noor brings together a full Quran reader, AI Arabic tut
 - Word-by-word audio with highlighting
 - Tajweed color-coding (17 rules)
 
-**AI Arabic Suite**
+**Arabic Suite**
 - Conversational Arabic tutor (4 modes)
 - Pronunciation coach with real-time scoring
 - Translation with root word analysis
@@ -50,7 +50,7 @@ One app instead of five. Noor brings together a full Quran reader, AI Arabic tut
 - Arabic vocabulary flashcards
 - 200+ searchable hadith
 - Streaks, badges, gamification
-- AI-guided personal reflection
+- Guided personal reflection
 
 </td>
 </tr>
@@ -61,9 +61,9 @@ One app instead of five. Noor brings together a full Quran reader, AI Arabic tut
 ## Roadmap
 
 - [x] Quran audio, word-by-word, tajweed, text-to-speech
-- [x] AI Arabic tutor, pronunciation coach, translator
+- [x] Arabic tutor, pronunciation coach, translator
 - [x] Gamification, premium tiers, full integration
-- [ ] **Next:** Hifz memorization, AI tafsir, dua recommender, personalized study plans
+- [ ] **Next:** Hifz memorization, tafsir, dua recommender, personalized study plans
 
 ---
 
