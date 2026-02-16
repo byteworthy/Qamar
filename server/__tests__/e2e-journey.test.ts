@@ -2,7 +2,7 @@
  * End-to-End Journey Tests for Noor
  *
  * Tests complete user flows through the canonical orchestration system:
- * 1. Normal CBT journey (thought → analyze → reframe → practice → intention)
+ * 1. Normal reflection journey (thought → analyze → reframe → practice → intention)
  * 2. High distress flow requiring permission before reframe
  * 3. Crisis flow triggering intervention and resources
  * 4. Scrupulosity flow with special handling
@@ -39,10 +39,10 @@ const createMockAIGenerator = (responseText: string) => {
 };
 
 // =============================================================================
-// TEST 1: NORMAL CBT JOURNEY
+// TEST 1: NORMAL REFLECTION JOURNEY
 // =============================================================================
 
-describe("E2E Test 1: Normal CBT Journey", () => {
+describe("E2E Test 1: Normal Reflection Journey", () => {
   test("Complete flow: thought capture → analyze → reframe → practice → save intention", async () => {
     // ========================================================================
     // STEP 1: Thought Capture (user input)
@@ -97,7 +97,7 @@ describe("E2E Test 1: Normal CBT Journey", () => {
     expect(analyzeParsed.happening).toContain("heavy");
 
     // ========================================================================
-    // STEP 3: Reframe (generate Islamic CBT perspective)
+    // STEP 3: Reframe (generate Islamic perspective)
     // ========================================================================
     const reframeResponse = JSON.stringify({
       beliefTested:
@@ -284,7 +284,7 @@ describe("E2E Test 2: High Distress Flow", () => {
 // =============================================================================
 
 describe("E2E Test 3: Crisis Flow", () => {
-  test("Crisis triggers intervention, blocks CBT, provides resources", async () => {
+  test("Crisis triggers intervention, blocks reflection flow, provides resources", async () => {
     const crisisInput = "I want to end my life, there's no point anymore";
 
     // ========================================================================
@@ -324,7 +324,7 @@ describe("E2E Test 3: Crisis Flow", () => {
     expect(result.response).toContain("crisis");
     expect(result.response.toLowerCase()).toContain("reach out");
 
-    // Should NOT contain CBT language
+    // Should NOT contain clinical language
     expect(result.response).not.toContain("distortion");
     expect(result.response).not.toContain("reframe");
     expect(result.response).not.toContain("exercise");
@@ -603,9 +603,9 @@ describe("E2E Test 6: Complete Audit Trail", () => {
 describe("E2E Test Suite Summary", () => {
   test("All 6 critical flows covered", () => {
     const flowsCovered = [
-      "1. Normal CBT journey (thought → analyze → reframe → practice → intention)",
+      "1. Normal reflection journey (thought → analyze → reframe → practice → intention)",
       "2. High distress flow (permission before reframe, no hadith)",
-      "3. Crisis flow (intervention, resources, no CBT)",
+      "3. Crisis flow (intervention, resources, no reflection continuation)",
       "4. Scrupulosity flow (name pattern, avoid engagement)",
       "5. Failure language (charter/tone/Islamic violations)",
       "6. Audit trail (complete logging)",

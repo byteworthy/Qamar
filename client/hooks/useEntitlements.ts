@@ -20,7 +20,7 @@ export interface EntitlementsState {
 
 // Feature names used throughout the app
 export type FeatureName =
-  // CBT features
+  // Core features
   | "unlimited_cbt_sessions"
   | "daily_cbt_limit"
   // Quran features

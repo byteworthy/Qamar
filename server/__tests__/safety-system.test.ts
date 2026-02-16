@@ -311,7 +311,7 @@ describe("Charter Compliance System", () => {
     expect(hasSlowDownViolation).toBe(true);
   });
 
-  test("detects CBT continuation after crisis", () => {
+  test("detects reflection continuation after crisis", () => {
     const crisisResult = detectCrisis("I want to die");
     const output =
       "Let's identify the cognitive distortion in that thought and work on reframing it.";
@@ -453,7 +453,7 @@ describe("Full Safety Pipeline Integration", () => {
     const crisisResult = detectCrisis(userInput);
     expect(crisisResult.level).toBe("emergency");
 
-    // Step 2: Should NOT continue with CBT
+    // Step 2: Should NOT continue with reflection
     const inappropriateOutput =
       "Let's work on reframing that thought using CBT techniques.";
     const validation = validateOutput(

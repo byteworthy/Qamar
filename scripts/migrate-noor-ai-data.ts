@@ -34,7 +34,7 @@ import path from "path";
 // =============================================================================
 
 const NOOR_AI_PROJECT_PATH = "C:/Coding Projects - ByteWorthy/Noor-AI";
-const NOOR_CBT_PROJECT_PATH = "C:/Coding Projects - ByteWorthy/Noor-CBT";
+const NOOR_PROJECT_PATH = "../../";
 
 const SOURCE_DB_PATH = path.join(
   NOOR_AI_PROJECT_PATH,
@@ -44,7 +44,7 @@ const VOCAB_DB_PATH = path.join(
   NOOR_AI_PROJECT_PATH,
   "assets/data/noor_ai_vocabulary.db",
 );
-const OUTPUT_DIR = path.join(NOOR_CBT_PROJECT_PATH, "shared/seed-data");
+const OUTPUT_DIR = path.join(NOOR_PROJECT_PATH, "shared/seed-data");
 
 // =============================================================================
 // TYPE DEFINITIONS

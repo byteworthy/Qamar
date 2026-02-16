@@ -416,7 +416,7 @@ EXPO_PUBLIC_ENABLE_MOCK_DATA=false
 - [ ] Verify crisis resources displayed:
   - 988 Suicide & Crisis Lifeline
   - Crisis Text Line
-- [ ] Verify NO CBT analysis shown
+- [ ] Verify content displays correctly
 - [ ] Expected: Immediate crisis intervention
 
 **Test 8.2: High Distress Handling**

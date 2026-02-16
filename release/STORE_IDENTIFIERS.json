@@ -1,5 +1,4 @@
 {
-  "$schema": "./STORE_IDENTIFIERS.schema.json",
   "_comment": "Single source of truth for all store identifiers. Fill values after creating accounts.",
   "_lastUpdated": null,
 
@@ -9,10 +8,9 @@
     "subscriptionGroupId": null,
     "subscriptionGroupName": "Noor Subscriptions",
     "productIds": {
-      "plusMonthly": "com.noor.plus.monthly",
-      "plusYearly": "com.noor.plus.yearly",
-      "proMonthly": "com.noor.pro.monthly",
-      "proYearly": "com.noor.pro.yearly"
+      "plusMonthly": "noor_plus_monthly",
+      "plusYearly": "noor_plus_yearly",
+      "lifetime": "noor_plus_lifetime"
     },
     "sandboxTesterEmail": null
   },
@@ -22,14 +20,12 @@
     "productIds": {
       "plusMonthly": "noor_plus_monthly",
       "plusYearly": "noor_plus_yearly",
-      "proMonthly": "noor_pro_monthly",
-      "proYearly": "noor_pro_yearly"
+      "lifetime": "noor_plus_lifetime"
     },
     "basePlanIds": {
       "plusMonthly": "plus-monthly",
       "plusYearly": "plus-yearly",
-      "proMonthly": "pro-monthly",
-      "proYearly": "pro-yearly"
+      "lifetime": "plus-lifetime"
     },
     "licenseTesterEmail": null
   },

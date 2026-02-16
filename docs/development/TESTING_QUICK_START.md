@@ -14,7 +14,7 @@
 
 ```bash
 # 1. Start backend server (Terminal 1)
-cd C:\Dev\Noor-CBT
+cd /path/to/noor
 npm run server:dev
 
 # 2. Start Metro bundler (Terminal 2)

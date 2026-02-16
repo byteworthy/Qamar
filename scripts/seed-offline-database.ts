@@ -44,10 +44,10 @@ import {
 // CONFIGURATION
 // =============================================================================
 
-const NOOR_CBT_PROJECT_PATH = "C:/Coding Projects - ByteWorthy/Noor-CBT";
-const SEED_DATA_DIR = path.join(NOOR_CBT_PROJECT_PATH, "shared/seed-data");
+const NOOR_PROJECT_PATH = "../../";
+const SEED_DATA_DIR = path.join(NOOR_PROJECT_PATH, "shared/seed-data");
 const TEST_DB_PATH = path.join(
-  NOOR_CBT_PROJECT_PATH,
+  NOOR_PROJECT_PATH,
   "scripts/test-offline.db",
 );
 

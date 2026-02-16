@@ -669,7 +669,7 @@ export async function deleteAllIslamicData(userId: string): Promise<{
 }
 
 /**
- * Export COMPLETE user data including both CBT and Islamic features
+ * Export COMPLETE user data including all features
  *
  * @param userId - User ID to export data for
  * @returns Complete data export in JSON format
@@ -684,7 +684,7 @@ export async function exportCompleteUserData(userId: string): Promise<{
   });
 
   const [cbtData, islamicData] = await Promise.all([
-    exportUserData(userId), // Existing CBT data export
+    exportUserData(userId), // Existing data export
     exportIslamicData(userId), // New Islamic data export
   ]);
 
@@ -695,7 +695,7 @@ export async function exportCompleteUserData(userId: string): Promise<{
 }
 
 /**
- * Delete COMPLETE user data including both CBT and Islamic features
+ * Delete COMPLETE user data including all features
  *
  * @param userId - User ID to delete data for
  * @returns Complete deletion summary
@@ -720,7 +720,7 @@ export async function deleteCompleteUserData(userId: string): Promise<{
   });
 
   const [cbtResult, islamicResult] = await Promise.all([
-    deleteAllUserData(userId), // Existing CBT data deletion
+    deleteAllUserData(userId), // Existing data deletion
     deleteAllIslamicData(userId), // New Islamic data deletion
   ]);
 

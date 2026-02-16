@@ -90,7 +90,7 @@ npm run eas:submit:android
 - [ ] EAS project linked (`eas init`)
 
 ## Troubleshooting
-- **Missing bundle ID / package**: verify `app.json` has `com.noorcbt.app` for iOS and Android.
+- **Missing bundle ID / package**: verify `app.json` has `com.noor.app` for iOS and Android.
 - **EAS prompts for credentials**: follow prompts or run `npx eas credentials` to manage them.
 - **Icon/splash errors**: confirm the assets in `assets/images` exist and paths match `app.json`.
 - **Build fails on config**: run `npm run release:check` locally.

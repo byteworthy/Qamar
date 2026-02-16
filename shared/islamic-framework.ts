@@ -67,7 +67,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     supportiveApplication:
       "Cognitive work as spiritual cleansing. Removing distortions is not just thinking better—it is purifying the heart.",
     cbtConnection:
-      "Reframes CBT as soul work. Cognitive distortions are impurities; reframing is tahara (purification) of thought.",
+      "Reframes negative thinking patterns as impurities of the soul; reframing is tahara (purification) of thought.",
   },
   shukr: {
     arabic: "شُكْر",

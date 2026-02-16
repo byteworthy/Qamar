@@ -226,13 +226,9 @@ class StoreBillingProvider implements BillingProvider {
 
       // Get product ID
       const productKey =
-        tier === "pro"
-          ? period === "monthly"
-            ? "proMonthly"
-            : "proYearly"
-          : period === "monthly"
-            ? "plusMonthly"
-            : "plusYearly";
+        period === "monthly"
+          ? "plusMonthly"
+          : "plusYearly";
 
       const productIds = getProductIds();
       const productId = productIds[productKey];
@@ -308,21 +304,14 @@ class StoreBillingProvider implements BillingProvider {
       for (const purchase of purchases) {
         const productId = purchase.productId;
 
-        // Check if Pro tier
-        if (
-          productId === productIds.proMonthly ||
-          productId === productIds.proYearly
-        ) {
-          highestTier = "pro";
-          break; // Pro is highest, stop searching
-        }
-
         // Check if Plus tier
         if (
           productId === productIds.plusMonthly ||
-          productId === productIds.plusYearly
+          productId === productIds.plusYearly ||
+          productId === productIds.lifetime
         ) {
           highestTier = "plus";
+          break;
         }
       }
 

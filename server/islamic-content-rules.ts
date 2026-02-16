@@ -340,7 +340,7 @@ export const CONCEPT_USAGE_CONSTRAINTS: Record<
   },
   tazkiyah: {
     applyWhen: [
-      "Framing CBT as spiritual work",
+      "Framing reflection as spiritual work",
       "Soul purification",
       "Growth mindset",
     ],

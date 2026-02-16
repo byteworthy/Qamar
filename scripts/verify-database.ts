@@ -4,9 +4,9 @@
 import Database from "better-sqlite3";
 import path from "path";
 
-const NOOR_CBT_PROJECT_PATH = "C:/Coding Projects - ByteWorthy/Noor-CBT";
+const NOOR_PROJECT_PATH = "../../";
 const TEST_DB_PATH = path.join(
-  NOOR_CBT_PROJECT_PATH,
+  NOOR_PROJECT_PATH,
   "scripts/test-offline.db",
 );
 

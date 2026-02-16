@@ -398,7 +398,7 @@ export class CharterCompliance {
   ): Violation[] {
     const violations: Violation[] = [];
 
-    // Check if crisis detected but CBT flow continued
+    // Check if crisis detected but reflection flow continued
     if (
       context.crisisDetected &&
       context.crisisDetected.level === "emergency"

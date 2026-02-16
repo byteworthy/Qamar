@@ -1,6 +1,6 @@
 # Noor Web Application
 
-**Noor Web App** brings the Islamic companion experience to the web, providing accessible mental wellness support for Muslims on any device.
+**Noor Web App** brings the Islamic companion experience to the web, providing accessible Islamic education and reflection for Muslims on any device.
 
 ---
 
@@ -10,12 +10,12 @@ Noor Web is a Next.js 15 application that provides the full Noor reflection work
 
 ### Key Features
 
-- **5-Step Reflection Workflow** - Thought capture, AI analysis, Islamic reframing, intention setting, and completion
-- **AI-Powered Analysis** - Claude API identifies thinking patterns and provides Islamic perspectives
+- **Islamic Reflection** — Daily reflections grounded in Quranic wisdom
+- **Personalized Insights** — Reflections grounded in Quran and Hadith
 - **Stripe Subscriptions** - Web-based billing with Plus and Pro tiers
 - **Responsive Design** - Optimized for desktop, tablet, and mobile browsers
 - **Session Authentication** - Secure cookie-based auth with magic link login
-- **Islamic Framework** - 12 Islamic concepts integrated with CBT principles
+- **Islamic Framework** - Islamic framework for personal growth and reflection
 - **Enterprise Security** - HTTPS-only, CSRF protection, rate limiting, encrypted data
 
 ---

@@ -25,7 +25,7 @@ This document outlines monitoring requirements without vendor-specific setup. Im
 **Server Errors:**
 - API endpoint failures (5xx errors)
 - Database connection failures
-- OpenAI API errors (rate limits, timeouts)
+- Anthropic Claude API errors (rate limits, timeouts)
 - Unhandled exceptions in Node.js
 - Safety validation failures
 - Charter compliance violations
@@ -137,7 +137,7 @@ Sentry.init({
 
 **External Dependencies:**
 - Database connectivity
-- OpenAI API status
+- Anthropic Claude API status
 - DNS resolution
 - SSL certificate expiry
 
@@ -167,8 +167,8 @@ app.get('/health', async (req, res) => {
     // Check database
     await db.select().from(users).limit(1);
     
-    // Check OpenAI (optional, may be slow)
-    // const openaiStatus = await checkOpenAI();
+    // Check Anthropic Claude API (optional, may be slow)
+    // const anthropicStatus = await checkAnthropic();
     
     res.json({
       status: 'healthy',
@@ -283,7 +283,7 @@ app.get('/health', async (req, res) => {
 - Lock contention
 
 **AI Service Performance:**
-- OpenAI API latency
+- Anthropic Claude API latency
 - Token usage
 - Rate limit proximity
 - Cost per request
@@ -388,7 +388,7 @@ app.get('/health', async (req, res) => {
   "userId": "hashed-user-id",
   "endpoint": "/api/analyze",
   "statusCode": 500,
-  "message": "OpenAI API timeout",
+  "message": "Anthropic Claude API timeout",
   "stack": "...",
   "environment": "production"
 }

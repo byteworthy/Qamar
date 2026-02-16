@@ -195,7 +195,7 @@ export function getValidationModeInsightSummary(): string {
  */
 export function logConfigStatus(): void {
   defaultLogger.info("=".repeat(60));
-  defaultLogger.info("NOOR CBT SERVER CONFIGURATION");
+  defaultLogger.info("NOOR SERVER CONFIGURATION");
   defaultLogger.info("=".repeat(60));
 
   if (VALIDATION_MODE) {

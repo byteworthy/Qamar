@@ -2,7 +2,7 @@
 
 ## Overview
 
-Comprehensive testing strategy for Noor CBT application covering unit tests, integration tests, and user acceptance testing across iOS, Android, and backend.
+Comprehensive testing strategy for Noor application covering unit tests, integration tests, and user acceptance testing across iOS, Android, and backend.
 
 ---
 
@@ -69,14 +69,14 @@ Go to App Store Connect → TestFlight:
 Create invitation email template:
 
 ```markdown
-Subject: You're invited to test Noor CBT
+Subject: You're invited to test Noor
 
 Hi [Name],
 
-You've been invited to test the Noor CBT app for iOS!
+You've been invited to test the Noor app for iOS!
 
 **What is Noor?**
-Noor is an Islamic CBT (Cognitive Behavioral Therapy) app that helps you process difficult thoughts using evidence-based techniques grounded in Islamic principles.
+Noor is an Islamic companion app for Quran reading, Arabic learning, daily reflections, and prayer support.
 
 **How to Join:**
 1. Install TestFlight from the App Store: https://apps.apple.com/app/testflight/id899247664
@@ -163,18 +163,18 @@ Create Google Group for testers:
 Send invitation:
 
 ```markdown
-Subject: Test Noor CBT on Android
+Subject: Test Noor on Android
 
 Hi [Name],
 
-Join our internal testing program for Noor CBT on Android!
+Join our internal testing program for Noor on Android!
 
 **Opt-in Link:**
 [Google Play Testing Link]
 
 **After opting in:**
 1. Visit Google Play Store
-2. Search for "Noor CBT"
+2. Search for "Noor"
 3. Install the app
 
 **What to Test:**

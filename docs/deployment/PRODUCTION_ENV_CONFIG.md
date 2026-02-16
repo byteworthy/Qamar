@@ -41,7 +41,7 @@ DATABASE_URL=${{Postgres.DATABASE_URL}}
 ANTHROPIC_API_KEY=<production_key>
 ```
 **Status:** ⚠️ Needs production key
-**Why:** Required for CBT reflection analysis
+**Why:** Required for reflection and learning features
 
 #### Stripe (Payment Processing)
 ```bash

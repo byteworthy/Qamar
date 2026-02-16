@@ -91,7 +91,7 @@ client/components/
 
 ### 1. Sentry Error Tracking
 
-**Extended from existing CBT integration with Islamic features:**
+**Feature entitlements:**
 
 ```typescript
 // Breadcrumbs for user journey
@@ -158,8 +158,7 @@ const canAccessAll = await canAccessAllArabicScenarios();
 
 **Feature tiers:**
 
-- **Plus Tier**: Offline Quran, All Arabic scenarios, Custom adhan, CBT exercises
-- **Pro Tier**: All translations, Audio, Advanced search, Unlimited reviews, Pronunciation, Widgets, Qibla, Prayer history, Advanced CBT
+- **Plus Tier**: Unlimited conversations, full Quran audio, all learning scenarios
 
 ### 4. Premium Feature Gates
 
@@ -213,13 +212,6 @@ const { hasAccess, loading, refresh } = usePremiumFeature(
 | Widget | `pro_prayer_widget` | Pro | Home screen widget |
 | Qibla Finder | `pro_prayer_qibla` | Pro | Compass-based Qibla direction |
 | Prayer History | `pro_prayer_history` | Pro | Track prayer consistency |
-
-### CBT Features (Existing)
-
-| Feature | ID | Tier | Description |
-|---------|-----|------|-------------|
-| CBT Exercises | `noor_plus_access` | Plus | Basic CBT therapy tools |
-| Advanced CBT | `noor_pro_access` | Pro | Advanced analytics & insights |
 
 ## Configuration
 
@@ -390,7 +382,7 @@ await downloadSurah(id);
 
 ## Migration from Existing Code
 
-### Updating Existing CBT Features
+### Updating Existing Features
 
 ```typescript
 // Before

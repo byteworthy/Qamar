@@ -13,21 +13,21 @@
 - **API**: http://localhost:5000
 - **Database**: Local PostgreSQL
 - **Mobile**: Expo dev server
-- **AI**: OpenAI sandbox/dev tier
+- **AI**: Anthropic Claude sandbox/dev tier
 
 ### Staging/Preview (Optional)
 - **Purpose**: Pre-production testing
 - **API**: TBD (staging.yourdomain.com)
 - **Database**: Staging PostgreSQL (isolated)
 - **Mobile**: TestFlight Internal / Play Internal
-- **AI**: OpenAI with test quota limits
+- **AI**: Anthropic Claude with test quota limits
 
 ### Production
 - **Purpose**: Public users
 - **API**: TBD (api.yourdomain.com)
 - **Database**: Production PostgreSQL (backed up)
 - **Mobile**: App Store / Play Store
-- **AI**: OpenAI production tier
+- **AI**: Anthropic Claude production tier
 
 ---
 
@@ -40,8 +40,8 @@
 DATABASE_URL=postgresql://user:password@host:5432/database
 
 # AI Integration
-AI_INTEGRATIONS_OPENAI_API_KEY=sk-...
-AI_INTEGRATIONS_OPENAI_BASE_URL=https://api.openai.com/v1
+ANTHROPIC_API_KEY=sk-ant-...
+ANTHROPIC_BASE_URL=https://api.anthropic.com/v1
 
 # Stripe (for web, not mobile IAP)
 STRIPE_SECRET_KEY=sk_test_... or sk_live_...
@@ -73,7 +73,7 @@ EXPO_TOKEN=your-eas-token
 
 # Testing
 DATABASE_URL=postgresql://test:test@localhost:5432/test_db
-AI_INTEGRATIONS_OPENAI_API_KEY=sk-test-key (mock or test tier)
+ANTHROPIC_API_KEY=sk-ant-test-key (mock or test tier)
 ```
 
 ---
@@ -156,7 +156,7 @@ railway link
 
 # 2. Set environment variables
 railway variables set DATABASE_URL=...
-railway variables set AI_INTEGRATIONS_OPENAI_API_KEY=...
+railway variables set ANTHROPIC_API_KEY=...
 
 # 3. Deploy
 railway up
@@ -172,18 +172,18 @@ curl https://your-app.up.railway.app/health
 heroku login
 
 # 2. Create app (first time)
-heroku create noor-cbt-api
+heroku create noor-api
 
 # 3. Set config
 heroku config:set DATABASE_URL=...
-heroku config:set AI_INTEGRATIONS_OPENAI_API_KEY=...
+heroku config:set ANTHROPIC_API_KEY=...
 heroku config:set NODE_ENV=production
 
 # 4. Deploy
 git push heroku main
 
 # 5. Verify
-curl https://noor-cbt-api.herokuapp.com/health
+curl https://noor-api.herokuapp.com/health
 ```
 
 ### Option D: Deploy to AWS/GCP/Azure
@@ -226,16 +226,16 @@ curl https://your-api-domain.com/health
 
 ```bash
 # 1. List previous images
-docker images noor-cbt-api
+docker images noor-api
 
 # 2. Tag previous image as latest
-docker tag noor-cbt-api:v1.2.3 noor-cbt-api:latest
+docker tag noor-api:v1.2.3 noor-api:latest
 
 # 3. Push to registry
-docker push noor-cbt-api:latest
+docker push noor-api:latest
 
 # 4. Restart service (triggers redeploy)
-kubectl rollout restart deployment/noor-cbt-api
+kubectl rollout restart deployment/noor-api
 ```
 
 ### Mobile Rollback
@@ -362,7 +362,7 @@ curl -X POST https://your-api-domain.com/api/analyze \
 # Quick checks
 1. Verify hosting platform is up (check status page)
 2. Check database connection (logs or direct query)
-3. Check OpenAI API status (status.openai.com)
+3. Check Anthropic Claude API status (status.anthropic.com)
 4. Review recent deployments (was there a deploy in last hour?)
 5. Check error logs for stack traces
 6. If unclear cause: Rollback immediately
@@ -385,7 +385,7 @@ curl -X POST https://your-api-domain.com/api/analyze \
 1. Check safety telemetry logs for validation failures
 2. Review specific user input and AI output
 3. Verify canonical orchestrator is active
-4. Check if OpenAI had model updates
+4. Check if Anthropic had model updates
 5. Temporarily disable affected feature if severe
 6. Update safety rules and redeploy
 ```
@@ -434,7 +434,7 @@ curl -X POST https://your-api-domain.com/api/analyze \
    - Always verify all required vars are set before deploy
    - Use `.env.example` as checklist
 
-3. **OpenAI Rate Limits**: Sudden traffic spike can hit limits
+3. **Anthropic Claude API Rate Limits**: Sudden traffic spike can hit limits
    - Monitor quota usage
    - Implement rate limiting on our side
    - Have backoff/retry logic
@@ -509,7 +509,7 @@ npx eas submit --platform ios --latest
 
 - **On-Call Engineer**: [TBD]
 - **Product Owner**: [TBD]
-- **OpenAI Support**: https://help.openai.com
+- **Anthropic Support**: https://support.anthropic.com
 - **Apple Developer Support**: https://developer.apple.com/contact/
 - **Google Play Support**: https://support.google.com/googleplay/android-developer
 

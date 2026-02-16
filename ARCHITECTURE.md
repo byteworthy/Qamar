@@ -342,7 +342,7 @@ RootNavigator (Stack)
    │
    ├─ Tab 2: Companion 💬
    │  ├─ CompanionScreen (Entry point)
-   │  └─ CBT Modal Stack (Presented modally)
+   │  └─ Modal Stack (Presented modally)
    │     ├─ ThoughtCaptureScreen
    │     ├─ DistortionScreen
    │     ├─ BeliefInspectionScreen
@@ -1743,7 +1743,7 @@ client/
 
 | Criteria | React Native | Flutter | Decision |
 |----------|-------------|---------|----------|
-| **Existing Codebase** | Noor-CBT production-ready | Noor-AI prototype | **React Native** (preserve investment) |
+| **Existing Codebase** | Noor production-ready | Noor-AI prototype | **React Native** (preserve investment) |
 | **Backend Integration** | Express.js already built | None | **React Native** (avoid backend rewrite) |
 | **Developer Ecosystem** | Larger, more mature | Growing | **React Native** |
 | **Web Support** | Excellent (React Native Web) | Maturing | **React Native** |

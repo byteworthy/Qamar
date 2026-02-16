@@ -15,8 +15,7 @@ import storeIdentifiers from "../../release/STORE_IDENTIFIERS.json";
 export interface ProductIds {
   plusMonthly: string;
   plusYearly: string;
-  proMonthly: string;
-  proYearly: string;
+  lifetime: string;
 }
 
 export interface BillingConfig {
@@ -123,7 +122,7 @@ export function getBasePlanIds(): ProductIds | undefined {
  */
 export function getAllProductIdStrings(): string[] {
   const ids = getProductIds();
-  return [ids.plusMonthly, ids.plusYearly, ids.proMonthly, ids.proYearly];
+  return [ids.plusMonthly, ids.plusYearly, ids.lifetime];
 }
 
 // =============================================================================

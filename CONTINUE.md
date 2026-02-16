@@ -4,7 +4,7 @@ Use this document to pick up development from any fresh clone.
 
 ## Project Summary
 
-**Noor** is a unified Islamic companion app (React Native + Expo SDK 54) combining conversational AI, Quran reader, prayer times, Arabic learning, and personal reflection. Built by merging Noor-AI (Flutter, data assets) and Noor-CBT (React Native, AI interface).
+**Noor** is a unified Islamic companion app (React Native + Expo SDK 54) combining conversational AI, Quran reader, prayer times, Arabic learning, and personal reflection. Built by merging Noor-AI (Flutter, data assets) and Noor-CBT (React Native, UI framework) into a unified app.
 
 - **Version**: 2.0.0
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)

@@ -1,7 +1,7 @@
 /**
  * Canonical inner-state labels used for pattern matching in user reflections.
  *
- * These labels map to common CBT-aligned themes and guide how prompts are
+ * These labels map to common reflection themes and guide how prompts are
  * framed for empathy, pacing, and Islamic context.
  */
 type InnerState =

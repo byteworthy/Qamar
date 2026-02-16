@@ -28,7 +28,7 @@ This document outlines how to securely manage secrets (API keys, database passwo
 DATABASE_URL=postgresql://user:password@host:5432/database
 
 # AI Service
-AI_INTEGRATIONS_OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
 
 # Payment Processing (Web only, not mobile)
 STRIPE_SECRET_KEY=sk_live_...
@@ -51,7 +51,7 @@ SESSION_SECRET=random-256-bit-string
 EXPO_PUBLIC_DOMAIN=api.yourdomain.com
 
 # NEVER put these in client:
-# ❌ AI_INTEGRATIONS_OPENAI_API_KEY
+# ❌ ANTHROPIC_API_KEY
 # ❌ DATABASE_URL
 # ❌ STRIPE_SECRET_KEY
 ```
@@ -81,7 +81,7 @@ PUBLIC_API_URL=https://api.yourdomain.com
 **Create `.env` file** (git-ignored):
 ```bash
 DATABASE_URL=postgresql://localhost:5432/noor_dev
-AI_INTEGRATIONS_OPENAI_API_KEY=sk-test-...
+ANTHROPIC_API_KEY=sk-ant-test-...
 STRIPE_SECRET_KEY=sk_test_...
 NODE_ENV=development
 ```
@@ -93,7 +93,7 @@ import 'dotenv/config';
 
 // Access
 const dbUrl = process.env.DATABASE_URL;
-const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+const apiKey = process.env.ANTHROPIC_API_KEY;
 ```
 
 ### .env.example Template
@@ -104,8 +104,8 @@ const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
 DATABASE_URL=postgresql://user:password@localhost:5432/database
 
 # AI Integration
-AI_INTEGRATIONS_OPENAI_API_KEY=sk-...
-AI_INTEGRATIONS_OPENAI_BASE_URL=https://api.openai.com/v1
+ANTHROPIC_API_KEY=sk-ant-...
+ANTHROPIC_BASE_URL=https://api.anthropic.com/v1
 
 # Stripe
 STRIPE_SECRET_KEY=sk_test_...
@@ -144,7 +144,7 @@ secrets/
 # 4. Add each secret:
 
 DATABASE_URL
-AI_INTEGRATIONS_OPENAI_API_KEY
+ANTHROPIC_API_KEY
 STRIPE_SECRET_KEY
 SENTRY_DSN
 EXPO_TOKEN  # For EAS builds
@@ -155,7 +155,7 @@ EXPO_TOKEN  # For EAS builds
 # .github/workflows/ci.yml
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  AI_INTEGRATIONS_OPENAI_API_KEY: ${{ secrets.AI_INTEGRATIONS_OPENAI_API_KEY }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
 ### EAS Build Secrets
@@ -203,13 +203,13 @@ npx eas secret:list
 **Heroku:**
 ```bash
 heroku config:set DATABASE_URL=...
-heroku config:set AI_INTEGRATIONS_OPENAI_API_KEY=...
+heroku config:set ANTHROPIC_API_KEY=...
 ```
 
 **Railway:**
 ```bash
 railway variables set DATABASE_URL=...
-railway variables set AI_INTEGRATIONS_OPENAI_API_KEY=...
+railway variables set ANTHROPIC_API_KEY=...
 ```
 
 ### Option B: Cloud Secret Managers (AWS, GCP, Azure)
@@ -218,15 +218,15 @@ railway variables set AI_INTEGRATIONS_OPENAI_API_KEY=...
 ```bash
 # Store secret
 aws secretsmanager create-secret \
-  --name noor-cbt/openai-api-key \
-  --secret-string "sk-..."
+  --name noor/anthropic-api-key \
+  --secret-string "sk-ant-..."
 
 # Access in code
 import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 
 const client = new SecretsManagerClient();
 const response = await client.send(
-  new GetSecretValueCommand({ SecretId: "noor-cbt/openai-api-key" })
+  new GetSecretValueCommand({ SecretId: "noor/anthropic-api-key" })
 );
 const apiKey = response.SecretString;
 ```
@@ -234,7 +234,7 @@ const apiKey = response.SecretString;
 **Google Cloud Secret Manager:**
 ```bash
 # Store secret
-gcloud secrets create openai-api-key --data-file=-
+gcloud secrets create anthropic-api-key --data-file=-
 # (paste secret, then Ctrl+D)
 
 # Access in code
@@ -242,7 +242,7 @@ import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 
 const client = new SecretManagerServiceClient();
 const [version] = await client.accessSecretVersion({
-  name: 'projects/PROJECT_ID/secrets/openai-api-key/versions/latest',
+  name: 'projects/PROJECT_ID/secrets/anthropic-api-key/versions/latest',
 });
 const apiKey = version.payload.data.toString();
 ```
@@ -279,8 +279,8 @@ const apiKey = version.payload.data.toString();
 
 **1. Generate New Secret**
 ```bash
-# Example: New OpenAI API key
-# 1. Log into OpenAI dashboard
+# Example: New Anthropic API key
+# 1. Log into Anthropic console
 # 2. Create new API key
 # 3. Copy new key
 ```
@@ -291,10 +291,10 @@ const apiKey = version.payload.data.toString();
 # Update .env file
 
 # Staging
-heroku config:set AI_INTEGRATIONS_OPENAI_API_KEY=sk-new... --app noor-cbt-staging
+heroku config:set ANTHROPIC_API_KEY=sk-ant-new... --app noor-staging
 
 # Production
-heroku config:set AI_INTEGRATIONS_OPENAI_API_KEY=sk-new... --app noor-cbt-prod
+heroku config:set ANTHROPIC_API_KEY=sk-ant-new... --app noor-prod
 ```
 
 **3. Deploy/Restart Applications**
@@ -313,21 +313,21 @@ curl -X POST https://api.yourdomain.com/api/analyze -d '{"thought":"test"}'
 
 **5. Revoke Old Secret**
 ```bash
-# Example: Delete old OpenAI key from dashboard
+# Example: Delete old Anthropic key from console
 # Only after verifying new key works!
 ```
 
 **6. Document Rotation**
 ```bash
 # Update rotation log
-echo "2026-01-19: Rotated OpenAI API key" >> secrets/rotation-log.txt
+echo "2026-01-19: Rotated Anthropic API key" >> secrets/rotation-log.txt
 ```
 
 ### Emergency Revocation
 
 **If secret is leaked:**
 
-1. **Immediate:** Revoke secret in provider dashboard (OpenAI, Stripe, etc.)
+1. **Immediate:** Revoke secret in provider dashboard (Anthropic, Stripe, etc.)
 2. **Immediate:** Generate new secret
 3. **Within 1 hour:** Update all environments
 4. **Within 2 hours:** Deploy to production
@@ -363,7 +363,7 @@ git secrets --install
 git secrets --register-aws  # Detects AWS keys
 
 # Add patterns
-git secrets --add 'sk-[a-zA-Z0-9]{48}'  # OpenAI keys
+git secrets --add 'sk-ant-[a-zA-Z0-9]+'  # Anthropic keys
 git secrets --add 'sk_live_[a-zA-Z0-9]{99}'  # Stripe keys
 ```
 
@@ -384,22 +384,22 @@ git reset
 const apiKey = "sk-1234567890abcdef";
 
 // ✅ GOOD - from environment
-const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+const apiKey = process.env.ANTHROPIC_API_KEY;
 ```
 
 **2. Sanitize Logs**
 ```typescript
 // ❌ BAD - logs secret
-console.log('API Key:', process.env.AI_INTEGRATIONS_OPENAI_API_KEY);
+console.log('API Key:', process.env.ANTHROPIC_API_KEY);
 
 // ✅ GOOD - redacts secret
-console.log('API Key:', process.env.AI_INTEGRATIONS_OPENAI_API_KEY?.slice(0, 7) + '...');
+console.log('API Key:', process.env.ANTHROPIC_API_KEY?.slice(0, 7) + '...');
 ```
 
 **3. Don't Send Secrets to Client**
 ```typescript
 // ❌ BAD - exposes server secret
-res.json({ apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY });
+res.json({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // ✅ GOOD - only send public config
 res.json({ publicDomain: process.env.EXPO_PUBLIC_DOMAIN });
@@ -410,13 +410,13 @@ res.json({ publicDomain: process.env.EXPO_PUBLIC_DOMAIN });
 **1. Sanitize Error Messages**
 ```typescript
 try {
-  await openai.createCompletion({ /* ... */ });
+  await anthropic.messages.create({ /* ... */ });
 } catch (error) {
   // ❌ BAD - may expose API key in error
   console.error(error);
-  
+
   // ✅ GOOD - sanitized error
-  console.error('OpenAI API error:', error.message);
+  console.error('Anthropic API error:', error.message);
 }
 ```
 
@@ -427,8 +427,8 @@ Sentry.init({
     // Remove sensitive data
     if (event.exception) {
       const message = event.exception.values?.[0]?.value;
-      if (message?.includes('sk-')) {
-        event.exception.values[0].value = message.replace(/sk-[a-zA-Z0-9]{48}/g, 'sk-***');
+      if (message?.includes('sk-ant-')) {
+        event.exception.values[0].value = message.replace(/sk-ant-[a-zA-Z0-9-]+/g, 'sk-ant-***');
       }
     }
     return event;
@@ -474,7 +474,7 @@ Maintain a log of who has access:
 | Secret | Last Rotated | Next Rotation Due |
 |--------|--------------|-------------------|
 | DATABASE_URL | 2026-01-15 | 2026-04-15 |
-| OPENAI_API_KEY | 2026-01-10 | 2026-07-10 |
+| ANTHROPIC_API_KEY | 2026-01-10 | 2026-07-10 |
 | STRIPE_SECRET | 2026-01-01 | 2026-07-01 |
 ```
 
@@ -495,7 +495,7 @@ Maintain a log of who has access:
 - [ ] **Immediately revoke** the leaked secret
 - [ ] Generate and deploy new secret
 - [ ] Check logs for unauthorized usage
-- [ ] Notify affected service provider (OpenAI, Stripe, etc.)
+- [ ] Notify affected service provider (Anthropic, Stripe, etc.)
 - [ ] Review recent commits for other potential leaks
 - [ ] Update .gitignore if needed
 - [ ] Conduct team training on secret safety
@@ -512,14 +512,14 @@ brew install bfg  # macOS
 # or download from: https://rtyley.github.io/bfg-repo-cleaner/
 
 # 2. Clone a fresh copy
-git clone --mirror https://github.com/yourusername/Noor-CBT.git
+git clone --mirror https://github.com/yourusername/Noor.git
 
 # 3. Remove secret from history
-bfg --replace-text passwords.txt Noor-CBT.git
+bfg --replace-text passwords.txt Noor.git
 # (passwords.txt contains: sk-1234567890abcdef==>***REMOVED***)
 
 # 4. Clean up
-cd Noor-CBT.git
+cd Noor.git
 git reflog expire --expire=now --all
 git gc --prune=now --aggressive
 
@@ -527,7 +527,7 @@ git gc --prune=now --aggressive
 git push --force
 
 # 6. Everyone must re-clone
-# Team members: rm -rf Noor-CBT && git clone ...
+# Team members: rm -rf Noor && git clone ...
 ```
 
 **⚠️ Force-pushing rewrites history - coordinate with entire team first!**
@@ -571,14 +571,14 @@ git push --force
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 # Check for exposed secrets in code
-grep -r "sk-" . --exclude-dir=node_modules
+grep -r "sk-ant-" . --exclude-dir=node_modules
 grep -r "password" . --exclude-dir=node_modules
 
 # List current environment variables
 env | grep -E "DATABASE|API_KEY|SECRET"
 
 # Test if secret is set
-test -n "$AI_INTEGRATIONS_OPENAI_API_KEY" && echo "Set" || echo "Not set"
+test -n "$ANTHROPIC_API_KEY" && echo "Set" || echo "Not set"
 ```
 
 ---
@@ -586,7 +586,7 @@ test -n "$AI_INTEGRATIONS_OPENAI_API_KEY" && echo "Set" || echo "Not set"
 ## Emergency Contacts
 
 - **GitHub Security**: security@github.com
-- **OpenAI Security**: security@openai.com
+- **Anthropic Security**: security@anthropic.com
 - **Stripe Security**: security@stripe.com
 - **Team Lead**: [TBD]
 
