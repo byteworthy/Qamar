@@ -1,0 +1,31 @@
+# Maestro E2E Test: Study Plan Creation Flow
+# Tests the complete flow of creating a personalized study plan
+
+appId: com.byteworthy.noor
+---
+# Launch app and navigate to Study Plan feature
+- launchApp
+- tapOn: "Learn"
+- tapOn: "My Study Plan"
+
+# Step 1: Select goal
+- assertVisible: "What's your Quran goal?"
+- tapOn: "Memorize Juz 30"
+- tapOn: "Next"
+
+# Step 2: Select time commitment
+- assertVisible: "How much time per day?"
+- tapOn: "20 minutes/day"
+- tapOn: "Next"
+
+# Step 3: Select skill level
+- assertVisible: "What's your current level?"
+- tapOn: "Intermediate"
+- tapOn: "Generate Plan"
+
+# Verify plan was generated
+- assertVisible: "Completion|Week"
+- assertVisible: "Sunday|Monday|Tuesday"
+
+# Verify daily tasks are shown
+- assertVisible: "Daily Tasks|Today's Tasks"

@@ -1,0 +1,29 @@
+# Maestro E2E Test: Hifz Recitation Flow
+# Tests the complete flow of recording a Hifz recitation and receiving feedback
+
+appId: com.byteworthy.noor
+---
+# Launch app and navigate to Hifz feature
+- launchApp
+- tapOn: "Learn"
+- tapOn: "Hifz Memorization"
+
+# Start a review session
+- assertVisible: "Start Review"
+- tapOn: "Start Review"
+
+# Record recitation
+- assertVisible: "Record"
+- tapOn: "Record"
+- delay: 2000  # Allow time for recording
+- tapOn: "Stop"
+
+# Verify feedback is shown
+- assertVisible: "Score"
+- assertVisible: "Again|Hard|Good|Easy"
+
+# Select difficulty rating
+- tapOn: "Good"
+
+# Verify review was saved
+- assertVisible: "Review Saved|Next Review"
