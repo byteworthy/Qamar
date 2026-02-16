@@ -279,7 +279,7 @@ describe("CanonicalOrchestrator - AI Generation Failures", () => {
 
   test("records system failure telemetry on AI generation error", async () => {
     const mockGenerator = jest.fn(async () => {
-      throw new Error("OpenAI error");
+      throw new Error("API error");
     });
     const input = createMockInput({
       aiResponseGenerator: mockGenerator,

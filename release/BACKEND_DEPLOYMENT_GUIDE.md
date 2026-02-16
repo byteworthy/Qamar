@@ -41,7 +41,7 @@ In Railway dashboard → Variables tab, add:
 
 ```bash
 # Required
-OPENAI_API_KEY=sk-your-openai-api-key
+ANTHROPIC_API_KEY=sk-ant-your-anthropic-api-key
 DATABASE_URL=[automatically set by Railway]
 NODE_ENV=production
 
@@ -220,7 +220,7 @@ Response: { "received": true }
 | Variable | Required | Description | Example |
 |----------|----------|-------------|---------|
 | `DATABASE_URL` | Yes | Postgres connection string | `postgresql://user:pass@host:5432/noor` |
-| `OPENAI_API_KEY` | Yes | OpenAI API key for AI reflections | `sk-...` |
+| `ANTHROPIC_API_KEY` | Yes | Anthropic Claude API key | `sk-ant-...` |
 | `NODE_ENV` | Yes | Environment name | `production` |
 | `SENTRY_DSN` | Recommended | Sentry error tracking DSN | `https://...@sentry.io/...` |
 | `REVENUECAT_SECRET_KEY` | For IAP | RevenueCat secret key (webhook verification) | `sk_...` |
@@ -288,13 +288,13 @@ vercel logs
 3. Verify SSL mode if required: `?sslmode=require`
 4. Check connection pool limits
 
-### Issue: OpenAI API calls fail
+### Issue: Anthropic API calls fail
 
 **Solution:**
-1. Verify `OPENAI_API_KEY` is correct
+1. Verify `ANTHROPIC_API_KEY` is correct
 2. Check API key has sufficient credits
 3. Verify no rate limiting (429 errors)
-4. Check OpenAI dashboard for usage/issues
+4. Check Anthropic console for usage/issues
 
 ### Issue: CORS errors from mobile app
 
@@ -351,7 +351,7 @@ Before connecting mobile app:
 - [ ] Health check endpoint returns 200 OK
 - [ ] Database migrations completed
 - [ ] All environment variables configured
-- [ ] OpenAI API key valid and funded
+- [ ] Anthropic API key valid and funded
 - [ ] Sentry error tracking configured
 - [ ] CORS allows mobile app origins
 - [ ] Rate limiting configured

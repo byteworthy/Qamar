@@ -44,14 +44,14 @@ export const SUBSCRIPTION_PRODUCTS = {
   plus: {
     id: 'noor_plus_monthly',
     name: 'Noor Plus',
-    price: '$6.99',
+    price: '$2.99',
     interval: 'month',
   },
-  pro: {
-    id: 'noor_pro_monthly',
-    name: 'Noor Pro',
-    price: '$11.99',
-    interval: 'month',
+  lifetime: {
+    id: 'noor_plus_lifetime',
+    name: 'Noor Plus Lifetime',
+    price: '$49.99',
+    interval: 'once',
   },
 } as const;
 ```
@@ -64,9 +64,10 @@ Add subscription pricing information to the description:
 
 ```markdown
 SUBSCRIPTION OPTIONS
-• Free: 5 reflections per month
-• Noor Plus: $6.99/month - Unlimited reflections and insights
-• Noor Pro: $11.99/month - All features plus priority support
+• Free: Core features, 3 sessions/day for tutor and pronunciation
+• Noor Plus: $2.99/month - Unlimited conversations, full audio, all features
+• Noor Plus: $19.99/year - Save 44%
+• Noor Plus Lifetime: $49.99 - All features forever
 
 Subscriptions auto-renew unless canceled 24 hours before renewal.
 ```

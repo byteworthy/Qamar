@@ -532,9 +532,10 @@ Managed via Stripe:
 
 | Tier | Price | Features |
 |------|-------|----------|
-| **Free** | $0/month | 1 reflection/day, 3 history limit, no insights |
-| **Plus** | $6.99/month | Unlimited reflections, full history, contextual duas |
-| **Pro** | $11.99/month | Plus + AI pattern insights, priority support |
+| **Free** | $0 | Core features, 3 sessions/day for tutor and pronunciation |
+| **Plus** | $2.99/month | Unlimited conversations, full Quran audio, all learning features |
+| **Plus** | $19.99/year | Same as monthly (save 44%) |
+| **Lifetime** | $49.99 | All Plus features forever |
 
 Upgrade flow:
 1. User clicks "Upgrade" on `/pricing`
