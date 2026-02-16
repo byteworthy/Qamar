@@ -12,9 +12,11 @@ Use this document to pick up development from any fresh clone.
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
 - **Tests**: 675/675 passing, zero TypeScript errors
 
-## Current Status: COMPLETE — Arabic Language & Audio Suite
+## Current Status
 
-All 7 features of the Arabic Language, Audio & Pronunciation Suite are implemented:
+### COMPLETE — Phase 5: Arabic Language & Audio Suite
+
+All 7 features implemented:
 1. Enhanced Quran Audio (8 reciters, EveryAyah fallback CDN) - DONE
 2. Word-by-Word Audio with highlighting - DONE
 3. Tajweed Color-Coded Display (17 rules) - DONE
@@ -29,6 +31,28 @@ All 7 features of the Arabic Language, Audio & Pronunciation Suite are implement
 **AI Pricing:** 3 free AI calls/day across tutor + pronunciation + translation-explain. Unlimited with Plus ($2.99/mo). All Quran audio, TTS, tajweed, and basic translation are free forever.
 
 **New screens:** ArabicTutor, PronunciationCoach, Translator, TajweedGuide (all accessible from Learn tab).
+
+### NEXT — Phase 6: Hifz Memorization + Deep AI Features
+
+**Design doc:** [`docs/plans/2026-02-16-hifz-and-deep-ai-design.md`](docs/plans/2026-02-16-hifz-and-deep-ai-design.md)
+
+**Goal:** Leapfrog Tarteel AI on Quran memorization. Build an AI moat no competitor can replicate.
+
+**5 features, 5 sub-phases:**
+
+| Phase | Feature | Key Deliverable |
+|-------|---------|----------------|
+| 6A | **Hifz Memorization System** | FSRS spaced repetition, hidden verse mode, mistake detection, juz dashboard, hifz circles (Pro) |
+| 6B | **AI Tafsir + Verse Conversation** | Tap any verse → classical tafsir explanation (cached) or open-ended AI discussion |
+| 6C | **AI Dua Recommender** | Describe situation → get authentic duas with sources, Arabic, transliteration, TTS |
+| 6D | **Personalized Study Plan** | AI-generated weekly Quran study plan that adapts to your pace and goals |
+| 6E | **Integration + Polish** | Entitlements, gamification hooks, tests, TypeScript check |
+
+**No new dependencies needed.** All features build on existing stack (STT, TTS, FSRS, RAG, Claude Haiku).
+
+**Estimated server cost at 1K users after Phase 6:** ~$79/mo (up from ~$27/mo).
+
+**To start building:** Run `cat docs/plans/2026-02-16-hifz-and-deep-ai-design.md` for the full spec, then ask Claude to invoke the `writing-plans` skill to generate an implementation plan.
 
 The app still needs external setup steps for first build and store submission (see below).
 
@@ -140,6 +164,7 @@ Stripe keys are **web billing only** — mobile uses RevenueCat exclusively.
 client/           # React Native app screens, components, hooks
 server/           # Express.js backend (AI, API routes, middleware)
 shared/           # Shared types, seed data (verses.json)
+docs/plans/       # Approved design docs (start here for next phase)
 scripts/          # Build scripts, screenshot automation
 e2e/              # Maestro E2E test flows
 legal/            # Privacy Policy, Terms of Service
