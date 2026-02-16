@@ -24,6 +24,7 @@ import { registerHifzRoutes } from "./routes/hifz-routes";
 import { registerTafsirRoutes } from "./routes/tafsir-routes";
 import { registerVerseConversationRoutes } from "./routes/verse-conversation-routes";
 import { registerDuaRoutes } from "./routes/dua-routes";
+import { registerStudyPlanRoutes } from "./routes/study-plan-routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Mount notification routes
@@ -75,6 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register Dua Recommender routes
   registerDuaRoutes(app);
+  registerStudyPlanRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
