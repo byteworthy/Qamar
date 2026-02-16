@@ -10,7 +10,7 @@ Use this document to pick up development from any fresh clone.
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)
 - **EAS Project ID**: `b3e205eb-b119-4976-a275-df7bcef85275`
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
-- **Tests**: 703/703 passing (60 new tests from Phase 6A-C)
+- **Tests**: 707/707 passing (all Phase 6 tests included)
 
 ## Current Status
 
@@ -73,18 +73,34 @@ Core features:
 - Server endpoint: POST /api/duas/recommend
 - 25 new tests (4 server routes + 21 store tests)
 
-### NEXT — Phase 6D-E: Remaining Deep AI Features
+### COMPLETE — Phase 6D: Personalized Study Plan
 
-**Design doc:** [`docs/plans/2026-02-16-hifz-and-deep-ai-design.md`](docs/plans/2026-02-16-hifz-and-deep-ai-design.md)
+**COMPLETED** on main branch (10 commits, ~2500 lines).
 
-**Remaining phases:**
+Core features:
+- 3-step onboarding (goal, time commitment, skill level)
+- AI-generated weekly study plans with Claude Haiku
+- Daily task cards with deep link navigation to app screens
+- Completion tracking with AsyncStorage persistence
+- Weekly stats: completion rate, streak, week start date
+- Server endpoint: POST /api/study-plan/generate
+- 4 new tests (generator + routes + store)
 
-| Phase | Feature | Key Deliverable |
-|-------|---------|----------------|
-| 6D | **Personalized Study Plan** | AI-generated weekly Quran study plan that adapts to your pace and goals |
-| 6E | **Integration + Polish** | Fix HifzMistakeFeedback TypeScript errors, add E2E tests, final review |
+### COMPLETE — Phase 6E: Integration + Polish
 
-**No new dependencies needed.** All features build on existing stack (STT, TTS, FSRS, RAG, Claude Haiku).
+**COMPLETED** on main branch (2 commits).
+
+Polish work:
+- Fixed Phase 6D TypeScript errors in study-plan-store and PremiumUpsell
+- Added Phase 6B-D feature descriptions to premium upsell component
+- Verified premium feature gating for all 4 phases
+- Updated documentation
+- Final test coverage: 707/707 passing
+
+### NEXT — Phase 7: Production Readiness
+- E2E tests with Maestro
+- Performance optimization
+- App Store submission preparation
 
 **Estimated server cost at 1K users after Phase 6:** ~$79/mo (up from ~$27/mo).
 
@@ -306,6 +322,28 @@ client/navigation/types.ts              # MODIFIED: added DuaFinder route
 client/navigation/RootStackNavigator.tsx  # MODIFIED: registered DuaFinderScreen
 client/screens/learn/LearnTabScreen.tsx  # MODIFIED: added "Find a Dua" feature card
 server/routes.ts                        # MODIFIED: registered tafsir, verse-conversation, dua routes
+```
+
+## New File Map (Personalized Study Plan - Phase 6D)
+
+```
+shared/types/study-plan.ts              # NEW: TypeScript types for plans and tasks
+server/services/study-plan-generator.ts # NEW: Claude Haiku plan generation
+server/routes/study-plan-routes.ts      # NEW: POST /api/study-plan/generate
+server/__tests__/study-plan-generator.test.ts  # NEW: 1 test for generator
+server/__tests__/study-plan-routes.test.ts     # NEW: 3 tests for routes
+client/stores/study-plan-store.ts       # NEW: Zustand store with AsyncStorage
+client/stores/__tests__/study-plan-store.test.ts  # NEW: 2 store tests (Phase 6D agent may add)
+client/hooks/useStudyPlan.ts            # NEW: plan generation and completion hook
+client/components/StudyPlanOnboarding.tsx  # NEW: 3-step goal/time/level picker
+client/components/DailyTaskCard.tsx     # NEW: task card with deep link navigation
+client/screens/learn/StudyPlanScreen.tsx  # NEW: weekly calendar view
+client/navigation/types.ts              # MODIFIED: added StudyPlan route
+client/navigation/RootStackNavigator.tsx  # MODIFIED: registered StudyPlanScreen
+client/screens/learn/LearnTabScreen.tsx  # MODIFIED: added "My Study Plan" card
+server/routes.ts                        # MODIFIED: registered study-plan routes
+client/lib/premium-features.ts          # MODIFIED: added Phase 6D features to enum and tiers
+client/components/PremiumUpsell.tsx     # MODIFIED: added Phase 6D feature descriptions
 ```
 
 ## New File Map (Hifz Memorization System - Phase 6A)
