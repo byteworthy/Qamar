@@ -1,7 +1,7 @@
 /**
  * ArabicTutorScreen
  *
- * AI-powered Arabic language tutor with four learning modes:
+ * Arabic language tutor with four learning modes:
  * vocabulary, grammar, conversation, and Quran words.
  */
 

@@ -1,7 +1,7 @@
 /**
- * AI Daily Quota Middleware
+ * Daily Quota Middleware
  *
- * Shared daily usage tracking and enforcement for AI-powered endpoints
+ * Shared daily usage tracking and enforcement for interactive endpoints
  * (tutor, pronunciation, translation). Free users are limited to
  * FREE_DAILY_LIMIT requests per day; paid users have unlimited access.
  *

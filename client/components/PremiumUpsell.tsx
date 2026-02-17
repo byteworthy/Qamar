@@ -251,14 +251,14 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
     ],
   },
   [PremiumFeature.HIFZ_AI_ANALYSIS]: {
-    title: "AI Tajweed Coaching",
-    description: "Get advanced pronunciation feedback with AI-powered Tajweed analysis.",
+    title: "Advanced Tajweed Coaching",
+    description: "Get advanced pronunciation feedback with detailed Tajweed analysis.",
     icon: "mic",
     benefits: [
       "Advanced Tajweed feedback",
       "Rule-specific correction tips",
       "Pronunciation scoring",
-      "Unlimited AI analysis",
+      "Unlimited analysis",
     ],
   },
   [PremiumFeature.HIFZ_CIRCLES]: {
@@ -275,8 +275,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
 
   // Phase 6B: Tafsir & Verse Discussion
   [PremiumFeature.TAFSIR_UNLIMITED]: {
-    title: "Unlimited AI Tafsir",
-    description: "Get unlimited access to AI-powered Tafsir explanations with classical sources.",
+    title: "Unlimited Tafsir Explanations",
+    description: "Get unlimited access to Tafsir explanations with classical sources.",
     icon: "book-open",
     benefits: [
       "Unlimited verse explanations",
@@ -287,7 +287,7 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.VERSE_DISCUSSION_UNLIMITED]: {
     title: "Unlimited Verse Discussions",
-    description: "Have unlimited conversations with AI about any Quranic verse.",
+    description: "Have unlimited conversations about any Quranic verse.",
     icon: "message-square",
     benefits: [
       "Unlimited verse Q&A",
@@ -297,10 +297,10 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
     ],
   },
 
-  // Phase 6C: Dua Recommender
+  // Phase 6C: Dua Finder
   [PremiumFeature.DUA_UNLIMITED]: {
     title: "Unlimited Dua Recommendations",
-    description: "Get unlimited AI-powered dua recommendations for any situation.",
+    description: "Get unlimited personalized dua recommendations for any situation.",
     icon: "compass",
     benefits: [
       "Unlimited dua searches",
@@ -324,10 +324,10 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.STUDY_PLAN_ADAPT]: {
     title: "Adaptive Study Plans",
-    description: "Let AI adapt your study plan based on your progress and performance.",
+    description: "Adapt your study plan based on your progress and performance.",
     icon: "trending-up",
     benefits: [
-      "AI-powered adaptation",
+      "Intelligent adaptation",
       "Progress-based adjustments",
       "Difficulty optimization",
       "Personalized pacing",

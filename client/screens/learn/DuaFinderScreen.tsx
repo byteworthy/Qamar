@@ -1,7 +1,7 @@
 /**
  * DuaFinderScreen
  *
- * Provides AI-powered dua recommendations based on user's situation or category.
+ * Provides personalized dua recommendations based on user's situation or category.
  * Features category chips for quick access and a search input for custom situations.
  */
 

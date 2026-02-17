@@ -1,7 +1,7 @@
 /**
  * Hifz (Quran Memorization) API Routes
  *
- * Provides endpoints for AI-powered Quran recitation analysis and coaching.
+ * Provides endpoints for Quran recitation analysis and coaching.
  * Supports mistake analysis with personalized tips for improvement.
  */
 

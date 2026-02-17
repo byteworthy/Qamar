@@ -1,7 +1,7 @@
 /**
  * TranslatorScreen
  *
- * Arabic <-> English translator with TTS playback and AI-powered explanations.
+ * Arabic <-> English translator with TTS playback and detailed explanations.
  */
 
 import React, { useRef } from "react";

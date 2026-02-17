@@ -119,7 +119,7 @@ export default function LearnTabScreen() {
     },
     {
       title: "Hifz Memorization",
-      description: "Memorize the Quran with spaced repetition and AI-powered feedback",
+      description: "Memorize the Quran with spaced repetition and personalized feedback",
       gradient: ["#2a4a5a", "#5a7a8a"],
       icon: "book" as const,
       screen: "HifzDashboard" as const,
@@ -183,7 +183,7 @@ export default function LearnTabScreen() {
     },
     {
       title: "My Study Plan",
-      description: "AI-generated weekly Quran study plan that adapts to your pace",
+      description: "Personalized weekly Quran study plan that adapts to your pace",
       gradient: ["#3a4a5a", "#6a7a8a"],
       icon: "calendar" as const,
       screen: "StudyPlan" as const,

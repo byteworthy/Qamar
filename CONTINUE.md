@@ -4,7 +4,7 @@ Use this document to pick up development from any fresh clone.
 
 ## Project Summary
 
-**Noor** is a unified Islamic companion app (React Native + Expo SDK 54) combining conversational AI, Quran reader, prayer times, Arabic learning, and personal reflection. Built by merging Noor-AI (Flutter, data assets) and Noor-CBT (React Native, UI framework) into a unified app.
+**Noor** is a unified Islamic companion app (React Native + Expo SDK 54) combining an interactive companion, Quran reader, prayer times, Arabic learning, and personal reflection. Built from a clean merge of foundational data assets and React Native framework.
 
 - **Version**: 2.0.0
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)
@@ -21,14 +21,14 @@ All 7 features implemented:
 2. Word-by-Word Audio with highlighting - DONE
 3. Tajweed Color-Coded Display (17 rules) - DONE
 4. Text-to-Speech for vocabulary/duas (expo-speech) - DONE
-5. AI Arabic Language Tutor (Claude Haiku, 4 modes) - DONE
-6. AI Pronunciation Coach (record → STT → AI feedback) - DONE
-7. Translation Service with TTS + AI explanations - DONE
+5. Arabic Language Tutor (Claude Haiku, 4 modes) - DONE
+6. Pronunciation Coach (record → STT → personalized feedback) - DONE
+7. Translation Service with TTS + detailed explanations - DONE
 
 **New dependencies:** `expo-speech`, `@react-native-voice/voice`
 **Dev build required** for `@react-native-voice/voice` (not Expo Go compatible).
 
-**AI Pricing:** 3 free AI calls/day across tutor + pronunciation + translation-explain. Unlimited with Plus ($2.99/mo). All Quran audio, TTS, tajweed, and basic translation are free forever.
+**Interactive Features Pricing:** 3 free calls/day across tutor + pronunciation + translation explanations. Unlimited with Plus ($2.99/mo). All Quran audio, TTS, tajweed, and basic translation are free forever.
 
 **New screens:** ArabicTutor, PronunciationCoach, Translator, TajweedGuide (all accessible from Learn tab).
 
@@ -38,22 +38,22 @@ All 7 features implemented:
 
 Core system implemented:
 - FSRS v5 spaced repetition scheduler with proven algorithm
-- Hidden verse mode with record → transcribe → AI feedback flow
+- Hidden verse mode with record → transcribe → feedback flow
 - Word-level mistake detection and scoring
 - Juz progress map (30-cell grid tracking)
 - HifzDashboard + HifzRecitation screens
-- Server routes with Claude Haiku AI analysis
+- Server routes with Claude Haiku analysis
 - Gamification integration (hifz_review_completed activity)
-- Premium gating: hifz_unlimited (Plus), hifz_ai_analysis (Plus), hifz_circles (Pro)
+- Premium gating: hifz_unlimited (Plus), hifz_advanced_analysis (Plus), hifz_circles (Pro)
 
 **Known TypeScript errors:** Pre-existing in HifzMistakeFeedback.tsx (from subagent implementation). Non-blocking.
 
-### COMPLETE — Phase 6B: AI Tafsir + Verse Conversation
+### COMPLETE — Phase 6B: Tafsir + Verse Conversation
 
 **COMPLETED** on phase-6-hifz-deep-ai branch (10 commits, ~3000 lines).
 
 Core features:
-- AI Tafsir explanations with classical sources (Ibn Kathir, Al-Tabari, Al-Qurtubi, Al-Sa'di)
+- Tafsir explanations with classical sources (Ibn Kathir, Al-Tabari, Al-Qurtubi, Al-Sa'di)
 - Multi-turn verse discussions with conversation history
 - AsyncStorage caching for tafsir (cache-first strategy)
 - TafsirPanel slide-up component with 5 sections (context, key terms, scholarly views, cross-references, takeaway)
@@ -61,12 +61,12 @@ Core features:
 - Server endpoints: POST /api/tafsir/explain, POST /api/verse/discuss
 - 7 new server tests (tafsir + verse-conversation routes)
 
-### COMPLETE — Phase 6C: AI Dua Recommender
+### COMPLETE — Phase 6C: Dua Finder
 
 **COMPLETED** on phase-6-hifz-deep-ai branch (5 commits, ~2000 lines).
 
 Core features:
-- RAG-based dua search with 15 authentic duas from Quran and Sahih collections
+- Intelligent dua search with 15 authentic duas from Quran and Sahih collections
 - DuaFinderScreen with category chips (Anxiety, Gratitude, Travel, etc.)
 - DuaCard component with Arabic (Amiri font), transliteration, TTS playback, favorites
 - Favorites persistence with AsyncStorage Zustand store
@@ -79,7 +79,7 @@ Core features:
 
 Core features:
 - 3-step onboarding (goal, time commitment, skill level)
-- AI-generated weekly study plans with Claude Haiku
+- Personalized weekly study plans with Claude Haiku
 - Daily task cards with deep link navigation to app screens
 - Completion tracking with AsyncStorage persistence
 - Weekly stats: completion rate, streak, week start date
@@ -183,7 +183,7 @@ bash scripts/take-screenshots.sh
 | State | Zustand (client) + TanStack Query (server) |
 | Backend | Express.js on Railway |
 | Database | PostgreSQL (Railway) + SQLite (local, offline) |
-| AI | Anthropic Claude API (Haiku for tutor/pronunciation) |
+| Language Model | Anthropic Claude API (Haiku for tutor/pronunciation) |
 | TTS | expo-speech (on-device Arabic) |
 | STT | @react-native-voice/voice (on-device, dev build) |
 | Audio | expo-av (recording + Quran playback) |
@@ -199,7 +199,7 @@ bash scripts/take-screenshots.sh
 See `.env.example` and `server/.env.example` for full list. Critical ones:
 
 ```
-ANTHROPIC_API_KEY=         # Claude API for AI companion
+ANTHROPIC_API_KEY=         # Claude API for companion
 DATABASE_URL=              # PostgreSQL connection string
 REVENUECAT_API_KEY=        # Mobile IAP (RevenueCat)
 SENTRY_DSN=                # Error tracking
@@ -242,9 +242,9 @@ npx tsc --noEmit               # TypeScript check (known errors in HifzMistakeFe
 
 - **Not a therapy app** — Noor is an Islamic companion for education, worship tools, and personal reflection. No medical/clinical claims.
 - **Safety system** — Built-in crisis detection routes users to 988 Suicide & Crisis Lifeline. This is a safety guardrail, not a therapy feature.
-- **Offline-first** — Quran, Hadith, prayer times, TTS, and tajweed (cached) work without internet. AI tutor/pronunciation/translation require connectivity.
+- **Offline-first** — Quran, Hadith, prayer times, TTS, and tajweed (cached) work without internet. Interactive features (tutor/pronunciation/translation) require connectivity.
 - **Dev build** — `@react-native-voice/voice` requires a dev build (not Expo Go). Run `eas build --profile development` for testing.
-- **AI daily quota** — Free users get 3 AI calls/day across tutor + pronunciation + translation-explain. Plus users get unlimited.
+- **Daily quota** — Free users get 3 calls/day across tutor + pronunciation + translation explanations. Plus users get unlimited.
 - **`.env.production`** is gitignored — never commit it.
 
 ## New File Map (Arabic Language Suite)
@@ -263,10 +263,10 @@ client/hooks/useTajweed.ts             # NEW: fetch + cache tajweed data
 client/hooks/useTTS.ts                 # NEW: text-to-speech hook
 client/hooks/useSTT.ts                 # NEW: speech-to-text hook
 client/hooks/useRecording.ts           # NEW: audio recording hook
-client/hooks/useAITutor.ts             # NEW: AI tutor chat hook
+client/hooks/useAITutor.ts             # NEW: tutor chat hook
 client/hooks/usePronunciation.ts       # NEW: pronunciation flow hook
 client/hooks/useTranslation.ts         # NEW: translation hook
-client/hooks/useDailyAIQuota.ts        # NEW: daily AI quota tracking
+client/hooks/useDailyAIQuota.ts        # NEW: daily quota tracking
 client/components/WordByWordPlayer.tsx  # NEW: word highlighting player
 client/components/TajweedText.tsx       # NEW: color-coded Arabic text
 client/components/TTSButton.tsx         # NEW: speaker icon button
@@ -274,10 +274,10 @@ client/components/AudioRecordButton.tsx # NEW: recording button
 client/components/PronunciationFeedback.tsx  # NEW: score + feedback display
 client/components/DailyQuotaBadge.tsx   # NEW: "2/3 free today" badge
 client/screens/learn/TajweedGuideScreen.tsx     # NEW: tajweed rules legend
-client/screens/learn/ArabicTutorScreen.tsx      # NEW: AI tutor chat
+client/screens/learn/ArabicTutorScreen.tsx      # NEW: tutor chat
 client/screens/learn/PronunciationCoachScreen.tsx  # NEW: pronunciation practice
 client/screens/learn/TranslatorScreen.tsx       # NEW: Arabic ↔ English translator
-server/middleware/ai-daily-quota.ts     # NEW: shared AI quota middleware
+server/middleware/ai-daily-quota.ts     # NEW: shared quota middleware
 server/services/tutor-prompts.ts       # NEW: Arabic tutor system prompt
 server/services/pronunciation-scorer.ts # NEW: Levenshtein scoring
 server/services/translation-service.ts  # NEW: MyMemory/Google translate
@@ -287,10 +287,10 @@ server/routes/translation-routes.ts     # NEW: POST /api/translate
 server/__tests__/arabic-routes.test.ts  # NEW: 32 tests for Arabic routes
 ```
 
-## New File Map (AI Tafsir + Verse Conversation - Phase 6B)
+## New File Map (Tafsir + Verse Conversation - Phase 6B)
 
 ```
-server/services/tafsir-prompts.ts       # NEW: AI prompts for classical tafsir explanations
+server/services/tafsir-prompts.ts       # NEW: prompts for classical tafsir explanations
 server/services/verse-conversation-prompts.ts  # NEW: prompts for verse Q&A discussions
 server/routes/tafsir-routes.ts          # NEW: POST /api/tafsir/explain
 server/routes/verse-conversation-routes.ts  # NEW: POST /api/verse/discuss
@@ -307,7 +307,7 @@ client/navigation/types.ts              # MODIFIED: added VerseDiscussion route
 client/navigation/RootStackNavigator.tsx  # MODIFIED: registered VerseDiscussionScreen
 ```
 
-## New File Map (AI Dua Recommender - Phase 6C)
+## New File Map (Dua Finder - Phase 6C)
 
 ```
 server/services/dua-recommender.ts      # NEW: RAG search with 15 authentic duas
@@ -328,7 +328,7 @@ server/routes.ts                        # MODIFIED: registered tafsir, verse-con
 
 ```
 shared/types/study-plan.ts              # NEW: TypeScript types for plans and tasks
-server/services/study-plan-generator.ts # NEW: Claude Haiku plan generation
+server/services/study-plan-generator.ts # NEW: personalized plan generation
 server/routes/study-plan-routes.ts      # NEW: POST /api/study-plan/generate
 server/__tests__/study-plan-generator.test.ts  # NEW: 1 test for generator
 server/__tests__/study-plan-routes.test.ts     # NEW: 3 tests for routes
@@ -353,7 +353,7 @@ shared/types/hifz.ts                    # NEW: core Hifz types and interfaces
 client/services/hifz/fsrs-scheduler.ts  # NEW: FSRS v5 spaced repetition algorithm
 client/services/hifz/recitation-checker.ts  # NEW: word-level Quran recitation comparison
 client/stores/hifz-store.ts             # NEW: Zustand store with AsyncStorage persistence
-client/hooks/useHifzRecitation.ts       # NEW: recording + transcription + AI feedback flow
+client/hooks/useHifzRecitation.ts       # NEW: recording + transcription + feedback flow
 client/hooks/useHifzProgress.ts         # NEW: progress tracking hook
 client/hooks/useHifzReviewQueue.ts      # NEW: review queue management hook
 client/components/JuzProgressMap.tsx    # NEW: 30-cell grid showing juz completion
@@ -362,9 +362,9 @@ client/components/HifzPeekOverlay.tsx   # NEW: hint overlay (reveal word/ayah)
 client/screens/learn/HifzDashboardScreen.tsx  # NEW: main entry point, stats + review queue
 client/screens/learn/HifzRecitationScreen.tsx  # NEW: recording screen with hidden verse
 server/routes/hifz-routes.ts            # NEW: POST /api/hifz/analyze-mistakes
-server/services/hifz-prompts.ts         # NEW: Claude Haiku prompts for mistake analysis
-client/hooks/useEntitlements.ts         # MODIFIED: added hifz_unlimited, hifz_ai_analysis, hifz_circles
-client/lib/premium-features.ts          # MODIFIED: added HIFZ_UNLIMITED, HIFZ_AI_ANALYSIS, HIFZ_CIRCLES
+server/services/hifz-prompts.ts         # NEW: prompts for mistake analysis
+client/hooks/useEntitlements.ts         # MODIFIED: added hifz_unlimited, hifz_advanced_analysis, hifz_circles
+client/lib/premium-features.ts          # MODIFIED: added HIFZ_UNLIMITED, HIFZ_ADVANCED_ANALYSIS, HIFZ_CIRCLES
 client/components/PremiumUpsell.tsx     # MODIFIED: added Hifz feature benefit descriptions
 client/stores/gamification-store.ts     # MODIFIED: added hifz_review_completed activity type
 client/navigation/types.ts              # MODIFIED: added HifzDashboard + HifzRecitation routes
