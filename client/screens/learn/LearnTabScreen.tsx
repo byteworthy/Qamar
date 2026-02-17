@@ -181,6 +181,14 @@ export default function LearnTabScreen() {
       screen: "DuaFinder" as const,
       comingSoon: false,
     },
+    {
+      title: "My Study Plan",
+      description: "AI-generated weekly Quran study plan that adapts to your pace",
+      gradient: ["#3a4a5a", "#6a7a8a"],
+      icon: "calendar" as const,
+      screen: "StudyPlan" as const,
+      comingSoon: false,
+    },
   ];
 
   return (

@@ -97,6 +97,7 @@ export type RootStackParamList = {
   Translator: undefined;
   TajweedGuide: undefined;
   DuaFinder: undefined;
+  StudyPlan: undefined;
   HifzDashboard: undefined;
   HifzRecitation: {
     surahNumber: number;

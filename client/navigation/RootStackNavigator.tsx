@@ -47,6 +47,7 @@ import PronunciationCoachScreen from "@/screens/learn/PronunciationCoachScreen";
 import TranslatorScreen from "@/screens/learn/TranslatorScreen";
 import TajweedGuideScreen from "@/screens/learn/TajweedGuideScreen";
 import DuaFinderScreen from "@/screens/learn/DuaFinderScreen";
+import StudyPlanScreen from "@/screens/learn/StudyPlanScreen";
 import HifzDashboardScreen from "@/screens/learn/HifzDashboardScreen";
 import HifzRecitationScreen from "@/screens/learn/HifzRecitationScreen";
 
@@ -283,6 +284,11 @@ export default function RootStackNavigator() {
       <Stack.Screen
         name="DuaFinder"
         component={DuaFinderScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="StudyPlan"
+        component={StudyPlanScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
