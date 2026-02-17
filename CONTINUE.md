@@ -10,7 +10,7 @@ Use this document to pick up development from any fresh clone.
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)
 - **EAS Project ID**: `b3e205eb-b119-4976-a275-df7bcef85275`
 - **Backend**: Express.js + PostgreSQL (Railway) + Anthropic Claude
-- **Tests**: 707/707 passing (all Phase 6 tests included)
+- **Tests**: 707/707 passing (all Phase 6 + Phase 7 unit tests included)
 
 ## Current Status
 
@@ -97,10 +97,53 @@ Polish work:
 - Updated documentation
 - Final test coverage: 707/707 passing
 
-### NEXT — Phase 7: Production Readiness
-- E2E tests with Maestro
-- Performance optimization
-- App Store submission preparation
+### IN PROGRESS — Phase 7: Production Readiness
+
+All 5 tracks dispatched. Current status:
+
+**Track 1: E2E Test Suite — DONE**
+- Fixed `.detoxrc.js` (myapp → Noor)
+- `e2e/shared/helpers.js` — waitFor, tap, type, scroll, reload utilities
+- `e2e/shared/selectors.js` — centralized testID constants for all screens
+- `e2e/flows/` — 7 flow tests: quran-reader, hifz, prayer-times, onboarding, subscription, offline-mode, arabic-tutor
+- `e2e/regression.test.js` — master smoke suite for CI (< 10 min)
+- `.github/workflows/e2e-ios.yml` — Detox on macos-14 simulator
+- `.github/workflows/e2e-android.yml` — Detox on ubuntu emulator
+- **TODO**: Add `testID` props to interactive elements in screens as you build them (selectors.js has the reference list)
+
+**Track 2: Performance Optimization — DONE**
+- `scripts/compress-assets.sh` — pngquant PNG compression script
+- `docs/performance.md` — performance budget and optimization notes
+- FlatList optimizations verified in VerseReaderScreen
+- Hermes + New Architecture already enabled
+
+**Track 3: App Store Content — DONE (committed)**
+- `docs/app-store/ios/description.md` — Full App Store listing
+- `docs/app-store/ios/keywords.txt` — 100-char keyword string
+- `docs/app-store/ios/privacy-labels.md`
+- `docs/app-store/ios/screenshot-specs.md`
+- `docs/app-store/android/` — short/long descriptions, screenshot specs
+- `docs/app-store/video/script.md` — 30-second promotional video script
+- `docs/app-store/submission-checklist.md`
+
+**Track 4: Visual Polish — DONE**
+- `client/components/ErrorState.tsx` — inline error display with retry
+- `client/components/SkeletonLoader.tsx` — thin wrapper over LoadingSkeleton
+- `client/navigation/RootStackNavigator.tsx` — added OfflineBanner above Stack.Navigator
+
+**Track 5: UX Polish — DONE**
+- `client/components/OfflineBanner.tsx` — animated offline indicator
+- `client/hooks/useTooltip.ts` — first-time tooltip tracking via AsyncStorage
+- `client/components/Tooltip.tsx` — Modal-based tooltip overlay
+- `client/components/FeaturePreviewCarousel.tsx` — auto-scrolling onboarding carousel
+- `client/screens/onboarding/WelcomeScreen.tsx` — replaced static features with carousel
+
+**Remaining before App Store submission:**
+- Add `testID` props to screens (reference `e2e/shared/selectors.js` for the list)
+- Add `Tooltip` to VerseReaderScreen (first-time tajweed hint)
+- Add permission priming to `PronunciationCoachScreen`
+- Generate screenshots with EAS dev build (see `docs/app-store/ios/screenshot-specs.md`)
+- Complete Apple Developer + RevenueCat configuration (see Remaining Steps below)
 
 **Estimated server cost at 1K users after Phase 6:** ~$79/mo (up from ~$27/mo).
 
@@ -229,7 +272,7 @@ web/              # Web export configuration
 npm install                     # Install dependencies
 npx expo start                  # Start Expo dev server
 npm run server                  # Start backend (separate terminal)
-npm test                        # Run 690 tests
+npm test                        # Run 707 tests
 npx tsc --noEmit               # TypeScript check (known errors in HifzMistakeFeedback.tsx)
 ```
 
