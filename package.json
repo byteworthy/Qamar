@@ -40,7 +40,7 @@
     "check:format": "prettier --check \"**/*.{js,ts,tsx,css,json}\"",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,json}\"",
     "test": "npm run test:server",
-    "test:server": "jest --config jest.config.js",
+    "test:server": "jest --config jest.config.js --forceExit",
     "test:client": "jest --config jest.config.mobile.js",
     "test:watch": "jest --watch",
     "test:e2e:ios": "detox test --configuration ios.sim.debug",
