@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useStudyPlanStore } from '@/stores/study-plan-store';
+import { useGamification } from '@/stores/gamification-store';
 import type { StudyPlanInput } from '../../shared/types/study-plan';
 
 export function useStudyPlan() {
@@ -7,7 +8,13 @@ export function useStudyPlan() {
   const [error, setError] = useState<string | null>(null);
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
 
-  const { currentPlan, setCurrentPlan, completeTask, uncompleteTask } = useStudyPlanStore();
+  const { currentPlan, setCurrentPlan, completeTask: storeCompleteTask, uncompleteTask } = useStudyPlanStore();
+  const { recordActivity } = useGamification();
+
+  const completeTask = (taskId: string) => {
+    storeCompleteTask(taskId);
+    recordActivity('study_plan_task_completed');
+  };
 
   const generatePlan = async (input: StudyPlanInput) => {
     setIsGenerating(true);
