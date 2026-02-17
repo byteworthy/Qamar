@@ -1,0 +1,62 @@
+name: E2E Tests — iOS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  e2e-ios:
+    name: Detox iOS Simulator
+    runs-on: macos-14
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Expo prebuild
+        uses: actions/cache@v4
+        with:
+          path: ios/
+          key: expo-prebuild-${{ hashFiles('app.json', 'package-lock.json') }}
+
+      - name: Prebuild iOS
+        run: npx expo prebuild --platform ios --clean
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+          working-directory: ios
+
+      - name: Install CocoaPods
+        run: cd ios && bundle exec pod install
+
+      - name: Build Detox iOS Release
+        run: npx detox build --configuration ios.sim.release
+
+      - name: Run Detox E2E Tests
+        run: npx detox test --configuration ios.sim.release --cleanup --headless
+        env:
+          DETOX_LOGLEVEL: warn
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detox-ios-artifacts
+          path: artifacts/
+          retention-days: 7

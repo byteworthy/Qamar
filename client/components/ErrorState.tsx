@@ -21,13 +21,13 @@ export function ErrorState({
   onRetry,
   retryLabel = "Try again",
 }: ErrorStateProps) {
-  const { colors } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <View style={styles.container} accessibilityRole="alert">
-      <Feather name="alert-circle" size={40} color={colors.error ?? "#E53E3E"} />
+      <Feather name="alert-circle" size={40} color={theme.error ?? "#E53E3E"} />
       <ThemedText style={styles.title}>{title}</ThemedText>
-      <ThemedText style={[styles.message, { color: colors.textSecondary }]}>
+      <ThemedText style={[styles.message, { color: theme.textSecondary }]}>
         {message}
       </ThemedText>
       {onRetry && (
@@ -35,7 +35,7 @@ export function ErrorState({
           onPress={onRetry}
           style={({ pressed }) => [
             styles.button,
-            { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 },
+            { backgroundColor: theme.primary, opacity: pressed ? 0.8 : 1 },
           ]}
           accessibilityRole="button"
           accessibilityLabel={retryLabel}

@@ -13,14 +13,14 @@ module.exports = {
     "ios.debug": {
       type: "ios.app",
       build:
-        "xcodebuild -workspace ios/myapp.xcworkspace -scheme myapp -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-      binaryPath: "ios/build/Build/Products/Debug-iphonesimulator/myapp.app",
+        "xcodebuild -workspace ios/Noor.xcworkspace -scheme Noor -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+      binaryPath: "ios/build/Build/Products/Debug-iphonesimulator/Noor.app",
     },
     "ios.release": {
       type: "ios.app",
       build:
-        "xcodebuild -workspace ios/myapp.xcworkspace -scheme myapp -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
-      binaryPath: "ios/build/Build/Products/Release-iphonesimulator/myapp.app",
+        "xcodebuild -workspace ios/Noor.xcworkspace -scheme Noor -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
+      binaryPath: "ios/build/Build/Products/Release-iphonesimulator/Noor.app",
     },
     "android.debug": {
       type: "android.apk",

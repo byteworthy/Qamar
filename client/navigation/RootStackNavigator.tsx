@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useScreenOptions } from "@/hooks/useScreenOptions";
 import { RootStackParamList } from "@/navigation/types";
+import { OfflineBanner } from "@/components/OfflineBanner";
 
 // Re-export RootStackParamList for convenience
 export type { RootStackParamList };
@@ -74,6 +76,8 @@ export default function RootStackNavigator() {
   }
 
   return (
+    <View style={{ flex: 1 }}>
+      <OfflineBanner />
     <Stack.Navigator
       screenOptions={screenOptions}
       initialRouteName={onboardingCompleted ? "Main" : "Onboarding_Welcome"}
@@ -302,5 +306,6 @@ export default function RootStackNavigator() {
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
+    </View>
   );
 }

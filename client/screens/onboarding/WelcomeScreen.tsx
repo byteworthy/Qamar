@@ -19,30 +19,12 @@ import {
   Shadows,
   Gradients,
 } from "@/constants/theme";
-import { NoorColors } from "@/constants/theme/colors";
 import { ThemedText } from "@/components/ThemedText";
-import { GlassCard } from "@/components/GlassCard";
+import { FeaturePreviewCarousel } from "@/components/FeaturePreviewCarousel";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const FEATURES = [
-  {
-    icon: "book-open" as const,
-    title: "Quran & Hadith",
-    desc: "Wisdom from the Quran and Prophetic traditions",
-  },
-  {
-    icon: "clock" as const,
-    title: "Prayer Times",
-    desc: "Accurate prayer times and Qibla direction",
-  },
-  {
-    icon: "heart" as const,
-    title: "Personal Reflection",
-    desc: "Guided journaling rooted in Islamic wisdom",
-  },
-];
 
 function ProgressDots({ current }: { current: number }) {
   const { theme } = useTheme();
@@ -172,52 +154,9 @@ export default function WelcomeScreen() {
           </ThemedText>
         </Animated.View>
 
-        {/* Feature highlights */}
-        <Animated.View
-          entering={FadeInUp.duration(500).delay(200)}
-          style={styles.features}
-        >
-          {FEATURES.map((feature, i) => (
-            <Animated.View
-              key={feature.title}
-              entering={FadeInUp.duration(400).delay(300 + i * 100)}
-            >
-              <GlassCard style={styles.featureCard}>
-                <View style={styles.featureRow}>
-                  <View
-                    style={[
-                      styles.featureIconWrap,
-                      { backgroundColor: theme.highlightAccent + "18" },
-                    ]}
-                  >
-                    <Feather
-                      name={feature.icon}
-                      size={22}
-                      color={theme.highlightAccent}
-                    />
-                  </View>
-                  <View style={styles.featureText}>
-                    <ThemedText
-                      style={[
-                        styles.featureTitle,
-                        { fontFamily: Fonts?.sansMedium },
-                      ]}
-                    >
-                      {feature.title}
-                    </ThemedText>
-                    <ThemedText
-                      style={[
-                        styles.featureDesc,
-                        { color: theme.textSecondary },
-                      ]}
-                    >
-                      {feature.desc}
-                    </ThemedText>
-                  </View>
-                </View>
-              </GlassCard>
-            </Animated.View>
-          ))}
+        {/* Feature highlights carousel */}
+        <Animated.View entering={FadeInUp.duration(500).delay(200)}>
+          <FeaturePreviewCarousel />
         </Animated.View>
       </ScrollView>
 
@@ -336,37 +275,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     textTransform: "uppercase",
     opacity: 0.7,
-  },
-  features: {
-    gap: Spacing.md,
-  },
-  featureCard: {
-    paddingVertical: Spacing.lg,
-    paddingHorizontal: Spacing.lg,
-  },
-  featureRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.lg,
-  },
-  featureIconWrap: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  featureText: {
-    flex: 1,
-    gap: 2,
-  },
-  featureTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  featureDesc: {
-    fontSize: 14,
-    lineHeight: 20,
   },
   footer: {
     paddingHorizontal: Spacing["2xl"],
