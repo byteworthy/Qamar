@@ -1,0 +1,300 @@
+{
+  "name": "Noor Freemium-to-Paid Conversion Funnel",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Firebase Trigger - New User Signup",
+      "type": "webhook",
+      "typeVersion": 1,
+      "position": [250, 100],
+      "parameters": {
+        "path": "noor/user-signup",
+        "method": "POST",
+        "authentication": "firebaseCloud",
+        "firebaseConfig": {
+          "projectId": "{{ env.FIREBASE_PROJECT_ID }}",
+          "privateKey": "{{ env.FIREBASE_PRIVATE_KEY }}",
+          "clientEmail": "{{ env.FIREBASE_CLIENT_EMAIL }}"
+        },
+        "options": {
+          "useAuth": true,
+          "rawBody": false
+        }
+      },
+      "credentials": {
+        "firebaseCloud": "firebase_service_account"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Extract User Metadata",
+      "type": "set",
+      "typeVersion": 1,
+      "position": [250, 250],
+      "parameters": {
+        "assignments": {
+          "userId": "{{ $node['Firebase Trigger - New User Signup'].json.body.uid }}",
+          "userEmail": "{{ $node['Firebase Trigger - New User Signup'].json.body.email }}",
+          "signupTimestamp": "{{ $now.toIso() }}",
+          "conversionDeadline": "{{ $now.add(7, 'days').toIso() }}",
+          "cohortDate": "{{ $now.toFormat('yyyy-MM-dd') }}"
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "Wait 7 Days",
+      "type": "wait",
+      "typeVersion": 1,
+      "position": [250, 400],
+      "parameters": {
+        "unit": "days",
+        "amount": 7,
+        "triggerOnExit": true
+      }
+    },
+    {
+      "id": "4",
+      "name": "Firebase Query - User Behavior Signals",
+      "type": "httpRequest",
+      "typeVersion": 4.1,
+      "position": [250, 550],
+      "parameters": {
+        "method": "POST",
+        "url": "https://firestore.googleapis.com/v1/projects/{{ env.FIREBASE_PROJECT_ID }}/databases/(default)/documents:runQuery",
+        "authentication": "oAuth2",
+        "sendHeaders": true,
+        "headerParameters": {
+          "Authorization": "Bearer {{ env.FIREBASE_ACCESS_TOKEN }}"
+        },
+        "jsonBody": {
+          "structuredQuery": {
+            "from": [
+              {
+                "collectionId": "user_activity"
+              }
+            ],
+            "where": {
+              "fieldFilter": {
+                "field": {
+                  "fieldPath": "userId"
+                },
+                "op": "EQUAL",
+                "value": {
+                  "stringValue": "{{ $node['Extract User Metadata'].json.userId }}"
+                }
+              }
+            },
+            "limit": 1000
+          }
+        },
+        "options": {
+          "useAuth": true
+        }
+      },
+      "credentials": {
+        "oAuth2": "firebase_oauth2"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Process Behavior Signals",
+      "type": "code",
+      "typeVersion": 2,
+      "position": [550, 550],
+      "parameters": {
+        "jsCode": "const activityRecords = $input.all();\nconst signals = {};\n\nif (!activityRecords || activityRecords.length === 0) {\n  return {\n    daysActive: 0,\n    consecutiveDaysActive: 0,\n    versesMemorized: 0,\n    hifzStarted: false,\n    averageSessionDuration: 0,\n    lastActivityDate: null\n  };\n}\n\nconst now = new Date();\nconst sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);\nconst activities = activityRecords\n  .map(r => r.json.document?.fields)\n  .filter(f => f && new Date(f.timestamp?.timestampValue) >= sevenDaysAgo);\n\nconst activeDates = new Set();\nlet totalSessionDuration = 0;\nlet hifzInitiated = false;\nlet versesCount = 0;\n\nactivities.forEach(activity => {\n  const date = new Date(activity.timestamp?.timestampValue).toISOString().split('T')[0];\n  activeDates.add(date);\n  \n  if (activity.sessionDuration?.integerValue) {\n    totalSessionDuration += parseInt(activity.sessionDuration.integerValue);\n  }\n  \n  if (activity.activity_type?.stringValue === 'hifz_started') {\n    hifzInitiated = true;\n  }\n  \n  if (activity.activity_type?.stringValue === 'verse_memorized') {\n    versesCount += 1;\n  }\n});\n\n// Calculate consecutive days active (check last 7 days)\nconst datesArray = Array.from(activeDates).sort();\nlet maxConsecutive = 0;\nlet currentStreak = 1;\n\nfor (let i = 1; i < datesArray.length; i++) {\n  const current = new Date(datesArray[i]);\n  const previous = new Date(datesArray[i - 1]);\n  const diffDays = (current - previous) / (1000 * 60 * 60 * 24);\n  \n  if (diffDays === 1) {\n    currentStreak++;\n    maxConsecutive = Math.max(maxConsecutive, currentStreak);\n  } else {\n    currentStreak = 1;\n  }\n}\n\nreturn {\n  daysActive: activeDates.size,\n  consecutiveDaysActive: maxConsecutive,\n  versesMemorized: versesCount,\n  hifzStarted: hifzInitiated,\n  averageSessionDuration: activities.length > 0 ? Math.round(totalSessionDuration / activities.length) : 0,\n  lastActivityDate: datesArray.length > 0 ? datesArray[datesArray.length - 1] : null\n};"
+      }
+    },
+    {
+      "id": "6",
+      "name": "Evaluate Conversion Readiness",
+      "type": "if",
+      "typeVersion": 1,
+      "position": [850, 550],
+      "parameters": {
+        "conditions": {
+          "rules": [
+            {
+              "value1": "{{ $node['Process Behavior Signals'].json.consecutiveDaysActive }}",
+              "value2": 5,
+              "operation": "gte"
+            },
+            {
+              "value1": "{{ $node['Process Behavior Signals'].json.hifzStarted }}",
+              "value2": true,
+              "operation": "equal",
+              "combinator": "or"
+            },
+            {
+              "value1": "{{ $node['Process Behavior Signals'].json.versesMemorized }}",
+              "value2": 10,
+              "operation": "gte",
+              "combinator": "or"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7",
+      "name": "Route: Ready for Upgrade Offer",
+      "type": "noOp",
+      "typeVersion": 1,
+      "position": [1100, 400]
+    },
+    {
+      "id": "8",
+      "name": "Route: Send Re-engagement",
+      "type": "noOp",
+      "typeVersion": 1,
+      "position": [1100, 700]
+    },
+    {
+      "id": "9",
+      "name": "Claude Haiku - Generate Personalized Pitch",
+      "type": "httpRequest",
+      "typeVersion": 4.1,
+      "position": [1350, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "x-api-key": "{{ env.ANTHROPIC_API_KEY }}",
+          "anthropic-version": "2023-06-01"
+        },
+        "jsonBody": {
+          "model": "claude-3-5-haiku-20241022",
+          "max_tokens": 150,
+          "system": "You are a personalized upgrade pitch generator for Noor, an Islamic companion app. Generate a compelling, concise pitch (2-3 sentences) referencing the user's specific behavior pattern. Be warm, encouraging, and focus on deepening their Islamic learning journey with premium features.",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Generate an upgrade pitch for a user who: Days active: {{ $node['Process Behavior Signals'].json.daysActive }}, Verses memorized: {{ $node['Process Behavior Signals'].json.versesMemorized }}, Hifz started: {{ $node['Process Behavior Signals'].json.hifzStarted }}, Average session duration (minutes): {{ $divide($node['Process Behavior Signals'].json.averageSessionDuration, 60) }}. Focus on: unlock unlimited hifz, advanced AI feedback, and personalized study plans."
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "genericCredentialType": {
+          "authenticationType": "httpHeaderAuth"
+        }
+      }
+    },
+    {
+      "id": "10",
+      "name": "Extract Claude Response",
+      "type": "set",
+      "typeVersion": 1,
+      "position": [1550, 400],
+      "parameters": {
+        "assignments": {
+          "personalizationMessage": "{{ $node['Claude Haiku - Generate Personalized Pitch'].json.content[0].text }}",
+          "generatedAt": "{{ $now.toIso() }}"
+        }
+      }
+    },
+    {
+      "id": "11",
+      "name": "Noor App API - Send Push Notification",
+      "type": "httpRequest",
+      "typeVersion": 4.1,
+      "position": [1750, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "{{ env.NOOR_API_URL }}/api/v1/notifications/push",
+        "authentication": "genericCredentialType",
+        "sendHeaders": true,
+        "headerParameters": {
+          "Authorization": "Bearer {{ env.NOOR_API_TOKEN }}",
+          "Content-Type": "application/json"
+        },
+        "jsonBody": {
+          "userId": "{{ $node['Extract User Metadata'].json.userId }}",
+          "type": "upgrade_offer",
+          "title": "Unlock Premium Islamic Learning",
+          "body": "{{ $node['Extract Claude Response'].json.personalizationMessage }}",
+          "deepLink": "noor://premium?offer=freemium_conversion&discount=3month_199",
+          "metadata": {
+            "cohortDate": "{{ $node['Extract User Metadata'].json.cohortDate }}",
+            "daysActive": "{{ $node['Process Behavior Signals'].json.daysActive }}",
+            "hifzInitiated": "{{ $node['Process Behavior Signals'].json.hifzStarted }}"
+          }
+        }
+      },
+      "credentials": {
+        "genericCredentialType": {
+          "authenticationType": "httpHeaderAuth"
+        }
+      }
+    },
+    {
+      "id": "12",
+      "name": "In-App Modal - Display Upgrade Offer",
+      "type": "set",
+      "typeVersion": 1,
+      "position": [1950, 400],
+      "parameters": {
+        "assignments": {
+          "offerTitle": "Continue Your Islamic Journey",
+          "offerDescription": "{{ $node['Extract Claude Response'].json.personalizationMessage }}",
+          "offerPrice": "3 months at $1.99/month",
+          "offerDuration": "3 months",
+          "monthlyPrice": 1.99,
+          "totalPrice": 5.97,
+          "discountPercentage": 75,
+          "regularPrice": 2.99,
+          "features": [\n            \"Unlimited hifz memorization reviews\",\n            \"Advanced mistake analysis with AI feedback\",\n            \"Personalized study plans\",\n            \"Hifz circles with community\",\n            \"Deep tafsir explanations\",\n            \"Dua recommendations\"\n          ],\n          "ctaText": "Start 3-Month Trial\",\n          "validUntil": "{{ $now.add(30, 'days').toIso() }}\"\n        }\n      }
+    },
+    {
+      "id": "13",
+      "name": "Stripe Webhook Listener - Conversion",
+      "type": "webhook",
+      "typeVersion": 1,
+      "position": [2150, 400],
+      "parameters": {
+        "path": "noor/stripe-conversion",
+        "method": "POST",
+        "authentication": "headerAuth",
+        "options": {
+          "useAuth": true,
+          "rawBody": false
+        }
+      }
+    },
+    {
+      "id": "14",
+      "name": "Process Stripe Event",
+      "type": "code",
+      "typeVersion": 2,
+      "position": [2300, 400],
+      "parameters": {
+        "jsCode": "const event = $input.first().json.body;\nconst eventType = event.type;\nconst data = event.data.object;\n\nif (eventType === 'charge.succeeded' || eventType === 'invoice.paid') {\n  return {\n    eventId: event.id,\n    timestamp: new Date(data.created * 1000).toIso(),\n    customerId: data.customer,\n    amount: data.amount / 100,\n    currency: data.currency,\n    status: 'converted',\n    planType: data.lines?.data?.[0]?.plan?.id || 'freemium_conversion_3month'\n  };\n}\n\nreturn { status: 'ignored', reason: 'Event type not tracked' };"
+      }
+    },
+    {
+      "id": "15",
+      "name": "Conditional: Was Purchase Completed?",
+      "type": "if",
+      "typeVersion": 1,
+      "position": [2500, 400],
+      "parameters": {
+        "conditions": {
+          "rules": [\n            {\n              \"value1\": \"{{ $node['Process Stripe Event'].json.status }}\",\n              \"value2\": \"converted\",\n              \"operation\": \"equal\"\n            }\n          ]\n        }\n      }
+    },
+    {
+      "id": "16",
+      "name": "Airtable Update - Log Conversion",
+      "type": "airtable",
+      "typeVersion": 2,
+      "position": [2700, 350],
+      "parameters": {
+        "operation": "create",
+        "baseId": "{{ env.AIRTABLE_BASE_ID }}",
+        "tableId": "tblFreemiumConversions",
+        "fields": {\n          \"User ID\": \"{{ $node['Extract User Metadata'].json.userId }}\",\n          \"Email\": \"{{ $node['Extract User Metadata'].json.userEmail }}\",\n          \"Signup Date\": \"{{ $node['Extract User Metadata'].json.signupTimestamp }}\",\n          \"Days Active (7-day window)\": \"{{ $node['Process Behavior Signals'].json.daysActive }}\",\n          \"Consecutive Days\": \"{{ $node['Process Behavior Signals'].json.consecutiveDaysActive }}\",\n          \"Verses Memorized\": \"{{ $node['Process Behavior Signals'].json.versesMemorized }}\",\n          \"Hifz Started\": \"{{ $node['Process Behavior Signals'].json.hifzStarted }}\",\n          \"Avg Session Duration (min)\": \"{{ $divide($node['Process Behavior Signals'].json.averageSessionDuration, 60) }}\",\n          \"Conversion Status\": \"Converted\",\n          \"Stripe Event ID\": \"{{ $node['Process Stripe Event'].json.eventId }}\",\n          \"Amount Paid\": \"{{ $node['Process Stripe Event'].json.amount }}\",\n          \"Conversion Date\": \"{{ $node['Process Stripe Event'].json.timestamp }}\",\n          \"Plan Type\": \"3 months at $1.99/month\",\n          \"Personalization Prompt Used\": \"Claude Haiku\",\n          \"Cohort Date\": \"{{ $node['Extract User Metadata'].json.cohortDate }}\",\n          \"Notes\": \"Freemium-to-paid conversion through 7-day nurture workflow\"\n        }\n      },\n      "credentials": {\n        "airtableApi": "airtable_personal_access_token"\n      }\n    },
+    {
+      "id": "17",\n      "name": "Success: Send Confirmation Email\",\n      "type": "emailSend\",\n      "typeVersion": 1,\n      "position\": [2850, 350],\n      "parameters\": {\n        \"toEmail\": \"{{ $node['Extract User Metadata'].json.userEmail }}\",\n        \"subject\": \"Welcome to Noor Plus! Your Premium Journey Begins\",\n        \"emailType\": \"html\",\n        \"htmlBody\": \"<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px;'><h2>Welcome to Noor Plus!</h2><p>Alhamdulillah! Your upgrade to Noor Plus is confirmed.</p><p><strong>Your 3-Month Plan:</strong></p><ul><li>$1.99/month for 3 months</li><li>Unlimited hifz reviews</li><li>Advanced AI feedback on memorization</li><li>Personalized study plans</li><li>Deep tafsir explanations</li><li>Hifz circles with community</li></ul><p>Your premium access starts immediately. Begin by visiting the Hifz section to unlock advanced features.</p><p>Questions? Contact us at support@byteworthy.com</p><p>Wa assalamu alaykum wa rahmatullahi wa barakatuh,<br/>The Noor Team</p></div>\"\n      }\n    },\n    {\n      \"id\": \"18\",\n      \"name\": \"Firebase Update - Mark User as Converted\",\n      \"type\": \"httpRequest\",\n      \"typeVersion\": 4.1,\n      \"position\": [2850, 450],\n      \"parameters\": {\n        \"method\": \"PATCH\",\n        \"url\": \"https://firestore.googleapis.com/v1/projects/{{ env.FIREBASE_PROJECT_ID }}/databases/(default)/documents/users/{{ $node['Extract User Metadata'].json.userId }}\",\n        \"authentication\": \"oAuth2\",\n        \"sendHeaders\": true,\n        \"headerParameters\": {\n          \"Authorization\": \"Bearer {{ env.FIREBASE_ACCESS_TOKEN }}\"\n        },\n        \"jsonBody\": {\n          \"fields\": {\n            \"subscription_status\": { \"stringValue\": \"premium\" },\n            \"subscription_tier\": { \"stringValue\": \"plus_monthly\" },\n            \"conversion_date\": { \"timestampValue\": \"{{ $now.toISO() }}\" },\n            \"freemium_days_active\": { \"integerValue\": \"{{ $node['Process Behavior Signals'].json.daysActive }}\" },\n            \"conversion_source\": { \"stringValue\": \"freemium_funnel_7day\" }\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"19\",\n      \"name\": \"Segment Track - Conversion Event\",\n      \"type\": \"httpRequest\",\n      \"typeVersion\": 4.1,\n      \"position\": [2850, 550],\n      \"parameters\": {\n        \"method\": \"POST\",\n        \"url\": \"https://api.segment.com/v1/track\",\n        \"authentication\": \"genericCredentialType\",\n        \"sendHeaders\": true,\n        \"headerParameters\": {\n          \"Authorization\": \"Bearer {{ env.SEGMENT_API_TOKEN }}\"\n        },\n        \"jsonBody\": {\n          \"userId\": \"{{ $node['Extract User Metadata'].json.userId }}\",\n          \"event\": \"Freemium_Conversion_Completed\",\n          \"properties\": {\n            \"conversion_funnel\": \"7_day_nurture\",\n            \"days_active\": \"{{ $node['Process Behavior Signals'].json.daysActive }}\",\n            \"verses_memorized\": \"{{ $node['Process Behavior Signals'].json.versesMemorized }}\",\n            \"hifz_initiated\": \"{{ $node['Process Behavior Signals'].json.hifzStarted }}\",\n            \"plan_type\": \"3_months_199\",\n            \"lifetime_value\": 5.97,\n            \"stripe_customer_id\": \"{{ $node['Process Stripe Event'].json.customerId }}\"\n          },\n          \"timestamp\": \"{{ $now.toISO() }}\"\n        }\n      }\n    },\n    {\n      \"id\": \"20\",\n      \"name\": \"Non-Conversion: Send Re-engagement Campaign\",\n      \"type\": \"emailSend\",\n      \"typeVersion\": 1,\n      \"position\": [1100, 700],\n      \"parameters\": {\n        \"toEmail\": \"{{ $node['Extract User Metadata'].json.userEmail }}\",\n        \"subject\": \"Come Back to Noor - Exclusive Offer Inside\",\n        \"emailType\": \"html\",\n        \"htmlBody\": \"<div style='font-family: Arial, sans-serif; color: #333; max-width: 600px;'><h2>We Miss You!</h2><p>It looks like you haven't explored all that Noor can offer yet.</p><p>Your 7 free days are ending soon. Unlock:</p><ul><li>Advanced Hifz memorization with spaced repetition</li><li>Personalized study plans from our AI companion</li><li>Deep tafsir from Islamic scholars</li><li>Community hifz circles</li></ul><p><strong>Special Offer: 3 months for $1.99/month</strong> (75% off regular price)</p><p>Start your premium journey today!</p><p>Questions? We're here to help: support@byteworthy.com</p></div>\"\n      }\n    },\n    {\n      \"id\": \"21\",\n      \"name\": \"Airtable Log - Non-Conversion\",\n      \"type\": \"airtable\",\n      \"typeVersion\": 2,\n      \"position\": [1300, 700],\n      \"parameters\": {\n        \"operation\": \"create\",\n        \"baseId\": \"{{ env.AIRTABLE_BASE_ID }}\",\n        \"tableId\": \"tblFreemiumNonConversions\",\n        \"fields\": {\n          \"User ID\": \"{{ $node['Extract User Metadata'].json.userId }}\",\n          \"Email\": \"{{ $node['Extract User Metadata'].json.userEmail }}\",\n          \"Signup Date\": \"{{ $node['Extract User Metadata'].json.signupTimestamp }}\",\n          \"Days Active\": \"{{ $node['Process Behavior Signals'].json.daysActive }}\",\n          \"Consecutive Days\": \"{{ $node['Process Behavior Signals'].json.consecutiveDaysActive }}\",\n          \"Verses Memorized\": \"{{ $node['Process Behavior Signals'].json.versesMemorized }}\",\n          \"Hifz Started\": \"{{ $node['Process Behavior Signals'].json.hifzStarted }}\",\n          \"Avg Session Duration (min)\": \"{{ $divide($node['Process Behavior Signals'].json.averageSessionDuration, 60) }}\",\n          \"Conversion Status\": \"No Conversion\",\n          \"Re-engagement Sent\": \"Yes\",\n          \"Cohort Date\": \"{{ $node['Extract User Metadata'].json.cohortDate }}\",\n          \"Notes\": \"Did not meet conversion criteria. Re-engagement email sent.\"\n        }\n      },\n      \"credentials\": {\n        \"airtableApi\": \"airtable_personal_access_token\"\n      }\n    },\n    {\n      \"id\": \"22\",\n      \"name\": \"Firebase Update - Mark Non-Converter\",\n      \"type\": \"httpRequest\",\n      \"typeVersion\": 4.1,\n      \"position\": [1300, 800],\n      \"parameters\": {\n        \"method\": \"PATCH\",\n        \"url\": \"https://firestore.googleapis.com/v1/projects/{{ env.FIREBASE_PROJECT_ID }}/databases/(default)/documents/users/{{ $node['Extract User Metadata'].json.userId }}\",\n        \"authentication\": \"oAuth2\",\n        \"sendHeaders\": true,\n        \"headerParameters\": {\n          \"Authorization\": \"Bearer {{ env.FIREBASE_ACCESS_TOKEN }}\"\n        },\n        \"jsonBody\": {\n          \"fields\": {\n            \"conversion_funnel_status\": { \"stringValue\": \"re-engagement_sent\" },\n            \"re_engagement_date\": { \"timestampValue\": \"{{ $now.toISO() }}\" },\n            \"freemium_days_active\": { \"integerValue\": \"{{ $node['Process Behavior Signals'].json.daysActive }}\" }\n          }\n        }\n      }\n    },\n    {\n      \"id\": \"23\",\n      \"name\": \"Segment Track - Re-engagement Event\",\n      \"type\": \"httpRequest\",\n      \"typeVersion\": 4.1,\n      \"position\": [1500, 800],\n      \"parameters\": {\n        \"method\": \"POST\",\n        \"url\": \"https://api.segment.com/v1/track\",\n        \"authentication\": \"genericCredentialType\",\n        \"sendHeaders\": true,\n        \"headerParameters\": {\n          \"Authorization\": \"Bearer {{ env.SEGMENT_API_TOKEN }}\"\n        },\n        \"jsonBody\": {\n          \"userId\": \"{{ $node['Extract User Metadata'].json.userId }}\",\n          \"event\": \"Freemium_Re_engagement_Sent\",\n          \"properties\": {\n            \"conversion_funnel\": \"7_day_nurture\",\n            \"days_active\": \"{{ $node['Process Behavior Signals'].json.daysActive }}\",\n            \"verses_memorized\": \"{{ $node['Process Behavior Signals'].json.versesMemorized }}\",\n            \"hifz_initiated\": \"{{ $node['Process Behavior Signals'].json.hifzStarted }}\",\n            \"non_conversion_reason\": \"did_not_meet_criteria\"\n          },\n          \"timestamp\": \"{{ $now.toISO() }}\"\n        }\n      }\n    }\n  ],\n  \"connections\": {\n    \"Firebase Trigger - New User Signup\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Extract User Metadata\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Extract User Metadata\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Wait 7 Days\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Wait 7 Days\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Firebase Query - User Behavior Signals\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Firebase Query - User Behavior Signals\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Process Behavior Signals\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Process Behavior Signals\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Evaluate Conversion Readiness\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Evaluate Conversion Readiness\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Route: Ready for Upgrade Offer\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ],\n        [\n          {\n            \"node\": \"Route: Send Re-engagement\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Route: Ready for Upgrade Offer\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Claude Haiku - Generate Personalized Pitch\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Claude Haiku - Generate Personalized Pitch\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Extract Claude Response\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Extract Claude Response\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Noor App API - Send Push Notification\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Noor App API - Send Push Notification\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"In-App Modal - Display Upgrade Offer\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"In-App Modal - Display Upgrade Offer\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Stripe Webhook Listener - Conversion\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Stripe Webhook Listener - Conversion\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Process Stripe Event\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Process Stripe Event\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Conditional: Was Purchase Completed?\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Conditional: Was Purchase Completed?\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Airtable Update - Log Conversion\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Airtable Update - Log Conversion\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Success: Send Confirmation Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          },\n          {\n            \"node\": \"Firebase Update - Mark User as Converted\",\n            \"type\": \"main\",\n            \"index\": 0\n          },\n          {\n            \"node\": \"Segment Track - Conversion Event\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Route: Send Re-engagement\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Non-Conversion: Send Re-engagement Campaign\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Non-Conversion: Send Re-engagement Campaign\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Airtable Log - Non-Conversion\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Airtable Log - Non-Conversion\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Firebase Update - Mark Non-Converter\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Firebase Update - Mark Non-Converter\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Segment Track - Re-engagement Event\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"active\": true,\n  \"settings\": {\n    \"executionOrder\": \"v1\",\n    \"saveDataErrorExecution\": \"all\",\n    \"saveDataSuccessExecution\": \"all\",\n    \"saveExecutionProgress\": true,\n    \"timezone\": \"America/Chicago\"\n  },\n  \"staticData\": {\n    \"node\": {}\n  }\n}\n
