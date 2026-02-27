@@ -26,6 +26,7 @@ import {
   Flashcard,
   ConversationScenario,
 } from "@/hooks/useArabicLearning";
+import { useShallow } from "zustand/react/shallow";
 import { useAppState, selectDailyProgress } from "@/stores/app-state";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { NoorColors } from "@/constants/theme/colors";
@@ -182,7 +183,7 @@ export default function ArabicLearningScreen() {
   const { data: scenarios } = useConversationScenarios();
 
   // Zustand daily progress
-  const dailyProgress = useAppState(selectDailyProgress);
+  const dailyProgress = useAppState(useShallow(selectDailyProgress));
 
   const dueCount = dueCards?.length ?? 0;
   const isLoading = dueLoading || allLoading;

@@ -12,6 +12,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { useArabicProgress } from "@/hooks/useArabicLearning";
+import { useShallow } from "zustand/react/shallow";
 import { useAppState, selectDailyProgress } from "@/stores/app-state";
 import { BorderRadius } from "@/constants/theme";
 import { NoorColors } from "@/constants/theme/colors";
@@ -101,7 +102,7 @@ export default function LearnTabScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   const { data: progress } = useArabicProgress();
-  const dailyProgress = useAppState(selectDailyProgress);
+  const dailyProgress = useAppState(useShallow(selectDailyProgress));
 
   const features = [
     {

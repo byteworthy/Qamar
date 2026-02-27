@@ -137,11 +137,12 @@ All 5 tracks dispatched. Current status:
 - `client/components/Tooltip.tsx` — Modal-based tooltip overlay
 - `client/components/FeaturePreviewCarousel.tsx` — auto-scrolling onboarding carousel
 - `client/screens/onboarding/WelcomeScreen.tsx` — replaced static features with carousel
+- `client/screens/learn/PronunciationCoachScreen.tsx` — permission priming (canAskAgain, priming card, settings redirect)
 
 **Remaining before App Store submission:**
 - ~~Add `testID` props to screens~~ — **DONE** (all screens complete, tsc clean)
 - ~~Add `Tooltip` to VerseReaderScreen (first-time tajweed hint)~~ — **DONE** (Tooltip component + useTooltip hook integrated)
-- Add permission priming to `PronunciationCoachScreen`
+- ~~Add permission priming to `PronunciationCoachScreen`~~ — **DONE** (priming card + canAskAgain + settings redirect)
 - Generate screenshots with EAS dev build (see `docs/app-store/ios/screenshot-specs.md`)
 - Complete Apple Developer + RevenueCat configuration (see Remaining Steps below)
 

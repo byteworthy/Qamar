@@ -5,6 +5,7 @@ import {
   Pressable,
   TextInput,
   Modal,
+  Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -31,6 +32,7 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { Brand } from "@/constants/brand";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { useDailyHadith } from "@/hooks/useHadithData";
+import { useShallow } from "zustand/react/shallow";
 import {
   useAppState,
   selectUserLocation,
@@ -66,6 +68,12 @@ import {
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+// Disable Reanimated entering animations on web — they cause React Error #185
+// when many fire simultaneously due to Reanimated's internal setState calls.
+const IS_WEB = Platform.OS === "web";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ne = (animation: any) => (IS_WEB ? undefined : animation);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Module Card (preserved from original)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -80,24 +88,27 @@ const ModuleCard = React.memo(function ModuleCard({
   locked,
   testID,
 }: ModuleCardProps) {
-  const scale = useSharedValue(1);
-  const rotation = useSharedValue(0);
   const initialRotation = (delay % 2 === 0 ? -1 : 1) * 0.5;
+  const scale = useSharedValue(1);
+  const rotation = useSharedValue(initialRotation);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }, { rotate: `${rotation.value}deg` }],
   }));
 
+  const webStyle = IS_WEB
+    ? { transform: [{ scale: 1 }, { rotate: `${initialRotation}deg` }] }
+    : undefined;
+
   return (
     <Animated.View
-      entering={FadeInUp.duration(400)
+      entering={ne(FadeInUp.duration(400)
         .delay(delay)
         .springify()
         .damping(15)
-        .stiffness(100)}
-      style={[{ transform: [{ rotate: `${initialRotation}deg` }] }]}
+        .stiffness(100))}
     >
-      <Animated.View style={animatedStyle}>
+      <Animated.View style={IS_WEB ? webStyle : animatedStyle}>
         <Pressable
           testID={testID}
           onPress={onPress}
@@ -165,7 +176,7 @@ const QuickActionButton = React.memo(function QuickActionButton({
 
   return (
     <Animated.View
-      entering={FadeInUp.duration(350).delay(delay)}
+      entering={ne(FadeInUp.duration(350).delay(delay))}
       style={styles.quickActionItem}
     >
       <Pressable
@@ -250,7 +261,7 @@ export default function HomeScreen() {
   // ── Store selectors ─────────────────────────────────────────────────
   const userLocation = useAppState(selectUserLocation);
   const arabicState = useAppState(selectArabicState);
-  const dailyProgress = useAppState(selectDailyProgress);
+  const dailyProgress = useAppState(useShallow(selectDailyProgress));
 
   // ── Gamification selectors ────────────────────────────────────────
   const currentStreak = useGamification(selectCurrentStreak);
@@ -455,7 +466,7 @@ export default function HomeScreen() {
           >
             {/* ── Header with Hijri Date + Islamic Greeting ── */}
             <Animated.View
-              entering={FadeInDown.duration(300)}
+              entering={ne(FadeInDown.duration(300))}
               style={styles.header}
             >
               <ThemedText
@@ -521,7 +532,7 @@ export default function HomeScreen() {
             </Animated.View>
 
             {/* ── Streak Badge + Daily Noor CTA ── */}
-            <Animated.View entering={FadeInUp.duration(350).delay(40)}>
+            <Animated.View entering={ne(FadeInUp.duration(350).delay(40))}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
                 {/* Streak Badge */}
                 <Pressable
@@ -594,7 +605,7 @@ export default function HomeScreen() {
 
             {/* ── Ramadan Banner ── */}
             {isRamadan && (
-              <Animated.View entering={FadeInUp.duration(350).delay(50)}>
+              <Animated.View entering={ne(FadeInUp.duration(350).delay(50))}>
                 <Pressable
                   onPress={handleNavigateRamadanHub}
                   accessibilityRole="button"
@@ -625,7 +636,7 @@ export default function HomeScreen() {
             )}
 
             {/* ── Next Prayer Card ── */}
-            <Animated.View entering={FadeInUp.duration(350).delay(60)}>
+            <Animated.View entering={ne(FadeInUp.duration(350).delay(60))}>
               <Pressable
                 onPress={handleNavigatePrayerTimes}
                 accessibilityRole="button"
@@ -716,7 +727,7 @@ export default function HomeScreen() {
 
             {/* ── Daily Hadith Card ── */}
             {dailyHadith && (
-              <Animated.View entering={FadeInUp.duration(350).delay(120)}>
+              <Animated.View entering={ne(FadeInUp.duration(350).delay(120))}>
                 <Pressable
                   onPress={() => handleNavigateHadithDetail(dailyHadith.id)}
                   accessibilityRole="button"
@@ -790,7 +801,7 @@ export default function HomeScreen() {
             )}
 
             {/* ── Quick Actions Row ── */}
-            <Animated.View entering={FadeInUp.duration(350).delay(180)}>
+            <Animated.View entering={ne(FadeInUp.duration(350).delay(180))}>
               <View style={styles.quickActionsSection}>
                 <ThemedText
                   style={[
@@ -835,7 +846,7 @@ export default function HomeScreen() {
             </Animated.View>
 
             {/* ── Today's Anchor ── */}
-            <Animated.View entering={FadeInUp.duration(350).delay(240)}>
+            <Animated.View entering={ne(FadeInUp.duration(350).delay(240))}>
               <GlassCard style={styles.anchorCard} elevated breathing>
                 <IslamicPattern variant="moonstar" opacity={0.03} />
                 <View style={styles.anchorHeader}>
@@ -873,7 +884,7 @@ export default function HomeScreen() {
 
             {/* ── Arabic Learning Streak ── */}
             {hasArabicActivity && (
-              <Animated.View entering={FadeInUp.duration(350).delay(300)}>
+              <Animated.View entering={ne(FadeInUp.duration(350).delay(300))}>
                 <Pressable
                   onPress={handleNavigateArabic}
                   accessibilityRole="button"
@@ -938,7 +949,7 @@ export default function HomeScreen() {
 
             {/* ── Recent Reflections ── */}
             {recentReflections.length > 0 && (
-              <Animated.View entering={FadeInUp.duration(350).delay(340)}>
+              <Animated.View entering={ne(FadeInUp.duration(350).delay(340))}>
                 <View style={styles.reflectionsSection}>
                   <View style={styles.reflectionsSectionHeader}>
                     <ThemedText
@@ -969,7 +980,7 @@ export default function HomeScreen() {
                   {recentReflections.map((reflection, index) => (
                     <Animated.View
                       key={reflection.id}
-                      entering={FadeInUp.duration(300).delay(360 + index * 60)}
+                      entering={ne(FadeInUp.duration(300).delay(360 + index * 60))}
                     >
                       <Pressable
                         onPress={handleNavigateHistory}
@@ -1016,7 +1027,7 @@ export default function HomeScreen() {
             )}
 
             {/* ── Journey Progress Card ── */}
-            <Animated.View entering={FadeInUp.duration(350).delay(380)}>
+            <Animated.View entering={ne(FadeInUp.duration(350).delay(380))}>
               <View testID="stats-card">
               <GlassCard style={styles.journeyCard} elevated>
                 <View style={styles.journeyHeader}>
@@ -1162,7 +1173,7 @@ export default function HomeScreen() {
             {/* ── Upgrade Banner ── */}
             {!isPaid && (
               <Animated.View
-                entering={FadeInUp.duration(300).delay(580)}
+                entering={ne(FadeInUp.duration(300).delay(580))}
                 style={styles.upgradeSection}
               >
                 <Pressable
@@ -1197,7 +1208,7 @@ export default function HomeScreen() {
 
             {/* ── Footer ── */}
             <Animated.View
-              entering={FadeInUp.duration(300).delay(620)}
+              entering={ne(FadeInUp.duration(300).delay(620))}
               style={styles.footer}
             >
               <ThemedText

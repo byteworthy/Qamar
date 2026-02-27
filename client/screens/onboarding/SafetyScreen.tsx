@@ -50,10 +50,7 @@ export default function SafetyScreen() {
 
   const handleGetStarted = async () => {
     await setOnboardingCompleted();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Main" }],
-    });
+    navigation.navigate("Main");
   };
 
   return (

@@ -44,26 +44,14 @@ interface AnimatedTabIconProps {
   focused: boolean;
 }
 
-function AnimatedTabIcon({ name, color, focused }: AnimatedTabIconProps) {
+function AnimatedTabIconNative({ name, color, focused }: AnimatedTabIconProps) {
   const scale = useSharedValue(focused ? 1 : 0.9);
   const colorProgress = useSharedValue(focused ? 1 : 0);
 
   useEffect(() => {
-    if (focused) {
-      // Trigger haptic feedback when tab becomes focused
-      hapticLight();
-    }
-
-    // Animate scale
-    scale.value = withSpring(focused ? 1.1 : 0.95, {
-      damping: 15,
-      stiffness: 150,
-    });
-
-    // Animate color transition
-    colorProgress.value = withTiming(focused ? 1 : 0, {
-      duration: 200,
-    });
+    if (focused) hapticLight();
+    scale.value = withSpring(focused ? 1.1 : 0.95, { damping: 15, stiffness: 150 });
+    colorProgress.value = withTiming(focused ? 1 : 0, { duration: 200 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused]);
 
@@ -76,6 +64,23 @@ function AnimatedTabIcon({ name, color, focused }: AnimatedTabIconProps) {
       <Feather name={name} size={22} color={color} />
     </Animated.View>
   );
+}
+
+function AnimatedTabIconWeb({ name, color, focused }: AnimatedTabIconProps) {
+  useEffect(() => {
+    if (focused) hapticLight();
+  }, [focused]);
+  return (
+    <View style={{ transform: [{ scale: focused ? 1.1 : 0.95 }] }}>
+      <Feather name={name} size={22} color={color} />
+    </View>
+  );
+}
+
+function AnimatedTabIcon(props: AnimatedTabIconProps) {
+  return Platform.OS === 'web'
+    ? <AnimatedTabIconWeb {...props} />
+    : <AnimatedTabIconNative {...props} />;
 }
 
 function TabBarBackground() {
