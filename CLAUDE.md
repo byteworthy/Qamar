@@ -1,12 +1,12 @@
-# CLAUDE.md — Noor
+# CLAUDE.md — Qamar
 
-## What is Noor?
+## What is Qamar?
 
-**Noor is a complete Islamic companion app** — one app instead of five. It brings together a full Quran reader, Arabic learning suite, prayer times, guided reflection, and Khalil (a conversational muhasaba companion) in a single offline-capable, ad-free experience.
+**Qamar is a complete Islamic companion app** — one app instead of five. It brings together a full Quran reader, Arabic learning suite, prayer times, guided reflection, and Khalil (a conversational muhasaba companion) in a single offline-capable, ad-free experience.
 
-> The name means "light" (نور) in Arabic. The tagline: *Your Complete Islamic Companion.*
+> The name means "moon" (قمر) in Arabic. The tagline: *Your Complete Islamic Companion.*
 
-Noor is **not** positioned as an AI product. Khalil is the app's named companion character — a spiritual conversation partner for muhasaba (self-reflection). Avoid "AI", "model", "language model", "algorithm", or clinical/therapeutic language anywhere in the app or in prompts. Use "companion", "guide", "Khalil", or simply describe what the feature does.
+Qamar is **not** positioned as an AI product. Khalil is the app's named companion character — a spiritual conversation partner for muhasaba (self-reflection). Avoid "AI", "model", "language model", "algorithm", or clinical/therapeutic language anywhere in the app or in prompts. Use "companion", "guide", "Khalil", or simply describe what the feature does.
 
 ---
 
@@ -41,7 +41,8 @@ Noor is **not** positioned as an AI product. Khalil is the app's named companion
 | Build/Deploy | EAS Build + EAS Submit |
 | Testing | Jest 30 + Detox E2E |
 
-**Bundle ID:** `com.byteworthy.noor`
+**App name:** Qamar (formerly Noor)
+**Bundle ID:** `com.byteworthy.noor` (unchanged for App Store continuity)
 **EAS Project ID:** `b3e205eb-b119-4976-a275-df7bcef85275`
 **Backend:** Railway (PostgreSQL + Express)
 **New architecture:** enabled (`newArchEnabled: true`, React Compiler, Hermes)
@@ -51,7 +52,7 @@ Noor is **not** positioned as an AI product. Khalil is the app's named companion
 ## Project Structure
 
 ```
-noor/
+qamar/ (repo still named noor/)
   client/                    # React Native app
     App.tsx                  # Root component
     index.js                 # Entry point
@@ -172,7 +173,7 @@ EXPO_PUBLIC_SENTRY_DSN=        # Client-side Sentry
 
 | Screen | Tab | What it does |
 |--------|-----|--------------|
-| `HomeScreen` | Home | Daily Noor summary, streaks, quick actions |
+| `HomeScreen` | Home | Daily summary, streaks, quick actions |
 | `KhalilScreen` | Companion | Conversational muhasaba with Khalil |
 | `ThoughtCaptureScreen` | Companion | Record a thought or feeling |
 | `ReframeScreen` | Companion | Reframe a thought with Islamic perspective |
@@ -185,6 +186,7 @@ EXPO_PUBLIC_SENTRY_DSN=        # Client-side Sentry
 | `ArabicTutor` | Learn | Conversational Arabic tutor (4 modes) |
 | `PronunciationCoach` | Learn | Record → STT → personalized feedback |
 | `Translator` | Learn | Translation with root word analysis |
+| `TravelTranslator` | Learn | Offline phrasebook (800+ EN/ES ↔ AR) + cached translations |
 | `DuaScreen` | Worship | 100+ adhkar with counters |
 | `PrayerTimesScreen` | Worship | Precise prayer times + qibla compass |
 | `RamadanHubScreen` | Worship | Fasting tracker, Ramadan calendar |
@@ -197,7 +199,7 @@ EXPO_PUBLIC_SENTRY_DSN=        # Client-side Sentry
 ## Server Routes
 
 ```
-/api/companion/*        Companion chat (Noor's general conversational companion)
+/api/companion/*        Companion chat (Qamar's general conversational companion)
 /api/khalil/*           Khalil muhasaba (named reflection companion)
 /api/quran/*            Quran text, audio, tajweed
 /api/hifz/*             Memorization (FSRS scheduling, feedback)
@@ -283,6 +285,7 @@ Core features that **must** work without a network connection:
 - Qibla direction (device sensors)
 - Adhkar and dua library
 - Saved vocabulary flashcards
+- Travel phrasebook (800+ bundled phrases) + cached translations
 - Reflection history (read from WatermelonDB)
 
 Features that require network:
@@ -310,7 +313,7 @@ Features that require network:
 - Jailbreak detection via `jail-monkey` (blocks screenshot capture on rooted devices)
 - `expo-screen-capture` prevents screenshots on sensitive screens
 - Helmet + express-rate-limit on all server routes
-- No PHI — Noor never collects health or medical data
+- No PHI — Qamar never collects health or medical data
 
 ---
 
