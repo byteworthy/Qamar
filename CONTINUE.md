@@ -1,10 +1,10 @@
-# Noor App - Continuation Guide
+# Qamar App - Continuation Guide
 
 Use this document to pick up development from any fresh clone.
 
 ## Project Summary
 
-**Noor** is a unified Islamic companion app (React Native + Expo SDK 54) combining an interactive companion, Quran reader, prayer times, Arabic learning, and personal reflection. Built from a clean merge of foundational data assets and React Native framework.
+**Qamar** is a unified Islamic companion app (React Native + Expo SDK 54) combining an interactive companion, Quran reader, prayer times, Arabic learning, and personal reflection. Built from a clean merge of foundational data assets and React Native framework.
 
 - **Version**: 2.0.0
 - **Bundle ID**: `com.byteworthy.noor` (iOS + Android)
@@ -102,7 +102,7 @@ Polish work:
 All 5 tracks dispatched. Current status:
 
 **Track 1: E2E Test Suite — DONE**
-- Fixed `.detoxrc.js` (myapp → Noor)
+- Fixed `.detoxrc.js` (myapp → Qamar)
 - `e2e/shared/helpers.js` — waitFor, tap, type, scroll, reload utilities
 - `e2e/shared/selectors.js` — centralized testID constants for all screens
 - `e2e/flows/` — 7 flow tests: quran-reader, hifz, prayer-times, onboarding, subscription, offline-mode, arabic-tutor
@@ -166,7 +166,7 @@ New files:
 - `client/stores/__tests__/travel-favorites-store.test.ts` — favorites store tests
 
 Modified files:
-- `app.json` — rebrand Noor → Qamar (name, slug, scheme, permission strings, legal URLs)
+- `app.json` — updated to Qamar branding (name, slug, scheme, permission strings, legal URLs)
 - `client/navigation/types.ts` — added TravelTranslator route
 - `client/navigation/RootStackNavigator.tsx` — registered TravelTranslatorScreen
 - `client/screens/learn/LearnTabScreen.tsx` — added Travel Translator feature card
@@ -331,12 +331,12 @@ npx tsc --noEmit               # TypeScript check (0 errors expected; known pre-
 
 ## Legal URLs (Live)
 
-- Privacy Policy: https://byteworthy.github.io/Noor/legal/privacy.html
-- Terms of Service: https://byteworthy.github.io/Noor/legal/terms.html
+- Privacy Policy: https://byteworthy.github.io/Qamar/legal/privacy.html
+- Terms of Service: https://byteworthy.github.io/Qamar/legal/terms.html
 
 ## Important Notes
 
-- **Not a therapy app** — Noor is an Islamic companion for education, worship tools, and personal reflection. No medical/clinical claims.
+- **Not a therapy app** — Qamar is an Islamic companion for education, worship tools, and personal reflection. No medical/clinical claims.
 - **Safety system** — Built-in crisis detection routes users to 988 Suicide & Crisis Lifeline. This is a safety guardrail, not a therapy feature.
 - **Offline-first** — Quran, Hadith, prayer times, TTS, and tajweed (cached) work without internet. Interactive features (tutor/pronunciation/translation) require connectivity.
 - **Dev build** — `@react-native-voice/voice` requires a dev build (not Expo Go). Run `eas build --profile development` for testing.
