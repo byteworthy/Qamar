@@ -361,6 +361,7 @@ export default function ArabicTutorScreen() {
 
   return (
     <KeyboardAvoidingView
+      testID="arabic-tutor-screen"
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
@@ -401,6 +402,7 @@ export default function ArabicTutorScreen() {
       {/* ==== Chat Area ==== */}
       <ScrollView
         ref={scrollViewRef}
+        testID="tutor-message-list"
         style={styles.chatArea}
         contentContainerStyle={[
           styles.chatContent,
@@ -435,6 +437,7 @@ export default function ArabicTutorScreen() {
         {showQuotaBadge && (
           <View style={styles.quotaBadgeRow}>
             <View
+              testID="daily-quota-badge"
               style={[
                 styles.quotaBadge,
                 { backgroundColor: NoorColors.gold + "18" },
@@ -452,6 +455,7 @@ export default function ArabicTutorScreen() {
         <View style={styles.inputRow}>
           <TextInput
             ref={inputRef}
+            testID="tutor-chat-input"
             style={[
               styles.textInput,
               {
@@ -471,6 +475,7 @@ export default function ArabicTutorScreen() {
             blurOnSubmit={false}
           />
           <TouchableOpacity
+            testID="tutor-send-button"
             onPress={handleSend}
             disabled={!inputText.trim() || isLoading}
             activeOpacity={0.7}

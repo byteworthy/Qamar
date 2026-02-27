@@ -302,6 +302,7 @@ export default function ThoughtCaptureScreen() {
               },
             ]}
             textAlignVertical="top"
+            testID="thought-input"
             accessibilityLabel="Thought input"
             accessibilityHint="Enter the thought or feeling you want to reflect on"
           />
@@ -377,6 +378,7 @@ export default function ThoughtCaptureScreen() {
                     elevation: isSelected ? 8 : 0,
                   },
                 ]}
+                testID={`intensity-${level}`}
                 accessibilityRole="button"
                 accessibilityLabel={`Intensity level ${level}: ${INTENSITY_LABELS[level].label}`}
                 accessibilityHint={INTENSITY_LABELS[level].description}
@@ -475,6 +477,7 @@ export default function ThoughtCaptureScreen() {
       )}
 
       <View style={styles.buttonSection}>
+        <View testID="continue-button">
         <Button
           onPress={handleContinue}
           disabled={!canContinue}
@@ -485,6 +488,7 @@ export default function ThoughtCaptureScreen() {
         >
           {ScreenCopy.thoughtCapture.continue}
         </Button>
+        </View>
       </View>
 
         <ExitConfirmationModal

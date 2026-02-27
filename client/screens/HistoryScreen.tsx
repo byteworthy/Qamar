@@ -475,6 +475,7 @@ export default function HistoryScreen() {
 
     return (
       <Animated.View
+        testID={`reflection-item-${index}`}
         entering={FadeInUp.springify()
           .delay(cappedDelay)
           .damping(springConfig.damping as number)
@@ -636,19 +637,22 @@ export default function HistoryScreen() {
   };
 
   const renderEmpty = () => (
-    <EmptyState
-      icon="📖"
-      title="No Reflections Yet"
+    <View testID="history-empty-state">
+      <EmptyState
+        icon="📖"
+        title="No Reflections Yet"
       description="Completed reflections will appear here. Start your first reflection to begin your journey."
       actionLabel="Start a Reflection"
       onAction={() => navigation.navigate("Home")}
-    />
+      />
+    </View>
   );
 
   return (
     <View style={styles.container}>
       <AtmosphericBackground variant="atmospheric">
         <FlatList
+          testID="reflection-list"
           style={styles.flatList}
           contentContainerStyle={[
             styles.contentContainer,

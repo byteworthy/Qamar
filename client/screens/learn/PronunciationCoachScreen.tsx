@@ -6,7 +6,7 @@
  * launching from the Quran reader with a specific surah/verse.
  */
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,7 +16,10 @@ import {
   TextInput,
   ActivityIndicator,
   Pressable,
+  Alert,
+  Linking,
 } from "react-native";
+import { Audio } from "expo-av";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
@@ -79,10 +82,18 @@ export default function PronunciationCoachScreen() {
   // Local state
   const [practiceText, setPracticeText] = useState(initialArabicText);
   const [customText, setCustomText] = useState("");
+  const [micPermission, setMicPermission] = useState<boolean | null>(null);
 
   // Pronunciation hook
   const pronunciation = usePronunciation();
   const recordActivity = useGamification((s) => s.recordActivity);
+
+  // Check mic permission on mount
+  useEffect(() => {
+    Audio.getPermissionsAsync().then(({ granted }) => {
+      setMicPermission(granted);
+    });
+  }, []);
 
   // Determine which text to use for submission
   const activeText = customText.trim() || practiceText;
@@ -91,13 +102,33 @@ export default function PronunciationCoachScreen() {
   // Handlers
   // ==================================================================
 
+  const requestMicPermission = useCallback(async (): Promise<boolean> => {
+    const { granted } = await Audio.requestPermissionsAsync();
+    setMicPermission(granted);
+    if (!granted) {
+      Alert.alert(
+        "Microphone Access Needed",
+        "Noor needs microphone access to listen to your recitation and provide pronunciation feedback. Please enable it in Settings.",
+        [
+          { text: "Not Now", style: "cancel" },
+          { text: "Open Settings", onPress: () => Linking.openSettings() },
+        ],
+      );
+    }
+    return granted;
+  }, []);
+
   const handleRecordPress = useCallback(async () => {
     if (pronunciation.isRecording) {
       await pronunciation.stopPractice();
     } else {
+      if (!micPermission) {
+        const granted = await requestMicPermission();
+        if (!granted) return;
+      }
       await pronunciation.startPractice("ar-SA");
     }
-  }, [pronunciation]);
+  }, [pronunciation, micPermission, requestMicPermission]);
 
   const handleSubmit = useCallback(async () => {
     await pronunciation.submitForFeedback(activeText, surahNumber, verseNumber);
@@ -187,6 +218,32 @@ export default function PronunciationCoachScreen() {
             />
           </View>
         </Animated.View>
+
+        {/* ============================================================
+            Permission Priming
+            ============================================================ */}
+        {micPermission === false && (
+          <Animated.View entering={FadeIn.duration(300)}>
+            <Pressable
+              onPress={requestMicPermission}
+              style={[
+                styles.permissionBanner,
+                { backgroundColor: NoorColors.gold + "15", borderColor: NoorColors.gold + "40" },
+              ]}
+            >
+              <Feather name="mic" size={20} color={NoorColors.gold} />
+              <View style={styles.permissionBannerText}>
+                <ThemedText style={[styles.permissionTitle, { color: theme.text }]}>
+                  Microphone access needed
+                </ThemedText>
+                <ThemedText style={[styles.permissionSubtitle, { color: theme.textSecondary }]}>
+                  Tap to enable — we listen to your recitation to give personalized feedback.
+                </ThemedText>
+              </View>
+              <Feather name="chevron-right" size={18} color={theme.textSecondary} />
+            </Pressable>
+          </Animated.View>
+        )}
 
         {/* ============================================================
             Record Section
@@ -476,6 +533,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     writingDirection: "rtl",
+  },
+
+  // ---- Permission banner ----
+  permissionBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 12,
+    borderWidth: 1,
+    padding: 16,
+    marginBottom: 24,
+    gap: 12,
+  },
+  permissionBannerText: {
+    flex: 1,
+  },
+  permissionTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
+  permissionSubtitle: {
+    fontSize: 13,
+    lineHeight: 18,
   },
 
   // ---- Record section ----

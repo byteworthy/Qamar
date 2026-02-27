@@ -30,6 +30,7 @@ interface FeatureCardProps {
   onPress: () => void;
   delay: number;
   comingSoon?: boolean;
+  testID?: string;
 }
 
 function FeatureCard({
@@ -40,10 +41,12 @@ function FeatureCard({
   onPress,
   delay,
   comingSoon = false,
+  testID,
 }: FeatureCardProps) {
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(delay)}>
       <Pressable
+        testID={testID}
         onPress={comingSoon ? undefined : onPress}
         style={({ pressed }) => [
           styles.featureCard,
@@ -192,7 +195,7 @@ export default function LearnTabScreen() {
   ];
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View testID="learn-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
           <ThemedText style={styles.headerTitle}>Learn</ThemedText>
@@ -270,6 +273,14 @@ export default function LearnTabScreen() {
               }}
               delay={120 + index * 80}
               comingSoon={feature.comingSoon}
+              testID={
+                feature.screen === "QuranReader" ? "learn-quran-card" :
+                feature.screen === "HifzDashboard" ? "learn-hifz-card" :
+                feature.screen === "ArabicTutor" ? "learn-arabic-tutor-card" :
+                feature.screen === "PronunciationCoach" ? "learn-pronunciation-card" :
+                feature.screen === "Translator" ? "learn-translator-card" :
+                feature.screen === "StudyPlan" ? "learn-study-plan-card" : undefined
+              }
             />
           ))}
         </View>

@@ -172,6 +172,7 @@ export default function WelcomeScreen() {
       >
         <Pressable
           onPress={() => navigation.navigate("Onboarding_Privacy")}
+          testID="get-started-button"
           style={({ pressed }) => [
             styles.continueButton,
             { opacity: pressed ? 0.9 : 1 },

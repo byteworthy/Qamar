@@ -243,6 +243,7 @@ export default function SessionCompleteScreen() {
 
   return (
     <ScrollView
+      testID="session-complete-screen"
       style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       contentContainerStyle={[
         styles.contentContainer,

@@ -34,9 +34,10 @@ interface PrayerCardProps {
   icon: keyof typeof Feather.glyphMap;
   status: "past" | "current" | "upcoming";
   delay: number;
+  testID?: string;
 }
 
-function PrayerCard({ name, time, icon, status, delay }: PrayerCardProps) {
+function PrayerCard({ name, time, icon, status, delay, testID }: PrayerCardProps) {
   const { theme, isDark } = useTheme();
 
   const getPrayerColors = () => {
@@ -74,6 +75,7 @@ function PrayerCard({ name, time, icon, status, delay }: PrayerCardProps) {
   return (
     <Animated.View entering={FadeInUp.duration(400).delay(delay)}>
       <View
+        testID={testID}
         style={[
           styles.prayerCard,
           {
@@ -274,7 +276,7 @@ export default function PrayerTimesScreen() {
   ];
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View testID="prayer-times-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
@@ -401,6 +403,7 @@ export default function PrayerTimesScreen() {
               icon={prayer.icon}
               status={getPrayerStatus(prayer.name, prayerTimes)}
               delay={300 + index * 50}
+              testID={prayer.name !== "Sunrise" ? `prayer-${prayer.name.toLowerCase()}` : undefined}
             />
           ))}
         </View>

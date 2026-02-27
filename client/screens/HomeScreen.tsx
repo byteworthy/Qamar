@@ -78,6 +78,7 @@ const ModuleCard = React.memo(function ModuleCard({
   gradient,
   delay,
   locked,
+  testID,
 }: ModuleCardProps) {
   const scale = useSharedValue(1);
   const rotation = useSharedValue(0);
@@ -98,6 +99,7 @@ const ModuleCard = React.memo(function ModuleCard({
     >
       <Animated.View style={animatedStyle}>
         <Pressable
+          testID={testID}
           onPress={onPress}
           onPressIn={() => {
             scale.value = withSpring(0.97);
@@ -523,6 +525,7 @@ export default function HomeScreen() {
               <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
                 {/* Streak Badge */}
                 <Pressable
+                  testID="streak-display"
                   onPress={handleNavigateAchievements}
                   style={{
                     flexDirection: "row",
@@ -552,6 +555,7 @@ export default function HomeScreen() {
 
                 {/* Daily Noor CTA */}
                 <Pressable
+                  testID="daily-noor-card"
                   onPress={handleNavigateDailyNoor}
                   style={{
                     flex: 1,
@@ -1013,6 +1017,7 @@ export default function HomeScreen() {
 
             {/* ── Journey Progress Card ── */}
             <Animated.View entering={FadeInUp.duration(350).delay(380)}>
+              <View testID="stats-card">
               <GlassCard style={styles.journeyCard} elevated>
                 <View style={styles.journeyHeader}>
                   <View style={styles.journeyLevel}>
@@ -1102,6 +1107,7 @@ export default function HomeScreen() {
                   </View>
                 )}
               </GlassCard>
+              </View>
             </Animated.View>
 
             {/* ── Module Cards (Tools for Your Journey) ── */}
@@ -1124,6 +1130,7 @@ export default function HomeScreen() {
                   onPress={handleNavigateThoughtCapture}
                   gradient={["#6a5a4a", "#4a3a2a"]}
                   delay={420}
+                  testID="begin-reflection-button"
                 />
                 <ModuleCard
                   icon="wind"

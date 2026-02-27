@@ -181,4 +181,5 @@ export interface ModuleCardProps {
   gradient: string[];
   delay: number;
   locked?: boolean;
+  testID?: string;
 }

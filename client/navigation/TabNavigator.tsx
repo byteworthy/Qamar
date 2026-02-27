@@ -133,6 +133,8 @@ export default function TabNavigator() {
         component={HomeScreen}
         options={{
           tabBarLabel: "Home",
+          // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
+          tabBarTestID: "tab-home",
           tabBarIcon: ({ color, focused }) => (
             <AnimatedTabIcon name="home" color={color} focused={focused} />
           ),
@@ -143,6 +145,8 @@ export default function TabNavigator() {
         component={KhalilScreen}
         options={{
           tabBarLabel: "Khalil",
+          // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
+          tabBarTestID: "tab-history",
           tabBarIcon: ({ color, focused }) => (
             <AnimatedTabIcon name="heart" color={color} focused={focused} />
           ),
@@ -153,6 +157,8 @@ export default function TabNavigator() {
         component={LearnTabScreen}
         options={{
           tabBarLabel: "Learn",
+          // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
+          tabBarTestID: "tab-learn",
           tabBarIcon: ({ color, focused }) => (
             <AnimatedTabIcon name="book-open" color={color} focused={focused} />
           ),
@@ -163,6 +169,8 @@ export default function TabNavigator() {
         component={WorshipTabScreen}
         options={{
           tabBarLabel: "Worship",
+          // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
+          tabBarTestID: "tab-worship",
           tabBarIcon: ({ color, focused }) => (
             <AnimatedTabIcon name="sun" color={color} focused={focused} />
           ),
@@ -185,6 +193,8 @@ export default function TabNavigator() {
         component={ProfileScreen}
         options={{
           tabBarLabel: "Profile",
+          // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
+          tabBarTestID: "tab-settings",
           tabBarIcon: ({ color, focused }) => (
             <AnimatedTabIcon name="user" color={color} focused={focused} />
           ),

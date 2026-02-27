@@ -50,7 +50,7 @@ export default function HifzDashboardScreen() {
 
   return (
     <Screen title="Hifz" scrollable={true}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView testID="hifz-dashboard-screen" style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <ThemedText style={styles.title}>Hifz</ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -67,6 +67,7 @@ export default function HifzDashboardScreen() {
               Start with Juz 30 (short surahs), Al-Fatiha, or any verse that calls to you.
             </ThemedText>
             <Pressable
+              testID="hifz-start-session"
               style={[styles.primaryButton, { backgroundColor: NoorColors.gold }]}
               onPress={handleStartMemorizing}
             >
@@ -185,6 +186,7 @@ export default function HifzDashboardScreen() {
         {hasMemorizedVerses && (
           <View style={styles.actionButtons}>
             <Pressable
+              testID="hifz-start-session"
               style={[styles.primaryButton, { backgroundColor: NoorColors.gold }]}
               onPress={handleStartMemorizing}
             >

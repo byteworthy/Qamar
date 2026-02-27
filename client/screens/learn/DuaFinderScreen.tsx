@@ -98,6 +98,7 @@ export default function DuaFinderScreen() {
   return (
     <Screen title="Dua Finder" showBack scrollable={false}>
       <KeyboardAvoidingView
+        testID="dua-finder-screen"
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={100}
@@ -114,6 +115,7 @@ export default function DuaFinderScreen() {
             ]}
           >
             <TextInput
+              testID="dua-search-input"
               style={[styles.textInput, { color: theme.text }]}
               placeholder="Describe your situation or need..."
               placeholderTextColor={theme.textSecondary}
@@ -179,6 +181,7 @@ export default function DuaFinderScreen() {
         {/* Results Section */}
         <ScrollView
           ref={scrollRef}
+          testID="dua-list"
           style={styles.scrollView}
           contentContainerStyle={[
             styles.scrollContent,

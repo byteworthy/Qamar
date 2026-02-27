@@ -235,12 +235,14 @@ function PlanSelector({
   onSelect,
   theme,
   colorScheme,
+  testID,
 }: {
   plan: PlanOption;
   selected: boolean;
   onSelect: () => void;
   theme: ReturnType<typeof useTheme>["theme"];
   colorScheme: string;
+  testID?: string;
 }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -268,6 +270,7 @@ function PlanSelector({
   return (
     <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
       <TouchableOpacity
+        testID={testID}
         onPress={handlePress}
         activeOpacity={0.8}
         accessibilityRole="radio"
@@ -523,6 +526,7 @@ export default function PricingScreen() {
 
       {/* Feature comparison table */}
       <View
+        testID="features-list"
         style={[
           styles.comparisonCard,
           {
@@ -597,6 +601,7 @@ export default function PricingScreen() {
               onSelect={() => setSelectedPlan(plan.id)}
               theme={theme}
               colorScheme={colorScheme}
+              testID={plan.id === "monthly" ? "plan-monthly" : plan.id === "yearly" ? "plan-annual" : undefined}
             />
           ))}
         </View>
@@ -606,6 +611,7 @@ export default function PricingScreen() {
       {!billingDisabled && !isPaid ? (
         <View style={styles.ctaSection}>
           <TouchableOpacity
+            testID="subscribe-button"
             onPress={handleUpgrade}
             disabled={loading}
             activeOpacity={0.85}
@@ -740,6 +746,7 @@ export default function PricingScreen() {
             </ThemedText>
 
             <TouchableOpacity
+              testID="restore-purchases-button"
               onPress={handleRestorePurchase}
               disabled={syncing}
               accessibilityRole="link"

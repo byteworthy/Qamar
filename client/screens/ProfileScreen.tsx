@@ -516,7 +516,7 @@ export default function ProfileScreen() {
   const appVersion = Constants.expoConfig?.version || "dev";
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View testID="settings-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
@@ -804,6 +804,7 @@ export default function ProfileScreen() {
           <GlassCard style={styles.settingsCard}>
             <SettingRow label="Current Plan">
               <View
+                testID="subscription-status"
                 style={[
                   styles.planBadge,
                   {
@@ -830,6 +831,7 @@ export default function ProfileScreen() {
                   style={[styles.divider, { backgroundColor: theme.divider }]}
                 />
                 <Pressable
+                  testID="upgrade-button"
                   onPress={() => navigation.navigate("Pricing")}
                   style={[styles.upgradeButton, { backgroundColor: NoorColors.gold }]}
                   accessibilityRole="button"

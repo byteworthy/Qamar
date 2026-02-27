@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
+import { useTooltip } from "@/hooks/useTooltip";
 import {
   useQuranVerses,
   useQuranSurahs,
@@ -34,6 +35,7 @@ import { TafsirPanel } from "@/components/TafsirPanel";
 import { NoorColors } from "@/constants/theme/colors";
 import { TajweedSegment } from "@/services/tajweedParser";
 import { TafsirData } from "@/stores/tafsir-cache-store";
+import { Tooltip } from "@/components/Tooltip";
 import { RouteType, RootStackNavigationProp } from "@/navigation/types";
 
 // =============================================================================
@@ -54,6 +56,7 @@ interface VerseCardProps {
   tajweedSegments?: TajweedSegment[];
   tajweedLoading: boolean;
   surahId: number;
+  testID?: string;
 }
 
 const VerseCard = React.memo(function VerseCard({
@@ -70,11 +73,12 @@ const VerseCard = React.memo(function VerseCard({
   tajweedSegments,
   tajweedLoading,
   surahId,
+  testID,
 }: VerseCardProps) {
   const { theme } = useTheme();
 
   return (
-    <Animated.View entering={FadeInUp.duration(350).delay(index * 30)}>
+    <Animated.View testID={testID} entering={FadeInUp.duration(350).delay(index * 30)}>
       <GlassCard
         style={{
           ...styles.verseCard,
@@ -310,6 +314,9 @@ export default function VerseReaderScreen() {
   const [tafsirData, setTafsirData] = useState<TafsirData | null>(null);
   const { fetchTafsir, isLoading: isTafsirLoading } = useTafsir();
 
+  // First-time tajweed tooltip
+  const tajweedTooltip = useTooltip("tajweed_hint");
+
   // Tajweed & Word-by-Word toggles (mutually exclusive)
   const [tajweedEnabled, setTajweedEnabled] = useState(false);
   const [wordByWordEnabled, setWordByWordEnabled] = useState(false);
@@ -474,6 +481,7 @@ export default function VerseReaderScreen() {
       tajweedSegments={tajweedVerses.get(item.verseNumber)}
       tajweedLoading={tajweedLoading}
       surahId={surahId}
+      testID={`verse-item-${item.verseNumber}`}
     />
   ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse, handleExplainVerse, handleDiscussVerse, tajweedEnabled, wordByWordEnabled, tajweedVerses, tajweedLoading, surahId]);
 
@@ -527,8 +535,9 @@ export default function VerseReaderScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View testID="quran-reader-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <FlatList
+        testID="verse-list"
         ref={flatListRef}
         data={verses}
         keyExtractor={(item) => `${item.surahId}-${item.verseNumber}`}
@@ -630,6 +639,7 @@ export default function VerseReaderScreen() {
             <Animated.View entering={FadeInUp.duration(350).delay(150)}>
               <View style={styles.toggleBar}>
                 <Pressable
+                  testID="tajweed-toggle"
                   onPress={handleTajweedToggle}
                   disabled={tajweedLoading}
                   style={[
@@ -663,6 +673,7 @@ export default function VerseReaderScreen() {
                 </Pressable>
 
                 <Pressable
+                  testID="word-by-word-toggle"
                   onPress={handleWordByWordToggle}
                   style={[
                     styles.togglePill,
@@ -722,6 +733,7 @@ export default function VerseReaderScreen() {
                   {currentSurah?.transliteration || "Recitation"}
                 </ThemedText>
                 <Pressable
+                  testID="reciter-picker"
                   onPress={() => setReciterModalVisible(true)}
                   style={[
                     styles.reciterBadge,
@@ -834,6 +846,7 @@ export default function VerseReaderScreen() {
 
                     {/* Play / Pause */}
                     <Pressable
+                      testID={audio.isPlaying ? "audio-pause-button" : "audio-play-button"}
                       onPress={handlePlayPause}
                       style={[
                         styles.playButton,
@@ -897,6 +910,13 @@ export default function VerseReaderScreen() {
       {selectedVerse?.showTafsir && tafsirData && (
         <TafsirPanel tafsir={tafsirData} onClose={handleCloseTafsir} />
       )}
+
+      {/* First-time tajweed hint */}
+      <Tooltip
+        visible={tajweedTooltip.shouldShow}
+        message="Tap the Tajweed toggle to see color-coded pronunciation rules on each verse. Each color highlights a different tajweed rule."
+        onDismiss={tajweedTooltip.dismiss}
+      />
     </View>
   );
 }

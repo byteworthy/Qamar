@@ -32,7 +32,7 @@ const SurahCard = React.memo(function SurahCard({ surah, onPress, index }: Surah
   const { theme } = useTheme();
 
   return (
-    <Animated.View entering={FadeInUp.duration(350).delay(index * 50)}>
+    <Animated.View testID={`surah-item-${surah.id}`} entering={FadeInUp.duration(350).delay(index * 50)}>
       <GlassCard
         onPress={onPress}
         style={styles.surahCard}
@@ -222,6 +222,7 @@ export default function QuranReaderScreen() {
 
       {/* Surahs List */}
       <FlatList
+        testID="surah-list"
         data={filteredSurahs}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderSurahItem}
