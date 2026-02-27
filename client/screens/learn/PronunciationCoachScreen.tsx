@@ -83,6 +83,7 @@ export default function PronunciationCoachScreen() {
   const [practiceText, setPracticeText] = useState(initialArabicText);
   const [customText, setCustomText] = useState("");
   const [micPermission, setMicPermission] = useState<boolean | null>(null);
+  const [canAskAgain, setCanAskAgain] = useState(true);
 
   // Pronunciation hook
   const pronunciation = usePronunciation();
@@ -90,8 +91,9 @@ export default function PronunciationCoachScreen() {
 
   // Check mic permission on mount
   useEffect(() => {
-    Audio.getPermissionsAsync().then(({ granted }) => {
+    Audio.getPermissionsAsync().then(({ granted, canAskAgain: canAsk }) => {
       setMicPermission(granted);
+      setCanAskAgain(canAsk);
     });
   }, []);
 
@@ -103,12 +105,13 @@ export default function PronunciationCoachScreen() {
   // ==================================================================
 
   const requestMicPermission = useCallback(async (): Promise<boolean> => {
-    const { granted } = await Audio.requestPermissionsAsync();
+    const { granted, canAskAgain: stillCanAsk } = await Audio.requestPermissionsAsync();
     setMicPermission(granted);
-    if (!granted) {
+    setCanAskAgain(stillCanAsk);
+    if (!granted && !stillCanAsk) {
       Alert.alert(
-        "Microphone Access Needed",
-        "Noor needs microphone access to listen to your recitation and provide pronunciation feedback. Please enable it in Settings.",
+        "Microphone Access Blocked",
+        "You've previously denied microphone access. To use the Pronunciation Coach, please enable it in Settings.",
         [
           { text: "Not Now", style: "cancel" },
           { text: "Open Settings", onPress: () => Linking.openSettings() },
@@ -222,25 +225,54 @@ export default function PronunciationCoachScreen() {
         {/* ============================================================
             Permission Priming
             ============================================================ */}
-        {micPermission === false && (
+        {micPermission === false && canAskAgain && (
+          <Animated.View entering={FadeIn.duration(300)}>
+            <GlassCard style={styles.permissionCard}>
+              <View style={styles.permissionIconRow}>
+                <View style={[styles.permissionIconCircle, { backgroundColor: NoorColors.gold + "20" }]}>
+                  <Feather name="mic" size={28} color={NoorColors.gold} />
+                </View>
+              </View>
+              <ThemedText style={[styles.permissionCardTitle, { color: theme.text }]}>
+                Microphone needed for feedback
+              </ThemedText>
+              <ThemedText style={[styles.permissionCardBody, { color: theme.textSecondary }]}>
+                Noor listens to your recitation locally on your device to compare it against the Arabic text and give you personalised pronunciation feedback. Your audio is never stored.
+              </ThemedText>
+              <Pressable
+                onPress={requestMicPermission}
+                style={[styles.permissionButton, { backgroundColor: NoorColors.gold }]}
+                accessibilityRole="button"
+                accessibilityLabel="Enable microphone access"
+              >
+                <Feather name="mic" size={16} color="#FFFFFF" style={{ marginRight: 8 }} />
+                <ThemedText style={styles.permissionButtonText}>Enable Microphone</ThemedText>
+              </Pressable>
+            </GlassCard>
+          </Animated.View>
+        )}
+
+        {micPermission === false && !canAskAgain && (
           <Animated.View entering={FadeIn.duration(300)}>
             <Pressable
-              onPress={requestMicPermission}
+              onPress={() => Linking.openSettings()}
               style={[
                 styles.permissionBanner,
-                { backgroundColor: NoorColors.gold + "15", borderColor: NoorColors.gold + "40" },
+                { backgroundColor: "rgba(239,68,68,0.08)", borderColor: "rgba(239,68,68,0.3)" },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Open Settings to enable microphone"
             >
-              <Feather name="mic" size={20} color={NoorColors.gold} />
+              <Feather name="mic-off" size={20} color="#EF4444" />
               <View style={styles.permissionBannerText}>
                 <ThemedText style={[styles.permissionTitle, { color: theme.text }]}>
-                  Microphone access needed
+                  Microphone access blocked
                 </ThemedText>
                 <ThemedText style={[styles.permissionSubtitle, { color: theme.textSecondary }]}>
-                  Tap to enable — we listen to your recitation to give personalized feedback.
+                  Tap to open Settings and enable microphone for Noor.
                 </ThemedText>
               </View>
-              <Feather name="chevron-right" size={18} color={theme.textSecondary} />
+              <Feather name="external-link" size={16} color={theme.textSecondary} />
             </Pressable>
           </Animated.View>
         )}
@@ -535,7 +567,49 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
 
-  // ---- Permission banner ----
+  // ---- Permission card (first-time priming) ----
+  permissionCard: {
+    alignItems: "center",
+    paddingVertical: 28,
+    paddingHorizontal: 24,
+    marginBottom: 24,
+    gap: 12,
+  },
+  permissionIconRow: {
+    marginBottom: 4,
+  },
+  permissionIconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  permissionCardTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  permissionCardBody: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: "center",
+  },
+  permissionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    marginTop: 4,
+  },
+  permissionButtonText: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#FFFFFF",
+  },
+
+  // ---- Permission banner (denied / settings redirect) ----
   permissionBanner: {
     flexDirection: "row",
     alignItems: "center",
