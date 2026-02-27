@@ -1,12 +1,12 @@
-# Noor Terms of Service
+# Qamar Terms of Service
 
 **Last Updated: January 2026**
 
-## What Noor Is
+## What Qamar Is
 
-Noor is an Islamic companion app for Quran reading, Arabic language learning, daily reflections, and prayer support. Users engage with Quranic text, build Arabic vocabulary, reflect on their spiritual growth, and strengthen their daily practice. It's a personal development and education tool, not a medical app.
+Qamar is an Islamic companion app for Quran reading, Arabic language learning, daily reflections, and prayer support. Users engage with Quranic text, build Arabic vocabulary, reflect on their spiritual growth, and strengthen their daily practice. It's a personal development and education tool, not a medical app.
 
-## What Noor Is Not
+## What Qamar Is Not
 
 - Not therapy
 - Not medical care or advice
@@ -16,16 +16,16 @@ Noor is an Islamic companion app for Quran reading, Arabic language learning, da
 
 ## Limitation of Liability
 
-Noor is a personal development and education tool for spiritual growth and self-awareness. By using Noor, you acknowledge that:
+Qamar is a personal development and education tool for spiritual growth and self-awareness. By using Qamar, you acknowledge that:
 
-1. Noor does not provide medical advice, diagnosis, or treatment
-2. Noor is not a substitute for professional care
+1. Qamar does not provide medical advice, diagnosis, or treatment
+2. Qamar is not a substitute for professional care
 3. In case of emergency, contact 988 Lifeline or emergency services
 4. The developers are not licensed healthcare providers
 
 ## User Responsibilities
 
-By using Noor, you agree to:
+By using Qamar, you agree to:
 
 - Use the app for personal, non-commercial purposes
 - Be at least 13 years of age (or the minimum age required in your jurisdiction)
@@ -35,7 +35,7 @@ By using Noor, you agree to:
 
 ## Acceptable Use
 
-You may not use Noor to:
+You may not use Qamar to:
 
 - Violate any laws or regulations
 - Harass, abuse, or harm others
@@ -45,7 +45,7 @@ You may not use Noor to:
 
 ## Not for Emergencies
 
-Noor is not designed for crisis situations. If you are in immediate danger or experiencing a crisis, please contact:
+Qamar is not designed for crisis situations. If you are in immediate danger or experiencing a crisis, please contact:
 
 - 988 Suicide & Crisis Lifeline (call or text)
 - A trusted counselor or imam
@@ -53,11 +53,11 @@ Noor is not designed for crisis situations. If you are in immediate danger or ex
 
 ## Content Limitations
 
-Noor generates personalized content including reflective responses, learning feedback, and translations. Generated content may occasionally be inaccurate or incomplete. Use your own judgment when reading and acting on any content produced by the app. Noor is not a substitute for a human therapist, counselor, or religious scholar.
+Qamar generates personalized content including reflective responses, learning feedback, and translations. Generated content may occasionally be inaccurate or incomplete. Use your own judgment when reading and acting on any content produced by the app. Qamar is not a substitute for a human therapist, counselor, or religious scholar.
 
 ## Termination
 
-We may suspend or terminate your access to Noor at any time if you violate these terms. You may stop using the App at any time by deleting it from your device.
+We may suspend or terminate your access to Qamar at any time if you violate these terms. You may stop using the App at any time by deleting it from your device.
 
 ## Governing Law
 

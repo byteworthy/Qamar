@@ -4,7 +4,7 @@
 
 set -e  # Exit on error
 
-echo "🚀 Noor Backend Deployment"
+echo "🚀 Qamar Backend Deployment"
 echo "=========================="
 echo ""
 

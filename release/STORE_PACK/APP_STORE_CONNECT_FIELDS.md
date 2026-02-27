@@ -8,7 +8,7 @@
 ## A. App Name
 
 ```
-Noor
+Qamar
 ```
 
 ---
@@ -32,11 +32,11 @@ Your complete Islamic companion. Read the Quran with tajweed, learn Arabic with 
 ## D. Description
 
 ```
-Noor — Your Complete Islamic Companion
+Qamar — Your Complete Islamic Companion
 
 Quran · Arabic Learning · Prayer · Reflection
 
-Noor brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Noor is designed to walk with you.
+Qamar brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Qamar is designed to walk with you.
 
 QURAN READER
 • Full Quran with Arabic text and English translation
@@ -79,7 +79,7 @@ PRIVACY FIRST
 • Your writing and conversations stay private
 • Request data deletion at any time
 
-NOOR PLUS ($2.99/month or $19.99/year)
+QAMAR PLUS ($2.99/month or $19.99/year)
 • Unlimited tutor conversations and pronunciation sessions
 • Full Quran audio with all 8 reciters
 • All Arabic learning scenarios
@@ -90,7 +90,7 @@ NOOR PLUS ($2.99/month or $19.99/year)
 
 Free users enjoy full access to the Quran reader, Arabic alphabet, flashcards, journaling, and prayer tracking with 3 daily tutor and pronunciation sessions included.
 
-Built with love for the ummah. Noor is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
+Built with love for the ummah. Qamar is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
 ```
 
 ---
@@ -130,7 +130,7 @@ https://byteworthy.github.io/Noor/legal/terms.html
 ## I. Reviewer Notes (App Review Information → Notes)
 
 ```
-Noor is a comprehensive Islamic companion app for Muslims of all ages. It combines Quran reading, Arabic language learning, hadith exploration, daily reflections, and prayer tracking in a single app.
+Qamar is a comprehensive Islamic companion app for Muslims of all ages. It combines Quran reading, Arabic language learning, hadith exploration, daily reflections, and prayer tracking in a single app.
 
 Core Functionality:
 - Quran Reader: Full Quran text with Arabic, English translation, word-by-word audio from 8 reciters, and tajweed color-coding.
@@ -177,7 +177,7 @@ Privacy:
 
 **Secondary Category:** `Education`
 
-**Why:** Noor is a daily-use Islamic companion app that spans lifestyle (prayer tracking, journaling, spiritual growth) and education (Quran reading, Arabic learning, hadith study). Lifestyle is the best primary fit as it reflects the app's role as a daily companion. Education captures the strong learning features.
+**Why:** Qamar is a daily-use Islamic companion app that spans lifestyle (prayer tracking, journaling, spiritual growth) and education (Quran reading, Arabic learning, hadith study). Lifestyle is the best primary fit as it reflects the app's role as a daily companion. Education captures the strong learning features.
 
 ---
 
@@ -185,7 +185,7 @@ Privacy:
 
 **Age Rating:** `4+`
 
-**Why:** Noor is an educational and lifestyle app focused on Islamic learning, Quran reading, Arabic language study, journaling, and prayer tracking. There is no objectionable content, no mature themes, and no medical or mental health claims. The content is appropriate for all ages. Similar Islamic apps (Muslim Pro, Quran.com, Tarteel) are all rated 4+.
+**Why:** Qamar is an educational and lifestyle app focused on Islamic learning, Quran reading, Arabic language study, journaling, and prayer tracking. There is no objectionable content, no mature themes, and no medical or mental health claims. The content is appropriate for all ages. Similar Islamic apps (Muslim Pro, Quran.com, Tarteel) are all rated 4+.
 
 **Age Rating Questionnaire Answers:**
 - Unrestricted Web Access: No
@@ -277,7 +277,7 @@ Based on Privacy Policy:
 
 | Field | Character Limit | Value |
 |-------|-----------------|-------|
-| App Name | 30 | Noor |
+| App Name | 30 | Qamar |
 | Subtitle | 30 | Quran · Arabic · Prayer |
 | Promotional Text | 170 | Your complete Islamic companion. Read the Quran with tajweed... |
 | Description | 4000 | [See Section D] |

@@ -19,7 +19,7 @@
 
 ### Step 1: App Information (General)
 
-1. **App Name** → Paste: `Noor`
+1. **App Name** → Paste: `Qamar`
 2. **Subtitle** → Paste: `Quran · Arabic Learning · Prayer`
 3. **Primary Language** → Select: `English (U.S.)`
 4. **Bundle ID** → Should auto-populate from build

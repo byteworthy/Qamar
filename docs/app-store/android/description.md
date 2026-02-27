@@ -1,13 +1,13 @@
-# Noor — Google Play Store Listing
+# Qamar — Google Play Store Listing
 
 ## Short Description (80 chars max)
 Complete Islamic companion: Quran, prayer times, Arabic learning & reflection
 
 ## Full Description (4000 chars max)
 
-Why have 5 Islamic apps when Noor does it all?
+Why have 5 Islamic apps when Qamar does it all?
 
-Noor is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed for Android.
+Qamar is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed for Android.
 
 **QURAN READER**
 • 8 world-class reciters with crystal-clear audio
@@ -52,13 +52,13 @@ Noor is your complete Islamic companion — combining a full Quran reader, Arabi
 • All worship features
 • 3 personalized sessions per day
 
-**NOOR PLUS — $2.99/month**
+**QAMAR PLUS — $2.99/month**
 • Unlimited personalized study plans
 • Unlimited Arabic tutor conversations
 • Unlimited pronunciation coaching
 • Advanced Hifz analysis
 
-Download Noor and deepen your Islamic practice today.
+Download Qamar and deepen your Islamic practice today.
 
 ## App Category
 Lifestyle / Education

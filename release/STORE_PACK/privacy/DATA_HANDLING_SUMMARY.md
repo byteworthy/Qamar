@@ -1,7 +1,7 @@
 # Data Handling Summary (Aligned to USER_TRANSPARENCY.md)
 
 ## Overview
-This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md and the Chunk 1 Truth Audit. Noor is a privacy-first app that stores reflections locally on device and uses minimal data for safety and subscription entitlement.
+This summary reflects actual app behavior and aligns with USER_TRANSPARENCY.md and the Chunk 1 Truth Audit. Qamar is a privacy-first app that stores reflections locally on device and uses minimal data for safety and subscription entitlement.
 
 ## What We Collect
 - Reflection content, Quran reading activity, Arabic learning progress, and translation requests submitted for processing

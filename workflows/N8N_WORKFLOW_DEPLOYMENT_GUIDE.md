@@ -1,7 +1,7 @@
-# Noor Freemium-to-Paid Conversion Automation
+# Qamar Freemium-to-Paid Conversion Automation
 ## n8n Workflow Deployment Guide
 
-**Workflow Name**: Noor Freemium Conversion Funnel
+**Workflow Name**: Qamar Freemium Conversion Funnel
 **Status**: Production Ready
 **Cost Model**: Claude Haiku ($0.001 per personalization call)
 **Estimated Monthly Cost**: $10-50 (depending on signup volume)
@@ -85,12 +85,12 @@ Evaluate Conversion Readiness
    - API Keys (publishable + secret)
    - Webhook endpoint configured in Stripe Dashboard
 
-4. **Noor Backend Server**
+4. **Qamar Backend Server**
    - API endpoint URL
    - API token/JWT secret
 
 5. **Airtable Workspace**
-   - Base ID for Noor analytics
+   - Base ID for Qamar analytics
    - Personal Access Token (PAT)
    - Two tables: `tblFreemiumConversions` and `tblFreemiumNonConversions`
 
@@ -233,7 +233,7 @@ In n8n UI → Settings → Credentials:
    - Type: Stripe
    - API Key: From Stripe Dashboard → Developers → API Keys
 
-4. **Noor API Token**
+4. **Qamar API Token**
    - Type: Generic Credential Type (HTTP Header Auth)
    - Header Name: `Authorization`
    - Header Value: `Bearer {{ env.NOOR_API_TOKEN }}`
@@ -268,7 +268,7 @@ FIREBASE_ACCESS_TOKEN=ya29.c.xxxxxxxxxxxxx
 # Anthropic
 ANTHROPIC_API_KEY=sk-ant-v0-xxxxxxxxxxxxxxx
 
-# Noor Backend
+# Qamar Backend
 NOOR_API_URL=https://api.noorapp.com
 NOOR_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
@@ -289,7 +289,7 @@ STRIPE_SECRET_KEY=sk_live_xxxxxxxxxxxxxxx
 
 ### Node 1: Firebase Trigger - New User Signup
 
-**Purpose**: Listen for new free user signups from Noor app
+**Purpose**: Listen for new free user signups from Qamar app
 **Type**: Webhook (Incoming)
 **Trigger Condition**: POST request with `uid`, `email` fields
 
@@ -308,7 +308,7 @@ STRIPE_SECRET_KEY=sk_live_xxxxxxxxxxxxxxx
 - Method: POST
 - Authentication: Firebase Cloud (validates token signature)
 
-**In Noor Backend** (`server/routes/auth.ts`):
+**In Qamar Backend** (`server/routes/auth.ts`):
 ```typescript
 // After successful signup
 await fetch('https://your-n8n-instance/webhook-api/v1/noor/user-signup', {
@@ -476,7 +476,7 @@ ELSE:
 
 **System Prompt**:
 ```
-You are a personalized upgrade pitch generator for Noor, an Islamic companion app.
+You are a personalized upgrade pitch generator for Qamar, an Islamic companion app.
 Generate a compelling, concise pitch (2-3 sentences) referencing the user's specific
 engagement pattern. Be warm, encouraging, and focus on deepening their Islamic learning.
 ```
@@ -504,7 +504,7 @@ recitation. Join our premium community and accelerate your Quranic journey today
 
 ---
 
-### Node 11: Noor App API - Send Push Notification
+### Node 11: Qamar App API - Send Push Notification
 
 **Purpose**: Deliver personalized upgrade offer via push notification
 **Type**: HTTP Request
@@ -527,7 +527,7 @@ recitation. Join our premium community and accelerate your Quranic journey today
 }
 ```
 
-**Deep Link Handler** (in Noor client):
+**Deep Link Handler** (in Qamar client):
 ```typescript
 // client/navigation/RootStackNavigator.tsx
 const linking = {
@@ -578,7 +578,7 @@ const linking = {
 }
 ```
 
-**In Noor Client** (`client/components/PremiumUpsellModal.tsx`):
+**In Qamar Client** (`client/components/PremiumUpsellModal.tsx`):
 ```typescript
 interface UpgradeOffer {
   title: string;
@@ -766,7 +766,7 @@ SMTP_HOST=smtp.sendgrid.net
 SMTP_PORT=587
 SMTP_USER=apikey
 SMTP_PASS=SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-EMAIL_FROM_NAME=Noor
+EMAIL_FROM_NAME=Qamar
 EMAIL_FROM_ADDRESS=no-reply@noorapp.com
 EMAIL_SUPPORT_ADDRESS=support@byteworthy.com
 
@@ -855,11 +855,11 @@ stripe trigger charge.succeeded
 **Symptoms**: Node 4 returns 0 records
 **Cause**: Activity data not being logged to Firestore
 **Solution**:
-1. Verify Noor app logs activity to Firestore
+1. Verify Qamar app logs activity to Firestore
 2. Check Firestore rules allow read/write
 3. Confirm userId format matches between trigger and query
 
-**Noor Backend Fix** (`server/routes/activity.ts`):
+**Qamar Backend Fix** (`server/routes/activity.ts`):
 ```typescript
 import * as admin from 'firebase-admin';
 
@@ -937,12 +937,12 @@ stripe webhooks list --format=table
 
 - [ ] Firebase service account JSON loaded
 - [ ] Anthropic API key configured
-- [ ] Noor API credentials set
+- [ ] Qamar API credentials set
 - [ ] Stripe webhook registered
 - [ ] Airtable tables created with proper schema
 - [ ] Segment workspace configured (optional)
 - [ ] Email SMTP settings verified
-- [ ] n8n webhook URL registered in Noor backend
+- [ ] n8n webhook URL registered in Qamar backend
 - [ ] Workflow activated in n8n UI
 - [ ] Test signup triggered and verified end-to-end
 - [ ] Monitor logs for errors over 24 hours

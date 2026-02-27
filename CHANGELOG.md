@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the Noor project will be documented in this file.
+All notable changes to the Qamar project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 #### Complete Store Metadata Files (Commit: TBD)
 - **Apple App Store Metadata** (`release/STORE_PACK/apple/APP_STORE_METADATA.md`)
   - Full app description with Islamic CBT positioning
-  - 2 subscription tiers: Free and Noor Plus (Monthly $2.99, Yearly $19.99, Lifetime $49.99)
+  - 2 subscription tiers: Free and Qamar Plus (Monthly $2.99, Yearly $19.99, Lifetime $49.99)
   - Product IDs for Apple In-App Purchase
   - Comprehensive App Review notes with safety/theological boundaries
   - Testing instructions and compliance checklist
@@ -42,7 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Clear boundaries**: Not therapy, not crisis intervention, not religious authority
 - **AI disclosure**: Explicit mention of AI companion usage
 - **Native billing**: Apple IAP and Google Play Billing (no external payment)
-- **Subscription tiers**: Free and Noor Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
+- **Subscription tiers**: Free and Qamar Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
 
 ### Added - Onboarding Flow & Copy Refinement
 
@@ -57,7 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 #### Chunk 6B: Onboarding Copy Refinement (Commit: 9466c1f)
 - **AI disclosure**: "Uses an AI companion, not a human therapist"
-- **Subscription disclosure**: "Free tier available, with optional Noor Plus subscription"
+- **Subscription disclosure**: "Free tier available, with optional Qamar Plus subscription"
 - **Data accuracy**: Updated to match USER_TRANSPARENCY.md exactly
 - **Theological safety**: "AI can make theological mistakes—verify with scholars"
 - **Formal language**: Removed contractions, short clear sentences throughout

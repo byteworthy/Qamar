@@ -8,11 +8,11 @@
 
 ## App Name
 
-**Noor - Islamic Companion**
+**Qamar - Islamic Companion**
 
 Alternative options:
-- Noor - Quran & Arabic
-- Noor - Learn & Reflect
+- Qamar - Quran & Arabic
+- Qamar - Learn & Reflect
 
 DO NOT USE:
 - Anything with "Beta", "Early Access", "Guided Reflection"
@@ -34,7 +34,7 @@ Alternative: "Quran, Duas & Arabic"
 
 Your complete Islamic companion -- Quran with word-by-word recitation, Arabic language learning with spaced repetition, daily reflections rooted in faith, and a prayer experience to keep you grounded.
 
-Noor brings together everything a practicing Muslim needs to grow in knowledge, language, and spirituality -- all in one beautifully crafted app.
+Qamar brings together everything a practicing Muslim needs to grow in knowledge, language, and spirituality -- all in one beautifully crafted app.
 
 ---
 
@@ -88,7 +88,7 @@ Track your streaks, earn achievements, and stay motivated across Quran reading, 
 
 ---
 
-**Noor Plus**
+**Qamar Plus**
 
 Unlock the full experience:
 - $2.99/month
@@ -134,17 +134,17 @@ DO NOT USE: Health & Fitness (triggers health app scrutiny)
 ### What Does Your App Do?
 
 SAFE ANSWER:
-"Noor is an Islamic companion app that includes a Quran reader with multiple reciters and word-by-word display, Arabic language learning with spaced repetition flashcards, a hadith library, daily reflections with Islamic guidance, and prayer features. It is an educational and lifestyle app for Muslims."
+"Qamar is an Islamic companion app that includes a Quran reader with multiple reciters and word-by-word display, Arabic language learning with spaced repetition flashcards, a hadith library, daily reflections with Islamic guidance, and prayer features. It is an educational and lifestyle app for Muslims."
 
 DO NOT SAY:
-"Noor provides AI-powered anything" or reference therapy/mental health.
+"Qamar provides AI-powered anything" or reference therapy/mental health.
 
 ### Does Your App Provide Medical Services?
 
 **Answer: NO**
 
 Follow-up explanation:
-"Noor is an Islamic education and lifestyle app. It does not diagnose, treat, or provide medical advice. The Daily Reflections feature includes a disclaimer that it is not a substitute for professional care, and crisis resources (988 Lifeline) are provided."
+"Qamar is an Islamic education and lifestyle app. It does not diagnose, treat, or provide medical advice. The Daily Reflections feature includes a disclaimer that it is not a substitute for professional care, and crisis resources (988 Lifeline) are provided."
 
 ---
 
@@ -178,7 +178,7 @@ Follow-up explanation:
 
 **Safe Version:**
 ```
-What's New in Noor:
+What's New in Qamar:
 
 - Quran Reader with 8 reciters and word-by-word display
 - Arabic Learning with FSRS spaced repetition flashcards
@@ -222,7 +222,7 @@ Should include:
 
 ## Privacy Policy URL
 
-Must include the section: "What Noor Is (and Isn't)"
+Must include the section: "What Qamar Is (and Isn't)"
 
 Required disclaimers:
 - Not a substitute for professional counseling or medical care
@@ -263,7 +263,7 @@ Required disclaimers:
 
 ## Safe Framing Examples
 
-### What Noor Actually Does:
+### What Qamar Actually Does:
 - "A complete Islamic companion with Quran, Arabic learning, and daily reflections"
 - "Learn Arabic from the alphabet up with proven spaced repetition"
 - "Read and listen to the Quran with word-by-word tajweed display"
@@ -286,20 +286,20 @@ Required disclaimers:
 
 ## Final Messaging Framework
 
-### Noor is:
+### Qamar is:
 - An Islamic companion app
 - A Quran reader with recitation
 - An Arabic learning platform
 - A daily reflection practice
 - A hadith and knowledge resource
 
-### Noor is NOT:
+### Qamar is NOT:
 - Therapy or medical care
 - A diagnosis tool
 - A replacement for counselors
 - "AI-powered" (in user-facing copy)
 
-### When describing Noor, always lead with:
+### When describing Qamar, always lead with:
 1. What it does (Quran, Arabic, reflections, prayer)
 2. How it is rooted (Islamic scholarship, Quran, Hadith)
 3. What it is not (not professional care, not therapy)
@@ -308,7 +308,7 @@ Required disclaimers:
 
 ## Elevator Pitch
 
-"Noor is your complete Islamic companion -- read Quran with 8 reciters and tajweed, learn Arabic with spaced repetition flashcards, explore hadith, and reflect daily with Quranic wisdom. Everything a Muslim needs to grow, in one app."
+"Qamar is your complete Islamic companion -- read Quran with 8 reciters and tajweed, learn Arabic with spaced repetition flashcards, explore hadith, and reflect daily with Quranic wisdom. Everything a Muslim needs to grow, in one app."
 
 ---
 

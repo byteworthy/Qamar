@@ -1,4 +1,4 @@
-# Noor Performance Guide
+# Qamar Performance Guide
 
 ## Bundle Size Targets
 - Total bundle: < 30MB

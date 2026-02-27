@@ -1,4 +1,4 @@
-# Noor Legal Document URLs
+# Qamar Legal Document URLs
 
 **Last Updated: January 2026**
 

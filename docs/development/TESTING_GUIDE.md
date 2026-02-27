@@ -2,7 +2,7 @@
 
 ## Overview
 
-Comprehensive testing strategy for Noor application covering unit tests, integration tests, and user acceptance testing across iOS, Android, and backend.
+Comprehensive testing strategy for Qamar application covering unit tests, integration tests, and user acceptance testing across iOS, Android, and backend.
 
 ---
 
@@ -69,19 +69,19 @@ Go to App Store Connect → TestFlight:
 Create invitation email template:
 
 ```markdown
-Subject: You're invited to test Noor
+Subject: You're invited to test Qamar
 
 Hi [Name],
 
-You've been invited to test the Noor app for iOS!
+You've been invited to test the Qamar app for iOS!
 
-**What is Noor?**
-Noor is an Islamic companion app for Quran reading, Arabic learning, daily reflections, and prayer support.
+**What is Qamar?**
+Qamar is an Islamic companion app for Quran reading, Arabic learning, daily reflections, and prayer support.
 
 **How to Join:**
 1. Install TestFlight from the App Store: https://apps.apple.com/app/testflight/id899247664
 2. Tap this invite link: [TestFlight Invite Link]
-3. Accept the invitation and install Noor
+3. Accept the invitation and install Qamar
 
 **What to Test:**
 - Complete at least 3 full reflection sessions
@@ -92,9 +92,9 @@ Noor is an Islamic companion app for Quran reading, Arabic learning, daily refle
 **Feedback:**
 Use the feedback form in TestFlight or email: feedback@noorapp.com
 
-Thank you for helping us improve Noor!
+Thank you for helping us improve Qamar!
 
-- The Noor Team
+- The Qamar Team
 ```
 
 ---
@@ -163,18 +163,18 @@ Create Google Group for testers:
 Send invitation:
 
 ```markdown
-Subject: Test Noor on Android
+Subject: Test Qamar on Android
 
 Hi [Name],
 
-Join our internal testing program for Noor on Android!
+Join our internal testing program for Qamar on Android!
 
 **Opt-in Link:**
 [Google Play Testing Link]
 
 **After opting in:**
 1. Visit Google Play Store
-2. Search for "Noor"
+2. Search for "Qamar"
 3. Install the app
 
 **What to Test:**

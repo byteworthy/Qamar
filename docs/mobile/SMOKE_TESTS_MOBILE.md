@@ -1,6 +1,6 @@
 # Mobile Smoke Tests
 
-**Purpose**: Manual smoke test procedures for Noor mobile app  
+**Purpose**: Manual smoke test procedures for Qamar mobile app
 **Last Updated**: 2026-01-19  
 **Owner**: QA / Release Management
 
@@ -86,7 +86,7 @@ These are step-by-step manual tests to verify core functionality before release.
 11. **Attempt Second Reflection (Same Day)**
     - Tap "Start Reflection" button again
     - **Expected**: Modal or screen showing daily limit reached
-    - **Expected**: "Upgrade to Noor Plus" or "Upgrade" button shown
+    - **Expected**: "Upgrade to Qamar Plus" or "Upgrade" button shown
     - **Expected**: Message: "Free tier: 1 reflection per day"
 
 12. **Check History (Free Tier)**
@@ -101,7 +101,7 @@ These are step-by-step manual tests to verify core functionality before release.
 
 ---
 
-## Test 2: Noor Plus Purchase and Unlock
+## Test 2: Qamar Plus Purchase and Unlock
 
 **Objective**: Verify Plus subscription purchase and feature unlock
 
@@ -140,7 +140,7 @@ These are step-by-step manual tests to verify core functionality before release.
    - Tap "Continue" button
    - **Expected**: Navigate back to Home or previous screen
    - Tap "Profile" tab
-   - **Expected**: Subscription status shows "Noor Plus"
+   - **Expected**: Subscription status shows "Qamar Plus"
    - **Expected**: Renewal date displayed (sandbox accelerated time)
 
 6. **Test Unlimited Reflections**
@@ -170,7 +170,7 @@ These are step-by-step manual tests to verify core functionality before release.
 
 ---
 
-## Test 3: Noor Premium Purchase and Unlock
+## Test 3: Qamar Premium Purchase and Unlock
 
 **Objective**: Verify Premium subscription purchase and advanced features
 
@@ -193,7 +193,7 @@ These are step-by-step manual tests to verify core functionality before release.
 
 3. **Verify Premium Status**
    - Navigate to Profile tab
-   - **Expected**: Subscription shows "Noor Premium"
+   - **Expected**: Subscription shows "Qamar Premium"
    - **Expected**: Renewal date displayed
 
 4. **Test Premium Features**
@@ -385,7 +385,7 @@ These are step-by-step manual tests to verify core functionality before release.
    - **Expected**: No internet connection
 
 2. **Launch App**
-   - Open Noor app
+   - Open Qamar app
    - **Expected**: App launches successfully
    - **Expected**: Home screen appears
 

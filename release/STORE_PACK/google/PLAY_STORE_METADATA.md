@@ -1,17 +1,17 @@
 # Play Store Metadata (Android)
 
 ## App Name
-Noor
+Qamar
 
 ## Short Description (80 characters max)
 Your complete Islamic companion — Quran, Arabic learning, hadith, and prayer.
 
 ## Full Description
-Noor — Your Complete Islamic Companion
+Qamar — Your Complete Islamic Companion
 
 Quran · Arabic Learning · Prayer · Reflection
 
-Noor brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Noor is designed to walk with you.
+Qamar brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Qamar is designed to walk with you.
 
 QURAN READER
 • Full Quran with Arabic text and English translation
@@ -54,7 +54,7 @@ PRIVACY FIRST
 • Your writing and conversations stay private
 • Request data deletion at any time
 
-NOOR PLUS ($2.99/month or $19.99/year)
+QAMAR PLUS ($2.99/month or $19.99/year)
 • Unlimited tutor conversations and pronunciation sessions
 • Full Quran audio with all 8 reciters
 • All Arabic learning scenarios
@@ -65,7 +65,7 @@ NOOR PLUS ($2.99/month or $19.99/year)
 
 Free users enjoy full access to the Quran reader, Arabic alphabet, flashcards, journaling, and prayer tracking with 3 daily tutor and pronunciation sessions included.
 
-Built with love for the ummah. Noor is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
+Built with love for the ummah. Qamar is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
 
 ## Category & Tags
 - Category: Lifestyle
@@ -145,7 +145,7 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - 3 daily sessions for tutor, pronunciation coach, and Ask Karim
 - Purpose: Full core experience, generous free tier
 
-**Noor Plus - Monthly**
+**Qamar Plus - Monthly**
 - Product ID: `noor_plus_monthly`
 - Price: $2.99/month
 - Unlimited Arabic tutor conversations
@@ -157,15 +157,15 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - Pattern insights and analytics
 - Export reflections
 
-**Noor Plus - Yearly**
+**Qamar Plus - Yearly**
 - Product ID: `noor_plus_yearly`
 - Price: $19.99/year (save ~$16)
 - Same features as monthly
 
-**Noor Plus - Lifetime**
+**Qamar Plus - Lifetime**
 - Product ID: `noor_plus_lifetime`
 - Price: $49.99 (one-time purchase)
-- All Noor Plus features, permanently unlocked
+- All Qamar Plus features, permanently unlocked
 
 ---
 

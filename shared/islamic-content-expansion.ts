@@ -1,5 +1,5 @@
 /**
- * Islamic Content Database Expansion for Noor
+ * Islamic Content Database Expansion for Qamar
  *
  * This file expands the base Islamic framework with additional
  * Quranic ayat and hadith mapped to cognitive distortion patterns.

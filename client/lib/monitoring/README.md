@@ -1,6 +1,6 @@
 # Monitoring & Observability System
 
-Comprehensive monitoring, analytics, and premium feature management for the Noor Islamic app.
+Comprehensive monitoring, analytics, and premium feature management for the Qamar Islamic app.
 
 ## Overview
 
@@ -456,4 +456,4 @@ For issues or questions:
 
 ## License
 
-Internal use only - Noor Islamic App
+Internal use only - Qamar Islamic App

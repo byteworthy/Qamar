@@ -1,23 +1,23 @@
-# In-App Purchase Setup Guide - Noor
+# In-App Purchase Setup Guide - Qamar
 ## Option B: Free with IAP at Launch
 
 **Decision Made:** 2026-02-01
 **Launch Strategy:** Free app with premium subscription tiers
-**Revenue Model:** Freemium with Noor Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
+**Revenue Model:** Freemium with Qamar Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
 
 ---
 
 ## Overview
 
-This guide sets up In-App Purchases (IAP) for Noor using RevenueCat as the subscription management platform.
+This guide sets up In-App Purchases (IAP) for Qamar using RevenueCat as the subscription management platform.
 
 ### Subscription Tiers
 
 | Tier | Price | Features |
 |------|-------|----------|
 | **Free** | $0 | Core features, 3 sessions/day for tutor/pronunciation |
-| **Noor Plus** | $2.99/month | Unlimited conversations, full Quran audio, all learning scenarios |
-| **Noor Plus** | $19.99/year | Same as monthly (save 44%) |
+| **Qamar Plus** | $2.99/month | Unlimited conversations, full Quran audio, all learning scenarios |
+| **Qamar Plus** | $19.99/year | Same as monthly (save 44%) |
 | **Lifetime** | $49.99 | All Plus features forever |
 
 ---
@@ -43,13 +43,13 @@ Verify product IDs match what you'll create in App Store Connect:
 export const SUBSCRIPTION_PRODUCTS = {
   plus: {
     id: 'noor_plus_monthly',
-    name: 'Noor Plus',
+    name: 'Qamar Plus',
     price: '$2.99',
     interval: 'month',
   },
   lifetime: {
     id: 'noor_plus_lifetime',
-    name: 'Noor Plus Lifetime',
+    name: 'Qamar Plus Lifetime',
     price: '$49.99',
     interval: 'once',
   },
@@ -65,9 +65,9 @@ Add subscription pricing information to the description:
 ```markdown
 SUBSCRIPTION OPTIONS
 • Free: Core features, 3 sessions/day for tutor and pronunciation
-• Noor Plus: $2.99/month - Unlimited conversations, full audio, all features
-• Noor Plus: $19.99/year - Save 44%
-• Noor Plus Lifetime: $49.99 - All features forever
+• Qamar Plus: $2.99/month - Unlimited conversations, full audio, all features
+• Qamar Plus: $19.99/year - Save 44%
+• Qamar Plus Lifetime: $49.99 - All features forever
 
 Subscriptions auto-renew unless canceled 24 hours before renewal.
 ```
@@ -85,7 +85,7 @@ Subscriptions auto-renew unless canceled 24 hours before renewal.
 ### Step 2: Create New App in RevenueCat
 
 1. Click "Create new app"
-2. **App Name:** Noor
+2. **App Name:** Qamar
 3. **Bundle ID (iOS):** `com.noor.app`
 4. **Package Name (Android):** `com.noor.app`
 
@@ -144,16 +144,16 @@ REVENUECAT_SECRET_KEY=sk_aBcDeFgHiJkLmNoPqRsTuVwXyZ
 
 ### Step 2: Create Subscription Group
 
-1. Go to **My Apps → Noor → In-App Purchases**
+1. Go to **My Apps → Qamar → In-App Purchases**
 2. Click **+** next to "Subscription Groups"
-3. **Reference Name:** Noor Premium Subscriptions
+3. **Reference Name:** Qamar Premium Subscriptions
 4. Click **Create**
 
-### Step 3: Create Noor Plus Subscription
+### Step 3: Create Qamar Plus Subscription
 
 1. Inside the subscription group, click **+** (Add Subscription)
 2. **Product ID:** `noor_plus_monthly`
-3. **Reference Name:** Noor Plus Monthly
+3. **Reference Name:** Qamar Plus Monthly
 4. Click **Create**
 
 **Subscription Duration:**
@@ -165,31 +165,31 @@ REVENUECAT_SECRET_KEY=sk_aBcDeFgHiJkLmNoPqRsTuVwXyZ
 - Click **Next**, review, and **Submit**
 
 **Localization (US English):**
-- **Subscription Display Name:** Noor Plus
+- **Subscription Display Name:** Qamar Plus
 - **Description:** Unlimited conversations, full Quran audio recitations, all Arabic learning scenarios, hadith library access, pattern insights, and export reflections.
 
 **Review Information:**
 - **Screenshot:** (Upload screenshot showing Plus features)
 - **Review Notes:** Premium tier with unlimited conversations, full audio library, and all learning features.
 
-### Step 4: Create Noor Plus Yearly Subscription
+### Step 4: Create Qamar Plus Yearly Subscription
 
 Repeat the same process:
 1. **Product ID:** `noor_plus_yearly`
-2. **Reference Name:** Noor Plus Yearly
+2. **Reference Name:** Qamar Plus Yearly
 3. **Duration:** 1 year
 4. **Price:** $19.99 USD
-5. **Display Name:** Noor Plus (Annual)
+5. **Display Name:** Qamar Plus (Annual)
 6. **Description:** All Plus features. Save 44% with annual billing.
 
 ### Step 5: Create Lifetime Purchase
 
 1. **Click:** + → Non-Consumable
 2. **Product ID:** `noor_plus_lifetime`
-3. **Reference Name:** Noor Plus Lifetime
+3. **Reference Name:** Qamar Plus Lifetime
 4. **Price:** $49.99 USD
-5. **Display Name:** Noor Plus (Lifetime)
-6. **Description:** One-time payment for lifetime access to all Noor Plus features.
+5. **Display Name:** Qamar Plus (Lifetime)
+6. **Description:** One-time payment for lifetime access to all Qamar Plus features.
 
 ---
 
@@ -200,26 +200,26 @@ Repeat the same process:
 1. In RevenueCat dashboard, go to **Entitlements**
 2. Click **+ New**
 3. Create entitlement: `noor_plus_access`
-   - Description: "Access to Noor Plus features"
+   - Description: "Access to Qamar Plus features"
 
 ### Step 2: Configure Products in RevenueCat
 
 1. Go to **Products** in RevenueCat
 2. Click **+ New**
 
-**Product 1: Noor Plus**
+**Product 1: Qamar Plus**
 - **Product ID:** `noor_plus_monthly` (must match App Store Connect)
 - **Store:** App Store (iOS)
 - **Type:** Subscription
 - **Entitlements:** `noor_plus_access`
 
-**Product 2: Noor Plus Yearly**
+**Product 2: Qamar Plus Yearly**
 - **Product ID:** `noor_plus_yearly`
 - **Store:** App Store (iOS)
 - **Type:** Subscription
 - **Entitlements:** `noor_plus_access`
 
-**Product 3: Noor Plus Lifetime**
+**Product 3: Qamar Plus Lifetime**
 - **Product ID:** `noor_plus_lifetime`
 - **Store:** App Store (iOS)
 - **Type:** Non-Consumable
@@ -320,7 +320,7 @@ Use the existing paywall component:
 4. **Make Test Purchase**
    - Open app
    - Navigate to paywall
-   - Tap "Subscribe to Noor Plus"
+   - Tap "Subscribe to Qamar Plus"
    - Use **sandbox tester email** when prompted
    - Complete fake purchase (no real money charged)
 
@@ -361,9 +361,9 @@ Before submitting to App Store:
 SUBSCRIPTION INFORMATION
 
 This app offers optional in-app subscriptions:
-- Noor Plus Monthly: $2.99/month (unlimited conversations, full audio, all learning features)
-- Noor Plus Yearly: $19.99/year (same features, save 44%)
-- Noor Plus Lifetime: $49.99 one-time (all features forever)
+- Qamar Plus Monthly: $2.99/month (unlimited conversations, full audio, all learning features)
+- Qamar Plus Yearly: $19.99/year (same features, save 44%)
+- Qamar Plus Lifetime: $49.99 one-time (all features forever)
 
 Subscriptions are managed through RevenueCat. The free tier includes core features with 3 sessions/day for tutor and pronunciation.
 

@@ -30,7 +30,7 @@ export default function Home() {
         <section className="bg-background-card py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="font-serif text-4xl font-bold text-center mb-16">
-              How <span className="text-gold">Noor</span> Works
+              How <span className="text-gold">Qamar</span> Works
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -41,7 +41,7 @@ export default function Home() {
                   Share Your Thought
                 </h3>
                 <p className="text-moonlight-dim">
-                  Express what's troubling you in a safe, private space. Our AI analyzes patterns in your thinking.
+                  Express what's troubling you in a safe, private space. Your companion helps you reflect on patterns in your thinking.
                 </p>
               </div>
 
@@ -77,10 +77,10 @@ export default function Home() {
               Crisis Support Available
             </h2>
             <p className="text-moonlight-dim mb-6 text-lg">
-              If you're in crisis, Noor detects urgent needs and provides immediate resources, including 988 Suicide & Crisis Lifeline.
+              If you're in crisis, Qamar detects urgent needs and provides immediate resources, including 988 Suicide & Crisis Lifeline.
             </p>
             <p className="text-moonlight-muted text-sm">
-              Noor is not a replacement for professional mental health care. Always consult qualified professionals for serious concerns.
+              Qamar is not a replacement for professional mental health care. Always consult qualified professionals for serious concerns.
             </p>
           </div>
         </section>

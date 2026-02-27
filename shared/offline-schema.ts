@@ -5,7 +5,7 @@
  * and Arabic learning data. Designed for React Native apps using
  * expo-sqlite or similar SQLite implementations.
  *
- * Data source: Migrated from Noor-AI Flutter app (noor_ai_seed.db)
+ * Data source: Migrated from Qamar-AI Flutter app (noor_ai_seed.db)
  * Total size: ~3.4MB (6,236 verses + Hadith + vocabulary)
  */
 

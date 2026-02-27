@@ -1,6 +1,6 @@
 # Secrets and Configuration Management
 
-**Purpose**: Secure secrets handling and configuration for Noor  
+**Purpose**: Secure secrets handling and configuration for Qamar
 **Last Updated**: 2026-01-19  
 **Owner**: Engineering / DevOps
 
@@ -512,14 +512,14 @@ brew install bfg  # macOS
 # or download from: https://rtyley.github.io/bfg-repo-cleaner/
 
 # 2. Clone a fresh copy
-git clone --mirror https://github.com/yourusername/Noor.git
+git clone --mirror https://github.com/yourusername/Qamar.git
 
 # 3. Remove secret from history
-bfg --replace-text passwords.txt Noor.git
+bfg --replace-text passwords.txt Qamar.git
 # (passwords.txt contains: sk-1234567890abcdef==>***REMOVED***)
 
 # 4. Clean up
-cd Noor.git
+cd Qamar.git
 git reflog expire --expire=now --all
 git gc --prune=now --aggressive
 
@@ -527,7 +527,7 @@ git gc --prune=now --aggressive
 git push --force
 
 # 6. Everyone must re-clone
-# Team members: rm -rf Noor && git clone ...
+# Team members: rm -rf Qamar && git clone ...
 ```
 
 **⚠️ Force-pushing rewrites history - coordinate with entire team first!**

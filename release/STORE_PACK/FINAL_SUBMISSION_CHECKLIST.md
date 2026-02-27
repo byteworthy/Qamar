@@ -1,4 +1,4 @@
-# Final Submission Checklist - Noor iOS
+# Final Submission Checklist - Qamar iOS
 
 **Use this immediately before clicking "Submit for Review" in App Store Connect**
 **Last Updated:** January 2026
@@ -46,10 +46,10 @@ This is your final gate before submission. Complete every item in order. Do not 
 
 ## 📋 APP STORE CONNECT CHECKLIST
 
-### In App Store Connect → My Apps → Noor
+### In App Store Connect → My Apps → Qamar
 
 #### App Information Section
-- [ ] **Name**: Noor
+- [ ] **Name**: Qamar
 - [ ] **Subtitle**: Quran · Arabic Learning · Prayer · Reflection
 - [ ] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
 - [ ] **Primary Category**: Lifestyle

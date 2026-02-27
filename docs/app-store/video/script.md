@@ -1,4 +1,4 @@
-# Noor App Preview Video Script (30 seconds)
+# Qamar App Preview Video Script (30 seconds)
 
 ## Purpose
 App preview videos increase conversion rate by 20-30%.
@@ -38,7 +38,7 @@ iOS accepts .mov or .mp4 (1080p, 30fps minimum).
 
 **26-30s: Closing**
 - Quick montage: Quran → Prayer → Hifz → Learn
-- Noor logo + icon center frame (fade in)
+- Qamar logo + icon center frame (fade in)
 - Text: "One app instead of five"
 - Fade to black
 - App Store/Google Play badge

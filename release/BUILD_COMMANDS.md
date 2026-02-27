@@ -1,4 +1,4 @@
-# Build Commands Reference - Noor
+# Build Commands Reference - Qamar
 
 Quick reference for all build, test, and deployment commands.
 

@@ -18,6 +18,6 @@
 ## Feature Graphic (Required by Google Play)
 - Size: 1024 x 500 px
 - Content: App name + tagline + 3-4 key feature highlights
-- Background: Noor cream (#FAF8F3) or dark background
-- Include: Noor logo, "Your Complete Islamic Companion" tagline
+- Background: Qamar cream (#FAF8F3) or dark background
+- Include: Qamar logo, "Your Complete Islamic Companion" tagline
 - Create in Figma or Canva

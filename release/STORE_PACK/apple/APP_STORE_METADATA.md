@@ -1,17 +1,17 @@
 # App Store Metadata (iOS)
 
 ## App Name
-Noor
+Qamar
 
 ## Subtitle
 Quran · Arabic · Prayer
 
 ## Description
-Noor — Your Complete Islamic Companion
+Qamar — Your Complete Islamic Companion
 
 Quran · Arabic Learning · Prayer · Reflection
 
-Noor brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Noor is designed to walk with you.
+Qamar brings together everything you need for your Islamic journey in one beautiful app. Whether you are deepening your connection with the Quran, learning Arabic from scratch, exploring hadith, or building daily spiritual habits, Qamar is designed to walk with you.
 
 QURAN READER
 • Full Quran with Arabic text and English translation
@@ -54,7 +54,7 @@ PRIVACY FIRST
 • Your writing and conversations stay private
 • Request data deletion at any time
 
-NOOR PLUS ($2.99/month or $19.99/year)
+QAMAR PLUS ($2.99/month or $19.99/year)
 • Unlimited tutor conversations and pronunciation sessions
 • Full Quran audio with all 8 reciters
 • All Arabic learning scenarios
@@ -65,7 +65,7 @@ NOOR PLUS ($2.99/month or $19.99/year)
 
 Free users enjoy full access to the Quran reader, Arabic alphabet, flashcards, journaling, and prayer tracking with 3 daily tutor and pronunciation sessions included.
 
-Built with love for the ummah. Noor is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
+Built with love for the ummah. Qamar is for Muslims who want to learn, reflect, and grow — at their own pace, in their own space.
 
 ## Keywords
 quran,arabic,islam,muslim,prayer,hadith,tajweed,dua,learn arabic,islamic,recitation,journal,deen
@@ -77,7 +77,7 @@ quran,arabic,islam,muslim,prayer,hadith,tajweed,dua,learn arabic,islamic,recitat
 ## Age Rating
 **Rating**: 4+ (No objectionable content)
 
-**Rationale**: Noor is an educational and lifestyle app focused on Islamic learning, Quran reading, Arabic language study, journaling, and prayer tracking. Content is appropriate for all ages. No mature themes, medical claims, or objectionable material. Comparable apps (Muslim Pro, Quran.com, Tarteel) are rated 4+.
+**Rationale**: Qamar is an educational and lifestyle app focused on Islamic learning, Quran reading, Arabic language study, journaling, and prayer tracking. Content is appropriate for all ages. No mature themes, medical claims, or objectionable material. Comparable apps (Muslim Pro, Quran.com, Tarteel) are rated 4+.
 
 ## Support URL
 mailto:support@byteworthy.com
@@ -104,7 +104,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 - 3 daily sessions for tutor, pronunciation coach, and Ask Karim
 - Purpose: Full core experience, generous free tier
 
-### Noor Plus - Monthly
+### Qamar Plus - Monthly
 - **Product ID**: `com.noor.plus.monthly`
 - **Price**: $2.99/month
 - **Type**: Auto-renewing subscription
@@ -118,30 +118,30 @@ https://byteworthy.github.io/Noor/legal/privacy.html
   - Pattern insights and analytics
   - Export reflections
 
-### Noor Plus - Yearly
+### Qamar Plus - Yearly
 - **Product ID**: `com.noor.plus.yearly`
 - **Price**: $19.99/year (save ~$16)
 - **Type**: Auto-renewing subscription
 - **Features**: Same as monthly
 
-### Noor Plus - Lifetime
+### Qamar Plus - Lifetime
 - **Product ID**: `com.noor.plus.lifetime`
 - **Price**: $49.99 (one-time purchase)
 - **Type**: Non-consumable
-- **Features**: All Noor Plus features, permanently unlocked
+- **Features**: All Qamar Plus features, permanently unlocked
 
 **Note**: All purchases managed through Apple In-App Purchase. No external payment processing.
 
 ## Subscription Details for App Store Connect
 
-**Subscription Group Name**: Noor Subscriptions
+**Subscription Group Name**: Qamar Subscriptions
 
 **Free Trial**: None (to be configured if desired)
 
 **Introductory Offer**: None (to be configured if desired)
 
 **Subscription Display Name (User-Facing)**:
-- "Noor Plus" ($2.99/month or $19.99/year)
+- "Qamar Plus" ($2.99/month or $19.99/year)
 
 **Subscription Description**:
 "Unlock unlimited learning, full Quran audio, complete hadith access, and more."
@@ -149,7 +149,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 ## Notes for App Review
 
 ### App Purpose & Functionality
-Noor is a comprehensive Islamic companion app that combines Quran reading, Arabic language learning, hadith exploration, daily reflections, and prayer tracking. It is designed for Muslims of all ages who want to deepen their knowledge and build consistent spiritual habits.
+Qamar is a comprehensive Islamic companion app that combines Quran reading, Arabic language learning, hadith exploration, daily reflections, and prayer tracking. It is designed for Muslims of all ages who want to deepen their knowledge and build consistent spiritual habits.
 
 ### Feature Summary
 

@@ -69,7 +69,7 @@ git push origin "v${VERSION}"
 railway up --detach
 
 # Monitor deployment
-railway logs --service Noor
+railway logs --service Qamar
 ```
 
 ### 4. Verify Deployment
@@ -235,7 +235,7 @@ eas submit --platform android --latest
 railway logs --deployment
 
 # Rollback to specific deployment
-railway up --service Noor --environment production --deployment <deployment-id>
+railway up --service Qamar --environment production --deployment <deployment-id>
 ```
 
 #### Option 2: Emergency Validation Mode

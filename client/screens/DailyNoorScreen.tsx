@@ -621,7 +621,7 @@ function ReflectionStep({ onComplete, theme }: ReflectionStepProps) {
           },
         ]}
         accessibilityRole="button"
-        accessibilityLabel="Complete daily noor"
+        accessibilityLabel="Complete daily qamar"
         accessibilityState={{ disabled: !hasText }}
       >
         <ThemedText
@@ -699,7 +699,7 @@ function CompletionView({ streak, onDone, theme }: CompletionViewProps) {
           type="body"
           style={[styles.completionSubtitle, { color: theme.textSecondary }]}
         >
-          You completed your Daily Noor.
+          You completed your Daily Qamar.
         </ThemedText>
       </Animated.View>
 

@@ -531,7 +531,7 @@ export default function HomeScreen() {
               </ThemedText>
             </Animated.View>
 
-            {/* ── Streak Badge + Daily Noor CTA ── */}
+            {/* ── Streak Badge + Daily Qamar CTA ── */}
             <Animated.View entering={ne(FadeInUp.duration(350).delay(40))}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
                 {/* Streak Badge */}
@@ -564,7 +564,7 @@ export default function HomeScreen() {
                   </ThemedText>
                 </Pressable>
 
-                {/* Daily Noor CTA */}
+                {/* Daily Qamar CTA */}
                 <Pressable
                   testID="daily-noor-card"
                   onPress={handleNavigateDailyNoor}
@@ -579,7 +579,7 @@ export default function HomeScreen() {
                     borderRadius: 14,
                   }}
                   accessibilityRole="button"
-                  accessibilityLabel={dailyNoorDone ? "Daily Noor completed" : "Start your Daily Noor — 4 minutes of guided practice"}
+                  accessibilityLabel={dailyNoorDone ? "Daily Qamar completed" : "Start your Daily Qamar — 4 minutes of guided practice"}
                 >
                   <Feather
                     name={dailyNoorDone ? "check-circle" : "sun"}
@@ -592,7 +592,7 @@ export default function HomeScreen() {
                     color: dailyNoorDone ? NoorColors.emerald : theme.text,
                     flex: 1,
                   }}>
-                    {dailyNoorDone ? "Daily Noor Complete" : "Start Daily Noor"}
+                    {dailyNoorDone ? "Daily Qamar Complete" : "Start Daily Qamar"}
                   </ThemedText>
                   {!dailyNoorDone && (
                     <ThemedText style={{ fontSize: 11, color: theme.textSecondary }}>

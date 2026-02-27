@@ -1,4 +1,4 @@
-# App Icon Generation Guide - Noor
+# App Icon Generation Guide - Qamar
 
 **Source File:** `assets/images/icon-source.svg`
 **Target:** 1024x1024 PNG with no transparency
@@ -63,7 +63,7 @@ cp /path/to/your/converted-icon.png assets/images/icon.png
 ### Step 1: Import to Figma
 
 1. Create free Figma account at [figma.com](https://figma.com)
-2. Create new file: **Noor App Icon**
+2. Create new file: **Qamar App Icon**
 3. Drag `icon-source.svg` into Figma canvas
 4. Resize to 1024x1024 (lock aspect ratio)
 
@@ -131,7 +131,7 @@ ls -lh assets/images/icon.png
 ### Step 2: Upload to App Store Connect
 
 1. Go to [App Store Connect](https://appstoreconnect.apple.com)
-2. Navigate to **My Apps → Noor → App Store**
+2. Navigate to **My Apps → Qamar → App Store**
 3. Scroll to **App Icon**
 4. Drag and drop `icon.png` (1024x1024)
 5. Click **Save**
@@ -145,7 +145,7 @@ Before uploading, verify:
 - [ ] **Recognizable:** Clear at small sizes (40x40)
 - [ ] **Simple:** Not too detailed or busy
 - [ ] **Unique:** Distinct from other Islamic apps
-- [ ] **Consistent:** Matches Noor's twilight/gold brand
+- [ ] **Consistent:** Matches Qamar's twilight/gold brand
 - [ ] **No Text:** Icon should work without text
 - [ ] **No Transparency:** Solid background color
 - [ ] **Rounded Corners:** iOS applies automatically (don't add)
@@ -172,7 +172,7 @@ Before uploading, verify:
 ### Issue: Icon too dark/light
 
 **Solution:**
-- Noor uses dark theme (twilight blue)
+- Qamar uses dark theme (twilight blue)
 - Ensure contrast with iOS background
 - Gold crescent should be clearly visible
 

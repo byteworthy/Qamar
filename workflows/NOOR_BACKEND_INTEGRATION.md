@@ -1,4 +1,4 @@
-# Noor Backend Integration for n8n Freemium Conversion Workflow
+# Qamar Backend Integration for n8n Freemium Conversion Workflow
 
 **Purpose**: Backend changes required to support n8n freemium-to-paid conversion automation
 **Status**: Implementation Guide (Ready for Development)
@@ -9,7 +9,7 @@
 
 ## Overview
 
-The Noor backend needs to:
+The Qamar backend needs to:
 1. Log user activity events to Firestore (consumed by n8n Node 4)
 2. Expose push notification API endpoint (consumed by n8n Node 11)
 3. Expose Stripe webhook receiver for subscription events (consumed by n8n Node 13)
@@ -571,7 +571,7 @@ export async function markUserAsConverted(
 
 ### File: `server/routes/webhook-registration.ts` (NEW)
 
-Register n8n webhook endpoint in Noor backend startup:
+Register n8n webhook endpoint in Qamar backend startup:
 
 ```typescript
 import axios from 'axios';

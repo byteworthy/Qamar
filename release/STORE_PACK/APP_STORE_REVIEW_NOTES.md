@@ -1,4 +1,4 @@
-# App Store Review Notes - Noor
+# App Store Review Notes - Qamar
 
 **For Apple App Store Connect Submission**
 **Last Updated:** February 2026
@@ -7,7 +7,7 @@
 
 ## Reviewer Summary (Paste in "App Review Information" -> "Notes" field)
 
-Noor is an Islamic companion app that combines Quran reading, Arabic language learning, daily reflections, hadith exploration, and prayer features into a single experience for Muslims.
+Qamar is an Islamic companion app that combines Quran reading, Arabic language learning, daily reflections, hadith exploration, and prayer features into a single experience for Muslims.
 
 ### Core Functionality
 
@@ -78,7 +78,7 @@ Rated 4+ because:
 
 ### Pricing
 - Free tier with daily access to core features
-- Noor Plus: $2.99/month, $19.99/year, $49.99 lifetime
+- Qamar Plus: $2.99/month, $19.99/year, $49.99 lifetime
 - Plus unlocks unlimited reflections, full Arabic learning tools, and premium Quran features
 
 ### Test Account (if required)

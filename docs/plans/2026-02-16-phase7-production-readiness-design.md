@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-**Goal:** Ship production-ready Noor app to iOS App Store and Google Play with comprehensive quality, polish, and testing.
+**Goal:** Ship production-ready Qamar app to iOS App Store and Google Play with comprehensive quality, polish, and testing.
 
 **Requirements:**
 - **Timeline:** Full public launch in 3-4 weeks
@@ -251,7 +251,7 @@ npm run bundle:analyze  # Already exists in package.json
 - **0-5s:** Open with Quran reader (tajweed enabled, audio playing, word highlighting)
 - **6-15s:** Quick tour: Prayer times → Hifz progress → Study Plan calendar
 - **16-25s:** Show Arabic tutor conversation + pronunciation feedback
-- **26-30s:** End with tagline: "One app instead of five" + app icon + "Download Noor"
+- **26-30s:** End with tagline: "One app instead of five" + app icon + "Download Qamar"
 
 **App Description:**
 
@@ -259,14 +259,14 @@ npm run bundle:analyze  # Already exists in package.json
 "Quran, Prayer, Arabic & Reflection"
 
 **Promotional Text (170 char, editable without new version):**
-"New: Personalized weekly study plans! Let Noor create a custom Quran learning schedule that adapts to your pace and goals."
+"New: Personalized weekly study plans! Let Qamar create a custom Quran learning schedule that adapts to your pace and goals."
 
 **Description (4000 char max):**
 
 ```markdown
-Why have 5 Islamic apps when Noor does it all?
+Why have 5 Islamic apps when Qamar does it all?
 
-Noor is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed.
+Qamar is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed.
 
 QURAN READER
 • 8 world-class reciters with crystal-clear audio
@@ -317,7 +317,7 @@ NOOR PLUS ($2.99/month)
 • Unlimited pronunciation coaching
 • Advanced Hifz analysis
 
-Download Noor and deepen your Islamic practice today.
+Download Qamar and deepen your Islamic practice today.
 ```
 
 **Keywords (100 char max):**
@@ -342,7 +342,7 @@ Download Noor and deepen your Islamic practice today.
 - Tablet screenshots (Pixel Tablet, 2560 x 1600 px)
 
 **Feature Graphic (1024 x 500 px):**
-- Hero banner with Noor logo + tagline + 3-4 key features
+- Hero banner with Qamar logo + tagline + 3-4 key features
 - Use app's color palette (gold #D4AF37, cream #FAF8F3)
 
 **Short Description (80 char):**
@@ -405,7 +405,7 @@ npm run screenshots  # Existing script in package.json
 - Ensure consistent lighting, content, branding
 
 **Manual touchups:**
-- Add subtle Noor watermark if needed
+- Add subtle Qamar watermark if needed
 - Ensure text is readable at thumbnail size
 - Verify colors look good on both light/dark App Store backgrounds
 
@@ -448,7 +448,7 @@ npm run screenshots  # Existing script in package.json
 **Design system:**
 - Consistent empty state pattern across app
 - Use expo-symbols for icons or custom minimal illustrations
-- Align with Noor's spiritual aesthetic (muted golds #D4AF37, soft gradients, calm)
+- Align with Qamar's spiritual aesthetic (muted golds #D4AF37, soft gradients, calm)
 - Always include a clear next action (button or instruction)
 
 ### Error States
@@ -456,7 +456,7 @@ npm run screenshots  # Existing script in package.json
 **User-friendly error messages:**
 - **API failure:** "Couldn't load content. Try again?" + Retry button
 - **Network offline:** "You're offline. Only cached content available."
-- **Permission denied (mic):** "Noor needs microphone access for pronunciation feedback" + "Open Settings" button
+- **Permission denied (mic):** "Qamar needs microphone access for pronunciation feedback" + "Open Settings" button
 - **Permission denied (location):** "Enable location for accurate prayer times" + manual location entry option
 - **Rate limit hit:** "You've reached your free limit (3/day). Upgrade to Plus for unlimited access" + "Learn More" button
 - **Claude API error:** "Service temporarily unavailable. Try again in a moment."
@@ -477,7 +477,7 @@ npm run screenshots  # Existing script in package.json
 **Enhance existing animations:**
 - **Tab bar:** Icon bounce on press + haptic feedback (light impact)
 - **Card press:** Subtle scale transform (0.98) with spring animation
-- **Pull-to-refresh:** Custom indicator (rotating Noor icon or crescent)
+- **Pull-to-refresh:** Custom indicator (rotating Qamar icon or crescent)
 - **Success animations:** Checkmark on task complete, confetti on streak milestone
 
 **New animations (react-native-reanimated):**
@@ -567,8 +567,8 @@ npm run screenshots  # Existing script in package.json
 - "Get Started" button prominently placed
 
 **Permission priming:**
-- Before requesting mic permission: "Noor uses your microphone to give you pronunciation feedback on your recitation"
-- Before requesting location: "Noor uses your location for accurate prayer times and qibla direction"
+- Before requesting mic permission: "Qamar uses your microphone to give you pronunciation feedback on your recitation"
+- Before requesting location: "Qamar uses your location for accurate prayer times and qibla direction"
 - Show benefit first, then request permission (higher acceptance rate)
 
 **Quick setup (new screen):**
@@ -656,7 +656,7 @@ npm run screenshots  # Existing script in package.json
 
 **Permission Denied:**
 - **Mic permission denied:** Pronunciation coach shows:
-  - "Noor needs microphone access to record your recitation"
+  - "Qamar needs microphone access to record your recitation"
   - "Enable microphone in Settings" button (deep link to app settings)
   - Don't repeatedly ask after denial (respect user choice)
 - **Location permission denied:** Prayer times offers:

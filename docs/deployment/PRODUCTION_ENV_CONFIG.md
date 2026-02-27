@@ -108,7 +108,7 @@ openssl rand -base64 48
 ### Step 2: Configure Railway Environment Variables
 
 1. Go to: https://railway.app/
-2. Navigate to: Noor project → Backend service → Variables tab
+2. Navigate to: Qamar project → Backend service → Variables tab
 3. Add/update these variables:
 
 ```

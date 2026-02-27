@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Noor Security Verification Script
+# Qamar Security Verification Script
 # Checks all implemented security measures before deployment
 
-echo "🔒 Noor Security Verification"
+echo "🔒 Qamar Security Verification"
 echo "=============================="
 echo ""
 

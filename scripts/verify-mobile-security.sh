@@ -1,9 +1,9 @@
 #!/bin/bash
-# Noor Mobile Security Verification Script
+# Qamar Mobile Security Verification Script
 # Verifies all security measures are properly implemented
 # Run this before App Store submission
 
-echo "🔒 NOOR MOBILE SECURITY VERIFICATION"
+echo "🔒 QAMAR MOBILE SECURITY VERIFICATION"
 echo "====================================="
 echo ""
 
@@ -286,7 +286,7 @@ echo ""
 if [ $FAILED -eq 0 ] && [ $WARNINGS -eq 0 ]; then
     echo -e "${GREEN}✓ ALL CHECKS PASSED!${NC}"
     echo ""
-    echo "🎉 Noor is READY for App Store submission!"
+    echo "🎉 Qamar is READY for App Store submission!"
     echo ""
     echo "Next steps:"
     echo "1. Test biometric auth on physical iOS device"

@@ -1,4 +1,4 @@
-# Noor Backend Production Deployment Guide
+# Qamar Backend Production Deployment Guide
 
 **Last Updated:** 2026-02-01
 **Recommended Platform:** Railway (easiest) or Vercel

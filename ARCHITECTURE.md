@@ -1,4 +1,4 @@
-# Noor Unified App - Technical Architecture
+# Qamar Unified App - Technical Architecture
 
 **Version:** 1.0
 **Last Updated:** 2025-02-11
@@ -25,7 +25,7 @@
 
 ### Design Philosophy
 
-**Noor follows a hybrid client-server architecture** with the following principles:
+**Qamar follows a hybrid client-server architecture** with the following principles:
 
 1. **Offline-First**: Core Islamic features (Quran, Prayer, Arabic) work 100% offline
 2. **Progressive Enhancement**: Basic features free, advanced features require internet/premium
@@ -1379,7 +1379,7 @@ export class BiometricAuthService {
 
     try {
       const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: 'Unlock Noor',
+        promptMessage: 'Unlock Qamar',
         fallbackLabel: 'Use Passcode',
         disableDeviceFallback: false,
         cancelLabel: 'Cancel',
@@ -1743,7 +1743,7 @@ client/
 
 | Criteria | React Native | Flutter | Decision |
 |----------|-------------|---------|----------|
-| **Existing Codebase** | Noor production-ready | Noor-AI prototype | **React Native** (preserve investment) |
+| **Existing Codebase** | Qamar production-ready | Qamar-AI prototype | **React Native** (preserve investment) |
 | **Backend Integration** | Express.js already built | None | **React Native** (avoid backend rewrite) |
 | **Developer Ecosystem** | Larger, more mature | Growing | **React Native** |
 | **Web Support** | Excellent (React Native Web) | Maturing | **React Native** |
@@ -1815,7 +1815,7 @@ This architecture document provides:
 **Next Steps:**
 1. Review and approve architecture
 2. Set up project structure (folders, configs)
-3. Initialize WatermelonDB with Noor-AI data migration
+3. Initialize WatermelonDB with Qamar-AI data migration
 4. Implement navigation skeleton
 5. Begin Phase 1 development (Week 1: Foundation)
 

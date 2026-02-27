@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/images/noor-icon.svg" width="120" alt="Noor" />
+  <img src="assets/images/noor-icon.svg" width="120" alt="Qamar" />
 </p>
 
-<h1 align="center">Noor</h1>
+<h1 align="center">Qamar</h1>
 
 <p align="center">
   <strong>Your Complete Islamic Companion</strong><br/>
@@ -17,7 +17,7 @@
 
 ---
 
-One app instead of five. Noor brings together a full Quran reader, Arabic tutor, pronunciation coach, prayer times, and guided reflection — all ad-free and offline-capable.
+One app instead of five. Qamar brings together a full Quran reader, Arabic tutor, pronunciation coach, prayer times, and guided reflection — all ad-free and offline-capable.
 
 ---
 

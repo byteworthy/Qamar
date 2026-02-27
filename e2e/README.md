@@ -1,6 +1,6 @@
 # E2E Testing with Detox
 
-End-to-end testing for the Noor mobile app using Detox.
+End-to-end testing for the Qamar mobile app using Detox.
 
 ## Prerequisites
 

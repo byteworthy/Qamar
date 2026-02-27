@@ -1,4 +1,4 @@
-# Noor Freemium-to-Paid Conversion Workflow
+# Qamar Freemium-to-Paid Conversion Workflow
 
 **Status**: Production Ready
 **Last Updated**: 2026-02-17
@@ -10,7 +10,7 @@
 
 ### What is This?
 
-This is an **end-to-end n8n workflow** that automates Noor's freemium-to-paid conversion funnel. It:
+This is an **end-to-end n8n workflow** that automates Qamar's freemium-to-paid conversion funnel. It:
 
 1. **Monitors** new user signups
 2. **Tracks** user behavior over 7 days (verses memorized, hifz initiation, session duration)
@@ -97,7 +97,7 @@ Backend code changes needed to support the workflow.
              │                            │
              ▼                            ▼
      ┌──────────────┐         ┌──────────────────┐
-     │   Firebase   │         │  Noor Backend    │
+     │   Firebase   │         │  Qamar Backend   │
      │  (Firestore) │         │  (Express.js)    │
      │ • Users      │         │ • Activity logs  │
      │ • Activity   │         │ • Notifications  │
@@ -224,7 +224,7 @@ Cost per Conversion = Total Costs / Conversions
 - [ ] Firebase project with Firestore enabled
 - [ ] Anthropic Claude API key
 - [ ] Stripe account with webhook configured
-- [ ] Noor backend deployed + supporting endpoints
+- [ ] Qamar backend deployed + supporting endpoints
 - [ ] Airtable workspace + tables created
 - [ ] n8n instance (cloud or self-hosted)
 
@@ -253,7 +253,7 @@ Cost per Conversion = Total Costs / Conversions
 
 ### Workflow Not Triggering
 **Cause**: Firebase webhook not connected
-**Fix**: Verify webhook URL in Noor backend. Test with `curl`.
+**Fix**: Verify webhook URL in Qamar backend. Test with `curl`.
 
 ### Haiku Calls Failing
 **Cause**: API key invalid or quota exceeded
@@ -265,7 +265,7 @@ Cost per Conversion = Total Costs / Conversions
 
 ### Push Notifications Not Sending
 **Cause**: User's push tokens empty in Firebase
-**Fix**: Ensure Noor app saves `pushToken` to Firebase on startup.
+**Fix**: Ensure Qamar app saves `pushToken` to Firebase on startup.
 
 ---
 
@@ -322,8 +322,8 @@ Cost per Conversion = Total Costs / Conversions
 - **n8n Workflow**: `n8n-freemium-conversion-automation.json`
 - **Deployment Guide**: `N8N_WORKFLOW_DEPLOYMENT_GUIDE.md`
 - **Backend Integration**: `NOOR_BACKEND_INTEGRATION.md`
-- **Noor App**: `/Users/kevinrichards/projects/noor`
-- **Noor Firebase**: `https://console.firebase.google.com/project/noor-app-production`
+- **Qamar App**: `/Users/kevinrichards/projects/noor`
+- **Qamar Firebase**: `https://console.firebase.google.com/project/noor-app-production`
 - **Stripe Dashboard**: `https://dashboard.stripe.com/`
 - **Airtable Base**: `https://airtable.com/app/appNoorAnalytics2026`
 - **Segment Workspace**: `https://app.segment.com/`
@@ -358,7 +358,7 @@ A: With $5.97 first purchase and 35% conversion rate, you break even on infrastr
 ---
 
 **Created by**: Kevin Richards (@DevyKev_Bot)
-**For**: Noor App (Islamic Companion)
+**For**: Qamar App (Islamic Companion)
 **Project**: Freemium-to-Paid Conversion Automation (Phase 6)
 **Status**: Production Ready for Deployment
 

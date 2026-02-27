@@ -1,7 +1,7 @@
 # iOS Privacy Nutrition Labels
 
 ## Data Not Collected
-Noor does not collect any data from users.
+Qamar does not collect any data from users.
 
 Answer all questions as "No" / "We do not collect this data":
 - Contact Info: No

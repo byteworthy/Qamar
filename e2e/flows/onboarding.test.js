@@ -15,7 +15,7 @@ describe("Onboarding Flow", () => {
   });
 
   it("should show welcome screen on fresh install", async () => {
-    await waitFor(element(by.text("Noor")))
+    await waitFor(element(by.text("Qamar")))
       .toBeVisible()
       .withTimeout(5000);
   });

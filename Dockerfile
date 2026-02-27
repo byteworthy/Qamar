@@ -1,6 +1,6 @@
-# Noor CBT Backend Dockerfile
-# Build: docker build -t noor-cbt-api .
-# Run: docker run -p 5000:5000 --env-file .env noor-cbt-api
+# Qamar Backend Dockerfile
+# Build: docker build -t qamar-api .
+# Run: docker run -p 5000:5000 --env-file .env qamar-api
 
 FROM node:20-alpine AS builder
 

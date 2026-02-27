@@ -29,7 +29,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/">
-            <h1 className="font-serif text-4xl font-bold text-gold">Noor</h1>
+            <h1 className="font-serif text-4xl font-bold text-gold">Qamar</h1>
           </Link>
           <p className="text-moonlight-dim mt-2">Welcome back</p>
         </div>

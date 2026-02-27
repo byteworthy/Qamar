@@ -18,7 +18,7 @@ OUTPUT_DIR="$PROJECT_DIR/screenshots"
 
 mkdir -p "$OUTPUT_DIR"
 
-echo "=== Noor App Store Screenshot Automation ==="
+echo "=== Qamar App Store Screenshot Automation ==="
 echo "Output directory: $OUTPUT_DIR"
 echo ""
 

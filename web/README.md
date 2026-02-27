@@ -1,12 +1,12 @@
-# Noor Web Application
+# Qamar Web Application
 
-**Noor Web App** brings the Islamic companion experience to the web, providing accessible Islamic education and reflection for Muslims on any device.
+**Qamar Web App** brings the Islamic companion experience to the web, providing accessible Islamic education and reflection for Muslims on any device.
 
 ---
 
 ## Overview
 
-Noor Web is a Next.js 15 application that provides the full Noor reflection workflow experience on desktop and mobile browsers. Built with React 19, TypeScript, and Tailwind CSS, it offers the same reflection features as the mobile app with Stripe-based subscriptions and responsive design.
+Qamar Web is a Next.js 15 application that provides the full Qamar reflection workflow experience on desktop and mobile browsers. Built with React 19, TypeScript, and Tailwind CSS, it offers the same reflection features as the mobile app with Stripe-based subscriptions and responsive design.
 
 ### Key Features
 
@@ -425,7 +425,7 @@ docker run -p 3000:3000 --env-file .env.local noor-web
 Custom theme configuration in `tailwind.config.ts`:
 
 ```typescript
-// Noor brand colors
+// Qamar brand colors
 colors: {
   background: '#0f1419',        // Deep twilight
   'background-card': '#242f42', // Card surface

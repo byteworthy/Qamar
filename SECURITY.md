@@ -1,11 +1,11 @@
-# Noor Security Policy
+# Qamar Security Policy
 
 **Last Updated:** January 31, 2026
 **Version:** 1.0.0
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in Noor, please report it responsibly:
+If you discover a security vulnerability in Qamar, please report it responsibly:
 
 - **Email:** security@getbyteworthy.com (from app.json support email)
 - **Response Time:** Within 48 hours

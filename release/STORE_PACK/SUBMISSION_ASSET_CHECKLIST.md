@@ -1,4 +1,4 @@
-# App Store Submission Asset Checklist - Noor
+# App Store Submission Asset Checklist - Qamar
 
 **iOS App Store Connect Requirements**
 **Last Updated:** January 2026
@@ -94,7 +94,7 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 ## 📝 App Metadata Checklist
 
 ### App Information
-- [x] **App Name**: Noor
+- [x] **App Name**: Qamar
 - [x] **Subtitle**: Quran · Arabic Learning · Prayer · Reflection
 - [x] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
 - [x] **Category**: Lifestyle (primary)
@@ -116,7 +116,7 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 **Result: 4+** (educational and lifestyle content suitable for all ages)
 
 ### Pricing
-- [ ] **Free with In-App Purchases** (if Noor Plus is active)
+- [ ] **Free with In-App Purchases** (if Qamar Plus is active)
   OR
 - [ ] **Free** (if no IAP at launch)
 

@@ -1,19 +1,19 @@
-# Noor — iOS App Store Listing
+# Qamar — iOS App Store Listing
 
 ## Name
-Noor
+Qamar
 
 ## Subtitle (30 chars max)
 Quran, Prayer, Arabic & Learning
 
 ## Promotional Text (170 chars — editable without new app version)
-New: Personalized weekly study plans! Let Noor create a custom Quran learning schedule that adapts to your pace and goals.
+New: Personalized weekly study plans! Let Qamar create a custom Quran learning schedule that adapts to your pace and goals.
 
 ## Description (4000 chars max)
 
-Why have 5 Islamic apps when Noor does it all?
+Why have 5 Islamic apps when Qamar does it all?
 
-Noor is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed.
+Qamar is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed.
 
 **QURAN READER**
 • 8 world-class reciters with crystal-clear audio
@@ -58,7 +58,7 @@ Noor is your complete Islamic companion — combining a full Quran reader, Arabi
 • All worship features (adhkar, Islamic calendar)
 • 3 personalized sessions per day (tutor, pronunciation, study plans)
 
-**NOOR PLUS — $2.99/month**
+**QAMAR PLUS — $2.99/month**
 • Unlimited personalized study plans
 • Unlimited Arabic tutor conversations
 • Unlimited pronunciation coaching sessions
@@ -66,7 +66,7 @@ Noor is your complete Islamic companion — combining a full Quran reader, Arabi
 
 One app. One subscription. Your complete deen.
 
-Download Noor and deepen your Islamic practice today.
+Download Qamar and deepen your Islamic practice today.
 
 ---
 

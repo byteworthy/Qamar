@@ -3,7 +3,7 @@
 ## Pre-Submission Requirements
 
 ### iOS App Store Connect
-- [ ] App name registered: "Noor"
+- [ ] App name registered: "Qamar"
 - [ ] Bundle ID confirmed: com.byteworthy.noor
 - [ ] Version: 2.0.0 (build number incremented from last submission)
 - [ ] Screenshots uploaded:
@@ -18,7 +18,7 @@
 - [ ] Support email: scale@getbyteworthy.com
 - [ ] Age rating: 4+
 - [ ] Content rights: Confirmed
-- [ ] In-app purchases configured: Noor Plus ($2.99/mo)
+- [ ] In-app purchases configured: Qamar Plus ($2.99/mo)
 - [ ] Privacy nutrition labels: All "No" (no data collection)
 - [ ] Export compliance: No encryption (already configured in app.json)
 
@@ -31,7 +31,7 @@
 - [ ] Deep links work
 
 ### Google Play Console
-- [ ] App name: "Noor"
+- [ ] App name: "Qamar"
 - [ ] Package name: com.byteworthy.noor
 - [ ] Version: 2.0.0 (version code incremented)
 - [ ] Screenshots: 2-8 phone screenshots
@@ -68,7 +68,7 @@ npm run eas:submit:prod
 ```
 
 ## App Store Review Notes (add in submission)
-"Noor is an Islamic companion app for Muslims. It includes a Quran reader with audio playback, prayer times based on user location, Arabic learning tools, and Quran memorization features. The microphone permission is used only for pronunciation recording to give users feedback on their recitation. Location is used only for prayer time calculation and is never sent to our servers."
+"Qamar is an Islamic companion app for Muslims. It includes a Quran reader with audio playback, prayer times based on user location, Arabic learning tools, and Quran memorization features. The microphone permission is used only for pronunciation recording to give users feedback on their recitation. Location is used only for prayer time calculation and is never sent to our servers."
 
 ## Expected Review Time
 - iOS: 24-48 hours (first submission may take up to 7 days)

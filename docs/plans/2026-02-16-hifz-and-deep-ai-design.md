@@ -1,4 +1,4 @@
-# Noor Phase 6: Hifz Memorization System + Deep AI Features
+# Qamar Phase 6: Hifz Memorization System + Deep AI Features
 
 **Date:** 2026-02-16
 **Status:** Approved
@@ -8,11 +8,11 @@
 
 ## Target Audience
 
-Young Western Muslims (18-35), English-speaking, tech-savvy. Already frustrated with Muslim Pro (ad-heavy, no innovation) and aware of Tarteel (memorization-only, no broader Islamic companion features). Noor's play: match Tarteel on hifz, beat them on everything else, then surpass them with AI depth.
+Young Western Muslims (18-35), English-speaking, tech-savvy. Already frustrated with Muslim Pro (ad-heavy, no innovation) and aware of Tarteel (memorization-only, no broader Islamic companion features). Qamar's play: match Tarteel on hifz, beat them on everything else, then surpass them with AI depth.
 
 ## Competitive Positioning
 
-| Capability | Tarteel AI | Noor (after Phase 6) |
+| Capability | Tarteel AI | Qamar (after Phase 6) |
 |-----------|-----------|---------------------|
 | Memorization mistake detection | Yes (premium) | Yes (free for 1 juz, Plus for all) |
 | Hidden verse mode | Yes | Yes + peek word/ayah |
@@ -55,7 +55,7 @@ Young Western Muslims (18-35), English-speaking, tech-savvy. Already frustrated 
 
 - Teacher creates a circle, invites students by code
 - Teacher assigns: "Memorize Surah Al-Mulk verses 1-10 by Friday"
-- Student records recitation within Noor
+- Student records recitation within Qamar
 - AI pre-grades the recitation (score + mistake report)
 - Teacher reviews AI grade, adds personal feedback
 - Progress visible to both teacher and student
@@ -205,7 +205,7 @@ Shares AI daily quota. Category browsing (pre-loaded common duas) is free and un
 **Plan generation:**
 - Claude generates a structured weekly plan as JSON
 - Daily tasks: "Read Surah Al-Baqarah verses 1-20 with tajweed" / "Review memorized verses from yesterday" / "Arabic tutor: practice 5 new vocabulary words" / "Reflect on today's reading"
-- Each task links to the relevant Noor screen (VerseReader, HifzRecitation, ArabicTutor, etc.)
+- Each task links to the relevant Qamar screen (VerseReader, HifzRecitation, ArabicTutor, etc.)
 
 **Adaptation:**
 - Weekly check-in: "How did this week go?" + completion data

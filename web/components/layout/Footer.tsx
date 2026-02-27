@@ -10,10 +10,10 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h3 className="font-serif text-xl font-semibold text-gold mb-2">
-              Noor
+              Qamar
             </h3>
             <p className="text-moonlight-muted text-sm">
-              Islamic-integrated Cognitive Behavioral Therapy for mental wellness and spiritual growth
+              Your complete Islamic companion for spiritual growth and reflection
             </p>
           </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <div className="text-moonlight-muted text-sm">
-            <p>&copy; {currentYear} Noor. All rights reserved.</p>
+            <p>&copy; {currentYear} Qamar. All rights reserved.</p>
             <p className="mt-2">
               Made with care for the Muslim community
             </p>

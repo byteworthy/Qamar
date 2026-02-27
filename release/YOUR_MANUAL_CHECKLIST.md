@@ -1,4 +1,4 @@
-# YOUR MANUAL ACTION CHECKLIST - Noor App Launch
+# YOUR MANUAL ACTION CHECKLIST - Qamar App Launch
 
 **Created:** 2026-02-01 Evening
 **Updated:** 2026-02-16
@@ -201,7 +201,7 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 **When:** After Task 4 is complete
 
-**What:** Create the official app record for Noor in App Store Connect.
+**What:** Create the official app record for Qamar in App Store Connect.
 
 **Steps:**
 
@@ -210,7 +210,7 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 3. **Click:** + (plus icon) -> New App
 4. **Fill out:**
    - **Platform:** iOS
-   - **Name:** Noor
+   - **Name:** Qamar
    - **Primary Language:** English (U.S.)
    - **Bundle ID:** Select `com.noor.app` (from dropdown)
    - **SKU:** `noor-app-001` (your internal reference ID)
@@ -248,15 +248,15 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 1. **Navigate to:** Your App -> Features -> In-App Purchases
 2. **Click:** + -> Subscription Group
-3. **Name:** "Noor Premium Subscriptions"
+3. **Name:** "Qamar Premium Subscriptions"
 4. **Create**
 
 #### Create Product 1: Plus Monthly
 
 1. **Click:** + -> Auto-Renewable Subscription
 2. **Product ID:** `noor_plus_monthly` (exactly as written)
-3. **Reference Name:** Noor Plus Monthly
-4. **Subscription Group:** Noor Premium Subscriptions
+3. **Reference Name:** Qamar Plus Monthly
+4. **Subscription Group:** Qamar Premium Subscriptions
 5. **Subscription Duration:** 1 Month
 6. **Subscription Prices:**
    - Click "Add Subscription Price"
@@ -266,7 +266,7 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 7. **Subscription Level:** Level 1
 8. **Localizations:**
    - **Language:** English (U.S.)
-   - **Display Name:** Noor Plus
+   - **Display Name:** Qamar Plus
    - **Description:** "Enhanced Quran reading, Arabic learning tools, extended reflections, and personalized insights rooted in Islamic wisdom."
 9. **Review Information:**
     - **Screenshot:** Upload any app screenshot showing Plus features
@@ -276,14 +276,14 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 1. **Click:** + -> Auto-Renewable Subscription
 2. **Product ID:** `noor_plus_yearly`
-3. **Reference Name:** Noor Plus Yearly
-4. **Subscription Group:** Noor Premium Subscriptions
+3. **Reference Name:** Qamar Plus Yearly
+4. **Subscription Group:** Qamar Premium Subscriptions
 5. **Subscription Duration:** 1 Year
 6. **Subscription Prices:**
    - Price: $19.99
 7. **Subscription Level:** Level 1
 8. **Localizations:**
-   - **Display Name:** Noor Plus (Annual)
+   - **Display Name:** Qamar Plus (Annual)
    - **Description:** "Enhanced Quran reading, Arabic learning tools, extended reflections, and personalized insights rooted in Islamic wisdom. Save with annual billing."
 9. **Review Information:** Upload screenshot
 10. **Save**
@@ -292,11 +292,11 @@ These tasks can ONLY be done after Apple approves your developer account. When y
 
 1. **Click:** + -> Non-Consumable
 2. **Product ID:** `noor_lifetime`
-3. **Reference Name:** Noor Lifetime
+3. **Reference Name:** Qamar Lifetime
 4. **Subscription Prices:**
    - Price: $49.99
 5. **Localizations:**
-   - **Display Name:** Noor (Lifetime)
+   - **Display Name:** Qamar (Lifetime)
    - **Description:** "One-time payment for lifetime access. Full Quran reader, Arabic learning, unlimited reflections, personalized insights, and all future features. Never pay again."
 6. **Review Information:** Upload screenshot
 7. **Save**
@@ -354,7 +354,7 @@ git push origin main
 
 1. **Go to:** [app.revenuecat.com](https://app.revenuecat.com)
 2. **Sign in** with your ByteWorthy account
-3. **Select Project:** Noor
+3. **Select Project:** Qamar
 4. **Navigate to:** Apps -> iOS
 5. **Configure App Store Connection:**
    - **Bundle ID:** com.noor.app
@@ -367,8 +367,8 @@ git push origin main
 
    a. **Click:** Entitlements (left sidebar) -> + New
       - **Identifier:** `noor_plus_access`
-      - **Display Name:** Noor Plus Access
-      - **Description:** Access to all Noor Plus features
+      - **Display Name:** Qamar Plus Access
+      - **Description:** Access to all Qamar Plus features
       - **Create**
 
 7. **Add Products:**
@@ -394,7 +394,7 @@ git push origin main
 8. **Create Offering:**
    - **Click:** Offerings (left sidebar) -> + New
    - **Identifier:** `default`
-   - **Description:** Default Noor pricing
+   - **Description:** Default Qamar pricing
    - **Add Packages:**
      * Click "+ Add Package"
      * **Package 1:**
@@ -597,7 +597,7 @@ Test ALL of these on your physical iPhone:
 **Steps:**
 
 1. **Go to:** [appstoreconnect.apple.com](https://appstoreconnect.apple.com)
-2. **Navigate to:** My Apps -> Noor
+2. **Navigate to:** My Apps -> Qamar
 3. **Click:** + Version or Release -> 1.0.0
 
 **Fill Out Each Section:**
@@ -606,7 +606,7 @@ Test ALL of these on your physical iPhone:
 
 **Name:**
 ```
-Noor
+Qamar
 ```
 
 **Subtitle:**
@@ -673,7 +673,7 @@ https://byteworthy.github.io/Noor/legal/
 
 **Description:**
 ```
-Noor is your Islamic companion for Quran reading, Arabic language learning, daily reflections, and prayer support.
+Qamar is your Islamic companion for Quran reading, Arabic language learning, daily reflections, and prayer support.
 
 Engage with the Quran in Arabic with English translation, build your Arabic vocabulary step by step, reflect on your spiritual growth, and strengthen your daily practice.
 
@@ -686,13 +686,13 @@ KEY FEATURES:
 - Progress tracking and growth patterns
 - Beautiful, calming design
 
-IMPORTANT: Noor is a personal development and education tool, not professional counseling or therapy. For mental health emergencies, please contact a licensed professional or crisis helpline.
+IMPORTANT: Qamar is a personal development and education tool, not professional counseling or therapy. For mental health emergencies, please contact a licensed professional or crisis helpline.
 
 Your data is private and secure. We use Anthropic Claude to provide personalized responses, but never share your personal content.
 
 Choose from flexible plans:
-- Noor Plus: Enhanced features and daily guidance ($2.99/mo or $19.99/yr)
-- Noor Lifetime: Full access forever ($49.99 one-time)
+- Qamar Plus: Enhanced features and daily guidance ($2.99/mo or $19.99/yr)
+- Qamar Lifetime: Full access forever ($49.99 one-time)
 
 Grow through reflection. Guided by faith.
 ```
@@ -706,7 +706,7 @@ quran,islamic,arabic,prayer,reflection,muslim,dua,learning,spiritual,faith
 
 **What's New in This Version:**
 ```
-Welcome to Noor 1.0.0 - Your Islamic companion for Quran, Arabic, prayer, and reflection.
+Welcome to Qamar 1.0.0 - Your Islamic companion for Quran, Arabic, prayer, and reflection.
 
 - Quran reader with Arabic and English
 - Arabic language learning tools
@@ -913,7 +913,7 @@ When Apple approves and you click "Release":
 ### You'll See:
 - App status: "Ready for Sale"
 - App is live on App Store within 2-4 hours
-- Users can search "Noor" and find your app
+- Users can search "Qamar" and find your app
 
 ### Immediate Actions:
 1. **Test the live app:**

@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Ship production-ready Noor app to iOS App Store and Google Play in 1-2 weeks with comprehensive E2E testing, performance optimization, and premium polish.
+**Goal:** Ship production-ready Qamar app to iOS App Store and Google Play in 1-2 weeks with comprehensive E2E testing, performance optimization, and premium polish.
 
 **Architecture:** 5 independent parallel tracks (E2E, Performance, App Store, Visual Polish, UX Polish). Each track commits to main independently. No cross-dependencies.
 
@@ -60,7 +60,7 @@ git commit -m "test(e2e): fix Detox config with correct app name and paths"
 File: `e2e/shared/helpers.js`
 
 ```javascript
-// Shared E2E test helpers for Noor app
+// Shared E2E test helpers for Qamar app
 
 export async function waitForElement(testID, timeout = 5000) {
   await waitFor(element(by.id(testID)))
@@ -1341,19 +1341,19 @@ git commit -m "assets: add iOS App Store screenshots (8 screens)"
 File: `docs/app-store/ios/description.md`
 
 ```markdown
-# Noor - Your Islamic Companion
+# Qamar - Your Islamic Companion
 
 ## Subtitle (30 char)
 Quran, Prayer, Arabic & Reflection
 
 ## Promotional Text (170 char)
-New: Personalized weekly study plans! Let Noor create a custom Quran learning schedule that adapts to your pace and goals.
+New: Personalized weekly study plans! Let Qamar create a custom Quran learning schedule that adapts to your pace and goals.
 
 ## Description (4000 char)
 
-Why have 5 Islamic apps when Noor does it all?
+Why have 5 Islamic apps when Qamar does it all?
 
-Noor is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed.
+Qamar is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed.
 
 QURAN READER
 • 8 world-class reciters with crystal-clear audio
@@ -1404,7 +1404,7 @@ NOOR PLUS ($2.99/month)
 • Unlimited pronunciation coaching
 • Advanced Hifz analysis
 
-Download Noor and deepen your Islamic practice today.
+Download Qamar and deepen your Islamic practice today.
 ```
 
 **Step 2: Write keywords**
@@ -1420,7 +1420,7 @@ quran,prayer times,qibla,arabic,muslim,islam,tajweed,hifz,hadith,dua
 File: `docs/app-store/ios/promotional-text.md`
 
 ```
-New: Personalized weekly study plans! Let Noor create a custom Quran learning schedule that adapts to your pace and goals.
+New: Personalized weekly study plans! Let Qamar create a custom Quran learning schedule that adapts to your pace and goals.
 ```
 
 **Step 4: Write privacy labels**
@@ -1492,11 +1492,11 @@ Complete Islamic companion: Quran, prayer times, Arabic learning & reflection
 File: `docs/app-store/android/description.md`
 
 ```markdown
-# Noor - Your Complete Islamic Companion
+# Qamar - Your Complete Islamic Companion
 
-Why have 5 Islamic apps when Noor does it all?
+Why have 5 Islamic apps when Qamar does it all?
 
-Noor is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed for Android.
+Qamar is your complete Islamic companion — combining a full Quran reader, Arabic learning suite, prayer times, memorization tools, and guided reflection. All ad-free, offline-capable, and beautifully designed for Android.
 
 [Same content as iOS description, with Android-specific mentions like Material You theming]
 
@@ -1512,7 +1512,7 @@ MATERIAL YOU THEMING
 
 - Use Figma or Canva
 - Size: 1024 x 500 px
-- Include: Noor logo + tagline + 3-4 key feature icons
+- Include: Qamar logo + tagline + 3-4 key feature icons
 - Export as `feature-graphic.png`
 
 **Step 6: Commit**
@@ -1534,7 +1534,7 @@ git commit -m "docs: add Android Google Play metadata and screenshots"
 File: `docs/app-store/video/script.md`
 
 ```markdown
-# Noor App Preview Video Script (30 seconds)
+# Qamar App Preview Video Script (30 seconds)
 
 ## Shots
 
@@ -1571,9 +1571,9 @@ File: `docs/app-store/video/script.md`
 
 **26-30s: Closing**
 - Montage: Quran → Prayer → Hifz → Arabic
-- Noor logo appears
+- Qamar logo appears
 - Text: "One app instead of five"
-- Text: "Download Noor"
+- Text: "Download Qamar"
 - App Store / Google Play badge
 
 ## Audio
@@ -2149,7 +2149,7 @@ git commit -m "a11y: add VoiceOver support with accessibility labels"
 Use: https://webaim.org/resources/contrastchecker/
 
 Check:
-- Noor gold (#D4AF37) on cream background (#FAF8F3)
+- Qamar gold (#D4AF37) on cream background (#FAF8F3)
 - Text colors (dark mode and light mode)
 - Tajweed colors on both backgrounds
 
@@ -2338,7 +2338,7 @@ import { FeaturePreviewCarousel } from '@/components/FeaturePreviewCarousel';
 
 <View style={styles.container}>
   {/* Logo and title */}
-  <ThemedText style={styles.title}>Welcome to Noor</ThemedText>
+  <ThemedText style={styles.title}>Welcome to Qamar</ThemedText>
   <ThemedText style={styles.subtitle}>Your Complete Islamic Companion</ThemedText>
 
   {/* Feature preview carousel */}
@@ -2643,7 +2643,7 @@ const handleAcceptMicPermission = async () => {
   onDecline={() => setShowMicPrimer(false)}
   icon="mic"
   title="Microphone Access"
-  description="Noor uses your microphone to record your Quran recitation and provide pronunciation feedback."
+  description="Qamar uses your microphone to record your Quran recitation and provide pronunciation feedback."
 />
 ```
 

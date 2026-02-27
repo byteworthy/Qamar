@@ -356,7 +356,7 @@ Add test endpoint (remove after testing):
 
 ```typescript
 app.get("/api/test-sentry", (_req, res) => {
-  Sentry.captureMessage("Test message from Noor backend", {
+  Sentry.captureMessage("Test message from Qamar backend", {
     level: "info",
     tags: { test: true },
   });

@@ -25,8 +25,8 @@ railway login
 echo ""
 
 # Link to project
-echo "🔗 Step 2: Link to Noor project"
-echo "   (Select 'Noor' from the list)"
+echo "🔗 Step 2: Link to Qamar project"
+echo "   (Select 'Qamar' from the list)"
 railway link
 echo ""
 

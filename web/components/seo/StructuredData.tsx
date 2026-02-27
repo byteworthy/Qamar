@@ -54,7 +54,7 @@ const createOrganizationSchema = (): OrganizationSchema => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Noor',
+    name: 'Qamar',
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
     description:
@@ -72,7 +72,7 @@ const createWebAppSchema = (): WebApplicationSchema => {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Noor - Islamic Companion',
+    name: 'Qamar - Islamic Companion',
     url: baseUrl,
     description:
       'Islamic reflection and spiritual growth companion for Muslims',

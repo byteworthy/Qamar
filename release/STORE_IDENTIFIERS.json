@@ -6,7 +6,7 @@
     "teamId": null,
     "appStoreConnectAppId": null,
     "subscriptionGroupId": null,
-    "subscriptionGroupName": "Noor Subscriptions",
+    "subscriptionGroupName": "Qamar Subscriptions",
     "productIds": {
       "plusMonthly": "noor_plus_monthly",
       "plusYearly": "noor_plus_yearly",
@@ -38,7 +38,7 @@
   "app": {
     "iosBundleId": "com.noor.app",
     "androidPackage": "com.noor.app",
-    "appName": "Noor",
+    "appName": "Qamar",
     "version": "1.0.0"
   }
 }

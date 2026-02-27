@@ -1,4 +1,4 @@
-# 📱 Mobile App Testing Plan - Noor
+# 📱 Mobile App Testing Plan - Qamar
 
 **Version**: 1.0
 **Last Updated**: 2026-01-24
@@ -287,13 +287,13 @@ EXPO_PUBLIC_ENABLE_MOCK_DATA=false
 - [ ] As free user, complete 1 reflection
 - [ ] Attempt to start 2nd reflection
 - [ ] Verify paywall screen appears
-- [ ] Verify message: "Upgrade to Noor Plus for unlimited reflections"
+- [ ] Verify message: "Upgrade to Qamar Plus for unlimited reflections"
 - [ ] Verify "Upgrade" and "Not Now" buttons
 - [ ] Tap "Not Now"
 - [ ] Expected: Blocked from 2nd reflection
 
 **Test 5.2: Upgrade Flow (iOS In-App Purchase)**
-- [ ] On paywall screen, tap "Upgrade to Noor Plus"
+- [ ] On paywall screen, tap "Upgrade to Qamar Plus"
 - [ ] Verify subscription screen appears
 - [ ] Verify pricing shown: $2.99/month (Beta pricing)
 - [ ] Verify "Start Free Trial" or "Subscribe" button

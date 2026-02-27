@@ -13,7 +13,7 @@ export default function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-serif text-2xl font-semibold text-gold">
-              Noor
+              Qamar
             </span>
           </Link>
 

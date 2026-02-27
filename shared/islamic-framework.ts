@@ -1,5 +1,5 @@
 /**
- * Islamic Psychological Framework for Noor
+ * Islamic Psychological Framework for Qamar
  *
  * This module provides the foundational Islamic concepts that anchor
  * the therapeutic experience. These are not decorative - they form

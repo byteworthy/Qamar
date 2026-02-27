@@ -1,6 +1,6 @@
 # Monitoring Plan
 
-**Purpose**: Observability strategy for Noor in production  
+**Purpose**: Observability strategy for Qamar in production
 **Last Updated**: 2026-01-19  
 **Owner**: Engineering / DevOps
 

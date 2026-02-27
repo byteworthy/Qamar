@@ -25,9 +25,9 @@ export function checkDeviceSecurity(): boolean {
   if (isCompromised) {
     Alert.alert(
       "Security Warning",
-      "Noor has detected that your device may be jailbroken or rooted.\n\n" +
-        "For your privacy and security, Noor cannot guarantee the protection of your personal reflection entries on compromised devices, where other apps could potentially access your information.\n\n" +
-        "We recommend using Noor on a non-jailbroken/rooted device.",
+      "Qamar has detected that your device may be jailbroken or rooted.\n\n" +
+        "For your privacy and security, Qamar cannot guarantee the protection of your personal reflection entries on compromised devices, where other apps could potentially access your information.\n\n" +
+        "We recommend using Qamar on a non-jailbroken/rooted device.",
       [
         {
           text: "I Understand",
