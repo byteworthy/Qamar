@@ -170,6 +170,14 @@ export default function LearnTabScreen() {
       comingSoon: false,
     },
     {
+      title: "Travel Translator",
+      description: "Offline phrasebook & translator for English and Spanish speakers",
+      gradient: ["#2d4a3e", "#4a7a6a"],
+      icon: "map" as const,
+      screen: "TravelTranslator" as const,
+      comingSoon: false,
+    },
+    {
       title: "Translator",
       description: "Arabic ↔ English translation with transliteration and detailed explanations",
       gradient: ["#3a4a4a", "#6a7a7a"],

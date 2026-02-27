@@ -139,6 +139,38 @@ All 5 tracks dispatched. Current status:
 - `client/screens/onboarding/WelcomeScreen.tsx` — replaced static features with carousel
 - `client/screens/learn/PronunciationCoachScreen.tsx` — permission priming (canAskAgain, priming card, settings redirect)
 
+### COMPLETE — Travel Translator Feature
+
+**COMPLETED** on main branch (uncommitted).
+
+Core features:
+- Offline-first travel phrasebook with 800+ phrases across 10 categories (EN/ES ↔ AR)
+- 3-tab UI: Phrases (category grid + search), Translate (freeform), Favorites
+- Language picker (EN/ES) with direction swap (source ↔ Arabic)
+- Phrasebook match → cache hit → online API translation fallback chain
+- Translation cache store (LRU, 5K cap, AsyncStorage persistence)
+- Travel favorites store (AsyncStorage persistence)
+- TTS playback on all translations
+- Offline badge for phrasebook/cached results
+- Transliteration display for Arabic output
+- Full testID coverage for Detox E2E
+- Unit tests for both stores
+
+New files:
+- `client/screens/learn/TravelTranslatorScreen.tsx` — main screen (3 tabs)
+- `client/hooks/useTravelTranslator.ts` — hybrid translation hook
+- `client/data/travel-phrasebook.ts` — 800+ bundled phrases
+- `client/stores/translation-cache-store.ts` — LRU translation cache
+- `client/stores/travel-favorites-store.ts` — favorites persistence
+- `client/stores/__tests__/translation-cache-store.test.ts` — cache store tests
+- `client/stores/__tests__/travel-favorites-store.test.ts` — favorites store tests
+
+Modified files:
+- `app.json` — rebrand Noor → Qamar (name, slug, scheme, permission strings, legal URLs)
+- `client/navigation/types.ts` — added TravelTranslator route
+- `client/navigation/RootStackNavigator.tsx` — registered TravelTranslatorScreen
+- `client/screens/learn/LearnTabScreen.tsx` — added Travel Translator feature card
+
 **Remaining before App Store submission:**
 - ~~Add `testID` props to screens~~ — **DONE** (all screens complete, tsc clean)
 - ~~Add `Tooltip` to VerseReaderScreen (first-time tajweed hint)~~ — **DONE** (Tooltip component + useTooltip hook integrated)
@@ -146,7 +178,7 @@ All 5 tracks dispatched. Current status:
 - Generate screenshots with EAS dev build (see `docs/app-store/ios/screenshot-specs.md`)
 - Complete Apple Developer + RevenueCat configuration (see Remaining Steps below)
 
-**testID coverage (all screens complete as of 2026-02-26):**
+**testID coverage (all screens complete as of 2026-02-27):**
 - `TabNavigator.tsx` — tab-home, tab-history, tab-learn, tab-worship, tab-settings
 - `WelcomeScreen.tsx` — get-started-button
 - `SessionCompleteScreen.tsx` — session-complete-screen
@@ -164,6 +196,7 @@ All 5 tracks dispatched. Current status:
 - `HomeScreen.tsx` — streak-display, daily-noor-card, stats-card, begin-reflection-button
 - `OfflineBanner.tsx` — offline-banner, offline-banner-dismiss
 - `FeaturePreviewCarousel.tsx` — feature-preview-carousel
+- `TravelTranslatorScreen.tsx` — travel-translator-screen, lang-en, lang-es, swap-direction, travel-tab-bar, travel-tab-phrases, travel-tab-translate, travel-tab-favorites, travel-search-input, travel-category-grid, travel-category-{id}, travel-translate-input, travel-translate-button
 
 **Estimated server cost at 1K users after Phase 6:** ~$79/mo (up from ~$27/mo).
 

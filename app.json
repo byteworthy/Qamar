@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Noor",
-    "slug": "noor",
+    "name": "Qamar",
+    "slug": "qamar",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "noor",
+    "scheme": "qamar",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "description": "Your Islamic Companion - Quran, Prayer Times, Arabic Learning & Personal Reflection",
@@ -14,13 +14,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.byteworthy.noor",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Noor uses Face ID to securely protect your personal reflections and growth journal entries.",
-        "NSLocationWhenInUseUsageDescription": "Noor uses your location to display accurate prayer times and qibla direction for your area.",
-        "NSMotionUsageDescription": "Noor uses device motion sensors to provide an accurate Qibla compass direction.",
+        "NSFaceIDUsageDescription": "Qamar uses Face ID to securely protect your personal reflections and growth journal entries.",
+        "NSLocationWhenInUseUsageDescription": "Qamar uses your location to display accurate prayer times and qibla direction for your area.",
+        "NSMotionUsageDescription": "Qamar uses device motion sensors to provide an accurate Qibla compass direction.",
         "NSUserTrackingUsageDescription": "We do not track you.",
-        "NSCameraUsageDescription": "Noor uses the camera to enhance Qibla direction finding with augmented reality.",
-        "NSMicrophoneUsageDescription": "Noor uses the microphone to record your Quran recitation for pronunciation feedback.",
-        "NSSpeechRecognitionUsageDescription": "Noor uses speech recognition to transcribe your Arabic pronunciation for learning feedback."
+        "NSCameraUsageDescription": "Qamar uses the camera to enhance Qibla direction finding with augmented reality.",
+        "NSMicrophoneUsageDescription": "Qamar uses the microphone to record your Quran recitation for pronunciation feedback.",
+        "NSSpeechRecognitionUsageDescription": "Qamar uses speech recognition to transcribe your Arabic pronunciation for learning feedback."
       },
       "category": "LIFESTYLE",
       "config": {
@@ -57,7 +57,7 @@
         {
           "action": "android.intent.action.VIEW",
           "data": {
-            "scheme": "noor"
+            "scheme": "qamar"
           },
           "category": [
             "android.intent.category.DEFAULT",
@@ -99,8 +99,8 @@
       [
         "@react-native-voice/voice",
         {
-          "microphonePermission": "Noor uses the microphone to record your Quran recitation for pronunciation feedback.",
-          "speechRecognitionPermission": "Noor uses speech recognition to transcribe your Arabic pronunciation."
+          "microphonePermission": "Qamar uses the microphone to record your Quran recitation for pronunciation feedback.",
+          "speechRecognitionPermission": "Qamar uses speech recognition to transcribe your Arabic pronunciation."
         }
       ],
       "expo-local-authentication",
@@ -108,7 +108,7 @@
       [
         "expo-sensors",
         {
-          "motionPermission": "Noor uses device motion to provide Qibla compass direction."
+          "motionPermission": "Qamar uses device motion to provide Qibla compass direction."
         }
       ]
     ],
@@ -116,8 +116,8 @@
       "reactCompiler": true
     },
     "extra": {
-      "privacyPolicyUrl": "https://byteworthy.github.io/Noor/legal/privacy.html",
-      "termsOfServiceUrl": "https://byteworthy.github.io/Noor/legal/terms.html",
+      "privacyPolicyUrl": "https://byteworthy.github.io/Qamar/legal/privacy.html",
+      "termsOfServiceUrl": "https://byteworthy.github.io/Qamar/legal/terms.html",
       "supportEmail": "scale@getbyteworthy.com",
       "eas": {
         "projectId": "b3e205eb-b119-4976-a275-df7bcef85275"
