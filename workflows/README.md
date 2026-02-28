@@ -87,7 +87,7 @@ Backend code changes needed to support the workflow.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                  NOOR APP (React Native)                    │
+│                  QAMAR APP (React Native)                    │
 ├─────────────────────────────────────────────────────────────┤
 │  • User signup                                              │
 │  • Activity logging (verse_opened, hifz_started, etc.)     │
@@ -321,7 +321,7 @@ Cost per Conversion = Total Costs / Conversions
 
 - **n8n Workflow**: `n8n-freemium-conversion-automation.json`
 - **Deployment Guide**: `N8N_WORKFLOW_DEPLOYMENT_GUIDE.md`
-- **Backend Integration**: `NOOR_BACKEND_INTEGRATION.md`
+- **Backend Integration**: `QAMAR_BACKEND_INTEGRATION.md`
 - **Qamar App**: `/Users/kevinrichards/projects/noor`
 - **Qamar Firebase**: `https://console.firebase.google.com/project/noor-app-production`
 - **Stripe Dashboard**: `https://dashboard.stripe.com/`
@@ -368,7 +368,7 @@ A: With $5.97 first purchase and 35% conversion rate, you break even on infrastr
 
 1. **Review** this workflow with product/engineering team
 2. **Deploy** to n8n (follow `N8N_WORKFLOW_DEPLOYMENT_GUIDE.md`)
-3. **Implement** backend changes (follow `NOOR_BACKEND_INTEGRATION.md`)
+3. **Implement** backend changes (follow `QAMAR_BACKEND_INTEGRATION.md`)
 4. **Test** end-to-end with 10 synthetic users
 5. **Launch** to 1% of live signups
 6. **Monitor** for 1 week, then scale to 100%

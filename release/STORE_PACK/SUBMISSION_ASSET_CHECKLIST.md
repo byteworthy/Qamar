@@ -96,7 +96,7 @@ Use this checklist to ensure all required assets are ready before clicking "Subm
 ### App Information
 - [x] **App Name**: Qamar
 - [x] **Subtitle**: Quran · Arabic Learning · Prayer · Reflection
-- [x] **Privacy Policy URL**: https://byteworthy.github.io/Noor/legal/privacy.html
+- [x] **Privacy Policy URL**: https://byteworthy.github.io/Qamar/legal/privacy.html
 - [x] **Category**: Lifestyle (primary)
 - [ ] **Category**: Education (optional secondary)
 - [x] **Support URL**: mailto:support@byteworthy.com or website with contact form

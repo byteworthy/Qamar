@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images/noor-icon.svg" width="120" alt="Qamar" />
+  <img src="assets/images/qamar-icon.svg" width="120" alt="Qamar" />
 </p>
 
 <h1 align="center">Qamar</h1>
@@ -63,13 +63,13 @@ One app instead of five. Qamar brings together a full Quran reader, Arabic tutor
 - [x] Quran audio, word-by-word, tajweed, text-to-speech
 - [x] Arabic tutor, pronunciation coach, translator
 - [x] Gamification, premium tiers, full integration
-- [ ] **Next:** Hifz memorization, tafsir, dua recommender, personalized study plans
+- [x] Hifz memorization, tafsir, dua recommender, personalized study plans
 
 ---
 
 <p align="center">
-  <a href="https://byteworthy.github.io/Noor/legal/privacy.html">Privacy</a> &middot;
-  <a href="https://byteworthy.github.io/Noor/legal/terms.html">Terms</a> &middot;
+  <a href="https://byteworthy.github.io/Qamar/legal/privacy.html">Privacy</a> &middot;
+  <a href="https://byteworthy.github.io/Qamar/legal/terms.html">Terms</a> &middot;
   scale@getbyteworthy.com
 </p>
 

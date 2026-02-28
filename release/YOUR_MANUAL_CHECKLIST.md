@@ -616,7 +616,7 @@ Quran · Arabic Learning · Prayer · Reflection
 
 **Privacy Policy URL:**
 ```
-https://byteworthy.github.io/Noor/legal/privacy.html
+https://byteworthy.github.io/Qamar/legal/privacy.html
 ```
 
 **Category:**
@@ -634,7 +634,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 
 **Support URL:**
 ```
-https://byteworthy.github.io/Noor/legal/
+https://byteworthy.github.io/Qamar/legal/
 ```
 
 **Marketing URL:** (leave blank)
@@ -800,7 +800,7 @@ Subscription Testing:
 Privacy:
 - All user data is encrypted
 - Personal content is private and secure
-- Privacy policy: https://byteworthy.github.io/Noor/legal/privacy.html
+- Privacy policy: https://byteworthy.github.io/Qamar/legal/privacy.html
 
 The app is ready for review. Thank you!
 ```
@@ -922,7 +922,7 @@ When Apple approves and you click "Release":
    - Test a purchase (this will charge! Use a test card or your own)
 
 2. **Share the App Store link:**
-   - Format: `https://apps.apple.com/us/app/noor/id[YOUR_APP_ID]`
+   - Format: `https://apps.apple.com/us/app/qamar/id[YOUR_APP_ID]`
    - Post on social media, website, etc.
 
 3. **Monitor:**

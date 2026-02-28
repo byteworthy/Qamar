@@ -107,7 +107,7 @@ describe("PricingScreen", () => {
 
       await waitFor(() => {
         expect(openURLSpy).toHaveBeenCalledWith(
-          "https://byteworthy.github.io/Noor/legal/terms.html",
+          "https://byteworthy.github.io/Qamar/legal/terms.html",
         );
       });
     });
@@ -122,7 +122,7 @@ describe("PricingScreen", () => {
 
       await waitFor(() => {
         expect(openURLSpy).toHaveBeenCalledWith(
-          "https://byteworthy.github.io/Noor/legal/privacy.html",
+          "https://byteworthy.github.io/Qamar/legal/privacy.html",
         );
       });
     });

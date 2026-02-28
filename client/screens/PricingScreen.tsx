@@ -453,11 +453,11 @@ export default function PricingScreen() {
   };
 
   const openTerms = () => {
-    Linking.openURL("https://byteworthy.github.io/Noor/legal/terms.html");
+    Linking.openURL("https://byteworthy.github.io/Qamar/legal/terms.html");
   };
 
   const openPrivacy = () => {
-    Linking.openURL("https://byteworthy.github.io/Noor/legal/privacy.html");
+    Linking.openURL("https://byteworthy.github.io/Qamar/legal/privacy.html");
   };
 
   const gradientColors =

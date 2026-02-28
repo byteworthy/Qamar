@@ -83,10 +83,10 @@ quran,arabic,islam,muslim,prayer,hadith,tajweed,dua,learn arabic,islamic,recitat
 mailto:support@byteworthy.com
 
 ## Marketing URL
-https://byteworthy.github.io/Noor/
+https://byteworthy.github.io/Qamar/
 
 ## Privacy Policy URL
-https://byteworthy.github.io/Noor/legal/privacy.html
+https://byteworthy.github.io/Qamar/legal/privacy.html
 
 **Legal Documents:**
 - Terms of Service: `legal/TERMS_OF_SERVICE_DRAFT.md`
