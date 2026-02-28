@@ -30,7 +30,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const SAFETY_POINTS = [
   {
     icon: "user-x" as const,
-    text: "Noor is not a therapist, counselor, or Islamic scholar",
+    text: "Qamar is a companion, not a replacement for professional care or scholarly guidance",
   },
   {
     icon: "users" as const,
@@ -119,7 +119,7 @@ export default function SafetyScreen() {
                 { color: theme.text, fontFamily: Fonts?.sansMedium },
               ]}
             >
-              Noor is a companion for spiritual growth and personal reflection.
+              Qamar is a companion for spiritual growth and personal reflection.
               It is not a replacement for professional guidance, medical care, or
               scholarly advice.
             </ThemedText>

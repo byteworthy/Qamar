@@ -299,7 +299,7 @@ describe("Charter Compliance System", () => {
     const context = {
       inputText: "I'm overwhelmed",
       outputText:
-        "Let me explain the complex philosophical underpinnings of cognitive distortions and how they relate to metacognitive awareness and the broader therapeutic framework.",
+        "Let me explain the complex philosophical underpinnings of cognitive distortions and how they relate to metacognitive awareness and the broader reflective framework.",
       distressLevel: "high" as const,
     };
 

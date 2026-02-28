@@ -1041,7 +1041,7 @@ useEffect(() => {
 
 ### Dual AI Strategy
 
-**Goal:** Combine cloud AI (Claude) for therapeutic conversations with local AI (Ollama) for Quran/Hadith search.
+**Goal:** Combine cloud services (Claude) for guided companion conversations with local search (Ollama) for Quran/Hadith retrieval.
 
 ### Architecture
 
