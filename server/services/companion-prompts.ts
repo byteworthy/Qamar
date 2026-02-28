@@ -74,7 +74,7 @@ CITATION STYLE:
 // =============================================================================
 
 /**
- * Build the complete system prompt for the Noor companion,
+ * Build the complete system prompt for the Qamar companion,
  * optionally injecting relevant Islamic context.
  */
 export function buildCompanionSystemPrompt(context?: IslamicContext): string {

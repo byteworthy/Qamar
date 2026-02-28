@@ -65,7 +65,7 @@ export function registerReflectionRoutes(app: Express): void {
               HTTP_STATUS.PAYMENT_REQUIRED,
               ERROR_CODES.PAYMENT_REQUIRED,
               req.id,
-              "Upgrade to Noor Plus for unlimited reflections"
+              "Upgrade to Qamar Plus for unlimited reflections"
             )
           );
         }
@@ -325,7 +325,7 @@ export function registerReflectionRoutes(app: Express): void {
             HTTP_STATUS.FORBIDDEN,
             ERROR_CODES.PAYMENT_REQUIRED,
             req.id,
-            "This feature requires Noor Plus"
+            "This feature requires Qamar Plus"
           )
         );
       }

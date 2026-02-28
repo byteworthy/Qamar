@@ -1,4 +1,4 @@
-// Noor Web App API Client
+// Qamar Web App API Client
 // Adapted from client/lib/api.ts
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';

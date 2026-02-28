@@ -57,7 +57,7 @@ export function useBiometricAuth() {
     setIsAuthenticating(true);
     try {
       const result = await authenticateWithBiometric(
-        `Unlock Noor with ${biometricType}`,
+        `Unlock Qamar with ${biometricType}`,
       );
 
       if (result) {

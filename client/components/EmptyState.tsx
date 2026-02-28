@@ -68,7 +68,7 @@ const VARIANT_CONFIG: Record<
  * <EmptyState variant="history" />
  * <EmptyState
  *   variant="insights"
- *   actionLabel="Upgrade to Noor Plus"
+ *   actionLabel="Upgrade to Qamar Plus"
  *   onAction={() => navigation.navigate('Pricing')}
  * />
  * ```

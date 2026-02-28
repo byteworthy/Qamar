@@ -264,7 +264,7 @@ export default function BillingSuccessScreen() {
                 { fontFamily: Fonts?.serifBold, color: theme.text },
               ]}
             >
-              Welcome to Noor Plus!
+              Welcome to Qamar Plus!
             </ThemedText>
             <ThemedText
               type="body"
@@ -327,7 +327,7 @@ export default function BillingSuccessScreen() {
                 onPress={handleContinue}
                 variant="primary"
                 style={styles.ctaButton}
-                accessibilityHint="Returns to home screen to start using Noor Plus features"
+                accessibilityHint="Returns to home screen to start using Qamar Plus features"
               >
                 Start Exploring
               </Button>

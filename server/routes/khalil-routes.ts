@@ -229,7 +229,7 @@ export function registerKhalilRoutes(app: Express): void {
                 HTTP_STATUS.PAYMENT_REQUIRED,
                 ERROR_CODES.PAYMENT_REQUIRED,
                 req.id,
-                "Upgrade to Noor Plus for unlimited Khalil conversations",
+                "Upgrade to Qamar Plus for unlimited Khalil conversations",
               ),
             );
           }

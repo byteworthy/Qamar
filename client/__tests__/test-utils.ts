@@ -1,5 +1,5 @@
 /**
- * Test Utilities for Noor Client Tests
+ * Test Utilities for Qamar Client Tests
  *
  * Provides factory functions for creating mock data and
  * shared test helpers for hook and component tests.
