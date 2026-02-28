@@ -52,7 +52,7 @@ LEARN ARABIC
 • Pronunciation Coach — record yourself and get real-time feedback
 • Arabic-English translator with transliteration and detailed explanations
 
-ASK KARIM — ISLAMIC KNOWLEDGE COMPANION
+ASK AMAR — ISLAMIC KNOWLEDGE COMPANION
 • Ask questions about Islam and get thoughtful, grounded answers
 • Explore topics across fiqh, seerah, and daily practice
 • Responses rooted in authentic Islamic scholarship
@@ -135,13 +135,13 @@ Qamar is a comprehensive Islamic companion app for Muslims of all ages. It combi
 Core Functionality:
 - Quran Reader: Full Quran text with Arabic, English translation, word-by-word audio from 8 reciters, and tajweed color-coding.
 - Arabic Learning: Flashcards with FSRS spaced repetition, alphabet grid with letter forms, conversational tutor (4 modes), pronunciation coach with recording and feedback, and Arabic-English translation with transliteration.
-- Ask Karim: An Islamic knowledge companion where users ask questions and receive grounded answers on Islamic topics.
+- Ask Amar: An Islamic knowledge companion where users ask questions and receive grounded answers on Islamic topics.
 - Hadith Library: Browse and search prophetic traditions.
 - Reflections: Daily journaling with thoughtful responses to user entries.
 - Prayer Tracking: Track prayers and spiritual habits with streaks and achievements.
 
 AI Usage Disclosure (for reviewer reference only):
-The app uses the Anthropic Claude API to power several features: the Arabic language tutor, pronunciation feedback, Ask Karim responses, journaling reflections, and translation explanations. This is disclosed in the privacy policy and during onboarding. The API processes user input to generate contextual, Islamic-values-aligned responses. No content is used for model training.
+The app uses the Anthropic Claude API to power several features: the Arabic language tutor, pronunciation feedback, Ask Amar responses, journaling reflections, and translation explanations. This is disclosed in the privacy policy and during onboarding. The API processes user input to generate contextual, Islamic-values-aligned responses. No content is used for model training.
 
 Content & Safety:
 - Islamic content is presented respectfully and is grounded in authentic scholarship
@@ -156,7 +156,7 @@ Test Scenarios:
 1. Quran Reader: Open Quran tab → select any surah → play audio → observe word-by-word highlighting and tajweed colors
 2. Arabic Learning: Open Learn tab → try flashcards → open alphabet grid → start a tutor session
 3. Pronunciation: Record Arabic speech → receive pronunciation feedback
-4. Ask Karim: Ask an Islamic question → receive a grounded response
+4. Ask Amar: Ask an Islamic question → receive a grounded response
 5. Reflections: Write a journal entry → receive a thoughtful reflection
 6. Free tier limits: After 3 tutor/pronunciation sessions, the daily limit message appears
 7. Subscription: Tap upgrade → native iOS paywall → purchase simulation
@@ -227,7 +227,7 @@ Based on Privacy Policy:
 
 ### Third-Party Service
 
-- **Anthropic Claude API**: User content (text entries, conversations, audio transcriptions) is sent to Anthropic's API for generating responses (tutor conversations, reflections, pronunciation feedback, translations, Ask Karim answers). Anthropic does not use this data for model training per their API terms. Data is processed and not retained by Anthropic beyond the API request.
+- **Anthropic Claude API**: User content (text entries, conversations, audio transcriptions) is sent to Anthropic's API for generating responses (tutor conversations, reflections, pronunciation feedback, translations, Ask Amar answers). Anthropic does not use this data for model training per their API terms. Data is processed and not retained by Anthropic beyond the API request.
 
 ### Purposes for Data Use
 

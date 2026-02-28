@@ -15,7 +15,7 @@ Qamar is an Islamic companion app that combines Quran reading, Arabic language l
 - **Arabic Learning**: Interactive flashcard system using FSRS spaced repetition for vocabulary acquisition. Includes Arabic alphabet lessons for beginners.
 - **Arabic Tutor & Pronunciation Coach**: Personalized grammar, vocabulary, and pronunciation guidance with feedback.
 - **Translator**: Arabic-English translation with contextual explanations.
-- **Ask Karim**: Islamic knowledge companion that answers user questions with sourced explanations from Quran, Hadith, and scholarly tradition.
+- **Ask Amar**: Islamic knowledge companion that answers user questions with sourced explanations from Quran, Hadith, and scholarly tradition.
 - **Hadith Library**: Searchable authentic hadith collections with bookmarking.
 - **Daily Reflections**: Users write personal reflections and receive responses grounded in Quranic wisdom and Prophetic guidance.
 - **Prayer**: Prayer reminders and spiritual grounding features.
@@ -28,7 +28,7 @@ The app uses the Anthropic Claude API to generate:
 - Arabic tutoring and grammar explanations
 - Pronunciation feedback in the Pronunciation Coach
 - Translation explanations in the Translator
-- Answers to Islamic knowledge questions in Ask Karim
+- Answers to Islamic knowledge questions in Ask Amar
 
 This usage is:
 - Disclosed in the app's Privacy Policy
@@ -135,7 +135,7 @@ Note: App does not require login for basic functionality. Full experience availa
    - Try Arabic Alphabet lessons
    - Test Arabic Tutor for grammar questions
 
-4. **Ask Karim**: Ask an Islamic knowledge question
+4. **Ask Amar**: Ask an Islamic knowledge question
    - Example: "What are the pillars of Islam?"
    - Note sourced response from Quran/Hadith
 

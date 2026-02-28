@@ -1,7 +1,7 @@
 export const Brand = {
   name: "Noor",
   method: "The Siraat Method",
-  tagline: "A sacred space to untangle your thoughts, guided by faith.",
+  tagline: "A private space to untangle your thoughts, guided by faith.",
 
   disclaimer:
     "Noor is an Islamic companion for spiritual growth and reflection. For urgent situations, please reach out to trusted support or call 988 Lifeline.",

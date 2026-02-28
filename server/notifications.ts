@@ -97,7 +97,7 @@ export const SERVER_NOTIFICATION_TEMPLATES = {
   ramadanReminder: [
     {
       title: "Ramadan Mubarak 🌙",
-      body: "A blessed month for reflection and renewal.",
+      body: "The month of Ramadan is here — a time for reflection, fasting, and renewal.",
     },
   ],
 };

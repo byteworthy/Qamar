@@ -2,7 +2,7 @@
  * useAITutor Hook
  *
  * Manages chat state for the AI Arabic Language Tutor.
- * Follows the same conversationHistory.current pattern as AskKarimScreen.
+ * Follows the same conversationHistory.current pattern as AskAmarScreen.
  */
 
 import { useState, useCallback, useRef } from "react";

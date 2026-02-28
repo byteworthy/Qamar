@@ -177,7 +177,7 @@ export default function TabNavigator() {
           // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
           tabBarTestID: "tab-worship",
           tabBarIcon: ({ color, focused }) => (
-            <AnimatedTabIcon name="sun" color={color} focused={focused} />
+            <AnimatedTabIcon name="clock" color={color} focused={focused} />
           ),
         }}
       />
