@@ -1,5 +1,5 @@
 /**
- * Conversation State Machine for Noor
+ * Conversation State Machine for Qamar
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md

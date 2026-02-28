@@ -1,5 +1,5 @@
 /**
- * Companion API Routes for Noor
+ * Companion API Routes for Qamar
  *
  * Provides the AI companion chat endpoint and conversation starters.
  * Integrates Islamic context detection and enrichment.

@@ -1,5 +1,5 @@
 /**
- * Failure Language System for Noor
+ * Failure Language System for Qamar
  *
  * PRIORITY 2: User-facing language for system interventions and pauses
  *

@@ -1,5 +1,5 @@
 /**
- * Conversational AI State Model for Noor
+ * Conversational AI State Model for Qamar
  *
  * This module implements the four-mode conversational state system
  * that makes AI responses feel fluid, empathetic, and human.

@@ -1,5 +1,5 @@
 /**
- * Data Retention Module for Noor
+ * Data Retention Module for Qamar
  *
  * Handles automatic deletion of expired user data.
  * Ensures compliance with data retention policies.

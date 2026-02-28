@@ -1,5 +1,5 @@
 /**
- * Notification API Routes for Noor
+ * Notification API Routes for Qamar
  *
  * Handles push token registration and server-triggered notifications
  */
