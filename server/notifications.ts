@@ -1,5 +1,5 @@
 /**
- * Server-Side Push Notification Service for Noor
+ * Server-Side Push Notification Service for Qamar
  *
  * Handles sending push notifications via Expo's Push API
  * for inactivity reminders, feature announcements, etc.
@@ -54,7 +54,7 @@ export const SERVER_NOTIFICATION_TEMPLATES = {
       body: "It's been a few days. Your thoughts matter.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "We haven't seen you in a while. How are you holding up?",
     },
     {
@@ -68,14 +68,14 @@ export const SERVER_NOTIFICATION_TEMPLATES = {
       body: "A week has passed. Your reflection practice awaits.",
     },
     {
-      title: "Noor misses you",
+      title: "Qamar misses you",
       body: "When you're ready, we're here.",
     },
   ],
   inactivity14Day: [
     {
       title: "You're not alone",
-      body: "Whenever you need it, Noor is here to help you reflect.",
+      body: "Whenever you need it, Qamar is here to help you reflect.",
     },
   ],
   weeklyInsights: [
@@ -90,7 +90,7 @@ export const SERVER_NOTIFICATION_TEMPLATES = {
   ],
   featureAnnouncement: [
     {
-      title: "New in Noor 🌟",
+      title: "New in Qamar 🌟",
       body: "Discover new ways to reflect and grow.",
     },
   ],

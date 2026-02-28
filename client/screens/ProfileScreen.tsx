@@ -910,9 +910,9 @@ export default function ProfileScreen() {
               <ThemedText
                 style={[styles.disclaimerText, { color: theme.textSecondary }]}
               >
-                Noor is a spiritual wellness companion and is not a substitute
-                for professional mental health guidance or Islamic scholarly
-                advice. Please consult qualified professionals for clinical or
+                Qamar is a spiritual companion and is not a substitute
+                for professional guidance or Islamic scholarly
+                advice. Please consult qualified professionals for personal or
                 religious matters.
               </ThemedText>
             </View>

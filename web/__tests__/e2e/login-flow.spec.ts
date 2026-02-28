@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Login Flow', () => {
-  test('should display login page with Noor branding', async ({ page }) => {
+  test('should display login page with Qamar branding', async ({ page }) => {
     await page.goto('/login');
 
     // Verify page title
-    await expect(page).toHaveTitle(/Noor/);
+    await expect(page).toHaveTitle(/Qamar/);
 
-    // Verify Noor logo
-    const logo = page.locator('h1', { hasText: 'Noor' });
+    // Verify Qamar logo
+    const logo = page.locator('h1', { hasText: 'Qamar' });
     await expect(logo).toBeVisible();
 
     // Verify welcome message
@@ -101,17 +101,17 @@ test.describe('Login Flow', () => {
   test('should navigate back to home when clicking logo', async ({ page }) => {
     await page.goto('/login');
 
-    const logoLink = page.locator('a', { has: page.locator('h1', { hasText: 'Noor' }) });
+    const logoLink = page.locator('a', { has: page.locator('h1', { hasText: 'Qamar' }) });
     await logoLink.click();
 
     await expect(page).toHaveURL('/');
   });
 
-  test('should use Noor brand colors', async ({ page }) => {
+  test('should use Qamar brand colors', async ({ page }) => {
     await page.goto('/login');
 
     // Check gold color on logo
-    const logo = page.locator('h1', { hasText: 'Noor' });
+    const logo = page.locator('h1', { hasText: 'Qamar' });
     const color = await logo.evaluate(el =>
       window.getComputedStyle(el).color
     );

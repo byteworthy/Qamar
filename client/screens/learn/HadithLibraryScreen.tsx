@@ -57,7 +57,7 @@ function DailyHadithCard() {
       >
         <View style={styles.dailyHeader}>
           <View style={styles.dailyBadge}>
-            <Feather name="sun" size={14} color="#D4AF37" />
+            <Feather name="book-open" size={14} color="#D4AF37" />
             <ThemedText style={styles.dailyBadgeText}>
               Daily Hadith
             </ThemedText>

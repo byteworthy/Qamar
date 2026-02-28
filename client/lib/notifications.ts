@@ -1,5 +1,5 @@
 /**
- * Push Notification System for Noor
+ * Push Notification System for Qamar
  *
  * Handles both local scheduled notifications (daily reminders)
  * and server-triggered push notifications (inactivity nudges, etc.)
@@ -61,7 +61,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "A moment of stillness is waiting for you.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "What's weighing on your heart today?",
     },
     {
@@ -81,7 +81,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "Alhamdulillah for another day. How are you?",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "Your thoughts deserve attention.",
     },
     {
@@ -99,7 +99,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "A quick reflection keeps your momentum.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "Your {streak}-day streak is waiting for you.",
     },
   ],
@@ -113,7 +113,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "Your reflection practice is ready when you are.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "Small steps, sincere intentions. Come back when ready.",
     },
     {
@@ -242,7 +242,7 @@ async function setupAndroidChannels() {
   // General notifications
   await Notifications.setNotificationChannelAsync("general", {
     name: "General",
-    description: "General notifications from Noor",
+    description: "General notifications from Qamar",
     importance: Notifications.AndroidImportance.DEFAULT,
     sound: "default",
   });

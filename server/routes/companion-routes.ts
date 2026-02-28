@@ -82,7 +82,7 @@ const CONVERSATION_SUGGESTIONS = [
     category: "Learning",
     suggestions: [
       "What is the difference between sabr and just being passive?",
-      "How does Islam view anxiety and mental health?",
+      "How does Islam view anxiety and emotional wellbeing?",
       "Tell me about the concept of qadr and free will",
       "What does ihsan mean in practice?",
     ],

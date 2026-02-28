@@ -61,7 +61,7 @@ describe('5-Tab Navigation System', () => {
         .toBeVisible()
         .withTimeout(3000);
 
-      await expect(element(by.text('Noor'))).toBeVisible();
+      await expect(element(by.text('Qamar'))).toBeVisible();
     });
 
     it('should navigate to Companion tab', async () => {
@@ -354,7 +354,7 @@ describe('5-Tab Navigation System', () => {
         .withTimeout(2000);
 
       // Existing reflection flow should still work
-      await expect(element(by.text('Noor'))).toBeVisible();
+      await expect(element(by.text('Qamar'))).toBeVisible();
     });
 
     it('should not break existing Companion (Explore) tab functionality', async () => {

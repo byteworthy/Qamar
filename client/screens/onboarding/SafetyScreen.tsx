@@ -166,7 +166,7 @@ export default function SafetyScreen() {
         >
           <GlassCard style={styles.closingCard}>
             <Feather
-              name="sunrise"
+              name="heart"
               size={28}
               color={theme.highlightAccent}
               style={{ alignSelf: "center", marginBottom: Spacing.md }}
