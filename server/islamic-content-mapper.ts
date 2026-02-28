@@ -347,7 +347,7 @@ export class IslamicContentMapper {
     // Add concept
     modifier += `Primary Concept: ${selection.concept.transliteration} (${selection.concept.arabic}) - ${selection.concept.meaning}\n`;
     modifier += `Supportive Application: ${selection.concept.supportiveApplication}\n`;
-    modifier += `Reflection Connection: ${selection.concept.cbtConnection}\n`;
+    modifier += `Reflection Connection: ${selection.concept.reflectionConnection}\n`;
 
     // Add Quran if available
     if (selection.quran) {

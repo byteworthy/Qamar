@@ -1,7 +1,7 @@
 /**
- * AI Safety & Guardrails System for Noor
+ * Safety & Guardrails System for Qamar
  *
- * This module ensures that AI-generated content is safe, supportive,
+ * This module ensures that generated content is safe, supportive,
  * and aligned with Islamic principles. It includes crisis detection,
  * theological validation, and output filtering.
  */
@@ -281,7 +281,7 @@ export const SCRUPULOSITY_RESPONSE = {
   guidance:
     "These obsessive doubts are not a sign of weak faith. They're a recognized spiritual trial. The cure is not more perfection - it's breaking the cycle of doubt.",
   recommendation:
-    "Consider speaking with a knowledgeable scholar who understands religious OCD. This is a recognized condition with clear guidance.",
+    "Consider speaking with a knowledgeable scholar who understands waswasa and obsessive religious doubt. This is a recognized spiritual trial with clear guidance.",
   islamicPrinciple:
     "Allah does not burden a soul beyond its capacity (2:286). He wants ease for you, not endless doubt.",
 };
@@ -290,7 +290,7 @@ export const SCRUPULOSITY_RESPONSE = {
 // THEOLOGICAL VALIDATION
 // =============================================================================
 
-// Prohibited content that AI must NEVER generate
+// Prohibited content that must NEVER be generated
 const THEOLOGICAL_PROHIBITIONS = [
   // Distortions of core beliefs
   "allah doesn't care",
@@ -540,12 +540,12 @@ export const AI_BOUNDARIES = {
   ],
 
   cannotDo: [
-    "Make psychological diagnoses",
-    "Prescribe medication or treatment",
+    "Assess or label someone's mental state",
+    "Recommend medication or medical intervention",
     "Give fatwas or religious rulings",
     "Guarantee outcomes or healing",
-    "Replace human therapists or scholars",
-    "Access or recall previous conversations (HIPAA)",
+    "Replace professional support or scholarly guidance",
+    "Access or recall previous conversations",
     "Make decisions for the user",
     "Claim to be an authority",
   ],

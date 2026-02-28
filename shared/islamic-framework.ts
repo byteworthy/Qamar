@@ -1,9 +1,9 @@
 /**
- * Islamic Psychological Framework for Qamar
+ * Islamic Framework for Qamar
  *
  * This module provides the foundational Islamic concepts that anchor
- * the therapeutic experience. These are not decorative - they form
- * the epistemological basis for understanding human psychology.
+ * the reflective experience. These are not decorative - they form
+ * the epistemological basis for understanding the human condition.
  */
 
 // =============================================================================
@@ -29,7 +29,7 @@ export interface ConceptDefinition {
   transliteration: string;
   meaning: string;
   supportiveApplication: string;
-  cbtConnection: string;
+  reflectionConnection: string;
 }
 
 export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
@@ -39,8 +39,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Intention",
     supportiveApplication:
       "Setting clear intention transforms cognitive work into spiritual practice. Every reflection begins with purpose.",
-    cbtConnection:
-      "Aligns with values clarification and goal-oriented therapy. Intention shapes attention and attention amplifies state.",
+    reflectionConnection:
+      "Aligns with clarifying what matters most. Intention shapes attention and attention amplifies state.",
   },
   sabr: {
     arabic: "صَبْر",
@@ -48,8 +48,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Patient Perseverance",
     supportiveApplication:
       "Active endurance during difficulty, not passive resignation. The muscle that develops through cognitive struggle.",
-    cbtConnection:
-      "Connects to distress tolerance and emotional regulation. Sabr is the practice ground for building cognitive resilience.",
+    reflectionConnection:
+      "Connects to sitting with difficulty and steadying the heart. Sabr is the practice ground for building inner resilience.",
   },
   tawakkul: {
     arabic: "تَوَكُّل",
@@ -57,8 +57,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Trust and Reliance on Allah",
     supportiveApplication:
       "The letting go that comes after doing your part. Separating your effort from your anxiety about outcomes.",
-    cbtConnection:
-      "Addresses control-related distortions. You are responsible for effort, not outcomes. This distinction reduces anxiety.",
+    reflectionConnection:
+      "Addresses the illusion of control. You are responsible for effort, not outcomes. This distinction brings peace.",
   },
   tazkiyah: {
     arabic: "تَزْكِيَة",
@@ -66,7 +66,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Purification of the Soul",
     supportiveApplication:
       "Cognitive work as spiritual cleansing. Removing distortions is not just thinking better—it is purifying the heart.",
-    cbtConnection:
+    reflectionConnection:
       "Reframes negative thinking patterns as impurities of the soul; reframing is tahara (purification) of thought.",
   },
   shukr: {
@@ -75,8 +75,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Gratitude",
     supportiveApplication:
       "Gratitude is not ignoring pain—it is expanding awareness to include blessing alongside struggle.",
-    cbtConnection:
-      "Counteracts negativity bias and ingratitude distortion. Gratitude practices are evidence-based interventions.",
+    reflectionConnection:
+      "Counteracts the tendency to see only what is lacking. Gratitude expands awareness and softens the heart.",
   },
   tawbah: {
     arabic: "تَوْبَة",
@@ -84,8 +84,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Repentance and Return",
     supportiveApplication:
       "Every moment offers return. Shame about the past does not need to define the present.",
-    cbtConnection:
-      "Addresses shame-based cognitions. Tawbah breaks the cycle of self-condemnation and hopelessness.",
+    reflectionConnection:
+      "Addresses the weight of shame. Tawbah breaks the cycle of self-condemnation and opens the door to hope.",
   },
   dhikr: {
     arabic: "ذِكْر",
@@ -93,8 +93,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Remembrance of Allah",
     supportiveApplication:
       "Grounding the mind through sacred repetition. Dhikr is the anchor when thoughts spiral.",
-    cbtConnection:
-      "Aligns with mindfulness and grounding techniques. Dhikr is pattern interruption with spiritual depth.",
+    reflectionConnection:
+      "Aligns with grounding and returning to the present. Dhikr interrupts spiraling thoughts with sacred anchor.",
   },
   muraqaba: {
     arabic: "مُرَاقَبَة",
@@ -102,8 +102,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Watchful Self-Awareness",
     supportiveApplication:
       "Observing your thoughts without becoming them. The witness stance that enables cognitive flexibility.",
-    cbtConnection:
-      'Core to metacognitive awareness. Muraqaba is the Islamic root of "observing your thoughts."',
+    reflectionConnection:
+      'Core to self-awareness. Muraqaba is the Islamic root of observing your thoughts without becoming them.',
   },
   muhasaba: {
     arabic: "مُحَاسَبَة",
@@ -111,8 +111,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Self-Accountability",
     supportiveApplication:
       "Taking honest inventory without self-destruction. Accountability that leads to growth, not despair.",
-    cbtConnection:
-      "Supports behavioral analysis without harsh self-judgment. Honest assessment is not self-attack.",
+    reflectionConnection:
+      "Supports honest self-review without harsh self-judgment. Taking account of yourself is not self-attack.",
   },
   ridha: {
     arabic: "رِضَا",
@@ -120,8 +120,8 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Contentment with Divine Decree",
     supportiveApplication:
       "Peace that comes from acceptance, not achievement. Ridha is the fruit of tawakkul practice.",
-    cbtConnection:
-      "Addresses comparison-based and outcome-attached distortions. Contentment is not complacency.",
+    reflectionConnection:
+      "Addresses the trap of measuring yourself by outcomes or other people's blessings. Contentment is not complacency.",
   },
   khushu: {
     arabic: "خُشُوع",
@@ -129,7 +129,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Humble Presence",
     supportiveApplication:
       "Full presence in the moment, aware of Allah. The quality that makes reflection transformative.",
-    cbtConnection:
+    reflectionConnection:
       "Connects to mindful engagement. Khushu is presence without performance anxiety.",
   },
   ikhlas: {
@@ -138,7 +138,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     meaning: "Sincerity",
     supportiveApplication:
       "Doing the work for Allah, not for show. Sincerity protects against spiritual bypassing.",
-    cbtConnection:
+    reflectionConnection:
       "Addresses people-pleasing and validation-seeking patterns. Ikhlas liberates from audience anxiety.",
   },
 };
@@ -157,7 +157,7 @@ export interface NafsDefinition {
   transliteration: string;
   meaning: string;
   characteristics: string[];
-  therapeuticImplication: string;
+  spiritualInsight: string;
   growthDirection: string;
 }
 
@@ -172,7 +172,7 @@ export const NAFS_STATES: Record<NafsState, NafsDefinition> = {
       "Resists accountability",
       "Seeks comfort over growth",
     ],
-    therapeuticImplication:
+    spiritualInsight:
       "When thoughts push toward harm, avoidance, or self-destruction, the ammara nafs is active.",
     growthDirection:
       "Moving toward lawwama involves developing the witness—the part that notices and questions.",
@@ -187,8 +187,8 @@ export const NAFS_STATES: Record<NafsState, NafsDefinition> = {
       "Struggles between higher and lower impulses",
       "Engaged in active jihad (struggle) with self",
     ],
-    therapeuticImplication:
-      "The lawwama state is actually healthy—it means the conscience is working. Most therapy happens here.",
+    spiritualInsight:
+      "The lawwama state is actually healthy—it means the conscience is working. Most growth happens here.",
     growthDirection:
       "Moving toward mutmainna involves developing peace alongside accountability, not shame.",
   },
@@ -202,7 +202,7 @@ export const NAFS_STATES: Record<NafsState, NafsDefinition> = {
       "Experiences contentment independent of circumstance",
       "Returns to Allah willingly, not fearfully",
     ],
-    therapeuticImplication:
+    spiritualInsight:
       "The goal is not perfection but tranquility. Mutmainna is the fruit of consistent tazkiyah.",
     growthDirection:
       "This state is cultivated, not achieved once. It requires ongoing nourishment through dhikr and sabr.",
@@ -224,7 +224,7 @@ export interface HeartStateDefinition {
   transliteration: string;
   meaning: string;
   signs: string[];
-  therapeuticApproach: string;
+  nurturingApproach: string;
 }
 
 export const HEART_STATES: Record<HeartState, HeartStateDefinition> = {
@@ -238,7 +238,7 @@ export const HEART_STATES: Record<HeartState, HeartStateDefinition> = {
       "Experiences natural aversion to harm",
       "Maintains hope alongside fear",
     ],
-    therapeuticApproach:
+    nurturingApproach:
       "Strengthen and maintain through dhikr, gratitude, and continued reflection.",
   },
   marid: {
@@ -251,7 +251,7 @@ export const HEART_STATES: Record<HeartState, HeartStateDefinition> = {
       "Spiritual dryness and disconnection",
       "Knows truth but struggles to follow",
     ],
-    therapeuticApproach:
+    nurturingApproach:
       "This is where most people are most of the time. The cure is consistent small actions, not dramatic change.",
   },
   qasi: {
@@ -264,7 +264,7 @@ export const HEART_STATES: Record<HeartState, HeartStateDefinition> = {
       "Loss of guilt signals",
       "Spiritual numbness",
     ],
-    therapeuticApproach:
+    nurturingApproach:
       "Requires gentle softening, not confrontation. Tears, nature, and compassion can crack hardness.",
   },
   ghaafil: {
@@ -277,7 +277,7 @@ export const HEART_STATES: Record<HeartState, HeartStateDefinition> = {
       "Surface-level living",
       "Forgetting purpose and akhira",
     ],
-    therapeuticApproach:
+    nurturingApproach:
       "Needs awakening through muhasaba (self-accounting) and remembrance of mortality.",
   },
 };
@@ -548,7 +548,7 @@ export const TONE_GUIDELINES = {
     acknowledgmentFirst: "Always acknowledge the emotion before analyzing it",
     noPreaching: "Share wisdom, don't lecture",
     noGuilt: "Inspire, don't shame",
-    noFatwa: "Therapeutic guidance only, never religious rulings",
+    noFatwa: "Reflective guidance only, never religious rulings",
     mercyFirst: "When in doubt, emphasize Allah's mercy over obligation",
   },
 };
@@ -642,7 +642,7 @@ export const DISTRESS_RESPONSE_MATRIX: Record<DistressLevel, DistressResponse> =
       toneAdjustment: "Balance reflection with validation",
       responseLength: "normal",
       additionalGuidance:
-        "User is struggling but engaged. Standard therapeutic approach.",
+        "User is struggling but engaged. Standard reflective approach.",
     },
     high: {
       primaryConcept: "dhikr",
@@ -650,7 +650,7 @@ export const DISTRESS_RESPONSE_MATRIX: Record<DistressLevel, DistressResponse> =
       toneAdjustment: "More concrete, grounding language. Shorter sentences.",
       responseLength: "shorter",
       additionalGuidance:
-        "User needs stabilization before cognitive work. Emphasize mercy over analysis.",
+        "User needs grounding before deeper reflection. Emphasize mercy over analysis.",
     },
     crisis: {
       primaryConcept: "tawakkul",
@@ -658,7 +658,7 @@ export const DISTRESS_RESPONSE_MATRIX: Record<DistressLevel, DistressResponse> =
       toneAdjustment: "Minimal words. Direct. Grounding. Safety first.",
       responseLength: "minimal",
       additionalGuidance:
-        "User may need professional help. Provide resources. Do not attempt deep cognitive work.",
+        "User may need professional support. Provide resources. Do not attempt deep reflection.",
     },
   };
 
