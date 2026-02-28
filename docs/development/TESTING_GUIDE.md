@@ -90,7 +90,7 @@ Qamar is an Islamic companion app for Quran reading, Arabic learning, daily refl
 - Report any bugs or confusing UX
 
 **Feedback:**
-Use the feedback form in TestFlight or email: feedback@noorapp.com
+Use the feedback form in TestFlight or email: feedback@qamarapp.com
 
 Thank you for helping us improve Qamar!
 
@@ -157,7 +157,7 @@ Go to Google Play Console → Internal Testing:
 
 Create Google Group for testers:
 1. Go to Google Groups
-2. Create group: noor-testers@googlegroups.com
+2. Create group: qamar-testers@googlegroups.com
 3. Add tester emails
 
 Send invitation:
@@ -183,7 +183,7 @@ Join our internal testing program for Qamar on Android!
 - Verify offline behavior
 - Report bugs via in-app feedback
 
-Feedback: feedback@noorapp.com
+Feedback: feedback@qamarapp.com
 
 Thanks for testing!
 ```

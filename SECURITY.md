@@ -42,7 +42,7 @@ If you discover a security vulnerability in Qamar, please report it responsibly:
 - **HTTPS-only:** All API calls use TLS 1.3
 - **Certificate Validation:** Server certificates validated on every request
 - **No Mixed Content:** HTTP endpoints blocked at application level
-- **API Domain:** noor-production-9ac5.up.railway.app
+- **API Domain:** Railway-hosted (HTTPS-only)
 
 ### 2. Authentication & Authorization
 

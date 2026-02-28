@@ -455,7 +455,7 @@ describe("Full Safety Pipeline Integration", () => {
 
     // Step 2: Should NOT continue with reflection
     const inappropriateOutput =
-      "Let's work on reframing that thought using CBT techniques.";
+      "Let's work on reframing that thought using clinical techniques.";
     const validation = validateOutput(
       inappropriateOutput,
       undefined,

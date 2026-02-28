@@ -6,6 +6,7 @@
  */
 
 import { generateEmbedding, cosineSimilarity, EMBEDDING_MODEL, RAG_DEGRADED } from './embedding-service';
+import { defaultLogger } from '../utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -109,10 +110,10 @@ function loadSeedData(): void {
           keywords: extractKeywords(v.translationEn),
         });
       }
-      console.log(`[RAG] Loaded ${verses.length} Quran verses from seed data`);
+      defaultLogger.info(`[RAG] Loaded ${verses.length} Quran verses from seed data`);
     }
   } catch (err) {
-    console.warn('[RAG] Failed to load Quran verses:', err);
+    defaultLogger.warn('[RAG] Failed to load Quran verses', { error: String(err) });
   }
 
   // Load adhkar
@@ -130,13 +131,13 @@ function loadSeedData(): void {
           keywords: extractKeywords(d.translation),
         });
       }
-      console.log(`[RAG] Loaded ${adhkar.length} adhkar from seed data`);
+      defaultLogger.info(`[RAG] Loaded ${adhkar.length} adhkar from seed data`);
     }
   } catch (err) {
-    console.warn('[RAG] Failed to load adhkar:', err);
+    defaultLogger.warn('[RAG] Failed to load adhkar', { error: String(err) });
   }
 
-  console.log(`[RAG] Total knowledge base: ${KNOWLEDGE_BASE.length} documents`);
+  defaultLogger.info(`[RAG] Total knowledge base: ${KNOWLEDGE_BASE.length} documents`);
 }
 
 /** Extract simple keywords from text for keyword-based fallback search */
@@ -169,11 +170,11 @@ export async function initializeRAG(): Promise<void> {
     if (loadCachedEmbeddings()) {
       indexReady = true;
       indexing = false;
-      console.log(`[RAG] Loaded ${documentIndex.size} cached embeddings`);
+      defaultLogger.info(`[RAG] Loaded ${documentIndex.size} cached embeddings`);
       return;
     }
 
-    console.log(`[RAG] Indexing ${KNOWLEDGE_BASE.length} documents...`);
+    defaultLogger.info(`[RAG] Indexing ${KNOWLEDGE_BASE.length} documents...`);
     for (const doc of KNOWLEDGE_BASE) {
       const embedding = await generateEmbedding(doc.text);
       documentIndex.set(doc.reference, { embedding, document: doc });
@@ -181,9 +182,9 @@ export async function initializeRAG(): Promise<void> {
 
     saveCachedEmbeddings();
     indexReady = true;
-    console.log(`[RAG] Indexed ${documentIndex.size} documents`);
+    defaultLogger.info(`[RAG] Indexed ${documentIndex.size} documents`);
   } catch (err) {
-    console.error('[RAG] Indexing failed:', err);
+    defaultLogger.error('[RAG] Indexing failed', err);
   } finally {
     indexing = false;
   }
@@ -290,7 +291,7 @@ async function queryViaQdrant(question: string, topK: number): Promise<RAGResult
       confidence: results[0].score,
     };
   } catch (err) {
-    console.error('[RAG] Qdrant query failed, falling back to in-memory:', err);
+    defaultLogger.error('[RAG] Qdrant query failed, falling back to in-memory', err);
     return queryInMemory(question, topK);
   }
 }
@@ -353,9 +354,9 @@ function saveCachedEmbeddings(): void {
     }));
 
     fs.writeFileSync(EMBEDDINGS_PATH, JSON.stringify(data));
-    console.log(`[RAG] Saved embeddings to ${EMBEDDINGS_PATH}`);
+    defaultLogger.info(`[RAG] Saved embeddings to ${EMBEDDINGS_PATH}`);
   } catch (err) {
-    console.warn('[RAG] Failed to save embeddings cache:', err);
+    defaultLogger.warn('[RAG] Failed to save embeddings cache', { error: String(err) });
   }
 }
 

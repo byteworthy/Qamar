@@ -114,7 +114,7 @@ mailto:support@byteworthy.com
 ## G. Privacy Policy URL
 
 ```
-https://byteworthy.github.io/Noor/legal/privacy.html
+https://byteworthy.github.io/Qamar/legal/privacy.html
 ```
 
 ---
@@ -122,7 +122,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 ## H. Terms of Service URL (if requested)
 
 ```
-https://byteworthy.github.io/Noor/legal/terms.html
+https://byteworthy.github.io/Qamar/legal/terms.html
 ```
 
 ---
@@ -166,7 +166,7 @@ Privacy:
 - No data selling or advertising
 - No cross-app tracking
 - Data deletion available on request
-- Privacy Policy: https://byteworthy.github.io/Noor/legal/privacy.html
+- Privacy Policy: https://byteworthy.github.io/Qamar/legal/privacy.html
 ```
 
 ---

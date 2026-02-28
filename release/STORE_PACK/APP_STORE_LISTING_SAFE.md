@@ -210,7 +210,7 @@ DO NOT USE:
 
 ## Support URL
 
-Suggested: `https://noor.app/support` (or your actual domain)
+Suggested: `https://qamar.app/support` (or your actual domain)
 
 Should include:
 - FAQ section

@@ -76,7 +76,7 @@ export function PremiumGate({
   }
 
   // Otherwise, show upgrade prompt
-  const tierLabel = requiredTier === "pro" ? "Noor Pro" : "Noor Plus";
+  const tierLabel = requiredTier === "pro" ? "Qamar Pro" : "Qamar Plus";
 
   return (
     <View
@@ -97,7 +97,7 @@ export function PremiumGate({
       </ThemedText>
 
       <ThemedText style={[styles.description, { color: theme.textSecondary }]}>
-        Upgrade to {tierLabel} to access this feature and unlock the full NOOR experience.
+        Upgrade to {tierLabel} to access this feature and unlock the full Qamar experience.
       </ThemedText>
 
       <Button

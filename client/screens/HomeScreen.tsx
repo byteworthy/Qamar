@@ -122,7 +122,7 @@ const ModuleCard = React.memo(function ModuleCard({
           }}
           style={styles.moduleCard}
           accessibilityRole="button"
-          accessibilityLabel={`${title}${locked ? ", requires Noor Plus" : ""}`}
+          accessibilityLabel={`${title}${locked ? ", requires Qamar Plus" : ""}`}
           accessibilityHint={description}
           accessibilityState={{ disabled: locked }}
         >
@@ -1183,8 +1183,8 @@ export default function HomeScreen() {
                     { opacity: pressed ? 0.9 : 1 },
                   ]}
                   accessibilityRole="button"
-                  accessibilityLabel="Upgrade to Noor Plus"
-                  accessibilityHint="Opens pricing options for Noor Plus subscription"
+                  accessibilityLabel="Upgrade to Qamar Plus"
+                  accessibilityHint="Opens pricing options for Qamar Plus subscription"
                 >
                   <View style={styles.upgradeContent}>
                     <Feather
@@ -1193,7 +1193,7 @@ export default function HomeScreen() {
                       color={NiyyahColors.background}
                     />
                     <ThemedText style={styles.upgradeText}>
-                      Upgrade to Noor Plus
+                      Upgrade to Qamar Plus
                     </ThemedText>
                   </View>
                   <Feather

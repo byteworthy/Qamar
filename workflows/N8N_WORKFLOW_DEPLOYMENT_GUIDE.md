@@ -236,7 +236,7 @@ In n8n UI → Settings → Credentials:
 4. **Qamar API Token**
    - Type: Generic Credential Type (HTTP Header Auth)
    - Header Name: `Authorization`
-   - Header Value: `Bearer {{ env.NOOR_API_TOKEN }}`
+   - Header Value: `Bearer {{ env.QAMAR_API_TOKEN }}`
 
 5. **Airtable API**
    - Type: Airtable
@@ -269,8 +269,8 @@ FIREBASE_ACCESS_TOKEN=ya29.c.xxxxxxxxxxxxx
 ANTHROPIC_API_KEY=sk-ant-v0-xxxxxxxxxxxxxxx
 
 # Qamar Backend
-NOOR_API_URL=https://api.noorapp.com
-NOOR_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+QAMAR_API_URL=https://api.qamarapp.com
+QAMAR_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 # Airtable
 AIRTABLE_BASE_ID=appXXXXXXXXXXXXXX
@@ -509,7 +509,7 @@ recitation. Join our premium community and accelerate your Quranic journey today
 **Purpose**: Deliver personalized upgrade offer via push notification
 **Type**: HTTP Request
 **Method**: POST
-**Endpoint**: `{{ env.NOOR_API_URL }}/api/v1/notifications/push`
+**Endpoint**: `{{ env.QAMAR_API_URL }}/api/v1/notifications/push`
 
 **Request Payload**:
 ```json
@@ -730,8 +730,8 @@ ANTHROPIC_MODEL=claude-3-5-haiku-20241022
 # ============================================
 # NOOR BACKEND CONFIGURATION
 # ============================================
-NOOR_API_URL=https://api.noorapp.com
-NOOR_API_TOKEN=<your-jwt-token-here>
+QAMAR_API_URL=https://api.qamarapp.com
+QAMAR_API_TOKEN=<your-jwt-token-here>
 NOOR_API_VERSION=v1
 
 # ============================================
@@ -767,16 +767,16 @@ SMTP_PORT=587
 SMTP_USER=apikey
 SMTP_PASS=SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 EMAIL_FROM_NAME=Qamar
-EMAIL_FROM_ADDRESS=no-reply@noorapp.com
+EMAIL_FROM_ADDRESS=no-reply@qamarapp.com
 EMAIL_SUPPORT_ADDRESS=support@byteworthy.com
 
 # ============================================
 # N8N CONFIGURATION
 # ============================================
-N8N_HOST=https://n8n.noorapp.com
+N8N_HOST=https://n8n.qamarapp.com
 N8N_PORT=443
 N8N_PROTOCOL=https
-N8N_WEBHOOK_URL=https://n8n.noorapp.com/
+N8N_WEBHOOK_URL=https://n8n.qamarapp.com/
 N8N_TIMEZONE=America/Chicago
 
 # ============================================

@@ -131,8 +131,8 @@ const defaultProfile: BillingProfile = {
 // =============================================================================
 
 export const getPlanName = (tier: BillingTier): string => {
-  if (tier === "pro") return "Noor Pro";
-  if (tier === "plus") return "Noor Plus";
+  if (tier === "pro") return "Qamar Pro";
+  if (tier === "plus") return "Qamar Plus";
   return "Free";
 };
 
