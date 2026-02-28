@@ -8,8 +8,8 @@ test.describe('Navigation', () => {
     const nav = page.locator('nav');
     await expect(nav).toBeVisible();
 
-    // Verify Noor logo
-    const logo = page.getByRole('link', { name: 'Noor' });
+    // Verify Qamar logo
+    const logo = page.getByRole('link', { name: 'Qamar' });
     await expect(logo).toBeVisible();
 
     // Verify logo uses serif font and gold color

@@ -26,7 +26,7 @@ interface WebApplicationSchema {
   };
 }
 
-interface MedicalWebPageSchema {
+interface EducationalContentSchema {
   '@context': string;
   '@type': string;
   name: string;
@@ -76,7 +76,7 @@ const createWebAppSchema = (): WebApplicationSchema => {
     url: baseUrl,
     description:
       'Islamic reflection and spiritual growth companion for Muslims',
-    applicationCategory: 'HealthApplication',
+    applicationCategory: 'LifestyleApplication',
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -85,16 +85,16 @@ const createWebAppSchema = (): WebApplicationSchema => {
   };
 };
 
-const createMedicalSchema = (): MedicalWebPageSchema => {
+const createEducationalSchema = (): EducationalContentSchema => {
   return {
     '@context': 'https://schema.org',
-    '@type': 'MedicalWebPage',
-    name: 'Islamic Reflection Companion',
+    '@type': 'WebPage',
+    name: 'Qamar - Islamic Companion',
     description:
-      'Guided reflection integrated with Islamic principles',
+      'Quran reading, Arabic learning, and spiritual reflection rooted in Islamic tradition',
     about: {
-      '@type': 'MedicalTherapy',
-      name: 'Guided Reflection',
+      '@type': 'Thing',
+      name: 'Islamic Education and Spiritual Growth',
     },
     audience: {
       '@type': 'PeopleAudience',
@@ -108,7 +108,7 @@ export function StructuredData() {
     const schemas = [
       createOrganizationSchema(),
       createWebAppSchema(),
-      createMedicalSchema(),
+      createEducationalSchema(),
     ];
 
     schemas.forEach((schema, index) => {

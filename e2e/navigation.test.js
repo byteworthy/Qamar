@@ -18,7 +18,7 @@ describe("Navigation & Home Screen", () => {
         .toBeVisible()
         .withTimeout(5000);
 
-      await expect(element(by.text("Noor"))).toBeVisible();
+      await expect(element(by.text("Qamar"))).toBeVisible();
     });
 
     it("should show stats card", async () => {

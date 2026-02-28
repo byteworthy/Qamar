@@ -5,8 +5,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://noor.app';
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Noor - Your Islamic Companion',
-    template: '%s | Noor',
+    default: 'Qamar - Your Islamic Companion',
+    template: '%s | Qamar',
   },
   description:
     'Your all-in-one Islamic companion. Read the Quran with translations and audio, get accurate prayer times with Qibla compass, learn Arabic vocabulary with spaced repetition, explore authentic hadith collections, and grow spiritually through guided reflection.',
@@ -34,13 +34,13 @@ export const defaultMetadata: Metadata = {
     'dhikr',
     'Hijri calendar',
     'Islamic calendar',
-    'Noor',
+    'Qamar',
     'Muslim daily',
     'Ramadan',
     'Islamic education',
   ],
   authors: [{ name: 'ByteWorthy' }],
-  creator: 'Noor',
+  creator: 'Qamar',
   publisher: 'ByteWorthy',
   formatDetection: {
     email: false,
@@ -51,8 +51,8 @@ export const defaultMetadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    siteName: 'Noor',
-    title: 'Noor - Your Islamic Companion',
+    siteName: 'Qamar',
+    title: 'Qamar - Your Islamic Companion',
     description:
       'Quran, Prayer Times, Arabic Learning, Hadith & Personal Reflection — all in one beautiful app for Muslims.',
     images: [
@@ -60,13 +60,13 @@ export const defaultMetadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Noor - Your Islamic Companion',
+        alt: 'Qamar - Your Islamic Companion',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Noor - Your Islamic Companion',
+    title: 'Qamar - Your Islamic Companion',
     description:
       'Quran, Prayer Times, Arabic Learning, Hadith & Personal Reflection — all in one beautiful app for Muslims.',
     images: ['/og-image.png'],
