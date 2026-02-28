@@ -820,7 +820,7 @@ export default function ProfileScreen() {
                     { color: isPaid ? NoorColors.gold : theme.textSecondary },
                   ]}
                 >
-                  {isPaid ? "Noor Plus" : "Free"}
+                  {isPaid ? "Qamar Plus" : "Free"}
                 </ThemedText>
               </View>
             </SettingRow>
@@ -835,7 +835,7 @@ export default function ProfileScreen() {
                   onPress={() => navigation.navigate("Pricing")}
                   style={[styles.upgradeButton, { backgroundColor: NoorColors.gold }]}
                   accessibilityRole="button"
-                  accessibilityLabel="Upgrade to Noor Plus"
+                  accessibilityLabel="Upgrade to Qamar Plus"
                 >
                   <Feather
                     name="star"
@@ -848,7 +848,7 @@ export default function ProfileScreen() {
                       { color: NoorColors.background },
                     ]}
                   >
-                    Upgrade to Noor Plus
+                    Upgrade to Qamar Plus
                   </ThemedText>
                 </Pressable>
               </>

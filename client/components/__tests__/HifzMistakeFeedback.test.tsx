@@ -2,7 +2,7 @@
  * HifzMistakeFeedback.test.tsx
  *
  * Tests for the Hifz Mistake Feedback component.
- * Verifies score display, word-level coloring, mistake summary, and AI tips.
+ * Verifies score display, word-level coloring, mistake summary, and tips.
  */
 
 import React from "react";
@@ -142,8 +142,8 @@ describe("HifzMistakeFeedback", () => {
     expect(getByText(/2 mistakes out of 4 words/i)).toBeTruthy();
   });
 
-  // Test 7: Shows AI tips when provided
-  it("displays AI tips when aiTips is provided", () => {
+  // Test 7: Shows tips when provided
+  it("displays tips when aiTips is provided", () => {
     const result = createMockResult(70, [
       { expected: "بِسْمِ", actual: "بَسْمِ", isCorrect: false },
     ]);
@@ -159,8 +159,8 @@ describe("HifzMistakeFeedback", () => {
     expect(getByText(/focus on the kasra vowel/i)).toBeTruthy();
   });
 
-  // Test 8: Shows "Get AI Tips" button when tips null but callback exists
-  it("displays Get AI Tips button when aiTips is null and onRequestTips exists", () => {
+  // Test 8: Shows "Get Tips" button when tips null but callback exists
+  it("displays Get Tips button when aiTips is null and onRequestTips exists", () => {
     const result = createMockResult(70, [
       { expected: "بِسْمِ", actual: "بَسْمِ", isCorrect: false },
     ]);
@@ -176,11 +176,11 @@ describe("HifzMistakeFeedback", () => {
       />
     );
 
-    expect(getByText(/get ai tips/i)).toBeTruthy();
+    expect(getByText(/get tips/i)).toBeTruthy();
   });
 
   // Test 9: Calls onRequestTips when button pressed
-  it("calls onRequestTips callback when Get AI Tips button is pressed", () => {
+  it("calls onRequestTips callback when Get Tips button is pressed", () => {
     const result = createMockResult(70, [
       { expected: "بِسْمِ", actual: "بَسْمِ", isCorrect: false },
     ]);
@@ -196,7 +196,7 @@ describe("HifzMistakeFeedback", () => {
       />
     );
 
-    const button = getByText(/get ai tips/i);
+    const button = getByText(/get tips/i);
     fireEvent.press(button);
 
     expect(mockRequestTips).toHaveBeenCalledTimes(1);

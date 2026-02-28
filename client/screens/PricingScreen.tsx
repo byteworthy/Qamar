@@ -493,7 +493,7 @@ export default function PricingScreen() {
             { fontFamily: Fonts?.serifBold, color: theme.text },
           ]}
         >
-          Unlock the Full{"\n"}Noor Experience
+          Unlock the Full{"\n"}Qamar Experience
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
           Deepen your faith with unlimited access to all premium features.
@@ -658,7 +658,7 @@ export default function PricingScreen() {
                 { color: GOLD, fontFamily: Fonts?.sansMedium },
               ]}
             >
-              You're on Noor Plus
+              You're on Qamar Plus
             </ThemedText>
           </View>
         </View>
@@ -683,13 +683,13 @@ export default function PricingScreen() {
             { color: theme.text, fontFamily: Fonts?.serif },
           ]}
         >
-          "Noor has become part of my daily spiritual routine. The reflections
+          "Qamar has become part of my daily spiritual routine. The reflections
           help me stay grounded and connected to my faith."
         </ThemedText>
         <ThemedText
           style={[styles.socialProofAuthor, { color: theme.textSecondary }]}
         >
-          -- A Noor Plus member
+          -- A Qamar Plus member
         </ThemedText>
       </View>
 

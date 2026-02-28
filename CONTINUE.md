@@ -314,7 +314,6 @@ release/          # Store submission assets and metadata
 scripts/          # Build scripts, screenshot automation
 e2e/              # Maestro E2E test flows
 legal/            # Privacy Policy, Terms of Service
-release/          # Store submission assets and metadata
 docs/             # Deployment guides, checklists
 web/              # Web export configuration
 ```

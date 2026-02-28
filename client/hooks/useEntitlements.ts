@@ -21,8 +21,8 @@ export interface EntitlementsState {
 // Feature names used throughout the app
 export type FeatureName =
   // Core features
-  | "unlimited_cbt_sessions"
-  | "daily_cbt_limit"
+  | "unlimited_reflection_sessions"
+  | "daily_reflection_limit"
   // Quran features
   | "quran_audio"
   | "quran_basic"
@@ -53,10 +53,10 @@ export type FeatureName =
   | "priority_support";
 
 // Feature -> Tier mapping
-// New structure: all non-AI features are free, AI features are Plus
+// New structure: all core Islamic features are free, premium features are Plus
 const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
   // Free tier features (all core Islamic features)
-  daily_cbt_limit: "free",
+  daily_reflection_limit: "free",
   quran_basic: "free",
   quran_audio: "free",
   adhkar_basic: "free",
@@ -64,8 +64,8 @@ const FEATURE_TIER_MAP: Record<FeatureName, SubscriptionTier> = {
   hadith_search: "free",
   offline_content: "free",
 
-  // Plus tier features (AI-powered + advanced)
-  unlimited_cbt_sessions: "plus",
+  // Plus tier features (premium + advanced)
+  unlimited_reflection_sessions: "plus",
   ai_companion_unlimited: "plus",
   ai_tutor_unlimited: "plus",
   pronunciation_unlimited: "plus",

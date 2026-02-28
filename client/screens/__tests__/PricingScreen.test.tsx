@@ -147,26 +147,26 @@ describe("PricingScreen", () => {
       expect(screen.getByText("Current Plan")).toBeTruthy();
     });
 
-    it("should display Noor Plus plan", () => {
+    it("should display Qamar Plus plan", () => {
       render(<PricingScreen />);
 
-      expect(screen.getByText("Noor Plus (Beta)")).toBeTruthy();
+      expect(screen.getByText("Qamar Plus (Beta)")).toBeTruthy();
       expect(screen.getByText("$2.99")).toBeTruthy();
       // /month appears multiple times (Free and Plus tiers)
       expect(screen.getAllByText("/month").length).toBeGreaterThan(0);
     });
 
-    it("should display Noor Pro plan as coming soon", () => {
+    it("should display Qamar Pro plan as coming soon", () => {
       render(<PricingScreen />);
 
-      expect(screen.getByText("Noor Pro")).toBeTruthy();
+      expect(screen.getByText("Qamar Pro")).toBeTruthy();
       expect(screen.getByText("COMING SOON")).toBeTruthy();
     });
 
     it("should show Select button for Plus plan when user is free tier", () => {
       render(<PricingScreen />);
 
-      const selectButton = screen.getByText("Select Noor Plus (Beta)");
+      const selectButton = screen.getByText("Select Qamar Plus (Beta)");
       expect(selectButton).toBeTruthy();
     });
 

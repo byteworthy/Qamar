@@ -2,7 +2,7 @@
  * Biometric Authentication Module
  *
  * Provides biometric authentication (Face ID, Touch ID, Fingerprint)
- * for securing access to the Noor app.
+ * for securing access to the Qamar app.
  *
  * Supports:
  * - iOS: Face ID, Touch ID
@@ -40,7 +40,7 @@ export async function isBiometricAvailable(): Promise<boolean> {
  * @returns Promise<boolean> - true if authentication successful
  */
 export async function authenticateWithBiometric(
-  promptMessage: string = "Authenticate to access Noor",
+  promptMessage: string = "Authenticate to access Qamar",
 ): Promise<boolean> {
   try {
     const result = await LocalAuthentication.authenticateAsync({

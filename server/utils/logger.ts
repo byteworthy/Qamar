@@ -110,7 +110,7 @@ const logger = winston.createLogger({
     winston.format.json(),
   ),
   defaultMeta: {
-    service: "noor-api",
+    service: "qamar-api",
     environment: process.env.NODE_ENV || "development",
   },
   transports: [

@@ -182,13 +182,13 @@ export default function HistoryScreen() {
         })
         .join("");
 
-      const header = `# My Noor Reflections\n\nExported on ${new Date().toLocaleDateString()}\n\n---\n\n`;
+      const header = `# My Qamar Reflections\n\nExported on ${new Date().toLocaleDateString()}\n\n---\n\n`;
       const fullContent = header + markdown;
 
       await Share.open({
         message: fullContent,
-        title: "My Noor Reflections",
-        subject: "Noor Reflections Export",
+        title: "My Qamar Reflections",
+        subject: "Qamar Reflections Export",
       });
     } catch (error: unknown) {
       // User cancelled - don't show error
