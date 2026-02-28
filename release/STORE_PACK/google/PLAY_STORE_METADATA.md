@@ -27,7 +27,7 @@ LEARN ARABIC
 • Pronunciation Coach — record yourself and get real-time feedback
 • Arabic-English translator with transliteration and detailed explanations
 
-ASK KARIM — ISLAMIC KNOWLEDGE COMPANION
+ASK AMAR — ISLAMIC KNOWLEDGE COMPANION
 • Ask questions about Islam and get thoughtful, grounded answers
 • Explore topics across fiqh, seerah, and daily practice
 • Responses rooted in authentic Islamic scholarship
@@ -82,7 +82,7 @@ Recommended: Everyone. No objectionable content, no mature themes, no medical cl
 - Email address (optional, for account/support purposes only)
 
 **App Activity**
-- User-generated content (journal entries, tutor conversations, Ask Karim questions)
+- User-generated content (journal entries, tutor conversations, Ask Amar questions)
 - Audio recordings (pronunciation coach — processed for feedback)
 - App interactions (feature usage for diagnostics)
 
@@ -108,7 +108,7 @@ Recommended: Everyone. No objectionable content, no mature themes, no medical cl
 - **No Third-Party Marketing**: No data shared with third parties for marketing
 
 ### Third-Party Data Processing
-- **Anthropic Claude API**: User-generated text content and audio transcriptions are sent to Anthropic's API for processing (tutor conversations, reflections, pronunciation feedback, translations, Ask Karim responses). Anthropic does not use API data for model training per their data usage policy. Data is processed per-request and not retained by Anthropic beyond the API call.
+- **Anthropic Claude API**: User-generated text content and audio transcriptions are sent to Anthropic's API for processing (tutor conversations, reflections, pronunciation feedback, translations, Ask Amar responses). Anthropic does not use API data for model training per their data usage policy. Data is processed per-request and not retained by Anthropic beyond the API call.
 
 ### Data Sharing
 - No third-party advertising or behavioral sharing
@@ -142,7 +142,7 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - Flashcard vocabulary learning
 - Daily reflections and journaling
 - Prayer tracking with streaks and achievements
-- 3 daily sessions for tutor, pronunciation coach, and Ask Karim
+- 3 daily sessions for tutor, pronunciation coach, and Ask Amar
 - Purpose: Full core experience, generous free tier
 
 **Qamar Plus - Monthly**
@@ -150,7 +150,7 @@ All paid tiers are offered through Google Play Billing. No external payment syst
 - Price: $2.99/month
 - Unlimited Arabic tutor conversations
 - Unlimited pronunciation coaching sessions
-- Unlimited Ask Karim questions
+- Unlimited Ask Amar questions
 - Full Quran audio with all 8 reciters
 - All Arabic learning scenarios
 - Complete Hadith library access

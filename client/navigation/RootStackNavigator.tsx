@@ -39,7 +39,7 @@ import HadithDetailScreen from "@/screens/learn/HadithDetailScreen";
 import AdhkarListScreen from "@/screens/adhkar/AdhkarListScreen";
 import AlphabetGridScreen from "@/screens/arabic/AlphabetGridScreen";
 import ProgressDashboardScreen from "@/screens/progress/ProgressDashboardScreen";
-import AskKarimScreen from "@/screens/learn/AskKarimScreen";
+import AskAmarScreen from "@/screens/learn/AskAmarScreen";
 import DailyNoorScreen from "@/screens/DailyNoorScreen";
 import AchievementsScreen from "@/screens/AchievementsScreen";
 import RamadanHubScreen from "@/screens/RamadanHubScreen";
@@ -242,9 +242,9 @@ export default function RootStackNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="AskKarim"
-        component={AskKarimScreen}
-        options={{ headerTitle: "Ask Karim" }}
+        name="AskAmar"
+        component={AskAmarScreen}
+        options={{ headerTitle: "Ask Amar" }}
       />
       <Stack.Screen
         name="DailyNoor"

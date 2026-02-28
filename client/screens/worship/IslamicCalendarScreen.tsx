@@ -162,11 +162,11 @@ const ISLAMIC_EVENTS: IslamicEvent[] = [
   { name: "Mawlid al-Nabi", date: "12th Rabi al-Awwal", month: 3, day: 12, description: "Birth of Prophet Muhammad (PBUH)", icon: "star" },
   { name: "Laylat al-Mi'raj", date: "27th Rajab", month: 7, day: 27, description: "Night Journey and Ascension", icon: "moon" },
   { name: "Laylat al-Bara'ah", date: "15th Sha'ban", month: 8, day: 15, description: "Night of Forgiveness", icon: "heart" },
-  { name: "First Day of Ramadan", date: "1st Ramadan", month: 9, day: 1, description: "Beginning of the blessed month", icon: "moon" },
+  { name: "First Day of Ramadan", date: "1st Ramadan", month: 9, day: 1, description: "Beginning of the month of fasting", icon: "moon" },
   { name: "Laylat al-Qadr", date: "27th Ramadan", month: 9, day: 27, description: "Night of Power (last 10 nights)", icon: "star" },
-  { name: "Eid al-Fitr", date: "1st Shawwal", month: 10, day: 1, description: "Festival of Breaking the Fast", icon: "sun" },
+  { name: "Eid al-Fitr", date: "1st Shawwal", month: 10, day: 1, description: "Festival of Breaking the Fast", icon: "gift" },
   { name: "Day of Arafah", date: "9th Dhul Hijjah", month: 12, day: 9, description: "Day of standing on Mount Arafat", icon: "heart" },
-  { name: "Eid al-Adha", date: "10th Dhul Hijjah", month: 12, day: 10, description: "Festival of Sacrifice", icon: "sun" },
+  { name: "Eid al-Adha", date: "10th Dhul Hijjah", month: 12, day: 10, description: "Festival of Sacrifice", icon: "gift" },
 ];
 
 // ============================================================================

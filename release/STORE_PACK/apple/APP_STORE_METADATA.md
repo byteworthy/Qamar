@@ -27,7 +27,7 @@ LEARN ARABIC
 • Pronunciation Coach — record yourself and get real-time feedback
 • Arabic-English translator with transliteration and detailed explanations
 
-ASK KARIM — ISLAMIC KNOWLEDGE COMPANION
+ASK AMAR — ISLAMIC KNOWLEDGE COMPANION
 • Ask questions about Islam and get thoughtful, grounded answers
 • Explore topics across fiqh, seerah, and daily practice
 • Responses rooted in authentic Islamic scholarship
@@ -101,7 +101,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 - Flashcard vocabulary learning
 - Daily reflections and journaling
 - Prayer tracking with streaks and achievements
-- 3 daily sessions for tutor, pronunciation coach, and Ask Karim
+- 3 daily sessions for tutor, pronunciation coach, and Ask Amar
 - Purpose: Full core experience, generous free tier
 
 ### Qamar Plus - Monthly
@@ -111,7 +111,7 @@ https://byteworthy.github.io/Noor/legal/privacy.html
 - **Features**:
   - Unlimited Arabic tutor conversations
   - Unlimited pronunciation coaching sessions
-  - Unlimited Ask Karim questions
+  - Unlimited Ask Amar questions
   - Full Quran audio with all 8 reciters
   - All Arabic learning scenarios
   - Complete Hadith library access
@@ -157,7 +157,7 @@ Qamar is a comprehensive Islamic companion app that combines Quran reading, Arab
 
 **Arabic Learning Suite**: Vocabulary flashcards with FSRS spaced repetition algorithm, Arabic alphabet grid showing isolated/initial/medial/final letter forms, conversational Arabic tutor with 4 learning modes, pronunciation coach that records user speech and provides feedback, and Arabic-English translator with transliteration and explanations.
 
-**Ask Karim**: An Islamic knowledge companion where users ask questions about Islam and receive grounded, thoughtful answers based on authentic scholarship.
+**Ask Amar**: An Islamic knowledge companion where users ask questions about Islam and receive grounded, thoughtful answers based on authentic scholarship.
 
 **Hadith Library**: Browse and search prophetic traditions. Save favorites for later reference.
 
@@ -170,7 +170,7 @@ Qamar is a comprehensive Islamic companion app that combines Quran reading, Arab
 The app uses the Anthropic Claude API to power several interactive features:
 - Arabic language tutor conversations
 - Pronunciation feedback generation
-- Ask Karim Islamic knowledge responses
+- Ask Amar Islamic knowledge responses
 - Journaling reflections
 - Arabic-English translation with explanations
 
@@ -208,10 +208,10 @@ This is disclosed in the app's privacy policy and during onboarding. Anthropic d
 4. **Arabic Tutor**: Start a tutor session → choose a learning mode → have a conversation (free tier: 3 sessions/day)
 5. **Pronunciation Coach**: Open pronunciation feature → record yourself reading Arabic → receive feedback (free tier: 3 sessions/day)
 6. **Translator**: Enter English or Arabic text → view translation with transliteration and explanation
-7. **Ask Karim**: Ask an Islamic question → receive a grounded response (free tier: 3 sessions/day)
+7. **Ask Amar**: Ask an Islamic question → receive a grounded response (free tier: 3 sessions/day)
 8. **Reflections**: Write a journal entry → receive a thoughtful reflection back
 9. **Prayer Tracking**: Log a prayer → observe streak counter and achievement progress
-10. **Free Tier Limits**: Use 3 tutor/pronunciation/Karim sessions → observe daily limit message with upgrade prompt
+10. **Free Tier Limits**: Use 3 tutor/pronunciation/Amar sessions → observe daily limit message with upgrade prompt
 11. **Subscription**: Tap upgrade → native iOS paywall → purchase simulation via Sandbox
 
 **Test Account**: Not applicable (no login system)

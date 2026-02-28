@@ -58,9 +58,9 @@ Get personalized guidance on grammar, vocabulary, and pronunciation. Practice sp
 
 Translate between Arabic and English with contextual explanations that help you understand the meaning, not just the words.
 
-**Ask Karim -- Your Islamic Knowledge Companion**
+**Ask Amar -- Your Islamic Knowledge Companion**
 
-Have questions about Islam? Ask Karim for clear, sourced explanations drawn from Quran, Hadith, and scholarly tradition. From fiqh basics to deeper spiritual questions.
+Have questions about Islam? Ask Amar for clear, sourced explanations drawn from Quran, Hadith, and scholarly tradition. From fiqh basics to deeper spiritual questions.
 
 **Hadith Library**
 
@@ -183,7 +183,7 @@ What's New in Qamar:
 - Quran Reader with 8 reciters and word-by-word display
 - Arabic Learning with FSRS spaced repetition flashcards
 - Arabic Alphabet, Tutor, and Pronunciation Coach
-- Ask Karim for Islamic knowledge questions
+- Ask Amar for Islamic knowledge questions
 - Hadith Library with searchable collections
 - Daily Reflections grounded in Quranic wisdom
 - Prayer features and gamification
