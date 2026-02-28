@@ -163,7 +163,7 @@ describe("HomeScreen", () => {
       render(<HomeScreen />);
 
       await waitFor(() => {
-        expect(screen.getByText("Upgrade to Noor Plus")).toBeTruthy();
+        expect(screen.getByText("Upgrade to Qamar Plus")).toBeTruthy();
       });
     });
 
@@ -178,7 +178,7 @@ describe("HomeScreen", () => {
       render(<HomeScreen />);
 
       await waitFor(() => {
-        const upgradeButton = screen.getByLabelText("Upgrade to Noor Plus");
+        const upgradeButton = screen.getByLabelText("Upgrade to Qamar Plus");
         fireEvent.press(upgradeButton);
       });
 
@@ -203,7 +203,7 @@ describe("HomeScreen", () => {
       });
 
       // Verify upgrade button is NOT present
-      expect(screen.queryByText("Upgrade to Noor Plus")).toBeNull();
+      expect(screen.queryByText("Upgrade to Qamar Plus")).toBeNull();
     });
   });
 
@@ -255,7 +255,7 @@ describe("HomeScreen", () => {
         const greeting = screen.getByLabelText(/Greeting: Salaam/i);
         expect(greeting).toBeTruthy();
 
-        const upgradeButton = screen.getByLabelText("Upgrade to Noor Plus");
+        const upgradeButton = screen.getByLabelText("Upgrade to Qamar Plus");
         expect(upgradeButton).toBeTruthy();
       });
     });

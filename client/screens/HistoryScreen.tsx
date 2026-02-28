@@ -277,7 +277,7 @@ export default function HistoryScreen() {
                 type="caption"
                 style={{ color: theme.onPrimary, marginLeft: 4 }}
               >
-                Noor Plus
+                Qamar Plus
               </ThemedText>
             </View>
             <ThemedText

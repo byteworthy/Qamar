@@ -1,7 +1,7 @@
 /**
  * LightRayPattern Component
  *
- * Radiating light rays pattern - unique to Noor (light) theme.
+ * Radiating light rays pattern - unique to Qamar (moon) theme.
  * Represents light emanating from a source, creating visual distinction
  * from other Islamic apps.
  *
@@ -24,7 +24,7 @@ export function LightRayPattern({
   opacity = 0.06,
 }: LightRayPatternProps) {
   const { isDark } = useTheme();
-  // Gold light rays (Noor theme)
+  // Gold light rays (Qamar theme)
   const rayColor = isDark ? "#f0d473" : "#D4AF37";
 
   // Radiating light rays from center

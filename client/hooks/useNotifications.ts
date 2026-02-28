@@ -1,5 +1,5 @@
 /**
- * useNotifications Hook for Noor
+ * useNotifications Hook for Qamar
  *
  * Provides notification functionality to React components
  */

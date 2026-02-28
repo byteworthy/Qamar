@@ -1,4 +1,4 @@
-// Noor Brand Theme System - Web Version
+// Qamar Brand Theme System - Web Version
 // Ported from client/constants/theme.ts
 
 export const colors = {
@@ -13,7 +13,7 @@ export const colors = {
   moonlightDim: '#c5d5e6',      // Dimmer moonlight
   moonlightMuted: '#9fb3c9',    // Muted moonlight for secondary text
 
-  // Accent colors - Noor (light) theme
+  // Accent colors - Qamar (moon) theme
   gold: '#D4AF37',              // Brand gold
   goldLight: '#f0d473',         // Brighter gold (dawn light)
   goldDim: '#b8944d',           // Subdued gold

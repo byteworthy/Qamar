@@ -1,5 +1,5 @@
 /**
- * Canonical Response Orchestration for Noor
+ * Canonical Response Orchestration for Qamar
  *
  * PRIORITY 1: Ensure every AI response follows this exact sequence
  * - Charter compliance

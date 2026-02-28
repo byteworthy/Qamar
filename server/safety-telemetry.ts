@@ -1,5 +1,5 @@
 /**
- * Safety Telemetry System for Noor
+ * Safety Telemetry System for Qamar
  *
  * PRIORITY 3: Internal metrics only - NO behavioral tracking
  *

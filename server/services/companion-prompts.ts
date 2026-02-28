@@ -1,5 +1,5 @@
 /**
- * Companion System Prompt Builder for Noor
+ * Companion System Prompt Builder for Qamar
  *
  * Builds the system prompt for the AI companion, injecting
  * Islamic context (Quran/Hadith) when relevant to the conversation.
@@ -74,7 +74,7 @@ CITATION STYLE:
 // =============================================================================
 
 /**
- * Build the complete system prompt for the Noor companion,
+ * Build the complete system prompt for the Qamar companion,
  * optionally injecting relevant Islamic context.
  */
 export function buildCompanionSystemPrompt(context?: IslamicContext): string {

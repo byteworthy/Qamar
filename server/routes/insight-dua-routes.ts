@@ -49,7 +49,7 @@ export function registerInsightDuaRoutes(app: Express): void {
             HTTP_STATUS.FORBIDDEN,
             ERROR_CODES.PAYMENT_REQUIRED,
             req.id,
-            "This feature requires Noor Plus"
+            "This feature requires Qamar Plus"
           )
         );
       }
@@ -202,7 +202,7 @@ ${summaryPrompt}`,
             HTTP_STATUS.FORBIDDEN,
             ERROR_CODES.PAYMENT_REQUIRED,
             req.id,
-            "This feature requires Noor Plus"
+            "This feature requires Qamar Plus"
           )
         );
       }
@@ -269,7 +269,7 @@ ${summaryPrompt}`,
             HTTP_STATUS.FORBIDDEN,
             ERROR_CODES.PAYMENT_REQUIRED,
             req.id,
-            "This feature requires Noor Plus"
+            "This feature requires Qamar Plus"
           )
         );
       }

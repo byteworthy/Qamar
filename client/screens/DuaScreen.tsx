@@ -511,10 +511,10 @@ function DuaScreen() {
                   },
                 ]}
                 accessibilityRole="button"
-                accessibilityLabel={`${state.label}${isLocked ? ", requires Noor Plus" : ""}`}
+                accessibilityLabel={`${state.label}${isLocked ? ", requires Qamar Plus" : ""}`}
                 accessibilityHint={
                   isLocked
-                    ? "Upgrade to Noor Plus to access this dua category"
+                    ? "Upgrade to Qamar Plus to access this dua category"
                     : "Opens life context options for this inner state"
                 }
                 accessibilityState={{ disabled: isLocked }}

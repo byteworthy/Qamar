@@ -1,5 +1,5 @@
 /**
- * Centralized navigation types for the Noor app
+ * Centralized navigation types for the Qamar app
  *
  * This file provides type-safe navigation types that can be imported
  * throughout the app to ensure proper navigation typing.

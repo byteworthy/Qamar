@@ -109,7 +109,7 @@ export const Gradients = {
       end: { x: 0, y: 1 },
     },
     buttonGradient: {
-      colors: ["#f0d473", "#D4AF37"] as const, // Gold sunrise gradient (Noor theme)
+      colors: ["#f0d473", "#D4AF37"] as const, // Gold sunrise gradient (Qamar theme)
       locations: [0, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 1, y: 1 },
@@ -158,7 +158,7 @@ export const Gradients = {
       end: { x: 0, y: 1 },
     },
     buttonGradient: {
-      colors: ["#f0d473", "#D4AF37"] as const, // Gold gradient (Noor/light theme)
+      colors: ["#f0d473", "#D4AF37"] as const, // Gold gradient (Qamar/light theme)
       locations: [0, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 1, y: 1 },

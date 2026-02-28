@@ -237,7 +237,7 @@ export default function PronunciationCoachScreen() {
                 Microphone needed for feedback
               </ThemedText>
               <ThemedText style={[styles.permissionCardBody, { color: theme.textSecondary }]}>
-                Noor listens to your recitation locally on your device to compare it against the Arabic text and give you personalised pronunciation feedback. Your audio is never stored.
+                Qamar listens to your recitation locally on your device to compare it against the Arabic text and give you personalised pronunciation feedback. Your audio is never stored.
               </ThemedText>
               <Pressable
                 onPress={requestMicPermission}
@@ -269,7 +269,7 @@ export default function PronunciationCoachScreen() {
                   Microphone access blocked
                 </ThemedText>
                 <ThemedText style={[styles.permissionSubtitle, { color: theme.textSecondary }]}>
-                  Tap to open Settings and enable microphone for Noor.
+                  Tap to open Settings and enable microphone for Qamar.
                 </ThemedText>
               </View>
               <Feather name="external-link" size={16} color={theme.textSecondary} />

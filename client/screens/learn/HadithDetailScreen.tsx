@@ -82,7 +82,7 @@ export default function HadithDetailScreen() {
       `- ${hadith.narrator}`,
       `[${collectionName}, Hadith #${hadith.hadithNumber}]`,
       "",
-      "Shared via Noor App",
+      "Shared via Qamar",
     ].join("\n");
 
     try {

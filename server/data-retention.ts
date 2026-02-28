@@ -1,5 +1,5 @@
 /**
- * Data Retention Module for Noor
+ * Data Retention Module for Qamar
  *
  * Handles automatic deletion of expired user data.
  * Ensures compliance with data retention policies.
@@ -675,7 +675,7 @@ export async function deleteAllIslamicData(userId: string): Promise<{
  * @returns Complete data export in JSON format
  */
 export async function exportCompleteUserData(userId: string): Promise<{
-  cbtData: UserDataExport;
+  reflectionData: UserDataExport;
   islamicData: IslamicDataExport;
 }> {
   defaultLogger.info("Data Retention: Exporting complete user data", {
@@ -683,13 +683,13 @@ export async function exportCompleteUserData(userId: string): Promise<{
     userIdPrefix: userId.substring(0, 8),
   });
 
-  const [cbtData, islamicData] = await Promise.all([
+  const [reflectionData, islamicData] = await Promise.all([
     exportUserData(userId), // Existing data export
     exportIslamicData(userId), // New Islamic data export
   ]);
 
   return {
-    cbtData,
+    reflectionData,
     islamicData,
   };
 }
@@ -702,7 +702,7 @@ export async function exportCompleteUserData(userId: string): Promise<{
  */
 export async function deleteCompleteUserData(userId: string): Promise<{
   success: boolean;
-  cbt: {
+  reflection: {
     reflectionsDeleted: number;
     summariesDeleted: number;
     assumptionsDeleted: number;
@@ -719,17 +719,17 @@ export async function deleteCompleteUserData(userId: string): Promise<{
     userIdPrefix: userId.substring(0, 8),
   });
 
-  const [cbtResult, islamicResult] = await Promise.all([
+  const [reflectionResult, islamicResult] = await Promise.all([
     deleteAllUserData(userId), // Existing data deletion
     deleteAllIslamicData(userId), // New Islamic data deletion
   ]);
 
   return {
-    success: cbtResult.success && islamicResult.success,
-    cbt: {
-      reflectionsDeleted: cbtResult.reflectionsDeleted,
-      summariesDeleted: cbtResult.summariesDeleted,
-      assumptionsDeleted: cbtResult.assumptionsDeleted,
+    success: reflectionResult.success && islamicResult.success,
+    reflection: {
+      reflectionsDeleted: reflectionResult.reflectionsDeleted,
+      summariesDeleted: reflectionResult.summariesDeleted,
+      assumptionsDeleted: reflectionResult.assumptionsDeleted,
     },
     islamic: {
       bookmarksDeleted: islamicResult.bookmarksDeleted,

@@ -138,7 +138,7 @@ function InsightsScreen() {
               }}
               accessibilityHint="Opens pricing options to unlock insights feature"
             >
-              Upgrade to Noor Plus
+              Upgrade to Qamar Plus
             </Button>
           </Animated.View>
         </View>

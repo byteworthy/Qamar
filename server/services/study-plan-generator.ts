@@ -7,7 +7,7 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const SYSTEM_PROMPT = `You are a Quran study plan generator for the Noor app.
+const SYSTEM_PROMPT = `You are a Quran study plan generator for the Qamar app.
 
 Generate a 7-day weekly study plan as valid JSON matching this schema:
 

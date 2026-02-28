@@ -1,5 +1,5 @@
 /**
- * Companion API Routes for Noor
+ * Companion API Routes for Qamar
  *
  * Provides the AI companion chat endpoint and conversation starters.
  * Integrates Islamic context detection and enrichment.
@@ -100,8 +100,8 @@ function getValidationModeCompanionResponse(message: string): {
   const isIslamic = detectIslamicQuery(message);
   return {
     response: isIslamic
-      ? "[VALIDATION MODE] Assalamu alaikum! This is a placeholder response. In production, Noor would share relevant Islamic wisdom here. Configure ANTHROPIC_API_KEY for real responses."
-      : "[VALIDATION MODE] This is a placeholder companion response. Configure ANTHROPIC_API_KEY for real conversations with Noor.",
+      ? "[VALIDATION MODE] Assalamu alaikum! This is a placeholder response. In production, your companion would share relevant Islamic wisdom here. Configure ANTHROPIC_API_KEY for real responses."
+      : "[VALIDATION MODE] This is a placeholder companion response. Configure ANTHROPIC_API_KEY for real conversations.",
     citations: isIslamic
       ? [
           {
@@ -122,7 +122,7 @@ export function registerCompanionRoutes(app: Express): void {
   /**
    * POST /api/companion/message
    *
-   * Send a message to the Noor AI companion.
+   * Send a message to the companion.
    * Detects Islamic queries, fetches relevant context, and responds.
    */
   app.post("/api/companion/message", aiRateLimiter, async (req, res) => {

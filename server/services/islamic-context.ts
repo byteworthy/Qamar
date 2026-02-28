@@ -1,5 +1,5 @@
 /**
- * Islamic Context Service for Noor Companion
+ * Islamic Context Service for Qamar Companion
  *
  * Detects Islamic queries and fetches relevant Quran/Hadith context
  * for enriching AI companion responses. Uses keyword matching for now;
