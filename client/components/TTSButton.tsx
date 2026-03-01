@@ -6,8 +6,8 @@
  * Provides haptic feedback on press.
  */
 
-import React, { useEffect } from 'react';
-import { Pressable, StyleSheet, ViewStyle } from 'react-native';
+import React, { useEffect } from "react";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -16,13 +16,13 @@ import Animated, {
   withTiming,
   cancelAnimation,
   Easing,
-} from 'react-native-reanimated';
-import { Feather } from '@expo/vector-icons';
+} from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
 
-import { useTheme } from '@/hooks/useTheme';
-import { useTTS } from '@/hooks/useTTS';
-import { NoorColors } from '@/constants/theme/colors';
-import { hapticLight } from '@/lib/haptics';
+import { useTheme } from "@/hooks/useTheme";
+import { useTTS } from "@/hooks/useTTS";
+import { NoorColors } from "@/constants/theme/colors";
+import { hapticLight } from "@/lib/haptics";
 
 // =============================================================================
 // TYPES
@@ -49,7 +49,7 @@ const PULSE_DURATION = 600;
 
 export function TTSButton({
   text,
-  language = 'ar',
+  language = "ar",
   size = DEFAULT_SIZE,
   style,
 }: TTSButtonProps) {
@@ -63,11 +63,17 @@ export function TTSButton({
     if (isSpeaking) {
       pulseOpacity.value = withRepeat(
         withSequence(
-          withTiming(0.3, { duration: PULSE_DURATION, easing: Easing.inOut(Easing.ease) }),
-          withTiming(1, { duration: PULSE_DURATION, easing: Easing.inOut(Easing.ease) })
+          withTiming(0.3, {
+            duration: PULSE_DURATION,
+            easing: Easing.inOut(Easing.ease),
+          }),
+          withTiming(1, {
+            duration: PULSE_DURATION,
+            easing: Easing.inOut(Easing.ease),
+          }),
         ),
         -1, // infinite
-        false
+        false,
       );
     } else {
       cancelAnimation(pulseOpacity);
@@ -89,9 +95,9 @@ export function TTSButton({
     }
   }
 
-  function getIconName(): 'volume-2' | 'loader' {
-    if (isLoading) return 'loader';
-    return 'volume-2';
+  function getIconName(): "volume-2" | "loader" {
+    if (isLoading) return "loader";
+    return "volume-2";
   }
 
   function getIconColor(): string {
@@ -100,9 +106,9 @@ export function TTSButton({
   }
 
   function getAccessibilityLabel(): string {
-    if (isSpeaking) return 'Stop speech';
-    if (isLoading) return 'Loading speech';
-    return 'Play text aloud';
+    if (isSpeaking) return "Stop speech";
+    if (isLoading) return "Loading speech";
+    return "Play text aloud";
   }
 
   return (
@@ -115,11 +121,7 @@ export function TTSButton({
       style={[styles.container, style]}
     >
       <Animated.View style={animatedIconStyle}>
-        <Feather
-          name={getIconName()}
-          size={size}
-          color={getIconColor()}
-        />
+        <Feather name={getIconName()} size={size} color={getIconColor()} />
       </Animated.View>
     </Pressable>
   );
@@ -131,7 +133,7 @@ export function TTSButton({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

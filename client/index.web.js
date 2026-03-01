@@ -9,7 +9,10 @@
 console.log("[WEB-ENTRY] index.web.js loaded — applying Reanimated web patch");
 const React = require("react");
 const Reanimated = require("react-native-reanimated");
-console.log("[WEB-ENTRY] useAnimatedStyle type before patch:", typeof Reanimated.useAnimatedStyle);
+console.log(
+  "[WEB-ENTRY] useAnimatedStyle type before patch:",
+  typeof Reanimated.useAnimatedStyle,
+);
 
 // Patch useAnimatedStyle: call callback once, cache result, return stable ref
 const _originalUseAnimatedStyle = Reanimated.useAnimatedStyle;

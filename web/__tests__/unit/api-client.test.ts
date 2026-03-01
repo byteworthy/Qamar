@@ -1,5 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { analyzeThought, saveReflection, reframeThought, getHistory, getInsights, healthCheck } from '@/lib/api';
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import {
+  analyzeThought,
+  saveReflection,
+  reframeThought,
+  getHistory,
+  getInsights,
+  healthCheck,
+} from "@/lib/api";
 
 // Mock global fetch
 global.fetch = vi.fn();
@@ -11,136 +18,150 @@ function createFetchResponse(data: any) {
   };
 }
 
-describe('API Client', () => {
+describe("API Client", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  describe('analyzeThought', () => {
-    it('should include credentials in analyze request', async () => {
+  describe("analyzeThought", () => {
+    it("should include credentials in analyze request", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ distortions: [], happening: '', pattern: [], matters: '' })
+        createFetchResponse({
+          distortions: [],
+          happening: "",
+          pattern: [],
+          matters: "",
+        }),
       );
 
-      await analyzeThought('test thought');
+      await analyzeThought("test thought");
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/analyze'),
+        expect.stringContaining("/api/analyze"),
         expect.objectContaining({
-          credentials: 'include',
-          method: 'POST',
-        })
+          credentials: "include",
+          method: "POST",
+        }),
       );
     });
 
-    it('should send thought and emotional intensity', async () => {
+    it("should send thought and emotional intensity", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ distortions: ['Catastrophizing'], happening: '', pattern: [], matters: '' })
+        createFetchResponse({
+          distortions: ["Catastrophizing"],
+          happening: "",
+          pattern: [],
+          matters: "",
+        }),
       );
 
-      await analyzeThought('I will fail', 4);
+      await analyzeThought("I will fail", 4);
 
       expect(fetch).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
           body: JSON.stringify({
-            thought: 'I will fail',
+            thought: "I will fail",
             emotionalIntensity: 4,
-            somaticAwareness: undefined
+            somaticAwareness: undefined,
           }),
-        })
+        }),
       );
     });
 
-    it('should throw error on failed request', async () => {
+    it("should throw error on failed request", async () => {
       (fetch as any).mockResolvedValueOnce({
         ok: false,
-        statusText: 'Internal Server Error',
+        statusText: "Internal Server Error",
       });
 
-      await expect(analyzeThought('test')).rejects.toThrow('Analysis failed');
+      await expect(analyzeThought("test")).rejects.toThrow("Analysis failed");
     });
   });
 
-  describe('reframeThought', () => {
-    it('should include credentials in reframe request', async () => {
+  describe("reframeThought", () => {
+    it("should include credentials in reframe request", async () => {
       (fetch as any).mockResolvedValueOnce(
         createFetchResponse({
-          beliefTested: '',
-          perspective: '',
-          nextStep: '',
-          anchors: []
-        })
+          beliefTested: "",
+          perspective: "",
+          nextStep: "",
+          anchors: [],
+        }),
       );
 
-      await reframeThought('test thought', ['Catastrophizing'], 'analysis');
+      await reframeThought("test thought", ["Catastrophizing"], "analysis");
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/reframe'),
+        expect.stringContaining("/api/reframe"),
         expect.objectContaining({
-          credentials: 'include',
-          method: 'POST',
-        })
+          credentials: "include",
+          method: "POST",
+        }),
       );
     });
 
-    it('should send thought, distortions, and analysis', async () => {
+    it("should send thought, distortions, and analysis", async () => {
       (fetch as any).mockResolvedValueOnce(
         createFetchResponse({
-          beliefTested: 'test',
-          perspective: 'test',
-          nextStep: 'test',
-          anchors: []
-        })
+          beliefTested: "test",
+          perspective: "test",
+          nextStep: "test",
+          anchors: [],
+        }),
       );
 
-      await reframeThought('I will fail', ['Catastrophizing'], 'Negative thinking');
+      await reframeThought(
+        "I will fail",
+        ["Catastrophizing"],
+        "Negative thinking",
+      );
 
       expect(fetch).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
-          body: expect.stringContaining('I will fail'),
-        })
+          body: expect.stringContaining("I will fail"),
+        }),
       );
     });
   });
 
-  describe('saveReflection', () => {
-    it('should include credentials in save request', async () => {
+  describe("saveReflection", () => {
+    it("should include credentials in save request", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ success: true })
+        createFetchResponse({ success: true }),
       );
 
       await saveReflection({
-        thought: 'test',
+        thought: "test",
         distortions: [],
-        reframe: 'test',
-        intention: 'test',
-        practice: 'test',
-        anchor: 'test',
+        reframe: "test",
+        intention: "test",
+        practice: "test",
+        anchor: "test",
       });
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/reflection/save'),
+        expect.stringContaining("/api/reflection/save"),
         expect.objectContaining({
-          credentials: 'include',
-          method: 'POST',
-        })
+          credentials: "include",
+          method: "POST",
+        }),
       );
     });
 
-    it('should send complete reflection data', async () => {
+    it("should send complete reflection data", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ success: true, detectedState: 'Qalb-Aligned' })
+        createFetchResponse({ success: true, detectedState: "Qalb-Aligned" }),
       );
 
       const reflectionData = {
-        thought: 'I am worried',
-        distortions: ['Catastrophizing'],
-        reframe: 'Allah has a plan',
-        intention: 'Trust in Allah',
-        practice: 'Dhikr',
-        anchor: 'Surah 94:5-6',
+        thought: "I am worried",
+        distortions: ["Catastrophizing"],
+        reframe: "Allah has a plan",
+        intention: "Trust in Allah",
+        practice: "Dhikr",
+        anchor: "Surah 94:5-6",
       };
 
       const result = await saveReflection(reflectionData);
@@ -149,41 +170,41 @@ describe('API Client', () => {
         expect.any(String),
         expect.objectContaining({
           body: JSON.stringify(reflectionData),
-        })
+        }),
       );
 
       expect(result.success).toBe(true);
-      expect(result.detectedState).toBe('Qalb-Aligned');
+      expect(result.detectedState).toBe("Qalb-Aligned");
     });
   });
 
-  describe('getHistory', () => {
-    it('should use GET method with credentials', async () => {
+  describe("getHistory", () => {
+    it("should use GET method with credentials", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ history: [], isLimited: false, limit: null })
+        createFetchResponse({ history: [], isLimited: false, limit: null }),
       );
 
       await getHistory();
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/reflection/history'),
+        expect.stringContaining("/api/reflection/history"),
         expect.objectContaining({
-          credentials: 'include',
-          method: 'GET',
-        })
+          credentials: "include",
+          method: "GET",
+        }),
       );
     });
 
-    it('should return history data', async () => {
+    it("should return history data", async () => {
       const mockHistory = [
         {
-          id: '1',
-          thought: 'test',
+          id: "1",
+          thought: "test",
           distortions: [],
-          reframe: 'test',
-          intention: 'test',
-          practice: 'test',
-          userId: 'user1',
+          reframe: "test",
+          intention: "test",
+          practice: "test",
+          userId: "user1",
           createdAt: new Date().toISOString(),
         },
       ];
@@ -192,8 +213,8 @@ describe('API Client', () => {
         createFetchResponse({
           history: mockHistory,
           isLimited: true,
-          limit: 3
-        })
+          limit: 3,
+        }),
       );
 
       const result = await getHistory();
@@ -204,52 +225,52 @@ describe('API Client', () => {
     });
   });
 
-  describe('getInsights', () => {
-    it('should use GET method with credentials', async () => {
+  describe("getInsights", () => {
+    it("should use GET method with credentials", async () => {
       (fetch as any).mockResolvedValueOnce(
         createFetchResponse({
           available: false,
           reflectionCount: 2,
-          message: 'Need more reflections'
-        })
+          message: "Need more reflections",
+        }),
       );
 
       await getInsights();
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/insights/summary'),
+        expect.stringContaining("/api/insights/summary"),
         expect.objectContaining({
-          credentials: 'include',
-          method: 'GET',
-        })
+          credentials: "include",
+          method: "GET",
+        }),
       );
     });
   });
 
-  describe('healthCheck', () => {
-    it('should check API health', async () => {
+  describe("healthCheck", () => {
+    it("should check API health", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ status: 'ok', database: 'connected' })
+        createFetchResponse({ status: "ok", database: "connected" }),
       );
 
       const result = await healthCheck();
 
-      expect(result.status).toBe('ok');
-      expect(result.database).toBe('connected');
+      expect(result.status).toBe("ok");
+      expect(result.database).toBe("connected");
     });
 
-    it('should include credentials', async () => {
+    it("should include credentials", async () => {
       (fetch as any).mockResolvedValueOnce(
-        createFetchResponse({ status: 'ok' })
+        createFetchResponse({ status: "ok" }),
       );
 
       await healthCheck();
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/health'),
+        expect.stringContaining("/api/health"),
         expect.objectContaining({
-          credentials: 'include',
-        })
+          credentials: "include",
+        }),
       );
     });
   });

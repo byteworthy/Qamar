@@ -1,5 +1,5 @@
 /**
- * Pacing Controller Test Suite for Noor
+ * Pacing Controller Test Suite for Qamar
  *
  * Tests protective pacing mechanisms that prioritize user safety:
  * - getPacingConfig: Adaptive pacing based on distress level
@@ -29,11 +29,7 @@ import type { ConversationState } from "../conversation-state-machine";
 describe("PacingController.getPacingConfig", () => {
   describe("Crisis distress level", () => {
     test("enforces maximum protection for crisis level", () => {
-      const config = PacingController.getPacingConfig(
-        "crisis",
-        "listening",
-        0,
-      );
+      const config = PacingController.getPacingConfig("crisis", "listening", 0);
 
       expect(config.delayBeforeResponse).toBe(1500);
       expect(config.maxResponseLength).toBe(200);
@@ -257,11 +253,7 @@ describe("PacingController.getPacingConfig", () => {
     });
 
     test("crisis always shows exit option", () => {
-      const config = PacingController.getPacingConfig(
-        "crisis",
-        "listening",
-        0,
-      );
+      const config = PacingController.getPacingConfig("crisis", "listening", 0);
       expect(config.showExitOption).toBe(true);
     });
   });
@@ -683,7 +675,7 @@ describe("PacingController.getClosureRitual", () => {
     });
 
     test("noGuilt is always true across all scenarios", () => {
-      const scenarios: Array<[boolean, DistressLevel]> = [
+      const scenarios: [boolean, DistressLevel][] = [
         [true, "crisis"],
         [false, "crisis"],
         [true, "high"],

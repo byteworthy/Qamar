@@ -25,7 +25,11 @@ export interface CachedTranslation {
 interface TranslationCacheState {
   cache: Record<string, CachedTranslation>;
   addToCache: (entry: Omit<CachedTranslation, "cachedAt">) => void;
-  lookupCache: (text: string, from: string, to: string) => CachedTranslation | null;
+  lookupCache: (
+    text: string,
+    from: string,
+    to: string,
+  ) => CachedTranslation | null;
   clearCache: () => void;
   getCacheSize: () => number;
 }
@@ -45,7 +49,9 @@ function makeCacheKey(text: string, from: string, to: string): string {
 }
 
 /** Evict oldest entries to stay within limit */
-function evictOldest(cache: Record<string, CachedTranslation>): Record<string, CachedTranslation> {
+function evictOldest(
+  cache: Record<string, CachedTranslation>,
+): Record<string, CachedTranslation> {
   const entries = Object.entries(cache);
   if (entries.length <= MAX_CACHE_ENTRIES) return cache;
 

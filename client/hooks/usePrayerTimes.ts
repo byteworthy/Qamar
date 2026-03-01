@@ -96,7 +96,11 @@ export function useLocation() {
         if (status !== "granted") {
           setError("Location permission denied");
           // Default to Mecca
-          setLocation({ latitude: 21.4225, longitude: 39.8262, name: "Makkah" });
+          setLocation({
+            latitude: 21.4225,
+            longitude: 39.8262,
+            name: "Makkah",
+          });
           return;
         }
         const loc = await Location.getCurrentPositionAsync({
@@ -133,18 +137,44 @@ function buildDailyPrayerTimes(
   longitude: number,
   locationName: string,
   methodId?: string,
-  madhabId?: string
+  madhabId?: string,
 ): DailyPrayerTimes {
   const now = new Date();
-  const result = calculatePrayerTimes(latitude, longitude, now, methodId, madhabId);
+  const result = calculatePrayerTimes(
+    latitude,
+    longitude,
+    now,
+    methodId,
+    madhabId,
+  );
   const next = getNextPrayer(result);
 
   const prayers: PrayerTime[] = [
-    { name: "Fajr", time: result.fajr.toISOString(), isNext: next.name === "Fajr" },
-    { name: "Dhuhr", time: result.dhuhr.toISOString(), isNext: next.name === "Dhuhr" },
-    { name: "Asr", time: result.asr.toISOString(), isNext: next.name === "Asr" },
-    { name: "Maghrib", time: result.maghrib.toISOString(), isNext: next.name === "Maghrib" },
-    { name: "Isha", time: result.isha.toISOString(), isNext: next.name === "Isha" },
+    {
+      name: "Fajr",
+      time: result.fajr.toISOString(),
+      isNext: next.name === "Fajr",
+    },
+    {
+      name: "Dhuhr",
+      time: result.dhuhr.toISOString(),
+      isNext: next.name === "Dhuhr",
+    },
+    {
+      name: "Asr",
+      time: result.asr.toISOString(),
+      isNext: next.name === "Asr",
+    },
+    {
+      name: "Maghrib",
+      time: result.maghrib.toISOString(),
+      isNext: next.name === "Maghrib",
+    },
+    {
+      name: "Isha",
+      time: result.isha.toISOString(),
+      isNext: next.name === "Isha",
+    },
   ];
 
   return {
@@ -161,12 +191,18 @@ async function fetchPrayerTimes(
   longitude?: number,
   locationName?: string,
   methodId?: string,
-  madhabId?: string
+  madhabId?: string,
 ): Promise<DailyPrayerTimes> {
   // Use adhan library for client-side calculation (no network needed)
   const lat = latitude || 21.4225;
   const lng = longitude || 39.8262;
-  return buildDailyPrayerTimes(lat, lng, locationName || "Unknown", methodId, madhabId);
+  return buildDailyPrayerTimes(
+    lat,
+    lng,
+    locationName || "Unknown",
+    methodId,
+    madhabId,
+  );
 }
 
 async function fetchPreferences(): Promise<PrayerPreferences> {
@@ -190,7 +226,7 @@ async function fetchPreferences(): Promise<PrayerPreferences> {
 }
 
 async function updatePreferences(
-  prefs: Partial<PrayerPreferences>
+  prefs: Partial<PrayerPreferences>,
 ): Promise<PrayerPreferences> {
   try {
     const response = await fetch("/api/prayer/preferences", {

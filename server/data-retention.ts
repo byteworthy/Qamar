@@ -1,5 +1,5 @@
 /**
- * Data Retention Module for Noor
+ * Data Retention Module for Qamar
  *
  * Handles automatic deletion of expired user data.
  * Ensures compliance with data retention policies.
@@ -510,7 +510,11 @@ export async function exportIslamicData(
       surahNumber: b.surahNumber,
       verseNumber: b.verseNumber,
       note: b.note
-        ? decryptQuranBookmark({ surahNumber: b.surahNumber, verseNumber: b.verseNumber, note: b.note }).note
+        ? decryptQuranBookmark({
+            surahNumber: b.surahNumber,
+            verseNumber: b.verseNumber,
+            note: b.note,
+          }).note
         : undefined,
       createdAt: b.createdAt?.toISOString() || new Date().toISOString(),
     }));

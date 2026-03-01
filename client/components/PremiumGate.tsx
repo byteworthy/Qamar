@@ -43,7 +43,8 @@ export function PremiumGate({
 }: PremiumGateProps) {
   const { theme } = useTheme();
   const navigation = useNavigation<NavigationProp>();
-  const { isPlusUser, isProUser, isLoading, canAccessFeature } = useEntitlements();
+  const { isPlusUser, isProUser, isLoading, canAccessFeature } =
+    useEntitlements();
 
   // Check access based on required tier or specific feature
   const hasAccess = React.useMemo(() => {
@@ -59,7 +60,14 @@ export function PremiumGate({
       return isProUser;
     }
     return isPlusUser;
-  }, [isLoading, requiredTier, isPlusUser, isProUser, feature, canAccessFeature]);
+  }, [
+    isLoading,
+    requiredTier,
+    isPlusUser,
+    isProUser,
+    feature,
+    canAccessFeature,
+  ]);
 
   const handleUpgrade = () => {
     navigation.navigate("Pricing");
@@ -76,7 +84,7 @@ export function PremiumGate({
   }
 
   // Otherwise, show upgrade prompt
-  const tierLabel = requiredTier === "pro" ? "Noor Pro" : "Noor Plus";
+  const tierLabel = requiredTier === "pro" ? "Qamar Pro" : "Qamar Plus";
 
   return (
     <View
@@ -88,7 +96,9 @@ export function PremiumGate({
         },
       ]}
     >
-      <View style={[styles.iconContainer, { backgroundColor: theme.accent + "20" }]}>
+      <View
+        style={[styles.iconContainer, { backgroundColor: theme.accent + "20" }]}
+      >
         <Feather name="lock" size={32} color={theme.accent} />
       </View>
 
@@ -97,7 +107,8 @@ export function PremiumGate({
       </ThemedText>
 
       <ThemedText style={[styles.description, { color: theme.textSecondary }]}>
-        Upgrade to {tierLabel} to access this feature and unlock the full NOOR experience.
+        Upgrade to {tierLabel} to access this feature and unlock the full NOOR
+        experience.
       </ThemedText>
 
       <Button

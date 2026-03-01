@@ -128,13 +128,19 @@ export async function purchasePackage(
   }
 
   try {
-    const result: MakePurchaseResult =
-      await Purchases.purchasePackage(pkg);
+    const result: MakePurchaseResult = await Purchases.purchasePackage(pkg);
     return { success: true, customerInfo: result.customerInfo };
   } catch (error: unknown) {
-    const err = error as { userCancelled?: boolean; code?: string; message?: string };
+    const err = error as {
+      userCancelled?: boolean;
+      code?: string;
+      message?: string;
+    };
     // User cancelled -- not an error
-    if (err.userCancelled || err.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) {
+    if (
+      err.userCancelled ||
+      err.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR
+    ) {
       return { success: false, cancelled: true };
     }
 
@@ -170,8 +176,7 @@ export async function restorePurchases(): Promise<PurchaseResult> {
 
   try {
     const customerInfo = await Purchases.restorePurchases();
-    const hasPremium =
-      Object.keys(customerInfo.entitlements.active).length > 0;
+    const hasPremium = Object.keys(customerInfo.entitlements.active).length > 0;
     return { success: hasPremium, customerInfo };
   } catch (error: unknown) {
     console.error("[RevenueCat] Restore failed:", error);
@@ -207,8 +212,7 @@ export async function checkEntitlement(
   const info = await getCustomerInfo();
   if (!info) return false;
 
-  const rcId =
-    entitlementId === "pro" ? ENTITLEMENT_PRO : ENTITLEMENT_PLUS;
+  const rcId = entitlementId === "pro" ? ENTITLEMENT_PRO : ENTITLEMENT_PLUS;
 
   // Pro tier includes Plus features
   if (entitlementId === "plus") {

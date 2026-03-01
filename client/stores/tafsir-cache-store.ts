@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface TafsirKeyTerm {
   arabic: string;
@@ -19,7 +19,11 @@ export interface TafsirData {
 
 interface TafsirCacheState {
   cache: Record<string, TafsirData>; // key: "surah:verse"
-  setTafsir: (surahNumber: number, verseNumber: number, data: TafsirData) => void;
+  setTafsir: (
+    surahNumber: number,
+    verseNumber: number,
+    data: TafsirData,
+  ) => void;
   getTafsir: (surahNumber: number, verseNumber: number) => TafsirData | null;
 }
 
@@ -41,8 +45,8 @@ export const useTafsirCache = create<TafsirCacheState>()(
       },
     }),
     {
-      name: 'noor-tafsir-cache',
+      name: "noor-tafsir-cache",
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );

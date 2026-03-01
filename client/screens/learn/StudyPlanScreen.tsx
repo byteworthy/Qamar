@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import Animated, { FadeInUp } from 'react-native-reanimated';
-import { Screen } from '@/components/Screen';
-import { ThemedText } from '@/components/ThemedText';
-import { GlassCard } from '@/components/GlassCard';
-import { StudyPlanOnboarding } from '@/components/StudyPlanOnboarding';
-import { DailyTaskCard } from '@/components/DailyTaskCard';
-import { useTheme } from '@/hooks/useTheme';
-import { useStudyPlan } from '@/hooks/useStudyPlan';
-import { NoorColors } from '@/constants/theme/colors';
-import type { StudyPlanInput } from '../../../shared/types/study-plan';
+import React, { useState } from "react";
+import { View, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import Animated, { FadeInUp } from "react-native-reanimated";
+import { Screen } from "@/components/Screen";
+import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
+import { StudyPlanOnboarding } from "@/components/StudyPlanOnboarding";
+import { DailyTaskCard } from "@/components/DailyTaskCard";
+import { useTheme } from "@/hooks/useTheme";
+import { useStudyPlan } from "@/hooks/useStudyPlan";
+import { NoorColors } from "@/constants/theme/colors";
+import type { StudyPlanInput } from "../../../shared/types/study-plan";
 
-const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAY_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export default function StudyPlanScreen() {
   const { theme } = useTheme();
-  const { currentPlan, generatePlan, completeTask, uncompleteTask, isGenerating, error } = useStudyPlan();
+  const {
+    currentPlan,
+    generatePlan,
+    completeTask,
+    uncompleteTask,
+    isGenerating,
+    error,
+  } = useStudyPlan();
   const [showOnboarding, setShowOnboarding] = useState(!currentPlan);
 
   const handleGeneratePlan = async (input: StudyPlanInput) => {
@@ -64,7 +79,9 @@ export default function StudyPlanScreen() {
         <GlassCard style={styles.statsCard}>
           <View style={styles.statItem}>
             <Feather name="target" size={24} color={NoorColors.gold} />
-            <ThemedText style={[styles.statLabel, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.statLabel, { color: theme.textSecondary }]}
+            >
               Completion
             </ThemedText>
             <ThemedText style={[styles.statValue, { color: theme.text }]}>
@@ -74,17 +91,24 @@ export default function StudyPlanScreen() {
 
           <View style={styles.statItem}>
             <Feather name="calendar" size={24} color={NoorColors.gold} />
-            <ThemedText style={[styles.statLabel, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.statLabel, { color: theme.textSecondary }]}
+            >
               Week of
             </ThemedText>
             <ThemedText style={[styles.statValue, { color: theme.text }]}>
-              {new Date(currentPlan.weekStartDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              {new Date(currentPlan.weekStartDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}
             </ThemedText>
           </View>
 
           <View style={styles.statItem}>
             <Feather name="zap" size={24} color={NoorColors.gold} />
-            <ThemedText style={[styles.statLabel, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.statLabel, { color: theme.textSecondary }]}
+            >
               Streak
             </ThemedText>
             <ThemedText style={[styles.statValue, { color: theme.text }]}>
@@ -118,7 +142,9 @@ export default function StudyPlanScreen() {
                     key={task.id}
                     task={task}
                     onToggleComplete={() =>
-                      task.completed ? uncompleteTask(task.id) : completeTask(task.id)
+                      task.completed
+                        ? uncompleteTask(task.id)
+                        : completeTask(task.id)
                     }
                   />
                 ))}
@@ -138,11 +164,11 @@ const styles = StyleSheet.create({
   statsCard: {
     margin: 16,
     padding: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   statItem: {
-    alignItems: 'center',
+    alignItems: "center",
     gap: 4,
   },
   statLabel: {
@@ -151,7 +177,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   scrollView: {
     flex: 1,
@@ -164,11 +190,11 @@ const styles = StyleSheet.create({
   },
   dayHeader: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 12,
   },
   loadingContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     gap: 12,
     marginTop: 32,
   },
@@ -176,16 +202,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
     padding: 16,
     margin: 16,
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: "rgba(239, 68, 68, 0.1)",
   },
   errorText: {
     fontSize: 14,
-    color: '#EF4444',
+    color: "#EF4444",
     flex: 1,
   },
 });

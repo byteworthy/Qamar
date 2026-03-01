@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import {
   View,
   StyleSheet,
@@ -23,7 +29,11 @@ import {
   useQuranAudio,
   Verse,
 } from "@/hooks/useQuranData";
-import { useQuranAudio as useQuranAudioPlayer, RECITERS, Reciter } from "@/hooks/useQuranAudio";
+import {
+  useQuranAudio as useQuranAudioPlayer,
+  RECITERS,
+  Reciter,
+} from "@/hooks/useQuranAudio";
 import { useTajweed } from "@/hooks/useTajweed";
 import { useTafsir } from "@/hooks/useTafsir";
 import { ThemedText } from "@/components/ThemedText";
@@ -78,15 +88,20 @@ const VerseCard = React.memo(function VerseCard({
   const { theme } = useTheme();
 
   return (
-    <Animated.View testID={testID} entering={FadeInUp.duration(350).delay(index * 30)}>
+    <Animated.View
+      testID={testID}
+      entering={FadeInUp.duration(350).delay(index * 30)}
+    >
       <GlassCard
         style={{
           ...styles.verseCard,
-          ...(isCurrentlyPlaying ? {
-            borderLeftWidth: 3,
-            borderLeftColor: theme.primary,
-            backgroundColor: theme.primary + "08",
-          } : {}),
+          ...(isCurrentlyPlaying
+            ? {
+                borderLeftWidth: 3,
+                borderLeftColor: theme.primary,
+                backgroundColor: theme.primary + "08",
+              }
+            : {}),
         }}
       >
         <View style={styles.verseHeader}>
@@ -100,9 +115,7 @@ const VerseCard = React.memo(function VerseCard({
               },
             ]}
           >
-            <ThemedText
-              style={[styles.verseNumber, { color: theme.primary }]}
-            >
+            <ThemedText style={[styles.verseNumber, { color: theme.primary }]}>
               {verse.verseNumber}
             </ThemedText>
           </View>
@@ -181,7 +194,9 @@ const VerseCard = React.memo(function VerseCard({
             accessibilityRole="button"
           >
             <Feather name="book-open" size={18} color={NoorColors.gold} />
-            <ThemedText style={[styles.verseActionText, { color: NoorColors.gold }]}>
+            <ThemedText
+              style={[styles.verseActionText, { color: NoorColors.gold }]}
+            >
               Explain
             </ThemedText>
           </Pressable>
@@ -192,7 +207,9 @@ const VerseCard = React.memo(function VerseCard({
             accessibilityRole="button"
           >
             <Feather name="message-circle" size={18} color={NoorColors.gold} />
-            <ThemedText style={[styles.verseActionText, { color: NoorColors.gold }]}>
+            <ThemedText
+              style={[styles.verseActionText, { color: NoorColors.gold }]}
+            >
               Discuss
             </ThemedText>
           </Pressable>
@@ -267,14 +284,21 @@ function ReciterSelector({
                   <ThemedText
                     style={[
                       styles.reciterNameArabic,
-                      { color: theme.textSecondary, fontFamily: "Amiri-Regular" },
+                      {
+                        color: theme.textSecondary,
+                        fontFamily: "Amiri-Regular",
+                      },
                     ]}
                   >
                     {reciter.nameArabic}
                   </ThemedText>
                 </View>
                 {isSelected && (
-                  <Feather name="check-circle" size={20} color={theme.primary} />
+                  <Feather
+                    name="check-circle"
+                    size={20}
+                    color={theme.primary}
+                  />
                 )}
               </Pressable>
             );
@@ -320,7 +344,8 @@ export default function VerseReaderScreen() {
   // Tajweed & Word-by-Word toggles (mutually exclusive)
   const [tajweedEnabled, setTajweedEnabled] = useState(false);
   const [wordByWordEnabled, setWordByWordEnabled] = useState(false);
-  const { verses: tajweedVerses, isLoading: tajweedLoading } = useTajweed(surahId);
+  const { verses: tajweedVerses, isLoading: tajweedLoading } =
+    useTajweed(surahId);
 
   const handleTajweedToggle = useCallback(() => {
     setTajweedEnabled((prev) => {
@@ -347,7 +372,7 @@ export default function VerseReaderScreen() {
   // Find current surah
   const currentSurah = useMemo(
     () => surahs?.find((s) => s.id === surahId),
-    [surahs, surahId]
+    [surahs, surahId],
   );
 
   // Auto-scroll to currently playing verse
@@ -359,7 +384,7 @@ export default function VerseReaderScreen() {
       verses?.length
     ) {
       const index = verses.findIndex(
-        (v) => v.verseNumber === audio.currentVerse
+        (v) => v.verseNumber === audio.currentVerse,
       );
       if (index >= 0 && flatListRef.current) {
         flatListRef.current.scrollToIndex({
@@ -369,7 +394,13 @@ export default function VerseReaderScreen() {
         });
       }
     }
-  }, [audio.currentVerse, audio.isPlaying, audio.currentSurah, surahId, verses]);
+  }, [
+    audio.currentVerse,
+    audio.isPlaying,
+    audio.currentSurah,
+    surahId,
+    verses,
+  ]);
 
   // Memoize bookmark lookups into a Map for O(1) access per verse
   const bookmarkMap = useMemo(() => {
@@ -382,14 +413,17 @@ export default function VerseReaderScreen() {
     return map;
   }, [bookmarks, surahId]);
 
-  const handleBookmarkToggle = useCallback((verseNumber: number) => {
-    const bookmarkId = bookmarkMap.get(verseNumber);
-    if (bookmarkId) {
-      deleteBookmark.mutate(bookmarkId);
-    } else {
-      createBookmark.mutate({ surahId, verseNumber });
-    }
-  }, [bookmarkMap, surahId, createBookmark, deleteBookmark]);
+  const handleBookmarkToggle = useCallback(
+    (verseNumber: number) => {
+      const bookmarkId = bookmarkMap.get(verseNumber);
+      if (bookmarkId) {
+        deleteBookmark.mutate(bookmarkId);
+      } else {
+        createBookmark.mutate({ surahId, verseNumber });
+      }
+    },
+    [bookmarkMap, surahId, createBookmark, deleteBookmark],
+  );
 
   // Audio controls
   const handlePlayPause = async () => {
@@ -407,7 +441,7 @@ export default function VerseReaderScreen() {
     async (verseNumber: number) => {
       await audio.playVerse(surahId, verseNumber);
     },
-    [surahId, audio]
+    [surahId, audio],
   );
 
   const handleStop = async () => {
@@ -427,20 +461,26 @@ export default function VerseReaderScreen() {
   };
 
   // Tafsir handlers
-  const handleExplainVerse = useCallback(async (verseNumber: number) => {
-    setSelectedVerse({ number: verseNumber, showTafsir: true });
-    const data = await fetchTafsir(surahId, verseNumber);
-    if (data) {
-      setTafsirData(data);
-    }
-  }, [surahId, fetchTafsir]);
+  const handleExplainVerse = useCallback(
+    async (verseNumber: number) => {
+      setSelectedVerse({ number: verseNumber, showTafsir: true });
+      const data = await fetchTafsir(surahId, verseNumber);
+      if (data) {
+        setTafsirData(data);
+      }
+    },
+    [surahId, fetchTafsir],
+  );
 
-  const handleDiscussVerse = useCallback((verseNumber: number) => {
-    navigation.navigate('VerseDiscussion', {
-      surahNumber: surahId,
-      verseNumber,
-    });
-  }, [navigation, surahId]);
+  const handleDiscussVerse = useCallback(
+    (verseNumber: number) => {
+      navigation.navigate("VerseDiscussion", {
+        surahNumber: surahId,
+        verseNumber,
+      });
+    },
+    [navigation, surahId],
+  );
 
   const handleCloseTafsir = useCallback(() => {
     setSelectedVerse(null);
@@ -464,37 +504,57 @@ export default function VerseReaderScreen() {
   // Show bismillah at top (except for Surah 9 - At-Tawbah)
   const shouldShowBismillah = surahId !== 9;
 
-  const renderVerseItem = useCallback(({ item, index }: { item: Verse; index: number }) => (
-    <VerseCard
-      verse={item}
-      isBookmarked={bookmarkMap.has(item.verseNumber)}
-      isCurrentlyPlaying={
-        isThisSurahActive && audio.currentVerse === item.verseNumber
-      }
-      onBookmarkToggle={() => handleBookmarkToggle(item.verseNumber)}
-      onPlayVerse={() => handlePlayVerse(item.verseNumber)}
-      onExplain={() => handleExplainVerse(item.verseNumber)}
-      onDiscuss={() => handleDiscussVerse(item.verseNumber)}
-      index={index}
-      tajweedEnabled={tajweedEnabled}
-      wordByWordEnabled={wordByWordEnabled}
-      tajweedSegments={tajweedVerses.get(item.verseNumber)}
-      tajweedLoading={tajweedLoading}
-      surahId={surahId}
-      testID={`verse-item-${item.verseNumber}`}
-    />
-  ), [bookmarkMap, isThisSurahActive, audio.currentVerse, handleBookmarkToggle, handlePlayVerse, handleExplainVerse, handleDiscussVerse, tajweedEnabled, wordByWordEnabled, tajweedVerses, tajweedLoading, surahId]);
+  const renderVerseItem = useCallback(
+    ({ item, index }: { item: Verse; index: number }) => (
+      <VerseCard
+        verse={item}
+        isBookmarked={bookmarkMap.has(item.verseNumber)}
+        isCurrentlyPlaying={
+          isThisSurahActive && audio.currentVerse === item.verseNumber
+        }
+        onBookmarkToggle={() => handleBookmarkToggle(item.verseNumber)}
+        onPlayVerse={() => handlePlayVerse(item.verseNumber)}
+        onExplain={() => handleExplainVerse(item.verseNumber)}
+        onDiscuss={() => handleDiscussVerse(item.verseNumber)}
+        index={index}
+        tajweedEnabled={tajweedEnabled}
+        wordByWordEnabled={wordByWordEnabled}
+        tajweedSegments={tajweedVerses.get(item.verseNumber)}
+        tajweedLoading={tajweedLoading}
+        surahId={surahId}
+        testID={`verse-item-${item.verseNumber}`}
+      />
+    ),
+    [
+      bookmarkMap,
+      isThisSurahActive,
+      audio.currentVerse,
+      handleBookmarkToggle,
+      handlePlayVerse,
+      handleExplainVerse,
+      handleDiscussVerse,
+      tajweedEnabled,
+      wordByWordEnabled,
+      tajweedVerses,
+      tajweedLoading,
+      surahId,
+    ],
+  );
 
   // Handle scrollToIndex failures gracefully
   const onScrollToIndexFailed = useCallback(
-    (info: { index: number; highestMeasuredFrameIndex: number; averageItemLength: number }) => {
+    (info: {
+      index: number;
+      highestMeasuredFrameIndex: number;
+      averageItemLength: number;
+    }) => {
       // Scroll to approximate position first, then retry
       flatListRef.current?.scrollToOffset({
         offset: info.averageItemLength * info.index,
         animated: true,
       });
     },
-    []
+    [],
   );
 
   if (isLoading) {
@@ -535,7 +595,10 @@ export default function VerseReaderScreen() {
   }
 
   return (
-    <View testID="quran-reader-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View
+      testID="quran-reader-screen"
+      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+    >
       <FlatList
         testID="verse-list"
         ref={flatListRef}
@@ -629,7 +692,9 @@ export default function VerseReaderScreen() {
                       { fontFamily: "Amiri-Bold", color: theme.primary },
                     ]}
                   >
-                    {"\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064E\u0647\u0650 \u0627\u0644\u0631\u0651\u064E\u062D\u0652\u0645\u064E\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064E\u062D\u0650\u064A\u0645\u0650"}
+                    {
+                      "\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064E\u0647\u0650 \u0627\u0644\u0631\u0651\u064E\u062D\u0652\u0645\u064E\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064E\u062D\u0650\u064A\u0645\u0650"
+                    }
                   </ThemedText>
                 </GlassCard>
               </Animated.View>
@@ -659,13 +724,19 @@ export default function VerseReaderScreen() {
                     <Feather
                       name="eye"
                       size={14}
-                      color={tajweedEnabled ? NoorColors.gold : theme.textSecondary}
+                      color={
+                        tajweedEnabled ? NoorColors.gold : theme.textSecondary
+                      }
                     />
                   )}
                   <ThemedText
                     style={[
                       styles.togglePillText,
-                      { color: tajweedEnabled ? NoorColors.gold : theme.textSecondary },
+                      {
+                        color: tajweedEnabled
+                          ? NoorColors.gold
+                          : theme.textSecondary,
+                      },
                     ]}
                   >
                     Tajweed
@@ -688,12 +759,18 @@ export default function VerseReaderScreen() {
                   <Feather
                     name="type"
                     size={14}
-                    color={wordByWordEnabled ? NoorColors.gold : theme.textSecondary}
+                    color={
+                      wordByWordEnabled ? NoorColors.gold : theme.textSecondary
+                    }
                   />
                   <ThemedText
                     style={[
                       styles.togglePillText,
-                      { color: wordByWordEnabled ? NoorColors.gold : theme.textSecondary },
+                      {
+                        color: wordByWordEnabled
+                          ? NoorColors.gold
+                          : theme.textSecondary,
+                      },
                     ]}
                   >
                     Word by Word
@@ -748,14 +825,21 @@ export default function VerseReaderScreen() {
                   >
                     {audio.reciter.name.split(" ").slice(-1)[0]}
                   </ThemedText>
-                  <Feather name="chevron-down" size={12} color={theme.primary} />
+                  <Feather
+                    name="chevron-down"
+                    size={12}
+                    color={theme.primary}
+                  />
                 </Pressable>
               </View>
 
               {/* Currently playing verse indicator */}
               {isThisSurahActive && audio.currentVerse && (
                 <ThemedText
-                  style={[styles.verseIndicator, { color: theme.textSecondary }]}
+                  style={[
+                    styles.verseIndicator,
+                    { color: theme.textSecondary },
+                  ]}
                 >
                   Verse {audio.currentVerse}
                 </ThemedText>
@@ -773,7 +857,10 @@ export default function VerseReaderScreen() {
                       const { locationX } = e.nativeEvent;
                       // Get approximate bar width (container - padding)
                       const barWidth = 300; // approximate
-                      const seekRatio = Math.max(0, Math.min(1, locationX / barWidth));
+                      const seekRatio = Math.max(
+                        0,
+                        Math.min(1, locationX / barWidth),
+                      );
                       await audio.seekTo(seekRatio * audio.duration);
                     }
                   }}
@@ -846,7 +933,11 @@ export default function VerseReaderScreen() {
 
                     {/* Play / Pause */}
                     <Pressable
-                      testID={audio.isPlaying ? "audio-pause-button" : "audio-play-button"}
+                      testID={
+                        audio.isPlaying
+                          ? "audio-pause-button"
+                          : "audio-play-button"
+                      }
                       onPress={handlePlayPause}
                       style={[
                         styles.playButton,

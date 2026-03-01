@@ -27,7 +27,11 @@ import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { getBillingStatus, isPaidStatus } from "@/lib/billing";
 import { clearSessions } from "@/lib/storage";
-import { useAppState, type PrayerName, type ReminderOffset } from "@/stores/app-state";
+import {
+  useAppState,
+  type PrayerName,
+  type ReminderOffset,
+} from "@/stores/app-state";
 import { rescheduleAllNotifications } from "@/services/notifications";
 import { requestNotificationPermissions } from "@/lib/notifications";
 import {
@@ -343,10 +347,7 @@ function ActionRow({
       />
       <View style={styles.actionRowContent}>
         <ThemedText
-          style={[
-            styles.actionRowTitle,
-            destructive && { color: theme.error },
-          ]}
+          style={[styles.actionRowTitle, destructive && { color: theme.error }]}
         >
           {title}
         </ThemedText>
@@ -410,8 +411,12 @@ export default function ProfileScreen() {
   const setCalculationMethod = useAppState((s) => s.setCalculationMethod);
   const setAsrCalculation = useAppState((s) => s.setAsrCalculation);
   const setHighLatitudeRule = useAppState((s) => s.setHighLatitudeRule);
-  const togglePrayerNotifications = useAppState((s) => s.togglePrayerNotifications);
-  const togglePrayerNotification = useAppState((s) => s.togglePrayerNotification);
+  const togglePrayerNotifications = useAppState(
+    (s) => s.togglePrayerNotifications,
+  );
+  const togglePrayerNotification = useAppState(
+    (s) => s.togglePrayerNotification,
+  );
   const setReminderOffset = useAppState((s) => s.setReminderOffset);
   const toggleDailyReflection = useAppState((s) => s.toggleDailyReflection);
   const setDailyReflectionTime = useAppState((s) => s.setDailyReflectionTime);
@@ -456,12 +461,16 @@ export default function ProfileScreen() {
 
   // Load user info
   useEffect(() => {
-    AsyncStorage.getItem(USER_NAME_KEY).then((name) => {
-      if (name && name.trim()) setUserName(name);
-    }).catch(() => {});
-    AsyncStorage.getItem(USER_EMAIL_KEY).then((email) => {
-      if (email && email.trim()) setUserEmail(email);
-    }).catch(() => {});
+    AsyncStorage.getItem(USER_NAME_KEY)
+      .then((name) => {
+        if (name && name.trim()) setUserName(name);
+      })
+      .catch(() => {});
+    AsyncStorage.getItem(USER_EMAIL_KEY)
+      .then((email) => {
+        if (email && email.trim()) setUserEmail(email);
+      })
+      .catch(() => {});
   }, []);
 
   const handleSaveName = useCallback(async () => {
@@ -516,7 +525,10 @@ export default function ProfileScreen() {
   const appVersion = Constants.expoConfig?.version || "dev";
 
   return (
-    <View testID="settings-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View
+      testID="settings-screen"
+      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+    >
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={[
@@ -530,7 +542,9 @@ export default function ProfileScreen() {
           entering={FadeInDown.duration(300)}
           style={styles.header}
         >
-          <ThemedText style={styles.headerTitle} accessibilityRole="header">Settings</ThemedText>
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">
+            Settings
+          </ThemedText>
         </Animated.View>
 
         {/* ── User Info ─────────────────────────────────────── */}
@@ -599,31 +613,56 @@ export default function ProfileScreen() {
               accessibilityLabel={`${earnedBadges.length} badges earned. ${currentStreak} day streak. Tap to view achievements.`}
             >
               <View style={styles.settingRowLabel}>
-                <ThemedText style={styles.settingRowLabelText}>Your Journey</ThemedText>
-                <ThemedText style={[styles.settingRowSubtitle, { color: theme.textSecondary }]}>
-                  {earnedBadges.length} badge{earnedBadges.length !== 1 ? "s" : ""} earned
+                <ThemedText style={styles.settingRowLabelText}>
+                  Your Journey
+                </ThemedText>
+                <ThemedText
+                  style={[
+                    styles.settingRowSubtitle,
+                    { color: theme.textSecondary },
+                  ]}
+                >
+                  {earnedBadges.length} badge
+                  {earnedBadges.length !== 1 ? "s" : ""} earned
                 </ThemedText>
               </View>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                <View style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 4,
-                  backgroundColor: NoorColors.gold + "20",
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 12,
-                }}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 4,
+                    backgroundColor: NoorColors.gold + "20",
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
+                    borderRadius: 12,
+                  }}
+                >
                   <Feather name="zap" size={14} color={NoorColors.gold} />
-                  <ThemedText style={{ fontSize: 14, fontWeight: "700", color: NoorColors.gold }}>
+                  <ThemedText
+                    style={{
+                      fontSize: 14,
+                      fontWeight: "700",
+                      color: NoorColors.gold,
+                    }}
+                  >
                     {currentStreak}
                   </ThemedText>
                 </View>
-                <Feather name="chevron-right" size={16} color={theme.textSecondary} style={{ opacity: 0.5 }} />
+                <Feather
+                  name="chevron-right"
+                  size={16}
+                  color={theme.textSecondary}
+                  style={{ opacity: 0.5 }}
+                />
               </View>
             </Pressable>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <SettingRow
               label="Pause Streaks"
@@ -655,7 +694,9 @@ export default function ProfileScreen() {
               />
             </SettingRow>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <SettingRow label="Font Size">
               <SegmentedControl
@@ -665,12 +706,11 @@ export default function ProfileScreen() {
               />
             </SettingRow>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
-            <SettingRow
-              label="Reduced Motion"
-              subtitle="Minimize animations"
-            >
+            <SettingRow label="Reduced Motion" subtitle="Minimize animations">
               <Switch
                 value={uiState.reducedMotion}
                 onValueChange={toggleReducedMotion}
@@ -695,7 +735,9 @@ export default function ProfileScreen() {
               onPress={() => setShowCalcMethodPicker(true)}
             />
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <SettingRow label="Asr Calculation" subtitle="Madhab">
               <SegmentedControl
@@ -705,7 +747,9 @@ export default function ProfileScreen() {
               />
             </SettingRow>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <PickerRow
               label="High Latitude Rule"
@@ -730,16 +774,25 @@ export default function ProfileScreen() {
 
             {prayerState.notificationsEnabled && (
               <>
-                <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+                <View
+                  style={[styles.divider, { backgroundColor: theme.divider }]}
+                />
 
                 {(["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as const).map(
                   (prayer) => (
                     <React.Fragment key={prayer}>
                       <SettingRow label={`  ${prayer}`}>
                         <Switch
-                          value={prayerState.notificationPreferences.perPrayer[prayer]}
+                          value={
+                            prayerState.notificationPreferences.perPrayer[
+                              prayer
+                            ]
+                          }
                           onValueChange={() => handleTogglePrayer(prayer)}
-                          trackColor={{ false: theme.border, true: NoorColors.gold }}
+                          trackColor={{
+                            false: theme.border,
+                            true: NoorColors.gold,
+                          }}
                           accessibilityLabel={`${prayer} notification ${prayerState.notificationPreferences.perPrayer[prayer] ? "on" : "off"}`}
                         />
                       </SettingRow>
@@ -747,7 +800,9 @@ export default function ProfileScreen() {
                   ),
                 )}
 
-                <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+                <View
+                  style={[styles.divider, { backgroundColor: theme.divider }]}
+                />
 
                 <SettingRow label="Remind me" subtitle="Before adhan">
                   <SegmentedControl
@@ -757,18 +812,24 @@ export default function ProfileScreen() {
                       { label: "15 min", value: "15" },
                       { label: "30 min", value: "30" },
                     ]}
-                    selectedValue={String(prayerState.notificationPreferences.reminderOffset)}
+                    selectedValue={String(
+                      prayerState.notificationPreferences.reminderOffset,
+                    )}
                     onSelect={(val: string) =>
                       handleOffsetChange(Number(val) as ReminderOffset)
                     }
                   />
                 </SettingRow>
 
-                <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+                <View
+                  style={[styles.divider, { backgroundColor: theme.divider }]}
+                />
 
                 <SettingRow label="Daily Reflection Reminder">
                   <Switch
-                    value={prayerState.notificationPreferences.dailyReflectionEnabled}
+                    value={
+                      prayerState.notificationPreferences.dailyReflectionEnabled
+                    }
                     onValueChange={handleToggleDailyReflection}
                     trackColor={{ false: theme.border, true: NoorColors.gold }}
                     accessibilityLabel={`Daily reflection reminder ${prayerState.notificationPreferences.dailyReflectionEnabled ? "on" : "off"}`}
@@ -786,7 +847,9 @@ export default function ProfileScreen() {
                         { label: "9 PM", value: "21" },
                         { label: "10 PM", value: "22" },
                       ]}
-                      selectedValue={String(prayerState.notificationPreferences.dailyReflectionHour)}
+                      selectedValue={String(
+                        prayerState.notificationPreferences.dailyReflectionHour,
+                      )}
                       onSelect={(val: string) =>
                         setDailyReflectionTime(Number(val), 0)
                       }
@@ -820,7 +883,7 @@ export default function ProfileScreen() {
                     { color: isPaid ? NoorColors.gold : theme.textSecondary },
                   ]}
                 >
-                  {isPaid ? "Noor Plus" : "Free"}
+                  {isPaid ? "Qamar Plus" : "Free"}
                 </ThemedText>
               </View>
             </SettingRow>
@@ -833,9 +896,12 @@ export default function ProfileScreen() {
                 <Pressable
                   testID="upgrade-button"
                   onPress={() => navigation.navigate("Pricing")}
-                  style={[styles.upgradeButton, { backgroundColor: NoorColors.gold }]}
+                  style={[
+                    styles.upgradeButton,
+                    { backgroundColor: NoorColors.gold },
+                  ]}
                   accessibilityRole="button"
-                  accessibilityLabel="Upgrade to Noor Plus"
+                  accessibilityLabel="Upgrade to Qamar Plus"
                 >
                   <Feather
                     name="star"
@@ -848,7 +914,7 @@ export default function ProfileScreen() {
                       { color: NoorColors.background },
                     ]}
                   >
-                    Upgrade to Noor Plus
+                    Upgrade to Qamar Plus
                   </ThemedText>
                 </Pressable>
               </>
@@ -866,7 +932,9 @@ export default function ProfileScreen() {
               subtitle="Download your reflections"
               onPress={handleExportData}
             />
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
             <ActionRow
               icon="trash-2"
               title="Clear Reflection History"
@@ -874,7 +942,9 @@ export default function ProfileScreen() {
               onPress={handleClearHistory}
               destructive
             />
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
             <ActionRow
               icon="shield"
               title="Privacy Policy"
@@ -898,7 +968,9 @@ export default function ProfileScreen() {
               </ThemedText>
             </SettingRow>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <View style={styles.disclaimerRow}>
               <Feather
@@ -910,14 +982,16 @@ export default function ProfileScreen() {
               <ThemedText
                 style={[styles.disclaimerText, { color: theme.textSecondary }]}
               >
-                Noor is a spiritual wellness companion and is not a substitute
+                Qamar is a spiritual wellness companion and is not a substitute
                 for professional mental health guidance or Islamic scholarly
                 advice. Please consult qualified professionals for clinical or
                 religious matters.
               </ThemedText>
             </View>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <View style={styles.creditsRow}>
               <ThemedText
@@ -1005,7 +1079,10 @@ export default function ProfileScreen() {
               </Pressable>
               <Pressable
                 onPress={handleSaveName}
-                style={[styles.modalButton, { backgroundColor: NoorColors.gold }]}
+                style={[
+                  styles.modalButton,
+                  { backgroundColor: NoorColors.gold },
+                ]}
                 accessibilityRole="button"
                 accessibilityLabel="Save"
               >

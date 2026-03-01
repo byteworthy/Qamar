@@ -68,7 +68,10 @@ function CategoryCard({
         onPress={onPress}
         style={({ pressed }) => [
           styles.categoryCard,
-          { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
+          {
+            opacity: pressed ? 0.9 : 1,
+            transform: [{ scale: pressed ? 0.98 : 1 }],
+          },
         ]}
         accessibilityRole="button"
         accessibilityLabel={`${title} - ${learned} of ${total} learned`}
@@ -103,7 +106,11 @@ function CategoryCard({
             <ThemedText style={styles.categoryStartText}>
               Start Learning
             </ThemedText>
-            <Feather name="arrow-right" size={14} color="rgba(255,255,255,0.95)" />
+            <Feather
+              name="arrow-right"
+              size={14}
+              color="rgba(255,255,255,0.95)"
+            />
           </Pressable>
         </LinearGradient>
       </Pressable>
@@ -136,9 +143,7 @@ function ScenarioCard({ scenario, delay }: ScenarioCardProps) {
         style={[styles.scenarioCard, { backgroundColor: theme.cardBackground }]}
       >
         <View style={styles.scenarioHeader}>
-          <ThemedText style={styles.scenarioTitle}>
-            {scenario.title}
-          </ThemedText>
+          <ThemedText style={styles.scenarioTitle}>{scenario.title}</ThemedText>
           <View
             style={[
               styles.difficultyBadge,
@@ -190,11 +195,18 @@ export default function ArabicLearningScreen() {
 
   // Compute category stats from allCards
   const categoryStats = React.useMemo(() => {
-    if (!allCards) return { alphabet: { learned: 0, total: 0 }, vocabulary: { learned: 0, total: 0 }, phrase: { learned: 0, total: 0 } };
+    if (!allCards)
+      return {
+        alphabet: { learned: 0, total: 0 },
+        vocabulary: { learned: 0, total: 0 },
+        phrase: { learned: 0, total: 0 },
+      };
     const compute = (cat: Flashcard["category"]) => {
       const filtered = allCards.filter((c) => c.category === cat);
       return {
-        learned: filtered.filter((c) => c.state === "review" && c.reviewCount > 0).length,
+        learned: filtered.filter(
+          (c) => c.state === "review" && c.reviewCount > 0,
+        ).length,
         total: filtered.length,
       };
     };
@@ -246,24 +258,34 @@ export default function ArabicLearningScreen() {
             <View style={styles.progressHeader}>
               <View>
                 <ThemedText style={styles.sectionTitle}>
-                  Today's Progress
+                  Today{"'"}s Progress
                 </ThemedText>
                 <ThemedText
-                  style={[styles.progressSubtext, { color: theme.textSecondary }]}
+                  style={[
+                    styles.progressSubtext,
+                    { color: theme.textSecondary },
+                  ]}
                 >
                   {dailyProgress.completed} / {dailyProgress.goal} reviews
                 </ThemedText>
               </View>
               <View style={styles.streakBadge}>
                 <Feather name="zap" size={18} color={NoorColors.gold} />
-                <ThemedText style={[styles.streakText, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.streakText, { color: NoorColors.gold }]}
+                >
                   {progress?.streak ?? 0}
                 </ThemedText>
               </View>
             </View>
 
             {/* Progress bar */}
-            <View style={[styles.dailyProgressBar, { backgroundColor: theme.border }]}>
+            <View
+              style={[
+                styles.dailyProgressBar,
+                { backgroundColor: theme.border },
+              ]}
+            >
               <Animated.View
                 style={[
                   styles.dailyProgressFill,
@@ -288,7 +310,8 @@ export default function ArabicLearningScreen() {
               </View>
               <View style={styles.statItem}>
                 <ThemedText style={styles.statValue}>
-                  {progress?.accuracy ? Math.round(progress.accuracy * 100) : 0}%
+                  {progress?.accuracy ? Math.round(progress.accuracy * 100) : 0}
+                  %
                 </ThemedText>
                 <ThemedText
                   style={[styles.statLabel, { color: theme.textSecondary }]}
@@ -329,8 +352,15 @@ export default function ArabicLearningScreen() {
                 </ThemedText>
               </View>
               {dueCount > 0 && (
-                <View style={[styles.dueBadge, { backgroundColor: NoorColors.gold }]}>
-                  <ThemedText style={styles.dueBadgeText}>{dueCount}</ThemedText>
+                <View
+                  style={[
+                    styles.dueBadge,
+                    { backgroundColor: NoorColors.gold },
+                  ]}
+                >
+                  <ThemedText style={styles.dueBadgeText}>
+                    {dueCount}
+                  </ThemedText>
                 </View>
               )}
             </View>
@@ -355,7 +385,10 @@ export default function ArabicLearningScreen() {
               ) : (
                 <>
                   <ThemedText
-                    style={[styles.reviewButtonText, { color: theme.onPrimary }]}
+                    style={[
+                      styles.reviewButtonText,
+                      { color: theme.onPrimary },
+                    ]}
                   >
                     {dueCount > 0 ? "Start Review" : "All Caught Up!"}
                   </ThemedText>
@@ -411,7 +444,9 @@ export default function ArabicLearningScreen() {
         {/* Conversation Scenarios */}
         {scenarios && scenarios.length > 0 && (
           <Animated.View entering={FadeInUp.duration(350).delay(550)}>
-            <ThemedText style={[styles.sectionTitle, { marginTop: 8, marginBottom: 12 }]}>
+            <ThemedText
+              style={[styles.sectionTitle, { marginTop: 8, marginBottom: 12 }]}
+            >
               Conversation Scenarios
             </ThemedText>
             {scenarios.map((scenario, index) => (
@@ -454,7 +489,12 @@ export default function ArabicLearningScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: { paddingHorizontal: 20, paddingBottom: 16 },
-  backButton: { width: 40, height: 40, justifyContent: "center", marginBottom: 8 },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    marginBottom: 8,
+  },
   headerTitle: { fontSize: 32, fontWeight: "700", marginBottom: 4 },
   headerSubtitle: { fontSize: 16, lineHeight: 22 },
   scrollView: { flex: 1 },

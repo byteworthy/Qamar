@@ -71,7 +71,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 // Disable Reanimated entering animations on web — they cause React Error #185
 // when many fire simultaneously due to Reanimated's internal setState calls.
 const IS_WEB = Platform.OS === "web";
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const ne = (animation: any) => (IS_WEB ? undefined : animation);
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -102,11 +102,13 @@ const ModuleCard = React.memo(function ModuleCard({
 
   return (
     <Animated.View
-      entering={ne(FadeInUp.duration(400)
-        .delay(delay)
-        .springify()
-        .damping(15)
-        .stiffness(100))}
+      entering={ne(
+        FadeInUp.duration(400)
+          .delay(delay)
+          .springify()
+          .damping(15)
+          .stiffness(100),
+      )}
     >
       <Animated.View style={IS_WEB ? webStyle : animatedStyle}>
         <Pressable
@@ -122,7 +124,7 @@ const ModuleCard = React.memo(function ModuleCard({
           }}
           style={styles.moduleCard}
           accessibilityRole="button"
-          accessibilityLabel={`${title}${locked ? ", requires Noor Plus" : ""}`}
+          accessibilityLabel={`${title}${locked ? ", requires Qamar Plus" : ""}`}
           accessibilityHint={description}
           accessibilityState={{ disabled: locked }}
         >
@@ -186,10 +188,7 @@ const QuickActionButton = React.memo(function QuickActionButton({
         style={styles.quickActionItem}
       >
         <View
-          style={[
-            styles.quickActionCircle,
-            { backgroundColor: color + "18" },
-          ]}
+          style={[styles.quickActionCircle, { backgroundColor: color + "18" }]}
         >
           <Feather name={icon} size={22} color={color} />
         </View>
@@ -295,10 +294,7 @@ export default function HomeScreen() {
 
   const prayerTimes = useMemo(() => {
     if (!userLocation) return null;
-    return calculatePrayerTimes(
-      userLocation.latitude,
-      userLocation.longitude,
-    );
+    return calculatePrayerTimes(userLocation.latitude, userLocation.longitude);
   }, [userLocation]);
 
   const nextPrayer = useMemo(() => {
@@ -328,19 +324,25 @@ export default function HomeScreen() {
 
   // Load persisted data
   useEffect(() => {
-    secureStorage.getItem(USER_NAME_KEY).then((name: string | null) => {
-      if (name && name.trim()) setUserName(name);
-    }).catch(() => {});
+    secureStorage
+      .getItem(USER_NAME_KEY)
+      .then((name: string | null) => {
+        if (name && name.trim()) setUserName(name);
+      })
+      .catch(() => {});
 
-    secureStorage.getItem(JOURNEY_STATS_KEY).then((stats: string | null) => {
-      if (stats) {
-        try {
-          setJourneyStats(JSON.parse(stats));
-        } catch {
-          // silently fail
+    secureStorage
+      .getItem(JOURNEY_STATS_KEY)
+      .then((stats: string | null) => {
+        if (stats) {
+          try {
+            setJourneyStats(JSON.parse(stats));
+          } catch {
+            // silently fail
+          }
         }
-      }
-    }).catch(() => {});
+      })
+      .catch(() => {});
 
     secureStorage
       .getItem(REFLECTIONS_KEY)
@@ -360,7 +362,8 @@ export default function HomeScreen() {
             // silently fail
           }
         }
-      }).catch(() => {});
+      })
+      .catch(() => {});
   }, []);
 
   // Prayer countdown timer — update every second
@@ -533,7 +536,14 @@ export default function HomeScreen() {
 
             {/* ── Streak Badge + Daily Qamar CTA ── */}
             <Animated.View entering={ne(FadeInUp.duration(350).delay(40))}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 16,
+                }}
+              >
                 {/* Streak Badge */}
                 <Pressable
                   testID="streak-display"
@@ -542,7 +552,12 @@ export default function HomeScreen() {
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 6,
-                    backgroundColor: streakStatus === "active" ? NoorColors.gold + "20" : streakStatus === "endangered" ? "#D4A85A20" : theme.backgroundDefault + "40",
+                    backgroundColor:
+                      streakStatus === "active"
+                        ? NoorColors.gold + "20"
+                        : streakStatus === "endangered"
+                          ? "#D4A85A20"
+                          : theme.backgroundDefault + "40",
                     paddingHorizontal: 14,
                     paddingVertical: 8,
                     borderRadius: 20,
@@ -553,13 +568,26 @@ export default function HomeScreen() {
                   <Feather
                     name={streakStatus === "paused" ? "pause-circle" : "zap"}
                     size={16}
-                    color={streakStatus === "active" ? NoorColors.gold : streakStatus === "endangered" ? "#D4A85A" : theme.textSecondary}
+                    color={
+                      streakStatus === "active"
+                        ? NoorColors.gold
+                        : streakStatus === "endangered"
+                          ? "#D4A85A"
+                          : theme.textSecondary
+                    }
                   />
-                  <ThemedText style={{
-                    fontSize: 14,
-                    fontWeight: "700",
-                    color: streakStatus === "active" ? NoorColors.gold : streakStatus === "endangered" ? "#D4A85A" : theme.textSecondary,
-                  }}>
+                  <ThemedText
+                    style={{
+                      fontSize: 14,
+                      fontWeight: "700",
+                      color:
+                        streakStatus === "active"
+                          ? NoorColors.gold
+                          : streakStatus === "endangered"
+                            ? "#D4A85A"
+                            : theme.textSecondary,
+                    }}
+                  >
                     {currentStreak}
                   </ThemedText>
                 </Pressable>
@@ -573,29 +601,41 @@ export default function HomeScreen() {
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 10,
-                    backgroundColor: dailyNoorDone ? NoorColors.emerald + "20" : NoorColors.gold + "15",
+                    backgroundColor: dailyNoorDone
+                      ? NoorColors.emerald + "20"
+                      : NoorColors.gold + "15",
                     paddingHorizontal: 16,
                     paddingVertical: 10,
                     borderRadius: 14,
                   }}
                   accessibilityRole="button"
-                  accessibilityLabel={dailyNoorDone ? "Daily Qamar completed" : "Start your Daily Qamar — 4 minutes of guided practice"}
+                  accessibilityLabel={
+                    dailyNoorDone
+                      ? "Daily Qamar completed"
+                      : "Start your Daily Qamar — 4 minutes of guided practice"
+                  }
                 >
                   <Feather
                     name={dailyNoorDone ? "check-circle" : "sun"}
                     size={18}
                     color={dailyNoorDone ? NoorColors.emerald : NoorColors.gold}
                   />
-                  <ThemedText style={{
-                    fontSize: 14,
-                    fontWeight: "600",
-                    color: dailyNoorDone ? NoorColors.emerald : theme.text,
-                    flex: 1,
-                  }}>
-                    {dailyNoorDone ? "Daily Qamar Complete" : "Start Daily Qamar"}
+                  <ThemedText
+                    style={{
+                      fontSize: 14,
+                      fontWeight: "600",
+                      color: dailyNoorDone ? NoorColors.emerald : theme.text,
+                      flex: 1,
+                    }}
+                  >
+                    {dailyNoorDone
+                      ? "Daily Qamar Complete"
+                      : "Start Daily Qamar"}
                   </ThemedText>
                   {!dailyNoorDone && (
-                    <ThemedText style={{ fontSize: 11, color: theme.textSecondary }}>
+                    <ThemedText
+                      style={{ fontSize: 11, color: theme.textSecondary }}
+                    >
                       4 min
                     </ThemedText>
                   )}
@@ -612,23 +652,51 @@ export default function HomeScreen() {
                   accessibilityLabel="Ramadan Hub. Tap to open."
                 >
                   <GlassCard style={{ marginBottom: 16 }} elevated>
-                    <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-                      <View style={{
-                        width: 40, height: 40, borderRadius: 20,
-                        backgroundColor: NoorColors.emerald + "20",
-                        alignItems: "center", justifyContent: "center",
-                      }}>
-                        <Feather name="moon" size={20} color={NoorColors.emerald} />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 12,
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 20,
+                          backgroundColor: NoorColors.emerald + "20",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Feather
+                          name="moon"
+                          size={20}
+                          color={NoorColors.emerald}
+                        />
                       </View>
                       <View style={{ flex: 1 }}>
-                        <ThemedText style={{ fontSize: 16, fontWeight: "600", color: theme.text }}>
+                        <ThemedText
+                          style={{
+                            fontSize: 16,
+                            fontWeight: "600",
+                            color: theme.text,
+                          }}
+                        >
                           Ramadan Mubarak
                         </ThemedText>
-                        <ThemedText style={{ fontSize: 12, color: theme.textSecondary }}>
+                        <ThemedText
+                          style={{ fontSize: 12, color: theme.textSecondary }}
+                        >
                           Tap to open your Ramadan Hub
                         </ThemedText>
                       </View>
-                      <Feather name="chevron-right" size={18} color={theme.textSecondary} style={{ opacity: 0.5 }} />
+                      <Feather
+                        name="chevron-right"
+                        size={18}
+                        color={theme.textSecondary}
+                        style={{ opacity: 0.5 }}
+                      />
                     </View>
                   </GlassCard>
                 </Pressable>
@@ -793,7 +861,8 @@ export default function HomeScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {dailyHadith.collection} - Hadith #{dailyHadith.hadithNumber}
+                      {dailyHadith.collection} - Hadith #
+                      {dailyHadith.hadithNumber}
                     </ThemedText>
                   </GlassCard>
                 </Pressable>
@@ -863,19 +932,13 @@ export default function HomeScreen() {
                     />
                   </View>
                   <ThemedText
-                    style={[
-                      styles.anchorLabel,
-                      { color: theme.textSecondary },
-                    ]}
+                    style={[styles.anchorLabel, { color: theme.textSecondary }]}
                   >
                     {"Today's Anchor"}
                   </ThemedText>
                 </View>
                 <ThemedText
-                  style={[
-                    styles.anchorText,
-                    { fontFamily: Fonts?.serif },
-                  ]}
+                  style={[styles.anchorText, { fontFamily: Fonts?.serif }]}
                 >
                   {dailyReminder}
                 </ThemedText>
@@ -893,25 +956,15 @@ export default function HomeScreen() {
                   <GlassCard style={styles.streakCard} elevated>
                     <View style={styles.streakHeader}>
                       <View style={styles.streakHeaderLeft}>
-                        <Feather
-                          name="zap"
-                          size={18}
-                          color={NoorColors.gold}
-                        />
+                        <Feather name="zap" size={18} color={NoorColors.gold} />
                         <ThemedText
-                          style={[
-                            styles.streakTitle,
-                            { color: theme.text },
-                          ]}
+                          style={[styles.streakTitle, { color: theme.text }]}
                         >
                           Arabic Review
                         </ThemedText>
                       </View>
                       <ThemedText
-                        style={[
-                          styles.streakCount,
-                          { color: NoorColors.gold },
-                        ]}
+                        style={[styles.streakCount, { color: NoorColors.gold }]}
                       >
                         {dailyProgress.completed}/{dailyProgress.goal}
                       </ThemedText>
@@ -980,7 +1033,9 @@ export default function HomeScreen() {
                   {recentReflections.map((reflection, index) => (
                     <Animated.View
                       key={reflection.id}
-                      entering={ne(FadeInUp.duration(300).delay(360 + index * 60))}
+                      entering={ne(
+                        FadeInUp.duration(300).delay(360 + index * 60),
+                      )}
                     >
                       <Pressable
                         onPress={handleNavigateHistory}
@@ -1029,105 +1084,102 @@ export default function HomeScreen() {
             {/* ── Journey Progress Card ── */}
             <Animated.View entering={ne(FadeInUp.duration(350).delay(380))}>
               <View testID="stats-card">
-              <GlassCard style={styles.journeyCard} elevated>
-                <View style={styles.journeyHeader}>
-                  <View style={styles.journeyLevel}>
-                    <ThemedText style={styles.journeyIcon}>
-                      {currentLevel.icon}
-                    </ThemedText>
-                    <View>
+                <GlassCard style={styles.journeyCard} elevated>
+                  <View style={styles.journeyHeader}>
+                    <View style={styles.journeyLevel}>
+                      <ThemedText style={styles.journeyIcon}>
+                        {currentLevel.icon}
+                      </ThemedText>
+                      <View>
+                        <ThemedText
+                          style={[
+                            styles.journeyLevelName,
+                            { color: theme.text },
+                          ]}
+                        >
+                          {currentLevel.name}
+                        </ThemedText>
+                        <ThemedText
+                          style={[
+                            styles.journeyLevelDesc,
+                            { color: theme.textSecondary },
+                          ]}
+                        >
+                          {currentLevel.description}
+                        </ThemedText>
+                      </View>
+                    </View>
+                    <View style={styles.journeyStats}>
                       <ThemedText
                         style={[
-                          styles.journeyLevelName,
-                          { color: theme.text },
+                          styles.statNumber,
+                          { color: NiyyahColors.accent },
                         ]}
                       >
-                        {currentLevel.name}
+                        {journeyStats.totalReflections}
                       </ThemedText>
                       <ThemedText
                         style={[
-                          styles.journeyLevelDesc,
+                          styles.statLabel,
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {currentLevel.description}
+                        reflections
                       </ThemedText>
                     </View>
                   </View>
-                  <View style={styles.journeyStats}>
-                    <ThemedText
-                      style={[
-                        styles.statNumber,
-                        { color: NiyyahColors.accent },
-                      ]}
-                    >
-                      {journeyStats.totalReflections}
-                    </ThemedText>
-                    <ThemedText
-                      style={[
-                        styles.statLabel,
-                        { color: theme.textSecondary },
-                      ]}
-                    >
-                      reflections
-                    </ThemedText>
-                  </View>
-                </View>
 
-                {nextLevel && (
-                  <View style={styles.progressSection}>
-                    <View
-                      style={[
-                        styles.progressBar,
-                        { backgroundColor: theme.backgroundRoot },
-                      ]}
-                    >
+                  {nextLevel && (
+                    <View style={styles.progressSection}>
                       <View
                         style={[
-                          styles.progressFill,
-                          {
-                            width: `${Math.min(progressToNext, 100)}%`,
-                            backgroundColor: NiyyahColors.accent,
-                          },
+                          styles.progressBar,
+                          { backgroundColor: theme.backgroundRoot },
                         ]}
-                      />
+                      >
+                        <View
+                          style={[
+                            styles.progressFill,
+                            {
+                              width: `${Math.min(progressToNext, 100)}%`,
+                              backgroundColor: NiyyahColors.accent,
+                            },
+                          ]}
+                        />
+                      </View>
+                      <ThemedText
+                        style={[
+                          styles.progressText,
+                          { color: theme.textSecondary },
+                        ]}
+                      >
+                        {nextLevel.minReflections -
+                          journeyStats.totalReflections}{" "}
+                        more to reach {nextLevel.icon} {nextLevel.name}
+                      </ThemedText>
                     </View>
-                    <ThemedText
+                  )}
+
+                  {journeyStats.currentStreak > 0 && (
+                    <View
                       style={[
-                        styles.progressText,
-                        { color: theme.textSecondary },
+                        styles.streakBadge,
+                        { backgroundColor: NiyyahColors.accent + "15" },
                       ]}
                     >
-                      {nextLevel.minReflections -
-                        journeyStats.totalReflections}{" "}
-                      more to reach {nextLevel.icon} {nextLevel.name}
-                    </ThemedText>
-                  </View>
-                )}
-
-                {journeyStats.currentStreak > 0 && (
-                  <View
-                    style={[
-                      styles.streakBadge,
-                      { backgroundColor: NiyyahColors.accent + "15" },
-                    ]}
-                  >
-                    <ThemedText style={styles.streakText}>
-                      {journeyStats.currentStreak} day streak
-                    </ThemedText>
-                  </View>
-                )}
-              </GlassCard>
+                      <ThemedText style={styles.streakText}>
+                        {journeyStats.currentStreak} day streak
+                      </ThemedText>
+                    </View>
+                  )}
+                </GlassCard>
               </View>
             </Animated.View>
 
             {/* ── Module Cards (Tools for Your Journey) ── */}
             <View style={styles.modulesSection}>
               <ThemedText
-                style={[
-                  styles.sectionLabel,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.sectionLabel, { color: theme.textSecondary }]}
                 accessibilityRole="header"
               >
                 Tools for Your Journey
@@ -1183,8 +1235,8 @@ export default function HomeScreen() {
                     { opacity: pressed ? 0.9 : 1 },
                   ]}
                   accessibilityRole="button"
-                  accessibilityLabel="Upgrade to Noor Plus"
-                  accessibilityHint="Opens pricing options for Noor Plus subscription"
+                  accessibilityLabel="Upgrade to Qamar Plus"
+                  accessibilityHint="Opens pricing options for Qamar Plus subscription"
                 >
                   <View style={styles.upgradeContent}>
                     <Feather
@@ -1193,7 +1245,7 @@ export default function HomeScreen() {
                       color={NiyyahColors.background}
                     />
                     <ThemedText style={styles.upgradeText}>
-                      Upgrade to Noor Plus
+                      Upgrade to Qamar Plus
                     </ThemedText>
                   </View>
                   <Feather
@@ -1212,10 +1264,7 @@ export default function HomeScreen() {
               style={styles.footer}
             >
               <ThemedText
-                style={[
-                  styles.methodCallout,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.methodCallout, { color: theme.textSecondary }]}
               >
                 {Brand.betaDisclaimer}
               </ThemedText>
@@ -1278,10 +1327,7 @@ export default function HomeScreen() {
               </Pressable>
               <Pressable
                 onPress={handleSaveName}
-                style={[
-                  styles.modalButton,
-                  { backgroundColor: theme.primary },
-                ]}
+                style={[styles.modalButton, { backgroundColor: theme.primary }]}
                 accessibilityRole="button"
                 accessibilityLabel="Save name"
                 accessibilityHint="Saves your name and closes dialog"

@@ -216,7 +216,9 @@ export function logConfigStatus(): void {
   if (isDatabaseConfigured()) {
     defaultLogger.info("✅ Database: Configured");
   } else {
-    defaultLogger.warn("⚠️  Database: Not configured (DATABASE_URL missing or placeholder)");
+    defaultLogger.warn(
+      "⚠️  Database: Not configured (DATABASE_URL missing or placeholder)",
+    );
     if (!VALIDATION_MODE) {
       defaultLogger.warn("   WARNING: Data persistence will not work");
     }
@@ -231,7 +233,9 @@ export function logConfigStatus(): void {
         "ℹ️  Anthropic Claude: Not configured (placeholder responses will be used)",
       );
     } else {
-      defaultLogger.error("❌ Anthropic Claude: Not configured - AI routes will fail!");
+      defaultLogger.error(
+        "❌ Anthropic Claude: Not configured - AI routes will fail!",
+      );
       defaultLogger.error("   Set ANTHROPIC_API_KEY in .env");
     }
   }
@@ -241,9 +245,13 @@ export function logConfigStatus(): void {
     defaultLogger.info("✅ Stripe: Configured");
   } else {
     if (VALIDATION_MODE) {
-      defaultLogger.info("ℹ️  Stripe: Not configured (billing disabled in validation mode)");
+      defaultLogger.info(
+        "ℹ️  Stripe: Not configured (billing disabled in validation mode)",
+      );
     } else {
-      defaultLogger.warn("⚠️  Stripe: Not configured (server-side billing will not work)");
+      defaultLogger.warn(
+        "⚠️  Stripe: Not configured (server-side billing will not work)",
+      );
     }
   }
 
@@ -292,15 +300,21 @@ export function validateProductionConfig(): void {
 
   // Database warning for non-production environments
   if (!config.isProduction && !isDatabaseConfigured()) {
-    defaultLogger.warn("⚠️  WARNING: DATABASE_URL not configured. Data will not persist.");
+    defaultLogger.warn(
+      "⚠️  WARNING: DATABASE_URL not configured. Data will not persist.",
+    );
   }
 
   if (errors.length > 0) {
     defaultLogger.error("❌ CONFIGURATION ERRORS:");
     errors.forEach((err) => defaultLogger.error(`   - ${err}`));
     defaultLogger.error("");
-    defaultLogger.error("Set VALIDATION_MODE=true to run without real API keys.");
-    defaultLogger.error("Or configure the missing environment variables in .env");
+    defaultLogger.error(
+      "Set VALIDATION_MODE=true to run without real API keys.",
+    );
+    defaultLogger.error(
+      "Or configure the missing environment variables in .env",
+    );
     defaultLogger.error("");
 
     // In production, we fail hard. In development, we warn but continue.

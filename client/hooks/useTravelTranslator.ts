@@ -72,7 +72,9 @@ export function useTravelTranslator(): TravelTranslatorHook {
   const [sourceLang, setSourceLang] = useState<SourceLanguage>("en");
   const [isArabicToSource, setIsArabicToSource] = useState(false);
   const [freeformText, setFreeformText] = useState("");
-  const [freeformResult, setFreeformResult] = useState<FreeformResult | null>(null);
+  const [freeformResult, setFreeformResult] = useState<FreeformResult | null>(
+    null,
+  );
   const [isTranslating, setIsTranslating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -126,7 +128,9 @@ export function useTravelTranslator(): TravelTranslatorHook {
       const lowerTrimmed = trimmed.toLowerCase();
       const phraseMatch = sourcePhrases.find((p) => {
         if (isArabicToSource) {
-          return p.ar === trimmed || p.transliteration.toLowerCase() === lowerTrimmed;
+          return (
+            p.ar === trimmed || p.transliteration.toLowerCase() === lowerTrimmed
+          );
         }
         const sourceText = sourceLang === "en" ? p.en : p.es;
         return sourceText.toLowerCase() === lowerTrimmed;
@@ -134,11 +138,15 @@ export function useTravelTranslator(): TravelTranslatorHook {
 
       if (phraseMatch) {
         const translated = isArabicToSource
-          ? (sourceLang === "en" ? phraseMatch.en : phraseMatch.es)
+          ? sourceLang === "en"
+            ? phraseMatch.en
+            : phraseMatch.es
           : phraseMatch.ar;
         setFreeformResult({
           translatedText: translated,
-          transliteration: isArabicToSource ? null : phraseMatch.transliteration,
+          transliteration: isArabicToSource
+            ? null
+            : phraseMatch.transliteration,
           isOffline: true,
           source: "phrasebook",
         });
@@ -194,7 +202,9 @@ export function useTravelTranslator(): TravelTranslatorHook {
         },
       );
     } catch (err: any) {
-      const message = err?.message || "Translation unavailable offline. Connect to the internet to translate new text.";
+      const message =
+        err?.message ||
+        "Translation unavailable offline. Connect to the internet to translate new text.";
       setError(message);
       Sentry.captureException(err);
     } finally {

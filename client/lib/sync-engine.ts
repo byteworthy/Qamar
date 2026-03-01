@@ -12,7 +12,12 @@
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getOfflineDatabase } from "./offline-database";
-import type { Surah, Verse, Hadith, VocabularyWord } from "../../shared/offline-schema";
+import type {
+  Surah,
+  Verse,
+  Hadith,
+  VocabularyWord,
+} from "../../shared/offline-schema";
 
 // ============================================================================
 // MOCK FLAG - mirrors the pattern in useQuranData.ts
@@ -72,7 +77,7 @@ const STORAGE_KEYS = {
 // ============================================================================
 
 class SyncEngine {
-  private listeners: Array<(status: SyncResult) => void> = [];
+  private listeners: ((status: SyncResult) => void)[] = [];
 
   // --------------------------------------------------------------------------
   // Sync timestamp management
@@ -88,11 +93,17 @@ class SyncEngine {
   async setLastSync(contentType: string, timestamp: number): Promise<void> {
     const timestamps = await this.loadTimestamps();
     timestamps[contentType] = timestamp;
-    await AsyncStorage.setItem(STORAGE_KEYS.SYNC_TIMESTAMPS, JSON.stringify(timestamps));
+    await AsyncStorage.setItem(
+      STORAGE_KEYS.SYNC_TIMESTAMPS,
+      JSON.stringify(timestamps),
+    );
   }
 
   /** Check if a content type needs syncing (stale after 24 hours) */
-  async needsSync(contentType: string, maxAgeMs = 24 * 60 * 60 * 1000): Promise<boolean> {
+  async needsSync(
+    contentType: string,
+    maxAgeMs = 24 * 60 * 60 * 1000,
+  ): Promise<boolean> {
     const lastSync = await this.getLastSync(contentType);
     if (lastSync === null) return true;
     return Date.now() - lastSync > maxAgeMs;
@@ -106,7 +117,7 @@ class SyncEngine {
   async queueMutation(
     type: QueuedMutation["type"],
     entity: UserDataType,
-    payload: Record<string, unknown>
+    payload: Record<string, unknown>,
   ): Promise<void> {
     const queue = await this.loadQueue();
     const mutation: QueuedMutation = {
@@ -162,9 +173,15 @@ class SyncEngine {
     };
 
     // Prevent concurrent syncs
-    const inProgress = await AsyncStorage.getItem(STORAGE_KEYS.SYNC_IN_PROGRESS);
+    const inProgress = await AsyncStorage.getItem(
+      STORAGE_KEYS.SYNC_IN_PROGRESS,
+    );
     if (inProgress === "true") {
-      return { ...result, success: false, errors: ["Sync already in progress"] };
+      return {
+        ...result,
+        success: false,
+        errors: ["Sync already in progress"],
+      };
     }
 
     await AsyncStorage.setItem(STORAGE_KEYS.SYNC_IN_PROGRESS, "true");
@@ -211,7 +228,11 @@ class SyncEngine {
   async syncContent(contentType: ContentType): Promise<SyncStatus> {
     const db = getOfflineDatabase();
     const lastSync = await this.getLastSync(contentType);
-    const status: SyncStatus = { contentType, lastSyncTimestamp: lastSync, itemCount: 0 };
+    const status: SyncStatus = {
+      contentType,
+      lastSyncTimestamp: lastSync,
+      itemCount: 0,
+    };
 
     try {
       if (USE_MOCK_DATA) {
@@ -221,7 +242,9 @@ class SyncEngine {
       } else {
         // Real implementation: fetch from API with lastSync as cursor
         const sinceParam = lastSync ? `?since=${lastSync}` : "";
-        const response = await fetch(`/api/offline/${contentType}${sinceParam}`);
+        const response = await fetch(
+          `/api/offline/${contentType}${sinceParam}`,
+        );
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const data = await response.json();
@@ -302,7 +325,13 @@ class SyncEngine {
    * User data (bookmarks, reflections, progress) -> client wins
    */
   getConflictStrategy(entity: string): ConflictStrategy {
-    const serverWinsEntities = ["surahs", "verses", "hadiths", "vocabulary", "conversation_scenarios"];
+    const serverWinsEntities = [
+      "surahs",
+      "verses",
+      "hadiths",
+      "vocabulary",
+      "conversation_scenarios",
+    ];
     return serverWinsEntities.includes(entity) ? "server_wins" : "client_wins";
   }
 
@@ -341,7 +370,10 @@ class SyncEngine {
   }
 
   private async saveQueue(queue: QueuedMutation[]): Promise<void> {
-    await AsyncStorage.setItem(STORAGE_KEYS.MUTATION_QUEUE, JSON.stringify(queue));
+    await AsyncStorage.setItem(
+      STORAGE_KEYS.MUTATION_QUEUE,
+      JSON.stringify(queue),
+    );
   }
 
   private async replaySingleMutation(mutation: QueuedMutation): Promise<void> {

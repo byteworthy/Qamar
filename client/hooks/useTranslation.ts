@@ -81,10 +81,14 @@ export function useTranslation(): TranslationHook {
           });
 
           if (response.status === 429) {
-            throw new Error("Too many requests. Please wait a moment and try again.");
+            throw new Error(
+              "Too many requests. Please wait a moment and try again.",
+            );
           }
           if (response.status === 403) {
-            throw new Error("Translation quota exceeded. Please try again tomorrow.");
+            throw new Error(
+              "Translation quota exceeded. Please try again tomorrow.",
+            );
           }
           if (!response.ok) {
             throw new Error("Translation failed. Please try again.");
@@ -99,8 +103,7 @@ export function useTranslation(): TranslationHook {
         },
       );
     } catch (err: any) {
-      const message =
-        err?.message || "Something went wrong. Please try again.";
+      const message = err?.message || "Something went wrong. Please try again.";
       setError(message);
       Sentry.captureException(err);
     } finally {
@@ -127,7 +130,9 @@ export function useTranslation(): TranslationHook {
           });
 
           if (response.status === 429) {
-            throw new Error("Too many requests. Please wait a moment and try again.");
+            throw new Error(
+              "Too many requests. Please wait a moment and try again.",
+            );
           }
           if (response.status === 403) {
             throw new Error(
@@ -146,8 +151,7 @@ export function useTranslation(): TranslationHook {
         },
       );
     } catch (err: any) {
-      const message =
-        err?.message || "Something went wrong. Please try again.";
+      const message = err?.message || "Something went wrong. Please try again.";
       setError(message);
       Sentry.captureException(err);
     } finally {

@@ -4,9 +4,9 @@
  * Provides review queue for spaced repetition
  */
 
-import { useMemo, useCallback, useState } from 'react';
-import { useHifzStore } from '../stores/hifz-store';
-import type { HifzVerseState } from '../../shared/types/hifz';
+import { useMemo, useCallback, useState } from "react";
+import { useHifzStore } from "../stores/hifz-store";
+import type { HifzVerseState } from "../../shared/types/hifz";
 
 // =============================================================================
 // TYPES
@@ -58,7 +58,9 @@ function getDateBoundaries() {
 /**
  * Calculate upcoming review counts
  */
-function calculateUpcomingReviews(allVerses: HifzVerseState[]): UpcomingReviews {
+function calculateUpcomingReviews(
+  allVerses: HifzVerseState[],
+): UpcomingReviews {
   const { endOfToday, endOfTomorrow, endOfThisWeek } = getDateBoundaries();
 
   let today = 0;

@@ -75,13 +75,14 @@ function getRamadanStatus(): RamadanStatus {
 // Component
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function RamadanCountdown({ onPress, compact = false }: RamadanCountdownProps) {
+export function RamadanCountdown({
+  onPress,
+  compact = false,
+}: RamadanCountdownProps) {
   const { theme } = useTheme();
   const status = useMemo(() => getRamadanStatus(), []);
 
-  const progress = status.isRamadan
-    ? status.currentDay / status.totalDays
-    : 0;
+  const progress = status.isRamadan ? status.currentDay / status.totalDays : 0;
 
   if (compact) {
     return (
@@ -223,10 +224,7 @@ export function RamadanCountdown({ onPress, compact = false }: RamadanCountdownP
                   {Math.round(progress * 100)}% complete
                 </ThemedText>
                 <ThemedText
-                  style={[
-                    styles.fullProgressText,
-                    { color: RAMADAN_GOLD },
-                  ]}
+                  style={[styles.fullProgressText, { color: RAMADAN_GOLD }]}
                 >
                   {status.totalDays - status.currentDay} days left
                 </ThemedText>

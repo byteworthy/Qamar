@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { WeeklyPlan, DailyTask } from '../../shared/types/study-plan';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import type { WeeklyPlan, DailyTask } from "../../shared/types/study-plan";
 
 interface StudyPlanState {
   currentPlan: WeeklyPlan | null;
@@ -28,7 +28,7 @@ export const useStudyPlanStore = create<StudyPlanState>()(
         const updatedTasks = currentPlan.tasks.map((task: DailyTask) =>
           task.id === taskId
             ? { ...task, completed: true, completedAt: Date.now() }
-            : task
+            : task,
         );
 
         set({
@@ -48,7 +48,7 @@ export const useStudyPlanStore = create<StudyPlanState>()(
         const updatedTasks = currentPlan.tasks.map((task: DailyTask) =>
           task.id === taskId
             ? { ...task, completed: false, completedAt: undefined }
-            : task
+            : task,
         );
 
         set({
@@ -65,8 +65,12 @@ export const useStudyPlanStore = create<StudyPlanState>()(
         const { currentPlan } = get();
         if (!currentPlan) return;
 
-        const completedCount = currentPlan.tasks.filter((t: DailyTask) => t.completed).length;
-        const completionRate = Math.round((completedCount / currentPlan.tasks.length) * 100);
+        const completedCount = currentPlan.tasks.filter(
+          (t: DailyTask) => t.completed,
+        ).length;
+        const completionRate = Math.round(
+          (completedCount / currentPlan.tasks.length) * 100,
+        );
 
         set({
           currentPlan: {
@@ -81,8 +85,8 @@ export const useStudyPlanStore = create<StudyPlanState>()(
       },
     }),
     {
-      name: 'noor-study-plan',
+      name: "noor-study-plan",
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );

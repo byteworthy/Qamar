@@ -12,7 +12,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeInDown,
+  FadeIn,
+} from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
@@ -28,41 +32,45 @@ const { width } = Dimensions.get("window");
 const GRID_PADDING = 20;
 const GRID_GAP = 10;
 const NUM_COLUMNS = 4;
-const CELL_SIZE = (width - GRID_PADDING * 2 - GRID_GAP * (NUM_COLUMNS - 1)) / NUM_COLUMNS;
+const CELL_SIZE =
+  (width - GRID_PADDING * 2 - GRID_GAP * (NUM_COLUMNS - 1)) / NUM_COLUMNS;
 
 // ---------------------------------------------------------------------------
 // Letter Forms Data (isolated, initial, medial, final)
 // ---------------------------------------------------------------------------
 
-const LETTER_FORMS: Record<string, { isolated: string; initial: string; medial: string; final: string }> = {
-  "أ": { isolated: "ا", initial: "ا", medial: "ـا", final: "ـا" },
-  "ب": { isolated: "ب", initial: "بـ", medial: "ـبـ", final: "ـب" },
-  "ت": { isolated: "ت", initial: "تـ", medial: "ـتـ", final: "ـت" },
-  "ث": { isolated: "ث", initial: "ثـ", medial: "ـثـ", final: "ـث" },
-  "ج": { isolated: "ج", initial: "جـ", medial: "ـجـ", final: "ـج" },
-  "ح": { isolated: "ح", initial: "حـ", medial: "ـحـ", final: "ـح" },
-  "خ": { isolated: "خ", initial: "خـ", medial: "ـخـ", final: "ـخ" },
-  "د": { isolated: "د", initial: "د", medial: "ـد", final: "ـد" },
-  "ذ": { isolated: "ذ", initial: "ذ", medial: "ـذ", final: "ـذ" },
-  "ر": { isolated: "ر", initial: "ر", medial: "ـر", final: "ـر" },
-  "ز": { isolated: "ز", initial: "ز", medial: "ـز", final: "ـز" },
-  "س": { isolated: "س", initial: "سـ", medial: "ـسـ", final: "ـس" },
-  "ش": { isolated: "ش", initial: "شـ", medial: "ـشـ", final: "ـش" },
-  "ص": { isolated: "ص", initial: "صـ", medial: "ـصـ", final: "ـص" },
-  "ض": { isolated: "ض", initial: "ضـ", medial: "ـضـ", final: "ـض" },
-  "ط": { isolated: "ط", initial: "طـ", medial: "ـطـ", final: "ـط" },
-  "ظ": { isolated: "ظ", initial: "ظـ", medial: "ـظـ", final: "ـظ" },
-  "ع": { isolated: "ع", initial: "عـ", medial: "ـعـ", final: "ـع" },
-  "غ": { isolated: "غ", initial: "غـ", medial: "ـغـ", final: "ـغ" },
-  "ف": { isolated: "ف", initial: "فـ", medial: "ـفـ", final: "ـف" },
-  "ق": { isolated: "ق", initial: "قـ", medial: "ـقـ", final: "ـق" },
-  "ك": { isolated: "ك", initial: "كـ", medial: "ـكـ", final: "ـك" },
-  "ل": { isolated: "ل", initial: "لـ", medial: "ـلـ", final: "ـل" },
-  "م": { isolated: "م", initial: "مـ", medial: "ـمـ", final: "ـم" },
-  "ن": { isolated: "ن", initial: "نـ", medial: "ـنـ", final: "ـن" },
-  "ه": { isolated: "ه", initial: "هـ", medial: "ـهـ", final: "ـه" },
-  "و": { isolated: "و", initial: "و", medial: "ـو", final: "ـو" },
-  "ي": { isolated: "ي", initial: "يـ", medial: "ـيـ", final: "ـي" },
+const LETTER_FORMS: Record<
+  string,
+  { isolated: string; initial: string; medial: string; final: string }
+> = {
+  أ: { isolated: "ا", initial: "ا", medial: "ـا", final: "ـا" },
+  ب: { isolated: "ب", initial: "بـ", medial: "ـبـ", final: "ـب" },
+  ت: { isolated: "ت", initial: "تـ", medial: "ـتـ", final: "ـت" },
+  ث: { isolated: "ث", initial: "ثـ", medial: "ـثـ", final: "ـث" },
+  ج: { isolated: "ج", initial: "جـ", medial: "ـجـ", final: "ـج" },
+  ح: { isolated: "ح", initial: "حـ", medial: "ـحـ", final: "ـح" },
+  خ: { isolated: "خ", initial: "خـ", medial: "ـخـ", final: "ـخ" },
+  د: { isolated: "د", initial: "د", medial: "ـد", final: "ـد" },
+  ذ: { isolated: "ذ", initial: "ذ", medial: "ـذ", final: "ـذ" },
+  ر: { isolated: "ر", initial: "ر", medial: "ـر", final: "ـر" },
+  ز: { isolated: "ز", initial: "ز", medial: "ـز", final: "ـز" },
+  س: { isolated: "س", initial: "سـ", medial: "ـسـ", final: "ـس" },
+  ش: { isolated: "ش", initial: "شـ", medial: "ـشـ", final: "ـش" },
+  ص: { isolated: "ص", initial: "صـ", medial: "ـصـ", final: "ـص" },
+  ض: { isolated: "ض", initial: "ضـ", medial: "ـضـ", final: "ـض" },
+  ط: { isolated: "ط", initial: "طـ", medial: "ـطـ", final: "ـط" },
+  ظ: { isolated: "ظ", initial: "ظـ", medial: "ـظـ", final: "ـظ" },
+  ع: { isolated: "ع", initial: "عـ", medial: "ـعـ", final: "ـع" },
+  غ: { isolated: "غ", initial: "غـ", medial: "ـغـ", final: "ـغ" },
+  ف: { isolated: "ف", initial: "فـ", medial: "ـفـ", final: "ـف" },
+  ق: { isolated: "ق", initial: "قـ", medial: "ـقـ", final: "ـق" },
+  ك: { isolated: "ك", initial: "كـ", medial: "ـكـ", final: "ـك" },
+  ل: { isolated: "ل", initial: "لـ", medial: "ـلـ", final: "ـل" },
+  م: { isolated: "م", initial: "مـ", medial: "ـمـ", final: "ـم" },
+  ن: { isolated: "ن", initial: "نـ", medial: "ـنـ", final: "ـن" },
+  ه: { isolated: "ه", initial: "هـ", medial: "ـهـ", final: "ـه" },
+  و: { isolated: "و", initial: "و", medial: "ـو", final: "ـو" },
+  ي: { isolated: "ي", initial: "يـ", medial: "ـيـ", final: "ـي" },
 };
 
 // ---------------------------------------------------------------------------
@@ -90,10 +98,13 @@ function LetterDetailModal({ card, visible, onClose }: LetterDetailModalProps) {
     : [];
 
   const stateColor =
-    card.state === "review" ? NoorColors.emerald :
-    card.state === "learning" ? "#D4A85A" :
-    card.state === "relearning" ? "#D4756B" :
-    theme.textSecondary;
+    card.state === "review"
+      ? NoorColors.emerald
+      : card.state === "learning"
+        ? "#D4A85A"
+        : card.state === "relearning"
+          ? "#D4756B"
+          : theme.textSecondary;
 
   return (
     <Modal
@@ -104,7 +115,10 @@ function LetterDetailModal({ card, visible, onClose }: LetterDetailModalProps) {
     >
       <Pressable style={styles.modalOverlay} onPress={onClose}>
         <Pressable
-          style={[styles.modalContent, { backgroundColor: theme.backgroundRoot }]}
+          style={[
+            styles.modalContent,
+            { backgroundColor: theme.backgroundRoot },
+          ]}
           onPress={(e) => e.stopPropagation()}
         >
           <Animated.View entering={FadeIn.duration(300)}>
@@ -131,9 +145,14 @@ function LetterDetailModal({ card, visible, onClose }: LetterDetailModalProps) {
 
             {/* State badge */}
             <View
-              style={[styles.modalStateBadge, { backgroundColor: stateColor + "20" }]}
+              style={[
+                styles.modalStateBadge,
+                { backgroundColor: stateColor + "20" },
+              ]}
             >
-              <View style={[styles.modalStateDot, { backgroundColor: stateColor }]} />
+              <View
+                style={[styles.modalStateDot, { backgroundColor: stateColor }]}
+              />
               <ThemedText
                 style={[styles.modalStateText, { color: stateColor }]}
               >
@@ -159,13 +178,19 @@ function LetterDetailModal({ card, visible, onClose }: LetterDetailModalProps) {
                   {formEntries.map((entry) => (
                     <View
                       key={entry.label}
-                      style={[styles.formCell, { backgroundColor: theme.cardBackground }]}
+                      style={[
+                        styles.formCell,
+                        { backgroundColor: theme.cardBackground },
+                      ]}
                     >
                       <ThemedText style={styles.formArabic}>
                         {entry.form}
                       </ThemedText>
                       <ThemedText
-                        style={[styles.formLabel, { color: theme.textSecondary }]}
+                        style={[
+                          styles.formLabel,
+                          { color: theme.textSecondary },
+                        ]}
                       >
                         {entry.label}
                       </ThemedText>
@@ -177,9 +202,13 @@ function LetterDetailModal({ card, visible, onClose }: LetterDetailModalProps) {
 
             {card.reviewCount > 0 && (
               <ThemedText
-                style={[styles.modalReviewCount, { color: theme.textSecondary }]}
+                style={[
+                  styles.modalReviewCount,
+                  { color: theme.textSecondary },
+                ]}
               >
-                Reviewed {card.reviewCount} time{card.reviewCount !== 1 ? "s" : ""}
+                Reviewed {card.reviewCount} time
+                {card.reviewCount !== 1 ? "s" : ""}
               </ThemedText>
             )}
           </Animated.View>
@@ -203,10 +232,13 @@ function AlphabetCell({ card, delay, onPress }: AlphabetCellProps) {
   const { theme } = useTheme();
 
   const stateColor =
-    card.state === "review" ? NoorColors.emerald :
-    card.state === "learning" ? "#D4A85A" :
-    card.state === "relearning" ? "#D4756B" :
-    theme.textSecondary;
+    card.state === "review"
+      ? NoorColors.emerald
+      : card.state === "learning"
+        ? "#D4A85A"
+        : card.state === "relearning"
+          ? "#D4756B"
+          : theme.textSecondary;
 
   const isLearned = card.state === "review" && card.reviewCount > 0;
 
@@ -222,7 +254,9 @@ function AlphabetCell({ card, delay, onPress }: AlphabetCellProps) {
             backgroundColor: isLearned
               ? NoorColors.emerald + "15"
               : theme.cardBackground,
-            borderColor: isLearned ? NoorColors.emerald + "40" : theme.cardBackground,
+            borderColor: isLearned
+              ? NoorColors.emerald + "40"
+              : theme.cardBackground,
             opacity: pressed ? 0.8 : 1,
             transform: [{ scale: pressed ? 0.93 : 1 }],
           },
@@ -265,8 +299,14 @@ export default function AlphabetGridScreen() {
 
   const progressStats = useMemo(() => {
     if (alphabetCards.length === 0) return { learned: 0, total: 0, pct: 0 };
-    const learned = alphabetCards.filter((c) => c.state === "review" && c.reviewCount > 0).length;
-    return { learned, total: alphabetCards.length, pct: Math.round((learned / alphabetCards.length) * 100) };
+    const learned = alphabetCards.filter(
+      (c) => c.state === "review" && c.reviewCount > 0,
+    ).length;
+    return {
+      learned,
+      total: alphabetCards.length,
+      pct: Math.round((learned / alphabetCards.length) * 100),
+    };
   }, [alphabetCards]);
 
   const handleCellPress = (card: Flashcard) => {
@@ -286,10 +326,7 @@ export default function AlphabetGridScreen() {
           >
             <Feather name="arrow-left" size={24} color={theme.text} />
           </Pressable>
-          <ThemedText
-            style={styles.headerTitle}
-            accessibilityRole="header"
-          >
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">
             Arabic Alphabet
           </ThemedText>
           <ThemedText
@@ -311,7 +348,9 @@ export default function AlphabetGridScreen() {
         {isLoading && (
           <View style={styles.centerContainer}>
             <ActivityIndicator size="large" color={theme.primary} />
-            <ThemedText style={[styles.loadingText, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.loadingText, { color: theme.textSecondary }]}
+            >
               Loading alphabet...
             </ThemedText>
           </View>
@@ -337,16 +376,27 @@ export default function AlphabetGridScreen() {
                       Progress
                     </ThemedText>
                     <ThemedText
-                      style={[styles.progressSubtext, { color: theme.textSecondary }]}
+                      style={[
+                        styles.progressSubtext,
+                        { color: theme.textSecondary },
+                      ]}
                     >
-                      {progressStats.learned} of {progressStats.total} letters mastered
+                      {progressStats.learned} of {progressStats.total} letters
+                      mastered
                     </ThemedText>
                   </View>
-                  <ThemedText style={[styles.progressPct, { color: NoorColors.gold }]}>
+                  <ThemedText
+                    style={[styles.progressPct, { color: NoorColors.gold }]}
+                  >
                     {progressStats.pct}%
                   </ThemedText>
                 </View>
-                <View style={[styles.progressBar, { backgroundColor: theme.border }]}>
+                <View
+                  style={[
+                    styles.progressBar,
+                    { backgroundColor: theme.border },
+                  ]}
+                >
                   <View
                     style={[
                       styles.progressFill,
@@ -362,19 +412,57 @@ export default function AlphabetGridScreen() {
 
             {/* Legend */}
             <Animated.View entering={FadeInUp.duration(300).delay(80)}>
-              <View style={[styles.legendCard, { backgroundColor: theme.cardBackground }]}>
+              <View
+                style={[
+                  styles.legendCard,
+                  { backgroundColor: theme.cardBackground },
+                ]}
+              >
                 <View style={styles.legendItems}>
                   <View style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: theme.textSecondary }]} />
-                    <ThemedText style={[styles.legendText, { color: theme.textSecondary }]}>New</ThemedText>
+                    <View
+                      style={[
+                        styles.legendDot,
+                        { backgroundColor: theme.textSecondary },
+                      ]}
+                    />
+                    <ThemedText
+                      style={[
+                        styles.legendText,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      New
+                    </ThemedText>
                   </View>
                   <View style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: "#D4A85A" }]} />
-                    <ThemedText style={[styles.legendText, { color: theme.textSecondary }]}>Learning</ThemedText>
+                    <View
+                      style={[styles.legendDot, { backgroundColor: "#D4A85A" }]}
+                    />
+                    <ThemedText
+                      style={[
+                        styles.legendText,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      Learning
+                    </ThemedText>
                   </View>
                   <View style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: NoorColors.emerald }]} />
-                    <ThemedText style={[styles.legendText, { color: theme.textSecondary }]}>Mastered</ThemedText>
+                    <View
+                      style={[
+                        styles.legendDot,
+                        { backgroundColor: NoorColors.emerald },
+                      ]}
+                    />
+                    <ThemedText
+                      style={[
+                        styles.legendText,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      Mastered
+                    </ThemedText>
                   </View>
                 </View>
               </View>
@@ -408,13 +496,23 @@ export default function AlphabetGridScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: { paddingHorizontal: GRID_PADDING, paddingBottom: 16 },
-  backButton: { width: 40, height: 40, justifyContent: "center", marginBottom: 8 },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    marginBottom: 8,
+  },
   headerTitle: { fontSize: 32, fontWeight: "700", marginBottom: 4 },
   headerSubtitle: { fontSize: 16, lineHeight: 22 },
   scrollView: { flex: 1 },
   scrollContent: { paddingHorizontal: GRID_PADDING },
 
-  centerContainer: { alignItems: "center", justifyContent: "center", paddingVertical: 60, gap: 12 },
+  centerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 60,
+    gap: 12,
+  },
   loadingText: { fontSize: 16, marginTop: 8 },
   errorText: { fontSize: 18, fontWeight: "600", marginTop: 12 },
 

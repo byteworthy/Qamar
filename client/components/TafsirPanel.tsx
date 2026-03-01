@@ -1,12 +1,12 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, Pressable } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
-import { Feather } from '@expo/vector-icons';
-import { ThemedText } from '@/components/ThemedText';
-import { GlassCard } from '@/components/GlassCard';
-import { useTheme } from '@/hooks/useTheme';
-import { NoorColors } from '@/constants/theme/colors';
-import { TafsirData } from '@/stores/tafsir-cache-store';
+import React from "react";
+import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
+import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
+import { useTheme } from "@/hooks/useTheme";
+import { NoorColors } from "@/constants/theme/colors";
+import { TafsirData } from "@/stores/tafsir-cache-store";
 
 interface TafsirPanelProps {
   tafsir: TafsirData;
@@ -31,12 +31,17 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           </Pressable>
         </View>
 
-        <ScrollView style={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Context Section */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Feather name="book-open" size={16} color={NoorColors.gold} />
-              <ThemedText style={[styles.sectionTitle, { color: NoorColors.gold }]}>
+              <ThemedText
+                style={[styles.sectionTitle, { color: NoorColors.gold }]}
+              >
                 Context
               </ThemedText>
             </View>
@@ -50,17 +55,28 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Feather name="search" size={16} color={NoorColors.gold} />
-                <ThemedText style={[styles.sectionTitle, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                >
                   Key Terms
                 </ThemedText>
               </View>
               {tafsir.keyTerms.map((term, index) => (
                 <View key={index} style={styles.termCard}>
-                  <ThemedText style={styles.termArabic}>{term.arabic}</ThemedText>
-                  <ThemedText style={[styles.termTranslit, { color: theme.textSecondary }]}>
+                  <ThemedText style={styles.termArabic}>
+                    {term.arabic}
+                  </ThemedText>
+                  <ThemedText
+                    style={[
+                      styles.termTranslit,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
                     {term.transliteration} (root: {term.root})
                   </ThemedText>
-                  <ThemedText style={[styles.termMeaning, { color: theme.text }]}>
+                  <ThemedText
+                    style={[styles.termMeaning, { color: theme.text }]}
+                  >
                     {term.meaning}
                   </ThemedText>
                 </View>
@@ -72,7 +88,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Feather name="users" size={16} color={NoorColors.gold} />
-              <ThemedText style={[styles.sectionTitle, { color: NoorColors.gold }]}>
+              <ThemedText
+                style={[styles.sectionTitle, { color: NoorColors.gold }]}
+              >
                 Scholarly Views
               </ThemedText>
             </View>
@@ -86,14 +104,24 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Feather name="link" size={16} color={NoorColors.gold} />
-                <ThemedText style={[styles.sectionTitle, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                >
                   Related Verses
                 </ThemedText>
               </View>
               <View style={styles.crossRefContainer}>
                 {tafsir.crossReferences.map((ref, index) => (
-                  <View key={index} style={[styles.crossRefChip, { borderColor: NoorColors.gold }]}>
-                    <ThemedText style={[styles.crossRefText, { color: NoorColors.gold }]}>
+                  <View
+                    key={index}
+                    style={[
+                      styles.crossRefChip,
+                      { borderColor: NoorColors.gold },
+                    ]}
+                  >
+                    <ThemedText
+                      style={[styles.crossRefText, { color: NoorColors.gold }]}
+                    >
                       {ref}
                     </ThemedText>
                   </View>
@@ -106,7 +134,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Feather name="heart" size={16} color={NoorColors.gold} />
-              <ThemedText style={[styles.sectionTitle, { color: NoorColors.gold }]}>
+              <ThemedText
+                style={[styles.sectionTitle, { color: NoorColors.gold }]}
+              >
                 Practical Takeaway
               </ThemedText>
             </View>
@@ -122,11 +152,11 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    maxHeight: '75%',
+    maxHeight: "75%",
   },
   panel: {
     paddingTop: 20,
@@ -136,14 +166,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 20,
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   closeButton: {
     padding: 4,
@@ -155,15 +185,15 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
     marginBottom: 12,
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    textTransform: 'uppercase',
+    fontWeight: "600",
+    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   sectionText: {
@@ -174,16 +204,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(212, 175, 55, 0.2)',
+    borderBottomColor: "rgba(212, 175, 55, 0.2)",
   },
   termArabic: {
     fontSize: 22,
-    fontFamily: 'Amiri',
+    fontFamily: "Amiri",
     marginBottom: 4,
   },
   termTranslit: {
     fontSize: 13,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     marginBottom: 4,
   },
   termMeaning: {
@@ -191,8 +221,8 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   crossRefContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
   },
   crossRefChip: {
@@ -203,11 +233,11 @@ const styles = StyleSheet.create({
   },
   crossRefText: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   takeawayText: {
     fontSize: 15,
     lineHeight: 24,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
 });

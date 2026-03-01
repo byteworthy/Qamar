@@ -86,38 +86,44 @@ export function registerHifzRoutes(app: Express): void {
           score === undefined ||
           !wordResults
         ) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              "Missing required fields"
-            )
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "Missing required fields",
+              ),
+            );
         }
 
         // Validate score range
         if (score < 0 || score > 100) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              "Score must be between 0 and 100"
-            )
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "Score must be between 0 and 100",
+              ),
+            );
         }
 
         // Validate wordResults is an array
         if (!Array.isArray(wordResults)) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              "wordResults must be an array"
-            )
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "wordResults must be an array",
+              ),
+            );
         }
 
         const userId = req.ip ?? "anonymous";
@@ -129,14 +135,16 @@ export function registerHifzRoutes(app: Express): void {
 
         // Anthropic configuration guard
         if (!isAnthropicConfigured()) {
-          return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-            createErrorResponse(
-              HTTP_STATUS.SERVICE_UNAVAILABLE,
-              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-              req.id,
-              "AI service not configured"
-            )
-          );
+          return res
+            .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.SERVICE_UNAVAILABLE,
+                ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+                req.id,
+                "AI service not configured",
+              ),
+            );
         }
 
         // Build prompt for Claude
@@ -146,7 +154,7 @@ export function registerHifzRoutes(app: Express): void {
           expectedText,
           transcribedText,
           wordResults,
-          score
+          score,
         );
 
         // Call Claude Haiku
@@ -159,7 +167,7 @@ export function registerHifzRoutes(app: Express): void {
               temperature: 0.7,
               messages: [{ role: "user", content: prompt }],
             });
-          }
+          },
         );
 
         const firstBlock = response.content[0];
@@ -181,7 +189,7 @@ export function registerHifzRoutes(app: Express): void {
                 .length,
             },
           },
-          () => {}
+          () => {},
         );
 
         // Increment usage after successful response
@@ -203,15 +211,17 @@ export function registerHifzRoutes(app: Express): void {
         req.logger.error("Hifz analyze-mistakes failed", error, {
           operation: "hifz_analyze_mistakes",
         });
-        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-          createErrorResponse(
-            HTTP_STATUS.INTERNAL_SERVER_ERROR,
-            ERROR_CODES.INTERNAL_ERROR,
-            req.id,
-            "Failed to analyze mistakes"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.INTERNAL_SERVER_ERROR,
+              ERROR_CODES.INTERNAL_ERROR,
+              req.id,
+              "Failed to analyze mistakes",
+            ),
+          );
       }
-    }
+    },
   );
 }

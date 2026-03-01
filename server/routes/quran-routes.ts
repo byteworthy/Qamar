@@ -1,10 +1,10 @@
-import type { Express, Request, Response } from 'express';
-import { db } from '../db';
-import { quranMetadata, quranBookmarks } from '@shared/schema';
-import { eq, and, like, sql } from 'drizzle-orm';
-import { requireAuth } from '../middleware/auth';
-import { asyncHandler } from '../middleware/error-handler';
-import { cacheMiddleware, CACHE_TTL } from '../middleware/cache';
+import type { Express, Request, Response } from "express";
+import { db } from "../db";
+import { quranMetadata, quranBookmarks } from "@shared/schema";
+import { eq, and, like, sql } from "drizzle-orm";
+import { requireAuth } from "../middleware/auth";
+import { asyncHandler } from "../middleware/error-handler";
+import { cacheMiddleware, CACHE_TTL } from "../middleware/cache";
 import {
   getSurahsSchema,
   getVersesSchema,
@@ -12,13 +12,13 @@ import {
   createBookmarkSchema,
   getBookmarksSchema,
   deleteBookmarkSchema,
-} from '../validation/quran-validation';
+} from "../validation/quran-validation";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
-import { encryptData, decryptData } from '../encryption';
+} from "../types/error-response";
+import { encryptData, decryptData } from "../encryption";
 
 /**
  * Quran API Routes
@@ -64,7 +64,7 @@ import { encryptData, decryptData } from '../encryption';
  */
 export function registerQuranRoutes(app: Express): void {
   app.get(
-    '/api/quran/surahs',
+    "/api/quran/surahs",
     cacheMiddleware(CACHE_TTL.ONE_DAY),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -72,15 +72,17 @@ export function registerQuranRoutes(app: Express): void {
       // Validate query params
       const validationResult = getSurahsSchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { revelationPlace } = validationResult.data;
@@ -98,7 +100,7 @@ export function registerQuranRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched surahs', {
+      req.logger?.info("Fetched surahs", {
         count: surahs.length,
         revelationPlace,
         durationMs: duration,
@@ -108,7 +110,7 @@ export function registerQuranRoutes(app: Express): void {
         surahs,
         total: surahs.length,
       });
-    })
+    }),
   );
 
   /**
@@ -135,8 +137,11 @@ export function registerQuranRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/quran/verses/:surahId',
-    cacheMiddleware(CACHE_TTL.ONE_DAY, (req) => `cache:verses:${req.params.surahId}:${req.query.page || 1}`),
+    "/api/quran/verses/:surahId",
+    cacheMiddleware(
+      CACHE_TTL.ONE_DAY,
+      (req) => `cache:verses:${req.params.surahId}:${req.query.page || 1}`,
+    ),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
 
@@ -147,15 +152,17 @@ export function registerQuranRoutes(app: Express): void {
       });
 
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { surahId, page, limit } = validationResult.data;
@@ -167,14 +174,16 @@ export function registerQuranRoutes(app: Express): void {
         .where(eq(quranMetadata.surahNumber, surahId));
 
       if (!surah) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            `Surah ${surahId} not found`
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              `Surah ${surahId} not found`,
+            ),
+          );
       }
 
       // Generate verse numbers for pagination
@@ -182,12 +191,12 @@ export function registerQuranRoutes(app: Express): void {
       const offset = (page - 1) * limit;
       const verses = Array.from(
         { length: Math.min(limit, totalVerses - offset) },
-        (_, i) => ({ verseNumber: offset + i + 1 })
+        (_, i) => ({ verseNumber: offset + i + 1 }),
       );
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched verses', {
+      req.logger?.info("Fetched verses", {
         surahId,
         page,
         limit,
@@ -205,7 +214,7 @@ export function registerQuranRoutes(app: Express): void {
           totalPages: Math.ceil(totalVerses / limit),
         },
       });
-    })
+    }),
   );
 
   /**
@@ -231,7 +240,7 @@ export function registerQuranRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/quran/search',
+    "/api/quran/search",
     cacheMiddleware(CACHE_TTL.ONE_HOUR),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -239,15 +248,17 @@ export function registerQuranRoutes(app: Express): void {
       // Validate query params
       const validationResult = searchVersesSchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { q, surahId, page, limit } = validationResult.data;
@@ -256,7 +267,7 @@ export function registerQuranRoutes(app: Express): void {
       // For now, return empty results with a note
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Search request', {
+      req.logger?.info("Search request", {
         query: q,
         surahId,
         page,
@@ -272,9 +283,10 @@ export function registerQuranRoutes(app: Express): void {
           total: 0,
           totalPages: 0,
         },
-        message: 'Verse text search will be available in the next release. Use client-side search for now.',
+        message:
+          "Verse text search will be available in the next release. Use client-side search for now.",
       });
-    })
+    }),
   );
 
   /**
@@ -298,7 +310,7 @@ export function registerQuranRoutes(app: Express): void {
    * }
    */
   app.post(
-    '/api/quran/bookmarks',
+    "/api/quran/bookmarks",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -306,15 +318,17 @@ export function registerQuranRoutes(app: Express): void {
       // Validate body
       const validationResult = createBookmarkSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid bookmark data',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid bookmark data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { surahNumber, verseNumber, note } = validationResult.data;
@@ -327,25 +341,29 @@ export function registerQuranRoutes(app: Express): void {
         .where(eq(quranMetadata.surahNumber, surahNumber));
 
       if (!surah) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            `Surah ${surahNumber} not found`
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              `Surah ${surahNumber} not found`,
+            ),
+          );
       }
 
       if (verseNumber > surah.versesCount) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.INVALID_INPUT,
-            req.id,
-            `Verse ${verseNumber} exceeds surah ${surahNumber} verse count (${surah.versesCount})`
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.INVALID_INPUT,
+              req.id,
+              `Verse ${verseNumber} exceeds surah ${surahNumber} verse count (${surah.versesCount})`,
+            ),
+          );
       }
 
       // Check for duplicate bookmark
@@ -356,19 +374,21 @@ export function registerQuranRoutes(app: Express): void {
           and(
             eq(quranBookmarks.userId, userId),
             eq(quranBookmarks.surahNumber, surahNumber),
-            eq(quranBookmarks.verseNumber, verseNumber)
-          )
+            eq(quranBookmarks.verseNumber, verseNumber),
+          ),
         );
 
       if (existingBookmark) {
-        return res.status(HTTP_STATUS.CONFLICT).json(
-          createErrorResponse(
-            HTTP_STATUS.CONFLICT,
-            ERROR_CODES.DUPLICATE_RESOURCE,
-            req.id,
-            'Bookmark already exists for this verse'
-          )
-        );
+        return res
+          .status(HTTP_STATUS.CONFLICT)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.CONFLICT,
+              ERROR_CODES.DUPLICATE_RESOURCE,
+              req.id,
+              "Bookmark already exists for this verse",
+            ),
+          );
       }
 
       // Encrypt note if provided
@@ -377,15 +397,17 @@ export function registerQuranRoutes(app: Express): void {
         try {
           encryptedNote = encryptData(note);
         } catch (error) {
-          req.logger?.error('Failed to encrypt bookmark note', error);
-          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-            createErrorResponse(
-              HTTP_STATUS.INTERNAL_SERVER_ERROR,
-              ERROR_CODES.INTERNAL_ERROR,
-              req.id,
-              'Failed to secure bookmark data'
-            )
-          );
+          req.logger?.error("Failed to encrypt bookmark note", error);
+          return res
+            .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.INTERNAL_SERVER_ERROR,
+                ERROR_CODES.INTERNAL_ERROR,
+                req.id,
+                "Failed to secure bookmark data",
+              ),
+            );
         }
       }
 
@@ -406,13 +428,13 @@ export function registerQuranRoutes(app: Express): void {
         try {
           decryptedNote = decryptData(bookmark.note);
         } catch (error) {
-          req.logger?.error('Failed to decrypt bookmark note', error);
+          req.logger?.error("Failed to decrypt bookmark note", error);
         }
       }
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Created bookmark', {
+      req.logger?.info("Created bookmark", {
         bookmarkId: bookmark.id,
         surahNumber,
         verseNumber,
@@ -425,7 +447,7 @@ export function registerQuranRoutes(app: Express): void {
           note: decryptedNote,
         },
       });
-    })
+    }),
   );
 
   /**
@@ -447,7 +469,7 @@ export function registerQuranRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/quran/bookmarks',
+    "/api/quran/bookmarks",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -455,15 +477,17 @@ export function registerQuranRoutes(app: Express): void {
       // Validate query params
       const validationResult = getBookmarksSchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { surahNumber, page, limit } = validationResult.data;
@@ -473,7 +497,7 @@ export function registerQuranRoutes(app: Express): void {
       const whereClause = surahNumber
         ? and(
             eq(quranBookmarks.userId, userId),
-            eq(quranBookmarks.surahNumber, surahNumber)
+            eq(quranBookmarks.surahNumber, surahNumber),
           )
         : eq(quranBookmarks.userId, userId);
 
@@ -500,7 +524,7 @@ export function registerQuranRoutes(app: Express): void {
           try {
             decryptedNote = decryptData(bookmark.note);
           } catch (error) {
-            req.logger?.error('Failed to decrypt bookmark note', error, {
+            req.logger?.error("Failed to decrypt bookmark note", error, {
               bookmarkId: bookmark.id,
             });
           }
@@ -514,7 +538,7 @@ export function registerQuranRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched bookmarks', {
+      req.logger?.info("Fetched bookmarks", {
         count: bookmarks.length,
         total: count,
         surahNumber,
@@ -530,7 +554,7 @@ export function registerQuranRoutes(app: Express): void {
           totalPages: Math.ceil(count / limit),
         },
       });
-    })
+    }),
   );
 
   /**
@@ -546,7 +570,7 @@ export function registerQuranRoutes(app: Express): void {
    * Response: 204 NO CONTENT
    */
   app.delete(
-    '/api/quran/bookmarks/:id',
+    "/api/quran/bookmarks/:id",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -554,15 +578,17 @@ export function registerQuranRoutes(app: Express): void {
       // Validate params
       const validationResult = deleteBookmarkSchema.safeParse(req.params);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid bookmark ID',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid bookmark ID",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { id } = validationResult.data;
@@ -573,36 +599,33 @@ export function registerQuranRoutes(app: Express): void {
         .select()
         .from(quranBookmarks)
         .where(
-          and(
-            eq(quranBookmarks.id, id),
-            eq(quranBookmarks.userId, userId)
-          )
+          and(eq(quranBookmarks.id, id), eq(quranBookmarks.userId, userId)),
         );
 
       if (!bookmark) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            'Bookmark not found or does not belong to you'
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              "Bookmark not found or does not belong to you",
+            ),
+          );
       }
 
       // Delete bookmark
-      await db
-        .delete(quranBookmarks)
-        .where(eq(quranBookmarks.id, id));
+      await db.delete(quranBookmarks).where(eq(quranBookmarks.id, id));
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Deleted bookmark', {
+      req.logger?.info("Deleted bookmark", {
         bookmarkId: id,
         durationMs: duration,
       });
 
       return res.status(HTTP_STATUS.NO_CONTENT).send();
-    })
+    }),
   );
 }

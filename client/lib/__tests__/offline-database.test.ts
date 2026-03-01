@@ -15,7 +15,12 @@ import {
   resetOfflineDatabase,
   type OfflineDatabase,
 } from "../offline-database";
-import type { Surah, Verse, Hadith, VocabularyWord } from "../../../shared/offline-schema";
+import type {
+  Surah,
+  Verse,
+  Hadith,
+  VocabularyWord,
+} from "../../../shared/offline-schema";
 
 describe("OfflineDatabase", () => {
   let db: OfflineDatabase;
@@ -65,7 +70,9 @@ describe("OfflineDatabase", () => {
       expect(surahs.length).toBeGreaterThanOrEqual(5);
 
       for (let i = 1; i < surahs.length; i++) {
-        expect(surahs[i].surah_number).toBeGreaterThan(surahs[i - 1].surah_number);
+        expect(surahs[i].surah_number).toBeGreaterThan(
+          surahs[i - 1].surah_number,
+        );
       }
     });
 
@@ -118,8 +125,24 @@ describe("OfflineDatabase", () => {
     it("should handle bulk upsert with mix of new and existing", async () => {
       const countBefore = await db.getRowCount("surahs");
       await db.upsertSurahs([
-        { id: 1, surah_number: 1, name_arabic: "الفاتحة", name_english: "Updated", name_transliteration: "Al-Fatihah", verses_count: 7, revelation_place: "Makkah" },
-        { id: 99, surah_number: 99, name_arabic: "الزلزلة", name_english: "The Earthquake", name_transliteration: "Az-Zalzalah", verses_count: 8, revelation_place: "Madinah" },
+        {
+          id: 1,
+          surah_number: 1,
+          name_arabic: "الفاتحة",
+          name_english: "Updated",
+          name_transliteration: "Al-Fatihah",
+          verses_count: 7,
+          revelation_place: "Makkah",
+        },
+        {
+          id: 99,
+          surah_number: 99,
+          name_arabic: "الزلزلة",
+          name_english: "The Earthquake",
+          name_transliteration: "Az-Zalzalah",
+          verses_count: 8,
+          revelation_place: "Madinah",
+        },
       ]);
       const countAfter = await db.getRowCount("surahs");
       expect(countAfter).toBe(countBefore + 1);
@@ -136,7 +159,9 @@ describe("OfflineDatabase", () => {
       expect(verses.length).toBe(7);
 
       for (let i = 1; i < verses.length; i++) {
-        expect(verses[i].verse_number).toBeGreaterThan(verses[i - 1].verse_number);
+        expect(verses[i].verse_number).toBeGreaterThan(
+          verses[i - 1].verse_number,
+        );
       }
     });
 
@@ -191,15 +216,18 @@ describe("OfflineDatabase", () => {
     });
 
     it("should update existing verse on upsert (matched by surah+verse number)", async () => {
-      await db.upsertVerses([{
-        id: 1,
-        surah_number: 1,
-        verse_number: 1,
-        arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-        translation_en: "In the name of God, the Most Gracious, the Most Merciful.",
-        juz_number: 1,
-        page_number: 1,
-      }]);
+      await db.upsertVerses([
+        {
+          id: 1,
+          surah_number: 1,
+          verse_number: 1,
+          arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+          translation_en:
+            "In the name of God, the Most Gracious, the Most Merciful.",
+          juz_number: 1,
+          page_number: 1,
+        },
+      ]);
 
       const fetched = await db.getVerse(1, 1);
       expect(fetched!.translation_en).toContain("God");
@@ -248,7 +276,8 @@ describe("OfflineDatabase", () => {
         hadith_number: 10,
         narrator: "Abu Hurairah",
         arabic_text: "المسلم من سلم المسلمون من لسانه ويده",
-        translation_en: "A Muslim is one from whose tongue and hand other Muslims are safe.",
+        translation_en:
+          "A Muslim is one from whose tongue and hand other Muslims are safe.",
         grade: "sahih",
       };
       await db.upsertHadiths([newHadith]);
@@ -258,16 +287,18 @@ describe("OfflineDatabase", () => {
     });
 
     it("should update existing hadith on upsert (matched by collection+book+hadith number)", async () => {
-      await db.upsertHadiths([{
-        id: 1,
-        collection: "bukhari",
-        book_number: 1,
-        hadith_number: 1,
-        narrator: "Umar ibn al-Khattab",
-        arabic_text: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
-        translation_en: "Deeds are judged by intentions (updated).",
-        grade: "sahih",
-      }]);
+      await db.upsertHadiths([
+        {
+          id: 1,
+          collection: "bukhari",
+          book_number: 1,
+          hadith_number: 1,
+          narrator: "Umar ibn al-Khattab",
+          arabic_text: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+          translation_en: "Deeds are judged by intentions (updated).",
+          grade: "sahih",
+        },
+      ]);
 
       const hadith = await db.getHadith(1);
       expect(hadith!.translation_en).toContain("updated");
@@ -286,9 +317,13 @@ describe("OfflineDatabase", () => {
       // Should be sorted by difficulty_level ascending, then quran_frequency descending
       for (let i = 1; i < words.length; i++) {
         if (words[i].difficulty_level === words[i - 1].difficulty_level) {
-          expect(words[i].quran_frequency).toBeLessThanOrEqual(words[i - 1].quran_frequency);
+          expect(words[i].quran_frequency).toBeLessThanOrEqual(
+            words[i - 1].quran_frequency,
+          );
         } else {
-          expect(words[i].difficulty_level).toBeGreaterThanOrEqual(words[i - 1].difficulty_level);
+          expect(words[i].difficulty_level).toBeGreaterThanOrEqual(
+            words[i - 1].difficulty_level,
+          );
         }
       }
     });
@@ -303,7 +338,9 @@ describe("OfflineDatabase", () => {
       expect(words.length).toBeGreaterThanOrEqual(3);
 
       for (let i = 1; i < words.length; i++) {
-        expect(words[i].quran_frequency).toBeLessThanOrEqual(words[i - 1].quran_frequency);
+        expect(words[i].quran_frequency).toBeLessThanOrEqual(
+          words[i - 1].quran_frequency,
+        );
       }
     });
 
@@ -327,16 +364,18 @@ describe("OfflineDatabase", () => {
     });
 
     it("should update existing vocabulary word on upsert (matched by id)", async () => {
-      await db.upsertVocabulary([{
-        id: "v1",
-        arabic_word: "بِسْمِ",
-        transliteration: "bismi",
-        translation_en: "In the name of (updated)",
-        root: "س-م-و",
-        category: "quran_common",
-        difficulty_level: 1,
-        quran_frequency: 114,
-      }]);
+      await db.upsertVocabulary([
+        {
+          id: "v1",
+          arabic_word: "بِسْمِ",
+          transliteration: "bismi",
+          translation_en: "In the name of (updated)",
+          root: "س-م-و",
+          category: "quran_common",
+          difficulty_level: 1,
+          quran_frequency: 114,
+        },
+      ]);
 
       const words = await db.getVocabularyByCategory("quran_common");
       const found = words.find((w) => w.id === "v1");
@@ -368,10 +407,17 @@ describe("OfflineDatabase", () => {
 
     it("should reflect row count changes after upsert", async () => {
       const before = await db.getRowCount("surahs");
-      await db.upsertSurahs([{
-        id: 50, surah_number: 50, name_arabic: "ق", name_english: "Qaf",
-        name_transliteration: "Qaf", verses_count: 45, revelation_place: "Makkah",
-      }]);
+      await db.upsertSurahs([
+        {
+          id: 50,
+          surah_number: 50,
+          name_arabic: "ق",
+          name_english: "Qaf",
+          name_transliteration: "Qaf",
+          verses_count: 45,
+          revelation_place: "Makkah",
+        },
+      ]);
       const after = await db.getRowCount("surahs");
       expect(after).toBe(before + 1);
     });

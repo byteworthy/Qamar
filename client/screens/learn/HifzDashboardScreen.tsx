@@ -10,16 +10,16 @@
  * - Action buttons
  */
 
-import React from 'react';
-import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
-import { ThemedText } from '../../components/ThemedText';
-import { Screen } from '../../components/Screen';
-import { GlassCard } from '../../components/GlassCard';
-import { JuzProgressMap } from '../../components/JuzProgressMap';
-import { useHifzProgress } from '../../hooks/useHifzProgress';
-import { useHifzReviewQueue } from '../../hooks/useHifzReviewQueue';
-import { useTheme } from '../../hooks/useTheme';
-import { NoorColors } from '../../constants/theme/colors';
+import React from "react";
+import { View, ScrollView, Pressable, StyleSheet } from "react-native";
+import { ThemedText } from "../../components/ThemedText";
+import { Screen } from "../../components/Screen";
+import { GlassCard } from "../../components/GlassCard";
+import { JuzProgressMap } from "../../components/JuzProgressMap";
+import { useHifzProgress } from "../../hooks/useHifzProgress";
+import { useHifzReviewQueue } from "../../hooks/useHifzReviewQueue";
+import { useTheme } from "../../hooks/useTheme";
+import { NoorColors } from "../../constants/theme/colors";
 
 // =============================================================================
 // MAIN COMPONENT
@@ -35,12 +35,12 @@ export default function HifzDashboardScreen() {
   // Placeholder navigation handlers (will be replaced with actual navigation)
   const handleStartMemorizing = () => {
     // TODO: Navigate to /hifz/memorize when screen is implemented
-    console.log('Navigate to /hifz/memorize');
+    console.log("Navigate to /hifz/memorize");
   };
 
   const handleReviewNow = () => {
     // TODO: Navigate to /hifz/review when screen is implemented
-    console.log('Navigate to /hifz/review');
+    console.log("Navigate to /hifz/review");
   };
 
   const handleJuzPress = (juz: number) => {
@@ -50,7 +50,11 @@ export default function HifzDashboardScreen() {
 
   return (
     <Screen title="Hifz" scrollable={true}>
-      <ScrollView testID="hifz-dashboard-screen" style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        testID="hifz-dashboard-screen"
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
         <ThemedText style={styles.title}>Hifz</ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -63,12 +67,18 @@ export default function HifzDashboardScreen() {
             <ThemedText style={styles.emptyStateTitle}>
               Begin your Quran memorization journey
             </ThemedText>
-            <ThemedText style={[styles.emptyStateText, { color: theme.textSecondary }]}>
-              Start with Juz 30 (short surahs), Al-Fatiha, or any verse that calls to you.
+            <ThemedText
+              style={[styles.emptyStateText, { color: theme.textSecondary }]}
+            >
+              Start with Juz 30 (short surahs), Al-Fatiha, or any verse that
+              calls to you.
             </ThemedText>
             <Pressable
               testID="hifz-start-session"
-              style={[styles.primaryButton, { backgroundColor: NoorColors.gold }]}
+              style={[
+                styles.primaryButton,
+                { backgroundColor: NoorColors.gold },
+              ]}
               onPress={handleStartMemorizing}
             >
               <ThemedText style={styles.buttonText}>Get Started</ThemedText>
@@ -79,18 +89,24 @@ export default function HifzDashboardScreen() {
         {/* Overall Stats Card */}
         {hasMemorizedVerses && (
           <GlassCard style={styles.statsCard}>
-            <ThemedText style={[styles.sectionLabel, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.sectionLabel, { color: theme.textSecondary }]}
+            >
               Total Progress
             </ThemedText>
             <ThemedText style={styles.statsMainText}>
               {overallStats.totalMemorized} / {overallStats.totalVerses} verses
             </ThemedText>
-            <ThemedText style={[styles.statsPercentage, { color: NoorColors.gold }]}>
+            <ThemedText
+              style={[styles.statsPercentage, { color: NoorColors.gold }]}
+            >
               {overallStats.percentageComplete.toFixed(1)}% complete
             </ThemedText>
 
             {/* Progress Bar */}
-            <View style={[styles.progressBar, { backgroundColor: theme.border }]}>
+            <View
+              style={[styles.progressBar, { backgroundColor: theme.border }]}
+            >
               <View
                 style={[
                   styles.progressFill,
@@ -108,7 +124,9 @@ export default function HifzDashboardScreen() {
         {hasMemorizedVerses && (
           <GlassCard style={styles.juzMapCard}>
             <ThemedText style={styles.sectionTitle}>Your Progress</ThemedText>
-            <ThemedText style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
+            >
               30 Juz Overview
             </ThemedText>
             <JuzProgressMap onJuzPress={handleJuzPress} />
@@ -118,17 +136,29 @@ export default function HifzDashboardScreen() {
         {/* Review Queue Section */}
         {dueCount > 0 && (
           <GlassCard style={styles.reviewCard}>
-            <ThemedText style={styles.sectionTitle}>Reviews Due Today</ThemedText>
-            <View style={[styles.badge, { backgroundColor: 'rgba(212, 175, 55, 0.2)' }]}>
-              <ThemedText style={[styles.badgeText, { color: NoorColors.gold }]}>
-                {dueCount} {dueCount === 1 ? 'verse' : 'verses'}
+            <ThemedText style={styles.sectionTitle}>
+              Reviews Due Today
+            </ThemedText>
+            <View
+              style={[
+                styles.badge,
+                { backgroundColor: "rgba(212, 175, 55, 0.2)" },
+              ]}
+            >
+              <ThemedText
+                style={[styles.badgeText, { color: NoorColors.gold }]}
+              >
+                {dueCount} {dueCount === 1 ? "verse" : "verses"}
               </ThemedText>
             </View>
 
             {/* List first 3-5 due verses */}
             <View style={styles.verseList}>
               {dueVerses.slice(0, 5).map((verse, index) => (
-                <View key={`${verse.surahNumber}:${verse.verseNumber}`} style={styles.verseItem}>
+                <View
+                  key={`${verse.surahNumber}:${verse.verseNumber}`}
+                  style={styles.verseItem}
+                >
                   <ThemedText style={styles.verseText}>
                     Surah {verse.surahNumber}:{verse.verseNumber}
                   </ThemedText>
@@ -138,7 +168,10 @@ export default function HifzDashboardScreen() {
 
             {/* Review Now Button */}
             <Pressable
-              style={[styles.primaryButton, { backgroundColor: NoorColors.gold }]}
+              style={[
+                styles.primaryButton,
+                { backgroundColor: NoorColors.gold },
+              ]}
               onPress={handleReviewNow}
             >
               <ThemedText style={styles.buttonText}>Review Now</ThemedText>
@@ -149,7 +182,9 @@ export default function HifzDashboardScreen() {
         {/* No Reviews Due Message */}
         {dueCount === 0 && hasMemorizedVerses && (
           <GlassCard style={styles.noReviewCard}>
-            <ThemedText style={[styles.noReviewText, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.noReviewText, { color: theme.textSecondary }]}
+            >
               Great job! No reviews due today.
             </ThemedText>
           </GlassCard>
@@ -158,23 +193,31 @@ export default function HifzDashboardScreen() {
         {/* Upcoming Reviews */}
         {hasMemorizedVerses && (
           <GlassCard style={styles.upcomingCard}>
-            <ThemedText style={styles.sectionTitle}>Upcoming Reviews</ThemedText>
+            <ThemedText style={styles.sectionTitle}>
+              Upcoming Reviews
+            </ThemedText>
             <View style={styles.upcomingList}>
               <View style={styles.upcomingItem}>
                 <ThemedText style={styles.upcomingLabel}>Today:</ThemedText>
-                <ThemedText style={[styles.upcomingCount, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                >
                   {upcomingReviews.today} reviews
                 </ThemedText>
               </View>
               <View style={styles.upcomingItem}>
                 <ThemedText style={styles.upcomingLabel}>Tomorrow:</ThemedText>
-                <ThemedText style={[styles.upcomingCount, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                >
                   {upcomingReviews.tomorrow} reviews
                 </ThemedText>
               </View>
               <View style={styles.upcomingItem}>
                 <ThemedText style={styles.upcomingLabel}>This Week:</ThemedText>
-                <ThemedText style={[styles.upcomingCount, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                >
                   {upcomingReviews.thisWeek} reviews
                 </ThemedText>
               </View>
@@ -187,10 +230,15 @@ export default function HifzDashboardScreen() {
           <View style={styles.actionButtons}>
             <Pressable
               testID="hifz-start-session"
-              style={[styles.primaryButton, { backgroundColor: NoorColors.gold }]}
+              style={[
+                styles.primaryButton,
+                { backgroundColor: NoorColors.gold },
+              ]}
               onPress={handleStartMemorizing}
             >
-              <ThemedText style={styles.buttonText}>Start Memorizing</ThemedText>
+              <ThemedText style={styles.buttonText}>
+                Start Memorizing
+              </ThemedText>
             </Pressable>
           </View>
         )}
@@ -212,7 +260,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 4,
   },
   subtitle: {
@@ -230,21 +278,21 @@ const styles = StyleSheet.create({
   },
   statsMainText: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 4,
   },
   statsPercentage: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 12,
   },
   progressBar: {
     height: 8,
     borderRadius: 4,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   progressFill: {
-    height: '100%',
+    height: "100%",
     borderRadius: 4,
   },
 
@@ -254,7 +302,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 4,
   },
   sectionSubtitle: {
@@ -267,7 +315,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   badge: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -276,7 +324,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   verseList: {
     marginBottom: 16,
@@ -291,11 +339,11 @@ const styles = StyleSheet.create({
   // No Review Card
   noReviewCard: {
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   noReviewText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   // Upcoming Reviews
@@ -306,8 +354,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   upcomingItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 8,
   },
   upcomingLabel: {
@@ -315,7 +363,7 @@ const styles = StyleSheet.create({
   },
   upcomingCount: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 
   // Buttons
@@ -325,28 +373,28 @@ const styles = StyleSheet.create({
   primaryButton: {
     paddingVertical: 16,
     borderRadius: 12,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#000',
+    fontWeight: "700",
+    color: "#000",
   },
 
   // Empty State
   emptyStateCard: {
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   emptyStateTitle: {
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
   emptyStateText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 24,
     lineHeight: 24,
   },

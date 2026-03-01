@@ -1,8 +1,8 @@
 /**
- * IslamicPattern Component - Noor Edition
+ * IslamicPattern Component - Qamar Edition
  *
  * Subtle Islamic geometric patterns combining stars and crescent moons.
- * Unique to Noor app - represents both traditional geometry and lunar calendar.
+ * Unique to Qamar app - represents both traditional geometry and lunar calendar.
  *
  * Usage:
  * <IslamicPattern variant="corner" opacity={0.03} />
@@ -49,7 +49,7 @@ export function IslamicPattern({
     </Svg>
   );
 
-  // Crescent moon with star (unique to Noor) - Yemeni-inspired minimal style
+  // Crescent moon with star (unique to Qamar) - Yemeni-inspired minimal style
   const MoonStarPattern = () => (
     <Svg width="120" height="120" viewBox="0 0 120 120">
       <G opacity={opacity}>

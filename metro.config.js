@@ -3,10 +3,7 @@ const path = require("path");
 
 const config = getDefaultConfig(__dirname);
 
-const SHIM_PATH = path.resolve(
-  __dirname,
-  "client/lib/reanimated-web-shim.js"
-);
+const SHIM_PATH = path.resolve(__dirname, "client/lib/reanimated-web-shim.js");
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   // On web: redirect react-native-reanimated → our shim

@@ -5,28 +5,28 @@
  * Users recite from memory, receive feedback, and rate difficulty for spaced repetition.
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
   Pressable,
   ActivityIndicator,
   ScrollView,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
-import { Feather } from '@expo/vector-icons';
-import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
+import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 
-import { useTheme } from '@/hooks/useTheme';
-import { ThemedText } from '@/components/ThemedText';
-import { GlassCard } from '@/components/GlassCard';
-import { Screen } from '@/components/Screen';
-import { HifzMistakeFeedback } from '@/components/HifzMistakeFeedback';
-import { HifzPeekOverlay } from '@/components/HifzPeekOverlay';
-import { useHifzRecitation } from '@/hooks/useHifzRecitation';
-import { useGamification } from '@/stores/gamification-store';
-import { NoorColors } from '@/constants/theme/colors';
+import { useTheme } from "@/hooks/useTheme";
+import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
+import { Screen } from "@/components/Screen";
+import { HifzMistakeFeedback } from "@/components/HifzMistakeFeedback";
+import { HifzPeekOverlay } from "@/components/HifzPeekOverlay";
+import { useHifzRecitation } from "@/hooks/useHifzRecitation";
+import { useGamification } from "@/stores/gamification-store";
+import { NoorColors } from "@/constants/theme/colors";
 
 // ====================================================================
 // Types
@@ -36,7 +36,7 @@ type HifzRecitationParams = {
   HifzRecitation: {
     surahNumber: string;
     verseNumber: string;
-    mode?: 'review' | 'memorize';
+    mode?: "review" | "memorize";
   };
 };
 
@@ -48,10 +48,10 @@ export default function HifzRecitationScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<HifzRecitationParams, 'HifzRecitation'>>();
+  const route = useRoute<RouteProp<HifzRecitationParams, "HifzRecitation">>();
 
   // Extract route params
-  const { surahNumber, verseNumber, mode = 'review' } = route.params;
+  const { surahNumber, verseNumber, mode = "review" } = route.params;
   const surahNum = parseInt(surahNumber, 10);
   const verseNum = parseInt(verseNumber, 10);
 
@@ -92,12 +92,12 @@ export default function HifzRecitationScreen() {
 
   const handleRevealWord = useCallback(() => {
     // TODO: Implement word-by-word reveal logic when Quran text API is integrated
-    setRevealedText('بِسْمِ');
+    setRevealedText("بِسْمِ");
   }, []);
 
   const handleRevealAyah = useCallback(() => {
     // TODO: Implement full ayah reveal when Quran text API is integrated
-    setRevealedText('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
+    setRevealedText("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ");
   }, []);
 
   const handleDismissPeek = useCallback(() => {
@@ -105,15 +105,15 @@ export default function HifzRecitationScreen() {
   }, []);
 
   const handleRating = useCallback(
-    async (rating: 'again' | 'hard' | 'good' | 'easy') => {
-      recordActivity('hifz_review_completed');
+    async (rating: "again" | "hard" | "good" | "easy") => {
+      recordActivity("hifz_review_completed");
       rateAndSave(rating);
       // Navigate back after a short delay to show feedback was recorded
       setTimeout(() => {
         navigation.goBack();
       }, 300);
     },
-    [recordActivity, rateAndSave, navigation]
+    [recordActivity, rateAndSave, navigation],
   );
 
   const handleRetry = useCallback(() => {
@@ -125,12 +125,15 @@ export default function HifzRecitationScreen() {
   // ============================================================
 
   const renderHeader = () => (
-    <Animated.View entering={FadeInUp.duration(400)} style={styles.headerSection}>
+    <Animated.View
+      entering={FadeInUp.duration(400)}
+      style={styles.headerSection}
+    >
       <ThemedText style={[styles.verseReference, { color: theme.text }]}>
         Surah {surahNum}:{verseNum}
       </ThemedText>
       <ThemedText style={[styles.modeIndicator, { color: NoorColors.gold }]}>
-        {mode === 'review' ? 'Review' : 'New Memorization'}
+        {mode === "review" ? "Review" : "New Memorization"}
       </ThemedText>
       <ThemedText style={[styles.hiddenNotice, { color: theme.textSecondary }]}>
         Verse hidden - recite from memory
@@ -139,7 +142,10 @@ export default function HifzRecitationScreen() {
   );
 
   const renderRecordSection = () => (
-    <Animated.View entering={FadeInUp.duration(400).delay(100)} style={styles.recordSection}>
+    <Animated.View
+      entering={FadeInUp.duration(400).delay(100)}
+      style={styles.recordSection}
+    >
       {/* Hint button - only show before recording or after reset */}
       {!result && !isProcessing && (
         <Pressable
@@ -150,7 +156,12 @@ export default function HifzRecitationScreen() {
             { borderColor: NoorColors.gold, opacity: pressed ? 0.7 : 1 },
           ]}
         >
-          <Feather name="help-circle" size={16} color={NoorColors.gold} style={styles.hintIcon} />
+          <Feather
+            name="help-circle"
+            size={16}
+            color={NoorColors.gold}
+            style={styles.hintIcon}
+          />
           <ThemedText style={[styles.hintText, { color: NoorColors.gold }]}>
             Need a hint?
           </ThemedText>
@@ -165,7 +176,7 @@ export default function HifzRecitationScreen() {
         style={({ pressed }) => [
           styles.recordButton,
           {
-            backgroundColor: isRecording ? '#EF4444' : NoorColors.gold,
+            backgroundColor: isRecording ? "#EF4444" : NoorColors.gold,
             opacity: pressed && !isProcessing ? 0.85 : isProcessing ? 0.6 : 1,
           },
         ]}
@@ -178,14 +189,23 @@ export default function HifzRecitationScreen() {
       </Pressable>
 
       <ThemedText style={[styles.recordHint, { color: theme.textSecondary }]}>
-        {isRecording ? 'Tap to stop recording' : 'Tap to start recording'}
+        {isRecording ? "Tap to stop recording" : "Tap to start recording"}
       </ThemedText>
 
       {/* Processing indicator */}
       {isProcessing && (
-        <Animated.View entering={FadeIn.duration(300)} style={styles.processingContainer}>
-          <ActivityIndicator size="small" color={NoorColors.gold} style={styles.processingSpinner} />
-          <ThemedText style={[styles.processingText, { color: theme.textSecondary }]}>
+        <Animated.View
+          entering={FadeIn.duration(300)}
+          style={styles.processingContainer}
+        >
+          <ActivityIndicator
+            size="small"
+            color={NoorColors.gold}
+            style={styles.processingSpinner}
+          />
+          <ThemedText
+            style={[styles.processingText, { color: theme.textSecondary }]}
+          >
             Processing your recitation...
           </ThemedText>
         </Animated.View>
@@ -197,7 +217,10 @@ export default function HifzRecitationScreen() {
     if (!result) return null;
 
     return (
-      <Animated.View entering={FadeInUp.duration(400)} style={styles.feedbackSection}>
+      <Animated.View
+        entering={FadeInUp.duration(400)}
+        style={styles.feedbackSection}
+      >
         <HifzMistakeFeedback result={result} showAITips={false} />
       </Animated.View>
     );
@@ -207,14 +230,17 @@ export default function HifzRecitationScreen() {
     if (!result) return null;
 
     return (
-      <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.ratingSection}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(200)}
+        style={styles.ratingSection}
+      >
         <ThemedText style={[styles.ratingTitle, { color: theme.text }]}>
           How difficult was this?
         </ThemedText>
         <View style={styles.ratingButtons}>
           <Pressable
             testID="rating-again"
-            onPress={() => handleRating('again')}
+            onPress={() => handleRating("again")}
             style={({ pressed }) => [
               styles.ratingButton,
               styles.ratingAgain,
@@ -226,7 +252,7 @@ export default function HifzRecitationScreen() {
 
           <Pressable
             testID="rating-hard"
-            onPress={() => handleRating('hard')}
+            onPress={() => handleRating("hard")}
             style={({ pressed }) => [
               styles.ratingButton,
               styles.ratingHard,
@@ -238,7 +264,7 @@ export default function HifzRecitationScreen() {
 
           <Pressable
             testID="rating-good"
-            onPress={() => handleRating('good')}
+            onPress={() => handleRating("good")}
             style={({ pressed }) => [
               styles.ratingButton,
               styles.ratingGood,
@@ -250,7 +276,7 @@ export default function HifzRecitationScreen() {
 
           <Pressable
             testID="rating-easy"
-            onPress={() => handleRating('easy')}
+            onPress={() => handleRating("easy")}
             style={({ pressed }) => [
               styles.ratingButton,
               styles.ratingEasy,
@@ -268,11 +294,21 @@ export default function HifzRecitationScreen() {
     if (!error) return null;
 
     return (
-      <Animated.View entering={FadeIn.duration(300)} style={styles.errorContainer}>
+      <Animated.View
+        entering={FadeIn.duration(300)}
+        style={styles.errorContainer}
+      >
         <GlassCard style={styles.errorCard}>
           <View style={styles.errorContent}>
-            <Feather name="alert-circle" size={20} color="#EF4444" style={styles.errorIcon} />
-            <ThemedText style={[styles.errorText, { color: '#EF4444' }]}>{error}</ThemedText>
+            <Feather
+              name="alert-circle"
+              size={20}
+              color="#EF4444"
+              style={styles.errorIcon}
+            />
+            <ThemedText style={[styles.errorText, { color: "#EF4444" }]}>
+              {error}
+            </ThemedText>
           </View>
           <Pressable
             testID="retry-button"
@@ -282,7 +318,12 @@ export default function HifzRecitationScreen() {
               { borderColor: NoorColors.gold, opacity: pressed ? 0.7 : 1 },
             ]}
           >
-            <Feather name="refresh-cw" size={16} color={NoorColors.gold} style={styles.retryIcon} />
+            <Feather
+              name="refresh-cw"
+              size={16}
+              color={NoorColors.gold}
+              style={styles.retryIcon}
+            />
             <ThemedText style={[styles.retryText, { color: NoorColors.gold }]}>
               Try Again
             </ThemedText>
@@ -296,16 +337,20 @@ export default function HifzRecitationScreen() {
     if (result || error || isProcessing || isRecording) return null;
 
     return (
-      <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.instructionsSection}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(200)}
+        style={styles.instructionsSection}
+      >
         <GlassCard style={styles.instructionsCard}>
           <ThemedText style={[styles.instructionsTitle, { color: theme.text }]}>
             Instructions
           </ThemedText>
-          <ThemedText style={[styles.instructionsText, { color: theme.textSecondary }]}>
-            • Tap record when ready to recite{'\n'}
-            • Try to recite the verse from memory{'\n'}
-            • Use hints if you get stuck{'\n'}
-            • Rate the difficulty after reciting
+          <ThemedText
+            style={[styles.instructionsText, { color: theme.textSecondary }]}
+          >
+            • Tap record when ready to recite{"\n"}• Try to recite the verse
+            from memory{"\n"}• Use hints if you get stuck{"\n"}• Rate the
+            difficulty after reciting
           </ThemedText>
         </GlassCard>
       </Animated.View>
@@ -351,25 +396,25 @@ const styles = StyleSheet.create({
 
   // Header
   headerSection: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 32,
   },
   verseReference: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 8,
   },
   modeIndicator: {
     fontSize: 14,
-    fontWeight: '600',
-    textTransform: 'uppercase',
+    fontWeight: "600",
+    textTransform: "uppercase",
     letterSpacing: 0.5,
     marginBottom: 8,
   },
   hiddenNotice: {
     fontSize: 13,
-    fontWeight: '400',
-    fontStyle: 'italic',
+    fontWeight: "400",
+    fontStyle: "italic",
   },
 
   // Instructions
@@ -382,23 +427,23 @@ const styles = StyleSheet.create({
   },
   instructionsTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 12,
   },
   instructionsText: {
     fontSize: 14,
-    fontWeight: '400',
+    fontWeight: "400",
     lineHeight: 22,
   },
 
   // Record section
   recordSection: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 24,
   },
   hintButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
     borderRadius: 20,
     paddingVertical: 8,
@@ -410,15 +455,15 @@ const styles = StyleSheet.create({
   },
   hintText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   recordButton: {
     width: 96,
     height: 96,
     borderRadius: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -427,11 +472,11 @@ const styles = StyleSheet.create({
   },
   recordHint: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   processingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 16,
   },
   processingSpinner: {
@@ -439,7 +484,7 @@ const styles = StyleSheet.create({
   },
   processingText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 
   // Feedback
@@ -453,37 +498,37 @@ const styles = StyleSheet.create({
   },
   ratingTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     marginBottom: 16,
   },
   ratingButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
   ratingButton: {
     flex: 1,
     paddingVertical: 14,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   ratingButtonText: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#FFFFFF',
+    fontWeight: "700",
+    color: "#FFFFFF",
   },
   ratingAgain: {
-    backgroundColor: '#EF4444',
+    backgroundColor: "#EF4444",
   },
   ratingHard: {
-    backgroundColor: '#F59E0B',
+    backgroundColor: "#F59E0B",
   },
   ratingGood: {
-    backgroundColor: '#3B82F6',
+    backgroundColor: "#3B82F6",
   },
   ratingEasy: {
-    backgroundColor: '#10B981',
+    backgroundColor: "#10B981",
   },
 
   // Error
@@ -495,8 +540,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   errorContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 12,
   },
   errorIcon: {
@@ -504,13 +549,13 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
     flex: 1,
   },
   retryButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderRadius: 10,
     paddingVertical: 10,
@@ -521,6 +566,6 @@ const styles = StyleSheet.create({
   },
   retryText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });

@@ -16,16 +16,16 @@
  * />
  */
 
-import React from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import React from "react";
+import { View, StyleSheet, Pressable } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/ThemedText';
-import { GlassCard } from '@/components/GlassCard';
-import { TTSButton } from '@/components/TTSButton';
-import { useTheme } from '@/hooks/useTheme';
-import { NoorColors } from '@/constants/theme/colors';
-import { hapticLight } from '@/lib/haptics';
+import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
+import { TTSButton } from "@/components/TTSButton";
+import { useTheme } from "@/hooks/useTheme";
+import { NoorColors } from "@/constants/theme/colors";
+import { hapticLight } from "@/lib/haptics";
 
 // =============================================================================
 // TYPES
@@ -68,7 +68,9 @@ export function DuaCard({
       <ThemedText style={styles.arabic}>{arabic}</ThemedText>
 
       {/* Transliteration */}
-      <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
+      <ThemedText
+        style={[styles.transliteration, { color: theme.textSecondary }]}
+      >
         {transliteration}
       </ThemedText>
 
@@ -95,14 +97,16 @@ export function DuaCard({
             onPress={handleToggleFavorite}
             hitSlop={8}
             accessibilityRole="button"
-            accessibilityLabel={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            accessibilityLabel={
+              isFavorite ? "Remove from favorites" : "Add to favorites"
+            }
             style={styles.favoriteButton}
           >
             <Feather
               name="heart"
               size={22}
               color={isFavorite ? NoorColors.gold : theme.textSecondary}
-              fill={isFavorite ? NoorColors.gold : 'transparent'}
+              fill={isFavorite ? NoorColors.gold : "transparent"}
             />
           </Pressable>
         )}
@@ -121,13 +125,13 @@ const styles = StyleSheet.create({
   },
   arabic: {
     fontSize: 26,
-    fontFamily: 'Amiri',
-    textAlign: 'right',
+    fontFamily: "Amiri",
+    textAlign: "right",
     lineHeight: 42,
   },
   transliteration: {
     fontSize: 14,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     lineHeight: 20,
   },
   translation: {
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   sourceBadge: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     borderWidth: 1,
     borderRadius: 12,
     paddingVertical: 4,
@@ -144,18 +148,18 @@ const styles = StyleSheet.create({
   },
   sourceText: {
     fontSize: 12,
-    fontWeight: '600',
-    textTransform: 'uppercase',
+    fontWeight: "600",
+    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   actionsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 20,
     marginTop: 8,
   },
   favoriteButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

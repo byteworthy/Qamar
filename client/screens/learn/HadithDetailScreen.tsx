@@ -41,16 +41,18 @@ export default function HadithDetailScreen() {
 
   // Load bookmark state
   useEffect(() => {
-    AsyncStorage.getItem(BOOKMARKS_KEY).then((raw) => {
-      if (raw) {
-        try {
-          const bookmarks: string[] = JSON.parse(raw);
-          setIsBookmarked(bookmarks.includes(hadithId));
-        } catch {
-          // silently fail on corrupt data
+    AsyncStorage.getItem(BOOKMARKS_KEY)
+      .then((raw) => {
+        if (raw) {
+          try {
+            const bookmarks: string[] = JSON.parse(raw);
+            setIsBookmarked(bookmarks.includes(hadithId));
+          } catch {
+            // silently fail on corrupt data
+          }
         }
-      }
-    }).catch(() => {});
+      })
+      .catch(() => {});
   }, [hadithId]);
 
   const toggleBookmark = useCallback(async () => {
@@ -73,7 +75,8 @@ export default function HadithDetailScreen() {
 
   const handleShare = useCallback(async () => {
     if (!hadith) return;
-    const collectionName = COLLECTION_NAMES[hadith.collection] ?? hadith.collection;
+    const collectionName =
+      COLLECTION_NAMES[hadith.collection] ?? hadith.collection;
     const text = [
       hadith.textArabic,
       "",
@@ -82,7 +85,7 @@ export default function HadithDetailScreen() {
       `- ${hadith.narrator}`,
       `[${collectionName}, Hadith #${hadith.hadithNumber}]`,
       "",
-      "Shared via Noor App",
+      "Shared via Qamar App",
     ].join("\n");
 
     try {
@@ -136,7 +139,8 @@ export default function HadithDetailScreen() {
         ? "#FF9800"
         : "#f44336";
 
-  const collectionName = COLLECTION_NAMES[hadith.collection] ?? hadith.collection;
+  const collectionName =
+    COLLECTION_NAMES[hadith.collection] ?? hadith.collection;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
@@ -214,10 +218,7 @@ export default function HadithDetailScreen() {
 
             <Pressable
               onPress={handleShare}
-              style={[
-                styles.actionButton,
-                { borderColor: theme.border },
-              ]}
+              style={[styles.actionButton, { borderColor: theme.border }]}
             >
               <Feather name="share-2" size={18} color={theme.textSecondary} />
               <ThemedText
@@ -246,10 +247,7 @@ export default function HadithDetailScreen() {
             <View style={styles.sectionHeader}>
               <Feather name="globe" size={16} color={theme.textSecondary} />
               <ThemedText
-                style={[
-                  styles.sectionTitle,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.sectionTitle, { color: theme.textSecondary }]}
               >
                 Translation
               </ThemedText>
@@ -266,10 +264,7 @@ export default function HadithDetailScreen() {
             <View style={styles.sectionHeader}>
               <Feather name="user" size={16} color={theme.textSecondary} />
               <ThemedText
-                style={[
-                  styles.sectionTitle,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.sectionTitle, { color: theme.textSecondary }]}
               >
                 Narrator
               </ThemedText>
@@ -286,10 +281,7 @@ export default function HadithDetailScreen() {
             <View style={styles.sectionHeader}>
               <Feather name="info" size={16} color={theme.textSecondary} />
               <ThemedText
-                style={[
-                  styles.sectionTitle,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.sectionTitle, { color: theme.textSecondary }]}
               >
                 Reference
               </ThemedText>
@@ -301,18 +293,25 @@ export default function HadithDetailScreen() {
                 >
                   Collection
                 </ThemedText>
-                <ThemedText style={[styles.metadataValue, { color: theme.text }]}>
+                <ThemedText
+                  style={[styles.metadataValue, { color: theme.text }]}
+                >
                   {collectionName}
                 </ThemedText>
               </View>
               {hadith.bookNumber > 0 && (
                 <View style={styles.metadataItem}>
                   <ThemedText
-                    style={[styles.metadataLabel, { color: theme.textSecondary }]}
+                    style={[
+                      styles.metadataLabel,
+                      { color: theme.textSecondary },
+                    ]}
                   >
                     Book
                   </ThemedText>
-                  <ThemedText style={[styles.metadataValue, { color: theme.text }]}>
+                  <ThemedText
+                    style={[styles.metadataValue, { color: theme.text }]}
+                  >
                     {hadith.bookNumber}
                   </ThemedText>
                 </View>
@@ -323,7 +322,9 @@ export default function HadithDetailScreen() {
                 >
                   Hadith No.
                 </ThemedText>
-                <ThemedText style={[styles.metadataValue, { color: theme.text }]}>
+                <ThemedText
+                  style={[styles.metadataValue, { color: theme.text }]}
+                >
                   {hadith.hadithNumber}
                 </ThemedText>
               </View>
@@ -333,7 +334,9 @@ export default function HadithDetailScreen() {
                 >
                   Grade
                 </ThemedText>
-                <ThemedText style={[styles.metadataValue, { color: gradeColor }]}>
+                <ThemedText
+                  style={[styles.metadataValue, { color: gradeColor }]}
+                >
                   {hadith.grade}
                 </ThemedText>
               </View>
@@ -348,10 +351,7 @@ export default function HadithDetailScreen() {
               <View style={styles.sectionHeader}>
                 <Feather name="tag" size={16} color={theme.textSecondary} />
                 <ThemedText
-                  style={[
-                    styles.sectionTitle,
-                    { color: theme.textSecondary },
-                  ]}
+                  style={[styles.sectionTitle, { color: theme.textSecondary }]}
                 >
                   Topics
                 </ThemedText>
@@ -366,10 +366,7 @@ export default function HadithDetailScreen() {
                     ]}
                   >
                     <ThemedText
-                      style={[
-                        styles.topicText,
-                        { color: theme.textSecondary },
-                      ]}
+                      style={[styles.topicText, { color: theme.textSecondary }]}
                     >
                       {topic}
                     </ThemedText>

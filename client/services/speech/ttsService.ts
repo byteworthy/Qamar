@@ -6,15 +6,15 @@
  * same playback state.
  */
 
-import * as Speech from 'expo-speech';
+import * as Speech from "expo-speech";
 
-import type { TTSProvider, TTSOptions } from './types';
+import type { TTSProvider, TTSOptions } from "./types";
 
 // =============================================================================
 // DEFAULTS
 // =============================================================================
 
-const DEFAULT_LANGUAGE = 'ar';
+const DEFAULT_LANGUAGE = "ar";
 const DEFAULT_RATE = 0.8; // Slower for Arabic clarity
 const DEFAULT_PITCH = 1.0;
 const DEFAULT_VOLUME = 1.0;

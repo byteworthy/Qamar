@@ -9,15 +9,15 @@
  * rag-engine.ts. It works offline and without model downloads.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
 export interface Citation {
-  type: 'quran' | 'hadith';
+  type: "quran" | "hadith";
   reference: string;
   arabic: string;
   english: string;
@@ -62,68 +62,145 @@ interface SurahRecord {
  * Maps Arabic/Islamic terms and English concepts to canonical search terms.
  * When a user asks about "tawakkul", we also search for "trust", "reliance", etc.
  */
-const CONCEPT_MAP: Record<string, { english: string[]; description: string }> = {
-  sabr: {
-    english: ['patience', 'perseverance', 'endurance', 'steadfast', 'patient', 'bear', 'endure'],
-    description: 'Sabr (patience) - steadfastness through difficulty, knowing relief comes from Allah',
-  },
-  tawakkul: {
-    english: ['trust', 'reliance', 'rely', 'depend', 'sufficient', 'enough'],
-    description: 'Tawakkul (trust in Allah) - reliance on Allah while taking appropriate action',
-  },
-  shukr: {
-    english: ['gratitude', 'grateful', 'thankful', 'thanks', 'blessing', 'appreciate'],
-    description: 'Shukr (gratitude) - recognizing and appreciating Allah\'s blessings',
-  },
-  tawbah: {
-    english: ['repentance', 'repent', 'forgiveness', 'forgive', 'sin', 'return', 'guilt'],
-    description: 'Tawbah (repentance) - returning to Allah with sincerity',
-  },
-  taqwa: {
-    english: ['consciousness', 'piety', 'mindful', 'awareness', 'fear', 'god-fearing'],
-    description: 'Taqwa (God-consciousness) - awareness of Allah in all actions',
-  },
-  ihsan: {
-    english: ['excellence', 'beauty', 'perfection', 'worship', 'sincerity'],
-    description: 'Ihsan (excellence) - worshipping Allah as though you see Him',
-  },
-  dhikr: {
-    english: ['remembrance', 'remember', 'mention', 'mindfulness', 'meditation', 'calm'],
-    description: 'Dhikr (remembrance) - calming the heart through remembrance of Allah',
-  },
-  qadr: {
-    english: ['destiny', 'decree', 'fate', 'predestination', 'plan', 'purpose', 'will'],
-    description: 'Qadr (divine decree) - trusting Allah\'s plan encompasses what we cannot see',
-  },
-  istighfar: {
-    english: ['forgiveness', 'seeking forgiveness', 'astaghfirullah', 'cleansing', 'relief'],
-    description: 'Istighfar (seeking forgiveness) - a means of relief and spiritual cleansing',
-  },
-  rizq: {
-    english: ['provision', 'sustenance', 'wealth', 'money', 'livelihood', 'income'],
-    description: 'Rizq (provision) - all sustenance comes from Allah',
-  },
-  dua: {
-    english: ['supplication', 'prayer', 'ask', 'request', 'call', 'invoke'],
-    description: 'Dua (supplication) - calling upon Allah directly',
-  },
-  iman: {
-    english: ['faith', 'belief', 'believe', 'conviction', 'trust'],
-    description: 'Iman (faith) - belief in Allah, His messengers, books, angels, the Last Day, and divine decree',
-  },
-  husn_al_dhann: {
-    english: ['good opinion', 'optimism', 'hope', 'positive', 'trust'],
-    description: 'Husn al-Dhann (good opinion of Allah) - maintaining hope in Allah\'s mercy and wisdom',
-  },
-  nafs: {
-    english: ['soul', 'self', 'ego', 'desires', 'lower self', 'temptation'],
-    description: 'Nafs (self/soul) - the inner self that must be trained and purified',
-  },
-  akhira: {
-    english: ['hereafter', 'afterlife', 'next life', 'paradise', 'judgment', 'eternal'],
-    description: 'Akhira (hereafter) - the eternal life after death',
-  },
-};
+const CONCEPT_MAP: Record<string, { english: string[]; description: string }> =
+  {
+    sabr: {
+      english: [
+        "patience",
+        "perseverance",
+        "endurance",
+        "steadfast",
+        "patient",
+        "bear",
+        "endure",
+      ],
+      description:
+        "Sabr (patience) - steadfastness through difficulty, knowing relief comes from Allah",
+    },
+    tawakkul: {
+      english: ["trust", "reliance", "rely", "depend", "sufficient", "enough"],
+      description:
+        "Tawakkul (trust in Allah) - reliance on Allah while taking appropriate action",
+    },
+    shukr: {
+      english: [
+        "gratitude",
+        "grateful",
+        "thankful",
+        "thanks",
+        "blessing",
+        "appreciate",
+      ],
+      description:
+        "Shukr (gratitude) - recognizing and appreciating Allah's blessings",
+    },
+    tawbah: {
+      english: [
+        "repentance",
+        "repent",
+        "forgiveness",
+        "forgive",
+        "sin",
+        "return",
+        "guilt",
+      ],
+      description: "Tawbah (repentance) - returning to Allah with sincerity",
+    },
+    taqwa: {
+      english: [
+        "consciousness",
+        "piety",
+        "mindful",
+        "awareness",
+        "fear",
+        "god-fearing",
+      ],
+      description:
+        "Taqwa (God-consciousness) - awareness of Allah in all actions",
+    },
+    ihsan: {
+      english: ["excellence", "beauty", "perfection", "worship", "sincerity"],
+      description:
+        "Ihsan (excellence) - worshipping Allah as though you see Him",
+    },
+    dhikr: {
+      english: [
+        "remembrance",
+        "remember",
+        "mention",
+        "mindfulness",
+        "meditation",
+        "calm",
+      ],
+      description:
+        "Dhikr (remembrance) - calming the heart through remembrance of Allah",
+    },
+    qadr: {
+      english: [
+        "destiny",
+        "decree",
+        "fate",
+        "predestination",
+        "plan",
+        "purpose",
+        "will",
+      ],
+      description:
+        "Qadr (divine decree) - trusting Allah's plan encompasses what we cannot see",
+    },
+    istighfar: {
+      english: [
+        "forgiveness",
+        "seeking forgiveness",
+        "astaghfirullah",
+        "cleansing",
+        "relief",
+      ],
+      description:
+        "Istighfar (seeking forgiveness) - a means of relief and spiritual cleansing",
+    },
+    rizq: {
+      english: [
+        "provision",
+        "sustenance",
+        "wealth",
+        "money",
+        "livelihood",
+        "income",
+      ],
+      description: "Rizq (provision) - all sustenance comes from Allah",
+    },
+    dua: {
+      english: ["supplication", "prayer", "ask", "request", "call", "invoke"],
+      description: "Dua (supplication) - calling upon Allah directly",
+    },
+    iman: {
+      english: ["faith", "belief", "believe", "conviction", "trust"],
+      description:
+        "Iman (faith) - belief in Allah, His messengers, books, angels, the Last Day, and divine decree",
+    },
+    husn_al_dhann: {
+      english: ["good opinion", "optimism", "hope", "positive", "trust"],
+      description:
+        "Husn al-Dhann (good opinion of Allah) - maintaining hope in Allah's mercy and wisdom",
+    },
+    nafs: {
+      english: ["soul", "self", "ego", "desires", "lower self", "temptation"],
+      description:
+        "Nafs (self/soul) - the inner self that must be trained and purified",
+    },
+    akhira: {
+      english: [
+        "hereafter",
+        "afterlife",
+        "next life",
+        "paradise",
+        "judgment",
+        "eternal",
+      ],
+      description: "Akhira (hereafter) - the eternal life after death",
+    },
+  };
 
 // Reverse map: english word -> islamic term(s)
 const ENGLISH_TO_CONCEPT: Map<string, string[]> = new Map();
@@ -147,41 +224,43 @@ let dataLoaded = false;
 function ensureDataLoaded(): void {
   if (dataLoaded) return;
 
-  const seedDir = path.resolve(process.cwd(), 'shared', 'seed-data');
+  const seedDir = path.resolve(process.cwd(), "shared", "seed-data");
 
   // Load surahs for reference formatting
   try {
-    const surahsPath = path.join(seedDir, 'surahs.json');
+    const surahsPath = path.join(seedDir, "surahs.json");
     if (fs.existsSync(surahsPath)) {
-      const surahs: SurahRecord[] = JSON.parse(fs.readFileSync(surahsPath, 'utf-8'));
-      surahMap = new Map(surahs.map(s => [s.number, s.nameEnglish]));
+      const surahs: SurahRecord[] = JSON.parse(
+        fs.readFileSync(surahsPath, "utf-8"),
+      );
+      surahMap = new Map(surahs.map((s) => [s.number, s.nameEnglish]));
     }
   } catch (err) {
-    console.warn('[IslamicKnowledge] Failed to load surahs:', err);
+    console.warn("[IslamicKnowledge] Failed to load surahs:", err);
   }
 
   // Load verses
   try {
-    const versesPath = path.join(seedDir, 'verses.json');
+    const versesPath = path.join(seedDir, "verses.json");
     if (fs.existsSync(versesPath)) {
-      verses = JSON.parse(fs.readFileSync(versesPath, 'utf-8'));
+      verses = JSON.parse(fs.readFileSync(versesPath, "utf-8"));
       console.log(`[IslamicKnowledge] Loaded ${verses.length} Quran verses`);
     }
   } catch (err) {
-    console.warn('[IslamicKnowledge] Failed to load verses:', err);
+    console.warn("[IslamicKnowledge] Failed to load verses:", err);
   }
 
   // Load hadiths
   try {
-    const hadithsPath = path.join(seedDir, 'hadiths.json');
+    const hadithsPath = path.join(seedDir, "hadiths.json");
     if (fs.existsSync(hadithsPath)) {
-      const raw = JSON.parse(fs.readFileSync(hadithsPath, 'utf-8'));
+      const raw = JSON.parse(fs.readFileSync(hadithsPath, "utf-8"));
       // hadiths.json has { collections: [...], hadiths: [...] }
-      hadiths = Array.isArray(raw) ? raw : (raw.hadiths || []);
+      hadiths = Array.isArray(raw) ? raw : raw.hadiths || [];
       console.log(`[IslamicKnowledge] Loaded ${hadiths.length} hadiths`);
     }
   } catch (err) {
-    console.warn('[IslamicKnowledge] Failed to load hadiths:', err);
+    console.warn("[IslamicKnowledge] Failed to load hadiths:", err);
   }
 
   dataLoaded = true;
@@ -192,26 +271,117 @@ function ensureDataLoaded(): void {
 // =============================================================================
 
 const STOP_WORDS = new Set([
-  'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
-  'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-  'should', 'may', 'might', 'shall', 'can', 'to', 'of', 'in', 'for',
-  'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through', 'during',
-  'before', 'after', 'and', 'but', 'or', 'nor', 'not', 'so', 'yet',
-  'if', 'when', 'while', 'how', 'all', 'any', 'about', 'up', 'there',
-  'their', 'them', 'they', 'this', 'that', 'these', 'those', 'he', 'she',
-  'it', 'his', 'her', 'its', 'who', 'whom', 'which', 'what', 'where',
-  'why', 'you', 'your', 'we', 'our', 'i', 'my', 'me', 'does', 'tell',
-  'know', 'really', 'mean', 'means', 'like', 'just', 'also', 'very',
-  'much', 'more', 'most', 'some', 'than', 'then', 'here', 'now',
+  "the",
+  "a",
+  "an",
+  "is",
+  "are",
+  "was",
+  "were",
+  "be",
+  "been",
+  "being",
+  "have",
+  "has",
+  "had",
+  "do",
+  "does",
+  "did",
+  "will",
+  "would",
+  "could",
+  "should",
+  "may",
+  "might",
+  "shall",
+  "can",
+  "to",
+  "of",
+  "in",
+  "for",
+  "on",
+  "with",
+  "at",
+  "by",
+  "from",
+  "as",
+  "into",
+  "through",
+  "during",
+  "before",
+  "after",
+  "and",
+  "but",
+  "or",
+  "nor",
+  "not",
+  "so",
+  "yet",
+  "if",
+  "when",
+  "while",
+  "how",
+  "all",
+  "any",
+  "about",
+  "up",
+  "there",
+  "their",
+  "them",
+  "they",
+  "this",
+  "that",
+  "these",
+  "those",
+  "he",
+  "she",
+  "it",
+  "his",
+  "her",
+  "its",
+  "who",
+  "whom",
+  "which",
+  "what",
+  "where",
+  "why",
+  "you",
+  "your",
+  "we",
+  "our",
+  "i",
+  "my",
+  "me",
+  "does",
+  "tell",
+  "know",
+  "really",
+  "mean",
+  "means",
+  "like",
+  "just",
+  "also",
+  "very",
+  "much",
+  "more",
+  "most",
+  "some",
+  "than",
+  "then",
+  "here",
+  "now",
 ]);
 
 /**
  * Extract meaningful search terms from a query.
  * Handles Islamic terms, expands concepts, removes stop words.
  */
-function extractSearchTerms(query: string): { terms: string[]; concepts: string[] } {
-  const lower = query.toLowerCase().replace(/[^\w\s'-]/g, '');
-  const words = lower.split(/\s+/).filter(w => w.length > 1);
+function extractSearchTerms(query: string): {
+  terms: string[];
+  concepts: string[];
+} {
+  const lower = query.toLowerCase().replace(/[^\w\s'-]/g, "");
+  const words = lower.split(/\s+/).filter((w) => w.length > 1);
 
   const detectedConcepts: Set<string> = new Set();
   const expandedTerms: Set<string> = new Set();
@@ -263,7 +433,7 @@ function scoreText(text: string, terms: string[]): number {
 
   for (const term of terms) {
     // Exact word boundary match gets higher score
-    const wordBoundaryRegex = new RegExp(`\\b${escapeRegex(term)}\\b`, 'gi');
+    const wordBoundaryRegex = new RegExp(`\\b${escapeRegex(term)}\\b`, "gi");
     const exactMatches = (lower.match(wordBoundaryRegex) || []).length;
     score += exactMatches * 3;
 
@@ -280,7 +450,7 @@ function scoreText(text: string, terms: string[]): number {
 }
 
 function escapeRegex(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // =============================================================================
@@ -309,9 +479,10 @@ export function searchQuran(query: string, limit: number = 5): Citation[] {
   scored.sort((a, b) => b.score - a.score);
 
   return scored.slice(0, limit).map(({ verse, score }) => {
-    const surahName = surahMap.get(verse.surahNumber) || `Surah ${verse.surahNumber}`;
+    const surahName =
+      surahMap.get(verse.surahNumber) || `Surah ${verse.surahNumber}`;
     return {
-      type: 'quran' as const,
+      type: "quran" as const,
       reference: `${surahName} ${verse.surahNumber}:${verse.verseNumber}`,
       arabic: verse.arabicText,
       english: verse.translationEn,
@@ -342,9 +513,10 @@ export function searchHadith(query: string, limit: number = 5): Citation[] {
   scored.sort((a, b) => b.score - a.score);
 
   return scored.slice(0, limit).map(({ hadith, score }) => ({
-    type: 'hadith' as const,
-    reference: hadith.reference || `${hadith.collectionId} ${hadith.hadithNumber}`,
-    arabic: hadith.textArabic || '',
+    type: "hadith" as const,
+    reference:
+      hadith.reference || `${hadith.collectionId} ${hadith.hadithNumber}`,
+    arabic: hadith.textArabic || "",
     english: hadith.textEnglish,
     score: Math.round(score * 100) / 100,
   }));
@@ -354,7 +526,10 @@ export function searchHadith(query: string, limit: number = 5): Citation[] {
  * Combined search across Quran and Hadith.
  * Returns the top results from both sources, interleaved by relevance score.
  */
-export function findRelevantContent(query: string, limit: number = 5): SearchResult {
+export function findRelevantContent(
+  query: string,
+  limit: number = 5,
+): SearchResult {
   const { concepts } = extractSearchTerms(query);
 
   const quranResults = searchQuran(query, limit);
@@ -375,7 +550,7 @@ export function findRelevantContent(query: string, limit: number = 5): SearchRes
     const bestHadith = hadithResults[0];
 
     // Start with the top overall result
-    if (all[0].type === 'quran') {
+    if (all[0].type === "quran") {
       topResults.push(bestQuran);
       topResults.push(bestHadith);
     } else {
@@ -384,7 +559,7 @@ export function findRelevantContent(query: string, limit: number = 5): SearchRes
     }
 
     // Fill remaining slots from the merged list, avoiding duplicates
-    const usedRefs = new Set(topResults.map(r => r.reference));
+    const usedRefs = new Set(topResults.map((r) => r.reference));
     for (const item of all) {
       if (topResults.length >= limit) break;
       if (!usedRefs.has(item.reference)) {
@@ -402,8 +577,8 @@ export function findRelevantContent(query: string, limit: number = 5): SearchRes
 
   // Map detected concepts to their descriptions
   const conceptDescriptions = concepts
-    .filter(c => CONCEPT_MAP[c])
-    .map(c => CONCEPT_MAP[c].description);
+    .filter((c) => CONCEPT_MAP[c])
+    .map((c) => CONCEPT_MAP[c].description);
 
   return {
     citations: topResults,
@@ -424,21 +599,51 @@ export function isIslamicKnowledgeQuery(message: string): boolean {
 
   // Check for Islamic-specific terms
   const islamicTerms = [
-    'quran', "qur'an", 'hadith', 'sunnah', 'surah', 'ayah', 'verse',
-    'prophet', 'muhammad', 'allah', 'islam', 'muslim', 'mosque', 'masjid',
-    'salah', 'prayer', 'fasting', 'ramadan', 'zakat', 'hajj', 'umrah',
-    'halal', 'haram', 'fiqh', 'fatwa', 'imam', 'scholar',
-    'jannah', 'jahannam', 'angels', 'judgment day',
+    "quran",
+    "qur'an",
+    "hadith",
+    "sunnah",
+    "surah",
+    "ayah",
+    "verse",
+    "prophet",
+    "muhammad",
+    "allah",
+    "islam",
+    "muslim",
+    "mosque",
+    "masjid",
+    "salah",
+    "prayer",
+    "fasting",
+    "ramadan",
+    "zakat",
+    "hajj",
+    "umrah",
+    "halal",
+    "haram",
+    "fiqh",
+    "fatwa",
+    "imam",
+    "scholar",
+    "jannah",
+    "jahannam",
+    "angels",
+    "judgment day",
   ];
 
   const lower = message.toLowerCase();
-  return islamicTerms.some(term => lower.includes(term));
+  return islamicTerms.some((term) => lower.includes(term));
 }
 
 /**
  * Get the total number of searchable documents.
  */
-export function getKnowledgeBaseStats(): { verses: number; hadiths: number; concepts: number } {
+export function getKnowledgeBaseStats(): {
+  verses: number;
+  hadiths: number;
+  concepts: number;
+} {
   ensureDataLoaded();
   return {
     verses: verses.length,

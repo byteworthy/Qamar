@@ -23,7 +23,7 @@ export const NoorColors = {
   moonlightDim: "#c5d5e6", // Dimmer moonlight
   moonlightMuted: "#9fb3c9", // Muted moonlight for secondary text
 
-  // Accent colors - "Noor" (light) theme
+  // Accent colors - "Qamar" (light) theme
   gold: "#D4AF37", // Your brand gold (light/illumination)
   goldLight: "#f0d473", // Brighter gold (dawn light)
   goldDim: "#b8944d", // Subdued gold
@@ -94,7 +94,7 @@ export const Colors = {
 
     // Navigation - Lavender/indigo theme
     tabIconDefault: DawnColors.slateLight,
-    tabIconSelected: DawnColors.sunrise, // Gold highlight (Noor theme)
+    tabIconSelected: DawnColors.sunrise, // Gold highlight (Qamar theme)
     link: DawnColors.indigo,
 
     // Backgrounds - Soft dawn sky tones
@@ -103,7 +103,7 @@ export const Colors = {
     backgroundSecondary: DawnColors.lavenderLight,
     backgroundTertiary: DawnColors.lavender,
 
-    // Primary action color - Gold (Noor/light theme)
+    // Primary action color - Gold (Qamar/light theme)
     primary: DawnColors.sunrise,
     primaryLight: DawnColors.sunriseLight,
     primaryDark: DawnColors.sunriseDark,
@@ -140,7 +140,7 @@ export const Colors = {
 
     // Glassmorphism (lantern effect - light emanating from within)
     glassSurface: "rgba(245, 248, 251, 0.75)", // Brighter, more luminous
-    glassStroke: "rgba(212, 175, 55, 0.15)", // Gold stroke (Noor theme)
+    glassStroke: "rgba(212, 175, 55, 0.15)", // Gold stroke (Qamar theme)
     subtleGlow: "rgba(240, 212, 115, 0.12)", // Gold inner glow
 
     // Semantic surface colors (for feature-specific use)
@@ -161,7 +161,7 @@ export const Colors = {
 
     // Navigation - Gold highlights (light emerging in darkness)
     tabIconDefault: NoorColors.moonlightMuted,
-    tabIconSelected: NoorColors.goldLight, // Gold = light/Noor theme
+    tabIconSelected: NoorColors.goldLight, // Gold = light/Qamar theme
     link: NoorColors.goldLight,
 
     // Backgrounds - Deep twilight/night sky
@@ -170,7 +170,7 @@ export const Colors = {
     backgroundSecondary: NoorColors.backgroundCardLight,
     backgroundTertiary: NoorColors.backgroundLight,
 
-    // Primary action color - Gold (light/Noor emerging)
+    // Primary action color - Gold (light/Qamar emerging)
     primary: NoorColors.gold,
     primaryLight: NoorColors.goldLight,
     primaryDark: NoorColors.goldDim,

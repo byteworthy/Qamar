@@ -4,10 +4,10 @@
  * Manages the full recitation flow: record → transcribe (STT) → check → rate → update store
  */
 
-import { useState, useCallback } from 'react';
-import { useHifzStore } from '../stores/hifz-store';
-import { checkRecitation } from '../services/hifz/recitation-checker';
-import type { RecitationResult } from '../../shared/types/hifz';
+import { useState, useCallback } from "react";
+import { useHifzStore } from "../stores/hifz-store";
+import { checkRecitation } from "../services/hifz/recitation-checker";
+import type { RecitationResult } from "../../shared/types/hifz";
 
 // =============================================================================
 // TYPES
@@ -24,7 +24,7 @@ export interface UseHifzRecitationReturn {
   // Actions
   startRecitation: () => Promise<void>;
   stopRecitation: () => Promise<void>;
-  rateAndSave: (rating: 'again' | 'hard' | 'good' | 'easy') => void;
+  rateAndSave: (rating: "again" | "hard" | "good" | "easy") => void;
   reset: () => void;
 }
 
@@ -40,7 +40,7 @@ export interface UseHifzRecitationReturn {
  */
 export function useHifzRecitation(
   surahNumber: number,
-  verseNumber: number
+  verseNumber: number,
 ): UseHifzRecitationReturn {
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -65,7 +65,9 @@ export function useHifzRecitation(
       // For now, this is a placeholder that will be implemented
       // when the RecitationScreen is built
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to start recording');
+      setError(
+        err instanceof Error ? err.message : "Failed to start recording",
+      );
       setIsRecording(false);
     }
   }, []);
@@ -81,8 +83,8 @@ export function useHifzRecitation(
 
       // TODO: Integrate with actual STT service
       // Placeholder: Simulate STT transcription
-      const mockTranscription = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
-      const mockExpectedText = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
+      const mockTranscription = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+      const mockExpectedText = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 
       setTranscription(mockTranscription);
 
@@ -91,13 +93,15 @@ export function useHifzRecitation(
         surahNumber,
         verseNumber,
         mockExpectedText,
-        mockTranscription
+        mockTranscription,
       );
 
       setResult(recitationResult);
       setIsProcessing(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to process recitation');
+      setError(
+        err instanceof Error ? err.message : "Failed to process recitation",
+      );
       setIsProcessing(false);
     }
   }, [surahNumber, verseNumber]);
@@ -107,9 +111,9 @@ export function useHifzRecitation(
   // ============================================================
 
   const rateAndSave = useCallback(
-    (rating: 'again' | 'hard' | 'good' | 'easy') => {
+    (rating: "again" | "hard" | "good" | "easy") => {
       if (!result) {
-        console.warn('Cannot rate: no recitation result available');
+        console.warn("Cannot rate: no recitation result available");
         return;
       }
 
@@ -121,7 +125,7 @@ export function useHifzRecitation(
       // Update store with rating and mistakes
       updateAfterRecitation(surahNumber, verseNumber, rating, mistakes);
     },
-    [result, updateAfterRecitation, surahNumber, verseNumber]
+    [result, updateAfterRecitation, surahNumber, verseNumber],
   );
 
   // ============================================================

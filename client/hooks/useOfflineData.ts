@@ -8,9 +8,17 @@
 import { useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppState } from "../stores/app-state";
-import { getOfflineDatabase, initializeOfflineDatabase } from "../lib/offline-database";
+import {
+  getOfflineDatabase,
+  initializeOfflineDatabase,
+} from "../lib/offline-database";
 import { getSyncEngine } from "../lib/sync-engine";
-import type { Surah, Verse, Hadith, VocabularyWord } from "../../shared/offline-schema";
+import type {
+  Surah,
+  Verse,
+  Hadith,
+  VocabularyWord,
+} from "../../shared/offline-schema";
 
 // ============================================================================
 // DATABASE INITIALIZATION HOOK
@@ -21,7 +29,11 @@ import type { Surah, Verse, Hadith, VocabularyWord } from "../../shared/offline-
  * Returns { isReady, error }.
  */
 export function useOfflineDatabase() {
-  const { data: isReady, error, isLoading } = useQuery({
+  const {
+    data: isReady,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["offline", "init"],
     queryFn: async () => {
       await initializeOfflineDatabase();
@@ -99,7 +111,9 @@ export function useOfflineQuranSearch(query: string) {
       if (db.isReady()) {
         return db.searchVerses(query);
       }
-      const response = await fetch(`/api/quran/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/quran/search?q=${encodeURIComponent(query)}`,
+      );
       if (!response.ok) throw new Error("Failed to search verses");
       return response.json();
     },
@@ -122,7 +136,10 @@ export const useOfflineQuran = {
 /**
  * Fetch hadiths by collection, local-first.
  */
-export function useOfflineHadithByCollection(collection: string, grade?: string) {
+export function useOfflineHadithByCollection(
+  collection: string,
+  grade?: string,
+) {
   return useQuery<Hadith[]>({
     queryKey: ["offline", "hadiths", collection, grade],
     queryFn: async () => {
@@ -189,7 +206,9 @@ export function useOfflineVocabularyByCategory(category: string) {
         const local = await db.getVocabularyByCategory(category);
         if (local.length > 0) return local;
       }
-      const response = await fetch(`/api/vocabulary?category=${encodeURIComponent(category)}`);
+      const response = await fetch(
+        `/api/vocabulary?category=${encodeURIComponent(category)}`,
+      );
       if (!response.ok) throw new Error("Failed to fetch vocabulary");
       const words: VocabularyWord[] = await response.json();
       if (db.isReady()) {
@@ -293,7 +312,7 @@ export function useBackgroundSync() {
  */
 export function useOfflineMutation<TPayload extends Record<string, unknown>>(
   entity: "bookmarks" | "reflections" | "progress",
-  type: "create" | "update" | "delete"
+  type: "create" | "update" | "delete",
 ) {
   const queryClient = useQueryClient();
   const isOffline = useAppState((s) => s.offline.isOffline);

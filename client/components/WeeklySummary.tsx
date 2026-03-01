@@ -61,7 +61,9 @@ function getTrendDirection(current: number, previous: number): TrendDirection {
   return "same";
 }
 
-function getTrendIcon(direction: TrendDirection): keyof typeof Feather.glyphMap {
+function getTrendIcon(
+  direction: TrendDirection,
+): keyof typeof Feather.glyphMap {
   if (direction === "up") return "trending-up";
   if (direction === "down") return "trending-down";
   return "minus";
@@ -83,7 +85,14 @@ function getDifference(current: number, previous: number): string {
 // SUB-COMPONENTS
 // =============================================================================
 
-function StatRow({ label, icon, current, previous, unit = "", delay }: StatRowProps) {
+function StatRow({
+  label,
+  icon,
+  current,
+  previous,
+  unit = "",
+  delay,
+}: StatRowProps) {
   const { theme } = useTheme();
   const direction = getTrendDirection(current, previous);
   const trendIcon = getTrendIcon(direction);
@@ -136,7 +145,11 @@ function StatRow({ label, icon, current, previous, unit = "", delay }: StatRowPr
 // MAIN COMPONENT
 // =============================================================================
 
-export function WeeklySummary({ visible, onDismiss, data }: WeeklySummaryProps) {
+export function WeeklySummary({
+  visible,
+  onDismiss,
+  data,
+}: WeeklySummaryProps) {
   const { theme } = useTheme();
 
   const message = getEncouragingMessage();
@@ -174,7 +187,9 @@ export function WeeklySummary({ visible, onDismiss, data }: WeeklySummaryProps) 
                   Weekly Review
                 </ThemedText>
               </View>
-              <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
+              <ThemedText
+                style={[styles.subtitle, { color: theme.textSecondary }]}
+              >
                 Your spiritual growth this week
               </ThemedText>
             </Animated.View>
@@ -192,13 +207,14 @@ export function WeeklySummary({ visible, onDismiss, data }: WeeklySummaryProps) 
                     <Feather name="zap" size={22} color={GOLD} />
                   </View>
                   <View style={styles.streakInfo}>
-                    <ThemedText
-                      style={[styles.streakCount, { color: GOLD }]}
-                    >
+                    <ThemedText style={[styles.streakCount, { color: GOLD }]}>
                       {data.streakLength}
                     </ThemedText>
                     <ThemedText
-                      style={[styles.streakLabel, { color: theme.textSecondary }]}
+                      style={[
+                        styles.streakLabel,
+                        { color: theme.textSecondary },
+                      ]}
                     >
                       day streak
                     </ThemedText>
@@ -217,7 +233,9 @@ export function WeeklySummary({ visible, onDismiss, data }: WeeklySummaryProps) 
                 delay={160}
               />
 
-              <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+              <View
+                style={[styles.divider, { backgroundColor: theme.divider }]}
+              />
 
               <StatRow
                 label="Flashcards Reviewed"
@@ -227,7 +245,9 @@ export function WeeklySummary({ visible, onDismiss, data }: WeeklySummaryProps) 
                 delay={220}
               />
 
-              <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+              <View
+                style={[styles.divider, { backgroundColor: theme.divider }]}
+              />
 
               <StatRow
                 label="Reflections"
@@ -240,7 +260,12 @@ export function WeeklySummary({ visible, onDismiss, data }: WeeklySummaryProps) 
 
             {/* Encouraging Message */}
             <Animated.View entering={FadeInUp.duration(350).delay(340)}>
-              <View style={[styles.messageContainer, { backgroundColor: GOLD + "10" }]}>
+              <View
+                style={[
+                  styles.messageContainer,
+                  { backgroundColor: GOLD + "10" },
+                ]}
+              >
                 <Feather
                   name="star"
                   size={14}

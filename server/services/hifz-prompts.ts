@@ -24,7 +24,7 @@ export function buildMistakeAnalysisPrompt(
   expectedText: string,
   transcribedText: string,
   wordResults: WordComparisonResult[],
-  score: number
+  score: number,
 ): string {
   // Extract mistakes from word results
   const mistakes = wordResults

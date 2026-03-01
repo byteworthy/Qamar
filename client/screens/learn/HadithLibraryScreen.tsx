@@ -58,9 +58,7 @@ function DailyHadithCard() {
         <View style={styles.dailyHeader}>
           <View style={styles.dailyBadge}>
             <Feather name="sun" size={14} color="#D4AF37" />
-            <ThemedText style={styles.dailyBadgeText}>
-              Daily Hadith
-            </ThemedText>
+            <ThemedText style={styles.dailyBadgeText}>Daily Hadith</ThemedText>
           </View>
           <View
             style={[
@@ -100,9 +98,7 @@ function DailyHadithCard() {
         </ThemedText>
 
         <View style={styles.dailyFooter}>
-          <ThemedText
-            style={[styles.dailyTap, { color: theme.textSecondary }]}
-          >
+          <ThemedText style={[styles.dailyTap, { color: theme.textSecondary }]}>
             Tap to read full hadith
           </ThemedText>
           <Feather name="arrow-right" size={14} color={theme.textSecondary} />
@@ -122,12 +118,21 @@ interface CollectionCardProps {
   index: number;
 }
 
-const CollectionCard = React.memo(function CollectionCard({ collection, onPress, index }: CollectionCardProps) {
+const CollectionCard = React.memo(function CollectionCard({
+  collection,
+  onPress,
+  index,
+}: CollectionCardProps) {
   const { theme } = useTheme();
 
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(100 + index * 50)}>
-      <GlassCard onPress={onPress} style={styles.collectionCard} elevated accessibilityLabel={`${collection.name} by ${collection.compiler}, ${collection.totalHadiths} hadiths`}>
+      <GlassCard
+        onPress={onPress}
+        style={styles.collectionCard}
+        elevated
+        accessibilityLabel={`${collection.name} by ${collection.compiler}, ${collection.totalHadiths} hadiths`}
+      >
         <View style={styles.collectionContent}>
           <View style={styles.collectionIcon}>
             <Feather name="book" size={20} color={theme.primary} />
@@ -222,7 +227,12 @@ const HadithSearchResult = React.memo(function HadithSearchResult({
 
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(index * 50)}>
-      <GlassCard onPress={onPress} style={styles.collectionCard} elevated accessibilityLabel={`Hadith: ${hadith.textEnglish}, grade: ${hadith.grade}`}>
+      <GlassCard
+        onPress={onPress}
+        style={styles.collectionCard}
+        elevated
+        accessibilityLabel={`Hadith: ${hadith.textEnglish}, grade: ${hadith.grade}`}
+      >
         <View style={styles.collectionContent}>
           <View style={styles.collectionInfo}>
             <ThemedText
@@ -293,33 +303,45 @@ export default function HadithLibraryScreen() {
       (c) =>
         c.name.toLowerCase().includes(query) ||
         c.nameArabic.includes(searchQuery) ||
-        c.compiler.toLowerCase().includes(query)
+        c.compiler.toLowerCase().includes(query),
     );
   }, [collections, searchQuery]);
 
-  const handleCollectionPress = useCallback((collection: HadithCollection) => {
-    navigation.navigate("HadithList", { collectionId: collection.id });
-  }, [navigation]);
+  const handleCollectionPress = useCallback(
+    (collection: HadithCollection) => {
+      navigation.navigate("HadithList", { collectionId: collection.id });
+    },
+    [navigation],
+  );
 
-  const handleHadithPress = useCallback((hadith: Hadith) => {
-    navigation.navigate("HadithDetail", { hadithId: hadith.id });
-  }, [navigation]);
+  const handleHadithPress = useCallback(
+    (hadith: Hadith) => {
+      navigation.navigate("HadithDetail", { hadithId: hadith.id });
+    },
+    [navigation],
+  );
 
-  const renderSearchResult = useCallback(({ item, index }: { item: Hadith; index: number }) => (
-    <HadithSearchResult
-      hadith={item}
-      onPress={() => handleHadithPress(item)}
-      index={index}
-    />
-  ), [handleHadithPress]);
+  const renderSearchResult = useCallback(
+    ({ item, index }: { item: Hadith; index: number }) => (
+      <HadithSearchResult
+        hadith={item}
+        onPress={() => handleHadithPress(item)}
+        index={index}
+      />
+    ),
+    [handleHadithPress],
+  );
 
-  const renderCollectionItem = useCallback(({ item, index }: { item: HadithCollection; index: number }) => (
-    <CollectionCard
-      collection={item}
-      onPress={() => handleCollectionPress(item)}
-      index={index}
-    />
-  ), [handleCollectionPress]);
+  const renderCollectionItem = useCallback(
+    ({ item, index }: { item: HadithCollection; index: number }) => (
+      <CollectionCard
+        collection={item}
+        onPress={() => handleCollectionPress(item)}
+        index={index}
+      />
+    ),
+    [handleCollectionPress],
+  );
 
   if (collectionsLoading) {
     return (
@@ -440,11 +462,7 @@ export default function HadithLibraryScreen() {
           ListHeaderComponent={!isSearching ? <DailyHadithCard /> : null}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
-              <Feather
-                name="file-text"
-                size={48}
-                color={theme.textSecondary}
-              />
+              <Feather name="file-text" size={48} color={theme.textSecondary} />
               <ThemedText
                 style={[styles.emptyText, { color: theme.textSecondary }]}
               >

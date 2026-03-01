@@ -13,9 +13,7 @@ import {
   detectAssumptionPattern,
   getAssumptionPromptModifier,
 } from "../stateInference";
-import {
-  EmotionalIntelligence,
-} from "../conversational-ai";
+import { EmotionalIntelligence } from "../conversational-ai";
 import {
   type EmotionalState,
   type DistressLevel,
@@ -44,15 +42,17 @@ export function registerReframePracticeRoutes(app: Express): void {
       // Validate request body
       const validationResult = reframeSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { thought, patterns, analysis, emotionalIntensity } =
@@ -64,14 +64,16 @@ export function registerReframePracticeRoutes(app: Express): void {
         return res.json(getValidationModeReframeResponse());
       }
       if (!isAnthropicConfigured()) {
-        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-          createErrorResponse(
-            HTTP_STATUS.SERVICE_UNAVAILABLE,
-            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-            req.id,
-            "AI service not configured"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.SERVICE_UNAVAILABLE,
+              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+              req.id,
+              "AI service not configured",
+            ),
+          );
       }
 
       const toneClassification = classifyTone(thought);
@@ -210,14 +212,16 @@ ${reframePrompt}`,
       req.logger.error("Failed to generate reframe", error, {
         operation: "generate_reframe",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to generate reframe"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to generate reframe",
+          ),
+        );
     }
   });
 
@@ -226,15 +230,17 @@ ${reframePrompt}`,
       // Validate request body
       const validationResult = practiceSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { reframe } = validationResult.data;
@@ -244,14 +250,16 @@ ${reframePrompt}`,
         return res.json(getValidationModePracticeResponse());
       }
       if (!isAnthropicConfigured()) {
-        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-          createErrorResponse(
-            HTTP_STATUS.SERVICE_UNAVAILABLE,
-            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-            req.id,
-            "AI service not configured"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.SERVICE_UNAVAILABLE,
+              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+              req.id,
+              "AI service not configured",
+            ),
+          );
       }
 
       // CANONICAL ORCHESTRATION ENFORCEMENT
@@ -330,14 +338,16 @@ ${practicePrompt}`,
       req.logger.error("Failed to generate practice", error, {
         operation: "generate_practice",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to generate practice"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to generate practice",
+          ),
+        );
     }
   });
 }

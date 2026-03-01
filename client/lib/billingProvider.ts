@@ -131,8 +131,8 @@ const defaultProfile: BillingProfile = {
 // =============================================================================
 
 export const getPlanName = (tier: BillingTier): string => {
-  if (tier === "pro") return "Noor Pro";
-  if (tier === "plus") return "Noor Plus";
+  if (tier === "pro") return "Qamar Pro";
+  if (tier === "plus") return "Qamar Plus";
   return "Free";
 };
 
@@ -225,10 +225,7 @@ class StoreBillingProvider implements BillingProvider {
       await iap.initConnection();
 
       // Get product ID
-      const productKey =
-        period === "monthly"
-          ? "plusMonthly"
-          : "plusYearly";
+      const productKey = period === "monthly" ? "plusMonthly" : "plusYearly";
 
       const productIds = getProductIds();
       const productId = productIds[productKey];

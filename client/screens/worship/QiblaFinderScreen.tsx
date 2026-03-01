@@ -57,7 +57,7 @@ export default function QiblaFinderScreen() {
   const [distanceToMakkah, setDistanceToMakkah] = useState<number>(0);
 
   // Refs for accuracy calculation
-  const magnetometerHistory = useRef<Array<{ x: number; y: number; z: number }>>([]);
+  const magnetometerHistory = useRef<{ x: number; y: number; z: number }[]>([]);
   const lastRotation = useRef<number>(0);
 
   const rotation = useSharedValue(0);
@@ -89,7 +89,7 @@ export default function QiblaFinderScreen() {
   const calculateAccuracy = (
     x: number,
     y: number,
-    z: number
+    z: number,
   ): "high" | "medium" | "low" => {
     // Calculate magnitude
     const magnitude = Math.sqrt(x * x + y * y + z * z);
@@ -107,13 +107,17 @@ export default function QiblaFinderScreen() {
 
     // Calculate variance
     const magnitudes = magnetometerHistory.current.map((reading) =>
-      Math.sqrt(reading.x * reading.x + reading.y * reading.y + reading.z * reading.z)
+      Math.sqrt(
+        reading.x * reading.x + reading.y * reading.y + reading.z * reading.z,
+      ),
     );
     const avgMagnitude =
       magnitudes.reduce((sum, val) => sum + val, 0) / magnitudes.length;
     const variance =
-      magnitudes.reduce((sum, val) => sum + Math.pow(val - avgMagnitude, 2), 0) /
-      magnitudes.length;
+      magnitudes.reduce(
+        (sum, val) => sum + Math.pow(val - avgMagnitude, 2),
+        0,
+      ) / magnitudes.length;
 
     // Determine accuracy
     // High variance = unstable = needs calibration
@@ -139,7 +143,7 @@ export default function QiblaFinderScreen() {
           Alert.alert(
             "Location Permission Required",
             "Please enable location permissions to find the Qibla direction.",
-            [{ text: "OK" }]
+            [{ text: "OK" }],
           );
           setLoading(false);
           return;
@@ -162,7 +166,7 @@ export default function QiblaFinderScreen() {
         // Calculate distance to Makkah
         const distance = calculateDistanceToMakkah(
           locData.latitude,
-          locData.longitude
+          locData.longitude,
         );
         setDistanceToMakkah(distance);
 
@@ -172,7 +176,7 @@ export default function QiblaFinderScreen() {
         Alert.alert(
           "Location Error",
           "Could not get your location. Please check your settings.",
-          [{ text: "OK" }]
+          [{ text: "OK" }],
         );
         setLoading(false);
       }
@@ -191,7 +195,7 @@ export default function QiblaFinderScreen() {
           Alert.alert(
             "Compass Not Available",
             "Your device does not have a magnetometer sensor.",
-            [{ text: "OK" }]
+            [{ text: "OK" }],
           );
           return;
         }
@@ -225,11 +229,11 @@ export default function QiblaFinderScreen() {
             const alpha = 0.15; // Smoothing factor (lower = smoother but more lag)
             const smoothedAngle =
               lastRotation.current +
-              alpha * ((angle - lastRotation.current + 540) % 360 - 180);
+              alpha * (((angle - lastRotation.current + 540) % 360) - 180);
             lastRotation.current = smoothedAngle;
 
             setMagnetometerData(smoothedAngle);
-          }
+          },
         );
       } catch (error) {
         if (__DEV__) console.error("Error starting magnetometer:", error);
@@ -334,9 +338,13 @@ export default function QiblaFinderScreen() {
 
   if (loading) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={styles.loadingContainer}>
-          <ThemedText style={styles.loadingText}>Finding Qibla direction...</ThemedText>
+          <ThemedText style={styles.loadingText}>
+            Finding Qibla direction...
+          </ThemedText>
         </View>
       </View>
     );
@@ -344,7 +352,9 @@ export default function QiblaFinderScreen() {
 
   if (!location) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={styles.loadingContainer}>
           <Feather
             name="map-pin"
@@ -355,7 +365,9 @@ export default function QiblaFinderScreen() {
           <ThemedText style={styles.loadingText}>
             Location permission is required
           </ThemedText>
-          <ThemedText style={[styles.loadingSubtext, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.loadingSubtext, { color: theme.textSecondary }]}
+          >
             Please enable location services to find the Qibla
           </ThemedText>
         </View>
@@ -370,8 +382,12 @@ export default function QiblaFinderScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
-          <ThemedText style={styles.headerTitle} accessibilityRole="header">Qibla Finder</ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">
+            Qibla Finder
+          </ThemedText>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             Point your device toward Makkah
           </ThemedText>
         </Animated.View>
@@ -384,15 +400,17 @@ export default function QiblaFinderScreen() {
           style={accuracyIndicatorStyle}
         >
           <GlassCard
-            style={[
-              styles.accuracyCard,
-              {
-                borderColor: accuracyInfo.color + "40",
-                backgroundColor: isDark
-                  ? accuracyInfo.color + "15"
-                  : accuracyInfo.color + "10",
-              },
-            ] as unknown as ViewStyle}
+            style={
+              [
+                styles.accuracyCard,
+                {
+                  borderColor: accuracyInfo.color + "40",
+                  backgroundColor: isDark
+                    ? accuracyInfo.color + "15"
+                    : accuracyInfo.color + "10",
+                },
+              ] as unknown as ViewStyle
+            }
           >
             <View style={styles.accuracyRow}>
               <Feather
@@ -465,28 +483,40 @@ export default function QiblaFinderScreen() {
               <View style={styles.cardinalContainer}>
                 <View style={styles.cardinalMark}>
                   <ThemedText
-                    style={[styles.cardinalText, { color: theme.textSecondary }]}
+                    style={[
+                      styles.cardinalText,
+                      { color: theme.textSecondary },
+                    ]}
                   >
                     N
                   </ThemedText>
                 </View>
                 <View style={[styles.cardinalMark, styles.cardinalEast]}>
                   <ThemedText
-                    style={[styles.cardinalText, { color: theme.textSecondary }]}
+                    style={[
+                      styles.cardinalText,
+                      { color: theme.textSecondary },
+                    ]}
                   >
                     E
                   </ThemedText>
                 </View>
                 <View style={[styles.cardinalMark, styles.cardinalSouth]}>
                   <ThemedText
-                    style={[styles.cardinalText, { color: theme.textSecondary }]}
+                    style={[
+                      styles.cardinalText,
+                      { color: theme.textSecondary },
+                    ]}
                   >
                     S
                   </ThemedText>
                 </View>
                 <View style={[styles.cardinalMark, styles.cardinalWest]}>
                   <ThemedText
-                    style={[styles.cardinalText, { color: theme.textSecondary }]}
+                    style={[
+                      styles.cardinalText,
+                      { color: theme.textSecondary },
+                    ]}
                   >
                     W
                   </ThemedText>
@@ -524,7 +554,10 @@ export default function QiblaFinderScreen() {
             </Animated.View>
 
             {/* Qibla Arrow (fixed, points to Qibla) */}
-            <View style={styles.arrowContainer} accessibilityLabel={`Qibla direction arrow, ${degreesToQibla} degrees`}>
+            <View
+              style={styles.arrowContainer}
+              accessibilityLabel={`Qibla direction arrow, ${degreesToQibla} degrees`}
+            >
               <Animated.View style={arrowRotationStyle}>
                 <Feather
                   name="navigation"
@@ -558,7 +591,9 @@ export default function QiblaFinderScreen() {
                 color={isDark ? "#f0d473" : "#D4AF37"}
               />
               <View style={styles.infoTextContainer}>
-                <ThemedText style={[styles.infoLabel, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.infoLabel, { color: theme.textSecondary }]}
+                >
                   Qibla Direction
                 </ThemedText>
                 <ThemedText
@@ -571,7 +606,9 @@ export default function QiblaFinderScreen() {
                 </ThemedText>
               </View>
             </View>
-            <View style={[styles.infoDivider, { backgroundColor: theme.border }]} />
+            <View
+              style={[styles.infoDivider, { backgroundColor: theme.border }]}
+            />
             <View style={styles.infoRow}>
               <Feather
                 name="navigation"
@@ -579,7 +616,9 @@ export default function QiblaFinderScreen() {
                 color={isDark ? "#f0d473" : "#D4AF37"}
               />
               <View style={styles.infoTextContainer}>
-                <ThemedText style={[styles.infoLabel, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.infoLabel, { color: theme.textSecondary }]}
+                >
                   Distance to Makkah
                 </ThemedText>
                 <ThemedText
@@ -592,7 +631,9 @@ export default function QiblaFinderScreen() {
                 </ThemedText>
               </View>
             </View>
-            <View style={[styles.infoDivider, { backgroundColor: theme.border }]} />
+            <View
+              style={[styles.infoDivider, { backgroundColor: theme.border }]}
+            />
             <View style={styles.infoRow}>
               <Feather
                 name="map-pin"
@@ -600,11 +641,14 @@ export default function QiblaFinderScreen() {
                 color={isDark ? "#f0d473" : "#D4AF37"}
               />
               <View style={styles.infoTextContainer}>
-                <ThemedText style={[styles.infoLabel, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.infoLabel, { color: theme.textSecondary }]}
+                >
                   Your Location
                 </ThemedText>
                 <ThemedText style={[styles.infoValue, { color: theme.text }]}>
-                  {location.latitude.toFixed(4)}°, {location.longitude.toFixed(4)}°
+                  {location.latitude.toFixed(4)}°,{" "}
+                  {location.longitude.toFixed(4)}°
                 </ThemedText>
               </View>
             </View>
@@ -614,9 +658,11 @@ export default function QiblaFinderScreen() {
         {/* Instructions */}
         <Animated.View entering={FadeInUp.duration(400).delay(500)}>
           <View style={styles.instructions}>
-            <ThemedText style={[styles.instructionText, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.instructionText, { color: theme.textSecondary }]}
+            >
               Hold your device flat and rotate until the arrow points upward.
-              You'll feel a vibration when aligned with the Qibla.
+              You{"'"}ll feel a vibration when aligned with the Qibla.
             </ThemedText>
           </View>
         </Animated.View>

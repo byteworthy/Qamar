@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -8,20 +8,23 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
-} from 'react-native';
-import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
-import Animated, { FadeInUp } from 'react-native-reanimated';
+} from "react-native";
+import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
-import { Screen } from '@/components/Screen';
-import { ThemedText } from '@/components/ThemedText';
-import { GlassCard } from '@/components/GlassCard';
-import { useTheme } from '@/hooks/useTheme';
-import { useVerseConversation } from '@/hooks/useVerseConversation';
-import { NoorColors } from '@/constants/theme/colors';
-import { RootStackParamList } from '@/navigation/types';
+import { Screen } from "@/components/Screen";
+import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
+import { useTheme } from "@/hooks/useTheme";
+import { useVerseConversation } from "@/hooks/useVerseConversation";
+import { NoorColors } from "@/constants/theme/colors";
+import { RootStackParamList } from "@/navigation/types";
 
-type VerseDiscussionRouteProp = RouteProp<RootStackParamList, 'VerseDiscussion'>;
+type VerseDiscussionRouteProp = RouteProp<
+  RootStackParamList,
+  "VerseDiscussion"
+>;
 
 export default function VerseDiscussionScreen() {
   const { theme } = useTheme();
@@ -29,13 +32,11 @@ export default function VerseDiscussionScreen() {
   const route = useRoute<VerseDiscussionRouteProp>();
   const { surahNumber, verseNumber } = route.params;
 
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const { messages, sendMessage, clearHistory, isLoading, error } = useVerseConversation(
-    surahNumber,
-    verseNumber
-  );
+  const { messages, sendMessage, clearHistory, isLoading, error } =
+    useVerseConversation(surahNumber, verseNumber);
 
   useEffect(() => {
     // Scroll to bottom when messages change
@@ -46,15 +47,19 @@ export default function VerseDiscussionScreen() {
     if (!inputText.trim() || isLoading) return;
 
     const message = inputText.trim();
-    setInputText('');
+    setInputText("");
     await sendMessage(message);
   };
 
   return (
-    <Screen title={`Discuss ${surahNumber}:${verseNumber}`} showBack scrollable={false}>
+    <Screen
+      title={`Discuss ${surahNumber}:${verseNumber}`}
+      showBack
+      scrollable={false}
+    >
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={100}
       >
         {/* Verse Header */}
@@ -66,8 +71,11 @@ export default function VerseDiscussionScreen() {
           <ThemedText style={[styles.verseArabic, { color: theme.text }]}>
             بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
           </ThemedText>
-          <ThemedText style={[styles.verseTranslation, { color: theme.textSecondary }]}>
-            In the name of Allah, the Entirely Merciful, the Especially Merciful.
+          <ThemedText
+            style={[styles.verseTranslation, { color: theme.textSecondary }]}
+          >
+            In the name of Allah, the Entirely Merciful, the Especially
+            Merciful.
           </ThemedText>
         </GlassCard>
 
@@ -80,8 +88,14 @@ export default function VerseDiscussionScreen() {
         >
           {messages.length === 0 && (
             <View style={styles.emptyState}>
-              <Feather name="message-circle" size={48} color={theme.textSecondary} />
-              <ThemedText style={[styles.emptyText, { color: theme.textSecondary }]}>
+              <Feather
+                name="message-circle"
+                size={48}
+                color={theme.textSecondary}
+              />
+              <ThemedText
+                style={[styles.emptyText, { color: theme.textSecondary }]}
+              >
                 Ask anything about this verse
               </ThemedText>
             </View>
@@ -93,10 +107,14 @@ export default function VerseDiscussionScreen() {
               entering={FadeInUp.duration(300).delay(index * 50)}
             >
               <GlassCard
-                style={[
-                  styles.messageCard,
-                  msg.role === 'user' ? styles.userMessage : styles.assistantMessage,
-                ] as any}
+                style={
+                  [
+                    styles.messageCard,
+                    msg.role === "user"
+                      ? styles.userMessage
+                      : styles.assistantMessage,
+                  ] as any
+                }
               >
                 <ThemedText style={[styles.messageText, { color: theme.text }]}>
                   {msg.content}
@@ -108,7 +126,9 @@ export default function VerseDiscussionScreen() {
           {isLoading && (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="small" color={NoorColors.gold} />
-              <ThemedText style={[styles.loadingText, { color: theme.textSecondary }]}>
+              <ThemedText
+                style={[styles.loadingText, { color: theme.textSecondary }]}
+              >
                 Thinking...
               </ThemedText>
             </View>
@@ -125,7 +145,10 @@ export default function VerseDiscussionScreen() {
         {/* Input Bar */}
         <View style={[styles.inputBar, { borderTopColor: theme.border }]}>
           <TextInput
-            style={[styles.input, { color: theme.text, backgroundColor: theme.backgroundSecondary }]}
+            style={[
+              styles.input,
+              { color: theme.text, backgroundColor: theme.backgroundSecondary },
+            ]}
             placeholder="Ask about this verse..."
             placeholderTextColor={theme.textSecondary}
             value={inputText}
@@ -139,7 +162,10 @@ export default function VerseDiscussionScreen() {
             style={({ pressed }) => [
               styles.sendButton,
               {
-                backgroundColor: inputText.trim() && !isLoading ? NoorColors.gold : theme.border,
+                backgroundColor:
+                  inputText.trim() && !isLoading
+                    ? NoorColors.gold
+                    : theme.border,
                 opacity: pressed ? 0.7 : 1,
               },
             ]}
@@ -162,20 +188,20 @@ const styles = StyleSheet.create({
   },
   verseReference: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 8,
     opacity: 0.7,
   },
   verseArabic: {
     fontSize: 24,
-    fontFamily: 'Amiri',
+    fontFamily: "Amiri",
     marginBottom: 8,
-    textAlign: 'right',
+    textAlign: "right",
   },
   verseTranslation: {
     fontSize: 14,
     lineHeight: 20,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   messagesContainer: {
     flex: 1,
@@ -185,8 +211,8 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 60,
   },
   emptyText: {
@@ -196,22 +222,22 @@ const styles = StyleSheet.create({
   messageCard: {
     marginBottom: 12,
     padding: 12,
-    maxWidth: '85%',
+    maxWidth: "85%",
   },
   userMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    alignSelf: "flex-end",
+    backgroundColor: "rgba(212, 175, 55, 0.15)",
   },
   assistantMessage: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   messageText: {
     fontSize: 15,
     lineHeight: 22,
   },
   loadingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
     paddingVertical: 12,
   },
@@ -219,21 +245,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   errorCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
     padding: 12,
     marginBottom: 12,
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    backgroundColor: "rgba(239, 68, 68, 0.1)",
   },
   errorText: {
     fontSize: 14,
-    color: '#EF4444',
+    color: "#EF4444",
     flex: 1,
   },
   inputBar: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderTopWidth: 1,
@@ -251,7 +277,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

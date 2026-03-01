@@ -5,11 +5,11 @@
  * Provides word-level playback controls and current-word tracking for highlighting.
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   getWordByWordAudioService,
   WordAudioState,
-} from '../services/wordByWordAudio';
+} from "../services/wordByWordAudio";
 
 export interface WordByWordAudioHook {
   isPlaying: boolean;
@@ -20,12 +20,12 @@ export interface WordByWordAudioHook {
   playAll: (
     surahNumber: number,
     verseNumber: number,
-    wordCount: number
+    wordCount: number,
   ) => Promise<void>;
   playWord: (
     surahNumber: number,
     verseNumber: number,
-    wordIndex: number
+    wordIndex: number,
   ) => Promise<void>;
   stop: () => Promise<void>;
   reset: () => void;
@@ -56,14 +56,14 @@ export function useWordByWordAudio(): WordByWordAudioHook {
     async (surahNumber: number, verseNumber: number, wordCount: number) => {
       await service.playAllWords(surahNumber, verseNumber, wordCount);
     },
-    []
+    [],
   );
 
   const playWord = useCallback(
     async (surahNumber: number, verseNumber: number, wordIndex: number) => {
       await service.playWord(surahNumber, verseNumber, wordIndex);
     },
-    []
+    [],
   );
 
   const stop = useCallback(async () => {

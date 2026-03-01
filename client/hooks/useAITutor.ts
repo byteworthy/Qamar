@@ -13,7 +13,11 @@ import * as Sentry from "@sentry/react-native";
 // Types
 // ============================================================
 
-export type TutorMode = "vocabulary" | "grammar" | "conversation" | "quran_words";
+export type TutorMode =
+  | "vocabulary"
+  | "grammar"
+  | "conversation"
+  | "quran_words";
 
 export interface TutorMessage {
   id: string;
@@ -50,9 +54,7 @@ export function useAITutor(): AITutorHook {
   const [mode, setModeState] = useState<TutorMode>("vocabulary");
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
 
-  const conversationHistory = useRef<Array<{ role: string; content: string }>>(
-    []
-  );
+  const conversationHistory = useRef<{ role: string; content: string }[]>([]);
 
   // ============================
   // Generate unique message ID
@@ -100,26 +102,32 @@ export function useAITutor(): AITutorHook {
               mode,
               conversationHistory: conversationHistory.current,
             });
-          }
+          },
         );
 
         if (response.status === 429) {
           setError(
-            "You've reached the rate limit. Please wait a moment before trying again."
+            "You've reached the rate limit. Please wait a moment before trying again.",
           );
           // Remove the user message we optimistically added
           setMessages((prev) => prev.filter((m) => m.id !== userMessage.id));
-          conversationHistory.current = conversationHistory.current.slice(0, -1);
+          conversationHistory.current = conversationHistory.current.slice(
+            0,
+            -1,
+          );
           return;
         }
 
         if (response.status === 403) {
           setError(
-            "You've used all your free questions for today. Upgrade to Noor Premium for unlimited access."
+            "You've used all your free questions for today. Upgrade to Qamar Premium for unlimited access.",
           );
           // Remove the user message we optimistically added
           setMessages((prev) => prev.filter((m) => m.id !== userMessage.id));
-          conversationHistory.current = conversationHistory.current.slice(0, -1);
+          conversationHistory.current = conversationHistory.current.slice(
+            0,
+            -1,
+          );
           return;
         }
 
@@ -160,7 +168,7 @@ export function useAITutor(): AITutorHook {
         setIsLoading(false);
       }
     },
-    [isLoading, mode, generateId]
+    [isLoading, mode, generateId],
   );
 
   // ============================
@@ -185,7 +193,7 @@ export function useAITutor(): AITutorHook {
       setError(null);
       conversationHistory.current = [];
     },
-    [mode]
+    [mode],
   );
 
   return {

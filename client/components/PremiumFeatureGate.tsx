@@ -8,7 +8,11 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { hasFeature, PremiumFeature, getRequiredTier } from "@/lib/premium-features";
+import {
+  hasFeature,
+  PremiumFeature,
+  getRequiredTier,
+} from "@/lib/premium-features";
 import { logFeaturePaywallShown } from "@/lib/analytics";
 import { PremiumUpsell } from "./PremiumUpsell";
 import { LoadingState } from "./LoadingState";

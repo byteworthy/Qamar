@@ -7,15 +7,23 @@
 
 /** Minimal type for a feature-extraction pipeline instance. */
 interface FeatureExtractor {
-  (text: string, options?: Record<string, unknown>): Promise<{ data: Float32Array }>;
+  (
+    text: string,
+    options?: Record<string, unknown>,
+  ): Promise<{ data: Float32Array }>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- @xenova/transformers pipeline factory has complex generics
-let pipeline: ((task: string, model: string, options?: Record<string, unknown>) => Promise<unknown>) | null = null;
+let pipeline:
+  | ((
+      task: string,
+      model: string,
+      options?: Record<string, unknown>,
+    ) => Promise<unknown>)
+  | null = null;
 let extractor: FeatureExtractor | null = null;
 let loadFailed = false;
 
-export const EMBEDDING_MODEL = 'Xenova/all-MiniLM-L6-v2';
+export const EMBEDDING_MODEL = "Xenova/all-MiniLM-L6-v2";
 export const VECTOR_DIM = 384;
 export let RAG_DEGRADED = false;
 
@@ -29,16 +37,16 @@ async function getExtractor(): Promise<FeatureExtractor | null> {
 
   try {
     if (!pipeline) {
-      const transformers = await import('@xenova/transformers');
+      const transformers = await import("@xenova/transformers");
       pipeline = transformers.pipeline as unknown as typeof pipeline;
     }
-    extractor = await pipeline!('feature-extraction', EMBEDDING_MODEL, {
+    extractor = (await pipeline!("feature-extraction", EMBEDDING_MODEL, {
       quantized: true,
-    }) as FeatureExtractor;
-    console.log('[Embedding] Model loaded:', EMBEDDING_MODEL);
+    })) as FeatureExtractor;
+    console.log("[Embedding] Model loaded:", EMBEDDING_MODEL);
     return extractor;
   } catch (err) {
-    console.warn('[Embedding] Model load failed, using mock embeddings:', err);
+    console.warn("[Embedding] Model load failed, using mock embeddings:", err);
     loadFailed = true;
     RAG_DEGRADED = true;
     return null;
@@ -54,10 +62,10 @@ export async function generateEmbedding(text: string): Promise<number[]> {
   if (!ext) return mockEmbedding(text);
 
   try {
-    const output = await ext(text, { pooling: 'mean', normalize: true });
+    const output = await ext(text, { pooling: "mean", normalize: true });
     return Array.from(output.data as Float32Array);
   } catch (err) {
-    console.warn('[Embedding] Inference failed, falling back to mock:', err);
+    console.warn("[Embedding] Inference failed, falling back to mock:", err);
     RAG_DEGRADED = true;
     return mockEmbedding(text);
   }
@@ -101,6 +109,7 @@ function mockEmbedding(text: string): number[] {
     }
   }
 
-  const magnitude = Math.sqrt(vector.reduce((sum: number, v: number) => sum + v * v, 0)) || 1;
+  const magnitude =
+    Math.sqrt(vector.reduce((sum: number, v: number) => sum + v * v, 0)) || 1;
   return vector.map((v: number) => v / magnitude);
 }

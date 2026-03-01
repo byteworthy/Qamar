@@ -21,7 +21,11 @@ const PING_TIMEOUT_MS = 5_000;
  */
 async function checkConnectivity(): Promise<boolean> {
   // Quick check on web
-  if (Platform.OS === "web" && typeof navigator !== "undefined" && !navigator.onLine) {
+  if (
+    Platform.OS === "web" &&
+    typeof navigator !== "undefined" &&
+    !navigator.onLine
+  ) {
     return false;
   }
 

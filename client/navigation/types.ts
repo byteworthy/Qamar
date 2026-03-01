@@ -1,5 +1,5 @@
 /**
- * Centralized navigation types for the Noor app
+ * Centralized navigation types for the Qamar app
  *
  * This file provides type-safe navigation types that can be imported
  * throughout the app to ensure proper navigation typing.
@@ -111,7 +111,8 @@ export type RootStackParamList = {
  * Generic navigation prop for any screen in the root stack
  * Use this when you need navigation without specifying the current screen
  */
-export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+export type RootStackNavigationProp =
+  NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * Navigation prop for a specific screen
@@ -124,5 +125,7 @@ export type NavigationProp<T extends keyof RootStackParamList> =
  * Route prop for a specific screen
  * Example: RouteType<'ReflectionComplete'>
  */
-export type RouteType<T extends keyof RootStackParamList> =
-  RouteProp<RootStackParamList, T>;
+export type RouteType<T extends keyof RootStackParamList> = RouteProp<
+  RootStackParamList,
+  T
+>;

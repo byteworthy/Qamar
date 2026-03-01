@@ -50,7 +50,11 @@ jest.mock("../../stores/app-state", () => ({
 
 jest.mock("@tanstack/react-query", () => ({
   useQuery: jest.fn(() => ({ data: undefined, isLoading: false, error: null })),
-  useMutation: jest.fn(() => ({ mutate: jest.fn(), mutateAsync: jest.fn(), isLoading: false })),
+  useMutation: jest.fn(() => ({
+    mutate: jest.fn(),
+    mutateAsync: jest.fn(),
+    isLoading: false,
+  })),
   useQueryClient: jest.fn(() => ({ invalidateQueries: jest.fn() })),
 }));
 
@@ -94,14 +98,18 @@ describe("useOfflineData", () => {
     });
 
     test("verses: reads by surah number", async () => {
-      const mockVerses = [{ id: 1, surah_number: 1, verse_number: 1, arabic_text: "بسم الله" }];
+      const mockVerses = [
+        { id: 1, surah_number: 1, verse_number: 1, arabic_text: "بسم الله" },
+      ];
       mockDb.getVersesBySurah.mockResolvedValue(mockVerses);
       const result = await mockDb.getVersesBySurah(1);
       expect(result[0].surah_number).toBe(1);
     });
 
     test("hadiths: reads by collection", async () => {
-      const mockHadiths = [{ id: 1, collection: "bukhari", arabic_text: "text" }];
+      const mockHadiths = [
+        { id: 1, collection: "bukhari", arabic_text: "text" },
+      ];
       mockDb.getHadithsByCollection.mockResolvedValue(mockHadiths);
       const result = await mockDb.getHadithsByCollection("bukhari");
       expect(result[0].collection).toBe("bukhari");
@@ -124,7 +132,9 @@ describe("useOfflineData", () => {
 
   describe("Search", () => {
     test("verse search calls db.searchVerses", async () => {
-      const mockResults = [{ id: 1, arabic_text: "آية الكرسي", translation_en: "Ayat al-Kursi" }];
+      const mockResults = [
+        { id: 1, arabic_text: "آية الكرسي", translation_en: "Ayat al-Kursi" },
+      ];
       mockDb.searchVerses.mockResolvedValue(mockResults);
       const result = await mockDb.searchVerses("Kursi");
       expect(result).toHaveLength(1);
@@ -134,18 +144,33 @@ describe("useOfflineData", () => {
 
   describe("Data type shapes", () => {
     test("Surah shape", () => {
-      const surah = { id: 1, surah_number: 1, name_arabic: "الفاتحة", total_verses: 7 };
+      const surah = {
+        id: 1,
+        surah_number: 1,
+        name_arabic: "الفاتحة",
+        total_verses: 7,
+      };
       expect(typeof surah.name_arabic).toBe("string");
       expect(typeof surah.total_verses).toBe("number");
     });
 
     test("Verse shape", () => {
-      const verse = { id: 1, surah_number: 1, verse_number: 1, arabic_text: "بسم الله" };
+      const verse = {
+        id: 1,
+        surah_number: 1,
+        verse_number: 1,
+        arabic_text: "بسم الله",
+      };
       expect(typeof verse.arabic_text).toBe("string");
     });
 
     test("Hadith shape", () => {
-      const hadith = { id: 1, collection: "bukhari", narrator: "Abu Hurairah", grade: "sahih" };
+      const hadith = {
+        id: 1,
+        collection: "bukhari",
+        narrator: "Abu Hurairah",
+        grade: "sahih",
+      };
       expect(hadith.collection).toBe("bukhari");
     });
 

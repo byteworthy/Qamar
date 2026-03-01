@@ -13,8 +13,16 @@
  */
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SyncEngine, getSyncEngine, type QueuedMutation, type SyncResult } from "../sync-engine";
-import { resetOfflineDatabase, initializeOfflineDatabase } from "../offline-database";
+import {
+  SyncEngine,
+  getSyncEngine,
+  type QueuedMutation,
+  type SyncResult,
+} from "../sync-engine";
+import {
+  resetOfflineDatabase,
+  initializeOfflineDatabase,
+} from "../offline-database";
 
 // Use a fresh engine per test to avoid singleton leakage
 function createEngine(): SyncEngine {
@@ -184,7 +192,9 @@ describe("SyncEngine", () => {
       expect(engine.getConflictStrategy("verses")).toBe("server_wins");
       expect(engine.getConflictStrategy("hadiths")).toBe("server_wins");
       expect(engine.getConflictStrategy("vocabulary")).toBe("server_wins");
-      expect(engine.getConflictStrategy("conversation_scenarios")).toBe("server_wins");
+      expect(engine.getConflictStrategy("conversation_scenarios")).toBe(
+        "server_wins",
+      );
     });
 
     it("should use client_wins for user data types", async () => {

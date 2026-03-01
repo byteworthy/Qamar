@@ -1,5 +1,5 @@
 /**
- * Billing Integration Tests for Noor
+ * Billing Integration Tests for Qamar
  *
  * Tests billing stub functionality since Stripe has been archived
  * in favor of Apple IAP / Google Play Billing (client-side).

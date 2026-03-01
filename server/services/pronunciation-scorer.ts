@@ -66,8 +66,8 @@ function levenshteinDistance(a: string, b: string): number {
     for (let j = 1; j <= bLen; j++) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
       const val = Math.min(
-        row[j] + 1,       // deletion
-        prev + 1,          // insertion
+        row[j] + 1, // deletion
+        prev + 1, // insertion
         row[j - 1] + cost, // substitution
       );
       row[j - 1] = prev;

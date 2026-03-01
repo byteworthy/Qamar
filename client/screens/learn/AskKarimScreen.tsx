@@ -78,7 +78,11 @@ const QUICK_PROMPTS = [
 // TYPING INDICATOR
 // =============================================================================
 
-function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"] }) {
+function TypingIndicator({
+  theme,
+}: {
+  theme: ReturnType<typeof useTheme>["theme"];
+}) {
   const dot1 = useSharedValue(0);
   const dot2 = useSharedValue(0);
   const dot3 = useSharedValue(0);
@@ -119,9 +123,15 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
     };
   }, []);
 
-  const animStyle1 = useAnimatedStyle(() => ({ transform: [{ translateY: dot1.value }] }));
-  const animStyle2 = useAnimatedStyle(() => ({ transform: [{ translateY: dot2.value }] }));
-  const animStyle3 = useAnimatedStyle(() => ({ transform: [{ translateY: dot3.value }] }));
+  const animStyle1 = useAnimatedStyle(() => ({
+    transform: [{ translateY: dot1.value }],
+  }));
+  const animStyle2 = useAnimatedStyle(() => ({
+    transform: [{ translateY: dot2.value }],
+  }));
+  const animStyle3 = useAnimatedStyle(() => ({
+    transform: [{ translateY: dot3.value }],
+  }));
 
   const dotStyle = {
     width: 7,
@@ -164,7 +174,11 @@ function CitationCard({
 
   const iconName = isQuran ? "book-open" : isHadith ? "bookmark" : "info";
   const label = isQuran ? "Quran" : isHadith ? "Hadith" : "Concept";
-  const accentColor = isQuran ? NoorColors.emerald : isHadith ? NoorColors.gold : NoorColors.twilightLight;
+  const accentColor = isQuran
+    ? NoorColors.emerald
+    : isHadith
+      ? NoorColors.gold
+      : NoorColors.twilightLight;
 
   return (
     <Animated.View entering={FadeInUp.duration(300).delay(100)}>
@@ -183,7 +197,9 @@ function CitationCard({
           <ThemedText style={[styles.citationLabel, { color: accentColor }]}>
             {label}
           </ThemedText>
-          <ThemedText style={[styles.citationRef, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.citationRef, { color: theme.textSecondary }]}
+          >
             {citation.reference}
           </ThemedText>
         </View>
@@ -219,7 +235,12 @@ function MessageBubble({
       ]}
     >
       {!isUser && (
-        <View style={[styles.avatarContainer, { backgroundColor: NoorColors.gold + "20" }]}>
+        <View
+          style={[
+            styles.avatarContainer,
+            { backgroundColor: NoorColors.gold + "20" },
+          ]}
+        >
           <ThemedText style={styles.avatarText}>K</ThemedText>
         </View>
       )}
@@ -227,8 +248,14 @@ function MessageBubble({
         style={[
           isUser ? styles.messageBubbleUser : styles.messageBubbleAssistant,
           isUser
-            ? { backgroundColor: NoorColors.gold + "18", borderColor: NoorColors.gold + "30" }
-            : { backgroundColor: theme.glassSurface, borderColor: theme.glassStroke },
+            ? {
+                backgroundColor: NoorColors.gold + "18",
+                borderColor: NoorColors.gold + "30",
+              }
+            : {
+                backgroundColor: theme.glassSurface,
+                borderColor: theme.glassStroke,
+              },
         ]}
       >
         <ThemedText style={[styles.messageText, { color: theme.text }]}>
@@ -238,7 +265,11 @@ function MessageBubble({
       {message.citations && message.citations.length > 0 && (
         <View style={styles.citationsContainer}>
           {message.citations.map((citation, i) => (
-            <CitationCard key={`${message.id}-cite-${i}`} citation={citation} theme={theme} />
+            <CitationCard
+              key={`${message.id}-cite-${i}`}
+              citation={citation}
+              theme={theme}
+            />
           ))}
         </View>
       )}
@@ -261,7 +292,9 @@ export default function AskKarimScreen() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const conversationHistory = useRef<Array<{ role: "user" | "assistant"; content: string }>>([]);
+  const conversationHistory = useRef<
+    { role: "user" | "assistant"; content: string }[]
+  >([]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -350,15 +383,25 @@ export default function AskKarimScreen() {
     >
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <Animated.View entering={FadeInDown.duration(300)} style={styles.headerInner}>
-          <View style={[styles.headerAvatar, { backgroundColor: NoorColors.gold + "20" }]}>
+        <Animated.View
+          entering={FadeInDown.duration(300)}
+          style={styles.headerInner}
+        >
+          <View
+            style={[
+              styles.headerAvatar,
+              { backgroundColor: NoorColors.gold + "20" },
+            ]}
+          >
             <ThemedText style={styles.headerAvatarText}>K</ThemedText>
           </View>
           <View>
             <ThemedText style={styles.headerTitle} accessibilityRole="header">
               Karim
             </ThemedText>
-            <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+            >
               Your Islamic knowledge companion
             </ThemedText>
           </View>
@@ -370,12 +413,17 @@ export default function AskKarimScreen() {
         <View
           style={[
             styles.offlineBanner,
-            { backgroundColor: NoorColors.gold + "18", borderColor: NoorColors.gold + "30" },
+            {
+              backgroundColor: NoorColors.gold + "18",
+              borderColor: NoorColors.gold + "30",
+            },
           ]}
         >
           <Feather name="wifi-off" size={14} color={NoorColors.gold} />
-          <ThemedText style={[styles.offlineBannerText, { color: NoorColors.gold }]}>
-            You're offline. Karim needs a connection to respond.
+          <ThemedText
+            style={[styles.offlineBannerText, { color: NoorColors.gold }]}
+          >
+            You{"'"}re offline. Karim needs a connection to respond.
           </ThemedText>
         </View>
       )}
@@ -393,15 +441,28 @@ export default function AskKarimScreen() {
       >
         {isEmpty ? (
           <View style={styles.emptyState}>
-            <Animated.View entering={FadeIn.duration(400)} style={styles.emptyHeader}>
-              <View style={[styles.emptyAvatar, { backgroundColor: NoorColors.gold + "15" }]}>
-                <ThemedText style={styles.emptyAvatarText}>{"\u2728"}</ThemedText>
+            <Animated.View
+              entering={FadeIn.duration(400)}
+              style={styles.emptyHeader}
+            >
+              <View
+                style={[
+                  styles.emptyAvatar,
+                  { backgroundColor: NoorColors.gold + "15" },
+                ]}
+              >
+                <ThemedText style={styles.emptyAvatarText}>
+                  {"\u2728"}
+                </ThemedText>
               </View>
               <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                 Assalamu Alaikum
               </ThemedText>
-              <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-                I'm Karim, your companion for Islamic reflection and learning. Ask me anything or choose a topic below.
+              <ThemedText
+                style={[styles.emptySubtitle, { color: theme.textSecondary }]}
+              >
+                I{"'"}m Karim, your companion for Islamic reflection and
+                learning. Ask me anything or choose a topic below.
               </ThemedText>
             </Animated.View>
 
@@ -445,7 +506,12 @@ export default function AskKarimScreen() {
         ) : (
           <View style={styles.messagesContainer}>
             {messages.map((msg, index) => (
-              <MessageBubble key={msg.id} message={msg} theme={theme} index={index} />
+              <MessageBubble
+                key={msg.id}
+                message={msg}
+                theme={theme}
+                index={index}
+              />
             ))}
             {isLoading && <TypingIndicator theme={theme} />}
           </View>
@@ -508,7 +574,9 @@ export default function AskKarimScreen() {
               <Feather
                 name="arrow-up"
                 size={18}
-                color={inputText.trim() ? NoorColors.background : theme.textSecondary}
+                color={
+                  inputText.trim() ? NoorColors.background : theme.textSecondary
+                }
               />
             )}
           </Pressable>

@@ -13,18 +13,18 @@
  * - Users can only access their own progress data
  */
 
-import type { Express, Request, Response } from 'express';
-import { db } from '../db';
-import { userProgress } from '@shared/schema';
-import { eq, sql } from 'drizzle-orm';
-import { requireAuth } from '../middleware/auth';
-import { asyncHandler } from '../middleware/error-handler';
+import type { Express, Request, Response } from "express";
+import { db } from "../db";
+import { userProgress } from "@shared/schema";
+import { eq, sql } from "drizzle-orm";
+import { requireAuth } from "../middleware/auth";
+import { asyncHandler } from "../middleware/error-handler";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
-import { trackProgressSchema } from '../validation/progress-validation';
+} from "../types/error-response";
+import { trackProgressSchema } from "../validation/progress-validation";
 
 export function registerProgressRoutes(app: Express): void {
   /**
@@ -49,7 +49,7 @@ export function registerProgressRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/progress',
+    "/api/progress",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const userId = req.auth!.userId;
@@ -76,12 +76,14 @@ export function registerProgressRoutes(app: Express): void {
 
       // Calculate streak: check if user was active yesterday or today
       const now = new Date();
-      const lastActive = progress.lastActiveDate ? new Date(progress.lastActiveDate) : null;
+      const lastActive = progress.lastActiveDate
+        ? new Date(progress.lastActiveDate)
+        : null;
       let streakDays = progress.streakDays || 0;
 
       if (lastActive) {
         const daysSinceActive = Math.floor(
-          (now.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24)
+          (now.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         // If more than 1 day gap, reset streak
@@ -100,13 +102,14 @@ export function registerProgressRoutes(app: Express): void {
           quranVersesRead: progress.quranVersesRead || 0,
           arabicWordsLearned: progress.arabicWordsLearned || 0,
           prayerTimesChecked: progress.prayerTimesChecked || 0,
-          reflectionSessionsCompleted: progress.reflectionSessionsCompleted || 0,
+          reflectionSessionsCompleted:
+            progress.reflectionSessionsCompleted || 0,
           streakDays,
           lastActiveDate: progress.lastActiveDate,
           updatedAt: progress.updatedAt,
         },
       });
-    })
+    }),
   );
 
   /**
@@ -127,22 +130,24 @@ export function registerProgressRoutes(app: Express): void {
    * { success: true, progress: { ... } }
    */
   app.post(
-    '/api/progress/track',
+    "/api/progress/track",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const userId = req.auth!.userId;
 
       const validationResult = trackProgressSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid tracking data',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid tracking data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { type, count } = validationResult.data;
@@ -150,10 +155,10 @@ export function registerProgressRoutes(app: Express): void {
 
       // Map type to column
       const columnMap: Record<string, string> = {
-        quran_verse_read: 'quranVersesRead',
-        arabic_word_learned: 'arabicWordsLearned',
-        prayer_time_checked: 'prayerTimesChecked',
-        reflection_completed: 'reflectionSessionsCompleted',
+        quran_verse_read: "quranVersesRead",
+        arabic_word_learned: "arabicWordsLearned",
+        prayer_time_checked: "prayerTimesChecked",
+        reflection_completed: "reflectionSessionsCompleted",
       };
 
       const columnName = columnMap[type];
@@ -168,15 +173,19 @@ export function registerProgressRoutes(app: Express): void {
       let streakIncrement = 0;
       if (existing?.lastActiveDate) {
         const lastActive = new Date(existing.lastActiveDate);
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const today = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+        );
         const lastActiveDay = new Date(
           lastActive.getFullYear(),
           lastActive.getMonth(),
-          lastActive.getDate()
+          lastActive.getDate(),
         );
 
         const daysDiff = Math.floor(
-          (today.getTime() - lastActiveDay.getTime()) / (1000 * 60 * 60 * 24)
+          (today.getTime() - lastActiveDay.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         if (daysDiff === 1) {
@@ -200,10 +209,13 @@ export function registerProgressRoutes(app: Express): void {
       };
 
       // Set initial values based on type
-      if (type === 'quran_verse_read') baseValues.quranVersesRead = count;
-      else if (type === 'arabic_word_learned') baseValues.arabicWordsLearned = count;
-      else if (type === 'prayer_time_checked') baseValues.prayerTimesChecked = count;
-      else if (type === 'reflection_completed') baseValues.reflectionSessionsCompleted = count;
+      if (type === "quran_verse_read") baseValues.quranVersesRead = count;
+      else if (type === "arabic_word_learned")
+        baseValues.arabicWordsLearned = count;
+      else if (type === "prayer_time_checked")
+        baseValues.prayerTimesChecked = count;
+      else if (type === "reflection_completed")
+        baseValues.reflectionSessionsCompleted = count;
 
       if (!existing) {
         baseValues.streakDays = 1;
@@ -216,13 +228,13 @@ export function registerProgressRoutes(app: Express): void {
       };
 
       // Increment the specific counter
-      if (type === 'quran_verse_read') {
+      if (type === "quran_verse_read") {
         updateSet.quranVersesRead = sql`${userProgress.quranVersesRead} + ${count}`;
-      } else if (type === 'arabic_word_learned') {
+      } else if (type === "arabic_word_learned") {
         updateSet.arabicWordsLearned = sql`${userProgress.arabicWordsLearned} + ${count}`;
-      } else if (type === 'prayer_time_checked') {
+      } else if (type === "prayer_time_checked") {
         updateSet.prayerTimesChecked = sql`${userProgress.prayerTimesChecked} + ${count}`;
-      } else if (type === 'reflection_completed') {
+      } else if (type === "reflection_completed") {
         updateSet.reflectionSessionsCompleted = sql`${userProgress.reflectionSessionsCompleted} + ${count}`;
       }
 
@@ -245,7 +257,7 @@ export function registerProgressRoutes(app: Express): void {
         .from(userProgress)
         .where(eq(userProgress.userId, userId));
 
-      req.logger?.info('Tracked progress', {
+      req.logger?.info("Tracked progress", {
         userId,
         type,
         count,
@@ -253,15 +265,18 @@ export function registerProgressRoutes(app: Express): void {
 
       return res.json({
         success: true,
-        progress: updated ? {
-          quranVersesRead: updated.quranVersesRead || 0,
-          arabicWordsLearned: updated.arabicWordsLearned || 0,
-          prayerTimesChecked: updated.prayerTimesChecked || 0,
-          reflectionSessionsCompleted: updated.reflectionSessionsCompleted || 0,
-          streakDays: updated.streakDays || 0,
-          lastActiveDate: updated.lastActiveDate,
-        } : null,
+        progress: updated
+          ? {
+              quranVersesRead: updated.quranVersesRead || 0,
+              arabicWordsLearned: updated.arabicWordsLearned || 0,
+              prayerTimesChecked: updated.prayerTimesChecked || 0,
+              reflectionSessionsCompleted:
+                updated.reflectionSessionsCompleted || 0,
+              streakDays: updated.streakDays || 0,
+              lastActiveDate: updated.lastActiveDate,
+            }
+          : null,
       });
-    })
+    }),
   );
 }

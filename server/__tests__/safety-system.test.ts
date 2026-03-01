@@ -1,5 +1,5 @@
 /**
- * Safety System Test Suite for Noor
+ * Safety System Test Suite for Qamar
  *
  * Tests all safety mechanisms:
  * - Crisis detection

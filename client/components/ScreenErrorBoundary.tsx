@@ -34,8 +34,8 @@ function ScreenErrorFallback({ error, resetError }: ScreenErrorFallbackProps) {
       </ThemedText>
 
       <ThemedText type="body" style={styles.message}>
-        We've recorded this error and will fix it soon. You can go back to the
-        home screen to continue using the app.
+        We{"'"}ve recorded this error and will fix it soon. You can go back to
+        the home screen to continue using the app.
       </ThemedText>
 
       {__DEV__ && (

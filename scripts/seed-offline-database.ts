@@ -46,10 +46,7 @@ import {
 
 const NOOR_PROJECT_PATH = "../../";
 const SEED_DATA_DIR = path.join(NOOR_PROJECT_PATH, "shared/seed-data");
-const TEST_DB_PATH = path.join(
-  NOOR_PROJECT_PATH,
-  "scripts/test-offline.db",
-);
+const TEST_DB_PATH = path.join(NOOR_PROJECT_PATH, "scripts/test-offline.db");
 
 // =============================================================================
 // SEEDING FUNCTIONS
@@ -110,7 +107,7 @@ function seedSurahs(db: Database.Database, surahs: any[]): void {
         surah.nameEnglish, // name_english
         surah.nameEnglish, // name_transliteration (using nameEnglish as fallback)
         surah.numberOfAyahs, // verses_count
-        surah.revelationType === 'Meccan' ? 'Makkah' : 'Madinah', // revelation_place
+        surah.revelationType === "Meccan" ? "Makkah" : "Madinah", // revelation_place
       );
     }
   });
@@ -196,7 +193,10 @@ function populateFTS(db: Database.Database): void {
  * JSON has { collections: [...], hadiths: [{ id, collectionId, bookNumber, hadithNumber, narrator, textArabic, textEnglish, grade, chapter, reference }] }
  * DB schema: hadiths (id, collection, book_number, hadith_number, narrator, arabic_text, translation_en, grade)
  */
-function seedHadiths(db: Database.Database, hadithsData: { collections: any[]; hadiths: any[] }): void {
+function seedHadiths(
+  db: Database.Database,
+  hadithsData: { collections: any[]; hadiths: any[] },
+): void {
   const hadiths = hadithsData.hadiths || [];
   if (hadiths.length === 0) {
     console.log("⚠ No hadiths to seed");
@@ -227,12 +227,12 @@ function seedHadiths(db: Database.Database, hadithsData: { collections: any[]; h
     for (const h of hadiths) {
       insert.run(
         h.collectionId, // collection (short id: bukhari, muslim, etc.)
-        h.bookNumber || null,                               // book_number
-        h.hadithNumber || null,                             // hadith_number
-        h.narrator || null,                                 // narrator
-        h.textArabic || null,                               // arabic_text
-        h.textEnglish || null,                              // translation_en
-        h.grade ? h.grade.toLowerCase() : null,             // grade (lowercase)
+        h.bookNumber || null, // book_number
+        h.hadithNumber || null, // hadith_number
+        h.narrator || null, // narrator
+        h.textArabic || null, // arabic_text
+        h.textEnglish || null, // translation_en
+        h.grade ? h.grade.toLowerCase() : null, // grade (lowercase)
       );
     }
   });
@@ -244,10 +244,7 @@ function seedHadiths(db: Database.Database, hadithsData: { collections: any[]; h
 /**
  * Seed Vocabulary table
  */
-function seedVocabulary(
-  db: Database.Database,
-  vocabulary: any[],
-): void {
+function seedVocabulary(db: Database.Database, vocabulary: any[]): void {
   if (vocabulary.length === 0) {
     console.log("⚠ No vocabulary to seed");
     return;
@@ -293,7 +290,10 @@ function seedVocabulary(
  * JSON has { scenarios: [{ id, title, difficulty, category, ... }] }
  * DB schema: conversation_scenarios (id TEXT PK, title TEXT, difficulty TEXT, category TEXT, dialogues_json TEXT, audio_url TEXT)
  */
-function seedConversationScenarios(db: Database.Database, data: { scenarios: any[] }): void {
+function seedConversationScenarios(
+  db: Database.Database,
+  data: { scenarios: any[] },
+): void {
   const scenarios = data.scenarios || [];
   if (scenarios.length === 0) {
     console.log("⚠ No conversation scenarios to seed");
@@ -368,14 +368,14 @@ function seedArabicAlphabet(db: Database.Database, letters: any[]): void {
   const insertMany = db.transaction((letters: any[]) => {
     for (const letter of letters) {
       insert.run(
-        `alphabet-${letter.id}`,          // id (prefixed to avoid collisions with vocabulary)
-        letter.isolated,                   // arabic_word (the letter in isolated form)
-        letter.pronunciation,              // transliteration
-        letter.name,                       // translation_en (letter name e.g. "Alif")
-        null,                              // root
-        "alphabet",                        // category
-        1,                                 // difficulty_level
-        0,                                 // quran_frequency
+        `alphabet-${letter.id}`, // id (prefixed to avoid collisions with vocabulary)
+        letter.isolated, // arabic_word (the letter in isolated form)
+        letter.pronunciation, // transliteration
+        letter.name, // translation_en (letter name e.g. "Alif")
+        null, // root
+        "alphabet", // category
+        1, // difficulty_level
+        0, // quran_frequency
       );
     }
   });
@@ -391,7 +391,9 @@ function verifyDatabase(db: Database.Database): void {
   console.log("\nVerifying database integrity...");
 
   // Check surahs count
-  const surahCount = db.prepare("SELECT COUNT(*) as count FROM surahs").get() as {
+  const surahCount = db
+    .prepare("SELECT COUNT(*) as count FROM surahs")
+    .get() as {
     count: number;
   };
   if (surahCount.count !== 114) {
@@ -402,7 +404,9 @@ function verifyDatabase(db: Database.Database): void {
   console.log(`✓ Surahs: ${surahCount.count}`);
 
   // Check verses count
-  const verseCount = db.prepare("SELECT COUNT(*) as count FROM verses").get() as {
+  const verseCount = db
+    .prepare("SELECT COUNT(*) as count FROM verses")
+    .get() as {
     count: number;
   };
   if (verseCount.count < 6000 || verseCount.count > 6300) {
@@ -424,20 +428,30 @@ function verifyDatabase(db: Database.Database): void {
   console.log(`✓ FTS5 Index: ${ftsCount.count}`);
 
   // Test FTS5 search (using English term for compatibility with better-sqlite3)
-  const searchResult = db.prepare(`
+  const searchResult = db
+    .prepare(
+      `
     SELECT COUNT(*) as count
     FROM verses v
     INNER JOIN verses_fts fts ON v.id = fts.rowid
     WHERE verses_fts MATCH 'Allah'
-  `).get() as { count: number };
+  `,
+    )
+    .get() as { count: number };
   if (searchResult.count === 0) {
-    console.log("⚠ FTS5 search test returned no results (Arabic search may not work in Node.js SQLite)");
+    console.log(
+      "⚠ FTS5 search test returned no results (Arabic search may not work in Node.js SQLite)",
+    );
   } else {
-    console.log(`✓ FTS5 Search: Working (${searchResult.count} results for 'Allah')`);
+    console.log(
+      `✓ FTS5 Search: Working (${searchResult.count} results for 'Allah')`,
+    );
   }
 
   // Check hadiths (optional)
-  const hadithCount = db.prepare("SELECT COUNT(*) as count FROM hadiths").get() as {
+  const hadithCount = db
+    .prepare("SELECT COUNT(*) as count FROM hadiths")
+    .get() as {
     count: number;
   };
   if (hadithCount.count > 0) {
@@ -462,7 +476,9 @@ function verifyDatabase(db: Database.Database): void {
 
   // Check alphabet entries in vocabulary (optional)
   const alphabetCount = db
-    .prepare("SELECT COUNT(*) as count FROM vocabulary WHERE category = 'alphabet'")
+    .prepare(
+      "SELECT COUNT(*) as count FROM vocabulary WHERE category = 'alphabet'",
+    )
     .get() as { count: number };
   if (alphabetCount.count > 0) {
     console.log(`✓ Arabic Alphabet (vocabulary): ${alphabetCount.count}`);
@@ -484,7 +500,9 @@ function getDatabaseSize(dbPath: string): string {
 // MAIN SEEDING FUNCTION
 // =============================================================================
 
-export async function seedOfflineDatabase(db: Database.Database): Promise<void> {
+export async function seedOfflineDatabase(
+  db: Database.Database,
+): Promise<void> {
   console.log("\n" + "=".repeat(60));
   console.log("OFFLINE DATABASE SEEDING");
   console.log("=".repeat(60) + "\n");
@@ -497,9 +515,13 @@ export async function seedOfflineDatabase(db: Database.Database): Promise<void> 
     console.log("\nLoading seed data...");
     const surahs = loadSeedData<any[]>("surahs.json");
     const verses = loadSeedData<any[]>("verses.json");
-    const hadithsData = loadSeedData<{ collections: any[]; hadiths: any[] }>("hadiths.json");
+    const hadithsData = loadSeedData<{ collections: any[]; hadiths: any[] }>(
+      "hadiths.json",
+    );
     const vocabulary = loadSeedData<any[]>("vocabulary.json");
-    const conversationData = loadSeedData<{ scenarios: any[] }>("conversation_scenarios.json");
+    const conversationData = loadSeedData<{ scenarios: any[] }>(
+      "conversation_scenarios.json",
+    );
     const arabicAlphabet = loadSeedData<any[]>("arabic_alphabet.json");
     console.log("✓ Seed data loaded\n");
 

@@ -167,8 +167,7 @@ export const DUA_BY_STATE: Record<string, DuaEntry> = {
   loneliness: {
     arabic:
       "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
-    transliteration:
-      "La ilaha illa anta subhanaka inni kuntu min adh-dhalimin",
+    transliteration: "La ilaha illa anta subhanaka inni kuntu min adh-dhalimin",
     meaning:
       "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
   },
@@ -192,9 +191,7 @@ export const DUA_BY_STATE: Record<string, DuaEntry> = {
 // Validation schema for analyze request
 export const analyzeSchema = z.object({
   thought: z.string().min(1).max(5000),
-  emotionalIntensity: z
-    .enum(["mild", "moderate", "high", "crisis"])
-    .optional(),
+  emotionalIntensity: z.enum(["mild", "moderate", "high", "crisis"]).optional(),
 });
 
 // Validation schema for reframe request
@@ -202,9 +199,7 @@ export const reframeSchema = z.object({
   thought: z.string().min(1).max(5000),
   patterns: z.array(z.string()).min(1).max(20),
   analysis: z.string().max(3000).optional(),
-  emotionalIntensity: z
-    .enum(["mild", "moderate", "high", "crisis"])
-    .optional(),
+  emotionalIntensity: z.enum(["mild", "moderate", "high", "crisis"]).optional(),
 });
 
 // Validation schema for practice request

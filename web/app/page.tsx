@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import Navigation from '@/components/layout/Navigation';
-import Footer from '@/components/layout/Footer';
+import Link from "next/link";
+import Navigation from "@/components/layout/Navigation";
+import Footer from "@/components/layout/Footer";
 
 export default function Home() {
   return (
@@ -15,7 +15,8 @@ export default function Home() {
               Find <span className="text-gold">Clarity</span> in Your Thoughts
             </h1>
             <p className="text-xl md:text-2xl text-moonlight-dim mb-8 max-w-3xl mx-auto">
-              Islamic reflection that helps you overcome distressing thoughts with wisdom from faith and science.
+              Islamic reflection that helps you overcome distressing thoughts
+              with wisdom from faith and science.
             </p>
             <Link
               href="/reflect"
@@ -41,7 +42,8 @@ export default function Home() {
                   Share Your Thought
                 </h3>
                 <p className="text-moonlight-dim">
-                  Express what's troubling you in a safe, private space. Your companion helps you reflect on patterns in your thinking.
+                  Express what's troubling you in a safe, private space. Your
+                  companion helps you reflect on patterns in your thinking.
                 </p>
               </div>
 
@@ -52,7 +54,8 @@ export default function Home() {
                   Gain Islamic Perspective
                 </h3>
                 <p className="text-moonlight-dim">
-                  Receive reframes grounded in Quranic wisdom and Islamic principles to shift your mindset.
+                  Receive reframes grounded in Quranic wisdom and Islamic
+                  principles to shift your mindset.
                 </p>
               </div>
 
@@ -63,7 +66,8 @@ export default function Home() {
                   Set Your Intention
                 </h3>
                 <p className="text-moonlight-dim">
-                  Create a niyyah (intention) to move forward with clarity and purpose.
+                  Create a niyyah (intention) to move forward with clarity and
+                  purpose.
                 </p>
               </div>
             </div>
@@ -77,10 +81,12 @@ export default function Home() {
               Crisis Support Available
             </h2>
             <p className="text-moonlight-dim mb-6 text-lg">
-              If you're in crisis, Qamar detects urgent needs and provides immediate resources, including 988 Suicide & Crisis Lifeline.
+              If you're in crisis, Qamar detects urgent needs and provides
+              immediate resources, including 988 Suicide & Crisis Lifeline.
             </p>
             <p className="text-moonlight-muted text-sm">
-              Qamar is not a replacement for professional mental health care. Always consult qualified professionals for serious concerns.
+              Qamar is not a replacement for professional mental health care.
+              Always consult qualified professionals for serious concerns.
             </p>
           </div>
         </section>

@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { healthCheck } from '@/lib/api';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/lib/query-client';
+import { useQuery, QueryClientProvider } from "@tanstack/react-query";
+import { healthCheck } from "@/lib/api";
+import { queryClient } from "@/lib/query-client";
 
 function TestPageContent() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['health'],
+    queryKey: ["health"],
     queryFn: healthCheck,
   });
 
@@ -32,7 +31,7 @@ function TestPageContent() {
             <div className="bg-red-900/20 border border-red-500 rounded-lg p-4">
               <p className="text-red-400 font-semibold">Error</p>
               <p className="text-red-300 text-sm mt-1">
-                {error instanceof Error ? error.message : 'Unknown error'}
+                {error instanceof Error ? error.message : "Unknown error"}
               </p>
             </div>
           )}
@@ -51,7 +50,10 @@ function TestPageContent() {
               <div className="pt-4 border-t border-background-card-light">
                 <h3 className="font-semibold mb-2">Session Cookie Check</h3>
                 <p className="text-moonlight-dim text-sm">
-                  Check browser DevTools → Application → Cookies for <code className="bg-background px-1 py-0.5 rounded">noor_session</code>
+                  Check browser DevTools → Application → Cookies for{" "}
+                  <code className="bg-background px-1 py-0.5 rounded">
+                    noor_session
+                  </code>
                 </p>
               </div>
             </div>
@@ -61,7 +63,8 @@ function TestPageContent() {
         <div className="mt-6 text-moonlight-muted text-sm">
           <p>API URL: {process.env.NEXT_PUBLIC_API_URL}</p>
           <p className="mt-1">
-            This page tests connectivity with credentials: 'include' for session cookies.
+            This page tests connectivity with credentials: 'include' for session
+            cookies.
           </p>
         </div>
       </div>

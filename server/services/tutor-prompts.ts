@@ -10,7 +10,11 @@
 // TYPES
 // =============================================================================
 
-export type TutorMode = "vocabulary" | "grammar" | "conversation" | "quran_words";
+export type TutorMode =
+  | "vocabulary"
+  | "grammar"
+  | "conversation"
+  | "quran_words";
 
 // =============================================================================
 // BASE PROMPT

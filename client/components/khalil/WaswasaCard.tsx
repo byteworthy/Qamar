@@ -31,7 +31,12 @@ export function WaswasaCard({ data }: Props) {
         accessibilityLabel="Waswasa detected — tap to expand"
       >
         <View style={styles.header}>
-          <View style={[styles.iconBadge, { backgroundColor: NoorColors.gold + "18" }]}>
+          <View
+            style={[
+              styles.iconBadge,
+              { backgroundColor: NoorColors.gold + "18" },
+            ]}
+          >
             <Feather name="alert-circle" size={16} color={NoorColors.gold} />
           </View>
           <View style={styles.headerText}>
@@ -51,18 +56,29 @@ export function WaswasaCard({ data }: Props) {
             <View style={styles.whispersList}>
               {data.whispers.map((whisper, i) => (
                 <View key={i} style={styles.whisperRow}>
-                  <ThemedText style={[styles.whisperBullet, { color: NoorColors.gold }]}>
+                  <ThemedText
+                    style={[styles.whisperBullet, { color: NoorColors.gold }]}
+                  >
                     {"\u2022"}
                   </ThemedText>
-                  <ThemedText style={[styles.whisperText, { color: theme.text }]}>
+                  <ThemedText
+                    style={[styles.whisperText, { color: theme.text }]}
+                  >
                     {whisper}
                   </ThemedText>
                 </View>
               ))}
             </View>
 
-            <View style={[styles.insightBox, { backgroundColor: NoorColors.gold + "0A" }]}>
-              <ThemedText style={[styles.insightText, { color: theme.textSecondary }]}>
+            <View
+              style={[
+                styles.insightBox,
+                { backgroundColor: NoorColors.gold + "0A" },
+              ]}
+            >
+              <ThemedText
+                style={[styles.insightText, { color: theme.textSecondary }]}
+              >
                 {data.insight}
               </ThemedText>
             </View>

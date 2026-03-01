@@ -24,62 +24,62 @@ export interface TranslationResult {
 
 const ARABIC_TO_LATIN: Record<string, string> = {
   // Basic letters
-  "ا": "a",
-  "ب": "b",
-  "ت": "t",
-  "ث": "th",
-  "ج": "j",
-  "ح": "h",
-  "خ": "kh",
-  "د": "d",
-  "ذ": "dh",
-  "ر": "r",
-  "ز": "z",
-  "س": "s",
-  "ش": "sh",
-  "ص": "s",
-  "ض": "d",
-  "ط": "t",
-  "ظ": "z",
-  "ع": "'",
-  "غ": "gh",
-  "ف": "f",
-  "ق": "q",
-  "ك": "k",
-  "ل": "l",
-  "م": "m",
-  "ن": "n",
-  "ه": "h",
-  "و": "w",
-  "ي": "y",
+  ا: "a",
+  ب: "b",
+  ت: "t",
+  ث: "th",
+  ج: "j",
+  ح: "h",
+  خ: "kh",
+  د: "d",
+  ذ: "dh",
+  ر: "r",
+  ز: "z",
+  س: "s",
+  ش: "sh",
+  ص: "s",
+  ض: "d",
+  ط: "t",
+  ظ: "z",
+  ع: "'",
+  غ: "gh",
+  ف: "f",
+  ق: "q",
+  ك: "k",
+  ل: "l",
+  م: "m",
+  ن: "n",
+  ه: "h",
+  و: "w",
+  ي: "y",
 
   // Hamza forms
-  "ء": "'",
-  "أ": "a",
-  "إ": "i",
-  "ؤ": "'",
-  "ئ": "'",
-  "آ": "aa",
+  ء: "'",
+  أ: "a",
+  إ: "i",
+  ؤ: "'",
+  ئ: "'",
+  آ: "aa",
 
   // Taa marbuta and alef maqsura
-  "ة": "h",
-  "ى": "a",
+  ة: "h",
+  ى: "a",
 
   // Vowel marks (diacritics)
-  "\u064E": "a",   // fatha
-  "\u064F": "u",   // damma
-  "\u0650": "i",   // kasra
-  "\u064B": "an",  // tanwin fatha
-  "\u064C": "un",  // tanwin damma
-  "\u064D": "in",  // tanwin kasra
-  "\u0651": "",    // shadda (doubling handled below)
-  "\u0652": "",    // sukun (no vowel)
+  "\u064E": "a", // fatha
+  "\u064F": "u", // damma
+  "\u0650": "i", // kasra
+  "\u064B": "an", // tanwin fatha
+  "\u064C": "un", // tanwin damma
+  "\u064D": "in", // tanwin kasra
+  "\u0651": "", // shadda (doubling handled below)
+  "\u0652": "", // sukun (no vowel)
 
   // Lam-alef ligatures
-  "لا": "la",
-  "لأ": "la",
-  "لإ": "li",
-  "لآ": "laa",
+  لا: "la",
+  لأ: "la",
+  لإ: "li",
+  لآ: "laa",
 
   // Tatweel (kashida)
   "\u0640": "",
@@ -110,7 +110,9 @@ export async function translateText(
     return googleResult;
   }
 
-  throw new Error("Translation failed: both MyMemory and Google Translate returned errors");
+  throw new Error(
+    "Translation failed: both MyMemory and Google Translate returned errors",
+  );
 }
 
 /**

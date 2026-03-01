@@ -6,7 +6,9 @@ export interface VerseConversationContext {
   translation: string;
 }
 
-export function buildVerseConversationPrompt(context: VerseConversationContext): string {
+export function buildVerseConversationPrompt(
+  context: VerseConversationContext,
+): string {
   return `You are a knowledgeable, warm Quran study companion helping a user discuss and understand this verse:
 
 **Surah:** ${context.surahName} (${context.surahNumber}:${context.verseNumber})

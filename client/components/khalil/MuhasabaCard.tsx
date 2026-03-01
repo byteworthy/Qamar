@@ -28,7 +28,12 @@ export function MuhasabaCard({ data }: Props) {
         accessibilityLabel="Muhasaba summary"
       >
         <View style={styles.header}>
-          <View style={[styles.iconBadge, { backgroundColor: NoorColors.gold + "18" }]}>
+          <View
+            style={[
+              styles.iconBadge,
+              { backgroundColor: NoorColors.gold + "18" },
+            ]}
+          >
             <Feather name="star" size={16} color={NoorColors.gold} />
           </View>
           <ThemedText style={[styles.title, { color: theme.text }]}>
@@ -44,7 +49,9 @@ export function MuhasabaCard({ data }: Props) {
         {/* Whispers found */}
         {data.whispersFound.length > 0 && (
           <View style={styles.section}>
-            <ThemedText style={[styles.sectionLabel, { color: NoorColors.gold }]}>
+            <ThemedText
+              style={[styles.sectionLabel, { color: NoorColors.gold }]}
+            >
               Whispers We Noticed
             </ThemedText>
             {data.whispersFound.map((w, i) => (
@@ -61,8 +68,15 @@ export function MuhasabaCard({ data }: Props) {
         )}
 
         {/* Clarity gained */}
-        <View style={[styles.clarityBox, { backgroundColor: NoorColors.emerald + "0A" }]}>
-          <ThemedText style={[styles.sectionLabel, { color: NoorColors.emerald }]}>
+        <View
+          style={[
+            styles.clarityBox,
+            { backgroundColor: NoorColors.emerald + "0A" },
+          ]}
+        >
+          <ThemedText
+            style={[styles.sectionLabel, { color: NoorColors.emerald }]}
+          >
             Clarity Gained
           </ThemedText>
           <ThemedText style={[styles.clarityText, { color: theme.text }]}>

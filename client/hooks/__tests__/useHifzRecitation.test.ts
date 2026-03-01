@@ -4,25 +4,29 @@
  * Tests recitation flow: record → transcribe (STT) → check → rate → update store
  */
 
-import { renderHook, act, waitFor } from '@testing-library/react-native';
-import { useHifzRecitation } from '../useHifzRecitation';
-import { useHifzStore } from '../../stores/hifz-store';
-import { checkRecitation } from '../../services/hifz/recitation-checker';
-import type { RecitationResult } from '../../../shared/types/hifz';
+import { renderHook, act, waitFor } from "@testing-library/react-native";
+import { useHifzRecitation } from "../useHifzRecitation";
+import { useHifzStore } from "../../stores/hifz-store";
+import { checkRecitation } from "../../services/hifz/recitation-checker";
+import type { RecitationResult } from "../../../shared/types/hifz";
 
 // Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () =>
-  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock"),
 );
 
 // Mock dependencies
-jest.mock('../../stores/hifz-store');
-jest.mock('../../services/hifz/recitation-checker');
+jest.mock("../../stores/hifz-store");
+jest.mock("../../services/hifz/recitation-checker");
 
-const mockUseHifzStore = useHifzStore as jest.MockedFunction<typeof useHifzStore>;
-const mockCheckRecitation = checkRecitation as jest.MockedFunction<typeof checkRecitation>;
+const mockUseHifzStore = useHifzStore as jest.MockedFunction<
+  typeof useHifzStore
+>;
+const mockCheckRecitation = checkRecitation as jest.MockedFunction<
+  typeof checkRecitation
+>;
 
-describe('useHifzRecitation', () => {
+describe("useHifzRecitation", () => {
   const mockUpdateAfterRecitation = jest.fn();
   const mockGetVerseState = jest.fn();
 
@@ -46,8 +50,8 @@ describe('useHifzRecitation', () => {
     } as any);
   });
 
-  describe('Initial state', () => {
-    it('should initialize with correct default state', () => {
+  describe("Initial state", () => {
+    it("should initialize with correct default state", () => {
       const { result } = renderHook(() => useHifzRecitation(1, 1));
 
       expect(result.current.isRecording).toBe(false);
@@ -58,8 +62,8 @@ describe('useHifzRecitation', () => {
     });
   });
 
-  describe('Recording flow', () => {
-    it('should start recording', async () => {
+  describe("Recording flow", () => {
+    it("should start recording", async () => {
       const { result } = renderHook(() => useHifzRecitation(1, 1));
 
       await act(async () => {
@@ -70,20 +74,20 @@ describe('useHifzRecitation', () => {
       expect(result.current.error).toBeNull();
     });
 
-    it('should stop recording and process transcription', async () => {
+    it("should stop recording and process transcription", async () => {
       const mockResult: RecitationResult = {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
-        transcribedText: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+        expectedText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+        transcribedText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
         score: 100,
         accuracy: 1.0,
         wordResults: [
-          { expected: 'بِسْمِ', actual: 'بِسْمِ', isCorrect: true },
-          { expected: 'ٱللَّهِ', actual: 'ٱللَّهِ', isCorrect: true },
-          { expected: 'ٱلرَّحْمَٰنِ', actual: 'ٱلرَّحْمَٰنِ', isCorrect: true },
-          { expected: 'ٱلرَّحِيمِ', actual: 'ٱلرَّحِيمِ', isCorrect: true },
+          { expected: "بِسْمِ", actual: "بِسْمِ", isCorrect: true },
+          { expected: "ٱللَّهِ", actual: "ٱللَّهِ", isCorrect: true },
+          { expected: "ٱلرَّحْمَٰنِ", actual: "ٱلرَّحْمَٰنِ", isCorrect: true },
+          { expected: "ٱلرَّحِيمِ", actual: "ٱلرَّحِيمِ", isCorrect: true },
         ],
       };
 
@@ -109,14 +113,14 @@ describe('useHifzRecitation', () => {
           1,
           1,
           expect.any(String),
-          expect.any(String)
+          expect.any(String),
         );
       });
     });
 
-    it('should handle recording errors gracefully', async () => {
+    it("should handle recording errors gracefully", async () => {
       mockCheckRecitation.mockImplementation(() => {
-        throw new Error('STT service unavailable');
+        throw new Error("STT service unavailable");
       });
 
       const { result } = renderHook(() => useHifzRecitation(1, 1));
@@ -136,14 +140,14 @@ describe('useHifzRecitation', () => {
     });
   });
 
-  describe('Rating and saving', () => {
-    it('should save rating and update store', async () => {
+  describe("Rating and saving", () => {
+    it("should save rating and update store", async () => {
       const mockResult: RecitationResult = {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
-        transcribedText: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+        expectedText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+        transcribedText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -164,33 +168,33 @@ describe('useHifzRecitation', () => {
 
       // Rate the recitation
       await act(async () => {
-        result.current.rateAndSave('good');
+        result.current.rateAndSave("good");
       });
 
       await waitFor(() => {
         expect(mockUpdateAfterRecitation).toHaveBeenCalledWith(
           1,
           1,
-          'good',
-          []
+          "good",
+          [],
         );
       });
     });
 
-    it('should include mistakes when rating', async () => {
+    it("should include mistakes when rating", async () => {
       const mockResult: RecitationResult = {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
-        transcribedText: 'بِسْمِ ٱللَّهِ الرحمن الرحيم',
+        expectedText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+        transcribedText: "بِسْمِ ٱللَّهِ الرحمن الرحيم",
         score: 50,
         accuracy: 0.5,
         wordResults: [
-          { expected: 'بِسْمِ', actual: 'بِسْمِ', isCorrect: true },
-          { expected: 'ٱللَّهِ', actual: 'ٱللَّهِ', isCorrect: true },
-          { expected: 'ٱلرَّحْمَٰنِ', actual: 'الرحمن', isCorrect: false },
-          { expected: 'ٱلرَّحِيمِ', actual: 'الرحيم', isCorrect: false },
+          { expected: "بِسْمِ", actual: "بِسْمِ", isCorrect: true },
+          { expected: "ٱللَّهِ", actual: "ٱللَّهِ", isCorrect: true },
+          { expected: "ٱلرَّحْمَٰنِ", actual: "الرحمن", isCorrect: false },
+          { expected: "ٱلرَّحِيمِ", actual: "الرحيم", isCorrect: false },
         ],
       };
 
@@ -204,38 +208,36 @@ describe('useHifzRecitation', () => {
       });
 
       await act(async () => {
-        result.current.rateAndSave('again');
+        result.current.rateAndSave("again");
       });
 
       await waitFor(() => {
-        expect(mockUpdateAfterRecitation).toHaveBeenCalledWith(
-          1,
-          1,
-          'again',
-          ['الرحمن', 'الرحيم']
-        );
+        expect(mockUpdateAfterRecitation).toHaveBeenCalledWith(1, 1, "again", [
+          "الرحمن",
+          "الرحيم",
+        ]);
       });
     });
 
-    it('should not allow rating without a result', () => {
+    it("should not allow rating without a result", () => {
       const { result } = renderHook(() => useHifzRecitation(1, 1));
 
       act(() => {
-        result.current.rateAndSave('good');
+        result.current.rateAndSave("good");
       });
 
       expect(mockUpdateAfterRecitation).not.toHaveBeenCalled();
     });
   });
 
-  describe('Reset', () => {
-    it('should reset all state', async () => {
+  describe("Reset", () => {
+    it("should reset all state", async () => {
       const mockResult: RecitationResult = {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],

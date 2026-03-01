@@ -52,7 +52,7 @@ jest.mock("react-native-svg", () => ({
 // Helper to create mock RecitationResult
 function createMockResult(
   score: number,
-  wordResults: { expected: string; actual: string; isCorrect: boolean }[]
+  wordResults: { expected: string; actual: string; isCorrect: boolean }[],
 ): RecitationResult {
   return {
     verseKey: "1:1",
@@ -71,9 +71,7 @@ describe("HifzMistakeFeedback", () => {
   it("renders null state when result is not provided", () => {
     const { getByText } = render(<HifzMistakeFeedback result={null} />);
 
-    expect(
-      getByText(/record your recitation to see results/i)
-    ).toBeTruthy();
+    expect(getByText(/record your recitation to see results/i)).toBeTruthy();
   });
 
   // Test 2: Shows score with correct color (green ≥80)
@@ -153,7 +151,7 @@ describe("HifzMistakeFeedback", () => {
         result={result}
         aiTips="Focus on the kasra vowel at the beginning."
         showAITips={true}
-      />
+      />,
     );
 
     expect(getByText(/focus on the kasra vowel/i)).toBeTruthy();
@@ -173,7 +171,7 @@ describe("HifzMistakeFeedback", () => {
         aiTips={undefined}
         showAITips={true}
         onRequestTips={mockRequestTips}
-      />
+      />,
     );
 
     expect(getByText(/get ai tips/i)).toBeTruthy();
@@ -193,7 +191,7 @@ describe("HifzMistakeFeedback", () => {
         aiTips={undefined}
         showAITips={true}
         onRequestTips={mockRequestTips}
-      />
+      />,
     );
 
     const button = getByText(/get ai tips/i);
@@ -213,7 +211,7 @@ describe("HifzMistakeFeedback", () => {
         result={result}
         aiTips="Focus on pronunciation"
         showAITips={false}
-      />
+      />,
     );
 
     expect(queryByText(/focus on pronunciation/i)).toBeNull();

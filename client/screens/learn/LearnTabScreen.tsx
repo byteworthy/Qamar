@@ -107,7 +107,8 @@ export default function LearnTabScreen() {
   const features = [
     {
       title: "Ask Karim",
-      description: "Your Islamic knowledge companion — ask anything about Islam",
+      description:
+        "Your Islamic knowledge companion — ask anything about Islam",
       gradient: ["#4a5a3a", "#7a8a6a"],
       icon: "message-circle" as const,
       screen: "AskKarim" as const,
@@ -123,7 +124,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "Hifz Memorization",
-      description: "Memorize the Quran with spaced repetition and personalized feedback",
+      description:
+        "Memorize the Quran with spaced repetition and personalized feedback",
       gradient: ["#2a4a5a", "#5a7a8a"],
       icon: "book" as const,
       screen: "HifzDashboard" as const,
@@ -131,7 +133,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "Arabic Learning",
-      description: "Learn Arabic with interactive flashcards and spaced repetition",
+      description:
+        "Learn Arabic with interactive flashcards and spaced repetition",
       gradient: ["#5a4a3a", "#8a7a6a"],
       icon: "edit-3" as const,
       screen: "ArabicLearning" as const,
@@ -155,7 +158,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "Arabic Tutor",
-      description: "Arabic language tutor with vocabulary, grammar & conversation",
+      description:
+        "Arabic language tutor with vocabulary, grammar & conversation",
       gradient: ["#4a5a4a", "#6a8a6a"],
       icon: "message-square" as const,
       screen: "ArabicTutor" as const,
@@ -163,7 +167,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "Pronunciation Coach",
-      description: "Record your recitation and get real-time pronunciation feedback",
+      description:
+        "Record your recitation and get real-time pronunciation feedback",
       gradient: ["#5a3a4a", "#8a6a7a"],
       icon: "mic" as const,
       screen: "PronunciationCoach" as const,
@@ -171,7 +176,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "Travel Translator",
-      description: "Offline phrasebook & translator for English and Spanish speakers",
+      description:
+        "Offline phrasebook & translator for English and Spanish speakers",
       gradient: ["#2d4a3e", "#4a7a6a"],
       icon: "map" as const,
       screen: "TravelTranslator" as const,
@@ -179,7 +185,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "Translator",
-      description: "Arabic ↔ English translation with transliteration and detailed explanations",
+      description:
+        "Arabic ↔ English translation with transliteration and detailed explanations",
       gradient: ["#3a4a4a", "#6a7a7a"],
       icon: "globe" as const,
       screen: "Translator" as const,
@@ -195,7 +202,8 @@ export default function LearnTabScreen() {
     },
     {
       title: "My Study Plan",
-      description: "Personalized weekly Quran study plan that adapts to your pace",
+      description:
+        "Personalized weekly Quran study plan that adapts to your pace",
       gradient: ["#3a4a5a", "#6a7a8a"],
       icon: "calendar" as const,
       screen: "StudyPlan" as const,
@@ -204,7 +212,10 @@ export default function LearnTabScreen() {
   ];
 
   return (
-    <View testID="learn-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View
+      testID="learn-screen"
+      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+    >
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
           <ThemedText style={styles.headerTitle}>Learn</ThemedText>
@@ -237,22 +248,35 @@ export default function LearnTabScreen() {
                     Daily Progress
                   </ThemedText>
                   <ThemedText
-                    style={[styles.streakSubtext, { color: theme.textSecondary }]}
+                    style={[
+                      styles.streakSubtext,
+                      { color: theme.textSecondary },
+                    ]}
                   >
-                    {dailyProgress.completed} / {dailyProgress.goal} reviews today
+                    {dailyProgress.completed} / {dailyProgress.goal} reviews
+                    today
                   </ThemedText>
                 </View>
               </View>
               <View style={styles.streakRight}>
-                <ThemedText style={[styles.streakCount, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.streakCount, { color: NoorColors.gold }]}
+                >
                   {progress?.streak ?? 0}
                 </ThemedText>
-                <ThemedText style={[styles.streakLabel, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.streakLabel, { color: theme.textSecondary }]}
+                >
                   streak
                 </ThemedText>
               </View>
             </View>
-            <View style={[styles.streakProgressBar, { backgroundColor: theme.border }]}>
+            <View
+              style={[
+                styles.streakProgressBar,
+                { backgroundColor: theme.border },
+              ]}
+            >
               <View
                 style={[
                   styles.streakProgressFill,
@@ -283,12 +307,19 @@ export default function LearnTabScreen() {
               delay={120 + index * 80}
               comingSoon={feature.comingSoon}
               testID={
-                feature.screen === "QuranReader" ? "learn-quran-card" :
-                feature.screen === "HifzDashboard" ? "learn-hifz-card" :
-                feature.screen === "ArabicTutor" ? "learn-arabic-tutor-card" :
-                feature.screen === "PronunciationCoach" ? "learn-pronunciation-card" :
-                feature.screen === "Translator" ? "learn-translator-card" :
-                feature.screen === "StudyPlan" ? "learn-study-plan-card" : undefined
+                feature.screen === "QuranReader"
+                  ? "learn-quran-card"
+                  : feature.screen === "HifzDashboard"
+                    ? "learn-hifz-card"
+                    : feature.screen === "ArabicTutor"
+                      ? "learn-arabic-tutor-card"
+                      : feature.screen === "PronunciationCoach"
+                        ? "learn-pronunciation-card"
+                        : feature.screen === "Translator"
+                          ? "learn-translator-card"
+                          : feature.screen === "StudyPlan"
+                            ? "learn-study-plan-card"
+                            : undefined
               }
             />
           ))}

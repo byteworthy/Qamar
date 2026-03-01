@@ -13,21 +13,21 @@
  * - User can only access their own preferences
  */
 
-import type { Express, Request, Response } from 'express';
-import { db } from '../db';
-import { prayerPreferences, userProgress } from '@shared/schema';
-import { eq, sql } from 'drizzle-orm';
-import { requireAuth } from '../middleware/auth';
-import { asyncHandler } from '../middleware/error-handler';
+import type { Express, Request, Response } from "express";
+import { db } from "../db";
+import { prayerPreferences, userProgress } from "@shared/schema";
+import { eq, sql } from "drizzle-orm";
+import { requireAuth } from "../middleware/auth";
+import { asyncHandler } from "../middleware/error-handler";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
+} from "../types/error-response";
 import {
   updatePreferencesSchema,
   trackPrayerSchema,
-} from '../validation/prayer-validation';
+} from "../validation/prayer-validation";
 
 export function registerPrayerRoutes(app: Express): void {
   /**
@@ -52,7 +52,7 @@ export function registerPrayerRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/prayer/preferences',
+    "/api/prayer/preferences",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const userId = req.auth!.userId;
@@ -66,8 +66,8 @@ export function registerPrayerRoutes(app: Express): void {
         // Return defaults if no preferences set
         return res.json({
           preferences: {
-            calculationMethod: 'MWL',
-            madhab: 'Shafi',
+            calculationMethod: "MWL",
+            madhab: "Shafi",
             notificationsEnabled: true,
             latitude: null,
             longitude: null,
@@ -88,7 +88,7 @@ export function registerPrayerRoutes(app: Express): void {
           updatedAt: prefs.updatedAt,
         },
       });
-    })
+    }),
   );
 
   /**
@@ -116,7 +116,7 @@ export function registerPrayerRoutes(app: Express): void {
    * }
    */
   app.put(
-    '/api/prayer/preferences',
+    "/api/prayer/preferences",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const userId = req.auth!.userId;
@@ -124,15 +124,17 @@ export function registerPrayerRoutes(app: Express): void {
       // Validate body
       const validationResult = updatePreferencesSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid preference data',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid preference data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const data = validationResult.data;
@@ -142,8 +144,8 @@ export function registerPrayerRoutes(app: Express): void {
         .insert(prayerPreferences)
         .values({
           userId,
-          calculationMethod: data.calculationMethod || 'MWL',
-          madhab: data.madhab || 'Shafi',
+          calculationMethod: data.calculationMethod || "MWL",
+          madhab: data.madhab || "Shafi",
           notificationsEnabled: data.notificationsEnabled ?? true,
           latitude: data.latitude,
           longitude: data.longitude,
@@ -153,18 +155,24 @@ export function registerPrayerRoutes(app: Express): void {
         .onConflictDoUpdate({
           target: prayerPreferences.userId,
           set: {
-            ...(data.calculationMethod && { calculationMethod: data.calculationMethod }),
+            ...(data.calculationMethod && {
+              calculationMethod: data.calculationMethod,
+            }),
             ...(data.madhab && { madhab: data.madhab }),
-            ...(data.notificationsEnabled !== undefined && { notificationsEnabled: data.notificationsEnabled }),
+            ...(data.notificationsEnabled !== undefined && {
+              notificationsEnabled: data.notificationsEnabled,
+            }),
             ...(data.latitude !== undefined && { latitude: data.latitude }),
             ...(data.longitude !== undefined && { longitude: data.longitude }),
-            ...(data.locationName !== undefined && { locationName: data.locationName }),
+            ...(data.locationName !== undefined && {
+              locationName: data.locationName,
+            }),
             updatedAt: new Date(),
           },
         })
         .returning();
 
-      req.logger?.info('Updated prayer preferences', {
+      req.logger?.info("Updated prayer preferences", {
         userId,
         calculationMethod: updated.calculationMethod,
       });
@@ -181,7 +189,7 @@ export function registerPrayerRoutes(app: Express): void {
           updatedAt: updated.updatedAt,
         },
       });
-    })
+    }),
   );
 
   /**
@@ -202,22 +210,24 @@ export function registerPrayerRoutes(app: Express): void {
    * { success: true }
    */
   app.post(
-    '/api/prayer/track',
+    "/api/prayer/track",
     requireAuth,
     asyncHandler(async (req: Request, res: Response) => {
       const userId = req.auth!.userId;
 
       const validationResult = trackPrayerSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid tracking data',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid tracking data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       // Update prayer check count in user progress
@@ -238,13 +248,13 @@ export function registerPrayerRoutes(app: Express): void {
           },
         });
 
-      req.logger?.info('Tracked prayer', {
+      req.logger?.info("Tracked prayer", {
         userId,
         prayerName: validationResult.data.prayerName,
         onTime: validationResult.data.onTime,
       });
 
       return res.json({ success: true });
-    })
+    }),
   );
 }

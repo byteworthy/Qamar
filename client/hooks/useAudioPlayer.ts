@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Audio, AVPlaybackStatus } from "expo-av";
 
 export interface AudioPlayerState {
   isPlaying: boolean;
@@ -37,7 +37,7 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
           shouldDuckAndroid: true,
         });
       } catch (err) {
-        console.error('Failed to configure audio mode:', err);
+        console.error("Failed to configure audio mode:", err);
       }
     };
 
@@ -49,7 +49,7 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
     return () => {
       if (soundRef.current) {
         soundRef.current.unloadAsync().catch((err) => {
-          console.error('Failed to unload sound on unmount:', err);
+          console.error("Failed to unload sound on unmount:", err);
         });
       }
     };
@@ -101,7 +101,7 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
         const { sound } = await Audio.Sound.createAsync(
           { uri },
           { shouldPlay: true },
-          onPlaybackStatusUpdate
+          onPlaybackStatusUpdate,
         );
 
         soundRef.current = sound;
@@ -109,14 +109,14 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
         setIsLoading(false);
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to play audio';
+          err instanceof Error ? err.message : "Failed to play audio";
         setError(errorMessage);
         setIsLoading(false);
         setIsPlaying(false);
-        console.error('Error playing audio:', err);
+        console.error("Error playing audio:", err);
       }
     },
-    [onPlaybackStatusUpdate]
+    [onPlaybackStatusUpdate],
   );
 
   const pauseAudio = useCallback(async () => {
@@ -125,8 +125,8 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
         await soundRef.current.pauseAsync();
       }
     } catch (err) {
-      console.error('Error pausing audio:', err);
-      setError('Failed to pause audio');
+      console.error("Error pausing audio:", err);
+      setError("Failed to pause audio");
     }
   }, []);
 
@@ -136,8 +136,8 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
         await soundRef.current.playAsync();
       }
     } catch (err) {
-      console.error('Error resuming audio:', err);
-      setError('Failed to resume audio');
+      console.error("Error resuming audio:", err);
+      setError("Failed to resume audio");
     }
   }, []);
 
@@ -150,8 +150,8 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
         setIsPlaying(false);
       }
     } catch (err) {
-      console.error('Error stopping audio:', err);
-      setError('Failed to stop audio');
+      console.error("Error stopping audio:", err);
+      setError("Failed to stop audio");
     }
   }, []);
 
@@ -161,8 +161,8 @@ export function useAudioPlayer(): AudioPlayerState & AudioPlayerControls {
         await soundRef.current.setPositionAsync(positionMillis);
       }
     } catch (err) {
-      console.error('Error seeking audio:', err);
-      setError('Failed to seek audio');
+      console.error("Error seeking audio:", err);
+      setError("Failed to seek audio");
     }
   }, []);
 

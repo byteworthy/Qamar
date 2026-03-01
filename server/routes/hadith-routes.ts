@@ -1,19 +1,19 @@
-import type { Express, Request, Response } from 'express';
-import { db } from '../db';
-import { hadithCollections, hadiths } from '@shared/schema';
-import { eq, like, or, sql, and } from 'drizzle-orm';
-import { asyncHandler } from '../middleware/error-handler';
-import { cacheMiddleware, CACHE_TTL } from '../middleware/cache';
+import type { Express, Request, Response } from "express";
+import { db } from "../db";
+import { hadithCollections, hadiths } from "@shared/schema";
+import { eq, like, or, sql, and } from "drizzle-orm";
+import { asyncHandler } from "../middleware/error-handler";
+import { cacheMiddleware, CACHE_TTL } from "../middleware/cache";
 import {
   getHadithsByCollectionSchema,
   searchHadithsSchema,
   getHadithByIdSchema,
-} from '../validation/hadith-validation';
+} from "../validation/hadith-validation";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
+} from "../types/error-response";
 
 /**
  * Hadith API Routes
@@ -58,7 +58,7 @@ export function registerHadithRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/hadith/collections',
+    "/api/hadith/collections",
     cacheMiddleware(CACHE_TTL.ONE_DAY),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -70,7 +70,7 @@ export function registerHadithRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched hadith collections', {
+      req.logger?.info("Fetched hadith collections", {
         count: collections.length,
         durationMs: duration,
       });
@@ -79,7 +79,7 @@ export function registerHadithRoutes(app: Express): void {
         collections,
         total: collections.length,
       });
-    })
+    }),
   );
 
   /**
@@ -101,7 +101,7 @@ export function registerHadithRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/hadith/search',
+    "/api/hadith/search",
     cacheMiddleware(CACHE_TTL.ONE_HOUR),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -109,15 +109,17 @@ export function registerHadithRoutes(app: Express): void {
       // Validate query params
       const validationResult = searchHadithsSchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { q, limit, offset } = validationResult.data;
@@ -131,8 +133,8 @@ export function registerHadithRoutes(app: Express): void {
           or(
             like(hadiths.textEnglish, searchPattern),
             like(hadiths.textArabic, searchPattern),
-            like(hadiths.narrator, searchPattern)
-          )
+            like(hadiths.narrator, searchPattern),
+          ),
         )
         .orderBy(hadiths.collectionId, hadiths.hadithNumber)
         .limit(limit)
@@ -146,13 +148,13 @@ export function registerHadithRoutes(app: Express): void {
           or(
             like(hadiths.textEnglish, searchPattern),
             like(hadiths.textArabic, searchPattern),
-            like(hadiths.narrator, searchPattern)
-          )
+            like(hadiths.narrator, searchPattern),
+          ),
         );
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Searched hadiths', {
+      req.logger?.info("Searched hadiths", {
         query: q,
         limit,
         offset,
@@ -170,7 +172,7 @@ export function registerHadithRoutes(app: Express): void {
           hasMore: offset + limit < count,
         },
       });
-    })
+    }),
   );
 
   /**
@@ -187,7 +189,7 @@ export function registerHadithRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/hadith/daily',
+    "/api/hadith/daily",
     cacheMiddleware(CACHE_TTL.ONE_HOUR),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -198,24 +200,26 @@ export function registerHadithRoutes(app: Express): void {
         .from(hadiths);
 
       if (count === 0) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            'No hadiths available'
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              "No hadiths available",
+            ),
+          );
       }
 
       // Calculate deterministic offset based on current date
       const now = new Date();
-      const dateString = now.toISOString().split('T')[0]; // YYYY-MM-DD
+      const dateString = now.toISOString().split("T")[0]; // YYYY-MM-DD
 
       // Simple hash function for date string
       let hash = 0;
       for (let i = 0; i < dateString.length; i++) {
-        hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+        hash = (hash << 5) - hash + dateString.charCodeAt(i);
         hash = hash & hash; // Convert to 32-bit integer
       }
 
@@ -232,7 +236,7 @@ export function registerHadithRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched daily hadith', {
+      req.logger?.info("Fetched daily hadith", {
         date: dateString,
         hadithId: hadith.id,
         offset,
@@ -243,7 +247,7 @@ export function registerHadithRoutes(app: Express): void {
         hadith,
         date: dateString,
       });
-    })
+    }),
   );
 
   /**
@@ -261,23 +265,28 @@ export function registerHadithRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/hadith/detail/:id',
-    cacheMiddleware(CACHE_TTL.ONE_DAY, (req) => `cache:hadith:detail:${req.params.id}`),
+    "/api/hadith/detail/:id",
+    cacheMiddleware(
+      CACHE_TTL.ONE_DAY,
+      (req) => `cache:hadith:detail:${req.params.id}`,
+    ),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
 
       // Validate params
       const validationResult = getHadithByIdSchema.safeParse(req.params);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid hadith ID',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid hadith ID",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { id } = validationResult.data;
@@ -289,19 +298,21 @@ export function registerHadithRoutes(app: Express): void {
         .where(eq(hadiths.id, id));
 
       if (!hadith) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            `Hadith '${id}' not found`
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              `Hadith '${id}' not found`,
+            ),
+          );
       }
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched hadith by ID', {
+      req.logger?.info("Fetched hadith by ID", {
         hadithId: id,
         collectionId: hadith.collectionId,
         durationMs: duration,
@@ -310,7 +321,7 @@ export function registerHadithRoutes(app: Express): void {
       return res.json({
         hadith,
       });
-    })
+    }),
   );
 
   /**
@@ -338,10 +349,11 @@ export function registerHadithRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/hadith/:collectionId',
+    "/api/hadith/:collectionId",
     cacheMiddleware(
       CACHE_TTL.ONE_DAY,
-      (req) => `cache:hadith:collection:${req.params.collectionId}:${req.query.grade || 'all'}:${req.query.offset || 0}`
+      (req) =>
+        `cache:hadith:collection:${req.params.collectionId}:${req.query.grade || "all"}:${req.query.offset || 0}`,
     ),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -353,15 +365,17 @@ export function registerHadithRoutes(app: Express): void {
       });
 
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { collectionId, grade, limit, offset } = validationResult.data;
@@ -373,22 +387,21 @@ export function registerHadithRoutes(app: Express): void {
         .where(eq(hadithCollections.id, collectionId));
 
       if (!collection) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            `Collection '${collectionId}' not found`
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              `Collection '${collectionId}' not found`,
+            ),
+          );
       }
 
       // Build where clause
       const whereClause = grade
-        ? and(
-            eq(hadiths.collectionId, collectionId),
-            eq(hadiths.grade, grade)
-          )
+        ? and(eq(hadiths.collectionId, collectionId), eq(hadiths.grade, grade))
         : eq(hadiths.collectionId, collectionId);
 
       // Fetch hadiths with pagination
@@ -408,7 +421,7 @@ export function registerHadithRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched hadiths for collection', {
+      req.logger?.info("Fetched hadiths for collection", {
         collectionId,
         grade,
         limit,
@@ -428,6 +441,6 @@ export function registerHadithRoutes(app: Express): void {
           hasMore: offset + limit < count,
         },
       });
-    })
+    }),
   );
 }

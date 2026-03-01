@@ -6,8 +6,8 @@
  * Follows the same animation and theming patterns as TTSButton and LoadingState.
  */
 
-import React, { useEffect } from 'react';
-import { Pressable, StyleSheet, ViewStyle } from 'react-native';
+import React, { useEffect } from "react";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -16,12 +16,12 @@ import Animated, {
   withTiming,
   cancelAnimation,
   Easing,
-} from 'react-native-reanimated';
-import { Feather } from '@expo/vector-icons';
+} from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
 
-import { useTheme } from '@/hooks/useTheme';
-import { NoorColors } from '@/constants/theme/colors';
-import { hapticMedium } from '@/lib/haptics';
+import { useTheme } from "@/hooks/useTheme";
+import { NoorColors } from "@/constants/theme/colors";
+import { hapticMedium } from "@/lib/haptics";
 
 // =============================================================================
 // TYPES
@@ -44,7 +44,7 @@ const ICON_RATIO = 0.39; // Icon size relative to button size
 const BORDER_WIDTH = 2.5;
 const RECORDING_BORDER_WIDTH = 3;
 const PULSE_DURATION = 800;
-const RECORDING_BG = 'rgba(220, 50, 50, 0.15)';
+const RECORDING_BG = "rgba(220, 50, 50, 0.15)";
 
 // =============================================================================
 // COMPONENT
@@ -72,10 +72,10 @@ export function AudioRecordButton({
           withTiming(1.0, {
             duration: PULSE_DURATION,
             easing: Easing.inOut(Easing.ease),
-          })
+          }),
         ),
         -1, // infinite
-        false
+        false,
       );
     } else {
       cancelAnimation(pulseScale);
@@ -104,7 +104,7 @@ export function AudioRecordButton({
       onPress={handlePress}
       disabled={disabled}
       accessibilityRole="button"
-      accessibilityLabel={isRecording ? 'Stop recording' : 'Start recording'}
+      accessibilityLabel={isRecording ? "Stop recording" : "Start recording"}
       accessibilityState={{ disabled }}
       style={style}
     >
@@ -123,11 +123,7 @@ export function AudioRecordButton({
           },
         ]}
       >
-        <Feather
-          name="mic"
-          size={iconSize}
-          color={iconColor}
-        />
+        <Feather name="mic" size={iconSize} color={iconColor} />
       </Animated.View>
     </Pressable>
   );
@@ -139,7 +135,7 @@ export function AudioRecordButton({
 
 const styles = StyleSheet.create({
   circle: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

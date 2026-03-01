@@ -1,5 +1,5 @@
 /**
- * Tone Classifier Test Suite for Noor
+ * Tone Classifier Test Suite for Qamar
  *
  * Tests the tone classification system that adapts AI responses to user communication style:
  * - Feelers: Emotional language detection
@@ -18,7 +18,9 @@ import { classifyTone, getTonePromptModifier } from "../toneClassifier";
 
 describe("Tone Classifier - Feelers Mode", () => {
   test("detects emotional language with high confidence", () => {
-    const result = classifyTone("I feel so anxious and scared about everything");
+    const result = classifyTone(
+      "I feel so anxious and scared about everything",
+    );
 
     expect(result.mode).toBe("feelers");
     expect(result.confidence).toBeGreaterThan(0.6);
@@ -356,7 +358,9 @@ describe("Tone Classifier - Confidence Scoring", () => {
     );
 
     // High markers should have confidence at or near the cap (0.9)
-    expect(highMarkers.confidence).toBeGreaterThanOrEqual(lowMarkers.confidence);
+    expect(highMarkers.confidence).toBeGreaterThanOrEqual(
+      lowMarkers.confidence,
+    );
     expect(highMarkers.confidence).toBeGreaterThanOrEqual(0.8);
   });
 
@@ -368,7 +372,9 @@ describe("Tone Classifier - Confidence Scoring", () => {
 
   test("returns 0.5 confidence for balanced mode when truly balanced", () => {
     // Use input with equal emotional and analytical weight
-    const result = classifyTone("I feel a bit uncertain but I think about it carefully");
+    const result = classifyTone(
+      "I feel a bit uncertain but I think about it carefully",
+    );
 
     expect(result.mode).toBe("balanced");
     // Confidence should be 0.5 for balanced classification
@@ -442,7 +448,10 @@ describe("Tone Classifier - Integration", () => {
       "I think about this logically",
     ];
 
-    const result = classifyTone("I'm not sure how to proceed", previousReflections);
+    const result = classifyTone(
+      "I'm not sure how to proceed",
+      previousReflections,
+    );
 
     expect(result.mode).toBe("balanced");
     expect(result.confidence).toBeGreaterThanOrEqual(0.3);

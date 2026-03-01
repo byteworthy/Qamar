@@ -1,5 +1,5 @@
 /**
- * Notification API Routes for Noor
+ * Notification API Routes for Qamar
  *
  * Handles push token registration and server-triggered notifications
  */
@@ -69,15 +69,17 @@ router.post("/register", async (req: Request, res: Response) => {
     const parsed = registerTokenSchema.safeParse(req.body);
 
     if (!parsed.success) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.VALIDATION_FAILED,
-          req.id,
-          "Invalid request",
-          { validationErrors: parsed.error.errors }
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request",
+            { validationErrors: parsed.error.errors },
+          ),
+        );
       return;
     }
 
@@ -85,14 +87,16 @@ router.post("/register", async (req: Request, res: Response) => {
 
     // Validate token format
     if (!isValidPushToken(token)) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.INVALID_INPUT,
-          req.id,
-          "Invalid push token format"
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.INVALID_INPUT,
+            req.id,
+            "Invalid push token format",
+          ),
+        );
       return;
     }
 
@@ -122,14 +126,16 @@ router.post("/register", async (req: Request, res: Response) => {
     notificationLogger.error("Push token registration failed", error, {
       operation: "register",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        req.id,
-        "Failed to register push token"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to register push token",
+        ),
+      );
   }
 });
 
@@ -142,14 +148,16 @@ router.delete("/unregister", async (req: Request, res: Response) => {
     const { token } = req.body;
 
     if (!token) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.MISSING_REQUIRED_FIELD,
-          req.id,
-          "Token required"
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.MISSING_REQUIRED_FIELD,
+            req.id,
+            "Token required",
+          ),
+        );
       return;
     }
 
@@ -163,14 +171,16 @@ router.delete("/unregister", async (req: Request, res: Response) => {
     notificationLogger.error("Push token unregistration failed", error, {
       operation: "unregister",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        req.id,
-        "Failed to unregister push token"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to unregister push token",
+        ),
+      );
   }
 });
 
@@ -184,15 +194,17 @@ router.post("/send", async (req: Request, res: Response) => {
     const parsed = sendNotificationSchema.safeParse(req.body);
 
     if (!parsed.success) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.VALIDATION_FAILED,
-          req.id,
-          "Invalid request",
-          { validationErrors: parsed.error.errors }
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request",
+            { validationErrors: parsed.error.errors },
+          ),
+        );
       return;
     }
 
@@ -214,14 +226,16 @@ router.post("/send", async (req: Request, res: Response) => {
     }
 
     if (targetTokens.length === 0) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.INVALID_INPUT,
-          req.id,
-          "No valid tokens found"
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.INVALID_INPUT,
+            req.id,
+            "No valid tokens found",
+          ),
+        );
       return;
     }
 
@@ -239,14 +253,16 @@ router.post("/send", async (req: Request, res: Response) => {
     notificationLogger.error("Failed to send notification", error, {
       operation: "send",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        req.id,
-        "Failed to send notification"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to send notification",
+        ),
+      );
   }
 });
 
@@ -260,15 +276,17 @@ router.post("/broadcast", async (req: Request, res: Response) => {
     const parsed = broadcastSchema.safeParse(req.body);
 
     if (!parsed.success) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.VALIDATION_FAILED,
-          req.id,
-          "Invalid request",
-          { validationErrors: parsed.error.errors }
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.VALIDATION_FAILED,
+            req.id,
+            "Invalid request",
+            { validationErrors: parsed.error.errors },
+          ),
+        );
       return;
     }
 
@@ -305,14 +323,16 @@ router.post("/broadcast", async (req: Request, res: Response) => {
     notificationLogger.error("Broadcast notification failed", error, {
       operation: "broadcast",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        req.id,
-        "Failed to broadcast notification"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to broadcast notification",
+        ),
+      );
   }
 });
 
@@ -349,14 +369,16 @@ router.post("/inactivity-check", async (req: Request, res: Response) => {
     notificationLogger.error("Inactivity check failed", error, {
       operation: "inactivity_check",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        req.id,
-        "Failed to send inactivity reminders"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to send inactivity reminders",
+        ),
+      );
   }
 });
 
@@ -369,14 +391,16 @@ router.get("/status", async (req: Request, res: Response) => {
     const { token } = req.query;
 
     if (!token || typeof token !== "string") {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(
-        createErrorResponse(
-          HTTP_STATUS.BAD_REQUEST,
-          ERROR_CODES.MISSING_REQUIRED_FIELD,
-          req.id,
-          "Token required"
-        )
-      );
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.BAD_REQUEST,
+            ERROR_CODES.MISSING_REQUIRED_FIELD,
+            req.id,
+            "Token required",
+          ),
+        );
       return;
     }
 
@@ -392,14 +416,16 @@ router.get("/status", async (req: Request, res: Response) => {
     notificationLogger.error("Notification status check failed", error, {
       operation: "status_check",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        req.id,
-        "Failed to check notification status"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          req.id,
+          "Failed to check notification status",
+        ),
+      );
   }
 });
 
@@ -425,14 +451,16 @@ router.get("/stats", async (_req: Request, res: Response) => {
     notificationLogger.error("Failed to get notification stats", error, {
       operation: "stats",
     });
-    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-      createErrorResponse(
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        ERROR_CODES.INTERNAL_ERROR,
-        _req.id,
-        "Failed to get notification stats"
-      )
-    );
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          ERROR_CODES.INTERNAL_ERROR,
+          _req.id,
+          "Failed to get notification stats",
+        ),
+      );
   }
 });
 

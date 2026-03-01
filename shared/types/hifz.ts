@@ -15,7 +15,7 @@ export interface HifzVerseState {
     difficulty: number; // 0-1 scale (higher = more difficult)
     stability: number; // days until memory decays
     reviewCount: number;
-    state: 'new' | 'learning' | 'review' | 'relearning';
+    state: "new" | "learning" | "review" | "relearning";
   };
   mistakeCount: number;
   lastMistakes: string[]; // Array of incorrect words from recent attempt
@@ -25,7 +25,12 @@ export interface JuzProgress {
   juzNumber: number; // 1-30
   totalVerses: number;
   memorizedVerses: number;
-  status: 'not_started' | 'in_progress' | 'on_schedule' | 'review_overdue' | 'review_critical';
+  status:
+    | "not_started"
+    | "in_progress"
+    | "on_schedule"
+    | "review_overdue"
+    | "review_critical";
 }
 
 export interface RecitationResult {
@@ -40,15 +45,18 @@ export interface RecitationResult {
 }
 
 export interface DifficultyRating {
-  rating: 'again' | 'hard' | 'good' | 'easy';
+  rating: "again" | "hard" | "good" | "easy";
   multiplier: number; // FSRS interval multiplier
 }
 
-export const DIFFICULTY_RATINGS: Record<DifficultyRating['rating'], DifficultyRating> = {
-  again: { rating: 'again', multiplier: 0 }, // Reset to 1 day
-  hard: { rating: 'hard', multiplier: 1.2 },
-  good: { rating: 'good', multiplier: 2.5 },
-  easy: { rating: 'easy', multiplier: 4.0 },
+export const DIFFICULTY_RATINGS: Record<
+  DifficultyRating["rating"],
+  DifficultyRating
+> = {
+  again: { rating: "again", multiplier: 0 }, // Reset to 1 day
+  hard: { rating: "hard", multiplier: 1.2 },
+  good: { rating: "good", multiplier: 2.5 },
+  easy: { rating: "easy", multiplier: 4.0 },
 };
 
 export interface HifzReviewQueueItem {
@@ -57,5 +65,5 @@ export interface HifzReviewQueueItem {
   verseNumber: number;
   nextReviewDate: string;
   daysSinceLastReview: number;
-  urgency: 'due_today' | 'overdue' | 'critical'; // critical = 7+ days overdue
+  urgency: "due_today" | "overdue" | "critical"; // critical = 7+ days overdue
 }

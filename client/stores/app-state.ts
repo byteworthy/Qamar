@@ -109,7 +109,9 @@ export interface AppState {
   setReminderOffset: (offset: ReminderOffset) => void;
   toggleDailyReflection: () => void;
   setDailyReflectionTime: (hour: number, minute: number) => void;
-  setNotificationPreferences: (prefs: Partial<PrayerNotificationPreferences>) => void;
+  setNotificationPreferences: (
+    prefs: Partial<PrayerNotificationPreferences>,
+  ) => void;
 
   // Arabic actions
   setCurrentLevel: (level: number) => void;
@@ -288,7 +290,8 @@ export const useAppState = create<AppState>()(
               ...state.prayer.notificationPreferences,
               perPrayer: {
                 ...state.prayer.notificationPreferences.perPrayer,
-                [prayer]: !state.prayer.notificationPreferences.perPrayer[prayer],
+                [prayer]:
+                  !state.prayer.notificationPreferences.perPrayer[prayer],
               },
             },
           },
@@ -472,7 +475,8 @@ export const selectCalculationMethod = (state: AppState) =>
 
 // Arabic selectors
 export const selectArabicState = (state: AppState) => state.arabic;
-export const selectCurrentLevel = (state: AppState) => state.arabic.currentLevel;
+export const selectCurrentLevel = (state: AppState) =>
+  state.arabic.currentLevel;
 export const selectDailyProgress = (state: AppState) => ({
   completed: state.arabic.reviewsCompleted,
   goal: state.arabic.dailyGoal,
@@ -531,8 +535,7 @@ export const useNeedsSync = () => {
     if (!lastSyncTimestamp) return true;
 
     // Sync older than 24 hours
-    const hoursSinceSync =
-      (Date.now() - lastSyncTimestamp) / (1000 * 60 * 60);
+    const hoursSinceSync = (Date.now() - lastSyncTimestamp) / (1000 * 60 * 60);
     return hoursSinceSync > 24;
   });
 };

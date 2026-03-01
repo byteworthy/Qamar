@@ -201,12 +201,16 @@ function FeatureComparisonRow({
       style={[
         styles.comparisonRow,
         {
-          backgroundColor: index % 2 === 0 ? "transparent" : theme.backgroundDefault + "40",
+          backgroundColor:
+            index % 2 === 0 ? "transparent" : theme.backgroundDefault + "40",
           opacity: fadeAnim,
         },
       ]}
     >
-      <ThemedText style={[styles.comparisonLabel, { color: theme.text }]} numberOfLines={1}>
+      <ThemedText
+        style={[styles.comparisonLabel, { color: theme.text }]}
+        numberOfLines={1}
+      >
         {feature.label}
       </ThemedText>
       <View style={styles.comparisonChecks}>
@@ -214,15 +218,15 @@ function FeatureComparisonRow({
           {feature.free ? (
             <Feather name="check" size={16} color={theme.success} />
           ) : (
-            <Feather name="minus" size={14} color={theme.textSecondary + "60"} />
+            <Feather
+              name="minus"
+              size={14}
+              color={theme.textSecondary + "60"}
+            />
           )}
         </View>
         <View style={styles.comparisonCell}>
-          <Feather
-            name="check"
-            size={16}
-            color={GOLD}
-          />
+          <Feather name="check" size={16} color={GOLD} />
         </View>
       </View>
     </Animated.View>
@@ -337,7 +341,10 @@ function PlanSelector({
           </ThemedText>
           {plan.period ? (
             <ThemedText
-              style={[styles.planSelectorPeriod, { color: theme.textSecondary }]}
+              style={[
+                styles.planSelectorPeriod,
+                { color: theme.textSecondary },
+              ]}
             >
               {plan.period}
             </ThemedText>
@@ -351,7 +358,6 @@ function PlanSelector({
 // ---------------------------------------------------------------------------
 // Main screen
 // ---------------------------------------------------------------------------
-
 
 export default function PricingScreen() {
   const { theme } = useTheme();
@@ -453,11 +459,11 @@ export default function PricingScreen() {
   };
 
   const openTerms = () => {
-    Linking.openURL("https://byteworthy.github.io/Noor/legal/terms.html");
+    Linking.openURL("https://byteworthy.github.io/Qamar/legal/terms.html");
   };
 
   const openPrivacy = () => {
-    Linking.openURL("https://byteworthy.github.io/Noor/legal/privacy.html");
+    Linking.openURL("https://byteworthy.github.io/Qamar/legal/privacy.html");
   };
 
   const gradientColors =
@@ -478,12 +484,7 @@ export default function PricingScreen() {
         ]}
       >
         {/* Star/crescent icon */}
-        <View
-          style={[
-            styles.heroIcon,
-            { backgroundColor: GOLD + "18" },
-          ]}
-        >
+        <View style={[styles.heroIcon, { backgroundColor: GOLD + "18" }]}>
           <Feather name="star" size={32} color={GOLD} />
         </View>
 
@@ -493,7 +494,7 @@ export default function PricingScreen() {
             { fontFamily: Fonts?.serifBold, color: theme.text },
           ]}
         >
-          Unlock the Full{"\n"}Noor Experience
+          Unlock the Full{"\n"}Qamar Experience
         </ThemedText>
         <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
           Deepen your faith with unlimited access to all premium features.
@@ -601,7 +602,13 @@ export default function PricingScreen() {
               onSelect={() => setSelectedPlan(plan.id)}
               theme={theme}
               colorScheme={colorScheme}
-              testID={plan.id === "monthly" ? "plan-monthly" : plan.id === "yearly" ? "plan-annual" : undefined}
+              testID={
+                plan.id === "monthly"
+                  ? "plan-monthly"
+                  : plan.id === "yearly"
+                    ? "plan-annual"
+                    : undefined
+              }
             />
           ))}
         </View>
@@ -616,7 +623,9 @@ export default function PricingScreen() {
             disabled={loading}
             activeOpacity={0.85}
             accessibilityRole="button"
-            accessibilityLabel={loading ? "Processing purchase" : "Start Free Trial"}
+            accessibilityLabel={
+              loading ? "Processing purchase" : "Start Free Trial"
+            }
             accessibilityHint={`Subscribe to ${selectedPlan} plan`}
             style={styles.ctaButtonOuter}
           >
@@ -627,10 +636,7 @@ export default function PricingScreen() {
               style={styles.ctaButton}
             >
               <ThemedText
-                style={[
-                  styles.ctaButtonText,
-                  { fontFamily: Fonts?.sansBold },
-                ]}
+                style={[styles.ctaButtonText, { fontFamily: Fonts?.sansBold }]}
               >
                 {loading ? "Processing..." : "Start Free Trial"}
               </ThemedText>
@@ -658,7 +664,7 @@ export default function PricingScreen() {
                 { color: GOLD, fontFamily: Fonts?.sansMedium },
               ]}
             >
-              You're on Noor Plus
+              You{"'"}re on Qamar Plus
             </ThemedText>
           </View>
         </View>
@@ -683,13 +689,13 @@ export default function PricingScreen() {
             { color: theme.text, fontFamily: Fonts?.serif },
           ]}
         >
-          "Noor has become part of my daily spiritual routine. The reflections
-          help me stay grounded and connected to my faith."
+          {'"'}Qamar has become part of my daily spiritual routine. The
+          reflections help me stay grounded and connected to my faith.{'"'}
         </ThemedText>
         <ThemedText
           style={[styles.socialProofAuthor, { color: theme.textSecondary }]}
         >
-          -- A Noor Plus member
+          -- A Qamar Plus member
         </ThemedText>
       </View>
 
@@ -750,7 +756,9 @@ export default function PricingScreen() {
               onPress={handleRestorePurchase}
               disabled={syncing}
               accessibilityRole="link"
-              accessibilityLabel={syncing ? "Restoring purchases" : "Restore Purchases"}
+              accessibilityLabel={
+                syncing ? "Restoring purchases" : "Restore Purchases"
+              }
               accessibilityHint="Restores previous purchases from your Apple ID"
             >
               <ThemedText style={[styles.linkText, { color: theme.accent }]}>

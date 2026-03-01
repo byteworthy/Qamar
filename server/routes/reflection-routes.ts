@@ -1,10 +1,7 @@
 import type { Express } from "express";
 import { storage } from "../storage";
 import { billingService } from "../billing";
-import {
-  inferInnerState,
-  detectAssumptionPattern,
-} from "../stateInference";
+import { inferInnerState, detectAssumptionPattern } from "../stateInference";
 import { encryptData, decryptData } from "../encryption";
 import {
   createErrorResponse,
@@ -26,27 +23,31 @@ export function registerReflectionRoutes(app: Express): void {
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       // Validate request body
       const validationResult = reflectionSaveSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { thought, patterns, reframe, intention, practice, anchor } =
@@ -60,14 +61,16 @@ export function registerReflectionRoutes(app: Express): void {
       if (!isPaid) {
         const todayCount = await storage.getTodayReflectionCount(userId);
         if (todayCount >= FREE_DAILY_LIMIT) {
-          return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
-            createErrorResponse(
-              HTTP_STATUS.PAYMENT_REQUIRED,
-              ERROR_CODES.PAYMENT_REQUIRED,
-              req.id,
-              "Upgrade to Noor Plus for unlimited reflections"
-            )
-          );
+          return res
+            .status(HTTP_STATUS.PAYMENT_REQUIRED)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.PAYMENT_REQUIRED,
+                ERROR_CODES.PAYMENT_REQUIRED,
+                req.id,
+                "Upgrade to Qamar Plus for unlimited reflections",
+              ),
+            );
         }
       }
 
@@ -99,8 +102,8 @@ export function registerReflectionRoutes(app: Express): void {
               HTTP_STATUS.INTERNAL_SERVER_ERROR,
               ERROR_CODES.INTERNAL_ERROR,
               req.id,
-              "Failed to securely store reflection"
-            )
+              "Failed to securely store reflection",
+            ),
           );
       }
 
@@ -123,14 +126,16 @@ export function registerReflectionRoutes(app: Express): void {
       req.logger.error("Failed to save reflection", error, {
         operation: "save_reflection",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to save reflection"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to save reflection",
+          ),
+        );
     }
   });
 
@@ -142,13 +147,15 @@ export function registerReflectionRoutes(app: Express): void {
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
@@ -191,14 +198,16 @@ export function registerReflectionRoutes(app: Express): void {
       req.logger.error("Failed to fetch reflection history", error, {
         operation: "fetch_history",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to fetch history"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to fetch history",
+          ),
+        );
     }
   });
 
@@ -211,37 +220,43 @@ export function registerReflectionRoutes(app: Express): void {
       const sessionId = parseInt(req.params.id, 10);
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       if (isNaN(sessionId)) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.INVALID_INPUT,
-            req.id,
-            "Invalid reflection ID"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.INVALID_INPUT,
+              req.id,
+              "Invalid reflection ID",
+            ),
+          );
       }
 
       const deletedCount = await storage.deleteReflection(userId, sessionId);
 
       if (deletedCount === 0) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            "Reflection not found or already deleted"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              "Reflection not found or already deleted",
+            ),
+          );
       }
 
       res.json({ success: true, deletedCount });
@@ -249,14 +264,16 @@ export function registerReflectionRoutes(app: Express): void {
       req.logger.error("Failed to delete reflection", error, {
         operation: "delete_reflection",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to delete reflection"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to delete reflection",
+          ),
+        );
     }
   });
 
@@ -289,14 +306,16 @@ export function registerReflectionRoutes(app: Express): void {
       req.logger.error("Failed to check reflection limit", error, {
         operation: "check_reflection_limit",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to check limit"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to check limit",
+          ),
+        );
     }
   });
 
@@ -307,27 +326,31 @@ export function registerReflectionRoutes(app: Express): void {
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Noor Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
@@ -392,14 +415,16 @@ export function registerReflectionRoutes(app: Express): void {
       req.logger.error("Failed to fetch patterns", error, {
         operation: "fetch_patterns",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to fetch patterns"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to fetch patterns",
+          ),
+        );
     }
   });
 }

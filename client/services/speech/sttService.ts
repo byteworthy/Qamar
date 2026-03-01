@@ -14,7 +14,7 @@
 import Voice, {
   SpeechResultsEvent,
   SpeechErrorEvent,
-} from '@react-native-voice/voice';
+} from "@react-native-voice/voice";
 
 // =============================================================================
 // TYPES
@@ -33,12 +33,12 @@ export type STTListener = (state: STTState) => void;
 // CONSTANTS
 // =============================================================================
 
-const DEFAULT_LANGUAGE = 'ar-SA';
+const DEFAULT_LANGUAGE = "ar-SA";
 
 const INITIAL_STATE: STTState = {
   isListening: false,
-  transcript: '',
-  partialTranscript: '',
+  transcript: "",
+  partialTranscript: "",
   error: null,
 };
 
@@ -83,7 +83,7 @@ class STTService {
     Voice.onSpeechResults = (e: SpeechResultsEvent) => {
       const results = e.value;
       if (results && results.length > 0) {
-        this.updateState({ transcript: results[0], partialTranscript: '' });
+        this.updateState({ transcript: results[0], partialTranscript: "" });
       }
     };
 
@@ -96,7 +96,7 @@ class STTService {
 
     Voice.onSpeechError = (e: SpeechErrorEvent) => {
       this.updateState({
-        error: e.error?.message ?? 'Speech recognition error',
+        error: e.error?.message ?? "Speech recognition error",
         isListening: false,
       });
     };
@@ -115,8 +115,8 @@ class STTService {
   async startListening(language: string = DEFAULT_LANGUAGE): Promise<void> {
     this.initVoice();
     this.updateState({
-      transcript: '',
-      partialTranscript: '',
+      transcript: "",
+      partialTranscript: "",
       error: null,
       isListening: true,
     });
@@ -146,8 +146,12 @@ class STTService {
 
   async destroy(): Promise<void> {
     await Voice.destroy();
-    Voice.onSpeechResults = undefined as unknown as (e: SpeechResultsEvent) => void;
-    Voice.onSpeechPartialResults = undefined as unknown as (e: SpeechResultsEvent) => void;
+    Voice.onSpeechResults = undefined as unknown as (
+      e: SpeechResultsEvent,
+    ) => void;
+    Voice.onSpeechPartialResults = undefined as unknown as (
+      e: SpeechResultsEvent,
+    ) => void;
     Voice.onSpeechError = undefined as unknown as (e: SpeechErrorEvent) => void;
     Voice.onSpeechEnd = undefined as unknown as () => void;
     this.initialized = false;

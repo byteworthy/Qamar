@@ -37,7 +37,14 @@ interface PrayerCardProps {
   testID?: string;
 }
 
-function PrayerCard({ name, time, icon, status, delay, testID }: PrayerCardProps) {
+function PrayerCard({
+  name,
+  time,
+  icon,
+  status,
+  delay,
+  testID,
+}: PrayerCardProps) {
   const { theme, isDark } = useTheme();
 
   const getPrayerColors = () => {
@@ -99,11 +106,15 @@ function PrayerCard({ name, time, icon, status, delay, testID }: PrayerCardProps
             <Feather name={icon} size={24} color={colors.iconColor} />
           </View>
           <View>
-            <ThemedText style={[styles.prayerName, { color: colors.textColor }]}>
+            <ThemedText
+              style={[styles.prayerName, { color: colors.textColor }]}
+            >
               {name}
             </ThemedText>
             {status === "current" && (
-              <ThemedText style={[styles.statusText, { color: colors.iconColor }]}>
+              <ThemedText
+                style={[styles.statusText, { color: colors.iconColor }]}
+              >
                 Current Prayer
               </ThemedText>
             )}
@@ -125,11 +136,14 @@ export default function PrayerTimesScreen() {
     latitude: number;
     longitude: number;
   } | null>(null);
-  const [prayerTimes, setPrayerTimes] = useState<PrayerTimesResult | null>(null);
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimesResult | null>(
+    null,
+  );
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [countdown, setCountdown] = useState("");
   const [loading, setLoading] = useState(true);
-  const [calculationMethod, setCalculationMethod] = useState("MuslimWorldLeague");
+  const [calculationMethod, setCalculationMethod] =
+    useState("MuslimWorldLeague");
 
   // Request location permission and get location
   useEffect(() => {
@@ -140,7 +154,7 @@ export default function PrayerTimesScreen() {
           Alert.alert(
             "Location Permission Required",
             "Please enable location permissions to view accurate prayer times for your area.",
-            [{ text: "OK" }]
+            [{ text: "OK" }],
           );
           setLoading(false);
           return;
@@ -159,7 +173,7 @@ export default function PrayerTimesScreen() {
         Alert.alert(
           "Location Error",
           "Could not get your location. Please check your settings.",
-          [{ text: "OK" }]
+          [{ text: "OK" }],
         );
         setLoading(false);
       }
@@ -174,7 +188,7 @@ export default function PrayerTimesScreen() {
           location.latitude,
           location.longitude,
           selectedDate,
-          calculationMethod
+          calculationMethod,
         );
         setPrayerTimes(times);
         setLoading(false);
@@ -190,7 +204,8 @@ export default function PrayerTimesScreen() {
         );
 
         // Reschedule prayer notifications when times recalculate
-        const isToday = selectedDate.toDateString() === new Date().toDateString();
+        const isToday =
+          selectedDate.toDateString() === new Date().toDateString();
         if (isToday) {
           reschedulePrayerNotifications().catch(() => {});
         }
@@ -236,9 +251,13 @@ export default function PrayerTimesScreen() {
 
   if (loading) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={styles.loadingContainer}>
-          <ThemedText style={styles.loadingText}>Loading prayer times...</ThemedText>
+          <ThemedText style={styles.loadingText}>
+            Loading prayer times...
+          </ThemedText>
         </View>
       </View>
     );
@@ -246,7 +265,9 @@ export default function PrayerTimesScreen() {
 
   if (!location || !prayerTimes) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={styles.loadingContainer}>
           <Feather
             name="map-pin"
@@ -257,7 +278,9 @@ export default function PrayerTimesScreen() {
           <ThemedText style={styles.loadingText}>
             Location permission is required
           </ThemedText>
-          <ThemedText style={[styles.loadingSubtext, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.loadingSubtext, { color: theme.textSecondary }]}
+          >
             Please enable location services to view prayer times
           </ThemedText>
         </View>
@@ -276,12 +299,19 @@ export default function PrayerTimesScreen() {
   ];
 
   return (
-    <View testID="prayer-times-screen" style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+    <View
+      testID="prayer-times-screen"
+      style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+    >
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
-          <ThemedText style={styles.headerTitle} accessibilityRole="header">Prayer Times</ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText style={styles.headerTitle} accessibilityRole="header">
+            Prayer Times
+          </ThemedText>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             {selectedDate.toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -368,7 +398,9 @@ export default function PrayerTimesScreen() {
                   size={24}
                   color={isDark ? "#f0d473" : "#D4AF37"}
                 />
-                <ThemedText style={styles.countdownLabel}>Next Prayer</ThemedText>
+                <ThemedText style={styles.countdownLabel}>
+                  Next Prayer
+                </ThemedText>
               </View>
               <ThemedText
                 style={[
@@ -403,7 +435,11 @@ export default function PrayerTimesScreen() {
               icon={prayer.icon}
               status={getPrayerStatus(prayer.name, prayerTimes)}
               delay={300 + index * 50}
-              testID={prayer.name !== "Sunrise" ? `prayer-${prayer.name.toLowerCase()}` : undefined}
+              testID={
+                prayer.name !== "Sunrise"
+                  ? `prayer-${prayer.name.toLowerCase()}`
+                  : undefined
+              }
             />
           ))}
         </View>
@@ -411,11 +447,16 @@ export default function PrayerTimesScreen() {
         {/* Calculation Method Info */}
         <Animated.View entering={FadeInUp.duration(400).delay(800)}>
           <View style={styles.methodInfo}>
-            <ThemedText style={[styles.methodLabel, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.methodLabel, { color: theme.textSecondary }]}
+            >
               Calculation Method
             </ThemedText>
             <ThemedText style={[styles.methodName, { color: theme.text }]}>
-              {CALCULATION_METHODS.find((m) => m.id === calculationMethod)?.name}
+              {
+                CALCULATION_METHODS.find((m) => m.id === calculationMethod)
+                  ?.name
+              }
             </ThemedText>
           </View>
         </Animated.View>

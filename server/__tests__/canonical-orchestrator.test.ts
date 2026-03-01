@@ -1,5 +1,5 @@
 /**
- * Canonical Orchestrator Test Suite for Noor
+ * Canonical Orchestrator Test Suite for Qamar
  *
  * Tests the critical safety pipeline that validates EVERY AI response.
  * This is the core protection mechanism for HIPAA and Charter compliance.
@@ -25,14 +25,14 @@ import type { ConversationState } from "../conversation-state-machine";
 import type { PacingConfig } from "../pacing-controller";
 import type { IslamicContentSelection } from "../islamic-content-mapper";
 
+import { SafetyPipeline } from "../safety-integration";
+import { FailureLanguage } from "../failure-language";
+import { SafetyTelemetry } from "../safety-telemetry";
+
 // Mock dependencies
 jest.mock("../safety-integration");
 jest.mock("../failure-language");
 jest.mock("../safety-telemetry");
-
-import { SafetyPipeline } from "../safety-integration";
-import { FailureLanguage } from "../failure-language";
-import { SafetyTelemetry } from "../safety-telemetry";
 
 // =============================================================================
 // TEST FIXTURES
@@ -50,8 +50,11 @@ const createMockInput = (
     conversationState: "listening" as ConversationState,
   },
   aiResponseGenerator: jest.fn(
-    async (_safetyGuidance: string, _pacingConfig: PacingConfig, _islamicContent?: IslamicContentSelection) =>
-      "I hear you. That sounds difficult.",
+    async (
+      _safetyGuidance: string,
+      _pacingConfig: PacingConfig,
+      _islamicContent?: IslamicContentSelection,
+    ) => "I hear you. That sounds difficult.",
   ),
   ...overrides,
 });
@@ -167,8 +170,11 @@ describe("CanonicalOrchestrator - Successful Flow", () => {
 
   test("passes safety guidance to AI generator", async () => {
     const mockGenerator = jest.fn(
-      async (_safetyGuidance: string, _pacingConfig: PacingConfig, _islamicContent?: IslamicContentSelection) =>
-        "Response",
+      async (
+        _safetyGuidance: string,
+        _pacingConfig: PacingConfig,
+        _islamicContent?: IslamicContentSelection,
+      ) => "Response",
     );
     const input = createMockInput({
       aiResponseGenerator: mockGenerator,
@@ -739,9 +745,7 @@ describe("CanonicalOrchestrator - Error Handling", () => {
 
 describe("enforceCanonicalOrchestration", () => {
   test("calls onSuccess callback when orchestration succeeds", async () => {
-    const onSuccess = jest.fn(
-      (result: OrchestrationOutput) => result.response,
-    );
+    const onSuccess = jest.fn((result: OrchestrationOutput) => result.response);
     const input = createMockInput();
 
     const result = await enforceCanonicalOrchestration(

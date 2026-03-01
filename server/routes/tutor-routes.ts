@@ -80,15 +80,17 @@ export function registerTutorRoutes(app: Express): void {
         // Validate request body
         const validationResult = tutorChatSchema.safeParse(req.body);
         if (!validationResult.success) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              "Invalid request data",
-              { validationErrors: validationResult.error.issues },
-            ),
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "Invalid request data",
+                { validationErrors: validationResult.error.issues },
+              ),
+            );
         }
 
         const { message, mode, conversationHistory } = validationResult.data;
@@ -100,22 +102,23 @@ export function registerTutorRoutes(app: Express): void {
 
         // Anthropic configuration guard
         if (!isAnthropicConfigured()) {
-          return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-            createErrorResponse(
-              HTTP_STATUS.SERVICE_UNAVAILABLE,
-              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-              req.id,
-              "AI service not configured.",
-            ),
-          );
+          return res
+            .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.SERVICE_UNAVAILABLE,
+                ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+                req.id,
+                "AI service not configured.",
+              ),
+            );
         }
 
         // Build system prompt for the selected mode
         const systemPrompt = buildTutorSystemPrompt(mode);
 
         // Build messages array from conversation history + new message
-        const messages: Array<{ role: "user" | "assistant"; content: string }> =
-          [];
+        const messages: { role: "user" | "assistant"; content: string }[] = [];
 
         if (conversationHistory) {
           for (const msg of conversationHistory) {
@@ -165,14 +168,16 @@ export function registerTutorRoutes(app: Express): void {
         req.logger.error("Tutor chat failed", error, {
           operation: "tutor_chat",
         });
-        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-          createErrorResponse(
-            HTTP_STATUS.INTERNAL_SERVER_ERROR,
-            ERROR_CODES.INTERNAL_ERROR,
-            req.id,
-            "Failed to process tutor message",
-          ),
-        );
+        res
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.INTERNAL_SERVER_ERROR,
+              ERROR_CODES.INTERNAL_ERROR,
+              req.id,
+              "Failed to process tutor message",
+            ),
+          );
       }
     },
   );

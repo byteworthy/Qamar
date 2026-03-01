@@ -59,8 +59,16 @@ export default function PrivacyScreen() {
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       {/* Atmospheric gradient background */}
       <LinearGradient
-        colors={gradients.atmospheric.colors as readonly [string, string, ...string[]]}
-        locations={gradients.atmospheric.locations as readonly [number, number, ...number[]]}
+        colors={
+          gradients.atmospheric.colors as readonly [string, string, ...string[]]
+        }
+        locations={
+          gradients.atmospheric.locations as readonly [
+            number,
+            number,
+            ...number[],
+          ]
+        }
         start={gradients.atmospheric.start}
         end={gradients.atmospheric.end}
         style={StyleSheet.absoluteFill}
@@ -146,10 +154,7 @@ export default function PrivacyScreen() {
                       {point.title}
                     </ThemedText>
                     <ThemedText
-                      style={[
-                        styles.pointDesc,
-                        { color: theme.textSecondary },
-                      ]}
+                      style={[styles.pointDesc, { color: theme.textSecondary }]}
                     >
                       {point.desc}
                     </ThemedText>
@@ -166,16 +171,11 @@ export default function PrivacyScreen() {
           style={styles.policyLink}
         >
           <Pressable
-            onPress={() =>
-              Linking.openURL("https://noorapp.co/privacy")
-            }
+            onPress={() => Linking.openURL("https://noorapp.co/privacy")}
             style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
           >
             <ThemedText
-              style={[
-                styles.policyText,
-                { color: theme.highlightAccent },
-              ]}
+              style={[styles.policyText, { color: theme.highlightAccent }]}
             >
               Read full privacy policy
             </ThemedText>
@@ -186,10 +186,7 @@ export default function PrivacyScreen() {
       {/* Footer */}
       <Animated.View
         entering={FadeInUp.duration(400).delay(500)}
-        style={[
-          styles.footer,
-          { paddingBottom: insets.bottom + Spacing.lg },
-        ]}
+        style={[styles.footer, { paddingBottom: insets.bottom + Spacing.lg }]}
       >
         <View style={styles.buttonRow}>
           <Pressable
@@ -214,9 +211,19 @@ export default function PrivacyScreen() {
             ]}
           >
             <LinearGradient
-              colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}
+              colors={
+                gradients.buttonGradient.colors as readonly [
+                  string,
+                  string,
+                  ...string[],
+                ]
+              }
               locations={
-                gradients.buttonGradient.locations as readonly [number, number, ...number[]]
+                gradients.buttonGradient.locations as readonly [
+                  number,
+                  number,
+                  ...number[],
+                ]
               }
               start={gradients.buttonGradient.start}
               end={gradients.buttonGradient.end}

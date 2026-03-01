@@ -1,5 +1,11 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { View, StyleSheet, Pressable, Dimensions, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -49,7 +55,14 @@ interface RatingButtonProps {
   onPress: (rating: 1 | 2 | 3 | 4) => void;
 }
 
-function RatingButton({ label, subtitle, color, rating, disabled, onPress }: RatingButtonProps) {
+function RatingButton({
+  label,
+  subtitle,
+  color,
+  rating,
+  disabled,
+  onPress,
+}: RatingButtonProps) {
   return (
     <Pressable
       onPress={() => onPress(rating)}
@@ -86,7 +99,10 @@ function SessionComplete({ reviewed, correct, onDone }: SessionCompleteProps) {
   const accuracy = reviewed > 0 ? Math.round((correct / reviewed) * 100) : 0;
 
   return (
-    <Animated.View entering={FadeIn.duration(400)} style={styles.sessionComplete}>
+    <Animated.View
+      entering={FadeIn.duration(400)}
+      style={styles.sessionComplete}
+    >
       <Feather name="award" size={64} color={NoorColors.gold} />
       <ThemedText style={styles.sessionTitle}>Session Complete!</ThemedText>
       <ThemedText
@@ -96,25 +112,48 @@ function SessionComplete({ reviewed, correct, onDone }: SessionCompleteProps) {
       </ThemedText>
 
       <View style={styles.sessionStatsGrid}>
-        <View style={[styles.sessionStatCard, { backgroundColor: theme.cardBackground }]}>
+        <View
+          style={[
+            styles.sessionStatCard,
+            { backgroundColor: theme.cardBackground },
+          ]}
+        >
           <ThemedText style={styles.sessionStatValue}>{reviewed}</ThemedText>
-          <ThemedText style={[styles.sessionStatLabel, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.sessionStatLabel, { color: theme.textSecondary }]}
+          >
             Reviewed
           </ThemedText>
         </View>
-        <View style={[styles.sessionStatCard, { backgroundColor: theme.cardBackground }]}>
+        <View
+          style={[
+            styles.sessionStatCard,
+            { backgroundColor: theme.cardBackground },
+          ]}
+        >
           <ThemedText style={[styles.sessionStatValue, { color: "#38A169" }]}>
             {correct}
           </ThemedText>
-          <ThemedText style={[styles.sessionStatLabel, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.sessionStatLabel, { color: theme.textSecondary }]}
+          >
             Correct
           </ThemedText>
         </View>
-        <View style={[styles.sessionStatCard, { backgroundColor: theme.cardBackground }]}>
-          <ThemedText style={[styles.sessionStatValue, { color: NoorColors.gold }]}>
+        <View
+          style={[
+            styles.sessionStatCard,
+            { backgroundColor: theme.cardBackground },
+          ]}
+        >
+          <ThemedText
+            style={[styles.sessionStatValue, { color: NoorColors.gold }]}
+          >
             {accuracy}%
           </ThemedText>
-          <ThemedText style={[styles.sessionStatLabel, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.sessionStatLabel, { color: theme.textSecondary }]}
+          >
             Accuracy
           </ThemedText>
         </View>
@@ -161,7 +200,8 @@ export default function FlashcardReviewScreen() {
 
   const cards = useMemo(() => dueCards ?? [], [dueCards]);
   const currentCard = cards[currentIndex] ?? null;
-  const progress = cards.length > 0 ? ((currentIndex + 1) / cards.length) * 100 : 0;
+  const progress =
+    cards.length > 0 ? ((currentIndex + 1) / cards.length) * 100 : 0;
 
   const handleFlip = useCallback(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -204,26 +244,44 @@ export default function FlashcardReviewScreen() {
         setSessionComplete(true);
       }
     },
-    [isFlipped, currentCard, currentIndex, cards.length, submitReview, incrementReviews, flipRotation],
+    [
+      isFlipped,
+      currentCard,
+      currentIndex,
+      cards.length,
+      submitReview,
+      incrementReviews,
+      flipRotation,
+    ],
   );
 
   // Animated styles for card flip
   const frontAnimatedStyle = useAnimatedStyle(() => {
     const rotateY = interpolate(flipRotation.value, [0, 180], [0, 180]);
-    const opacity = interpolate(flipRotation.value, [0, 90, 90.1, 180], [1, 0, 0, 0]);
+    const opacity = interpolate(
+      flipRotation.value,
+      [0, 90, 90.1, 180],
+      [1, 0, 0, 0],
+    );
     return { transform: [{ rotateY: `${rotateY}deg` }], opacity };
   });
 
   const backAnimatedStyle = useAnimatedStyle(() => {
     const rotateY = interpolate(flipRotation.value, [0, 180], [180, 360]);
-    const opacity = interpolate(flipRotation.value, [0, 90, 90.1, 180], [0, 0, 1, 1]);
+    const opacity = interpolate(
+      flipRotation.value,
+      [0, 90, 90.1, 180],
+      [0, 0, 1, 1],
+    );
     return { transform: [{ rotateY: `${rotateY}deg` }], opacity };
   });
 
   // --- Loading state ---
   if (isLoading) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
           <Pressable
             onPress={() => navigation.goBack()}
@@ -236,7 +294,12 @@ export default function FlashcardReviewScreen() {
         </View>
         <View style={styles.emptyContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary, marginTop: 16 }]}>
+          <ThemedText
+            style={[
+              styles.emptySubtitle,
+              { color: theme.textSecondary, marginTop: 16 },
+            ]}
+          >
             Loading flashcards...
           </ThemedText>
         </View>
@@ -247,7 +310,9 @@ export default function FlashcardReviewScreen() {
   // --- Empty state ---
   if (cards.length === 0) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
           <Pressable
             onPress={() => navigation.goBack()}
@@ -261,7 +326,9 @@ export default function FlashcardReviewScreen() {
         <View style={styles.emptyContainer}>
           <Feather name="check-circle" size={64} color={theme.primary} />
           <ThemedText style={styles.emptyTitle}>All Caught Up!</ThemedText>
-          <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.emptySubtitle, { color: theme.textSecondary }]}
+          >
             No cards due for review right now.{"\n"}Check back later.
           </ThemedText>
         </View>
@@ -272,7 +339,9 @@ export default function FlashcardReviewScreen() {
   // --- Session complete ---
   if (sessionComplete) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
           <Pressable
             onPress={() => navigation.goBack()}
@@ -310,13 +379,17 @@ export default function FlashcardReviewScreen() {
           >
             <Feather name="arrow-left" size={24} color={theme.text} />
           </Pressable>
-          <ThemedText style={[styles.counterText, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.counterText, { color: theme.textSecondary }]}
+          >
             {currentIndex + 1} of {cards.length}
           </ThemedText>
         </View>
 
         {/* Progress Bar */}
-        <View style={[styles.progressContainer, { backgroundColor: theme.border }]}>
+        <View
+          style={[styles.progressContainer, { backgroundColor: theme.border }]}
+        >
           <Animated.View
             style={[
               styles.progressBar,
@@ -346,14 +419,29 @@ export default function FlashcardReviewScreen() {
               frontAnimatedStyle,
             ]}
           >
-            <View style={[styles.cardCategoryBadge, { backgroundColor: theme.primary + "20" }]}>
-              <ThemedText style={[styles.cardCategoryText, { color: theme.primary }]}>
+            <View
+              style={[
+                styles.cardCategoryBadge,
+                { backgroundColor: theme.primary + "20" },
+              ]}
+            >
+              <ThemedText
+                style={[styles.cardCategoryText, { color: theme.primary }]}
+              >
                 {currentCard.category}
               </ThemedText>
             </View>
-            <ThemedText style={styles.arabicText}>{currentCard.arabic}</ThemedText>
-            <TTSButton text={currentCard.arabic} size={22} style={styles.ttsButton} />
-            <ThemedText style={[styles.flipHint, { color: theme.textSecondary }]}>
+            <ThemedText style={styles.arabicText}>
+              {currentCard.arabic}
+            </ThemedText>
+            <TTSButton
+              text={currentCard.arabic}
+              size={22}
+              style={styles.ttsButton}
+            />
+            <ThemedText
+              style={[styles.flipHint, { color: theme.textSecondary }]}
+            >
               Tap to reveal
             </ThemedText>
           </Animated.View>
@@ -367,25 +455,45 @@ export default function FlashcardReviewScreen() {
               backAnimatedStyle,
             ]}
           >
-            <ThemedText style={styles.englishText}>{currentCard.english}</ThemedText>
-            <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
+            <ThemedText style={styles.englishText}>
+              {currentCard.english}
+            </ThemedText>
+            <ThemedText
+              style={[styles.transliteration, { color: theme.textSecondary }]}
+            >
               {currentCard.transliteration}
             </ThemedText>
             <View style={styles.arabicRow}>
-              <ThemedText style={[styles.arabicSmall, { color: theme.primary }]}>
+              <ThemedText
+                style={[styles.arabicSmall, { color: theme.primary }]}
+              >
                 {currentCard.arabic}
               </ThemedText>
               <TTSButton text={currentCard.arabic} size={18} />
             </View>
             <View style={styles.metaInfo}>
-              <View style={[styles.categoryBadge, { backgroundColor: theme.primary + "20" }]}>
-                <ThemedText style={[styles.categoryText, { color: theme.primary }]}>
+              <View
+                style={[
+                  styles.categoryBadge,
+                  { backgroundColor: theme.primary + "20" },
+                ]}
+              >
+                <ThemedText
+                  style={[styles.categoryText, { color: theme.primary }]}
+                >
                   {currentCard.category}
                 </ThemedText>
               </View>
               {currentCard.reviewCount > 0 && (
-                <View style={[styles.categoryBadge, { backgroundColor: theme.accent + "20" }]}>
-                  <ThemedText style={[styles.categoryText, { color: theme.accent }]}>
+                <View
+                  style={[
+                    styles.categoryBadge,
+                    { backgroundColor: theme.accent + "20" },
+                  ]}
+                >
+                  <ThemedText
+                    style={[styles.categoryText, { color: theme.accent }]}
+                  >
                     reviewed {currentCard.reviewCount}x
                   </ThemedText>
                 </View>
@@ -396,7 +504,9 @@ export default function FlashcardReviewScreen() {
       </View>
 
       {/* Rating Buttons */}
-      <View style={[styles.ratingContainer, { paddingBottom: insets.bottom + 20 }]}>
+      <View
+        style={[styles.ratingContainer, { paddingBottom: insets.bottom + 20 }]}
+      >
         <RatingButton
           label="Again"
           subtitle="<1m"
@@ -445,7 +555,12 @@ const styles = StyleSheet.create({
   },
   backButton: { width: 40, height: 40, justifyContent: "center" },
   counterText: { fontSize: 16, fontWeight: "600" },
-  progressContainer: { height: 4, borderRadius: 2, overflow: "hidden", marginBottom: 4 },
+  progressContainer: {
+    height: 4,
+    borderRadius: 2,
+    overflow: "hidden",
+    marginBottom: 4,
+  },
   progressBar: { height: "100%", borderRadius: 2 },
 
   cardContainer: {
@@ -479,7 +594,11 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: BorderRadius.full,
   },
-  cardCategoryText: { fontSize: 12, fontWeight: "600", textTransform: "capitalize" },
+  cardCategoryText: {
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "capitalize",
+  },
   arabicText: {
     fontSize: 48,
     fontFamily: Fonts?.spiritual,
@@ -505,7 +624,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   ttsButton: { marginBottom: 8 },
-  arabicRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
+  arabicRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 16,
+  },
   flipHint: { fontSize: 14, position: "absolute", bottom: 24 },
   metaInfo: {
     position: "absolute",
@@ -513,8 +637,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
   },
-  categoryBadge: { paddingHorizontal: 12, paddingVertical: 5, borderRadius: 12 },
-  categoryText: { fontSize: 12, fontWeight: "600", textTransform: "capitalize" },
+  categoryBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 12,
+  },
+  categoryText: {
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "capitalize",
+  },
 
   ratingContainer: { flexDirection: "row", paddingHorizontal: 16, gap: 8 },
   ratingButton: {
@@ -524,7 +656,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  ratingButtonText: { fontSize: 14, fontWeight: "600", color: "#fff", marginBottom: 2 },
+  ratingButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+    marginBottom: 2,
+  },
   ratingSubtext: { fontSize: 11, color: "rgba(255,255,255,0.8)" },
 
   // Empty / Loading
@@ -534,7 +671,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 40,
   },
-  emptyTitle: { fontSize: 24, fontWeight: "700", marginTop: 16, marginBottom: 8 },
+  emptyTitle: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginTop: 16,
+    marginBottom: 8,
+  },
   emptySubtitle: { fontSize: 16, textAlign: "center", lineHeight: 24 },
 
   // Session Complete
@@ -544,7 +686,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 24,
   },
-  sessionTitle: { fontSize: 28, fontWeight: "700", marginTop: 20, marginBottom: 8 },
+  sessionTitle: {
+    fontSize: 28,
+    fontWeight: "700",
+    marginTop: 20,
+    marginBottom: 8,
+  },
   sessionSubtitle: { fontSize: 16, marginBottom: 32, textAlign: "center" },
   sessionStatsGrid: { flexDirection: "row", gap: 12, marginBottom: 40 },
   sessionStatCard: {

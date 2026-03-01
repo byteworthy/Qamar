@@ -62,7 +62,7 @@ function AnimatedWord({ word, index, isActive, onPress }: WordProps) {
     return {
       backgroundColor: withTiming(
         isActive ? `${NoorColors.gold}20` : "transparent",
-        { duration: 200 }
+        { duration: 200 },
       ),
     };
   }, [isActive]);
@@ -77,12 +77,7 @@ function AnimatedWord({ word, index, isActive, onPress }: WordProps) {
       accessibilityHint="Tap to play this word"
     >
       <Animated.View style={[styles.wordContainer, animatedStyle]}>
-        <ThemedText
-          style={[
-            styles.arabicWord,
-            { color: textColor },
-          ]}
-        >
+        <ThemedText style={[styles.arabicWord, { color: textColor }]}>
           {word}
         </ThemedText>
       </Animated.View>
@@ -111,7 +106,10 @@ export function WordByWordPlayer({
     stop,
   } = useWordByWordAudio();
 
-  const words = useMemo(() => arabicText.split(/\s+/).filter(Boolean), [arabicText]);
+  const words = useMemo(
+    () => arabicText.split(/\s+/).filter(Boolean),
+    [arabicText],
+  );
   const wordCount = words.length;
 
   function handleTogglePlayback(): void {
@@ -136,7 +134,10 @@ export function WordByWordPlayer({
       {/* Play/Stop button */}
       <Pressable
         onPress={handleTogglePlayback}
-        style={[styles.playButton, { backgroundColor: theme.backgroundSecondary }]}
+        style={[
+          styles.playButton,
+          { backgroundColor: theme.backgroundSecondary },
+        ]}
         accessibilityRole="button"
         accessibilityLabel={isPlaying ? "Stop playback" : "Play all words"}
         accessibilityHint={

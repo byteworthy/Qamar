@@ -18,7 +18,7 @@ describe("Navigation & Home Screen", () => {
         .toBeVisible()
         .withTimeout(5000);
 
-      await expect(element(by.text("Noor"))).toBeVisible();
+      await expect(element(by.text("Qamar"))).toBeVisible();
     });
 
     it("should show stats card", async () => {
@@ -159,7 +159,7 @@ describe("Navigation & Home Screen", () => {
       await element(by.id("tab-settings")).tap();
 
       // Should display subscription information
-      await waitFor(element(by.text("Free").or(by.text("Noor Plus"))))
+      await waitFor(element(by.text("Free").or(by.text("Qamar Plus"))))
         .toBeVisible()
         .withTimeout(3000);
     });
@@ -185,16 +185,16 @@ describe("Navigation & Home Screen", () => {
   describe("Pricing Screen", () => {
     it("should navigate to pricing screen", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
-      await waitFor(element(by.text("Noor Plus")))
+      await waitFor(element(by.text("Qamar Plus")))
         .toBeVisible()
         .withTimeout(3000);
     });
 
     it("should display pricing information", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       // Should show pricing details
       await expect(element(by.text("$2.99"))).toBeVisible();
@@ -203,7 +203,7 @@ describe("Navigation & Home Screen", () => {
 
     it("should show features list", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       // Should display feature list
       await expect(element(by.id("features-list"))).toBeVisible();

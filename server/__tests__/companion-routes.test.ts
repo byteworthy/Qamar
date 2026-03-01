@@ -4,13 +4,7 @@
  * Tests the AI companion chat endpoint and conversation suggestions.
  */
 
-import {
-  describe,
-  test,
-  expect,
-  jest,
-  beforeEach,
-} from "@jest/globals";
+import { describe, test, expect, jest, beforeEach } from "@jest/globals";
 import express, {
   type Express,
   type Request,
@@ -18,6 +12,9 @@ import express, {
   type NextFunction,
 } from "express";
 import request from "supertest";
+
+import { registerCompanionRoutes } from "../routes/companion-routes";
+import * as config from "../config";
 
 // Mock uuid
 jest.mock("uuid", () => ({
@@ -41,7 +38,15 @@ jest.mock("../middleware/ai-rate-limiter", () => ({
 
 jest.mock("../services/islamic-context", () => ({
   detectIslamicQuery: jest.fn((msg: string) => {
-    const keywords = ["quran", "allah", "prayer", "dua", "tawakkul", "hadith", "sabr"];
+    const keywords = [
+      "quran",
+      "allah",
+      "prayer",
+      "dua",
+      "tawakkul",
+      "hadith",
+      "sabr",
+    ];
     return keywords.some((k) => msg.toLowerCase().includes(k));
   }),
   fetchIslamicContext: jest.fn(async () => ({
@@ -67,9 +72,6 @@ jest.mock("../routes/constants", () => ({
     },
   })),
 }));
-
-import { registerCompanionRoutes } from "../routes/companion-routes";
-import * as config from "../config";
 
 describe("Companion Routes", () => {
   let app: Express;
@@ -146,9 +148,7 @@ describe("Companion Routes", () => {
     });
 
     test("returns 400 for missing message field", async () => {
-      const res = await request(app)
-        .post("/api/companion/message")
-        .send({});
+      const res = await request(app).post("/api/companion/message").send({});
 
       expect(res.status).toBe(400);
       expect(res.body.code).toBe("VALIDATION_FAILED");

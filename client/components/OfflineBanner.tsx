@@ -27,7 +27,7 @@ export function OfflineBanner() {
     >
       <Feather name="wifi-off" size={16} color="#FFFFFF" />
       <View style={styles.textContainer}>
-        <ThemedText style={styles.title}>You're offline</ThemedText>
+        <ThemedText style={styles.title}>You{"'"}re offline</ThemedText>
         <ThemedText style={styles.subtitle}>
           Quran, prayer times & flashcards still work
         </ThemedText>

@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface DuaFavorite {
   id: string;
@@ -13,7 +13,7 @@ export interface DuaFavorite {
 
 interface DuaFavoritesState {
   favorites: DuaFavorite[];
-  addFavorite: (dua: Omit<DuaFavorite, 'id' | 'savedAt'>) => void;
+  addFavorite: (dua: Omit<DuaFavorite, "id" | "savedAt">) => void;
   removeFavorite: (id: string) => void;
   getFavorites: () => DuaFavorite[];
   isFavorite: (id: string) => boolean;
@@ -50,8 +50,8 @@ export const useDuaFavorites = create<DuaFavoritesState>()(
       },
     }),
     {
-      name: 'noor-dua-favorites',
+      name: "noor-dua-favorites",
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );

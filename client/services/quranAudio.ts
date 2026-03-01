@@ -11,8 +11,8 @@
  * Per-verse audio URLs: https://everyayah.com/data/{ReciterFolder}/{SSSAAA}.mp3
  */
 
-import { Audio, AVPlaybackStatus } from 'expo-av';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Audio, AVPlaybackStatus } from "expo-av";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // =============================================================================
 // TYPES
@@ -52,67 +52,67 @@ export type PlaybackListener = (state: PlaybackState) => void;
 
 export const RECITERS: Reciter[] = [
   {
-    id: 'alafasy',
-    name: 'Mishary Rashid Alafasy',
-    nameArabic: 'مشاري راشد العفاسي',
-    edition: 'ar.alafasy',
-    everyAyahFolder: 'Alafasy_128kbps',
+    id: "alafasy",
+    name: "Mishary Rashid Alafasy",
+    nameArabic: "مشاري راشد العفاسي",
+    edition: "ar.alafasy",
+    everyAyahFolder: "Alafasy_128kbps",
   },
   {
-    id: 'sudais',
-    name: 'Abdul Rahman Al-Sudais',
-    nameArabic: 'عبدالرحمن السديس',
-    edition: 'ar.abdurrahmaansudais',
-    everyAyahFolder: 'Abdurrahmaan_As-Sudais_192kbps',
+    id: "sudais",
+    name: "Abdul Rahman Al-Sudais",
+    nameArabic: "عبدالرحمن السديس",
+    edition: "ar.abdurrahmaansudais",
+    everyAyahFolder: "Abdurrahmaan_As-Sudais_192kbps",
   },
   {
-    id: 'shuraim',
+    id: "shuraim",
     name: "Sa'ud ash-Shuraim",
-    nameArabic: 'سعود الشريم',
-    edition: 'ar.saaborshuraym',
-    everyAyahFolder: 'Saood_ash-Shuraym_128kbps',
+    nameArabic: "سعود الشريم",
+    edition: "ar.saaborshuraym",
+    everyAyahFolder: "Saood_ash-Shuraym_128kbps",
   },
   {
-    id: 'husary',
-    name: 'Mahmoud Khalil Al-Husary',
-    nameArabic: 'محمود خليل الحصري',
-    edition: 'ar.husary',
-    everyAyahFolder: 'Husary_128kbps',
+    id: "husary",
+    name: "Mahmoud Khalil Al-Husary",
+    nameArabic: "محمود خليل الحصري",
+    edition: "ar.husary",
+    everyAyahFolder: "Husary_128kbps",
   },
   {
-    id: 'abdulbasit',
-    name: 'Abdul Basit Abdul Samad',
-    nameArabic: 'عبدالباسط عبدالصمد',
-    edition: 'ar.abdulbasitmurattal',
-    everyAyahFolder: 'Abdul_Basit_Murattal_192kbps',
+    id: "abdulbasit",
+    name: "Abdul Basit Abdul Samad",
+    nameArabic: "عبدالباسط عبدالصمد",
+    edition: "ar.abdulbasitmurattal",
+    everyAyahFolder: "Abdul_Basit_Murattal_192kbps",
   },
   {
-    id: 'mahermuaiqly',
-    name: 'Maher Al-Muaiqly',
-    nameArabic: 'ماهر المعيقلي',
-    edition: 'ar.mahermuaiqly',
-    everyAyahFolder: 'MauroAyalandMaworAlmaikulai_128kbps',
+    id: "mahermuaiqly",
+    name: "Maher Al-Muaiqly",
+    nameArabic: "ماهر المعيقلي",
+    edition: "ar.mahermuaiqly",
+    everyAyahFolder: "MauroAyalandMaworAlmaikulai_128kbps",
   },
   {
-    id: 'minshawi',
-    name: 'Mohamed Siddiq Al-Minshawi',
-    nameArabic: 'محمد صديق المنشاوي',
-    edition: 'ar.minshawi',
-    everyAyahFolder: 'Minshawy_Murattal_128kbps',
+    id: "minshawi",
+    name: "Mohamed Siddiq Al-Minshawi",
+    nameArabic: "محمد صديق المنشاوي",
+    edition: "ar.minshawi",
+    everyAyahFolder: "Minshawy_Murattal_128kbps",
   },
   {
-    id: 'ajamy',
-    name: 'Ahmed Al-Ajamy',
-    nameArabic: 'أحمد العجمي',
-    edition: 'ar.ahmedajamy',
-    everyAyahFolder: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net',
+    id: "ajamy",
+    name: "Ahmed Al-Ajamy",
+    nameArabic: "أحمد العجمي",
+    edition: "ar.ahmedajamy",
+    everyAyahFolder: "Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net",
   },
 ];
 
-const DEFAULT_RECITER_ID = 'alafasy';
-const RECITER_STORAGE_KEY = 'noor:preferred-reciter';
-const API_BASE = 'https://api.alquran.cloud/v1';
-const EVERY_AYAH_BASE = 'https://everyayah.com/data';
+const DEFAULT_RECITER_ID = "alafasy";
+const RECITER_STORAGE_KEY = "noor:preferred-reciter";
+const API_BASE = "https://api.alquran.cloud/v1";
+const EVERY_AYAH_BASE = "https://everyayah.com/data";
 
 // =============================================================================
 // HELPERS
@@ -126,10 +126,10 @@ const EVERY_AYAH_BASE = 'https://everyayah.com/data';
 export function getEveryAyahUrl(
   reciter: Reciter,
   surahNumber: number,
-  verseNumber: number
+  verseNumber: number,
 ): string {
-  const surah = String(surahNumber).padStart(3, '0');
-  const verse = String(verseNumber).padStart(3, '0');
+  const surah = String(surahNumber).padStart(3, "0");
+  const verse = String(verseNumber).padStart(3, "0");
   return `${EVERY_AYAH_BASE}/${reciter.everyAyahFolder}/${surah}${verse}.mp3`;
 }
 
@@ -231,7 +231,7 @@ class QuranAudioService {
 
   private async fetchVerseAudioUrls(
     surahNumber: number,
-    edition: string
+    edition: string,
   ): Promise<VerseAudio[]> {
     // Check cache
     const editionCache = this.audioCache.get(edition);
@@ -251,7 +251,7 @@ class QuranAudioService {
       }
 
       const json = await response.json();
-      if (json.code !== 200 || json.status !== 'OK') {
+      if (json.code !== 200 || json.status !== "OK") {
         throw new Error(`API error: ${json.status}`);
       }
 
@@ -267,8 +267,8 @@ class QuranAudioService {
     } catch (primaryError) {
       if (__DEV__) {
         console.warn(
-          'QuranAudio: primary CDN failed, falling back to EveryAyah.com',
-          primaryError
+          "QuranAudio: primary CDN failed, falling back to EveryAyah.com",
+          primaryError,
         );
       }
 
@@ -279,15 +279,17 @@ class QuranAudioService {
       if (!metaResponse.ok) {
         throw new Error(
           `Both primary and fallback CDN failed. Primary error: ${
-            primaryError instanceof Error ? primaryError.message : String(primaryError)
-          }`
+            primaryError instanceof Error
+              ? primaryError.message
+              : String(primaryError)
+          }`,
         );
       }
 
       const metaJson = await metaResponse.json();
       const verseCount: number = metaJson.data?.numberOfAyahs;
       if (!verseCount) {
-        throw new Error('Could not determine verse count for fallback');
+        throw new Error("Could not determine verse count for fallback");
       }
 
       // Compute the global verse number offset for this surah.
@@ -320,18 +322,25 @@ class QuranAudioService {
   async playSurah(surahNumber: number, startVerse: number = 1): Promise<void> {
     const reciter = this.getReciter();
 
-    this.updateState({ isLoading: true, error: null, currentSurah: surahNumber });
+    this.updateState({
+      isLoading: true,
+      error: null,
+      currentSurah: surahNumber,
+    });
 
     try {
-      this.verseList = await this.fetchVerseAudioUrls(surahNumber, reciter.edition);
+      this.verseList = await this.fetchVerseAudioUrls(
+        surahNumber,
+        reciter.edition,
+      );
       const startIndex = this.verseList.findIndex(
-        (v) => v.verseNumber === startVerse
+        (v) => v.verseNumber === startVerse,
       );
       this.currentIndex = startIndex >= 0 ? startIndex : 0;
       await this.loadAndPlay(this.currentIndex);
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : 'Failed to load audio';
+        err instanceof Error ? err.message : "Failed to load audio";
       this.updateState({ isLoading: false, error: message });
     }
   }
@@ -346,7 +355,7 @@ class QuranAudioService {
         await this.sound.pauseAsync();
       }
     } catch (err) {
-      if (__DEV__) console.error('QuranAudio: pause error', err);
+      if (__DEV__) console.error("QuranAudio: pause error", err);
     }
   }
 
@@ -356,7 +365,7 @@ class QuranAudioService {
         await this.sound.playAsync();
       }
     } catch (err) {
-      if (__DEV__) console.error('QuranAudio: resume error', err);
+      if (__DEV__) console.error("QuranAudio: resume error", err);
     }
   }
 
@@ -368,7 +377,7 @@ class QuranAudioService {
         this.sound = null;
       }
     } catch (err) {
-      if (__DEV__) console.error('QuranAudio: stop error', err);
+      if (__DEV__) console.error("QuranAudio: stop error", err);
     }
 
     this.verseList = [];
@@ -410,7 +419,7 @@ class QuranAudioService {
         await this.sound.setPositionAsync(positionMillis);
       }
     } catch (err) {
-      if (__DEV__) console.error('QuranAudio: seek error', err);
+      if (__DEV__) console.error("QuranAudio: seek error", err);
     }
   }
 
@@ -454,14 +463,14 @@ class QuranAudioService {
       const { sound } = await Audio.Sound.createAsync(
         { uri: verse.audioUrl },
         { shouldPlay: true },
-        this.onPlaybackStatus
+        this.onPlaybackStatus,
       );
 
       this.sound = sound;
       this.updateState({ isLoading: false });
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : 'Failed to play verse';
+        err instanceof Error ? err.message : "Failed to play verse";
       this.updateState({ isLoading: false, error: message, isPlaying: false });
     }
   }

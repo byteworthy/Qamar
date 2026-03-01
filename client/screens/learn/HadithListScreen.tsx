@@ -52,7 +52,9 @@ function HadithCard({ hadith, onPress, index }: HadithCardProps) {
         <View style={styles.hadithContent}>
           <View style={styles.hadithHeader}>
             <View style={styles.hadithNumber}>
-              <ThemedText style={[styles.hadithNumberText, { color: theme.primary }]}>
+              <ThemedText
+                style={[styles.hadithNumberText, { color: theme.primary }]}
+              >
                 {hadith.hadithNumber}
               </ThemedText>
             </View>
@@ -117,7 +119,7 @@ export default function HadithListScreen() {
 
   const collection = useMemo(
     () => collections?.find((c) => c.id === collectionId),
-    [collections, collectionId]
+    [collections, collectionId],
   );
 
   const filteredHadiths = useMemo(() => {
@@ -129,7 +131,7 @@ export default function HadithListScreen() {
         h.textEnglish.toLowerCase().includes(q) ||
         h.textArabic.includes(searchQuery) ||
         h.narrator.toLowerCase().includes(q) ||
-        String(h.hadithNumber).includes(searchQuery)
+        String(h.hadithNumber).includes(searchQuery),
     );
   }, [hadiths, searchQuery]);
 
@@ -200,10 +202,7 @@ export default function HadithListScreen() {
               {collection.compiler}
             </ThemedText>
             <ThemedText
-              style={[
-                styles.collectionDesc,
-                { color: theme.textSecondary },
-              ]}
+              style={[styles.collectionDesc, { color: theme.textSecondary }]}
             >
               {collection.description}
             </ThemedText>
@@ -214,9 +213,7 @@ export default function HadithListScreen() {
                   { backgroundColor: "rgba(212, 175, 55, 0.15)" },
                 ]}
               >
-                <ThemedText
-                  style={[styles.statText, { color: theme.primary }]}
-                >
+                <ThemedText style={[styles.statText, { color: theme.primary }]}>
                   {hadiths?.length ?? 0} hadiths loaded
                 </ThemedText>
               </View>

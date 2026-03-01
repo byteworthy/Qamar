@@ -1,5 +1,7 @@
 # CLAUDE.md — Qamar
 
+> **Global instructions**: See `~/.claude/CLAUDE.md` for cross-project rules, git standards, security non-negotiables, and tool preferences. Read it first.
+
 ## What is Qamar?
 
 **Qamar is a complete Islamic companion app** — one app instead of five. It brings together a full Quran reader, Arabic learning suite, prayer times, guided reflection, and Khalil (a conversational muhasaba companion) in a single offline-capable, ad-free experience.

@@ -17,7 +17,11 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeInDown,
+  FadeIn,
+} from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -168,7 +172,7 @@ export default function ArabicTutorScreen() {
         hasRecordedSession.current = true;
       }
     },
-    [isLoading, sendMessage, recordActivity]
+    [isLoading, sendMessage, recordActivity],
   );
 
   // ============================
@@ -201,9 +205,7 @@ export default function ArabicTutorScreen() {
                   backgroundColor: isActive
                     ? NoorColors.gold
                     : theme.glassSurface,
-                  borderColor: isActive
-                    ? NoorColors.gold
-                    : theme.glassStroke,
+                  borderColor: isActive ? NoorColors.gold : theme.glassStroke,
                 },
               ]}
             >
@@ -267,14 +269,13 @@ export default function ArabicTutorScreen() {
             activeOpacity={0.7}
           >
             <GlassCard
-              style={{ ...styles.quickPromptCard, borderColor: theme.glassStroke }}
+              style={{
+                ...styles.quickPromptCard,
+                borderColor: theme.glassStroke,
+              }}
             >
               <ThemedText style={styles.quickPromptText}>{prompt}</ThemedText>
-              <Feather
-                name="arrow-right"
-                size={14}
-                color={NoorColors.gold}
-              />
+              <Feather name="arrow-right" size={14} color={NoorColors.gold} />
             </GlassCard>
           </TouchableOpacity>
         ))}
@@ -292,7 +293,9 @@ export default function ArabicTutorScreen() {
     return (
       <Animated.View
         key={message.id}
-        entering={FadeInUp.duration(300).delay(index === messages.length - 1 ? 100 : 0)}
+        entering={FadeInUp.duration(300).delay(
+          index === messages.length - 1 ? 100 : 0,
+        )}
         style={[
           styles.messageRow,
           isUser ? styles.messageRowUser : styles.messageRowAssistant,
@@ -306,9 +309,7 @@ export default function ArabicTutorScreen() {
               { backgroundColor: NoorColors.gold + "18" },
             ]}
           >
-            <ThemedText
-              style={[styles.avatarText, { color: NoorColors.gold }]}
-            >
+            <ThemedText style={[styles.avatarText, { color: NoorColors.gold }]}>
               M
             </ThemedText>
           </View>
@@ -495,9 +496,7 @@ export default function ArabicTutorScreen() {
               <Feather
                 name="send"
                 size={18}
-                color={
-                  inputText.trim() ? "#FFFFFF" : theme.textSecondary
-                }
+                color={inputText.trim() ? "#FFFFFF" : theme.textSecondary}
               />
             )}
           </TouchableOpacity>

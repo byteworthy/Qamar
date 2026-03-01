@@ -1,5 +1,5 @@
 /**
- * Tone Compliance Checker Test Suite for Noor
+ * Tone Compliance Checker Test Suite for Qamar
  *
  * Tests detailed tone analysis and compliance checking to ensure
  * all AI responses maintain supportive, merciful, and non-judgmental language.

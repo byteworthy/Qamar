@@ -334,7 +334,9 @@ function configureExpoAndLanding(app: express.Application) {
   app.use("/assets", express.static(path.resolve(process.cwd(), "assets")));
   app.use(express.static(path.resolve(process.cwd(), "static-build")));
 
-  defaultLogger.info("Expo routing: Checking expo-platform header on / and /manifest");
+  defaultLogger.info(
+    "Expo routing: Checking expo-platform header on / and /manifest",
+  );
 }
 
 function setupErrorHandler(app: express.Application): void {
@@ -384,7 +386,9 @@ async function initStripe() {
       defaultLogger.warn(
         "WARNING: No webhook domain configured. Set STRIPE_WEBHOOK_DOMAIN or REPLIT_DOMAINS.",
       );
-      defaultLogger.warn("Skipping Stripe webhook setup - billing webhooks will not work.");
+      defaultLogger.warn(
+        "Skipping Stripe webhook setup - billing webhooks will not work.",
+      );
       return;
     }
 

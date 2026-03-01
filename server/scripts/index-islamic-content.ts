@@ -6,10 +6,10 @@
  * Generates server/data/embeddings.json for fast startup.
  */
 
-import { initializeRAG, getRAGStatus } from '../services/rag-engine';
+import { initializeRAG, getRAGStatus } from "../services/rag-engine";
 
 async function main() {
-  console.log('[Index] Starting embedding generation...');
+  console.log("[Index] Starting embedding generation...");
   const start = Date.now();
 
   await initializeRAG();
@@ -24,6 +24,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('[Index] Fatal error:', err);
+  console.error("[Index] Fatal error:", err);
   process.exit(1);
 });

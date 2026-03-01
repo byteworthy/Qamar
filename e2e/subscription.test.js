@@ -35,11 +35,11 @@ describe("Subscription & Pricing", () => {
   describe("Pricing Screen", () => {
     beforeEach(async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
     });
 
     it("should display pricing screen", async () => {
-      await waitFor(element(by.text("Noor Plus")))
+      await waitFor(element(by.text("Qamar Plus")))
         .toBeVisible()
         .withTimeout(3000);
 
@@ -71,7 +71,7 @@ describe("Subscription & Pricing", () => {
   describe("Subscription Flow", () => {
     beforeEach(async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
     });
 
     it("should initiate subscription purchase", async () => {
@@ -91,7 +91,7 @@ describe("Subscription & Pricing", () => {
       // Simulate purchase completion (test environment)
       // Should show success message or navigate to settings
       await waitFor(
-        element(by.text("Success").or(by.text("Welcome to Noor Plus"))),
+        element(by.text("Success").or(by.text("Welcome to Qamar Plus"))),
       )
         .toBeVisible()
         .withTimeout(10000);
@@ -126,7 +126,7 @@ describe("Subscription & Pricing", () => {
         await element(by.text("View Insights")).tap();
 
         // Should show upgrade prompt
-        await waitFor(element(by.text("Upgrade to Noor Plus")))
+        await waitFor(element(by.text("Upgrade to Qamar Plus")))
           .toBeVisible()
           .withTimeout(3000);
       } catch (e) {
@@ -152,7 +152,7 @@ describe("Subscription & Pricing", () => {
       await element(by.text("Continue")).tap();
 
       // Should show upgrade prompt on completion screen (for free users)
-      await waitFor(element(by.text("Upgrade to Noor Plus")))
+      await waitFor(element(by.text("Upgrade to Qamar Plus")))
         .toBeVisible()
         .withTimeout(5000);
     });
@@ -178,7 +178,7 @@ describe("Subscription & Pricing", () => {
   describe("Restore Purchases", () => {
     it("should have restore purchases option", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       // Should show restore option
       await expect(element(by.text("Restore Purchases"))).toBeVisible();
@@ -186,7 +186,7 @@ describe("Subscription & Pricing", () => {
 
     it("should restore previous purchases", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       await element(by.text("Restore Purchases")).tap();
 
@@ -202,7 +202,7 @@ describe("Subscription & Pricing", () => {
   describe("Pricing Display", () => {
     it("should show price in correct currency", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       // Should show USD pricing (or localized)
       await expect(element(by.text("$2.99"))).toBeVisible();
@@ -210,7 +210,7 @@ describe("Subscription & Pricing", () => {
 
     it("should show billing period", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       // Should clearly show monthly billing
       await expect(element(by.text("per month"))).toBeVisible();
@@ -220,7 +220,7 @@ describe("Subscription & Pricing", () => {
   describe("Free Trial", () => {
     it("should not show free trial (immediate charge)", async () => {
       await element(by.id("tab-settings")).tap();
-      await element(by.text("Upgrade to Noor Plus")).tap();
+      await element(by.text("Upgrade to Qamar Plus")).tap();
 
       // Should NOT mention free trial
       // Beta pricing is immediate charge, lock-in rate

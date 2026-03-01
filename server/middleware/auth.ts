@@ -273,13 +273,15 @@ export async function updateSessionEmail(
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   if (!req.auth?.userId) {
-    return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-      createErrorResponse(
-        HTTP_STATUS.UNAUTHORIZED,
-        ERROR_CODES.AUTH_REQUIRED,
-        req.id
-      )
-    );
+    return res
+      .status(HTTP_STATUS.UNAUTHORIZED)
+      .json(
+        createErrorResponse(
+          HTTP_STATUS.UNAUTHORIZED,
+          ERROR_CODES.AUTH_REQUIRED,
+          req.id,
+        ),
+      );
   }
   next();
 }

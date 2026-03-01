@@ -50,28 +50,52 @@ export async function reschedulePrayerNotifications(): Promise<void> {
   const madhab = prayer.asrCalculation === "Hanafi" ? "Hanafi" : "Shafi";
 
   // Calculate for today
-  const todayTimes = calculatePrayerTimes(latitude, longitude, new Date(), method, madhab);
+  const todayTimes = calculatePrayerTimes(
+    latitude,
+    longitude,
+    new Date(),
+    method,
+    madhab,
+  );
 
   // Calculate for tomorrow (expo-notifications DATE triggers need future dates)
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowTimes = calculatePrayerTimes(latitude, longitude, tomorrow, method, madhab);
+  const tomorrowTimes = calculatePrayerTimes(
+    latitude,
+    longitude,
+    tomorrow,
+    method,
+    madhab,
+  );
 
   const prayerNames = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as const;
 
   // Build combined prayer array for today + tomorrow
-  const allPrayers: Array<{ name: string; time: string }> = [];
+  const allPrayers: { name: string; time: string }[] = [];
 
   for (const name of prayerNames) {
-    const key = name.toLowerCase() as "fajr" | "dhuhr" | "asr" | "maghrib" | "isha";
+    const key = name.toLowerCase() as
+      | "fajr"
+      | "dhuhr"
+      | "asr"
+      | "maghrib"
+      | "isha";
     allPrayers.push({ name, time: todayTimes[key].toISOString() });
     allPrayers.push({ name, time: tomorrowTimes[key].toISOString() });
   }
 
-  await schedulePrayerReminders(allPrayers, prefs.reminderOffset, prefs.perPrayer);
+  await schedulePrayerReminders(
+    allPrayers,
+    prefs.reminderOffset,
+    prefs.perPrayer,
+  );
 
   if (__DEV__) {
-    console.log("[PrayerNotifications] Rescheduled for", prayer.userLocation.city || "current location");
+    console.log(
+      "[PrayerNotifications] Rescheduled for",
+      prayer.userLocation.city || "current location",
+    );
   }
 }
 

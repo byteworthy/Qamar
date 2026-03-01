@@ -151,10 +151,7 @@ export function PronunciationFeedback({ feedback, style }: Props) {
   const scoreLabel = getScoreLabel(feedback.score);
 
   return (
-    <Animated.View
-      entering={FadeInUp.duration(500).springify()}
-      style={style}
-    >
+    <Animated.View entering={FadeInUp.duration(500).springify()} style={style}>
       {/* ---- Score Section ---- */}
       <GlassCard style={styles.scoreCard}>
         <ScoreCircle score={feedback.score} color={scoreColor} />
@@ -203,9 +200,7 @@ export function PronunciationFeedback({ feedback, style }: Props) {
               Tips
             </ThemedText>
           </View>
-          <ThemedText
-            style={[styles.tipsText, { color: theme.textSecondary }]}
-          >
+          <ThemedText style={[styles.tipsText, { color: theme.textSecondary }]}>
             {feedback.tips}
           </ThemedText>
         </GlassCard>

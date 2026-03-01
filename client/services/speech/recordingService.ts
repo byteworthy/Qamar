@@ -6,7 +6,7 @@
  * updates. Manages microphone permissions, recording lifecycle, and duration tracking.
  */
 
-import { Audio } from 'expo-av';
+import { Audio } from "expo-av";
 
 // =============================================================================
 // TYPES
@@ -74,7 +74,7 @@ class RecordingService {
   async startRecording(): Promise<void> {
     const { granted } = await Audio.requestPermissionsAsync();
     if (!granted) {
-      this.updateState({ error: 'Microphone permission denied' });
+      this.updateState({ error: "Microphone permission denied" });
       return;
     }
 
@@ -84,7 +84,7 @@ class RecordingService {
     });
 
     const { recording } = await Audio.Recording.createAsync(
-      Audio.RecordingOptionsPresets.HIGH_QUALITY
+      Audio.RecordingOptionsPresets.HIGH_QUALITY,
     );
     this.recording = recording;
     this.recordingStartTime = Date.now();

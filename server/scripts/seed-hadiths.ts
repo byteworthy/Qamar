@@ -3,6 +3,14 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { hadithCollections, hadiths } from "../../shared/schema";
 
+// Part 2: Remaining 4 collections
+import {
+  abuDawudHadiths,
+  tirmidhiHadiths,
+  nasaiHadiths,
+  ibnMajahHadiths,
+} from "./hadith-data-part2";
+
 // Database connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -20,7 +28,8 @@ export const collectionsData = [
     name: "Sahih al-Bukhari",
     nameArabic: "صحيح البخاري",
     compiler: "Imam Muhammad ibn Ismail al-Bukhari",
-    description: "The most authentic collection of hadith, compiled by Imam al-Bukhari (810-870 CE). Contains 7,563 hadiths selected from over 600,000, with the strictest criteria for authenticity.",
+    description:
+      "The most authentic collection of hadith, compiled by Imam al-Bukhari (810-870 CE). Contains 7,563 hadiths selected from over 600,000, with the strictest criteria for authenticity.",
     totalHadiths: 7563,
   },
   {
@@ -28,7 +37,8 @@ export const collectionsData = [
     name: "Sahih Muslim",
     nameArabic: "صحيح مسلم",
     compiler: "Imam Muslim ibn al-Hajjaj",
-    description: "The second most authentic hadith collection, compiled by Imam Muslim (817-875 CE). Contains approximately 7,500 hadiths organized by legal topics with meticulous chain verification.",
+    description:
+      "The second most authentic hadith collection, compiled by Imam Muslim (817-875 CE). Contains approximately 7,500 hadiths organized by legal topics with meticulous chain verification.",
     totalHadiths: 7500,
   },
   {
@@ -36,7 +46,8 @@ export const collectionsData = [
     name: "Sunan Abu Dawud",
     nameArabic: "سنن أبي داود",
     compiler: "Imam Abu Dawud al-Sijistani",
-    description: "Focused on legal hadiths and jurisprudence, compiled by Imam Abu Dawud (817-889 CE). Contains 5,274 hadiths covering all aspects of Islamic law.",
+    description:
+      "Focused on legal hadiths and jurisprudence, compiled by Imam Abu Dawud (817-889 CE). Contains 5,274 hadiths covering all aspects of Islamic law.",
     totalHadiths: 5274,
   },
   {
@@ -44,7 +55,8 @@ export const collectionsData = [
     name: "Jami at-Tirmidhi",
     nameArabic: "جامع الترمذي",
     compiler: "Imam Muhammad at-Tirmidhi",
-    description: "A comprehensive collection compiled by Imam at-Tirmidhi (824-892 CE). Contains 3,956 hadiths with detailed commentary on the authenticity grading of each narration.",
+    description:
+      "A comprehensive collection compiled by Imam at-Tirmidhi (824-892 CE). Contains 3,956 hadiths with detailed commentary on the authenticity grading of each narration.",
     totalHadiths: 3956,
   },
   {
@@ -52,7 +64,8 @@ export const collectionsData = [
     name: "Sunan an-Nasa'i",
     nameArabic: "سنن النسائي",
     compiler: "Imam Ahmad an-Nasa'i",
-    description: "Known for its strict authentication standards, compiled by Imam an-Nasa'i (829-915 CE). Contains 5,758 hadiths focusing on legal rulings and Islamic practices.",
+    description:
+      "Known for its strict authentication standards, compiled by Imam an-Nasa'i (829-915 CE). Contains 5,758 hadiths focusing on legal rulings and Islamic practices.",
     totalHadiths: 5758,
   },
   {
@@ -60,7 +73,8 @@ export const collectionsData = [
     name: "Sunan Ibn Majah",
     nameArabic: "سنن ابن ماجه",
     compiler: "Imam Ibn Majah al-Qazwini",
-    description: "The sixth of the authentic collections, compiled by Imam Ibn Majah (824-887 CE). Contains 4,341 hadiths including unique narrations not found in other collections.",
+    description:
+      "The sixth of the authentic collections, compiled by Imam Ibn Majah (824-887 CE). Contains 4,341 hadiths including unique narrations not found in other collections.",
     totalHadiths: 4341,
   },
 ];
@@ -76,8 +90,10 @@ export const bukhariHadiths = [
     bookNumber: 1,
     hadithNumber: 1,
     narrator: "Umar ibn al-Khattab (RA)",
-    textArabic: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى، فَمَنْ كَانَتْ هِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوْ امْرَأَةٍ يَنْكِحُهَا فَهِجْرَتُهُ إِلَى مَا هَاجَرَ إِلَيْهِ",
-    textEnglish: "The reward of deeds depends upon the intentions, and every person will be rewarded according to what he has intended. So whoever emigrated for Allah and His Messenger, his emigration was for Allah and His Messenger; and whoever emigrated for worldly benefits or for a woman to marry, his emigration was for what he emigrated for.",
+    textArabic:
+      "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى، فَمَنْ كَانَتْ هِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوْ امْرَأَةٍ يَنْكِحُهَا فَهِجْرَتُهُ إِلَى مَا هَاجَرَ إِلَيْهِ",
+    textEnglish:
+      "The reward of deeds depends upon the intentions, and every person will be rewarded according to what he has intended. So whoever emigrated for Allah and His Messenger, his emigration was for Allah and His Messenger; and whoever emigrated for worldly benefits or for a woman to marry, his emigration was for what he emigrated for.",
     grade: "Sahih",
     chapter: "How the Divine Revelation Started",
     reference: "Sahih al-Bukhari 1",
@@ -88,8 +104,10 @@ export const bukhariHadiths = [
     bookNumber: 2,
     hadithNumber: 13,
     narrator: "Anas ibn Malik (RA)",
-    textArabic: "لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
-    textEnglish: "None of you truly believes until he loves for his brother what he loves for himself.",
+    textArabic:
+      "لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+    textEnglish:
+      "None of you truly believes until he loves for his brother what he loves for himself.",
     grade: "Sahih",
     chapter: "Belief",
     reference: "Sahih al-Bukhari 13",
@@ -100,8 +118,10 @@ export const bukhariHadiths = [
     bookNumber: 2,
     hadithNumber: 10,
     narrator: "Abdullah ibn Amr (RA)",
-    textArabic: "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ، وَالْمُهَاجِرُ مَنْ هَجَرَ مَا نَهَى اللَّهُ عَنْهُ",
-    textEnglish: "A Muslim is the one from whose tongue and hand other Muslims are safe, and the emigrant (Muhajir) is the one who gives up what Allah has forbidden.",
+    textArabic:
+      "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ، وَالْمُهَاجِرُ مَنْ هَجَرَ مَا نَهَى اللَّهُ عَنْهُ",
+    textEnglish:
+      "A Muslim is the one from whose tongue and hand other Muslims are safe, and the emigrant (Muhajir) is the one who gives up what Allah has forbidden.",
     grade: "Sahih",
     chapter: "Belief",
     reference: "Sahih al-Bukhari 10",
@@ -113,7 +133,8 @@ export const bukhariHadiths = [
     hadithNumber: 69,
     narrator: "Abu Hurairah (RA)",
     textArabic: "يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا",
-    textEnglish: "Make things easy for the people, and do not make it difficult for them, and give them glad tidings, and do not repel them.",
+    textEnglish:
+      "Make things easy for the people, and do not make it difficult for them, and give them glad tidings, and do not repel them.",
     grade: "Sahih",
     chapter: "Knowledge",
     reference: "Sahih al-Bukhari 69",
@@ -124,8 +145,10 @@ export const bukhariHadiths = [
     bookNumber: 3,
     hadithNumber: 52,
     narrator: "Abdullah ibn Masud (RA)",
-    textArabic: "أَفْضَلُ الأَعْمَالِ الصَّلاَةُ لِوَقْتِهَا، وَبِرُّ الْوَالِدَيْنِ، ثُمَّ الْجِهَادُ فِي سَبِيلِ اللَّهِ",
-    textEnglish: "The best deeds are: To offer prayers at their early fixed times, to be dutiful and kind to one's parents, and to fight in the cause of Allah.",
+    textArabic:
+      "أَفْضَلُ الأَعْمَالِ الصَّلاَةُ لِوَقْتِهَا، وَبِرُّ الْوَالِدَيْنِ، ثُمَّ الْجِهَادُ فِي سَبِيلِ اللَّهِ",
+    textEnglish:
+      "The best deeds are: To offer prayers at their early fixed times, to be dutiful and kind to one's parents, and to fight in the cause of Allah.",
     grade: "Sahih",
     chapter: "Times of Prayer",
     reference: "Sahih al-Bukhari 527",
@@ -136,8 +159,10 @@ export const bukhariHadiths = [
     bookNumber: 10,
     hadithNumber: 660,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِذَا أُقِيمَتِ الصَّلاَةُ فَلاَ صَلاَةَ إِلاَّ الْمَكْتُوبَةَ",
-    textEnglish: "When the Iqama is pronounced, there is no prayer except the obligatory one.",
+    textArabic:
+      "إِذَا أُقِيمَتِ الصَّلاَةُ فَلاَ صَلاَةَ إِلاَّ الْمَكْتُوبَةَ",
+    textEnglish:
+      "When the Iqama is pronounced, there is no prayer except the obligatory one.",
     grade: "Sahih",
     chapter: "Times of Prayer",
     reference: "Sahih al-Bukhari 660",
@@ -148,8 +173,10 @@ export const bukhariHadiths = [
     bookNumber: 25,
     hadithNumber: 1519,
     narrator: "Ibn Abbas (RA)",
-    textArabic: "مَنْ بَلَغَهُ عَنِ النَّبِيِّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ شَيْءٌ فَلْيُحَدِّثْ بِهِ وَإِنْ لَمْ يَكُنْ عِنْدَهُ إِلاَّ كَذِبٌ",
-    textEnglish: "The Prophet said: 'Whoever is asked about knowledge and conceals it will be bridled with a bridle of fire on the Day of Resurrection.'",
+    textArabic:
+      "مَنْ بَلَغَهُ عَنِ النَّبِيِّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ شَيْءٌ فَلْيُحَدِّثْ بِهِ وَإِنْ لَمْ يَكُنْ عِنْدَهُ إِلاَّ كَذِبٌ",
+    textEnglish:
+      "The Prophet said: 'Whoever is asked about knowledge and conceals it will be bridled with a bridle of fire on the Day of Resurrection.'",
     grade: "Sahih",
     chapter: "Pilgrimage (Hajj)",
     reference: "Sahih al-Bukhari 1519",
@@ -160,8 +187,10 @@ export const bukhariHadiths = [
     bookNumber: 46,
     hadithNumber: 2442,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلاَ يُؤْذِ جَارَهُ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيُكْرِمْ ضَيْفَهُ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
-    textEnglish: "Whoever believes in Allah and the Last Day should not harm his neighbor; whoever believes in Allah and the Last Day should honor his guest; and whoever believes in Allah and the Last Day should speak good or remain silent.",
+    textArabic:
+      "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلاَ يُؤْذِ جَارَهُ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيُكْرِمْ ضَيْفَهُ، وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+    textEnglish:
+      "Whoever believes in Allah and the Last Day should not harm his neighbor; whoever believes in Allah and the Last Day should honor his guest; and whoever believes in Allah and the Last Day should speak good or remain silent.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 6018",
@@ -172,8 +201,10 @@ export const bukhariHadiths = [
     bookNumber: 78,
     hadithNumber: 6114,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
-    textEnglish: "The strong person is not the one who can wrestle someone else down. The strong person is the one who controls himself when he is angry.",
+    textArabic:
+      "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+    textEnglish:
+      "The strong person is not the one who can wrestle someone else down. The strong person is the one who controls himself when he is angry.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 6114",
@@ -185,7 +216,8 @@ export const bukhariHadiths = [
     hadithNumber: 5027,
     narrator: "Uthman ibn Affan (RA)",
     textArabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
-    textEnglish: "The best among you are those who learn the Quran and teach it.",
+    textEnglish:
+      "The best among you are those who learn the Quran and teach it.",
     grade: "Sahih",
     chapter: "Virtues of the Quran",
     reference: "Sahih al-Bukhari 5027",
@@ -197,7 +229,8 @@ export const bukhariHadiths = [
     hadithNumber: 6486,
     narrator: "Abu Hurairah (RA)",
     textArabic: "الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ",
-    textEnglish: "This world is a prison for the believer and a paradise for the disbeliever.",
+    textEnglish:
+      "This world is a prison for the believer and a paradise for the disbeliever.",
     grade: "Sahih",
     chapter: "Riqaq (Softening the Heart)",
     reference: "Sahih al-Bukhari 6486",
@@ -208,8 +241,10 @@ export const bukhariHadiths = [
     bookNumber: 81,
     hadithNumber: 6502,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "تَعِسَ عَبْدُ الدِّينَارِ وَعَبْدُ الدِّرْهَمِ وَعَبْدُ الْخَمِيصَةِ، إِنْ أُعْطِيَ رَضِيَ، وَإِنْ لَمْ يُعْطَ سَخِطَ",
-    textEnglish: "Wretched is the slave of the dinar, and the slave of the dirham, and the slave of fine cloth. If he is given, he is pleased, and if he is not given, he is displeased.",
+    textArabic:
+      "تَعِسَ عَبْدُ الدِّينَارِ وَعَبْدُ الدِّرْهَمِ وَعَبْدُ الْخَمِيصَةِ، إِنْ أُعْطِيَ رَضِيَ، وَإِنْ لَمْ يُعْطَ سَخِطَ",
+    textEnglish:
+      "Wretched is the slave of the dinar, and the slave of the dirham, and the slave of fine cloth. If he is given, he is pleased, and if he is not given, he is displeased.",
     grade: "Sahih",
     chapter: "Riqaq (Softening the Heart)",
     reference: "Sahih al-Bukhari 6502",
@@ -220,8 +255,10 @@ export const bukhariHadiths = [
     bookNumber: 56,
     hadithNumber: 2697,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ آمَنَ بِاللَّهِ وَرَسُولِهِ، وَأَقَامَ الصَّلاَةَ، وَصَامَ رَمَضَانَ، كَانَ حَقًّا عَلَى اللَّهِ أَنْ يُدْخِلَهُ الْجَنَّةَ",
-    textEnglish: "Whoever believes in Allah and His Messenger, establishes prayer, and fasts Ramadan, it is obligatory upon Allah to admit him to Paradise.",
+    textArabic:
+      "مَنْ آمَنَ بِاللَّهِ وَرَسُولِهِ، وَأَقَامَ الصَّلاَةَ، وَصَامَ رَمَضَانَ، كَانَ حَقًّا عَلَى اللَّهِ أَنْ يُدْخِلَهُ الْجَنَّةَ",
+    textEnglish:
+      "Whoever believes in Allah and His Messenger, establishes prayer, and fasts Ramadan, it is obligatory upon Allah to admit him to Paradise.",
     grade: "Sahih",
     chapter: "Jihad",
     reference: "Sahih al-Bukhari 2797",
@@ -232,8 +269,10 @@ export const bukhariHadiths = [
     bookNumber: 80,
     hadithNumber: 6407,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِنَّ اللَّهَ قَالَ: مَنْ عَادَى لِي وَلِيًّا فَقَدْ آذَنْتُهُ بِالْحَرْبِ",
-    textEnglish: "Allah said: 'Whoever shows enmity to a friend of Mine, I shall be at war with him.'",
+    textArabic:
+      "إِنَّ اللَّهَ قَالَ: مَنْ عَادَى لِي وَلِيًّا فَقَدْ آذَنْتُهُ بِالْحَرْبِ",
+    textEnglish:
+      "Allah said: 'Whoever shows enmity to a friend of Mine, I shall be at war with him.'",
     grade: "Sahih",
     chapter: "Divine Unity",
     reference: "Sahih al-Bukhari 6502",
@@ -245,7 +284,8 @@ export const bukhariHadiths = [
     hadithNumber: 12,
     narrator: "Anas (RA)",
     textArabic: "مِنْ حُسْنِ إِسْلاَمِ الْمَرْءِ تَرْكُهُ مَا لاَ يَعْنِيهِ",
-    textEnglish: "Part of the perfection of someone's Islam is his leaving alone that which does not concern him.",
+    textEnglish:
+      "Part of the perfection of someone's Islam is his leaving alone that which does not concern him.",
     grade: "Hasan",
     chapter: "Belief",
     reference: "Sahih al-Bukhari 6442",
@@ -256,8 +296,10 @@ export const bukhariHadiths = [
     bookNumber: 23,
     hadithNumber: 1385,
     narrator: "Ibn Umar (RA)",
-    textArabic: "إِذَا مَاتَ الإِنْسَانُ انْقَطَعَ عَمَلُهُ إِلاَّ مِنْ ثَلاَثٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ",
-    textEnglish: "When a person dies, his deeds come to an end except for three: ongoing charity, beneficial knowledge, or a righteous child who prays for him.",
+    textArabic:
+      "إِذَا مَاتَ الإِنْسَانُ انْقَطَعَ عَمَلُهُ إِلاَّ مِنْ ثَلاَثٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ",
+    textEnglish:
+      "When a person dies, his deeds come to an end except for three: ongoing charity, beneficial knowledge, or a righteous child who prays for him.",
     grade: "Sahih",
     chapter: "Funerals",
     reference: "Sahih al-Bukhari 1374",
@@ -268,8 +310,10 @@ export const bukhariHadiths = [
     bookNumber: 30,
     hadithNumber: 1904,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
-    textEnglish: "Whoever fasts Ramadan out of faith and seeking reward, his previous sins will be forgiven.",
+    textArabic:
+      "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
+    textEnglish:
+      "Whoever fasts Ramadan out of faith and seeking reward, his previous sins will be forgiven.",
     grade: "Sahih",
     chapter: "Fasting",
     reference: "Sahih al-Bukhari 1901",
@@ -281,7 +325,8 @@ export const bukhariHadiths = [
     hadithNumber: 2447,
     narrator: "Abu Hurairah (RA)",
     textArabic: "لاَ يَدْخُلُ الْجَنَّةَ مَنْ لاَ يَأْمَنُ جَارُهُ بَوَائِقَهُ",
-    textEnglish: "He will not enter Paradise whose neighbor is not safe from his wrongful conduct.",
+    textEnglish:
+      "He will not enter Paradise whose neighbor is not safe from his wrongful conduct.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 6016",
@@ -292,8 +337,10 @@ export const bukhariHadiths = [
     bookNumber: 81,
     hadithNumber: 6473,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "حُجِبَتِ النَّارُ بِالشَّهَوَاتِ، وَحُجِبَتِ الْجَنَّةُ بِالْمَكَارِهِ",
-    textEnglish: "The Fire is veiled by desires, and Paradise is veiled by hardships.",
+    textArabic:
+      "حُجِبَتِ النَّارُ بِالشَّهَوَاتِ، وَحُجِبَتِ الْجَنَّةُ بِالْمَكَارِهِ",
+    textEnglish:
+      "The Fire is veiled by desires, and Paradise is veiled by hardships.",
     grade: "Sahih",
     chapter: "Riqaq (Softening the Heart)",
     reference: "Sahih al-Bukhari 6487",
@@ -304,8 +351,10 @@ export const bukhariHadiths = [
     bookNumber: 56,
     hadithNumber: 2886,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ مَاتَ وَلَمْ يَغْزُ، وَلَمْ يُحَدِّثْ نَفْسَهُ بِالْغَزْوِ، مَاتَ عَلَى شُعْبَةٍ مِنْ نِفَاقٍ",
-    textEnglish: "Whoever dies without having fought in the cause of Allah or having had the intention to do so, dies upon a branch of hypocrisy.",
+    textArabic:
+      "مَنْ مَاتَ وَلَمْ يَغْزُ، وَلَمْ يُحَدِّثْ نَفْسَهُ بِالْغَزْوِ، مَاتَ عَلَى شُعْبَةٍ مِنْ نِفَاقٍ",
+    textEnglish:
+      "Whoever dies without having fought in the cause of Allah or having had the intention to do so, dies upon a branch of hypocrisy.",
     grade: "Sahih",
     chapter: "Jihad",
     reference: "Sahih al-Bukhari 2825",
@@ -316,8 +365,10 @@ export const bukhariHadiths = [
     bookNumber: 4,
     hadithNumber: 128,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ تَوَضَّأَ فَأَحْسَنَ الْوُضُوءَ ثُمَّ أَتَى الْجُمُعَةَ فَاسْتَمَعَ وَأَنْصَتَ غُفِرَ لَهُ مَا بَيْنَهُ وَبَيْنَ الْجُمُعَةِ وَزِيَادَةُ ثَلاَثَةِ أَيَّامٍ",
-    textEnglish: "Whoever performs ablution properly, then comes to Friday prayer, listens attentively and remains silent, his sins between that Friday and the next will be forgiven, plus three more days.",
+    textArabic:
+      "مَنْ تَوَضَّأَ فَأَحْسَنَ الْوُضُوءَ ثُمَّ أَتَى الْجُمُعَةَ فَاسْتَمَعَ وَأَنْصَتَ غُفِرَ لَهُ مَا بَيْنَهُ وَبَيْنَ الْجُمُعَةِ وَزِيَادَةُ ثَلاَثَةِ أَيَّامٍ",
+    textEnglish:
+      "Whoever performs ablution properly, then comes to Friday prayer, listens attentively and remains silent, his sins between that Friday and the next will be forgiven, plus three more days.",
     grade: "Sahih",
     chapter: "Ablution",
     reference: "Sahih al-Bukhari 883",
@@ -328,8 +379,10 @@ export const bukhariHadiths = [
     bookNumber: 80,
     hadithNumber: 6412,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِنَّ اللَّهَ لاَ يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
-    textEnglish: "Verily Allah does not look at your appearances or wealth, but rather He looks at your hearts and your deeds.",
+    textArabic:
+      "إِنَّ اللَّهَ لاَ يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
+    textEnglish:
+      "Verily Allah does not look at your appearances or wealth, but rather He looks at your hearts and your deeds.",
     grade: "Sahih",
     chapter: "Divine Unity",
     reference: "Sahih al-Bukhari 2447",
@@ -340,8 +393,10 @@ export const bukhariHadiths = [
     bookNumber: 97,
     hadithNumber: 7405,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "سَبْعَةٌ يُظِلُّهُمُ اللَّهُ فِي ظِلِّهِ يَوْمَ لاَ ظِلَّ إِلاَّ ظِلُّهُ",
-    textEnglish: "Seven people will be shaded by Allah under His shade on the Day when there will be no shade except His shade: a just ruler, a youth who grew up worshipping Allah, a person whose heart is attached to the mosque, two people who love each other for Allah's sake, a man who is tempted by a beautiful woman but says 'I fear Allah', a person who gives charity secretly, and a person who remembers Allah in seclusion and his eyes shed tears.",
+    textArabic:
+      "سَبْعَةٌ يُظِلُّهُمُ اللَّهُ فِي ظِلِّهِ يَوْمَ لاَ ظِلَّ إِلاَّ ظِلُّهُ",
+    textEnglish:
+      "Seven people will be shaded by Allah under His shade on the Day when there will be no shade except His shade: a just ruler, a youth who grew up worshipping Allah, a person whose heart is attached to the mosque, two people who love each other for Allah's sake, a man who is tempted by a beautiful woman but says 'I fear Allah', a person who gives charity secretly, and a person who remembers Allah in seclusion and his eyes shed tears.",
     grade: "Sahih",
     chapter: "Divine Unity",
     reference: "Sahih al-Bukhari 660",
@@ -352,8 +407,10 @@ export const bukhariHadiths = [
     bookNumber: 78,
     hadithNumber: 5983,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ",
-    textEnglish: "The strong believer is better and more beloved to Allah than the weak believer, although there is goodness in both.",
+    textArabic:
+      "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ",
+    textEnglish:
+      "The strong believer is better and more beloved to Allah than the weak believer, although there is goodness in both.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 6464",
@@ -365,7 +422,8 @@ export const bukhariHadiths = [
     hadithNumber: 1431,
     narrator: "Ibn Abbas (RA)",
     textArabic: "اتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ",
-    textEnglish: "Protect yourselves from the Fire, even with half a date (in charity).",
+    textEnglish:
+      "Protect yourselves from the Fire, even with half a date (in charity).",
     grade: "Sahih",
     chapter: "Zakat",
     reference: "Sahih al-Bukhari 1417",
@@ -376,7 +434,8 @@ export const bukhariHadiths = [
     bookNumber: 61,
     hadithNumber: 3560,
     narrator: "Abu Bakr (RA)",
-    textArabic: "انْظُرُوا مُحَمَّدًا صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ فِي أَهْلِ بَيْتِهِ",
+    textArabic:
+      "انْظُرُوا مُحَمَّدًا صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ فِي أَهْلِ بَيْتِهِ",
     textEnglish: "Look at Muhammad and his care for his family.",
     grade: "Sahih",
     chapter: "Virtues of the Companions",
@@ -388,8 +447,10 @@ export const bukhariHadiths = [
     bookNumber: 76,
     hadithNumber: 5778,
     narrator: "Aisha (RA)",
-    textArabic: "إِنَّ مِنْ أَكْمَلِ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا",
-    textEnglish: "The most complete of the believers in faith are those with the best character.",
+    textArabic:
+      "إِنَّ مِنْ أَكْمَلِ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا",
+    textEnglish:
+      "The most complete of the believers in faith are those with the best character.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 3559",
@@ -400,8 +461,10 @@ export const bukhariHadiths = [
     bookNumber: 25,
     hadithNumber: 1521,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ حَجَّ لِلَّهِ فَلَمْ يَرْفُثْ وَلَمْ يَفْسُقْ رَجَعَ كَيَوْمِ وَلَدَتْهُ أُمُّهُ",
-    textEnglish: "Whoever performs Hajj for the sake of Allah and does not commit any obscenity or wickedness will return as pure as the day his mother gave birth to him.",
+    textArabic:
+      "مَنْ حَجَّ لِلَّهِ فَلَمْ يَرْفُثْ وَلَمْ يَفْسُقْ رَجَعَ كَيَوْمِ وَلَدَتْهُ أُمُّهُ",
+    textEnglish:
+      "Whoever performs Hajj for the sake of Allah and does not commit any obscenity or wickedness will return as pure as the day his mother gave birth to him.",
     grade: "Sahih",
     chapter: "Pilgrimage (Hajj)",
     reference: "Sahih al-Bukhari 1521",
@@ -412,8 +475,10 @@ export const bukhariHadiths = [
     bookNumber: 30,
     hadithNumber: 1977,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
-    textEnglish: "Whoever stands in prayer on Laylat al-Qadr (Night of Decree) out of faith and seeking reward, his previous sins will be forgiven.",
+    textArabic:
+      "مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
+    textEnglish:
+      "Whoever stands in prayer on Laylat al-Qadr (Night of Decree) out of faith and seeking reward, his previous sins will be forgiven.",
     grade: "Sahih",
     chapter: "Fasting",
     reference: "Sahih al-Bukhari 2014",
@@ -437,7 +502,8 @@ export const bukhariHadiths = [
     hadithNumber: 46,
     narrator: "Abdullah ibn Masud (RA)",
     textArabic: "سِبَابُ الْمُسْلِمِ فُسُوقٌ وَقِتَالُهُ كُفْرٌ",
-    textEnglish: "Insulting a Muslim is wickedness and fighting him is disbelief.",
+    textEnglish:
+      "Insulting a Muslim is wickedness and fighting him is disbelief.",
     grade: "Sahih",
     chapter: "Belief",
     reference: "Sahih al-Bukhari 48",
@@ -448,8 +514,10 @@ export const bukhariHadiths = [
     bookNumber: 4,
     hadithNumber: 135,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "لَوْلاَ أَنْ أَشُقَّ عَلَى أُمَّتِي لَأَمَرْتُهُمْ بِالسِّوَاكِ عِنْدَ كُلِّ صَلاَةٍ",
-    textEnglish: "Were it not that I would burden my nation, I would have commanded them to use the tooth-stick (siwak) before every prayer.",
+    textArabic:
+      "لَوْلاَ أَنْ أَشُقَّ عَلَى أُمَّتِي لَأَمَرْتُهُمْ بِالسِّوَاكِ عِنْدَ كُلِّ صَلاَةٍ",
+    textEnglish:
+      "Were it not that I would burden my nation, I would have commanded them to use the tooth-stick (siwak) before every prayer.",
     grade: "Sahih",
     chapter: "Ablution",
     reference: "Sahih al-Bukhari 887",
@@ -460,8 +528,10 @@ export const bukhariHadiths = [
     bookNumber: 46,
     hadithNumber: 2408,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الإِيمَانُ بِضْعٌ وَسَبْعُونَ شُعْبَةً، وَالْحَيَاءُ شُعْبَةٌ مِنَ الإِيمَانِ",
-    textEnglish: "Faith has seventy-odd branches, and modesty is a branch of faith.",
+    textArabic:
+      "الإِيمَانُ بِضْعٌ وَسَبْعُونَ شُعْبَةً، وَالْحَيَاءُ شُعْبَةٌ مِنَ الإِيمَانِ",
+    textEnglish:
+      "Faith has seventy-odd branches, and modesty is a branch of faith.",
     grade: "Sahih",
     chapter: "Belief",
     reference: "Sahih al-Bukhari 9",
@@ -472,8 +542,10 @@ export const bukhariHadiths = [
     bookNumber: 92,
     hadithNumber: 7088,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ، وَمَا زَادَ اللَّهُ عَبْدًا بِعَفْوٍ إِلاَّ عِزًّا، وَمَا تَوَاضَعَ أَحَدٌ لِلَّهِ إِلاَّ رَفَعَهُ اللَّهُ",
-    textEnglish: "Charity does not decrease wealth; Allah increases a person in honor when he pardons others; and whoever is humble for Allah's sake, Allah elevates him.",
+    textArabic:
+      "مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ، وَمَا زَادَ اللَّهُ عَبْدًا بِعَفْوٍ إِلاَّ عِزًّا، وَمَا تَوَاضَعَ أَحَدٌ لِلَّهِ إِلاَّ رَفَعَهُ اللَّهُ",
+    textEnglish:
+      "Charity does not decrease wealth; Allah increases a person in honor when he pardons others; and whoever is humble for Allah's sake, Allah elevates him.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 6502",
@@ -484,8 +556,10 @@ export const bukhariHadiths = [
     bookNumber: 81,
     hadithNumber: 6477,
     narrator: "Sahl ibn Sa'd (RA)",
-    textArabic: "وَاللَّهِ لَأَنْ يَهْدِيَ اللَّهُ بِكَ رَجُلاً وَاحِدًا خَيْرٌ لَكَ مِنْ حُمْرِ النَّعَمِ",
-    textEnglish: "By Allah, if Allah guides one person through you, it is better for you than red camels (the most valuable possessions).",
+    textArabic:
+      "وَاللَّهِ لَأَنْ يَهْدِيَ اللَّهُ بِكَ رَجُلاً وَاحِدًا خَيْرٌ لَكَ مِنْ حُمْرِ النَّعَمِ",
+    textEnglish:
+      "By Allah, if Allah guides one person through you, it is better for you than red camels (the most valuable possessions).",
     grade: "Sahih",
     chapter: "Jihad",
     reference: "Sahih al-Bukhari 3009",
@@ -496,8 +570,10 @@ export const bukhariHadiths = [
     bookNumber: 81,
     hadithNumber: 6442,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِنَّ اللَّهَ يَغَارُ، وَغَيْرَةُ اللَّهِ أَنْ يَأْتِيَ الْمُؤْمِنُ مَا حَرَّمَ اللَّهُ عَلَيْهِ",
-    textEnglish: "Verily Allah is jealous, and Allah's jealousy is aroused when a believer does what Allah has forbidden.",
+    textArabic:
+      "إِنَّ اللَّهَ يَغَارُ، وَغَيْرَةُ اللَّهِ أَنْ يَأْتِيَ الْمُؤْمِنُ مَا حَرَّمَ اللَّهُ عَلَيْهِ",
+    textEnglish:
+      "Verily Allah is jealous, and Allah's jealousy is aroused when a believer does what Allah has forbidden.",
     grade: "Sahih",
     chapter: "Divine Unity",
     reference: "Sahih al-Bukhari 5223",
@@ -508,8 +584,10 @@ export const bukhariHadiths = [
     bookNumber: 60,
     hadithNumber: 3445,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَا مِنْ نَبِيٍّ إِلاَّ قَدْ أُعْطِيَ مِنَ الآيَاتِ مَا مِثْلُهُ آمَنَ عَلَيْهِ الْبَشَرُ، وَإِنَّمَا كَانَ الَّذِي أُوتِيتُهُ وَحْيًا أَوْحَى اللَّهُ إِلَيَّ، فَأَرْجُو أَنْ أَكُونَ أَكْثَرَهُمْ تَابِعًا يَوْمَ الْقِيَامَةِ",
-    textEnglish: "There was no prophet but was given signs by which people believed in him. What I have been given is the Divine Revelation which Allah revealed to me, and I hope that I will have the most followers on the Day of Resurrection.",
+    textArabic:
+      "مَا مِنْ نَبِيٍّ إِلاَّ قَدْ أُعْطِيَ مِنَ الآيَاتِ مَا مِثْلُهُ آمَنَ عَلَيْهِ الْبَشَرُ، وَإِنَّمَا كَانَ الَّذِي أُوتِيتُهُ وَحْيًا أَوْحَى اللَّهُ إِلَيَّ، فَأَرْجُو أَنْ أَكُونَ أَكْثَرَهُمْ تَابِعًا يَوْمَ الْقِيَامَةِ",
+    textEnglish:
+      "There was no prophet but was given signs by which people believed in him. What I have been given is the Divine Revelation which Allah revealed to me, and I hope that I will have the most followers on the Day of Resurrection.",
     grade: "Sahih",
     chapter: "Virtues of the Quran",
     reference: "Sahih al-Bukhari 4981",
@@ -520,8 +598,10 @@ export const bukhariHadiths = [
     bookNumber: 81,
     hadithNumber: 6464,
     narrator: "Abu Sa'id al-Khudri (RA)",
-    textArabic: "إِيَّاكُمْ وَالْجُلُوسَ فِي الطُّرُقَاتِ، فَإِنْ أَبَيْتُمْ إِلاَّ الْمَجْلِسَ فَأَعْطُوا الطَّرِيقَ حَقَّهُ: غَضُّ الْبَصَرِ، وَكَفُّ الأَذَى، وَرَدُّ السَّلاَمِ، وَالأَمْرُ بِالْمَعْرُوفِ، وَالنَّهْيُ عَنِ الْمُنْكَرِ",
-    textEnglish: "Avoid sitting on the roads. If you must sit, then give the road its rights: lower your gaze, remove harm from the path, return greetings, enjoin good, and forbid evil.",
+    textArabic:
+      "إِيَّاكُمْ وَالْجُلُوسَ فِي الطُّرُقَاتِ، فَإِنْ أَبَيْتُمْ إِلاَّ الْمَجْلِسَ فَأَعْطُوا الطَّرِيقَ حَقَّهُ: غَضُّ الْبَصَرِ، وَكَفُّ الأَذَى، وَرَدُّ السَّلاَمِ، وَالأَمْرُ بِالْمَعْرُوفِ، وَالنَّهْيُ عَنِ الْمُنْكَرِ",
+    textEnglish:
+      "Avoid sitting on the roads. If you must sit, then give the road its rights: lower your gaze, remove harm from the path, return greetings, enjoin good, and forbid evil.",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 2465",
@@ -532,8 +612,10 @@ export const bukhariHadiths = [
     bookNumber: 97,
     hadithNumber: 7492,
     narrator: "Aisha (RA)",
-    textArabic: "مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ",
-    textEnglish: "Whoever introduces into this matter of ours (Islam) something that does not belong to it will have it rejected.",
+    textArabic:
+      "مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ",
+    textEnglish:
+      "Whoever introduces into this matter of ours (Islam) something that does not belong to it will have it rejected.",
     grade: "Sahih",
     chapter: "I'tisam (Holding Fast to the Quran and Sunnah)",
     reference: "Sahih al-Bukhari 2697",
@@ -544,8 +626,10 @@ export const bukhariHadiths = [
     bookNumber: 2,
     hadithNumber: 15,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "وَالَّذِي نَفْسِي بِيَدِهِ لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى أَكُونَ أَحَبَّ إِلَيْهِ مِنْ وَالِدِهِ وَوَلَدِهِ وَالنَّاسِ أَجْمَعِينَ",
-    textEnglish: "By Him in Whose Hand my soul is, none of you believes until I am more beloved to him than his father, his child, and all people.",
+    textArabic:
+      "وَالَّذِي نَفْسِي بِيَدِهِ لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى أَكُونَ أَحَبَّ إِلَيْهِ مِنْ وَالِدِهِ وَوَلَدِهِ وَالنَّاسِ أَجْمَعِينَ",
+    textEnglish:
+      "By Him in Whose Hand my soul is, none of you believes until I am more beloved to him than his father, his child, and all people.",
     grade: "Sahih",
     chapter: "Belief",
     reference: "Sahih al-Bukhari 15",
@@ -557,7 +641,8 @@ export const bukhariHadiths = [
     hadithNumber: 6475,
     narrator: "Aishah (RA)",
     textArabic: "كَانَ خُلُقُهُ الْقُرْآنَ",
-    textEnglish: "His character was the Quran (describing the Prophet's character).",
+    textEnglish:
+      "His character was the Quran (describing the Prophet's character).",
     grade: "Sahih",
     chapter: "Good Manners",
     reference: "Sahih al-Bukhari 4837",
@@ -575,8 +660,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2564,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِنَّ اللَّهَ لاَ يَنْظُرُ إِلَى أَجْسَامِكُمْ وَلاَ إِلَى صُوَرِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
-    textEnglish: "Verily Allah does not look at your appearances or wealth, but rather He looks at your hearts and your deeds.",
+    textArabic:
+      "إِنَّ اللَّهَ لاَ يَنْظُرُ إِلَى أَجْسَامِكُمْ وَلاَ إِلَى صُوَرِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
+    textEnglish:
+      "Verily Allah does not look at your appearances or wealth, but rather He looks at your hearts and your deeds.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2564",
@@ -600,7 +687,8 @@ export const muslimHadiths = [
     hadithNumber: 783,
     narrator: "Aisha (RA)",
     textArabic: "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
-    textEnglish: "The most beloved of deeds to Allah are those that are most consistent, even if they are small.",
+    textEnglish:
+      "The most beloved of deeds to Allah are those that are most consistent, even if they are small.",
     grade: "Sahih",
     chapter: "Prayer of Travelers",
     reference: "Sahih Muslim 783",
@@ -611,8 +699,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2586,
     narrator: "Nu'man ibn Bashir (RA)",
-    textArabic: "مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ مَثَلُ الْجَسَدِ إِذَا اشْتَكَى مِنْهُ عُضْوٌ تَدَاعَى لَهُ سَائِرُ الْجَسَدِ بِالسَّهَرِ وَالْحُمَّى",
-    textEnglish: "The believers, in their mutual love, mercy, and compassion, are like one body: if one part of it complains, the rest of the body responds with wakefulness and fever.",
+    textArabic:
+      "مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ مَثَلُ الْجَسَدِ إِذَا اشْتَكَى مِنْهُ عُضْوٌ تَدَاعَى لَهُ سَائِرُ الْجَسَدِ بِالسَّهَرِ وَالْحُمَّى",
+    textEnglish:
+      "The believers, in their mutual love, mercy, and compassion, are like one body: if one part of it complains, the rest of the body responds with wakefulness and fever.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2586",
@@ -623,8 +713,10 @@ export const muslimHadiths = [
     bookNumber: 47,
     hadithNumber: 2699,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ",
-    textEnglish: "Whoever follows a path in the pursuit of knowledge, Allah will make easy for him a path to Paradise.",
+    textArabic:
+      "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ",
+    textEnglish:
+      "Whoever follows a path in the pursuit of knowledge, Allah will make easy for him a path to Paradise.",
     grade: "Sahih",
     chapter: "Remembrance of Allah",
     reference: "Sahih Muslim 2699",
@@ -635,8 +727,10 @@ export const muslimHadiths = [
     bookNumber: 53,
     hadithNumber: 2865,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ وَفِي كُلٍّ خَيْرٌ",
-    textEnglish: "The strong believer is better and more beloved to Allah than the weak believer, while there is good in both.",
+    textArabic:
+      "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ وَفِي كُلٍّ خَيْرٌ",
+    textEnglish:
+      "The strong believer is better and more beloved to Allah than the weak believer, while there is good in both.",
     grade: "Sahih",
     chapter: "Destiny",
     reference: "Sahih Muslim 2664",
@@ -647,8 +741,10 @@ export const muslimHadiths = [
     bookNumber: 12,
     hadithNumber: 1009,
     narrator: "Abu Dharr (RA)",
-    textArabic: "تُمِيطُ الأَذَى عَنِ الطَّرِيقِ صَدَقَةٌ، وَتَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ",
-    textEnglish: "Removing harm from the road is charity, and smiling in your brother's face is charity for you.",
+    textArabic:
+      "تُمِيطُ الأَذَى عَنِ الطَّرِيقِ صَدَقَةٌ، وَتَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ",
+    textEnglish:
+      "Removing harm from the road is charity, and smiling in your brother's face is charity for you.",
     grade: "Sahih",
     chapter: "Zakat (Charity)",
     reference: "Sahih Muslim 1009",
@@ -659,8 +755,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2559,
     narrator: "Anas ibn Malik (RA)",
-    textArabic: "لاَ تَحَاسَدُوا وَلاَ تَنَاجَشُوا وَلاَ تَبَاغَضُوا وَلاَ تَدَابَرُوا وَكُونُوا عِبَادَ اللَّهِ إِخْوَانًا",
-    textEnglish: "Do not envy one another, do not artificially inflate prices against one another, do not hate one another, do not turn away from one another, and be servants of Allah as brothers.",
+    textArabic:
+      "لاَ تَحَاسَدُوا وَلاَ تَنَاجَشُوا وَلاَ تَبَاغَضُوا وَلاَ تَدَابَرُوا وَكُونُوا عِبَادَ اللَّهِ إِخْوَانًا",
+    textEnglish:
+      "Do not envy one another, do not artificially inflate prices against one another, do not hate one another, do not turn away from one another, and be servants of Allah as brothers.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2559",
@@ -671,8 +769,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2628,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الْمَرْءُ عَلَى دِينِ خَلِيلِهِ فَلْيَنْظُرْ أَحَدُكُمْ مَنْ يُخَالِلُ",
-    textEnglish: "A person is upon the religion of his close friend, so let each one of you look at whom he befriends.",
+    textArabic:
+      "الْمَرْءُ عَلَى دِينِ خَلِيلِهِ فَلْيَنْظُرْ أَحَدُكُمْ مَنْ يُخَالِلُ",
+    textEnglish:
+      "A person is upon the religion of his close friend, so let each one of you look at whom he befriends.",
     grade: "Hasan",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2628",
@@ -683,8 +783,10 @@ export const muslimHadiths = [
     bookNumber: 48,
     hadithNumber: 2730,
     narrator: "Abu Musa al-Ashari (RA)",
-    textArabic: "إِنَّ اللَّهَ يُمْلِي لِلظَّالِمِ حَتَّى إِذَا أَخَذَهُ لَمْ يُفْلِتْهُ",
-    textEnglish: "Verily, Allah gives respite to the wrongdoer, but when He seizes him, He does not let him escape.",
+    textArabic:
+      "إِنَّ اللَّهَ يُمْلِي لِلظَّالِمِ حَتَّى إِذَا أَخَذَهُ لَمْ يُفْلِتْهُ",
+    textEnglish:
+      "Verily, Allah gives respite to the wrongdoer, but when He seizes him, He does not let him escape.",
     grade: "Sahih",
     chapter: "Repentance",
     reference: "Sahih Muslim 2583",
@@ -695,8 +797,10 @@ export const muslimHadiths = [
     bookNumber: 1,
     hadithNumber: 55,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ وَتُقِيمَ الصَّلاَةَ وَتُؤْتِيَ الزَّكَاةَ وَتَصُومَ رَمَضَانَ وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
-    textEnglish: "Islam is to testify that there is no deity worthy of worship except Allah and that Muhammad is the Messenger of Allah, to establish prayer, to give zakat, to fast Ramadan, and to perform pilgrimage to the House if you are able.",
+    textArabic:
+      "الإِسْلاَمُ أَنْ تَشْهَدَ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ وَتُقِيمَ الصَّلاَةَ وَتُؤْتِيَ الزَّكَاةَ وَتَصُومَ رَمَضَانَ وَتَحُجَّ الْبَيْتَ إِنِ اسْتَطَعْتَ إِلَيْهِ سَبِيلاً",
+    textEnglish:
+      "Islam is to testify that there is no deity worthy of worship except Allah and that Muhammad is the Messenger of Allah, to establish prayer, to give zakat, to fast Ramadan, and to perform pilgrimage to the House if you are able.",
     grade: "Sahih",
     chapter: "Faith",
     reference: "Sahih Muslim 8",
@@ -707,8 +811,10 @@ export const muslimHadiths = [
     bookNumber: 1,
     hadithNumber: 163,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلاَ يُؤْذِ جَارَهُ",
-    textEnglish: "Whoever believes in Allah and the Last Day should not harm his neighbor.",
+    textArabic:
+      "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلاَ يُؤْذِ جَارَهُ",
+    textEnglish:
+      "Whoever believes in Allah and the Last Day should not harm his neighbor.",
     grade: "Sahih",
     chapter: "Faith",
     reference: "Sahih Muslim 47",
@@ -719,8 +825,10 @@ export const muslimHadiths = [
     bookNumber: 2,
     hadithNumber: 223,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الصَّلَوَاتُ الْخَمْسُ وَالْجُمُعَةُ إِلَى الْجُمُعَةِ وَرَمَضَانُ إِلَى رَمَضَانَ مُكَفِّرَاتٌ مَا بَيْنَهُنَّ إِذَا اجْتَنَبَ الْكَبَائِرَ",
-    textEnglish: "The five daily prayers, Friday prayer to Friday prayer, and Ramadan to Ramadan are expiations for what comes between them, if major sins are avoided.",
+    textArabic:
+      "الصَّلَوَاتُ الْخَمْسُ وَالْجُمُعَةُ إِلَى الْجُمُعَةِ وَرَمَضَانُ إِلَى رَمَضَانَ مُكَفِّرَاتٌ مَا بَيْنَهُنَّ إِذَا اجْتَنَبَ الْكَبَائِرَ",
+    textEnglish:
+      "The five daily prayers, Friday prayer to Friday prayer, and Ramadan to Ramadan are expiations for what comes between them, if major sins are avoided.",
     grade: "Sahih",
     chapter: "Purification",
     reference: "Sahih Muslim 233",
@@ -731,8 +839,10 @@ export const muslimHadiths = [
     bookNumber: 29,
     hadithNumber: 1718,
     narrator: "Uqbah ibn Amir (RA)",
-    textArabic: "مَنْ قَتَلَ مُعَاهَدًا لَمْ يَرِحْ رَائِحَةَ الْجَنَّةِ، وَإِنَّ رِيحَهَا تُوجَدُ مِنْ مَسِيرَةِ أَرْبَعِينَ عَامًا",
-    textEnglish: "Whoever kills a person under covenant will not smell the fragrance of Paradise, although its fragrance can be detected from a distance of forty years.",
+    textArabic:
+      "مَنْ قَتَلَ مُعَاهَدًا لَمْ يَرِحْ رَائِحَةَ الْجَنَّةِ، وَإِنَّ رِيحَهَا تُوجَدُ مِنْ مَسِيرَةِ أَرْبَعِينَ عَامًا",
+    textEnglish:
+      "Whoever kills a person under covenant will not smell the fragrance of Paradise, although its fragrance can be detected from a distance of forty years.",
     grade: "Sahih",
     chapter: "Jihad",
     reference: "Sahih Muslim 1370",
@@ -743,8 +853,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2625,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "حَقُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ سِتٌّ: إِذَا لَقِيتَهُ فَسَلِّمْ عَلَيْهِ، وَإِذَا دَعَاكَ فَأَجِبْهُ، وَإِذَا اسْتَنْصَحَكَ فَانْصَحْ لَهُ، وَإِذَا عَطَسَ فَحَمِدَ اللَّهَ فَشَمِّتْهُ، وَإِذَا مَرِضَ فَعُدْهُ، وَإِذَا مَاتَ فَاتَّبِعْهُ",
-    textEnglish: "The rights of a Muslim over another Muslim are six: when you meet him, greet him; when he invites you, respond; when he seeks your advice, advise him; when he sneezes and praises Allah, say 'Yarhamuk Allah'; when he is sick, visit him; and when he dies, follow his funeral.",
+    textArabic:
+      "حَقُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ سِتٌّ: إِذَا لَقِيتَهُ فَسَلِّمْ عَلَيْهِ، وَإِذَا دَعَاكَ فَأَجِبْهُ، وَإِذَا اسْتَنْصَحَكَ فَانْصَحْ لَهُ، وَإِذَا عَطَسَ فَحَمِدَ اللَّهَ فَشَمِّتْهُ، وَإِذَا مَرِضَ فَعُدْهُ، وَإِذَا مَاتَ فَاتَّبِعْهُ",
+    textEnglish:
+      "The rights of a Muslim over another Muslim are six: when you meet him, greet him; when he invites you, respond; when he seeks your advice, advise him; when he sneezes and praises Allah, say 'Yarhamuk Allah'; when he is sick, visit him; and when he dies, follow his funeral.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2162",
@@ -755,8 +867,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2577,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "لاَ تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا وَلَوْ أَنْ تَلْقَى أَخَاكَ بِوَجْهٍ طَلْقٍ",
-    textEnglish: "Do not belittle any good deed, even meeting your brother with a cheerful face.",
+    textArabic:
+      "لاَ تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا وَلَوْ أَنْ تَلْقَى أَخَاكَ بِوَجْهٍ طَلْقٍ",
+    textEnglish:
+      "Do not belittle any good deed, even meeting your brother with a cheerful face.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2626",
@@ -767,8 +881,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2588,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الْمُسْلِمُ أَخُو الْمُسْلِمِ لاَ يَظْلِمُهُ وَلاَ يَخْذُلُهُ وَلاَ يَحْقِرُهُ",
-    textEnglish: "A Muslim is the brother of a Muslim: he does not wrong him, he does not abandon him, and he does not look down upon him.",
+    textArabic:
+      "الْمُسْلِمُ أَخُو الْمُسْلِمِ لاَ يَظْلِمُهُ وَلاَ يَخْذُلُهُ وَلاَ يَحْقِرُهُ",
+    textEnglish:
+      "A Muslim is the brother of a Muslim: he does not wrong him, he does not abandon him, and he does not look down upon him.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2564",
@@ -779,8 +895,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2567,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "التَّقْوَى هَاهُنَا - وَيُشِيرُ إِلَى صَدْرِهِ ثَلاَثَ مَرَّاتٍ",
-    textEnglish: "Taqwa (piety/God-consciousness) is here - and he pointed to his chest three times.",
+    textArabic:
+      "التَّقْوَى هَاهُنَا - وَيُشِيرُ إِلَى صَدْرِهِ ثَلاَثَ مَرَّاتٍ",
+    textEnglish:
+      "Taqwa (piety/God-consciousness) is here - and he pointed to his chest three times.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2564",
@@ -791,8 +909,10 @@ export const muslimHadiths = [
     bookNumber: 33,
     hadithNumber: 1911,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ",
-    textEnglish: "Whoever relieves a believer of a burden from the hardships of this world, Allah will relieve him of a burden from the hardships of the Day of Judgment.",
+    textArabic:
+      "مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ",
+    textEnglish:
+      "Whoever relieves a believer of a burden from the hardships of this world, Allah will relieve him of a burden from the hardships of the Day of Judgment.",
     grade: "Sahih",
     chapter: "Remembrance and Supplication",
     reference: "Sahih Muslim 2699",
@@ -804,7 +924,8 @@ export const muslimHadiths = [
     hadithNumber: 1829,
     narrator: "Abu Hurairah (RA)",
     textArabic: "مَنْ سَتَرَ مُسْلِمًا سَتَرَهُ اللَّهُ يَوْمَ الْقِيَامَةِ",
-    textEnglish: "Whoever conceals the faults of a Muslim, Allah will conceal his faults on the Day of Judgment.",
+    textEnglish:
+      "Whoever conceals the faults of a Muslim, Allah will conceal his faults on the Day of Judgment.",
     grade: "Sahih",
     chapter: "Virtue and Kindness",
     reference: "Sahih Muslim 2580",
@@ -815,8 +936,10 @@ export const muslimHadiths = [
     bookNumber: 48,
     hadithNumber: 2704,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ تَابَ قَبْلَ أَنْ تَطْلُعَ الشَّمْسُ مِنْ مَغْرِبِهَا تَابَ اللَّهُ عَلَيْهِ",
-    textEnglish: "Whoever repents before the sun rises from the west, Allah will accept his repentance.",
+    textArabic:
+      "مَنْ تَابَ قَبْلَ أَنْ تَطْلُعَ الشَّمْسُ مِنْ مَغْرِبِهَا تَابَ اللَّهُ عَلَيْهِ",
+    textEnglish:
+      "Whoever repents before the sun rises from the west, Allah will accept his repentance.",
     grade: "Sahih",
     chapter: "Repentance",
     reference: "Sahih Muslim 2703",
@@ -827,8 +950,10 @@ export const muslimHadiths = [
     bookNumber: 1,
     hadithNumber: 54,
     narrator: "Abu Dharr (RA)",
-    textArabic: "يَا عِبَادِي إِنِّي حَرَّمْتُ الظُّلْمَ عَلَى نَفْسِي وَجَعَلْتُهُ بَيْنَكُمْ مُحَرَّمًا فَلاَ تَظَالَمُوا",
-    textEnglish: "O My servants, I have forbidden oppression for Myself and have made it forbidden among you, so do not oppress one another.",
+    textArabic:
+      "يَا عِبَادِي إِنِّي حَرَّمْتُ الظُّلْمَ عَلَى نَفْسِي وَجَعَلْتُهُ بَيْنَكُمْ مُحَرَّمًا فَلاَ تَظَالَمُوا",
+    textEnglish:
+      "O My servants, I have forbidden oppression for Myself and have made it forbidden among you, so do not oppress one another.",
     grade: "Sahih",
     chapter: "Faith (Hadith Qudsi)",
     reference: "Sahih Muslim 2577",
@@ -839,8 +964,10 @@ export const muslimHadiths = [
     bookNumber: 48,
     hadithNumber: 2742,
     narrator: "Anas ibn Malik (RA)",
-    textArabic: "كُلُّ بَنِي آدَمَ خَطَّاءٌ وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
-    textEnglish: "Every son of Adam sins, and the best of the sinners are those who repent.",
+    textArabic:
+      "كُلُّ بَنِي آدَمَ خَطَّاءٌ وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
+    textEnglish:
+      "Every son of Adam sins, and the best of the sinners are those who repent.",
     grade: "Hasan",
     chapter: "Repentance",
     reference: "Jami at-Tirmidhi 2499",
@@ -851,8 +978,10 @@ export const muslimHadiths = [
     bookNumber: 29,
     hadithNumber: 1718,
     narrator: "Abdullah ibn Amr (RA)",
-    textArabic: "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ، ارْحَمُوا مَنْ فِي الأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ",
-    textEnglish: "The merciful will be shown mercy by the Most Merciful. Be merciful to those on earth, and the One above the heavens will have mercy upon you.",
+    textArabic:
+      "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ، ارْحَمُوا مَنْ فِي الأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ",
+    textEnglish:
+      "The merciful will be shown mercy by the Most Merciful. Be merciful to those on earth, and the One above the heavens will have mercy upon you.",
     grade: "Sahih",
     chapter: "Virtue and Manners",
     reference: "Sahih Muslim 2319",
@@ -863,8 +992,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2607,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ أَحَبَّ أَنْ يُبْسَطَ لَهُ فِي رِزْقِهِ وَيُنْسَأَ لَهُ فِي أَثَرِهِ فَلْيَصِلْ رَحِمَهُ",
-    textEnglish: "Whoever would like his provision to be increased and his life to be extended should maintain ties of kinship.",
+    textArabic:
+      "مَنْ أَحَبَّ أَنْ يُبْسَطَ لَهُ فِي رِزْقِهِ وَيُنْسَأَ لَهُ فِي أَثَرِهِ فَلْيَصِلْ رَحِمَهُ",
+    textEnglish:
+      "Whoever would like his provision to be increased and his life to be extended should maintain ties of kinship.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2557",
@@ -876,7 +1007,8 @@ export const muslimHadiths = [
     hadithNumber: 1599,
     narrator: "Ibn Umar (RA)",
     textArabic: "الْمُسْلِمُ أَخُو الْمُسْلِمِ لاَ يَظْلِمُهُ وَلاَ يُسْلِمُهُ",
-    textEnglish: "A Muslim is the brother of a Muslim: he does not wrong him or abandon him.",
+    textEnglish:
+      "A Muslim is the brother of a Muslim: he does not wrong him or abandon him.",
     grade: "Sahih",
     chapter: "Virtue and Manners",
     reference: "Sahih Muslim 2580",
@@ -887,8 +1019,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2622,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَنْ كَانَ لأَخِيهِ عِنْدَهُ مَظْلِمَةٌ مِنْ عِرْضٍ أَوْ مَالٍ فَلْيَتَحَلَّلْهُ مِنْهُ الْيَوْمَ",
-    textEnglish: "Whoever has wronged his brother with regard to his honor or anything else should seek his forgiveness today (before it is too late).",
+    textArabic:
+      "مَنْ كَانَ لأَخِيهِ عِنْدَهُ مَظْلِمَةٌ مِنْ عِرْضٍ أَوْ مَالٍ فَلْيَتَحَلَّلْهُ مِنْهُ الْيَوْمَ",
+    textEnglish:
+      "Whoever has wronged his brother with regard to his honor or anything else should seek his forgiveness today (before it is too late).",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih al-Bukhari 2449",
@@ -899,8 +1033,10 @@ export const muslimHadiths = [
     bookNumber: 12,
     hadithNumber: 1016,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "مَا مِنْ يَوْمٍ يُصْبِحُ الْعِبَادُ فِيهِ إِلاَّ مَلَكَانِ يَنْزِلاَنِ فَيَقُولُ أَحَدُهُمَا: اللَّهُمَّ أَعْطِ مُنْفِقًا خَلَفًا، وَيَقُولُ الآخَرُ: اللَّهُمَّ أَعْطِ مُمْسِكًا تَلَفًا",
-    textEnglish: "There is no day upon which the servants wake up except that two angels descend, one of them says: 'O Allah, give the one who spends a replacement,' and the other says: 'O Allah, give the one who withholds destruction.'",
+    textArabic:
+      "مَا مِنْ يَوْمٍ يُصْبِحُ الْعِبَادُ فِيهِ إِلاَّ مَلَكَانِ يَنْزِلاَنِ فَيَقُولُ أَحَدُهُمَا: اللَّهُمَّ أَعْطِ مُنْفِقًا خَلَفًا، وَيَقُولُ الآخَرُ: اللَّهُمَّ أَعْطِ مُمْسِكًا تَلَفًا",
+    textEnglish:
+      "There is no day upon which the servants wake up except that two angels descend, one of them says: 'O Allah, give the one who spends a replacement,' and the other says: 'O Allah, give the one who withholds destruction.'",
     grade: "Sahih",
     chapter: "Zakat",
     reference: "Sahih Muslim 1010",
@@ -911,8 +1047,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2582,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "لاَ تَدْخُلُونَ الْجَنَّةَ حَتَّى تُؤْمِنُوا، وَلاَ تُؤْمِنُوا حَتَّى تَحَابُّوا",
-    textEnglish: "You will not enter Paradise until you believe, and you will not believe until you love one another.",
+    textArabic:
+      "لاَ تَدْخُلُونَ الْجَنَّةَ حَتَّى تُؤْمِنُوا، وَلاَ تُؤْمِنُوا حَتَّى تَحَابُّوا",
+    textEnglish:
+      "You will not enter Paradise until you believe, and you will not believe until you love one another.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 54",
@@ -923,8 +1061,10 @@ export const muslimHadiths = [
     bookNumber: 45,
     hadithNumber: 2612,
     narrator: "Jabir (RA)",
-    textArabic: "اتَّقُوا الظُّلْمَ فَإِنَّ الظُّلْمَ ظُلُمَاتٌ يَوْمَ الْقِيَامَةِ، وَاتَّقُوا الشُّحَّ فَإِنَّ الشُّحَّ أَهْلَكَ مَنْ كَانَ قَبْلَكُمْ",
-    textEnglish: "Beware of oppression, for oppression will be darkness on the Day of Resurrection. Beware of stinginess, for stinginess destroyed those who came before you.",
+    textArabic:
+      "اتَّقُوا الظُّلْمَ فَإِنَّ الظُّلْمَ ظُلُمَاتٌ يَوْمَ الْقِيَامَةِ، وَاتَّقُوا الشُّحَّ فَإِنَّ الشُّحَّ أَهْلَكَ مَنْ كَانَ قَبْلَكُمْ",
+    textEnglish:
+      "Beware of oppression, for oppression will be darkness on the Day of Resurrection. Beware of stinginess, for stinginess destroyed those who came before you.",
     grade: "Sahih",
     chapter: "Righteousness and Maintaining Ties of Kinship",
     reference: "Sahih Muslim 2578",
@@ -935,8 +1075,10 @@ export const muslimHadiths = [
     bookNumber: 54,
     hadithNumber: 2985,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِذَا مَاتَ الإِنْسَانُ انْقَطَعَ عَمَلُهُ إِلاَّ مِنْ ثَلاَثَةٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ",
-    textEnglish: "When a person dies, his deeds come to an end except for three: ongoing charity (Sadaqah Jariyah), beneficial knowledge, or a righteous child who prays for him.",
+    textArabic:
+      "إِذَا مَاتَ الإِنْسَانُ انْقَطَعَ عَمَلُهُ إِلاَّ مِنْ ثَلاَثَةٍ: صَدَقَةٍ جَارِيَةٍ، أَوْ عِلْمٍ يُنْتَفَعُ بِهِ، أَوْ وَلَدٍ صَالِحٍ يَدْعُو لَهُ",
+    textEnglish:
+      "When a person dies, his deeds come to an end except for three: ongoing charity (Sadaqah Jariyah), beneficial knowledge, or a righteous child who prays for him.",
     grade: "Sahih",
     chapter: "Bequests",
     reference: "Sahih Muslim 1631",
@@ -947,8 +1089,10 @@ export const muslimHadiths = [
     bookNumber: 15,
     hadithNumber: 1337,
     narrator: "Aisha (RA)",
-    textArabic: "مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ",
-    textEnglish: "Whoever introduces into this matter of ours something that is not part of it will have it rejected.",
+    textArabic:
+      "مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ",
+    textEnglish:
+      "Whoever introduces into this matter of ours something that is not part of it will have it rejected.",
     grade: "Sahih",
     chapter: "Judicial Decisions",
     reference: "Sahih Muslim 1718",
@@ -959,8 +1103,10 @@ export const muslimHadiths = [
     bookNumber: 48,
     hadithNumber: 2742,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "إِنَّ اللَّهَ يَبْسُطُ يَدَهُ بِاللَّيْلِ لِيَتُوبَ مُسِيءُ النَّهَارِ، وَيَبْسُطُ يَدَهُ بِالنَّهَارِ لِيَتُوبَ مُسِيءُ اللَّيْلِ",
-    textEnglish: "Verily, Allah stretches out His Hand at night to accept the repentance of the one who sinned during the day, and He stretches out His Hand during the day to accept the repentance of the one who sinned at night.",
+    textArabic:
+      "إِنَّ اللَّهَ يَبْسُطُ يَدَهُ بِاللَّيْلِ لِيَتُوبَ مُسِيءُ النَّهَارِ، وَيَبْسُطُ يَدَهُ بِالنَّهَارِ لِيَتُوبَ مُسِيءُ اللَّيْلِ",
+    textEnglish:
+      "Verily, Allah stretches out His Hand at night to accept the repentance of the one who sinned during the day, and He stretches out His Hand during the day to accept the repentance of the one who sinned at night.",
     grade: "Sahih",
     chapter: "Repentance",
     reference: "Sahih Muslim 2759",
@@ -971,8 +1117,10 @@ export const muslimHadiths = [
     bookNumber: 2,
     hadithNumber: 225,
     narrator: "Uthman ibn Affan (RA)",
-    textArabic: "مَنْ تَوَضَّأَ فَأَحْسَنَ الْوُضُوءَ خَرَجَتْ خَطَايَاهُ مِنْ جَسَدِهِ حَتَّى تَخْرُجَ مِنْ تَحْتِ أَظْفَارِهِ",
-    textEnglish: "Whoever performs ablution properly, his sins will depart from his body, even from under his fingernails.",
+    textArabic:
+      "مَنْ تَوَضَّأَ فَأَحْسَنَ الْوُضُوءَ خَرَجَتْ خَطَايَاهُ مِنْ جَسَدِهِ حَتَّى تَخْرُجَ مِنْ تَحْتِ أَظْفَارِهِ",
+    textEnglish:
+      "Whoever performs ablution properly, his sins will depart from his body, even from under his fingernails.",
     grade: "Sahih",
     chapter: "Purification",
     reference: "Sahih Muslim 245",
@@ -983,21 +1131,15 @@ export const muslimHadiths = [
     bookNumber: 47,
     hadithNumber: 2674,
     narrator: "Abu Hurairah (RA)",
-    textArabic: "الدُّعَاءُ سِلاَحُ الْمُؤْمِنِ وَعِمَادُ الدِّينِ وَنُورُ السَّمَاوَاتِ وَالأَرْضِ",
-    textEnglish: "Supplication is the weapon of the believer, the pillar of the religion, and the light of the heavens and the earth.",
+    textArabic:
+      "الدُّعَاءُ سِلاَحُ الْمُؤْمِنِ وَعِمَادُ الدِّينِ وَنُورُ السَّمَاوَاتِ وَالأَرْضِ",
+    textEnglish:
+      "Supplication is the weapon of the believer, the pillar of the religion, and the light of the heavens and the earth.",
     grade: "Hasan",
     chapter: "Remembrance of Allah",
     reference: "Al-Mustadrak 1/492",
   },
 ];
-
-// Part 2: Remaining 4 collections
-import {
-  abuDawudHadiths,
-  tirmidhiHadiths,
-  nasaiHadiths,
-  ibnMajahHadiths,
-} from "./hadith-data-part2";
 
 // ============================================================================
 // MAIN SEED FUNCTION
@@ -1010,7 +1152,10 @@ async function seedHadiths() {
     // Step 1: Insert collections
     console.log("📚 Inserting hadith collections...");
     for (const collection of collectionsData) {
-      await db.insert(hadithCollections).values(collection).onConflictDoNothing();
+      await db
+        .insert(hadithCollections)
+        .values(collection)
+        .onConflictDoNothing();
       console.log(`  ✓ ${collection.name}`);
     }
     console.log(`\n✅ Inserted ${collectionsData.length} hadith collections\n`);

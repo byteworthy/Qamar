@@ -367,7 +367,7 @@ export default function SessionCompleteScreen() {
               type="caption"
               style={{ color: theme.onPrimary, marginLeft: 4 }}
             >
-              Noor Plus
+              Qamar Plus
             </ThemedText>
           </View>
           <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -467,14 +467,14 @@ export default function SessionCompleteScreen() {
               },
             ]}
             accessibilityRole="button"
-            accessibilityLabel="Upgrade to Noor Plus, $2.99 per month"
-            accessibilityHint="Opens pricing options for Noor Plus subscription"
+            accessibilityLabel="Upgrade to Qamar Plus, $2.99 per month"
+            accessibilityHint="Opens pricing options for Qamar Plus subscription"
           >
             <ThemedText
               type="body"
               style={{ color: theme.onPrimary, fontWeight: "600" }}
             >
-              Upgrade to Noor Plus - $2.99/month
+              Upgrade to Qamar Plus - $2.99/month
             </ThemedText>
           </Pressable>
           <ThemedText

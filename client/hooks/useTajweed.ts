@@ -9,7 +9,10 @@
 import { useState, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { parseTajweedHtml, type TajweedSegment } from "@/services/tajweedParser";
+import {
+  parseTajweedHtml,
+  type TajweedSegment,
+} from "@/services/tajweedParser";
 
 // ============================================================================
 // TYPES
@@ -133,7 +136,9 @@ export function useTajweed(surahNumber: number): UseTajweedResult {
       const cached = await AsyncStorage.getItem(cacheKey);
 
       if (cached && !cancelled) {
-        const parsed = buildVerseMap(JSON.parse(cached) as QuranFoundationVerse[]);
+        const parsed = buildVerseMap(
+          JSON.parse(cached) as QuranFoundationVerse[],
+        );
         setVerses(parsed);
         setIsLoading(false);
         return;

@@ -30,6 +30,10 @@ import express, {
 import type { Server } from "http";
 import request from "supertest";
 
+// Import after mocks
+import { registerRoutes } from "../routes";
+import { requestLoggerMiddleware } from "../middleware/request-logger";
+
 // Mock uuid module
 jest.mock("uuid", () => ({
   v4: jest.fn(() => "mock-request-id-123"),
@@ -55,7 +59,9 @@ const createMockQueryChain = (result: unknown[] = []) => {
   chain.onConflictDoNothing = (jest.fn() as any).mockReturnValue(chain);
 
   // Make the chain itself thenable (resolves to result)
-  chain.then = (jest.fn() as any).mockImplementation((resolve: any) => resolve(result));
+  chain.then = (jest.fn() as any).mockImplementation((resolve: any) =>
+    resolve(result),
+  );
   return chain;
 };
 
@@ -70,17 +76,37 @@ jest.mock("../db", () => ({
 
 // Mock schema
 jest.mock("@shared/schema", () => ({
-  quranMetadata: { surahNumber: "surah_number", revelationPlace: "revelation_place" },
-  quranBookmarks: { id: "id", userId: "user_id", surahNumber: "surah_number", verseNumber: "verse_number", note: "note", createdAt: "created_at" },
+  quranMetadata: {
+    surahNumber: "surah_number",
+    revelationPlace: "revelation_place",
+  },
+  quranBookmarks: {
+    id: "id",
+    userId: "user_id",
+    surahNumber: "surah_number",
+    verseNumber: "verse_number",
+    note: "note",
+    createdAt: "created_at",
+  },
   prayerPreferences: { userId: "user_id" },
-  userProgress: { userId: "user_id", quranVersesRead: "quran_verses_read", arabicWordsLearned: "arabic_words_learned", prayerTimesChecked: "prayer_times_checked", reflectionSessionsCompleted: "reflection_sessions_completed", streakDays: "streak_days", lastActiveDate: "last_active_date" },
+  userProgress: {
+    userId: "user_id",
+    quranVersesRead: "quran_verses_read",
+    arabicWordsLearned: "arabic_words_learned",
+    prayerTimesChecked: "prayer_times_checked",
+    reflectionSessionsCompleted: "reflection_sessions_completed",
+    streakDays: "streak_days",
+    lastActiveDate: "last_active_date",
+  },
   users: {},
 }));
 
 // Mock encryption
 jest.mock("../encryption", () => ({
   encryptData: jest.fn((data: string) => `encrypted:${data}`),
-  decryptData: jest.fn((data: string) => data.startsWith("encrypted:") ? data.substring(10) : data),
+  decryptData: jest.fn((data: string) =>
+    data.startsWith("encrypted:") ? data.substring(10) : data,
+  ),
 }));
 
 // Mock storage
@@ -104,39 +130,56 @@ jest.mock("../config", () => ({
   VALIDATION_MODE: true,
   isAnthropicConfigured: jest.fn().mockReturnValue(false),
   getValidationModeAnalyzeResponse: jest.fn().mockReturnValue({
-    distortions: ["Test"], happening: "Test", pattern: ["Test"], matters: "Test",
+    distortions: ["Test"],
+    happening: "Test",
+    pattern: ["Test"],
+    matters: "Test",
   }),
   getValidationModeReframeResponse: jest.fn().mockReturnValue({
-    beliefTested: "Test", perspective: "Test", nextStep: "Test", anchors: ["Test"],
+    beliefTested: "Test",
+    perspective: "Test",
+    nextStep: "Test",
+    anchors: ["Test"],
   }),
   getValidationModePracticeResponse: jest.fn().mockReturnValue({
-    title: "Test", steps: ["Test"], reminder: "Test", duration: "1 min",
+    title: "Test",
+    steps: ["Test"],
+    reminder: "Test",
+    duration: "1 min",
   }),
   getValidationModeInsightSummary: jest.fn().mockReturnValue("Test summary"),
 }));
 jest.mock("../data-retention");
 jest.mock("@anthropic-ai/sdk", () => {
   return (jest.fn() as any).mockImplementation(() => ({
-    messages: { create: (jest.fn() as any).mockResolvedValue({ content: [{ type: "text", text: "test" }] }) },
+    messages: {
+      create: (jest.fn() as any).mockResolvedValue({
+        content: [{ type: "text", text: "test" }],
+      }),
+    },
   }));
 });
 jest.mock("../middleware/ai-rate-limiter", () => ({
-  aiRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
-  insightRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
+  aiRateLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) =>
+    next(),
+  ),
+  insightRateLimiter: jest.fn(
+    (_req: Request, _res: Response, next: NextFunction) => next(),
+  ),
 }));
 jest.mock("../middleware/rate-limit", () => ({
-  adminLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) => next()),
+  adminLimiter: jest.fn((_req: Request, _res: Response, next: NextFunction) =>
+    next(),
+  ),
 }));
 jest.mock("../notificationRoutes", () => {
   const express = require("express");
   const router = express.Router();
-  router.get("/test", (_req: Request, res: Response) => res.json({ test: true }));
+  router.get("/test", (_req: Request, res: Response) =>
+    res.json({ test: true }),
+  );
   return router;
 });
-
-// Import after mocks
-import { registerRoutes } from "../routes";
-import { requestLoggerMiddleware } from "../middleware/request-logger";
 
 describe("Islamic Features API Routes", () => {
   let app: Express;
@@ -172,8 +215,24 @@ describe("Islamic Features API Routes", () => {
   describe("GET /api/quran/surahs", () => {
     test("returns surah list successfully", async () => {
       const mockSurahs = [
-        { id: 1, surahNumber: 1, nameArabic: "الفاتحة", nameEnglish: "Al-Fatihah", versesCount: 7, revelationPlace: "Makkah", orderInRevelation: 5 },
-        { id: 2, surahNumber: 2, nameArabic: "البقرة", nameEnglish: "Al-Baqarah", versesCount: 286, revelationPlace: "Madinah", orderInRevelation: 87 },
+        {
+          id: 1,
+          surahNumber: 1,
+          nameArabic: "الفاتحة",
+          nameEnglish: "Al-Fatihah",
+          versesCount: 7,
+          revelationPlace: "Makkah",
+          orderInRevelation: 5,
+        },
+        {
+          id: 2,
+          surahNumber: 2,
+          nameArabic: "البقرة",
+          nameEnglish: "Al-Baqarah",
+          versesCount: 286,
+          revelationPlace: "Madinah",
+          orderInRevelation: 87,
+        },
       ];
 
       const chain = createMockQueryChain(mockSurahs);
@@ -188,20 +247,32 @@ describe("Islamic Features API Routes", () => {
 
     test("filters surahs by revelation place", async () => {
       const mockSurahs = [
-        { id: 1, surahNumber: 1, nameArabic: "الفاتحة", nameEnglish: "Al-Fatihah", versesCount: 7, revelationPlace: "Makkah", orderInRevelation: 5 },
+        {
+          id: 1,
+          surahNumber: 1,
+          nameArabic: "الفاتحة",
+          nameEnglish: "Al-Fatihah",
+          versesCount: 7,
+          revelationPlace: "Makkah",
+          orderInRevelation: 5,
+        },
       ];
 
       const chain = createMockQueryChain(mockSurahs);
       mockDbSelect.mockReturnValue(chain);
 
-      const res = await request(app).get("/api/quran/surahs?revelationPlace=Makkah");
+      const res = await request(app).get(
+        "/api/quran/surahs?revelationPlace=Makkah",
+      );
 
       expect(res.status).toBe(200);
       expect(res.body.surahs).toHaveLength(1);
     });
 
     test("rejects invalid revelationPlace", async () => {
-      const res = await request(app).get("/api/quran/surahs?revelationPlace=InvalidPlace");
+      const res = await request(app).get(
+        "/api/quran/surahs?revelationPlace=InvalidPlace",
+      );
 
       expect(res.status).toBe(400);
       expect(res.body.code).toBe("VALIDATION_FAILED");
@@ -214,7 +285,9 @@ describe("Islamic Features API Routes", () => {
         throw new Error("DB Error");
       });
 
-      const res = await request(app).get("/api/quran/surahs?revelationPlace=Madinah");
+      const res = await request(app).get(
+        "/api/quran/surahs?revelationPlace=Madinah",
+      );
 
       // Since this is a new cache key (with Madinah filter), it won't be cached
       expect(res.status).toBe(500);
@@ -227,7 +300,15 @@ describe("Islamic Features API Routes", () => {
 
   describe("GET /api/quran/verses/:surahId", () => {
     test("returns verse data for valid surah", async () => {
-      const mockSurah = { id: 1, surahNumber: 1, nameArabic: "الفاتحة", nameEnglish: "Al-Fatihah", versesCount: 7, revelationPlace: "Makkah", orderInRevelation: 5 };
+      const mockSurah = {
+        id: 1,
+        surahNumber: 1,
+        nameArabic: "الفاتحة",
+        nameEnglish: "Al-Fatihah",
+        versesCount: 7,
+        revelationPlace: "Makkah",
+        orderInRevelation: 5,
+      };
 
       const chain = createMockQueryChain([mockSurah]);
       mockDbSelect.mockReturnValue(chain);
@@ -267,7 +348,15 @@ describe("Islamic Features API Routes", () => {
     });
 
     test("supports pagination", async () => {
-      const mockSurah = { id: 2, surahNumber: 2, nameArabic: "البقرة", nameEnglish: "Al-Baqarah", versesCount: 286, revelationPlace: "Madinah", orderInRevelation: 87 };
+      const mockSurah = {
+        id: 2,
+        surahNumber: 2,
+        nameArabic: "البقرة",
+        nameEnglish: "Al-Baqarah",
+        versesCount: 286,
+        revelationPlace: "Madinah",
+        orderInRevelation: 87,
+      };
 
       const chain = createMockQueryChain([mockSurah]);
       mockDbSelect.mockReturnValue(chain);
@@ -318,11 +407,25 @@ describe("Islamic Features API Routes", () => {
     test("creates bookmark successfully", async () => {
       // First call: check surah exists, second call: check for duplicate
       const surahChain = createMockQueryChain([
-        { id: 1, surahNumber: 1, versesCount: 7, nameArabic: "الفاتحة", nameEnglish: "Al-Fatihah", revelationPlace: "Makkah" },
+        {
+          id: 1,
+          surahNumber: 1,
+          versesCount: 7,
+          nameArabic: "الفاتحة",
+          nameEnglish: "Al-Fatihah",
+          revelationPlace: "Makkah",
+        },
       ]);
       const duplicateChain = createMockQueryChain([]);
       const insertChain = createMockQueryChain([
-        { id: 1, userId: "test-user-islamic-123", surahNumber: 1, verseNumber: 3, note: "encrypted:Test note", createdAt: new Date() },
+        {
+          id: 1,
+          userId: "test-user-islamic-123",
+          surahNumber: 1,
+          verseNumber: 3,
+          note: "encrypted:Test note",
+          createdAt: new Date(),
+        },
       ]);
 
       let selectCallCount = 0;
@@ -379,7 +482,13 @@ describe("Islamic Features API Routes", () => {
   describe("GET /api/quran/bookmarks", () => {
     test("returns user bookmarks", async () => {
       const mockBookmarks = [
-        { id: 1, surahNumber: 1, verseNumber: 3, note: null, createdAt: new Date() },
+        {
+          id: 1,
+          surahNumber: 1,
+          verseNumber: 3,
+          note: null,
+          createdAt: new Date(),
+        },
       ];
       const mockCount = [{ count: 1 }];
 
@@ -526,14 +635,12 @@ describe("Islamic Features API Routes", () => {
       const insertChain = createMockQueryChain([updated]);
       mockDbInsert.mockReturnValue(insertChain);
 
-      const res = await request(app)
-        .put("/api/prayer/preferences")
-        .send({
-          calculationMethod: "ISNA",
-          madhab: "Hanafi",
-          latitude: 40.7128,
-          longitude: -74.006,
-        });
+      const res = await request(app).put("/api/prayer/preferences").send({
+        calculationMethod: "ISNA",
+        madhab: "Hanafi",
+        latitude: 40.7128,
+        longitude: -74.006,
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);

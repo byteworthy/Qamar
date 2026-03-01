@@ -346,7 +346,8 @@ export interface SearchQuranRequest {
   surahFilter?: number; // Search within specific surah
 }
 
-export interface SearchQuranResponse extends PaginatedResponse<QuranSearchResult> {}
+export interface SearchQuranResponse
+  extends PaginatedResponse<QuranSearchResult> {}
 
 export interface CreateBookmarkRequest {
   surahNumber: number;
@@ -358,7 +359,8 @@ export interface CreateBookmarkResponse {
   bookmark: QuranBookmark;
 }
 
-export interface GetBookmarksResponse extends PaginatedResponse<QuranBookmark> {}
+export interface GetBookmarksResponse
+  extends PaginatedResponse<QuranBookmark> {}
 
 export interface DeleteBookmarkResponse {
   success: boolean;
@@ -441,10 +443,7 @@ export interface GetPrayerSettingsResponse {
 export interface UpdatePrayerSettingsRequest {
   calculationMethod?: string;
   asrCalculation?: "Standard" | "Hanafi";
-  highLatitudeRule?:
-    | "MiddleOfTheNight"
-    | "SeventhOfTheNight"
-    | "TwilightAngle";
+  highLatitudeRule?: "MiddleOfTheNight" | "SeventhOfTheNight" | "TwilightAngle";
   location?: {
     latitude: number;
     longitude: number;
@@ -556,7 +555,8 @@ export interface GetVocabularyRequest extends PaginationParams {
   category?: string;
 }
 
-export interface GetVocabularyResponse extends PaginatedResponse<VocabularyCard> {}
+export interface GetVocabularyResponse
+  extends PaginatedResponse<VocabularyCard> {}
 
 export interface GetFlashcardsForReviewRequest {
   limit?: number; // How many cards to review

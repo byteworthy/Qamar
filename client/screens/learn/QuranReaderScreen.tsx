@@ -28,11 +28,18 @@ interface SurahCardProps {
   index: number;
 }
 
-const SurahCard = React.memo(function SurahCard({ surah, onPress, index }: SurahCardProps) {
+const SurahCard = React.memo(function SurahCard({
+  surah,
+  onPress,
+  index,
+}: SurahCardProps) {
   const { theme } = useTheme();
 
   return (
-    <Animated.View testID={`surah-item-${surah.id}`} entering={FadeInUp.duration(350).delay(index * 50)}>
+    <Animated.View
+      testID={`surah-item-${surah.id}`}
+      entering={FadeInUp.duration(350).delay(index * 50)}
+    >
       <GlassCard
         onPress={onPress}
         style={styles.surahCard}
@@ -46,10 +53,7 @@ const SurahCard = React.memo(function SurahCard({ surah, onPress, index }: Surah
 
           <View style={styles.surahInfo}>
             <ThemedText
-              style={[
-                styles.surahNameArabic,
-                { fontFamily: "Amiri-Bold" },
-              ]}
+              style={[styles.surahNameArabic, { fontFamily: "Amiri-Bold" }]}
             >
               {surah.name}
             </ThemedText>
@@ -125,37 +129,47 @@ export default function QuranReaderScreen() {
       (surah) =>
         surah.transliteration.toLowerCase().includes(query) ||
         surah.translation.toLowerCase().includes(query) ||
-        surah.name.includes(query)
+        surah.name.includes(query),
     );
   }, [surahs, searchQuery]);
 
-  const handleSurahPress = useCallback((surah: Surah) => {
-    // Track surah opened metric
-    Sentry.startSpan(
-      {
-        name: "quran.surah_opened",
-        op: "ui.action",
-        attributes: { "quran.surah_id": surah.id },
-      },
-      () => {},
-    );
-    navigation.navigate("VerseReader", { surahId: surah.id });
-  }, [navigation]);
+  const handleSurahPress = useCallback(
+    (surah: Surah) => {
+      // Track surah opened metric
+      Sentry.startSpan(
+        {
+          name: "quran.surah_opened",
+          op: "ui.action",
+          attributes: { "quran.surah_id": surah.id },
+        },
+        () => {},
+      );
+      navigation.navigate("VerseReader", { surahId: surah.id });
+    },
+    [navigation],
+  );
 
-  const renderSurahItem = useCallback(({ item, index }: { item: Surah; index: number }) => (
-    <SurahCard
-      surah={item}
-      onPress={() => handleSurahPress(item)}
-      index={index}
-    />
-  ), [handleSurahPress]);
+  const renderSurahItem = useCallback(
+    ({ item, index }: { item: Surah; index: number }) => (
+      <SurahCard
+        surah={item}
+        onPress={() => handleSurahPress(item)}
+        index={index}
+      />
+    ),
+    [handleSurahPress],
+  );
 
   if (isLoading) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <ThemedText style={[styles.loadingText, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.loadingText, { color: theme.textSecondary }]}
+          >
             Loading Quran...
           </ThemedText>
         </View>
@@ -165,13 +179,17 @@ export default function QuranReaderScreen() {
 
   if (error) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
+      >
         <View style={styles.errorContainer}>
           <Feather name="alert-circle" size={48} color={theme.error} />
           <ThemedText style={[styles.errorText, { color: theme.error }]}>
             Failed to load Quran
           </ThemedText>
-          <ThemedText style={[styles.errorSubtext, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.errorSubtext, { color: theme.textSecondary }]}
+          >
             Please check your connection and try again
           </ThemedText>
         </View>
@@ -185,7 +203,10 @@ export default function QuranReaderScreen() {
       <View
         style={[
           styles.searchContainer,
-          { paddingTop: insets.top + 16, backgroundColor: theme.backgroundRoot },
+          {
+            paddingTop: insets.top + 16,
+            backgroundColor: theme.backgroundRoot,
+          },
         ]}
       >
         <View
@@ -237,7 +258,9 @@ export default function QuranReaderScreen() {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Feather name="book" size={48} color={theme.textSecondary} />
-            <ThemedText style={[styles.emptyText, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.emptyText, { color: theme.textSecondary }]}
+            >
               {searchQuery ? "No surahs found" : "No surahs available"}
             </ThemedText>
           </View>

@@ -151,7 +151,7 @@ async function searchHadiths(query: string): Promise<Hadith[]> {
     (h) =>
       h.textArabic.includes(query) ||
       h.textEnglish.toLowerCase().includes(q) ||
-      h.narrator.toLowerCase().includes(q)
+      h.narrator.toLowerCase().includes(q),
   );
 }
 
@@ -163,7 +163,7 @@ async function fetchDailyHadith(): Promise<Hadith> {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const dayOfYear = Math.floor(
-    (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+    (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
   );
   return all[dayOfYear % all.length];
 }

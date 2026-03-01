@@ -30,7 +30,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const SAFETY_POINTS = [
   {
     icon: "user-x" as const,
-    text: "Noor is not a therapist, counselor, or Islamic scholar",
+    text: "Qamar is not a therapist, counselor, or Islamic scholar",
   },
   {
     icon: "users" as const,
@@ -57,8 +57,16 @@ export default function SafetyScreen() {
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       {/* Atmospheric gradient background */}
       <LinearGradient
-        colors={gradients.atmospheric.colors as readonly [string, string, ...string[]]}
-        locations={gradients.atmospheric.locations as readonly [number, number, ...number[]]}
+        colors={
+          gradients.atmospheric.colors as readonly [string, string, ...string[]]
+        }
+        locations={
+          gradients.atmospheric.locations as readonly [
+            number,
+            number,
+            ...number[],
+          ]
+        }
         start={gradients.atmospheric.start}
         end={gradients.atmospheric.end}
         style={StyleSheet.absoluteFill}
@@ -119,9 +127,9 @@ export default function SafetyScreen() {
                 { color: theme.text, fontFamily: Fonts?.sansMedium },
               ]}
             >
-              Noor is a companion for spiritual growth and personal reflection.
-              It is not a replacement for professional guidance, medical care, or
-              scholarly advice.
+              Qamar is a companion for spiritual growth and personal reflection.
+              It is not a replacement for professional guidance, medical care,
+              or scholarly advice.
             </ThemedText>
           </GlassCard>
         </Animated.View>
@@ -180,7 +188,7 @@ export default function SafetyScreen() {
                 },
               ]}
             >
-              "Verily, with hardship comes ease."
+              {'"'}Verily, with hardship comes ease.{'"'}
             </ThemedText>
             <ThemedText
               style={[styles.closingRef, { color: theme.textSecondary }]}
@@ -194,10 +202,7 @@ export default function SafetyScreen() {
       {/* Footer */}
       <Animated.View
         entering={FadeInUp.duration(400).delay(700)}
-        style={[
-          styles.footer,
-          { paddingBottom: insets.bottom + Spacing.lg },
-        ]}
+        style={[styles.footer, { paddingBottom: insets.bottom + Spacing.lg }]}
       >
         <View style={styles.buttonRow}>
           <Pressable
@@ -222,9 +227,19 @@ export default function SafetyScreen() {
             ]}
           >
             <LinearGradient
-              colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}
+              colors={
+                gradients.buttonGradient.colors as readonly [
+                  string,
+                  string,
+                  ...string[],
+                ]
+              }
               locations={
-                gradients.buttonGradient.locations as readonly [number, number, ...number[]]
+                gradients.buttonGradient.locations as readonly [
+                  number,
+                  number,
+                  ...number[],
+                ]
               }
               start={gradients.buttonGradient.start}
               end={gradients.buttonGradient.end}

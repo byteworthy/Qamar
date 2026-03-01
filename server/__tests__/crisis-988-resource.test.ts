@@ -15,7 +15,7 @@ import * as path from "path";
 
 const brandFileContent = fs.readFileSync(
   path.resolve(__dirname, "../../client/constants/brand.ts"),
-  "utf-8"
+  "utf-8",
 );
 
 // =============================================================================
@@ -25,14 +25,14 @@ const brandFileContent = fs.readFileSync(
 describe("988 Crisis Resource Presence", () => {
   test("emergency resources include a 988 Lifeline entry", () => {
     const has988 = CRISIS_RESOURCES.emergency.resources.some(
-      (r) => r.name.includes("988") && r.contact.includes("988")
+      (r) => r.name.includes("988") && r.contact.includes("988"),
     );
     expect(has988).toBe(true);
   });
 
   test("urgent resources include a 988 Lifeline entry", () => {
     const has988 = CRISIS_RESOURCES.urgent.resources.some(
-      (r) => r.name.includes("988") && r.contact.includes("988")
+      (r) => r.name.includes("988") && r.contact.includes("988"),
     );
     expect(has988).toBe(true);
   });
@@ -47,7 +47,7 @@ describe("988 Crisis Resource Presence", () => {
 
   test("988 contact text uses correct format for tel: linking", () => {
     const emergency988 = CRISIS_RESOURCES.emergency.resources.find((r) =>
-      r.name.includes("988")
+      r.name.includes("988"),
     );
     expect(emergency988).toBeDefined();
     // Contact text must contain the raw digits "988" so the client
@@ -76,7 +76,7 @@ describe("988 in Brand Disclaimer", () => {
 describe("988 Contact Format", () => {
   test("988 number is a valid US dialing code (3 digits)", () => {
     const emergency988 = CRISIS_RESOURCES.emergency.resources.find((r) =>
-      r.name.includes("988")
+      r.name.includes("988"),
     );
     // Extracting digits from the contact should yield "988"
     const digits = emergency988!.contact.replace(/[^0-9]/g, "");
@@ -88,7 +88,7 @@ describe("988 Contact Format", () => {
     // Verify that extracting digits from the 988 resource contact
     // produces a valid tel: URI
     const emergency988 = CRISIS_RESOURCES.emergency.resources.find((r) =>
-      r.name.includes("988")
+      r.name.includes("988"),
     );
     const digits = emergency988!.contact.replace(/[^0-9]/g, "");
     const telUri = `tel:${digits}`;

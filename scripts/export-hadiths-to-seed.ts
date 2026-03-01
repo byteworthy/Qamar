@@ -33,4 +33,6 @@ const outputPath = path.resolve(__dirname, "../shared/seed-data/hadiths.json");
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, JSON.stringify(output, null, 2), "utf-8");
 
-console.log(`Exported ${collectionsData.length} collections and ${allHadiths.length} hadiths to ${outputPath}`);
+console.log(
+  `Exported ${collectionsData.length} collections and ${allHadiths.length} hadiths to ${outputPath}`,
+);

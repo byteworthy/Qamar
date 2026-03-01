@@ -65,39 +65,245 @@ export interface OfflineDatabase {
 // ============================================================================
 
 const MOCK_SURAHS: Surah[] = [
-  { id: 1, surah_number: 1, name_arabic: "الفاتحة", name_english: "The Opening", name_transliteration: "Al-Fatihah", verses_count: 7, revelation_place: "Makkah" },
-  { id: 2, surah_number: 2, name_arabic: "البقرة", name_english: "The Cow", name_transliteration: "Al-Baqarah", verses_count: 286, revelation_place: "Madinah" },
-  { id: 3, surah_number: 112, name_arabic: "الإخلاص", name_english: "The Sincerity", name_transliteration: "Al-Ikhlas", verses_count: 4, revelation_place: "Makkah" },
-  { id: 4, surah_number: 113, name_arabic: "الفلق", name_english: "The Daybreak", name_transliteration: "Al-Falaq", verses_count: 5, revelation_place: "Makkah" },
-  { id: 5, surah_number: 114, name_arabic: "الناس", name_english: "Mankind", name_transliteration: "An-Nas", verses_count: 6, revelation_place: "Makkah" },
+  {
+    id: 1,
+    surah_number: 1,
+    name_arabic: "الفاتحة",
+    name_english: "The Opening",
+    name_transliteration: "Al-Fatihah",
+    verses_count: 7,
+    revelation_place: "Makkah",
+  },
+  {
+    id: 2,
+    surah_number: 2,
+    name_arabic: "البقرة",
+    name_english: "The Cow",
+    name_transliteration: "Al-Baqarah",
+    verses_count: 286,
+    revelation_place: "Madinah",
+  },
+  {
+    id: 3,
+    surah_number: 112,
+    name_arabic: "الإخلاص",
+    name_english: "The Sincerity",
+    name_transliteration: "Al-Ikhlas",
+    verses_count: 4,
+    revelation_place: "Makkah",
+  },
+  {
+    id: 4,
+    surah_number: 113,
+    name_arabic: "الفلق",
+    name_english: "The Daybreak",
+    name_transliteration: "Al-Falaq",
+    verses_count: 5,
+    revelation_place: "Makkah",
+  },
+  {
+    id: 5,
+    surah_number: 114,
+    name_arabic: "الناس",
+    name_english: "Mankind",
+    name_transliteration: "An-Nas",
+    verses_count: 6,
+    revelation_place: "Makkah",
+  },
 ];
 
 const MOCK_VERSES: Verse[] = [
-  { id: 1, surah_number: 1, verse_number: 1, arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", translation_en: "In the name of Allah, the Most Gracious, the Most Merciful.", juz_number: 1, page_number: 1 },
-  { id: 2, surah_number: 1, verse_number: 2, arabic_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", translation_en: "All praise is due to Allah, Lord of all the worlds.", juz_number: 1, page_number: 1 },
-  { id: 3, surah_number: 1, verse_number: 3, arabic_text: "الرَّحْمَٰنِ الرَّحِيمِ", translation_en: "The Most Gracious, the Most Merciful.", juz_number: 1, page_number: 1 },
-  { id: 4, surah_number: 1, verse_number: 4, arabic_text: "مَالِكِ يَوْمِ الدِّينِ", translation_en: "Master of the Day of Judgment.", juz_number: 1, page_number: 1 },
-  { id: 5, surah_number: 1, verse_number: 5, arabic_text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", translation_en: "You alone we worship, and You alone we ask for help.", juz_number: 1, page_number: 1 },
-  { id: 6, surah_number: 1, verse_number: 6, arabic_text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", translation_en: "Guide us on the Straight Path.", juz_number: 1, page_number: 1 },
-  { id: 7, surah_number: 1, verse_number: 7, arabic_text: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", translation_en: "The path of those You have blessed, not of those who have earned Your anger or those who are astray.", juz_number: 1, page_number: 1 },
-  { id: 8, surah_number: 112, verse_number: 1, arabic_text: "قُلْ هُوَ اللَّهُ أَحَدٌ", translation_en: "Say, 'He is Allah—One and Indivisible;", juz_number: 30, page_number: 604 },
-  { id: 9, surah_number: 112, verse_number: 2, arabic_text: "اللَّهُ الصَّمَدُ", translation_en: "Allah—the Sustainer needed by all.", juz_number: 30, page_number: 604 },
-  { id: 10, surah_number: 112, verse_number: 3, arabic_text: "لَمْ يَلِدْ وَلَمْ يُولَدْ", translation_en: "He has never had offspring, nor was He born.", juz_number: 30, page_number: 604 },
-  { id: 11, surah_number: 112, verse_number: 4, arabic_text: "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", translation_en: "And there is none comparable to Him.'", juz_number: 30, page_number: 604 },
+  {
+    id: 1,
+    surah_number: 1,
+    verse_number: 1,
+    arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    translation_en:
+      "In the name of Allah, the Most Gracious, the Most Merciful.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 2,
+    surah_number: 1,
+    verse_number: 2,
+    arabic_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+    translation_en: "All praise is due to Allah, Lord of all the worlds.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 3,
+    surah_number: 1,
+    verse_number: 3,
+    arabic_text: "الرَّحْمَٰنِ الرَّحِيمِ",
+    translation_en: "The Most Gracious, the Most Merciful.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 4,
+    surah_number: 1,
+    verse_number: 4,
+    arabic_text: "مَالِكِ يَوْمِ الدِّينِ",
+    translation_en: "Master of the Day of Judgment.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 5,
+    surah_number: 1,
+    verse_number: 5,
+    arabic_text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+    translation_en: "You alone we worship, and You alone we ask for help.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 6,
+    surah_number: 1,
+    verse_number: 6,
+    arabic_text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+    translation_en: "Guide us on the Straight Path.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 7,
+    surah_number: 1,
+    verse_number: 7,
+    arabic_text:
+      "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+    translation_en:
+      "The path of those You have blessed, not of those who have earned Your anger or those who are astray.",
+    juz_number: 1,
+    page_number: 1,
+  },
+  {
+    id: 8,
+    surah_number: 112,
+    verse_number: 1,
+    arabic_text: "قُلْ هُوَ اللَّهُ أَحَدٌ",
+    translation_en: "Say, 'He is Allah—One and Indivisible;",
+    juz_number: 30,
+    page_number: 604,
+  },
+  {
+    id: 9,
+    surah_number: 112,
+    verse_number: 2,
+    arabic_text: "اللَّهُ الصَّمَدُ",
+    translation_en: "Allah—the Sustainer needed by all.",
+    juz_number: 30,
+    page_number: 604,
+  },
+  {
+    id: 10,
+    surah_number: 112,
+    verse_number: 3,
+    arabic_text: "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+    translation_en: "He has never had offspring, nor was He born.",
+    juz_number: 30,
+    page_number: 604,
+  },
+  {
+    id: 11,
+    surah_number: 112,
+    verse_number: 4,
+    arabic_text: "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ",
+    translation_en: "And there is none comparable to Him.'",
+    juz_number: 30,
+    page_number: 604,
+  },
 ];
 
 const MOCK_HADITHS: Hadith[] = [
-  { id: 1, collection: "bukhari", book_number: 1, hadith_number: 1, narrator: "Umar ibn al-Khattab", arabic_text: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ", translation_en: "Actions are judged by intentions, and every person will get the reward according to what they intended.", grade: "sahih" },
-  { id: 2, collection: "bukhari", book_number: 1, hadith_number: 2, narrator: "Aisha", arabic_text: "مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ", translation_en: "Whoever introduces something into this matter of ours that is not part of it, it is rejected.", grade: "sahih" },
-  { id: 3, collection: "muslim", book_number: 1, hadith_number: 1, narrator: "Umar ibn al-Khattab", arabic_text: "بُنِيَ الإسلامُ على خمسٍ", translation_en: "Islam is built upon five pillars.", grade: "sahih" },
+  {
+    id: 1,
+    collection: "bukhari",
+    book_number: 1,
+    hadith_number: 1,
+    narrator: "Umar ibn al-Khattab",
+    arabic_text: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+    translation_en:
+      "Actions are judged by intentions, and every person will get the reward according to what they intended.",
+    grade: "sahih",
+  },
+  {
+    id: 2,
+    collection: "bukhari",
+    book_number: 1,
+    hadith_number: 2,
+    narrator: "Aisha",
+    arabic_text:
+      "مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ",
+    translation_en:
+      "Whoever introduces something into this matter of ours that is not part of it, it is rejected.",
+    grade: "sahih",
+  },
+  {
+    id: 3,
+    collection: "muslim",
+    book_number: 1,
+    hadith_number: 1,
+    narrator: "Umar ibn al-Khattab",
+    arabic_text: "بُنِيَ الإسلامُ على خمسٍ",
+    translation_en: "Islam is built upon five pillars.",
+    grade: "sahih",
+  },
 ];
 
 const MOCK_VOCABULARY: VocabularyWord[] = [
-  { id: "v1", arabic_word: "بِسْمِ", transliteration: "bismi", translation_en: "In the name of", root: "س-م-و", category: "quran_common", difficulty_level: 1, quran_frequency: 114 },
-  { id: "v2", arabic_word: "اللَّه", transliteration: "Allah", translation_en: "God", root: "أ-ل-ه", category: "quran_common", difficulty_level: 1, quran_frequency: 2699 },
-  { id: "v3", arabic_word: "رَبّ", transliteration: "rabb", translation_en: "Lord", root: "ر-ب-ب", category: "quran_common", difficulty_level: 1, quran_frequency: 975 },
-  { id: "v4", arabic_word: "كِتَاب", transliteration: "kitab", translation_en: "Book", root: "ك-ت-ب", category: "quran_common", difficulty_level: 2, quran_frequency: 319 },
-  { id: "v5", arabic_word: "سَلَام", transliteration: "salam", translation_en: "Peace", root: "س-ل-م", category: "greetings", difficulty_level: 1, quran_frequency: 42 },
+  {
+    id: "v1",
+    arabic_word: "بِسْمِ",
+    transliteration: "bismi",
+    translation_en: "In the name of",
+    root: "س-م-و",
+    category: "quran_common",
+    difficulty_level: 1,
+    quran_frequency: 114,
+  },
+  {
+    id: "v2",
+    arabic_word: "اللَّه",
+    transliteration: "Allah",
+    translation_en: "God",
+    root: "أ-ل-ه",
+    category: "quran_common",
+    difficulty_level: 1,
+    quran_frequency: 2699,
+  },
+  {
+    id: "v3",
+    arabic_word: "رَبّ",
+    transliteration: "rabb",
+    translation_en: "Lord",
+    root: "ر-ب-ب",
+    category: "quran_common",
+    difficulty_level: 1,
+    quran_frequency: 975,
+  },
+  {
+    id: "v4",
+    arabic_word: "كِتَاب",
+    transliteration: "kitab",
+    translation_en: "Book",
+    root: "ك-ت-ب",
+    category: "quran_common",
+    difficulty_level: 2,
+    quran_frequency: 319,
+  },
+  {
+    id: "v5",
+    arabic_word: "سَلَام",
+    transliteration: "salam",
+    translation_en: "Peace",
+    root: "س-ل-م",
+    category: "greetings",
+    difficulty_level: 1,
+    quran_frequency: 42,
+  },
 ];
 
 // ============================================================================
@@ -140,7 +346,9 @@ class MockOfflineDatabase implements OfflineDatabase {
   async upsertSurahs(surahs: Surah[]): Promise<void> {
     await this.simulateDelay(50);
     for (const surah of surahs) {
-      const idx = this.surahs.findIndex((s) => s.surah_number === surah.surah_number);
+      const idx = this.surahs.findIndex(
+        (s) => s.surah_number === surah.surah_number,
+      );
       if (idx >= 0) {
         this.surahs[idx] = surah;
       } else {
@@ -158,11 +366,16 @@ class MockOfflineDatabase implements OfflineDatabase {
       .sort((a, b) => a.verse_number - b.verse_number);
   }
 
-  async getVerse(surahNumber: number, verseNumber: number): Promise<Verse | null> {
+  async getVerse(
+    surahNumber: number,
+    verseNumber: number,
+  ): Promise<Verse | null> {
     await this.simulateDelay(20);
-    return this.verses.find(
-      (v) => v.surah_number === surahNumber && v.verse_number === verseNumber
-    ) ?? null;
+    return (
+      this.verses.find(
+        (v) => v.surah_number === surahNumber && v.verse_number === verseNumber,
+      ) ?? null
+    );
   }
 
   async searchVerses(query: string): Promise<Verse[]> {
@@ -171,7 +384,7 @@ class MockOfflineDatabase implements OfflineDatabase {
     return this.verses.filter(
       (v) =>
         v.arabic_text.includes(query) ||
-        v.translation_en.toLowerCase().includes(q)
+        v.translation_en.toLowerCase().includes(q),
     );
   }
 
@@ -179,7 +392,9 @@ class MockOfflineDatabase implements OfflineDatabase {
     await this.simulateDelay(100);
     for (const verse of verses) {
       const idx = this.verses.findIndex(
-        (v) => v.surah_number === verse.surah_number && v.verse_number === verse.verse_number
+        (v) =>
+          v.surah_number === verse.surah_number &&
+          v.verse_number === verse.verse_number,
       );
       if (idx >= 0) {
         this.verses[idx] = verse;
@@ -191,10 +406,13 @@ class MockOfflineDatabase implements OfflineDatabase {
 
   // -- Hadiths --
 
-  async getHadithsByCollection(collection: string, grade?: string): Promise<Hadith[]> {
+  async getHadithsByCollection(
+    collection: string,
+    grade?: string,
+  ): Promise<Hadith[]> {
     await this.simulateDelay(80);
     return this.hadiths.filter(
-      (h) => h.collection === collection && (!grade || h.grade === grade)
+      (h) => h.collection === collection && (!grade || h.grade === grade),
     );
   }
 
@@ -210,7 +428,7 @@ class MockOfflineDatabase implements OfflineDatabase {
         (h) =>
           h.collection === hadith.collection &&
           h.book_number === hadith.book_number &&
-          h.hadith_number === hadith.hadith_number
+          h.hadith_number === hadith.hadith_number,
       );
       if (idx >= 0) {
         this.hadiths[idx] = hadith;
@@ -226,7 +444,11 @@ class MockOfflineDatabase implements OfflineDatabase {
     await this.simulateDelay(50);
     return this.vocabulary
       .filter((w) => w.category === category)
-      .sort((a, b) => a.difficulty_level - b.difficulty_level || b.quran_frequency - a.quran_frequency);
+      .sort(
+        (a, b) =>
+          a.difficulty_level - b.difficulty_level ||
+          b.quran_frequency - a.quran_frequency,
+      );
   }
 
   async getVocabularyByDifficulty(level: number): Promise<VocabularyWord[]> {
@@ -252,11 +474,16 @@ class MockOfflineDatabase implements OfflineDatabase {
 
   async getRowCount(table: string): Promise<number> {
     switch (table) {
-      case "surahs": return this.surahs.length;
-      case "verses": return this.verses.length;
-      case "hadiths": return this.hadiths.length;
-      case "vocabulary": return this.vocabulary.length;
-      default: return 0;
+      case "surahs":
+        return this.surahs.length;
+      case "verses":
+        return this.verses.length;
+      case "hadiths":
+        return this.hadiths.length;
+      case "vocabulary":
+        return this.vocabulary.length;
+      default:
+        return 0;
     }
   }
 
@@ -277,8 +504,14 @@ class MockOfflineDatabase implements OfflineDatabase {
 interface SQLiteDatabaseHandle {
   execAsync(sql: string): Promise<void>;
   closeAsync(): Promise<void>;
-  getAllAsync<T = Record<string, unknown>>(sql: string, params?: unknown[]): Promise<T[]>;
-  getFirstAsync<T = Record<string, unknown>>(sql: string, params?: unknown[]): Promise<T | null>;
+  getAllAsync<T = Record<string, unknown>>(
+    sql: string,
+    params?: unknown[],
+  ): Promise<T[]>;
+  getFirstAsync<T = Record<string, unknown>>(
+    sql: string,
+    params?: unknown[],
+  ): Promise<T | null>;
   runAsync(sql: string, params?: unknown[]): Promise<{ changes: number }>;
   withTransactionAsync(fn: () => Promise<void>): Promise<void>;
 }
@@ -333,7 +566,7 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
     const db = this.getDb();
     const result = await db.getFirstAsync<Surah>(
       "SELECT * FROM surahs WHERE surah_number = ? LIMIT 1",
-      [surahNumber]
+      [surahNumber],
     );
     return result ?? null;
   }
@@ -345,7 +578,14 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
         await db.runAsync(
           `INSERT OR REPLACE INTO surahs (surah_number, name_arabic, name_english, name_transliteration, verses_count, revelation_place)
            VALUES (?, ?, ?, ?, ?, ?)`,
-          [s.surah_number, s.name_arabic, s.name_english, s.name_transliteration ?? null, s.verses_count, s.revelation_place]
+          [
+            s.surah_number,
+            s.name_arabic,
+            s.name_english,
+            s.name_transliteration ?? null,
+            s.verses_count,
+            s.revelation_place,
+          ],
         );
       }
     });
@@ -358,9 +598,15 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
     return db.getAllAsync(GET_VERSES_BY_SURAH, [surahNumber]);
   }
 
-  async getVerse(surahNumber: number, verseNumber: number): Promise<Verse | null> {
+  async getVerse(
+    surahNumber: number,
+    verseNumber: number,
+  ): Promise<Verse | null> {
     const db = this.getDb();
-    const result = await db.getFirstAsync<Verse>(GET_VERSE, [surahNumber, verseNumber]);
+    const result = await db.getFirstAsync<Verse>(GET_VERSE, [
+      surahNumber,
+      verseNumber,
+    ]);
     return result ?? null;
   }
 
@@ -376,7 +622,18 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
         await db.runAsync(
           `INSERT OR REPLACE INTO verses (surah_number, verse_number, arabic_text, translation_en, translation_ur, transliteration, juz_number, page_number, hizb_quarter, audio_url)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          [v.surah_number, v.verse_number, v.arabic_text, v.translation_en, v.translation_ur ?? null, v.transliteration ?? null, v.juz_number ?? null, v.page_number ?? null, v.hizb_quarter ?? null, v.audio_url ?? null]
+          [
+            v.surah_number,
+            v.verse_number,
+            v.arabic_text,
+            v.translation_en,
+            v.translation_ur ?? null,
+            v.transliteration ?? null,
+            v.juz_number ?? null,
+            v.page_number ?? null,
+            v.hizb_quarter ?? null,
+            v.audio_url ?? null,
+          ],
         );
       }
     });
@@ -384,20 +641,29 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
 
   // -- Hadiths --
 
-  async getHadithsByCollection(collection: string, grade?: string): Promise<Hadith[]> {
+  async getHadithsByCollection(
+    collection: string,
+    grade?: string,
+  ): Promise<Hadith[]> {
     const db = this.getDb();
     if (grade) {
-      return db.getAllAsync(GET_SAHIH_HADITHS_BY_COLLECTION.replace("grade = 'sahih'", "grade = ?"), [collection, grade]);
+      return db.getAllAsync(
+        GET_SAHIH_HADITHS_BY_COLLECTION.replace("grade = 'sahih'", "grade = ?"),
+        [collection, grade],
+      );
     }
     return db.getAllAsync(
       "SELECT * FROM hadiths WHERE collection = ? ORDER BY book_number, hadith_number LIMIT 50",
-      [collection]
+      [collection],
     );
   }
 
   async getHadith(id: number): Promise<Hadith | null> {
     const db = this.getDb();
-    const result = await db.getFirstAsync<Hadith>("SELECT * FROM hadiths WHERE id = ?", [id]);
+    const result = await db.getFirstAsync<Hadith>(
+      "SELECT * FROM hadiths WHERE id = ?",
+      [id],
+    );
     return result ?? null;
   }
 
@@ -408,7 +674,15 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
         await db.runAsync(
           `INSERT OR REPLACE INTO hadiths (collection, book_number, hadith_number, narrator, arabic_text, translation_en, grade)
            VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          [h.collection, h.book_number ?? null, h.hadith_number ?? null, h.narrator ?? null, h.arabic_text, h.translation_en, h.grade ?? null]
+          [
+            h.collection,
+            h.book_number ?? null,
+            h.hadith_number ?? null,
+            h.narrator ?? null,
+            h.arabic_text,
+            h.translation_en,
+            h.grade ?? null,
+          ],
         );
       }
     });
@@ -425,7 +699,7 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
     const db = this.getDb();
     return db.getAllAsync(
       "SELECT * FROM vocabulary WHERE difficulty_level = ? ORDER BY quran_frequency DESC",
-      [level]
+      [level],
     );
   }
 
@@ -436,7 +710,16 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
         await db.runAsync(
           `INSERT OR REPLACE INTO vocabulary (id, arabic_word, transliteration, translation_en, root, category, difficulty_level, quran_frequency)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-          [w.id, w.arabic_word, w.transliteration, w.translation_en, w.root ?? null, w.category ?? null, w.difficulty_level, w.quran_frequency]
+          [
+            w.id,
+            w.arabic_word,
+            w.transliteration,
+            w.translation_en,
+            w.root ?? null,
+            w.category ?? null,
+            w.difficulty_level,
+            w.quran_frequency,
+          ],
         );
       }
     });
@@ -446,9 +729,17 @@ class SQLiteOfflineDatabase implements OfflineDatabase {
 
   async getRowCount(table: string): Promise<number> {
     const db = this.getDb();
-    const allowedTables = ["surahs", "verses", "hadiths", "vocabulary", "conversation_scenarios"];
+    const allowedTables = [
+      "surahs",
+      "verses",
+      "hadiths",
+      "vocabulary",
+      "conversation_scenarios",
+    ];
     if (!allowedTables.includes(table)) return 0;
-    const result = await db.getFirstAsync<{ count: number }>(`SELECT COUNT(*) as count FROM ${table}`);
+    const result = await db.getFirstAsync<{ count: number }>(
+      `SELECT COUNT(*) as count FROM ${table}`,
+    );
     return result?.count ?? 0;
   }
 
@@ -470,7 +761,9 @@ let instance: OfflineDatabase | null = null;
  */
 export function getOfflineDatabase(): OfflineDatabase {
   if (!instance) {
-    instance = USE_MOCK_DATA ? new MockOfflineDatabase() : new SQLiteOfflineDatabase();
+    instance = USE_MOCK_DATA
+      ? new MockOfflineDatabase()
+      : new SQLiteOfflineDatabase();
   }
   return instance;
 }
@@ -485,10 +778,17 @@ export async function initializeOfflineDatabase(): Promise<OfflineDatabase> {
     try {
       await db.initialize();
     } catch (error) {
-      console.warn("[OfflineDB] SQLite init failed, falling back to mock database:", error);
+      console.warn(
+        "[OfflineDB] SQLite init failed, falling back to mock database:",
+        error,
+      );
       // Reset and fall back to mock so the app doesn't crash
       if (instance) {
-        try { await instance.close(); } catch (_) { /* ignore */ }
+        try {
+          await instance.close();
+        } catch (_) {
+          /* ignore */
+        }
         instance = null;
       }
       instance = new MockOfflineDatabase();

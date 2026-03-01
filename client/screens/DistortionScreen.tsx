@@ -1,10 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import {
-  View,
-  Linking,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, Linking, TouchableOpacity, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -28,10 +23,7 @@ import { withScreenErrorBoundary } from "@/components/ScreenErrorBoundary";
 import { styles } from "./DistortionScreen.styles";
 import { CrisisResource, AnalysisResult } from "./DistortionScreen.data";
 
-type NavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "Noticing"
->;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Noticing">;
 type RouteType = RouteProp<RootStackParamList, "Noticing">;
 
 function DistortionScreen() {

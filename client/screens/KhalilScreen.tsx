@@ -76,7 +76,11 @@ const QUICK_PROMPTS = [
 // TYPING INDICATOR
 // =============================================================================
 
-function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"] }) {
+function TypingIndicator({
+  theme,
+}: {
+  theme: ReturnType<typeof useTheme>["theme"];
+}) {
   const dot1 = useSharedValue(0);
   const dot2 = useSharedValue(0);
   const dot3 = useSharedValue(0);
@@ -117,9 +121,15 @@ function TypingIndicator({ theme }: { theme: ReturnType<typeof useTheme>["theme"
     };
   }, []);
 
-  const animStyle1 = useAnimatedStyle(() => ({ transform: [{ translateY: dot1.value }] }));
-  const animStyle2 = useAnimatedStyle(() => ({ transform: [{ translateY: dot2.value }] }));
-  const animStyle3 = useAnimatedStyle(() => ({ transform: [{ translateY: dot3.value }] }));
+  const animStyle1 = useAnimatedStyle(() => ({
+    transform: [{ translateY: dot1.value }],
+  }));
+  const animStyle2 = useAnimatedStyle(() => ({
+    transform: [{ translateY: dot2.value }],
+  }));
+  const animStyle3 = useAnimatedStyle(() => ({
+    transform: [{ translateY: dot3.value }],
+  }));
 
   const dotStyle = {
     width: 7,
@@ -163,7 +173,10 @@ function KhalilBlock({
         <View
           style={[
             styles.messageBubbleAssistant,
-            { backgroundColor: theme.glassSurface, borderColor: theme.glassStroke },
+            {
+              backgroundColor: theme.glassSurface,
+              borderColor: theme.glassStroke,
+            },
           ]}
         >
           <ThemedText style={[styles.messageText, { color: theme.text }]}>
@@ -297,15 +310,25 @@ export default function KhalilScreen() {
     >
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <Animated.View entering={FadeInDown.duration(300)} style={styles.headerInner}>
-          <View style={[styles.headerAvatar, { backgroundColor: NoorColors.gold + "20" }]}>
+        <Animated.View
+          entering={FadeInDown.duration(300)}
+          style={styles.headerInner}
+        >
+          <View
+            style={[
+              styles.headerAvatar,
+              { backgroundColor: NoorColors.gold + "20" },
+            ]}
+          >
             <ThemedText style={styles.headerAvatarText}>K</ThemedText>
           </View>
           <View>
             <ThemedText style={styles.headerTitle} accessibilityRole="header">
               Khalil
             </ThemedText>
-            <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+            >
               Your companion for muhasaba
             </ThemedText>
           </View>
@@ -317,12 +340,17 @@ export default function KhalilScreen() {
         <View
           style={[
             styles.offlineBanner,
-            { backgroundColor: NoorColors.gold + "18", borderColor: NoorColors.gold + "30" },
+            {
+              backgroundColor: NoorColors.gold + "18",
+              borderColor: NoorColors.gold + "30",
+            },
           ]}
         >
           <Feather name="wifi-off" size={14} color={NoorColors.gold} />
-          <ThemedText style={[styles.offlineBannerText, { color: NoorColors.gold }]}>
-            You're offline. Khalil needs a connection to respond.
+          <ThemedText
+            style={[styles.offlineBannerText, { color: NoorColors.gold }]}
+          >
+            You{"'"}re offline. Khalil needs a connection to respond.
           </ThemedText>
         </View>
       )}
@@ -340,15 +368,30 @@ export default function KhalilScreen() {
       >
         {isEmpty ? (
           <View style={styles.emptyState}>
-            <Animated.View entering={FadeIn.duration(400)} style={styles.emptyHeader}>
-              <View style={[styles.emptyAvatar, { backgroundColor: NoorColors.gold + "15" }]}>
-                <ThemedText style={styles.emptyAvatarText}>{"\u2728"}</ThemedText>
+            <Animated.View
+              entering={FadeIn.duration(400)}
+              style={styles.emptyHeader}
+            >
+              <View
+                style={[
+                  styles.emptyAvatar,
+                  { backgroundColor: NoorColors.gold + "15" },
+                ]}
+              >
+                <ThemedText style={styles.emptyAvatarText}>
+                  {"\u2728"}
+                </ThemedText>
               </View>
               <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                 Assalamu Alaikum
               </ThemedText>
-              <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-                I'm Khalil — your close friend for muhasaba (self-reflection). Share what's weighing on your heart, and together we'll seek clarity through the Quran and Sunnah. Think of me as that friend at the masjid who really listens.
+              <ThemedText
+                style={[styles.emptySubtitle, { color: theme.textSecondary }]}
+              >
+                I{"'"}m Khalil — your close friend for muhasaba
+                (self-reflection). Share what{"'"}s weighing on your heart, and
+                together we{"'"}ll seek clarity through the Quran and Sunnah.
+                Think of me as that friend at the masjid who really listens.
               </ThemedText>
             </Animated.View>
 
@@ -394,7 +437,9 @@ export default function KhalilScreen() {
             {messages.map((item, index) => (
               <Animated.View
                 key={item.id}
-                entering={FadeInUp.duration(250).delay(Math.min(index * 50, 200))}
+                entering={FadeInUp.duration(250).delay(
+                  Math.min(index * 50, 200),
+                )}
                 style={[
                   styles.messageRow,
                   item.role === "user"
@@ -422,14 +467,22 @@ export default function KhalilScreen() {
                       },
                     ]}
                   >
-                    <ThemedText style={[styles.messageText, { color: theme.text }]}>
-                      {item.blocks[0]?.type === "text" ? item.blocks[0].content : ""}
+                    <ThemedText
+                      style={[styles.messageText, { color: theme.text }]}
+                    >
+                      {item.blocks[0]?.type === "text"
+                        ? item.blocks[0].content
+                        : ""}
                     </ThemedText>
                   </View>
                 ) : (
                   <View style={styles.assistantBlocks}>
                     {item.blocks.map((block, bi) => (
-                      <KhalilBlock key={`${item.id}-b${bi}`} block={block} theme={theme} />
+                      <KhalilBlock
+                        key={`${item.id}-b${bi}`}
+                        block={block}
+                        theme={theme}
+                      />
                     ))}
                   </View>
                 )}

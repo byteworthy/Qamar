@@ -50,7 +50,10 @@ function AnimatedTabIconNative({ name, color, focused }: AnimatedTabIconProps) {
 
   useEffect(() => {
     if (focused) hapticLight();
-    scale.value = withSpring(focused ? 1.1 : 0.95, { damping: 15, stiffness: 150 });
+    scale.value = withSpring(focused ? 1.1 : 0.95, {
+      damping: 15,
+      stiffness: 150,
+    });
     colorProgress.value = withTiming(focused ? 1 : 0, { duration: 200 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused]);
@@ -78,9 +81,11 @@ function AnimatedTabIconWeb({ name, color, focused }: AnimatedTabIconProps) {
 }
 
 function AnimatedTabIcon(props: AnimatedTabIconProps) {
-  return Platform.OS === 'web'
-    ? <AnimatedTabIconWeb {...props} />
-    : <AnimatedTabIconNative {...props} />;
+  return Platform.OS === "web" ? (
+    <AnimatedTabIconWeb {...props} />
+  ) : (
+    <AnimatedTabIconNative {...props} />
+  );
 }
 
 function TabBarBackground() {

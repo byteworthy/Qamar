@@ -1,7 +1,7 @@
-// Noor Web App API Client
+// Qamar Web App API Client
 // Adapted from client/lib/api.ts
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 // =============================================================================
 // ANALYSIS TYPES
@@ -91,9 +91,9 @@ export async function analyzeThought(
   somaticAwareness?: string,
 ): Promise<AnalysisResult> {
   const res = await fetch(`${API_URL}/api/analyze`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include', // CRITICAL for session cookies
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include", // CRITICAL for session cookies
     body: JSON.stringify({ thought, emotionalIntensity, somaticAwareness }),
   });
 
@@ -115,10 +115,16 @@ export async function reframeThought(
   emotionalState?: string,
 ): Promise<ReframeResult> {
   const res = await fetch(`${API_URL}/api/reframe`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ thought, distortions, analysis, emotionalIntensity, emotionalState }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      thought,
+      distortions,
+      analysis,
+      emotionalIntensity,
+      emotionalState,
+    }),
   });
 
   if (!res.ok) {
@@ -135,9 +141,9 @@ export async function saveReflection(
   data: SaveReflectionData,
 ): Promise<SaveReflectionResponse> {
   const res = await fetch(`${API_URL}/api/reflection/save`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(data),
   });
 
@@ -153,9 +159,9 @@ export async function saveReflection(
  */
 export async function getHistory(): Promise<ReflectionHistoryResponse> {
   const res = await fetch(`${API_URL}/api/reflection/history`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -170,9 +176,9 @@ export async function getHistory(): Promise<ReflectionHistoryResponse> {
  */
 export async function getInsights(): Promise<InsightSummaryResult> {
   const res = await fetch(`${API_URL}/api/insights/summary`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -185,10 +191,13 @@ export async function getInsights(): Promise<InsightSummaryResult> {
 /**
  * Health check endpoint
  */
-export async function healthCheck(): Promise<{ status: string; database?: string }> {
+export async function healthCheck(): Promise<{
+  status: string;
+  database?: string;
+}> {
   const res = await fetch(`${API_URL}/api/health`, {
-    method: 'GET',
-    credentials: 'include',
+    method: "GET",
+    credentials: "include",
   });
 
   if (!res.ok) {

@@ -28,7 +28,12 @@ export function BasiraCard({ data }: Props) {
         accessibilityLabel="Basira — seeing with clarity"
       >
         <View style={styles.header}>
-          <View style={[styles.iconBadge, { backgroundColor: NoorColors.emerald + "18" }]}>
+          <View
+            style={[
+              styles.iconBadge,
+              { backgroundColor: NoorColors.emerald + "18" },
+            ]}
+          >
             <Feather name="eye" size={16} color={NoorColors.emerald} />
           </View>
           <ThemedText style={[styles.title, { color: theme.text }]}>
@@ -37,7 +42,9 @@ export function BasiraCard({ data }: Props) {
         </View>
 
         {/* The whisper */}
-        <View style={[styles.section, { backgroundColor: NoorColors.gold + "08" }]}>
+        <View
+          style={[styles.section, { backgroundColor: NoorColors.gold + "08" }]}
+        >
           <ThemedText style={[styles.sectionLabel, { color: NoorColors.gold }]}>
             The Whisper
           </ThemedText>
@@ -47,8 +54,15 @@ export function BasiraCard({ data }: Props) {
         </View>
 
         {/* The truth */}
-        <View style={[styles.section, { backgroundColor: NoorColors.emerald + "08" }]}>
-          <ThemedText style={[styles.sectionLabel, { color: NoorColors.emerald }]}>
+        <View
+          style={[
+            styles.section,
+            { backgroundColor: NoorColors.emerald + "08" },
+          ]}
+        >
+          <ThemedText
+            style={[styles.sectionLabel, { color: NoorColors.emerald }]}
+          >
             The Truth
           </ThemedText>
           <ThemedText style={[styles.sectionText, { color: theme.text }]}>
@@ -58,8 +72,15 @@ export function BasiraCard({ data }: Props) {
 
         {/* Supporting evidence */}
         {data.ayahOrHadith && (
-          <View style={[styles.evidenceBox, { borderLeftColor: NoorColors.emerald }]}>
-            <ThemedText style={[styles.evidenceText, { color: theme.textSecondary }]}>
+          <View
+            style={[
+              styles.evidenceBox,
+              { borderLeftColor: NoorColors.emerald },
+            ]}
+          >
+            <ThemedText
+              style={[styles.evidenceText, { color: theme.textSecondary }]}
+            >
               {data.ayahOrHadith}
             </ThemedText>
           </View>

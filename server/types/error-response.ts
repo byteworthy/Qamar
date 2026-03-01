@@ -36,43 +36,43 @@ export interface ErrorResponse {
  */
 export const ERROR_CODES = {
   // 400 - Client Errors
-  INVALID_INPUT: 'INVALID_INPUT',
-  VALIDATION_FAILED: 'VALIDATION_FAILED',
-  MISSING_REQUIRED_FIELD: 'MISSING_REQUIRED_FIELD',
+  INVALID_INPUT: "INVALID_INPUT",
+  VALIDATION_FAILED: "VALIDATION_FAILED",
+  MISSING_REQUIRED_FIELD: "MISSING_REQUIRED_FIELD",
 
   // 401 - Authentication
-  AUTH_REQUIRED: 'AUTH_REQUIRED',
-  AUTH_INVALID: 'AUTH_INVALID',
-  SESSION_EXPIRED: 'SESSION_EXPIRED',
+  AUTH_REQUIRED: "AUTH_REQUIRED",
+  AUTH_INVALID: "AUTH_INVALID",
+  SESSION_EXPIRED: "SESSION_EXPIRED",
 
   // 402 - Payment
-  PAYMENT_REQUIRED: 'PAYMENT_REQUIRED',
-  SUBSCRIPTION_INACTIVE: 'SUBSCRIPTION_INACTIVE',
+  PAYMENT_REQUIRED: "PAYMENT_REQUIRED",
+  SUBSCRIPTION_INACTIVE: "SUBSCRIPTION_INACTIVE",
 
   // 403 - Authorization
-  FORBIDDEN: 'FORBIDDEN',
-  INSUFFICIENT_PERMISSIONS: 'INSUFFICIENT_PERMISSIONS',
+  FORBIDDEN: "FORBIDDEN",
+  INSUFFICIENT_PERMISSIONS: "INSUFFICIENT_PERMISSIONS",
 
   // 404 - Not Found
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+  NOT_FOUND: "NOT_FOUND",
+  RESOURCE_NOT_FOUND: "RESOURCE_NOT_FOUND",
 
   // 409 - Conflict
-  CONFLICT: 'CONFLICT',
-  DUPLICATE_RESOURCE: 'DUPLICATE_RESOURCE',
+  CONFLICT: "CONFLICT",
+  DUPLICATE_RESOURCE: "DUPLICATE_RESOURCE",
 
   // 429 - Rate Limiting
-  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
-  TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
+  RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
+  TOO_MANY_REQUESTS: "TOO_MANY_REQUESTS",
 
   // 500 - Server Errors
-  INTERNAL_ERROR: 'INTERNAL_ERROR',
-  DATABASE_ERROR: 'DATABASE_ERROR',
+  INTERNAL_ERROR: "INTERNAL_ERROR",
+  DATABASE_ERROR: "DATABASE_ERROR",
 
   // 503 - Service Unavailable
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-  AI_SERVICE_UNAVAILABLE: 'AI_SERVICE_UNAVAILABLE',
-  MAINTENANCE_MODE: 'MAINTENANCE_MODE',
+  SERVICE_UNAVAILABLE: "SERVICE_UNAVAILABLE",
+  AI_SERVICE_UNAVAILABLE: "AI_SERVICE_UNAVAILABLE",
+  MAINTENANCE_MODE: "MAINTENANCE_MODE",
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;
@@ -81,35 +81,35 @@ export type ErrorCode = keyof typeof ERROR_CODES;
  * Standard error messages by code
  */
 const ERROR_MESSAGES: Record<string, string> = {
-  INVALID_INPUT: 'The provided input is invalid',
-  VALIDATION_FAILED: 'Request validation failed',
-  MISSING_REQUIRED_FIELD: 'Required field is missing',
+  INVALID_INPUT: "The provided input is invalid",
+  VALIDATION_FAILED: "Request validation failed",
+  MISSING_REQUIRED_FIELD: "Required field is missing",
 
-  AUTH_REQUIRED: 'Authentication is required to access this resource',
-  AUTH_INVALID: 'Invalid authentication credentials',
-  SESSION_EXPIRED: 'Your session has expired. Please sign in again',
+  AUTH_REQUIRED: "Authentication is required to access this resource",
+  AUTH_INVALID: "Invalid authentication credentials",
+  SESSION_EXPIRED: "Your session has expired. Please sign in again",
 
-  PAYMENT_REQUIRED: 'Payment is required to access this feature',
-  SUBSCRIPTION_INACTIVE: 'Your subscription is inactive',
+  PAYMENT_REQUIRED: "Payment is required to access this feature",
+  SUBSCRIPTION_INACTIVE: "Your subscription is inactive",
 
-  FORBIDDEN: 'You do not have permission to access this resource',
-  INSUFFICIENT_PERMISSIONS: 'Insufficient permissions for this action',
+  FORBIDDEN: "You do not have permission to access this resource",
+  INSUFFICIENT_PERMISSIONS: "Insufficient permissions for this action",
 
-  NOT_FOUND: 'The requested resource was not found',
-  RESOURCE_NOT_FOUND: 'Resource not found',
+  NOT_FOUND: "The requested resource was not found",
+  RESOURCE_NOT_FOUND: "Resource not found",
 
-  CONFLICT: 'The request conflicts with the current state',
-  DUPLICATE_RESOURCE: 'A resource with these properties already exists',
+  CONFLICT: "The request conflicts with the current state",
+  DUPLICATE_RESOURCE: "A resource with these properties already exists",
 
-  RATE_LIMIT_EXCEEDED: 'Rate limit exceeded. Please try again later',
-  TOO_MANY_REQUESTS: 'Too many requests. Please slow down',
+  RATE_LIMIT_EXCEEDED: "Rate limit exceeded. Please try again later",
+  TOO_MANY_REQUESTS: "Too many requests. Please slow down",
 
-  INTERNAL_ERROR: 'An internal server error occurred',
-  DATABASE_ERROR: 'A database error occurred',
+  INTERNAL_ERROR: "An internal server error occurred",
+  DATABASE_ERROR: "A database error occurred",
 
-  SERVICE_UNAVAILABLE: 'Service is temporarily unavailable',
-  AI_SERVICE_UNAVAILABLE: 'AI service is temporarily unavailable',
-  MAINTENANCE_MODE: 'Service is under maintenance',
+  SERVICE_UNAVAILABLE: "Service is temporarily unavailable",
+  AI_SERVICE_UNAVAILABLE: "AI service is temporarily unavailable",
+  MAINTENANCE_MODE: "Service is under maintenance",
 };
 
 /**
@@ -120,14 +120,14 @@ export function createErrorResponse(
   code: string,
   requestId: string | undefined,
   customMessage?: string,
-  details?: Record<string, unknown>
+  details?: Record<string, unknown>,
 ): ErrorResponse {
   return {
     error: true,
     statusCode,
     code,
-    message: customMessage || ERROR_MESSAGES[code] || 'An error occurred',
-    requestId: requestId || 'unknown',
+    message: customMessage || ERROR_MESSAGES[code] || "An error occurred",
+    requestId: requestId || "unknown",
     timestamp: new Date().toISOString(),
     ...(details && { details }),
   };

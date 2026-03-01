@@ -83,9 +83,7 @@ function BadgeCard({ badge, index }: BadgeCardProps) {
           style={[
             styles.badgeIconContainer,
             {
-              backgroundColor: isEarned
-                ? GOLD + "18"
-                : theme.backgroundDefault,
+              backgroundColor: isEarned ? GOLD + "18" : theme.backgroundDefault,
             },
           ]}
         >
@@ -159,17 +157,16 @@ export default function AchievementsScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <Animated.View
-          entering={FadeInUp.duration(350)}
-          style={styles.header}
-        >
+        <Animated.View entering={FadeInUp.duration(350)} style={styles.header}>
           <ThemedText
             style={[styles.headerTitle, { fontFamily: Fonts?.serifBold }]}
             accessibilityRole="header"
           >
             Achievements
           </ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             {earnedCount} of {totalCount} badges earned
           </ThemedText>
         </Animated.View>
@@ -187,7 +184,9 @@ export default function AchievementsScreen() {
                 <Feather name="zap" size={28} color={GOLD} />
               </View>
               <View style={styles.streakTextContainer}>
-                <ThemedText style={[styles.streakLabel, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.streakLabel, { color: theme.textSecondary }]}
+                >
                   Current Streak
                 </ThemedText>
                 <ThemedText style={[styles.streakValue, { color: GOLD }]}>
@@ -196,9 +195,16 @@ export default function AchievementsScreen() {
               </View>
             </View>
             {streakPaused && (
-              <View style={[styles.pausedBadge, { backgroundColor: theme.warning + "20" }]}>
+              <View
+                style={[
+                  styles.pausedBadge,
+                  { backgroundColor: theme.warning + "20" },
+                ]}
+              >
                 <Feather name="pause-circle" size={14} color={theme.warning} />
-                <ThemedText style={[styles.pausedText, { color: theme.warning }]}>
+                <ThemedText
+                  style={[styles.pausedText, { color: theme.warning }]}
+                >
                   Paused
                 </ThemedText>
               </View>
@@ -213,7 +219,12 @@ export default function AchievementsScreen() {
               <View style={styles.longestStreakInfo}>
                 <Feather name="award" size={18} color={GOLD_DIM} />
                 <View style={styles.longestStreakText}>
-                  <ThemedText style={[styles.longestStreakLabel, { color: theme.textSecondary }]}>
+                  <ThemedText
+                    style={[
+                      styles.longestStreakLabel,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
                     Longest Streak
                   </ThemedText>
                   <ThemedText style={styles.longestStreakValue}>
@@ -223,16 +234,27 @@ export default function AchievementsScreen() {
               </View>
             </View>
 
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View
+              style={[styles.divider, { backgroundColor: theme.divider }]}
+            />
 
             <View style={styles.pauseRow}>
               <View style={styles.pauseInfo}>
-                <Feather name="pause-circle" size={18} color={theme.textSecondary} />
+                <Feather
+                  name="pause-circle"
+                  size={18}
+                  color={theme.textSecondary}
+                />
                 <View style={styles.pauseText}>
                   <ThemedText style={styles.pauseLabel}>
                     Pause Streak
                   </ThemedText>
-                  <ThemedText style={[styles.pauseSubtitle, { color: theme.textSecondary }]}>
+                  <ThemedText
+                    style={[
+                      styles.pauseSubtitle,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
                     For menstruation or illness
                   </ThemedText>
                 </View>
@@ -274,7 +296,9 @@ export default function AchievementsScreen() {
           entering={FadeInUp.duration(350).delay(200 + badges.length * 60)}
           style={styles.footerContainer}
         >
-          <ThemedText style={[styles.footerText, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.footerText, { color: theme.textSecondary }]}
+          >
             Every step on the path is recorded. Keep going.
           </ThemedText>
         </Animated.View>

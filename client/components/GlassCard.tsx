@@ -88,7 +88,7 @@ export function GlassCard({
   }, [breathing, breathingScale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: (onPress ? scale.value : breathingScale.value) }],
+    transform: [{ scale: onPress ? scale.value : breathingScale.value }],
   }));
 
   const handlePressIn = () => {

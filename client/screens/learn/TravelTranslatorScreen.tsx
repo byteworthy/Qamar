@@ -17,13 +17,20 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeInDown,
+  FadeIn,
+} from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useTheme } from "@/hooks/useTheme";
-import { useTravelTranslator, type SourceLanguage } from "@/hooks/useTravelTranslator";
+import {
+  useTravelTranslator,
+  type SourceLanguage,
+} from "@/hooks/useTravelTranslator";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { TTSButton } from "@/components/TTSButton";
@@ -57,8 +64,16 @@ function LanguagePicker({
 }) {
   const { theme } = useTheme();
 
-  const leftLabel = isArabicToSource ? "Arabic" : sourceLang === "en" ? "English" : "Español";
-  const rightLabel = isArabicToSource ? (sourceLang === "en" ? "English" : "Español") : "Arabic";
+  const leftLabel = isArabicToSource
+    ? "Arabic"
+    : sourceLang === "en"
+      ? "English"
+      : "Español";
+  const rightLabel = isArabicToSource
+    ? sourceLang === "en"
+      ? "English"
+      : "Español"
+    : "Arabic";
 
   return (
     <View style={styles.languageRow}>
@@ -131,15 +146,23 @@ function CategoryCard({
   delay: number;
 }) {
   return (
-    <Animated.View entering={FadeInUp.duration(300).delay(delay)} style={styles.categoryCardWrapper}>
+    <Animated.View
+      entering={FadeInUp.duration(300).delay(delay)}
+      style={styles.categoryCardWrapper}
+    >
       <TouchableOpacity
         onPress={onPress}
         style={styles.categoryCard}
         activeOpacity={0.7}
         accessibilityLabel={category.label}
-      testID={`travel-category-${category.id}`}
+        testID={`travel-category-${category.id}`}
       >
-        <View style={[styles.categoryIcon, { backgroundColor: category.color + "22" }]}>
+        <View
+          style={[
+            styles.categoryIcon,
+            { backgroundColor: category.color + "22" },
+          ]}
+        >
           <Feather
             name={category.icon as keyof typeof Feather.glyphMap}
             size={24}
@@ -175,21 +198,31 @@ function PhraseRow({
       ? phrase.en
       : phrase.es;
   const targetText = isArabicToSource
-    ? (sourceLang === "en" ? phrase.en : phrase.es)
+    ? sourceLang === "en"
+      ? phrase.en
+      : phrase.es
     : phrase.ar;
-  const targetLang = isArabicToSource ? (sourceLang === "en" ? "en-US" : "es-ES") : "ar-SA";
+  const targetLang = isArabicToSource
+    ? sourceLang === "en"
+      ? "en-US"
+      : "es-ES"
+    : "ar-SA";
   const showTransliteration = !isArabicToSource;
 
   return (
     <GlassCard style={styles.phraseCard}>
       <View style={styles.phraseHeader}>
-        <ThemedText style={[styles.phraseSource, { color: theme.textSecondary }]}>
+        <ThemedText
+          style={[styles.phraseSource, { color: theme.textSecondary }]}
+        >
           {sourceText}
         </ThemedText>
         <TouchableOpacity
           onPress={onToggleFavorite}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          accessibilityLabel={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          accessibilityLabel={
+            isFavorite ? "Remove from favorites" : "Add to favorites"
+          }
         >
           <Feather
             name={isFavorite ? "heart" : "heart"}
@@ -202,7 +235,9 @@ function PhraseRow({
       <View style={styles.phraseTargetRow}>
         <ThemedText
           style={[
-            !isArabicToSource ? styles.phraseTargetArabic : styles.phraseTargetLatin,
+            !isArabicToSource
+              ? styles.phraseTargetArabic
+              : styles.phraseTargetLatin,
             { color: theme.text, flex: 1 },
           ]}
         >
@@ -211,7 +246,9 @@ function PhraseRow({
         <TTSButton text={targetText} language={targetLang} size={20} />
       </View>
       {showTransliteration && (
-        <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
+        <ThemedText
+          style={[styles.transliteration, { color: theme.textSecondary }]}
+        >
           {phrase.transliteration}
         </ThemedText>
       )}
@@ -227,7 +264,8 @@ export default function TravelTranslatorScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<TabId>("phrases");
-  const [selectedCategory, setSelectedCategory] = useState<TravelCategory | null>(null);
+  const [selectedCategory, setSelectedCategory] =
+    useState<TravelCategory | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const {
@@ -265,7 +303,10 @@ export default function TravelTranslatorScreen() {
     return [];
   }, [searchQuery, selectedCategory, searchPhrases, getPhrases]);
 
-  const favoritePhrases = useMemo(() => getFavoritePhrases(), [getFavoritePhrases]);
+  const favoritePhrases = useMemo(
+    () => getFavoritePhrases(),
+    [getFavoritePhrases],
+  );
 
   const handleCategoryPress = useCallback((catId: TravelCategory) => {
     setSelectedCategory(catId);
@@ -277,7 +318,11 @@ export default function TravelTranslatorScreen() {
     setSearchQuery("");
   }, []);
 
-  const outputLang = isArabicToSource ? (sourceLang === "en" ? "en-US" : "es-ES") : "ar-SA";
+  const outputLang = isArabicToSource
+    ? sourceLang === "en"
+      ? "en-US"
+      : "es-ES"
+    : "ar-SA";
 
   // ==========================================================================
   // Render
@@ -288,11 +333,19 @@ export default function TravelTranslatorScreen() {
       style={[styles.flex, { backgroundColor: theme.backgroundRoot }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={[styles.container, { paddingTop: insets.top + 16 }]} testID="travel-translator-screen">
+      <View
+        style={[styles.container, { paddingTop: insets.top + 16 }]}
+        testID="travel-translator-screen"
+      >
         {/* Header */}
-        <Animated.View entering={FadeInDown.duration(400)} style={styles.header}>
+        <Animated.View
+          entering={FadeInDown.duration(400)}
+          style={styles.header}
+        >
           <ThemedText style={styles.headerTitle}>Travel Translator</ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             Offline phrasebook + cached translations
           </ThemedText>
         </Animated.View>
@@ -307,29 +360,41 @@ export default function TravelTranslatorScreen() {
 
         {/* Tab Bar */}
         <View style={styles.tabRow} testID="travel-tab-bar">
-          {([
-            { id: "phrases" as TabId, label: "Phrases", icon: "book" },
-            { id: "translate" as TabId, label: "Translate", icon: "type" },
-            { id: "favorites" as TabId, label: "Favorites", icon: "heart" },
-          ] as const).map((tab) => (
+          {(
+            [
+              { id: "phrases" as TabId, label: "Phrases", icon: "book" },
+              { id: "translate" as TabId, label: "Translate", icon: "type" },
+              { id: "favorites" as TabId, label: "Favorites", icon: "heart" },
+            ] as const
+          ).map((tab) => (
             <TouchableOpacity
               key={tab.id}
               testID={`travel-tab-${tab.id}`}
               onPress={() => setActiveTab(tab.id)}
               style={[
                 styles.tab,
-                activeTab === tab.id && { borderBottomColor: NoorColors.gold, borderBottomWidth: 2 },
+                activeTab === tab.id && {
+                  borderBottomColor: NoorColors.gold,
+                  borderBottomWidth: 2,
+                },
               ]}
             >
               <Feather
                 name={tab.icon as keyof typeof Feather.glyphMap}
                 size={16}
-                color={activeTab === tab.id ? NoorColors.gold : theme.textSecondary}
+                color={
+                  activeTab === tab.id ? NoorColors.gold : theme.textSecondary
+                }
               />
               <ThemedText
                 style={[
                   styles.tabText,
-                  { color: activeTab === tab.id ? NoorColors.gold : theme.textSecondary },
+                  {
+                    color:
+                      activeTab === tab.id
+                        ? NoorColors.gold
+                        : theme.textSecondary,
+                  },
                 ]}
               >
                 {tab.label}
@@ -344,7 +409,10 @@ export default function TravelTranslatorScreen() {
         {activeTab === "phrases" && (
           <ScrollView
             style={styles.flex}
-            contentContainerStyle={[styles.tabContent, { paddingBottom: insets.bottom + 32 }]}
+            contentContainerStyle={[
+              styles.tabContent,
+              { paddingBottom: insets.bottom + 32 },
+            ]}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
@@ -366,7 +434,11 @@ export default function TravelTranslatorScreen() {
               />
               {searchQuery.length > 0 && (
                 <TouchableOpacity onPress={() => setSearchQuery("")}>
-                  <Feather name="x-circle" size={18} color={theme.textSecondary} />
+                  <Feather
+                    name="x-circle"
+                    size={18}
+                    color={theme.textSecondary}
+                  />
                 </TouchableOpacity>
               )}
             </GlassCard>
@@ -390,14 +462,22 @@ export default function TravelTranslatorScreen() {
                     onPress={handleBackToCategories}
                     style={styles.backButton}
                   >
-                    <Feather name="arrow-left" size={18} color={NoorColors.gold} />
-                    <ThemedText style={[styles.backText, { color: NoorColors.gold }]}>
+                    <Feather
+                      name="arrow-left"
+                      size={18}
+                      color={NoorColors.gold}
+                    />
+                    <ThemedText
+                      style={[styles.backText, { color: NoorColors.gold }]}
+                    >
                       All categories
                     </ThemedText>
                   </TouchableOpacity>
                 )}
                 {displayPhrases.length === 0 ? (
-                  <ThemedText style={[styles.emptyText, { color: theme.textSecondary }]}>
+                  <ThemedText
+                    style={[styles.emptyText, { color: theme.textSecondary }]}
+                  >
                     No phrases found
                   </ThemedText>
                 ) : (
@@ -423,7 +503,10 @@ export default function TravelTranslatorScreen() {
         {activeTab === "translate" && (
           <ScrollView
             style={styles.flex}
-            contentContainerStyle={[styles.tabContent, { paddingBottom: insets.bottom + 32 }]}
+            contentContainerStyle={[
+              styles.tabContent,
+              { paddingBottom: insets.bottom + 32 },
+            ]}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
@@ -459,7 +542,11 @@ export default function TravelTranslatorScreen() {
                   style={styles.clearButton}
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                  <Feather name="x-circle" size={20} color={theme.textSecondary} />
+                  <Feather
+                    name="x-circle"
+                    size={20}
+                    color={theme.textSecondary}
+                  />
                 </TouchableOpacity>
               )}
             </GlassCard>
@@ -481,20 +568,26 @@ export default function TravelTranslatorScreen() {
                 end={{ x: 1, y: 0 }}
                 style={[
                   styles.translateButton,
-                  (!freeformText.trim() || isTranslating) && styles.translateButtonDisabled,
+                  (!freeformText.trim() || isTranslating) &&
+                    styles.translateButtonDisabled,
                 ]}
               >
                 {isTranslating ? (
                   <ActivityIndicator size="small" color="#fff" />
                 ) : (
-                  <ThemedText style={styles.translateButtonText}>Translate</ThemedText>
+                  <ThemedText style={styles.translateButtonText}>
+                    Translate
+                  </ThemedText>
                 )}
               </LinearGradient>
             </TouchableOpacity>
 
             {/* Error */}
             {error && (
-              <Animated.View entering={FadeIn.duration(300)} style={styles.errorContainer}>
+              <Animated.View
+                entering={FadeIn.duration(300)}
+                style={styles.errorContainer}
+              >
                 <Feather name="alert-circle" size={16} color={theme.error} />
                 <ThemedText style={[styles.errorText, { color: theme.error }]}>
                   {error}
@@ -511,7 +604,9 @@ export default function TravelTranslatorScreen() {
                     <View style={styles.offlineBadge}>
                       <Feather name="wifi-off" size={12} color="#2ECC71" />
                       <ThemedText style={styles.offlineBadgeText}>
-                        {freeformResult.source === "phrasebook" ? "From phrasebook" : "Cached offline"}
+                        {freeformResult.source === "phrasebook"
+                          ? "From phrasebook"
+                          : "Cached offline"}
                       </ThemedText>
                     </View>
                   )}
@@ -519,7 +614,9 @@ export default function TravelTranslatorScreen() {
                   <View style={styles.resultHeader}>
                     <ThemedText
                       style={[
-                        !isArabicToSource ? styles.resultTextArabic : styles.resultTextLatin,
+                        !isArabicToSource
+                          ? styles.resultTextArabic
+                          : styles.resultTextLatin,
                         { color: theme.text, flex: 1 },
                       ]}
                     >
@@ -533,7 +630,12 @@ export default function TravelTranslatorScreen() {
                   </View>
 
                   {freeformResult.transliteration && (
-                    <ThemedText style={[styles.transliteration, { color: theme.textSecondary }]}>
+                    <ThemedText
+                      style={[
+                        styles.transliteration,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
                       {freeformResult.transliteration}
                     </ThemedText>
                   )}
@@ -544,7 +646,9 @@ export default function TravelTranslatorScreen() {
             {/* Cache info */}
             <View style={styles.cacheInfo}>
               <Feather name="database" size={14} color={theme.textSecondary} />
-              <ThemedText style={[styles.cacheInfoText, { color: theme.textSecondary }]}>
+              <ThemedText
+                style={[styles.cacheInfoText, { color: theme.textSecondary }]}
+              >
                 {cachedTranslationCount} translations saved for offline use
               </ThemedText>
             </View>
@@ -557,16 +661,28 @@ export default function TravelTranslatorScreen() {
         {activeTab === "favorites" && (
           <ScrollView
             style={styles.flex}
-            contentContainerStyle={[styles.tabContent, { paddingBottom: insets.bottom + 32 }]}
+            contentContainerStyle={[
+              styles.tabContent,
+              { paddingBottom: insets.bottom + 32 },
+            ]}
             showsVerticalScrollIndicator={false}
           >
             {favoritePhrases.length === 0 ? (
               <View style={styles.emptyState}>
-                <Feather name="heart" size={48} color={theme.textSecondary} style={{ opacity: 0.4 }} />
-                <ThemedText style={[styles.emptyTitle, { color: theme.textSecondary }]}>
+                <Feather
+                  name="heart"
+                  size={48}
+                  color={theme.textSecondary}
+                  style={{ opacity: 0.4 }}
+                />
+                <ThemedText
+                  style={[styles.emptyTitle, { color: theme.textSecondary }]}
+                >
                   No favorites yet
                 </ThemedText>
-                <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.emptySubtitle, { color: theme.textSecondary }]}
+                >
                   Tap the heart icon on any phrase to save it here
                 </ThemedText>
               </View>
@@ -623,7 +739,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.08)",
   },
   langChipText: { fontSize: 13, fontWeight: "700" },
-  directionLabel: { fontSize: 16, fontWeight: "600", minWidth: 60, textAlign: "center" },
+  directionLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    minWidth: 60,
+    textAlign: "center",
+  },
   swapButton: {
     width: 38,
     height: 38,
@@ -772,7 +893,12 @@ const styles = StyleSheet.create({
 
   // Empty state
   emptyText: { fontSize: 15, textAlign: "center", marginTop: 24 },
-  emptyState: { alignItems: "center", justifyContent: "center", marginTop: 60, gap: 12 },
+  emptyState: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 60,
+    gap: 12,
+  },
   emptyTitle: { fontSize: 18, fontWeight: "600" },
   emptySubtitle: { fontSize: 14, textAlign: "center", maxWidth: 260 },
 });

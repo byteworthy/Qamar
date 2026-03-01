@@ -1,4 +1,4 @@
-import type { HifzVerseState } from '../../../shared/types/hifz';
+import type { HifzVerseState } from "../../../shared/types/hifz";
 
 // FSRS parameters (matching existing implementation at client/lib/fsrs.ts)
 const FSRS_PARAMETERS = {
@@ -13,7 +13,7 @@ const FSRS_PARAMETERS = {
  */
 export function initializeVerseState(
   surahNumber: number,
-  verseNumber: number
+  verseNumber: number,
 ): HifzVerseState {
   const now = new Date().toISOString();
   const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
@@ -28,7 +28,7 @@ export function initializeVerseState(
       difficulty: 0.5, // Medium difficulty
       stability: 0,
       reviewCount: 0,
-      state: 'new',
+      state: "new",
     },
     mistakeCount: 0,
     lastMistakes: [],
@@ -52,7 +52,7 @@ export function calculateNextReview(stability: number): string {
  */
 export function rateRecitation(
   state: HifzVerseState,
-  rating: 'again' | 'hard' | 'good' | 'easy'
+  rating: "again" | "hard" | "good" | "easy",
 ): HifzVerseState {
   const now = new Date().toISOString();
   const ratingMap = { again: 1, hard: 2, good: 3, easy: 4 };
@@ -62,27 +62,37 @@ export function rateRecitation(
   let newStability = state.fsrsState.stability;
   let newState = state.fsrsState.state;
 
-  if (rating === 'again') {
+  if (rating === "again") {
     // Failed review - increase difficulty, short interval
     newDifficulty = Math.min(1, state.fsrsState.difficulty + 0.2);
     newStability = FSRS_PARAMETERS.w[0]; // 0.4 days
-    newState = state.fsrsState.state === 'new' ? 'learning' : 'relearning';
+    newState = state.fsrsState.state === "new" ? "learning" : "relearning";
   } else {
     // Successful review - adjust difficulty and stability
     const difficultyDelta = (numericRating - 3) * 0.15;
-    newDifficulty = Math.max(0.1, Math.min(1, state.fsrsState.difficulty - difficultyDelta));
+    newDifficulty = Math.max(
+      0.1,
+      Math.min(1, state.fsrsState.difficulty - difficultyDelta),
+    );
 
-    if (state.fsrsState.state === 'new') {
+    if (state.fsrsState.state === "new") {
       // First successful review
       newStability = FSRS_PARAMETERS.w[numericRating - 1];
-      newState = rating === 'easy' ? 'review' : 'learning';
+      newState = rating === "easy" ? "review" : "learning";
     } else {
       // Subsequent reviews - multiply stability
-      const multiplier = getStabilityMultiplier(numericRating, state.fsrsState.difficulty);
+      const multiplier = getStabilityMultiplier(
+        numericRating,
+        state.fsrsState.difficulty,
+      );
       newStability = state.fsrsState.stability * multiplier;
 
-      if ((state.fsrsState.state === 'learning' || state.fsrsState.state === 'relearning') && newStability >= 1) {
-        newState = 'review';
+      if (
+        (state.fsrsState.state === "learning" ||
+          state.fsrsState.state === "relearning") &&
+        newStability >= 1
+      ) {
+        newState = "review";
       }
     }
   }
@@ -107,10 +117,10 @@ export function rateRecitation(
 function getStabilityMultiplier(rating: number, difficulty: number): number {
   // Base multipliers matching reference implementation
   const baseMultipliers: { [key: number]: number } = {
-    1: 0.5,    // Again
-    2: 0.8,    // Hard (FSRS_PARAMETERS.hardFactor)
-    3: 2.5,    // Good
-    4: 3.25,   // Easy (2.5 * 1.3)
+    1: 0.5, // Again
+    2: 0.8, // Hard (FSRS_PARAMETERS.hardFactor)
+    3: 2.5, // Good
+    4: 3.25, // Easy (2.5 * 1.3)
   };
 
   const baseMultiplier = baseMultipliers[rating];

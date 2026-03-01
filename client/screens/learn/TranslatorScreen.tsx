@@ -15,7 +15,11 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeInDown,
+  FadeIn,
+} from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -100,9 +104,14 @@ export default function TranslatorScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* ==== Header ==== */}
-        <Animated.View entering={FadeInDown.duration(400)} style={styles.header}>
+        <Animated.View
+          entering={FadeInDown.duration(400)}
+          style={styles.header}
+        >
           <ThemedText style={styles.headerTitle}>Translator</ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             Arabic ↔ English
           </ThemedText>
         </Animated.View>
@@ -115,7 +124,10 @@ export default function TranslatorScreen() {
           <ThemedText
             style={[
               styles.directionLabel,
-              { color: direction === "en-ar" ? NoorColors.gold : theme.textSecondary },
+              {
+                color:
+                  direction === "en-ar" ? NoorColors.gold : theme.textSecondary,
+              },
             ]}
           >
             {fromLabel}
@@ -134,7 +146,10 @@ export default function TranslatorScreen() {
           <ThemedText
             style={[
               styles.directionLabel,
-              { color: direction === "ar-en" ? NoorColors.gold : theme.textSecondary },
+              {
+                color:
+                  direction === "ar-en" ? NoorColors.gold : theme.textSecondary,
+              },
             ]}
           >
             {toLabel}
@@ -169,7 +184,11 @@ export default function TranslatorScreen() {
                 accessibilityLabel="Clear input"
                 accessibilityRole="button"
               >
-                <Feather name="x-circle" size={20} color={theme.textSecondary} />
+                <Feather
+                  name="x-circle"
+                  size={20}
+                  color={theme.textSecondary}
+                />
               </TouchableOpacity>
             )}
           </GlassCard>
@@ -194,13 +213,16 @@ export default function TranslatorScreen() {
               end={{ x: 1, y: 0 }}
               style={[
                 styles.translateButton,
-                (!inputText.trim() || isTranslating) && styles.translateButtonDisabled,
+                (!inputText.trim() || isTranslating) &&
+                  styles.translateButtonDisabled,
               ]}
             >
               {isTranslating ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
-                <ThemedText style={styles.translateButtonText}>Translate</ThemedText>
+                <ThemedText style={styles.translateButtonText}>
+                  Translate
+                </ThemedText>
               )}
             </LinearGradient>
           </TouchableOpacity>
@@ -208,7 +230,10 @@ export default function TranslatorScreen() {
 
         {/* ==== Error ==== */}
         {error && (
-          <Animated.View entering={FadeIn.duration(300)} style={styles.errorContainer}>
+          <Animated.View
+            entering={FadeIn.duration(300)}
+            style={styles.errorContainer}
+          >
             <Feather name="alert-circle" size={16} color={theme.error} />
             <ThemedText style={[styles.errorText, { color: theme.error }]}>
               {error}
@@ -223,7 +248,9 @@ export default function TranslatorScreen() {
               <View style={styles.resultHeader}>
                 <ThemedText
                   style={[
-                    isArabicOutput ? styles.resultTextArabic : styles.resultTextEnglish,
+                    isArabicOutput
+                      ? styles.resultTextArabic
+                      : styles.resultTextEnglish,
                     {
                       color: theme.text,
                       textAlign: isArabicOutput ? "right" : "left",
@@ -244,7 +271,10 @@ export default function TranslatorScreen() {
               {/* Transliteration (Arabic output only) */}
               {isArabicOutput && result.transliteration && (
                 <ThemedText
-                  style={[styles.transliteration, { color: theme.textSecondary }]}
+                  style={[
+                    styles.transliteration,
+                    { color: theme.textSecondary },
+                  ]}
                 >
                   {result.transliteration}
                 </ThemedText>
@@ -255,7 +285,10 @@ export default function TranslatorScreen() {
                 <TouchableOpacity
                   onPress={explain}
                   disabled={isExplaining}
-                  style={[styles.explainButton, { borderColor: NoorColors.gold }]}
+                  style={[
+                    styles.explainButton,
+                    { borderColor: NoorColors.gold },
+                  ]}
                   activeOpacity={0.7}
                   accessibilityLabel="Explain translation"
                   accessibilityRole="button"
@@ -270,7 +303,12 @@ export default function TranslatorScreen() {
                         color={NoorColors.gold}
                         style={styles.explainIcon}
                       />
-                      <ThemedText style={[styles.explainButtonText, { color: NoorColors.gold }]}>
+                      <ThemedText
+                        style={[
+                          styles.explainButtonText,
+                          { color: NoorColors.gold },
+                        ]}
+                      >
                         Explain
                       </ThemedText>
                     </>
@@ -278,8 +316,15 @@ export default function TranslatorScreen() {
                 </TouchableOpacity>
 
                 {quotaLabel && (
-                  <View style={[styles.quotaBadge, { backgroundColor: theme.backgroundSecondary }]}>
-                    <ThemedText style={[styles.quotaText, { color: theme.textSecondary }]}>
+                  <View
+                    style={[
+                      styles.quotaBadge,
+                      { backgroundColor: theme.backgroundSecondary },
+                    ]}
+                  >
+                    <ThemedText
+                      style={[styles.quotaText, { color: theme.textSecondary }]}
+                    >
                       {quotaLabel}
                     </ThemedText>
                   </View>
@@ -295,11 +340,15 @@ export default function TranslatorScreen() {
             <GlassCard style={styles.explanationCard}>
               <View style={styles.explanationHeader}>
                 <Feather name="zap" size={18} color={NoorColors.gold} />
-                <ThemedText style={[styles.explanationTitle, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.explanationTitle, { color: NoorColors.gold }]}
+                >
                   Detailed Explanation
                 </ThemedText>
               </View>
-              <ThemedText style={[styles.explanationText, { color: theme.text }]}>
+              <ThemedText
+                style={[styles.explanationText, { color: theme.text }]}
+              >
                 {explanation}
               </ThemedText>
             </GlassCard>

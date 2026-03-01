@@ -10,8 +10,8 @@
  * Test Coverage Target: >80%
  */
 
-import { renderHook } from '@testing-library/react-native';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { renderHook } from "@testing-library/react-native";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   useQuranSurahs,
   useQuranVerses,
@@ -19,15 +19,17 @@ import {
   useQuranBookmarks,
   useCreateBookmark,
   useDeleteBookmark,
-} from '../useQuranData';
+} from "../useQuranData";
 
 // The setup.ts already mocks @tanstack/react-query with useQuery as jest.fn()
 const mockUseQuery = useQuery as jest.MockedFunction<typeof useQuery>;
-const mockUseQueryClient = useQueryClient as jest.MockedFunction<typeof useQueryClient>;
+const mockUseQueryClient = useQueryClient as jest.MockedFunction<
+  typeof useQueryClient
+>;
 
 // We need useMutation to be a jest.fn - override the mock for this test file
-jest.mock('@tanstack/react-query', () => ({
-  ...jest.requireActual('@tanstack/react-query'),
+jest.mock("@tanstack/react-query", () => ({
+  ...jest.requireActual("@tanstack/react-query"),
   useQuery: jest.fn(() => ({
     data: undefined,
     isLoading: false,
@@ -46,11 +48,11 @@ jest.mock('@tanstack/react-query', () => ({
 }));
 
 // Re-import after mock override
-const { useMutation } = require('@tanstack/react-query');
+const { useMutation } = require("@tanstack/react-query");
 const mockUseMutation = useMutation as jest.MockedFunction<any>;
 const mockInvalidateQueries = jest.fn();
 
-describe('useQuranData', () => {
+describe("useQuranData", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useQueryClient as jest.Mock).mockReturnValue({
@@ -58,8 +60,8 @@ describe('useQuranData', () => {
     });
   });
 
-  describe('useQuranSurahs', () => {
-    it('should call useQuery with correct query key', () => {
+  describe("useQuranSurahs", () => {
+    it("should call useQuery with correct query key", () => {
       mockUseQuery.mockReturnValue({
         data: [],
         isLoading: false,
@@ -70,20 +72,20 @@ describe('useQuranData', () => {
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
-          queryKey: ['quran', 'surahs'],
-        })
+          queryKey: ["quran", "surahs"],
+        }),
       );
     });
 
-    it('should return surah data when loaded', () => {
+    it("should return surah data when loaded", () => {
       const mockSurahs = [
         {
           id: 1,
-          name: '\u0627\u0644\u0641\u0627\u062A\u062D\u0629',
-          transliteration: 'Al-Fatihah',
-          translation: 'The Opening',
+          name: "\u0627\u0644\u0641\u0627\u062A\u062D\u0629",
+          transliteration: "Al-Fatihah",
+          translation: "The Opening",
           numberOfVerses: 7,
-          revelationPlace: 'Makkah',
+          revelationPlace: "Makkah",
         },
       ];
       mockUseQuery.mockReturnValue({
@@ -99,7 +101,7 @@ describe('useQuranData', () => {
       expect(result.current.error).toBeNull();
     });
 
-    it('should return loading state initially', () => {
+    it("should return loading state initially", () => {
       mockUseQuery.mockReturnValue({
         data: undefined,
         isLoading: true,
@@ -112,8 +114,8 @@ describe('useQuranData', () => {
       expect(result.current.data).toBeUndefined();
     });
 
-    it('should return error when fetch fails', () => {
-      const mockError = new Error('Network error');
+    it("should return error when fetch fails", () => {
+      const mockError = new Error("Network error");
       mockUseQuery.mockReturnValue({
         data: undefined,
         isLoading: false,
@@ -125,40 +127,48 @@ describe('useQuranData', () => {
       expect(result.current.error).toBe(mockError);
     });
 
-    it('should set staleTime to 1 hour', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+    it("should set staleTime to 1 hour", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
       renderHook(() => useQuranSurahs());
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           staleTime: 1000 * 60 * 60,
-        })
+        }),
       );
     });
   });
 
-  describe('useQuranVerses', () => {
-    it('should call useQuery with correct query key for surahId', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+  describe("useQuranVerses", () => {
+    it("should call useQuery with correct query key for surahId", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
       renderHook(() => useQuranVerses(1));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
-          queryKey: ['quran', 'verses', 1],
-        })
+          queryKey: ["quran", "verses", 1],
+        }),
       );
     });
 
-    it('should return verses for a specific surah', () => {
+    it("should return verses for a specific surah", () => {
       const mockVerses = [
         {
           id: 1,
           surahId: 1,
           verseNumber: 1,
-          textArabic: 'test arabic',
-          textEnglish: 'In the name of Allah',
+          textArabic: "test arabic",
+          textEnglish: "In the name of Allah",
         },
       ];
       mockUseQuery.mockReturnValue({
@@ -172,76 +182,96 @@ describe('useQuranData', () => {
       expect(result.current.data).toEqual(mockVerses);
     });
 
-    it('should be disabled when surahId is 0', () => {
-      mockUseQuery.mockReturnValue({ data: undefined, isLoading: false, error: null } as any);
+    it("should be disabled when surahId is 0", () => {
+      mockUseQuery.mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        error: null,
+      } as any);
 
       renderHook(() => useQuranVerses(0));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           enabled: false,
-        })
+        }),
       );
     });
 
-    it('should be enabled when surahId is positive', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+    it("should be enabled when surahId is positive", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
       renderHook(() => useQuranVerses(5));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           enabled: true,
-        })
+        }),
       );
     });
   });
 
-  describe('useQuranSearch', () => {
-    it('should call useQuery with correct query key', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+  describe("useQuranSearch", () => {
+    it("should call useQuery with correct query key", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
-      renderHook(() => useQuranSearch('Allah'));
+      renderHook(() => useQuranSearch("Allah"));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
-          queryKey: ['quran', 'search', 'Allah'],
-        })
+          queryKey: ["quran", "search", "Allah"],
+        }),
       );
     });
 
-    it('should be disabled when query is empty', () => {
-      mockUseQuery.mockReturnValue({ data: undefined, isLoading: false, error: null } as any);
+    it("should be disabled when query is empty", () => {
+      mockUseQuery.mockReturnValue({
+        data: undefined,
+        isLoading: false,
+        error: null,
+      } as any);
 
-      renderHook(() => useQuranSearch(''));
+      renderHook(() => useQuranSearch(""));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           enabled: false,
-        })
+        }),
       );
     });
 
-    it('should be enabled when query has content', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+    it("should be enabled when query has content", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
-      renderHook(() => useQuranSearch('mercy'));
+      renderHook(() => useQuranSearch("mercy"));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           enabled: true,
-        })
+        }),
       );
     });
 
-    it('should return search results', () => {
+    it("should return search results", () => {
       const mockResults = [
         {
           id: 1,
           surahId: 1,
           verseNumber: 1,
-          textArabic: 'test',
-          textEnglish: 'In the name of Allah',
+          textArabic: "test",
+          textEnglish: "In the name of Allah",
         },
       ];
       mockUseQuery.mockReturnValue({
@@ -250,37 +280,41 @@ describe('useQuranData', () => {
         error: null,
       } as any);
 
-      const { result } = renderHook(() => useQuranSearch('Allah'));
+      const { result } = renderHook(() => useQuranSearch("Allah"));
 
       expect(result.current.data).toEqual(mockResults);
     });
 
-    it('should set staleTime to 5 minutes', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+    it("should set staleTime to 5 minutes", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
-      renderHook(() => useQuranSearch('test'));
+      renderHook(() => useQuranSearch("test"));
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
           staleTime: 1000 * 60 * 5,
-        })
+        }),
       );
     });
   });
 
-  describe('useCreateBookmark', () => {
-    it('should call useMutation with mutationFn and onSuccess', () => {
+  describe("useCreateBookmark", () => {
+    it("should call useMutation with mutationFn and onSuccess", () => {
       renderHook(() => useCreateBookmark());
 
       expect(mockUseMutation).toHaveBeenCalledWith(
         expect.objectContaining({
           mutationFn: expect.any(Function),
           onSuccess: expect.any(Function),
-        })
+        }),
       );
     });
 
-    it('should invalidate bookmarks query on success', () => {
+    it("should invalidate bookmarks query on success", () => {
       renderHook(() => useCreateBookmark());
 
       // Get the onSuccess callback from the mock call
@@ -288,51 +322,60 @@ describe('useQuranData', () => {
       options.onSuccess();
 
       expect(mockInvalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['quran', 'bookmarks'],
+        queryKey: ["quran", "bookmarks"],
       });
     });
   });
 
-  describe('useDeleteBookmark', () => {
-    it('should call useMutation with mutationFn and onSuccess', () => {
+  describe("useDeleteBookmark", () => {
+    it("should call useMutation with mutationFn and onSuccess", () => {
       renderHook(() => useDeleteBookmark());
 
       expect(mockUseMutation).toHaveBeenCalledWith(
         expect.objectContaining({
           mutationFn: expect.any(Function),
           onSuccess: expect.any(Function),
-        })
+        }),
       );
     });
 
-    it('should invalidate bookmarks query on success', () => {
+    it("should invalidate bookmarks query on success", () => {
       renderHook(() => useDeleteBookmark());
 
       const options = mockUseMutation.mock.calls[0][0];
       options.onSuccess();
 
       expect(mockInvalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['quran', 'bookmarks'],
+        queryKey: ["quran", "bookmarks"],
       });
     });
   });
 
-  describe('useQuranBookmarks', () => {
-    it('should call useQuery with correct query key', () => {
-      mockUseQuery.mockReturnValue({ data: [], isLoading: false, error: null } as any);
+  describe("useQuranBookmarks", () => {
+    it("should call useQuery with correct query key", () => {
+      mockUseQuery.mockReturnValue({
+        data: [],
+        isLoading: false,
+        error: null,
+      } as any);
 
       renderHook(() => useQuranBookmarks());
 
       expect(mockUseQuery).toHaveBeenCalledWith(
         expect.objectContaining({
-          queryKey: ['quran', 'bookmarks'],
-        })
+          queryKey: ["quran", "bookmarks"],
+        }),
       );
     });
 
-    it('should return bookmarks data', () => {
+    it("should return bookmarks data", () => {
       const mockBookmarks = [
-        { id: 'bk-1', surahId: 1, verseNumber: 1, createdAt: '2026-01-01T00:00:00Z' },
+        {
+          id: "bk-1",
+          surahId: 1,
+          verseNumber: 1,
+          createdAt: "2026-01-01T00:00:00Z",
+        },
       ];
       mockUseQuery.mockReturnValue({
         data: mockBookmarks,

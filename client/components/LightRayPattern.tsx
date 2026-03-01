@@ -1,7 +1,7 @@
 /**
  * LightRayPattern Component
  *
- * Radiating light rays pattern - unique to Noor (light) theme.
+ * Radiating light rays pattern - unique to Qamar (light) theme.
  * Represents light emanating from a source, creating visual distinction
  * from other Islamic apps.
  *
@@ -24,7 +24,7 @@ export function LightRayPattern({
   opacity = 0.06,
 }: LightRayPatternProps) {
   const { isDark } = useTheme();
-  // Gold light rays (Noor theme)
+  // Gold light rays (Qamar theme)
   const rayColor = isDark ? "#f0d473" : "#D4AF37";
 
   // Radiating light rays from center
@@ -86,9 +86,33 @@ export function LightRayPattern({
   const AccentRays = () => (
     <Svg width="100" height="60" viewBox="0 0 100 60">
       <G opacity={opacity}>
-        <Line x1="0" y1="15" x2="100" y2="15" stroke={rayColor} strokeWidth="1" strokeLinecap="round" />
-        <Line x1="0" y1="30" x2="100" y2="30" stroke={rayColor} strokeWidth="1.5" strokeLinecap="round" />
-        <Line x1="0" y1="45" x2="100" y2="45" stroke={rayColor} strokeWidth="1" strokeLinecap="round" />
+        <Line
+          x1="0"
+          y1="15"
+          x2="100"
+          y2="15"
+          stroke={rayColor}
+          strokeWidth="1"
+          strokeLinecap="round"
+        />
+        <Line
+          x1="0"
+          y1="30"
+          x2="100"
+          y2="30"
+          stroke={rayColor}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <Line
+          x1="0"
+          y1="45"
+          x2="100"
+          y2="45"
+          stroke={rayColor}
+          strokeWidth="1"
+          strokeLinecap="round"
+        />
       </G>
     </Svg>
   );

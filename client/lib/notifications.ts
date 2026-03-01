@@ -1,5 +1,5 @@
 /**
- * Push Notification System for Noor
+ * Push Notification System for Qamar
  *
  * Handles both local scheduled notifications (daily reminders)
  * and server-triggered push notifications (inactivity nudges, etc.)
@@ -61,7 +61,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "A moment of stillness is waiting for you.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "What's weighing on your heart today?",
     },
     {
@@ -81,7 +81,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "Alhamdulillah for another day. How are you?",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "Your thoughts deserve attention.",
     },
     {
@@ -99,7 +99,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "A quick reflection keeps your momentum.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "Your {streak}-day streak is waiting for you.",
     },
   ],
@@ -113,7 +113,7 @@ export const NOTIFICATION_MESSAGES = {
       body: "Your reflection practice is ready when you are.",
     },
     {
-      title: "Noor",
+      title: "Qamar",
       body: "Small steps, sincere intentions. Come back when ready.",
     },
     {
@@ -242,7 +242,7 @@ async function setupAndroidChannels() {
   // General notifications
   await Notifications.setNotificationChannelAsync("general", {
     name: "General",
-    description: "General notifications from Noor",
+    description: "General notifications from Qamar",
     importance: Notifications.AndroidImportance.DEFAULT,
     sound: "default",
   });
@@ -616,7 +616,7 @@ const PRAYER_MESSAGES: Record<string, { title: string; body: string }> = {
  * @param enabledPrayers - Optional map of prayer name to enabled boolean. If omitted, all prayers are scheduled.
  */
 export async function schedulePrayerReminders(
-  prayers: Array<{ name: string; time: string }>,
+  prayers: { name: string; time: string }[],
   minutesBefore: number = 5,
   enabledPrayers?: Record<string, boolean>,
 ): Promise<void> {
@@ -650,9 +650,7 @@ export async function schedulePrayerReminders(
       await Notifications.scheduleNotificationAsync({
         content: {
           title: msg.title,
-          body: minutesBefore > 0
-            ? `${msg.body} (${formattedTime})`
-            : msg.body,
+          body: minutesBefore > 0 ? `${msg.body} (${formattedTime})` : msg.body,
           sound: true,
           data: {
             type: "prayer_reminder",
@@ -667,7 +665,10 @@ export async function schedulePrayerReminders(
         },
       });
     } catch (error) {
-      console.error(`[Notifications] Failed to schedule ${prayer.name}:`, error);
+      console.error(
+        `[Notifications] Failed to schedule ${prayer.name}:`,
+        error,
+      );
     }
   }
 }
@@ -729,7 +730,9 @@ export async function cancelDailyReflectionReminder(): Promise<void> {
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
   for (const notification of scheduled) {
     if (notification.content.data?.type === "daily_reflection") {
-      await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+      await Notifications.cancelScheduledNotificationAsync(
+        notification.identifier,
+      );
     }
   }
 }
@@ -741,7 +744,9 @@ export async function cancelPrayerReminders(): Promise<void> {
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
   for (const notification of scheduled) {
     if (notification.content.data?.type === "prayer_reminder") {
-      await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+      await Notifications.cancelScheduledNotificationAsync(
+        notification.identifier,
+      );
     }
   }
 }

@@ -7,14 +7,15 @@ export interface TafsirPromptInput {
 }
 
 export interface TafsirResponse {
-  context: string;           // Occasion of revelation, historical context
-  keyTerms: Array<{          // Important Arabic words
+  context: string; // Occasion of revelation, historical context
+  keyTerms: {
+    // Important Arabic words
     arabic: string;
     transliteration: string;
     root: string;
     meaning: string;
-  }>;
-  scholarlyViews: string;    // What classical scholars said
+  }[];
+  scholarlyViews: string; // What classical scholars said
   crossReferences: string[]; // Related verses (format: "2:255", "3:26")
   practicalTakeaway: string; // How to apply today
 }

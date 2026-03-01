@@ -1,5 +1,5 @@
 /**
- * E2E Regression Suite — Noor App
+ * E2E Regression Suite — Qamar App
  *
  * Master smoke test that verifies the most critical user paths
  * in a single run. Designed for fast CI feedback (< 10 min).
@@ -14,10 +14,17 @@ const {
   goToTab,
   screenshot,
 } = require("./shared/helpers");
-const { TABS, HOME, LEARN, PRAYER, SETTINGS, ONBOARDING, OFFLINE } =
-  require("./shared/selectors");
+const {
+  TABS,
+  HOME,
+  LEARN,
+  PRAYER,
+  SETTINGS,
+  ONBOARDING,
+  OFFLINE,
+} = require("./shared/selectors");
 
-describe("Noor App — Regression Suite", () => {
+describe("Qamar App — Regression Suite", () => {
   beforeAll(async () => {
     await device.launchApp({ newInstance: true });
   });
@@ -26,9 +33,7 @@ describe("Noor App — Regression Suite", () => {
   describe("App Launch", () => {
     it("should launch without crashing", async () => {
       // Either welcome or home screen
-      await waitFor(
-        element(by.text("Noor")).or(by.text("Begin Reflection")),
-      )
+      await waitFor(element(by.text("Qamar")).or(by.text("Begin Reflection")))
         .toBeVisible()
         .withTimeout(10000);
       await screenshot("app-launch");

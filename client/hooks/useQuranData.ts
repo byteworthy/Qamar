@@ -97,8 +97,7 @@ const MOCK_VERSES: Record<number, Verse[]> = {
       surahId: 1,
       verseNumber: 2,
       textArabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-      textEnglish:
-        "All praise is due to Allah, Lord of all the worlds.",
+      textEnglish: "All praise is due to Allah, Lord of all the worlds.",
     },
     {
       id: 3,
@@ -150,7 +149,8 @@ const MOCK_VERSES: Record<number, Verse[]> = {
       id: 9,
       surahId: 2,
       verseNumber: 2,
-      textArabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
+      textArabic:
+        "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
       textEnglish:
         "This is the Book! There is no doubt about it—a guide for those mindful of Allah.",
     },
@@ -176,7 +176,8 @@ const MOCK_VERSES: Record<number, Verse[]> = {
       id: 12,
       surahId: 2,
       verseNumber: 5,
-      textArabic: "أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
+      textArabic:
+        "أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
       textEnglish:
         "It is they who are truly guided by their Lord, and it is they who will be successful.",
     },
@@ -373,7 +374,7 @@ async function searchVerses(query: string): Promise<Verse[]> {
     return allVerses.filter(
       (verse) =>
         verse.textArabic.includes(query) ||
-        verse.textEnglish.toLowerCase().includes(query.toLowerCase())
+        verse.textEnglish.toLowerCase().includes(query.toLowerCase()),
     );
   }
 
@@ -396,7 +397,7 @@ async function fetchBookmarks(): Promise<Bookmark[]> {
 
 async function createBookmark(
   surahId: number,
-  verseNumber: number
+  verseNumber: number,
 ): Promise<Bookmark> {
   if (USE_MOCK_DATA) {
     await new Promise((resolve) => setTimeout(resolve, 400));
@@ -515,8 +516,13 @@ export function useCreateBookmark() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ surahId, verseNumber }: { surahId: number; verseNumber: number }) =>
-      createBookmark(surahId, verseNumber),
+    mutationFn: ({
+      surahId,
+      verseNumber,
+    }: {
+      surahId: number;
+      verseNumber: number;
+    }) => createBookmark(surahId, verseNumber),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["quran", "bookmarks"] });
     },

@@ -63,42 +63,42 @@ export const Spacing = {
 export const ComponentPadding = {
   // Button padding (derived from Button.tsx line 145)
   button: {
-    horizontal: Spacing["2xl"],  // 24 - matches existing Button.tsx
-    vertical: Spacing.lg,        // 16 - implicit via buttonHeight
+    horizontal: Spacing["2xl"], // 24 - matches existing Button.tsx
+    vertical: Spacing.lg, // 16 - implicit via buttonHeight
   },
 
   // Card padding (derived from GlassCard.tsx)
   card: {
-    all: Spacing.lg,             // 16 - matches existing GlassCard.tsx
-    horizontal: Spacing.lg,      // 16
-    vertical: Spacing.lg,        // 16
+    all: Spacing.lg, // 16 - matches existing GlassCard.tsx
+    horizontal: Spacing.lg, // 16
+    vertical: Spacing.lg, // 16
   },
 
   // Input padding (for AnimatedInput and similar components)
   input: {
-    horizontal: Spacing.lg,      // 16
-    vertical: Spacing.md,        // 12
-    all: Spacing.lg,             // 16 (for single padding value)
+    horizontal: Spacing.lg, // 16
+    vertical: Spacing.md, // 12
+    all: Spacing.lg, // 16 (for single padding value)
   },
 
   // Modal padding (for AnimatedModal and dialogs)
   modal: {
-    horizontal: Spacing.xl,      // 20
-    vertical: Spacing.xl,        // 20
-    all: Spacing.xl,             // 20
+    horizontal: Spacing.xl, // 20
+    vertical: Spacing.xl, // 20
+    all: Spacing.xl, // 20
   },
 
   // List item padding (for HistoryScreen items, etc.)
   listItem: {
-    horizontal: Spacing.lg,      // 16
-    vertical: Spacing.md,        // 12
+    horizontal: Spacing.lg, // 16
+    vertical: Spacing.md, // 12
   },
 
   // Section padding (for screen sections)
   section: {
-    horizontal: Spacing.lg,      // 16 (matches screenPadding)
-    vertical: Spacing.xl,        // 20
-    gap: Spacing.sectionGap,     // 24
+    horizontal: Spacing.lg, // 16 (matches screenPadding)
+    vertical: Spacing.xl, // 20
+    gap: Spacing.sectionGap, // 24
   },
 };
 

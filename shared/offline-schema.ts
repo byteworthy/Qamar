@@ -210,7 +210,7 @@ export const INIT_OFFLINE_DATABASE = [
   CREATE_FLASHCARD_PROGRESS_TABLE,
   CREATE_INDEXES,
   // Enable foreign key constraints
-  'PRAGMA foreign_keys = ON;',
+  "PRAGMA foreign_keys = ON;",
 ];
 
 // ============================================================================
@@ -224,7 +224,7 @@ export interface Surah {
   name_english: string;
   name_transliteration?: string;
   verses_count: number;
-  revelation_place: 'Makkah' | 'Madinah';
+  revelation_place: "Makkah" | "Madinah";
 }
 
 export interface Verse {
@@ -243,13 +243,22 @@ export interface Verse {
 
 export interface Hadith {
   id: number;
-  collection: 'bukhari' | 'muslim' | 'abudawud' | 'tirmidhi' | 'nasai' | 'ibnmajah' | 'malik' | 'ahmad' | 'darimi';
+  collection:
+    | "bukhari"
+    | "muslim"
+    | "abudawud"
+    | "tirmidhi"
+    | "nasai"
+    | "ibnmajah"
+    | "malik"
+    | "ahmad"
+    | "darimi";
   book_number?: number;
   hadith_number?: number;
   narrator?: string;
   arabic_text: string;
   translation_en: string;
-  grade?: 'sahih' | 'hasan' | 'daif' | 'mawdu';
+  grade?: "sahih" | "hasan" | "daif" | "mawdu";
 }
 
 export interface VocabularyWord {
@@ -266,7 +275,7 @@ export interface VocabularyWord {
 export interface ConversationScenario {
   id: string;
   title: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  difficulty: "beginner" | "intermediate" | "advanced";
   category?: string;
   dialogues_json: string; // JSON array of dialogue turns
   audio_url?: string;
@@ -274,18 +283,18 @@ export interface ConversationScenario {
 
 export interface FlashcardProgress {
   id: string;
-  card_type: 'alphabet' | 'vocabulary' | 'phrase';
+  card_type: "alphabet" | "vocabulary" | "phrase";
   card_ref_id: string;
   difficulty: number;
   stability: number;
   next_review: string;
-  state: 'new' | 'learning' | 'review' | 'relearning';
+  state: "new" | "learning" | "review" | "relearning";
   review_count: number;
   last_review?: string;
 }
 
 export interface DialogueTurn {
-  speaker: 'user' | 'noor';
+  speaker: "user" | "noor";
   arabic: string;
   transliteration: string;
   translation: string;

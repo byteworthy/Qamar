@@ -8,26 +8,15 @@ import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
-import {
-  Fonts,
-  NoorColors,
-  Spacing,
-  BorderRadius,
-} from "@/constants/theme";
+import { Fonts, NoorColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { AtmosphericBackground } from "@/components/AtmosphericBackground";
 import { GlassCard } from "@/components/GlassCard";
 import { IslamicPattern } from "@/components/IslamicPattern";
 import { RamadanCountdown } from "@/components/RamadanCountdown";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
-import {
-  useAppState,
-  selectUserLocation,
-} from "@/stores/app-state";
-import {
-  calculatePrayerTimes,
-  formatPrayerTime,
-} from "@/services/prayerTimes";
+import { useAppState, selectUserLocation } from "@/stores/app-state";
+import { calculatePrayerTimes, formatPrayerTime } from "@/services/prayerTimes";
 import { getHijriDate } from "@/services/islamicCalendar";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -60,67 +49,216 @@ type FastingLog = Record<number, DayLog>;
 // Daily Ramadan Content (30 entries, one per day)
 // ─────────────────────────────────────────────────────────────────────────────
 
-const DAILY_CONTENT: { day: number; type: string; text: string; source?: string }[] = [
-  { day: 1, type: "Hadith", text: "When Ramadan begins, the gates of Paradise are opened and the gates of Hell are closed, and the devils are chained.", source: "Bukhari & Muslim" },
-  { day: 2, type: "Dhikr", text: "SubhanAllah wa bihamdihi, SubhanAllah al-Azeem. (Glory be to Allah and His praise, Glory be to Allah the Supreme.)" },
-  { day: 3, type: "Hadith", text: "Whoever fasts Ramadan out of faith and seeking reward, his previous sins will be forgiven.", source: "Bukhari & Muslim" },
-  { day: 4, type: "Dhikr", text: "La hawla wa la quwwata illa billah. (There is no power nor strength except through Allah.)" },
-  { day: 5, type: "Hadith", text: "The supplication of the fasting person is not rejected.", source: "Ibn Majah" },
-  { day: 6, type: "Dhikr", text: "Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni. (O Allah, You are forgiving and love forgiveness, so forgive me.)" },
-  { day: 7, type: "Hadith", text: "Fasting is a shield; so when one of you is fasting, let him not behave obscenely or foolishly.", source: "Bukhari" },
-  { day: 8, type: "Dhikr", text: "Astaghfirullah al-Azeem wa atubu ilayh. (I seek forgiveness from Allah the Supreme and repent to Him.)" },
-  { day: 9, type: "Hadith", text: "Whoever gives food to a fasting person to break his fast shall have a reward equal to his, without diminishing anything from the fasting person's reward.", source: "Tirmidhi" },
-  { day: 10, type: "Dhikr", text: "HasbunAllahu wa ni'mal wakeel. (Allah is sufficient for us and He is the best disposer of affairs.)" },
-  { day: 11, type: "Hadith", text: "There is a gate in Paradise called Ar-Rayyan, through which only those who fast will enter.", source: "Bukhari & Muslim" },
-  { day: 12, type: "Dhikr", text: "SubhanAllahi wa bihamdihi, 'adada khalqihi. (Glory be to Allah and His praise, as numerous as His creation.)" },
-  { day: 13, type: "Hadith", text: "The best charity is that given in Ramadan.", source: "Tirmidhi" },
-  { day: 14, type: "Dhikr", text: "Allahumma barik lana fi Ramadan. (O Allah, bless us in Ramadan.)" },
-  { day: 15, type: "Hadith", text: "Whoever stands in prayer during Ramadan out of faith and seeking reward, his previous sins will be forgiven.", source: "Bukhari & Muslim" },
-  { day: 16, type: "Dhikr", text: "Ya Hayyu Ya Qayyum, bi rahmatika astaghith. (O Ever-Living, O Self-Sustaining, in Your mercy I seek relief.)" },
-  { day: 17, type: "Hadith", text: "The Quran was revealed in the month of Ramadan as a guide for humanity and clear proofs of guidance.", source: "Quran 2:185" },
-  { day: 18, type: "Dhikr", text: "Allahumma taqabbal minna, innaka antas-Sami'ul 'Aleem. (O Allah, accept from us, You are the All-Hearing, All-Knowing.)" },
-  { day: 19, type: "Hadith", text: "Every act of the son of Adam is for himself except fasting. It is for Me, and I shall reward it.", source: "Bukhari & Muslim" },
-  { day: 20, type: "Dhikr", text: "Rabbi zidni 'ilma. (My Lord, increase me in knowledge.)" },
-  { day: 21, type: "Hadith", text: "Search for Laylat al-Qadr in the odd nights of the last ten nights of Ramadan.", source: "Bukhari" },
-  { day: 22, type: "Dhikr", text: "Allahumma inna nas'aluka al-jannah wa na'udhu bika minan-nar. (O Allah, we ask You for Paradise and seek refuge from the Fire.)" },
-  { day: 23, type: "Hadith", text: "Whoever stands in prayer on Laylat al-Qadr out of faith and seeking reward, his previous sins will be forgiven.", source: "Bukhari & Muslim" },
-  { day: 24, type: "Dhikr", text: "La ilaha illAllahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu wa huwa 'ala kulli shay'in Qadeer." },
-  { day: 25, type: "Hadith", text: "Laylat al-Qadr is better than a thousand months.", source: "Quran 97:3" },
-  { day: 26, type: "Dhikr", text: "Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni. (O Allah, You are the Pardoner and love pardoning, so pardon me.)" },
-  { day: 27, type: "Hadith", text: "The Prophet (PBUH) used to exert himself in worship during the last ten nights more than any other time.", source: "Muslim" },
-  { day: 28, type: "Dhikr", text: "Allahumma a'inna 'ala dhikrika wa shukrika wa husni 'ibadatik. (O Allah, help us remember You, be grateful to You, and worship You well.)" },
-  { day: 29, type: "Hadith", text: "Whoever fasts Ramadan and follows it with six days of Shawwal, it is as if he fasted the entire year.", source: "Muslim" },
-  { day: 30, type: "Dhikr", text: "Alhamdulillah alladhi balaghna Ramadan. Allahumma taqabbal minna. (Praise be to Allah who allowed us to reach Ramadan. O Allah, accept from us.)" },
+const DAILY_CONTENT: {
+  day: number;
+  type: string;
+  text: string;
+  source?: string;
+}[] = [
+  {
+    day: 1,
+    type: "Hadith",
+    text: "When Ramadan begins, the gates of Paradise are opened and the gates of Hell are closed, and the devils are chained.",
+    source: "Bukhari & Muslim",
+  },
+  {
+    day: 2,
+    type: "Dhikr",
+    text: "SubhanAllah wa bihamdihi, SubhanAllah al-Azeem. (Glory be to Allah and His praise, Glory be to Allah the Supreme.)",
+  },
+  {
+    day: 3,
+    type: "Hadith",
+    text: "Whoever fasts Ramadan out of faith and seeking reward, his previous sins will be forgiven.",
+    source: "Bukhari & Muslim",
+  },
+  {
+    day: 4,
+    type: "Dhikr",
+    text: "La hawla wa la quwwata illa billah. (There is no power nor strength except through Allah.)",
+  },
+  {
+    day: 5,
+    type: "Hadith",
+    text: "The supplication of the fasting person is not rejected.",
+    source: "Ibn Majah",
+  },
+  {
+    day: 6,
+    type: "Dhikr",
+    text: "Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni. (O Allah, You are forgiving and love forgiveness, so forgive me.)",
+  },
+  {
+    day: 7,
+    type: "Hadith",
+    text: "Fasting is a shield; so when one of you is fasting, let him not behave obscenely or foolishly.",
+    source: "Bukhari",
+  },
+  {
+    day: 8,
+    type: "Dhikr",
+    text: "Astaghfirullah al-Azeem wa atubu ilayh. (I seek forgiveness from Allah the Supreme and repent to Him.)",
+  },
+  {
+    day: 9,
+    type: "Hadith",
+    text: "Whoever gives food to a fasting person to break his fast shall have a reward equal to his, without diminishing anything from the fasting person's reward.",
+    source: "Tirmidhi",
+  },
+  {
+    day: 10,
+    type: "Dhikr",
+    text: "HasbunAllahu wa ni'mal wakeel. (Allah is sufficient for us and He is the best disposer of affairs.)",
+  },
+  {
+    day: 11,
+    type: "Hadith",
+    text: "There is a gate in Paradise called Ar-Rayyan, through which only those who fast will enter.",
+    source: "Bukhari & Muslim",
+  },
+  {
+    day: 12,
+    type: "Dhikr",
+    text: "SubhanAllahi wa bihamdihi, 'adada khalqihi. (Glory be to Allah and His praise, as numerous as His creation.)",
+  },
+  {
+    day: 13,
+    type: "Hadith",
+    text: "The best charity is that given in Ramadan.",
+    source: "Tirmidhi",
+  },
+  {
+    day: 14,
+    type: "Dhikr",
+    text: "Allahumma barik lana fi Ramadan. (O Allah, bless us in Ramadan.)",
+  },
+  {
+    day: 15,
+    type: "Hadith",
+    text: "Whoever stands in prayer during Ramadan out of faith and seeking reward, his previous sins will be forgiven.",
+    source: "Bukhari & Muslim",
+  },
+  {
+    day: 16,
+    type: "Dhikr",
+    text: "Ya Hayyu Ya Qayyum, bi rahmatika astaghith. (O Ever-Living, O Self-Sustaining, in Your mercy I seek relief.)",
+  },
+  {
+    day: 17,
+    type: "Hadith",
+    text: "The Quran was revealed in the month of Ramadan as a guide for humanity and clear proofs of guidance.",
+    source: "Quran 2:185",
+  },
+  {
+    day: 18,
+    type: "Dhikr",
+    text: "Allahumma taqabbal minna, innaka antas-Sami'ul 'Aleem. (O Allah, accept from us, You are the All-Hearing, All-Knowing.)",
+  },
+  {
+    day: 19,
+    type: "Hadith",
+    text: "Every act of the son of Adam is for himself except fasting. It is for Me, and I shall reward it.",
+    source: "Bukhari & Muslim",
+  },
+  {
+    day: 20,
+    type: "Dhikr",
+    text: "Rabbi zidni 'ilma. (My Lord, increase me in knowledge.)",
+  },
+  {
+    day: 21,
+    type: "Hadith",
+    text: "Search for Laylat al-Qadr in the odd nights of the last ten nights of Ramadan.",
+    source: "Bukhari",
+  },
+  {
+    day: 22,
+    type: "Dhikr",
+    text: "Allahumma inna nas'aluka al-jannah wa na'udhu bika minan-nar. (O Allah, we ask You for Paradise and seek refuge from the Fire.)",
+  },
+  {
+    day: 23,
+    type: "Hadith",
+    text: "Whoever stands in prayer on Laylat al-Qadr out of faith and seeking reward, his previous sins will be forgiven.",
+    source: "Bukhari & Muslim",
+  },
+  {
+    day: 24,
+    type: "Dhikr",
+    text: "La ilaha illAllahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu wa huwa 'ala kulli shay'in Qadeer.",
+  },
+  {
+    day: 25,
+    type: "Hadith",
+    text: "Laylat al-Qadr is better than a thousand months.",
+    source: "Quran 97:3",
+  },
+  {
+    day: 26,
+    type: "Dhikr",
+    text: "Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni. (O Allah, You are the Pardoner and love pardoning, so pardon me.)",
+  },
+  {
+    day: 27,
+    type: "Hadith",
+    text: "The Prophet (PBUH) used to exert himself in worship during the last ten nights more than any other time.",
+    source: "Muslim",
+  },
+  {
+    day: 28,
+    type: "Dhikr",
+    text: "Allahumma a'inna 'ala dhikrika wa shukrika wa husni 'ibadatik. (O Allah, help us remember You, be grateful to You, and worship You well.)",
+  },
+  {
+    day: 29,
+    type: "Hadith",
+    text: "Whoever fasts Ramadan and follows it with six days of Shawwal, it is as if he fasted the entire year.",
+    source: "Muslim",
+  },
+  {
+    day: 30,
+    type: "Dhikr",
+    text: "Alhamdulillah alladhi balaghna Ramadan. Allahumma taqabbal minna. (Praise be to Allah who allowed us to reach Ramadan. O Allah, accept from us.)",
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Khalil Reflection Prompts
 // ─────────────────────────────────────────────────────────────────────────────
 
-const REFLECTION_PROMPTS: { title: string; prompt: string; icon: keyof typeof Feather.glyphMap }[] = [
+const REFLECTION_PROMPTS: {
+  title: string;
+  prompt: string;
+  icon: keyof typeof Feather.glyphMap;
+}[] = [
   {
     title: "Gratitude",
-    prompt: "What is one blessing you noticed today that you might have overlooked before Ramadan?",
+    prompt:
+      "What is one blessing you noticed today that you might have overlooked before Ramadan?",
     icon: "heart",
   },
   {
     title: "Patience",
-    prompt: "What moment today tested your patience, and how did fasting help you respond differently?",
+    prompt:
+      "What moment today tested your patience, and how did fasting help you respond differently?",
     icon: "shield",
   },
   {
     title: "Generosity",
-    prompt: "How did you give today -- whether time, attention, or wealth -- and how did it feel?",
+    prompt:
+      "How did you give today -- whether time, attention, or wealth -- and how did it feel?",
     icon: "gift",
   },
   {
     title: "Tawbah",
-    prompt: "Is there a habit or pattern you are ready to leave behind this Ramadan? What would freedom from it look like?",
+    prompt:
+      "Is there a habit or pattern you are ready to leave behind this Ramadan? What would freedom from it look like?",
     icon: "refresh-cw",
   },
   {
     title: "Connection",
-    prompt: "How has Ramadan changed the way you relate to those around you -- family, community, or the ummah?",
+    prompt:
+      "How has Ramadan changed the way you relate to those around you -- family, community, or the ummah?",
     icon: "users",
   },
 ];
@@ -169,7 +307,10 @@ export default function RamadanHubScreen() {
   const hijriYear = useMemo(() => getHijriDate().year, []);
 
   const todayStatus = fastingLog[currentDay]?.status ?? "none";
-  const missedCount = useMemo(() => computeMissedCount(fastingLog), [fastingLog]);
+  const missedCount = useMemo(
+    () => computeMissedCount(fastingLog),
+    [fastingLog],
+  );
 
   // ── Suhoor / Iftar Times ──────────────────────────────────────────────
   const mealTimes = useMemo(() => {
@@ -285,10 +426,7 @@ export default function RamadanHubScreen() {
                 Ramadan Hub
               </ThemedText>
               <ThemedText
-                style={[
-                  styles.headerSubtitle,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.headerSubtitle, { color: theme.textSecondary }]}
               >
                 Ramadan {hijriYear} AH
               </ThemedText>
@@ -355,11 +493,7 @@ export default function RamadanHubScreen() {
                         { backgroundColor: RAMADAN_GOLD + "20" },
                       ]}
                     >
-                      <Feather
-                        name="sunset"
-                        size={18}
-                        color={RAMADAN_GOLD}
-                      />
+                      <Feather name="sunset" size={18} color={RAMADAN_GOLD} />
                     </View>
                     <ThemedText
                       style={[
@@ -476,9 +610,7 @@ export default function RamadanHubScreen() {
                           ? "#D4756B25"
                           : theme.backgroundRoot,
                       borderColor:
-                        todayStatus === "missed"
-                          ? "#D4756B"
-                          : "transparent",
+                        todayStatus === "missed" ? "#D4756B" : "transparent",
                       borderWidth: todayStatus === "missed" ? 1.5 : 0,
                     },
                   ]}
@@ -487,9 +619,7 @@ export default function RamadanHubScreen() {
                     name="x-circle"
                     size={22}
                     color={
-                      todayStatus === "missed"
-                        ? "#D4756B"
-                        : theme.textSecondary
+                      todayStatus === "missed" ? "#D4756B" : theme.textSecondary
                     }
                   />
                   <ThemedText
@@ -558,10 +688,7 @@ export default function RamadanHubScreen() {
               <View style={styles.fastingSummaryRow}>
                 {missedCount > 0 && (
                   <ThemedText
-                    style={[
-                      styles.missedCounter,
-                      { color: RAMADAN_GOLD },
-                    ]}
+                    style={[styles.missedCounter, { color: RAMADAN_GOLD }]}
                   >
                     {missedCount} {missedCount === 1 ? "day" : "days"} to make
                     up
@@ -574,10 +701,7 @@ export default function RamadanHubScreen() {
                   style={styles.trackerLink}
                 >
                   <ThemedText
-                    style={[
-                      styles.trackerLinkText,
-                      { color: RAMADAN_EMERALD },
-                    ]}
+                    style={[styles.trackerLinkText, { color: RAMADAN_EMERALD }]}
                   >
                     Full Month View
                   </ThemedText>
@@ -605,11 +729,7 @@ export default function RamadanHubScreen() {
                     { backgroundColor: RAMADAN_GOLD + "20" },
                   ]}
                 >
-                  <Feather
-                    name="book-open"
-                    size={14}
-                    color={RAMADAN_GOLD}
-                  />
+                  <Feather name="book-open" size={14} color={RAMADAN_GOLD} />
                 </View>
                 <ThemedText
                   style={[
@@ -706,10 +826,7 @@ export default function RamadanHubScreen() {
                         {prompt.title}
                       </ThemedText>
                       <ThemedText
-                        style={[
-                          styles.promptText,
-                          { color: theme.text },
-                        ]}
+                        style={[styles.promptText, { color: theme.text }]}
                         numberOfLines={4}
                       >
                         {prompt.prompt}

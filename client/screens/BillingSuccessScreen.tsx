@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, StyleSheet, ActivityIndicator, Animated, Easing } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Animated,
+  Easing,
+} from "react-native";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
@@ -205,12 +211,7 @@ export default function BillingSuccessScreen() {
     >
       {syncing ? (
         <View style={styles.content}>
-          <View
-            style={[
-              styles.loadingCircle,
-              { borderColor: GOLD + "30" },
-            ]}
-          >
+          <View style={[styles.loadingCircle, { borderColor: GOLD + "30" }]}>
             <ActivityIndicator size="large" color={GOLD} />
           </View>
           <ThemedText
@@ -264,13 +265,14 @@ export default function BillingSuccessScreen() {
                 { fontFamily: Fonts?.serifBold, color: theme.text },
               ]}
             >
-              Welcome to Noor Plus!
+              Welcome to Qamar Plus!
             </ThemedText>
             <ThemedText
               type="body"
               style={[styles.subtitle, { color: theme.textSecondary }]}
             >
-              Your spiritual journey just expanded. Here's what you've unlocked:
+              Your spiritual journey just expanded. Here{"'"}s what you{"'"}ve
+              unlocked:
             </ThemedText>
           </Animated.View>
 
@@ -327,7 +329,7 @@ export default function BillingSuccessScreen() {
                 onPress={handleContinue}
                 variant="primary"
                 style={styles.ctaButton}
-                accessibilityHint="Returns to home screen to start using Noor Plus features"
+                accessibilityHint="Returns to home screen to start using Qamar Plus features"
               >
                 Start Exploring
               </Button>
@@ -337,7 +339,10 @@ export default function BillingSuccessScreen() {
       ) : (
         <View style={styles.content}>
           <View
-            style={[styles.checkCircleStatic, { backgroundColor: theme.warning }]}
+            style={[
+              styles.checkCircleStatic,
+              { backgroundColor: theme.warning },
+            ]}
           >
             <Feather name="clock" size={48} color="#fff" />
           </View>

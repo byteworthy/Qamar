@@ -6,10 +6,10 @@
  * Automatically stops speech on unmount.
  */
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from "react";
 
-import { getTTSProvider } from '@/services/speech/ttsService';
-import type { TTSOptions } from '@/services/speech/types';
+import { getTTSProvider } from "@/services/speech/ttsService";
+import type { TTSOptions } from "@/services/speech/types";
 
 // =============================================================================
 // TYPES
@@ -66,14 +66,14 @@ export function useTTS(): UseTTSReturn {
       } catch (err) {
         if (mountedRef.current) {
           const message =
-            err instanceof Error ? err.message : 'Speech playback failed';
+            err instanceof Error ? err.message : "Speech playback failed";
           setError(message);
           setIsSpeaking(false);
           setIsLoading(false);
         }
       }
     },
-    [provider]
+    [provider],
   );
 
   const stop = useCallback(async () => {

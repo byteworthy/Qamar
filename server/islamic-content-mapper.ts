@@ -1,5 +1,5 @@
 /**
- * Islamic Content Mapper for Noor
+ * Islamic Content Mapper for Qamar
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md

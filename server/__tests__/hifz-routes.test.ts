@@ -4,13 +4,7 @@
  * Tests AI-powered mistake analysis endpoint for Hifz memorization feature.
  */
 
-import {
-  describe,
-  test,
-  expect,
-  jest,
-  beforeEach,
-} from "@jest/globals";
+import { describe, test, expect, jest, beforeEach } from "@jest/globals";
 import express, {
   type Express,
   type Request,
@@ -72,11 +66,13 @@ const mockLogger = {
 };
 
 jest.mock("../middleware/request-logger", () => ({
-  requestLoggerMiddleware: jest.fn((req: any, _res: Response, next: NextFunction) => {
-    req.logger = mockLogger;
-    req.id = "mock-request-id-hifz";
-    next();
-  }),
+  requestLoggerMiddleware: jest.fn(
+    (req: any, _res: Response, next: NextFunction) => {
+      req.logger = mockLogger;
+      req.id = "mock-request-id-hifz";
+      next();
+    },
+  ),
 }));
 
 describe("POST /api/hifz/analyze-mistakes", () => {
@@ -100,7 +96,9 @@ describe("POST /api/hifz/analyze-mistakes", () => {
     (billingService.isPaidUser as jest.Mock) = jest.fn(() => false);
 
     // Mock config
-    (config.isAnthropicConfigured as jest.Mock<typeof config.isAnthropicConfigured>) = jest.fn(() => true);
+    (config.isAnthropicConfigured as jest.Mock<
+      typeof config.isAnthropicConfigured
+    >) = jest.fn(() => true);
     (config.VALIDATION_MODE as boolean) = false;
 
     // Mock AI daily quota (in-memory map)
@@ -313,16 +311,14 @@ describe("POST /api/hifz/analyze-mistakes", () => {
       { expected: "اللَّهِ", actual: "اللِّهِ", isCorrect: false },
     ];
 
-    await request(app)
-      .post("/api/hifz/analyze-mistakes")
-      .send({
-        surahNumber: 1,
-        verseNumber: 1,
-        expectedText: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-        transcribedText: "بِسْمِ اللِّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-        score: 75,
-        wordResults,
-      });
+    await request(app).post("/api/hifz/analyze-mistakes").send({
+      surahNumber: 1,
+      verseNumber: 1,
+      expectedText: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+      transcribedText: "بِسْمِ اللِّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+      score: 75,
+      wordResults,
+    });
 
     expect(mockAnthropicCreate).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -335,7 +331,7 @@ describe("POST /api/hifz/analyze-mistakes", () => {
             content: expect.stringContaining("Surah 1"),
           }),
         ]),
-      })
+      }),
     );
   });
 

@@ -1,5 +1,5 @@
 /**
- * Conversational AI Test Suite for Noor
+ * Conversational AI Test Suite for Qamar
  *
  * Tests the four-mode conversational state system:
  * - Listening mode

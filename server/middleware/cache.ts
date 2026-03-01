@@ -1,5 +1,5 @@
-import type { Request, Response, NextFunction } from 'express';
-import { defaultLogger } from '../utils/logger';
+import type { Request, Response, NextFunction } from "express";
+import { defaultLogger } from "../utils/logger";
 
 /**
  * Simple in-memory cache for API responses
@@ -87,11 +87,11 @@ export const memoryCache = new MemoryCache();
  */
 export function cacheMiddleware(
   ttlSeconds: number,
-  keyGenerator?: (req: Request) => string
+  keyGenerator?: (req: Request) => string,
 ) {
   return (req: Request, res: Response, next: NextFunction): void => {
     // Only cache GET requests
-    if (req.method !== 'GET') {
+    if (req.method !== "GET") {
       return next();
     }
 
@@ -104,7 +104,7 @@ export function cacheMiddleware(
     const cachedData = memoryCache.get(cacheKey);
 
     if (cachedData) {
-      req.logger?.debug('Cache hit', { cacheKey });
+      req.logger?.debug("Cache hit", { cacheKey });
       res.json(cachedData);
       return;
     }
@@ -116,7 +116,7 @@ export function cacheMiddleware(
       // Only cache successful responses
       if (res.statusCode >= 200 && res.statusCode < 300) {
         memoryCache.set(cacheKey, data, ttlSeconds);
-        req.logger?.debug('Cache miss - stored', { cacheKey, ttlSeconds });
+        req.logger?.debug("Cache miss - stored", { cacheKey, ttlSeconds });
       }
 
       return originalJson(data);
@@ -133,7 +133,7 @@ export function cacheMiddleware(
  */
 export function invalidateCache(pattern: string | RegExp): void {
   const stats = memoryCache.getStats();
-  defaultLogger.info('Invalidating cache entries', {
+  defaultLogger.info("Invalidating cache entries", {
     pattern: pattern.toString(),
     cacheSize: stats.size,
   });

@@ -104,7 +104,15 @@ export interface GamificationState {
   recordActivity: (activity: ActivityType) => void;
   checkAndUpdateStreak: () => void;
   toggleStreakPause: () => void;
-  incrementStat: (stat: "totalSurahsRead" | "totalVocabMastered" | "totalReflections" | "totalJuzCompleted" | "totalRamadanFasted", amount?: number) => void;
+  incrementStat: (
+    stat:
+      | "totalSurahsRead"
+      | "totalVocabMastered"
+      | "totalReflections"
+      | "totalJuzCompleted"
+      | "totalRamadanFasted",
+    amount?: number,
+  ) => void;
   clearPendingMilestone: () => void;
   setWeeklyStats: (stats: WeeklySummaryData) => void;
   markWeeklySummaryShown: () => void;
@@ -116,18 +124,90 @@ export interface GamificationState {
 // =============================================================================
 
 export const BADGE_DEFINITIONS: Badge[] = [
-  { id: "first_light", name: "First Light", description: "Complete your first Daily Qamar", icon: "sunrise", earnedAt: null },
-  { id: "seeker", name: "Seeker", description: "Maintain a 7-day streak", icon: "compass", earnedAt: null },
-  { id: "steadfast", name: "Steadfast", description: "Maintain a 30-day streak", icon: "shield", earnedAt: null },
-  { id: "hafiz_in_training", name: "Hafiz in Training", description: "Read 5 complete surahs", icon: "book-open", earnedAt: null },
-  { id: "word_builder", name: "Word Builder", description: "Master 50 Arabic vocabulary words", icon: "type", earnedAt: null },
-  { id: "word_scholar", name: "Word Scholar", description: "Master 200 Arabic vocabulary words", icon: "award", earnedAt: null },
-  { id: "reflective_soul", name: "Reflective Soul", description: "Complete 10 reflections", icon: "heart", earnedAt: null },
-  { id: "juz_champion", name: "Juz Champion", description: "Complete reading a full Juz", icon: "star", earnedAt: null },
-  { id: "ramadan_warrior", name: "Ramadan Warrior", description: "Fast all 30 days of Ramadan", icon: "moon", earnedAt: null },
-  { id: "early_bird", name: "Early Bird", description: "Complete Daily Qamar before Dhuhr 7 times", icon: "sun", earnedAt: null },
-  { id: "night_owl", name: "Night Owl", description: "Complete a reflection after Isha 10 times", icon: "moon", earnedAt: null },
-  { id: "dhikr_devotee", name: "Dhikr Devotee", description: "Complete dhikr practice 20 times", icon: "repeat", earnedAt: null },
+  {
+    id: "first_light",
+    name: "First Light",
+    description: "Complete your first Daily Qamar",
+    icon: "sunrise",
+    earnedAt: null,
+  },
+  {
+    id: "seeker",
+    name: "Seeker",
+    description: "Maintain a 7-day streak",
+    icon: "compass",
+    earnedAt: null,
+  },
+  {
+    id: "steadfast",
+    name: "Steadfast",
+    description: "Maintain a 30-day streak",
+    icon: "shield",
+    earnedAt: null,
+  },
+  {
+    id: "hafiz_in_training",
+    name: "Hafiz in Training",
+    description: "Read 5 complete surahs",
+    icon: "book-open",
+    earnedAt: null,
+  },
+  {
+    id: "word_builder",
+    name: "Word Builder",
+    description: "Master 50 Arabic vocabulary words",
+    icon: "type",
+    earnedAt: null,
+  },
+  {
+    id: "word_scholar",
+    name: "Word Scholar",
+    description: "Master 200 Arabic vocabulary words",
+    icon: "award",
+    earnedAt: null,
+  },
+  {
+    id: "reflective_soul",
+    name: "Reflective Soul",
+    description: "Complete 10 reflections",
+    icon: "heart",
+    earnedAt: null,
+  },
+  {
+    id: "juz_champion",
+    name: "Juz Champion",
+    description: "Complete reading a full Juz",
+    icon: "star",
+    earnedAt: null,
+  },
+  {
+    id: "ramadan_warrior",
+    name: "Ramadan Warrior",
+    description: "Fast all 30 days of Ramadan",
+    icon: "moon",
+    earnedAt: null,
+  },
+  {
+    id: "early_bird",
+    name: "Early Bird",
+    description: "Complete Daily Qamar before Dhuhr 7 times",
+    icon: "sun",
+    earnedAt: null,
+  },
+  {
+    id: "night_owl",
+    name: "Night Owl",
+    description: "Complete a reflection after Isha 10 times",
+    icon: "moon",
+    earnedAt: null,
+  },
+  {
+    id: "dhikr_devotee",
+    name: "Dhikr Devotee",
+    description: "Complete dhikr practice 20 times",
+    icon: "repeat",
+    earnedAt: null,
+  },
 ];
 
 // =============================================================================
@@ -144,10 +224,7 @@ function getYesterday(): string {
   return d.toISOString().split("T")[0];
 }
 
-function checkBadgeEarned(
-  badgeId: BadgeId,
-  state: GamificationState,
-): boolean {
+function checkBadgeEarned(badgeId: BadgeId, state: GamificationState): boolean {
   const badge = state.badges.find((b) => b.id === badgeId);
   if (badge?.earnedAt) return false; // already earned
 
@@ -211,9 +288,7 @@ export const useGamification = create<GamificationState>()(
 
           // Reset today's activities if it's a new day
           const activities =
-            state.todayDate === today
-              ? [...state.todayActivities]
-              : [];
+            state.todayDate === today ? [...state.todayActivities] : [];
 
           // Don't double-count same activity type today
           if (!activities.includes(activity)) {
@@ -232,7 +307,10 @@ export const useGamification = create<GamificationState>()(
             let newStreak: number;
             let newStatus: StreakStatus;
 
-            if (state.lastActivityDate === yesterday || state.lastActivityDate === null) {
+            if (
+              state.lastActivityDate === yesterday ||
+              state.lastActivityDate === null
+            ) {
               // Continuing streak or first activity
               newStreak = state.currentStreak + 1;
               newStatus = "active";
@@ -311,7 +389,11 @@ export const useGamification = create<GamificationState>()(
       toggleStreakPause: () =>
         set((state) => ({
           streakPaused: !state.streakPaused,
-          streakStatus: !state.streakPaused ? "paused" : state.currentStreak > 0 ? "active" : "broken",
+          streakStatus: !state.streakPaused
+            ? "paused"
+            : state.currentStreak > 0
+              ? "active"
+              : "broken",
         })),
 
       incrementStat: (stat, amount = 1) =>
@@ -375,10 +457,14 @@ export const useGamification = create<GamificationState>()(
 // SELECTORS
 // =============================================================================
 
-export const selectCurrentStreak = (state: GamificationState) => state.currentStreak;
-export const selectStreakStatus = (state: GamificationState) => state.streakStatus;
+export const selectCurrentStreak = (state: GamificationState) =>
+  state.currentStreak;
+export const selectStreakStatus = (state: GamificationState) =>
+  state.streakStatus;
 export const selectBadges = (state: GamificationState) => state.badges;
 export const selectEarnedBadges = (state: GamificationState) =>
   state.badges.filter((b) => b.earnedAt !== null);
-export const selectPendingMilestone = (state: GamificationState) => state.pendingMilestone;
-export const selectStreakPaused = (state: GamificationState) => state.streakPaused;
+export const selectPendingMilestone = (state: GamificationState) =>
+  state.pendingMilestone;
+export const selectStreakPaused = (state: GamificationState) =>
+  state.streakPaused;

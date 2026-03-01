@@ -10,7 +10,7 @@
 // =============================================================================
 
 export interface KhalilSessionContext {
-  history: Array<{ role: "user" | "assistant"; content: string }>;
+  history: { role: "user" | "assistant"; content: string }[];
   state: "listening" | "exploring" | "basira" | "dhikr" | "muhasaba";
   whispersFound: string[];
   clarityGained: string[];

@@ -1,5 +1,5 @@
 /**
- * AI Safety & Guardrails System for Noor
+ * AI Safety & Guardrails System for Qamar
  *
  * This module ensures that AI-generated content is safe, supportive,
  * and aligned with Islamic principles. It includes crisis detection,

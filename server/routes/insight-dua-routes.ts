@@ -31,27 +31,31 @@ export function registerInsightDuaRoutes(app: Express): void {
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Noor Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
@@ -166,14 +170,16 @@ ${summaryPrompt}`,
       req.logger.error("Failed to generate insight summary", error, {
         operation: "generate_insight_summary",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to generate insight summary"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to generate insight summary",
+          ),
+        );
     }
   });
 
@@ -184,27 +190,31 @@ ${summaryPrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       const { status } = await billingService.getBillingStatus(userId);
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Noor Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const assumptions = await storage.getAssumptionLibrary(userId);
@@ -217,14 +227,16 @@ ${summaryPrompt}`,
       req.logger.error("Failed to fetch assumption library", error, {
         operation: "fetch_assumption_library",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to fetch assumption library"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to fetch assumption library",
+          ),
+        );
     }
   });
 
@@ -235,27 +247,31 @@ ${summaryPrompt}`,
       const userId = req.auth?.userId;
 
       if (!userId) {
-        return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-          createErrorResponse(
-            HTTP_STATUS.UNAUTHORIZED,
-            ERROR_CODES.AUTH_REQUIRED,
-            req.id
-          )
-        );
+        return res
+          .status(HTTP_STATUS.UNAUTHORIZED)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.UNAUTHORIZED,
+              ERROR_CODES.AUTH_REQUIRED,
+              req.id,
+            ),
+          );
       }
 
       // Validate request body
       const validationResult = duasContextualSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { state } = validationResult.data;
@@ -264,14 +280,16 @@ ${summaryPrompt}`,
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Noor Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const normalizedState = (state || "").toLowerCase();
@@ -285,14 +303,16 @@ ${summaryPrompt}`,
       req.logger.error("Failed to fetch contextual dua", error, {
         operation: "fetch_contextual_dua",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to fetch contextual dua"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to fetch contextual dua",
+          ),
+        );
     }
   });
 }

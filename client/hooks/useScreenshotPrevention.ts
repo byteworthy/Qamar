@@ -31,12 +31,15 @@ export function useScreenshotPrevention() {
       try {
         // Prevent screenshots
         await ScreenCapture.preventScreenCaptureAsync();
-        
+
         if (__DEV__) {
           console.log("[ScreenshotPrevention] Screenshots prevented");
         }
       } catch (error) {
-        console.error("[ScreenshotPrevention] Failed to prevent screenshots:", error);
+        console.error(
+          "[ScreenshotPrevention] Failed to prevent screenshots:",
+          error,
+        );
       }
     }
 
@@ -44,12 +47,15 @@ export function useScreenshotPrevention() {
       try {
         // Re-enable screenshots when leaving this screen
         await ScreenCapture.allowScreenCaptureAsync();
-        
+
         if (__DEV__) {
           console.log("[ScreenshotPrevention] Screenshots allowed");
         }
       } catch (error) {
-        console.error("[ScreenshotPrevention] Failed to allow screenshots:", error);
+        console.error(
+          "[ScreenshotPrevention] Failed to allow screenshots:",
+          error,
+        );
       }
     }
 

@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
-import { ZodError } from 'zod';
+import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
   type ErrorResponse,
-} from '../types/error-response';
-import { defaultLogger } from '../utils/logger';
+} from "../types/error-response";
+import { defaultLogger } from "../utils/logger";
 
 /**
  * Custom error class that includes error code and status
@@ -16,10 +16,10 @@ export class AppError extends Error {
     public statusCode: number,
     public code: string,
     message: string,
-    public details?: Record<string, unknown>
+    public details?: Record<string, unknown>,
   ) {
     super(message);
-    this.name = 'AppError';
+    this.name = "AppError";
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -36,10 +36,10 @@ export function errorHandler(
   error: Error | AppError | ZodError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void {
   // Get requestId from request (added by request-logger middleware)
-  const requestId = req.id || 'unknown';
+  const requestId = req.id || "unknown";
 
   let errorResponse: ErrorResponse;
 
@@ -51,17 +51,17 @@ export function errorHandler(
       error.code,
       requestId,
       error.message,
-      error.details
+      error.details,
     );
 
     // Log based on status code
     if (error.statusCode >= 500) {
-      req.logger?.error('Application error', error, {
+      req.logger?.error("Application error", error, {
         code: error.code,
         statusCode: error.statusCode,
       });
     } else {
-      req.logger?.warn('Client error', {
+      req.logger?.warn("Client error", {
         code: error.code,
         statusCode: error.statusCode,
         message: error.message,
@@ -69,8 +69,8 @@ export function errorHandler(
     }
   } else if (error instanceof ZodError) {
     // Validation errors from Zod
-    const details = error.errors.map(err => ({
-      path: err.path.join('.'),
+    const details = error.errors.map((err) => ({
+      path: err.path.join("."),
       message: err.message,
     }));
 
@@ -78,11 +78,11 @@ export function errorHandler(
       HTTP_STATUS.BAD_REQUEST,
       ERROR_CODES.VALIDATION_FAILED,
       requestId,
-      'Request validation failed',
-      { validationErrors: details }
+      "Request validation failed",
+      { validationErrors: details },
     );
 
-    req.logger?.warn('Validation error', {
+    req.logger?.warn("Validation error", {
       validationErrors: details,
     });
   } else {
@@ -91,10 +91,10 @@ export function errorHandler(
       HTTP_STATUS.INTERNAL_SERVER_ERROR,
       ERROR_CODES.INTERNAL_ERROR,
       requestId,
-      'An unexpected error occurred'
+      "An unexpected error occurred",
     );
 
-    req.logger?.error('Unexpected error', error, {
+    req.logger?.error("Unexpected error", error, {
       errorName: error.name,
       errorMessage: error.message,
     });
@@ -111,9 +111,9 @@ export function throwError(
   statusCode: number,
   code: string,
   message?: string,
-  details?: Record<string, unknown>
+  details?: Record<string, unknown>,
 ): never {
-  throw new AppError(statusCode, code, message || '', details);
+  throw new AppError(statusCode, code, message || "", details);
 }
 
 /**
@@ -125,7 +125,7 @@ export function throwError(
  *   }));
  */
 export function asyncHandler(
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>
+  fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>,
 ) {
   return (req: Request, res: Response, next: NextFunction): void => {
     Promise.resolve(fn(req, res, next)).catch(next);

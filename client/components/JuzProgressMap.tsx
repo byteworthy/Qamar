@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
-import { ThemedText } from './ThemedText';
-import { useHifzProgress } from '../hooks/useHifzProgress';
-import { useTheme } from '../hooks/useTheme';
-import type { JuzProgress } from '../../shared/types/hifz';
+import React from "react";
+import { View, Pressable, StyleSheet } from "react-native";
+import { ThemedText } from "./ThemedText";
+import { useHifzProgress } from "../hooks/useHifzProgress";
+import { useTheme } from "../hooks/useTheme";
+import type { JuzProgress } from "../../shared/types/hifz";
 
 // =============================================================================
 // TYPES
@@ -24,11 +24,11 @@ interface LegendItem {
 // =============================================================================
 
 const COLORS = {
-  notStarted: '#6B7280', // Gray
-  inProgress: '#3B82F6', // Blue
-  memorized: '#10B981', // Green
-  reviewOverdue: '#F59E0B', // Yellow
-  reviewCritical: '#EF4444', // Red
+  notStarted: "#6B7280", // Gray
+  inProgress: "#3B82F6", // Blue
+  memorized: "#10B981", // Green
+  reviewOverdue: "#F59E0B", // Yellow
+  reviewCritical: "#EF4444", // Red
 } as const;
 
 // =============================================================================
@@ -47,11 +47,11 @@ function getJuzColor(juz: JuzProgress): string {
   if (juz.memorizedVerses >= juz.totalVerses) {
     // Fully memorized - check review status
     switch (juz.status) {
-      case 'review_overdue':
+      case "review_overdue":
         return COLORS.reviewOverdue;
-      case 'review_critical':
+      case "review_critical":
         return COLORS.reviewCritical;
-      case 'on_schedule':
+      case "on_schedule":
       default:
         return COLORS.memorized;
     }
@@ -102,7 +102,7 @@ function JuzCell({
       <ThemedText
         style={[
           styles.juzNumber,
-          { color: '#FFFFFF' }, // White text for visibility on all color backgrounds
+          { color: "#FFFFFF" }, // White text for visibility on all color backgrounds
         ]}
       >
         {juz.juzNumber}
@@ -110,7 +110,7 @@ function JuzCell({
       <ThemedText
         style={[
           styles.verseCount,
-          { color: '#FFFFFF', opacity: 0.8 }, // Slightly transparent white
+          { color: "#FFFFFF", opacity: 0.8 }, // Slightly transparent white
         ]}
       >
         {juz.memorizedVerses}/{juz.totalVerses}
@@ -124,16 +124,18 @@ function JuzCell({
  */
 function Legend() {
   const legendItems: LegendItem[] = [
-    { color: COLORS.notStarted, label: 'Not Started' },
-    { color: COLORS.inProgress, label: 'In Progress' },
-    { color: COLORS.memorized, label: 'Memorized' },
+    { color: COLORS.notStarted, label: "Not Started" },
+    { color: COLORS.inProgress, label: "In Progress" },
+    { color: COLORS.memorized, label: "Memorized" },
   ];
 
   return (
     <View style={styles.legend}>
       {legendItems.map((item) => (
         <View key={item.label} style={styles.legendItem}>
-          <View style={[styles.legendSwatch, { backgroundColor: item.color }]} />
+          <View
+            style={[styles.legendSwatch, { backgroundColor: item.color }]}
+          />
           <ThemedText type="small" style={styles.legendLabel}>
             {item.label}
           </ThemedText>
@@ -174,21 +176,21 @@ export function JuzProgressMap({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
     gap: 8,
   },
   cell: {
     width: 64,
     height: 64,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -199,22 +201,22 @@ const styles = StyleSheet.create({
   },
   juzNumber: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   verseCount: {
     fontSize: 10,
     marginTop: 2,
   },
   legend: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 24,
     gap: 16,
   },
   legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
   },
   legendSwatch: {

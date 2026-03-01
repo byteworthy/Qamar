@@ -1,9 +1,6 @@
 import type { Express } from "express";
 import { storage } from "../storage";
-import {
-  VALIDATION_MODE,
-  isAnthropicConfigured,
-} from "../config";
+import { VALIDATION_MODE, isAnthropicConfigured } from "../config";
 import {
   runManualCleanup,
   verifyAdminToken,
@@ -90,27 +87,31 @@ export function registerAdminHealthRoutes(app: Express): void {
   app.post("/api/admin/retention/run", adminLimiter, async (req, res) => {
     // Check if admin endpoint is enabled
     if (!isAdminEndpointEnabled()) {
-      return res.status(HTTP_STATUS.NOT_FOUND).json(
-        createErrorResponse(
-          HTTP_STATUS.NOT_FOUND,
-          ERROR_CODES.NOT_FOUND,
-          req.id,
-          "Not found"
-        )
-      );
+      return res
+        .status(HTTP_STATUS.NOT_FOUND)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.NOT_FOUND,
+            ERROR_CODES.NOT_FOUND,
+            req.id,
+            "Not found",
+          ),
+        );
     }
 
     // Verify admin token
     const token = req.headers["x-admin-token"] as string | undefined;
     if (!verifyAdminToken(token)) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json(
-        createErrorResponse(
-          HTTP_STATUS.UNAUTHORIZED,
-          ERROR_CODES.AUTH_INVALID,
-          req.id,
-          "Unauthorized"
-        )
-      );
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.UNAUTHORIZED,
+            ERROR_CODES.AUTH_INVALID,
+            req.id,
+            "Unauthorized",
+          ),
+        );
     }
 
     try {
@@ -127,14 +128,16 @@ export function registerAdminHealthRoutes(app: Express): void {
       req.logger.error("Manual cleanup failed", error, {
         operation: "manual_cleanup",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Cleanup failed"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Cleanup failed",
+          ),
+        );
     }
   });
 }

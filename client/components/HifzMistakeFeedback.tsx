@@ -198,9 +198,7 @@ export function HifzMistakeFeedback({
                 >
                   Expected:
                 </ThemedText>
-                <ThemedText
-                  style={[styles.mistakeWord, { color: "#10B981" }]}
-                >
+                <ThemedText style={[styles.mistakeWord, { color: "#10B981" }]}>
                   {word.expected}
                 </ThemedText>
 
@@ -209,9 +207,7 @@ export function HifzMistakeFeedback({
                 >
                   You said:
                 </ThemedText>
-                <ThemedText
-                  style={[styles.mistakeWord, { color: "#EF4444" }]}
-                >
+                <ThemedText style={[styles.mistakeWord, { color: "#EF4444" }]}>
                   {word.actual}
                 </ThemedText>
               </View>

@@ -138,7 +138,7 @@ function InsightsScreen() {
               }}
               accessibilityHint="Opens pricing options to unlock insights feature"
             >
-              Upgrade to Noor Plus
+              Upgrade to Qamar Plus
             </Button>
           </Animated.View>
         </View>
@@ -214,139 +214,140 @@ function InsightsScreen() {
     >
       <PremiumGate requiredTier="pro" featureName="Advanced Insights">
         <Animated.View entering={FadeInDown.duration(350)} style={styles.intro}>
-          <ThemedText style={[styles.introText, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.introText, { color: theme.textSecondary }]}
+          >
             Based on your stored reflections.
           </ThemedText>
         </Animated.View>
 
-      {/* Stats Section - REAL DATA */}
-      <Animated.View
-        entering={FadeInUp.duration(350).delay(100)}
-        style={styles.section}
-      >
-        <ThemedText
-          style={[styles.sectionLabel, { color: theme.textSecondary }]}
-        >
-          Your Statistics
-        </ThemedText>
-        <View style={styles.statsGrid}>
-          <GlassCard style={styles.statCard} elevated>
-            <ThemedText style={styles.statValue}>
-              {stats!.totalSessions}
-            </ThemedText>
-            <ThemedText
-              style={[styles.statLabel, { color: theme.textSecondary }]}
-            >
-              Total Sessions
-            </ThemedText>
-          </GlassCard>
-          <GlassCard style={styles.statCard} elevated>
-            <ThemedText style={styles.statValue}>
-              {stats!.weeklyCount}
-            </ThemedText>
-            <ThemedText
-              style={[styles.statLabel, { color: theme.textSecondary }]}
-            >
-              This Week
-            </ThemedText>
-          </GlassCard>
-        </View>
-        <GlassCard style={styles.infoCard} elevated>
-          <ThemedText
-            style={[styles.infoLabel, { color: theme.textSecondary }]}
-          >
-            Last Session
-          </ThemedText>
-          <ThemedText style={styles.infoValue}>
-            {stats!.lastSessionDate
-              ? stats!.lastSessionDate.toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })
-              : "Not available"}
-          </ThemedText>
-        </GlassCard>
-        <GlassCard style={styles.infoCard} elevated>
-          <ThemedText
-            style={[styles.infoLabel, { color: theme.textSecondary }]}
-          >
-            Most Common Pattern
-          </ThemedText>
-          <ThemedText style={styles.infoValue}>
-            {stats!.topDistortion || "Not enough data yet"}
-          </ThemedText>
-        </GlassCard>
-      </Animated.View>
-
-      {/* Recent Reflections - REAL DATA */}
-      {sessions.length > 0 && (
+        {/* Stats Section - REAL DATA */}
         <Animated.View
-          entering={FadeInUp.duration(350).delay(200)}
+          entering={FadeInUp.duration(350).delay(100)}
           style={styles.section}
         >
           <ThemedText
             style={[styles.sectionLabel, { color: theme.textSecondary }]}
           >
-            Recent Reflections
+            Your Statistics
           </ThemedText>
-          <View style={styles.reflectionsList}>
-            {sessions.slice(0, 4).map((session, index) => (
-              <GlassCard
-                key={index}
-                style={styles.reflectionCard}
-                elevated
+          <View style={styles.statsGrid}>
+            <GlassCard style={styles.statCard} elevated>
+              <ThemedText style={styles.statValue}>
+                {stats!.totalSessions}
+              </ThemedText>
+              <ThemedText
+                style={[styles.statLabel, { color: theme.textSecondary }]}
               >
-                <ThemedText
-                  style={[
-                    styles.reflectionDate,
-                    { color: theme.textSecondary },
-                  ]}
-                >
-                  {new Date(session.timestamp).toLocaleDateString("en-US", {
-                    month: "short",
+                Total Sessions
+              </ThemedText>
+            </GlassCard>
+            <GlassCard style={styles.statCard} elevated>
+              <ThemedText style={styles.statValue}>
+                {stats!.weeklyCount}
+              </ThemedText>
+              <ThemedText
+                style={[styles.statLabel, { color: theme.textSecondary }]}
+              >
+                This Week
+              </ThemedText>
+            </GlassCard>
+          </View>
+          <GlassCard style={styles.infoCard} elevated>
+            <ThemedText
+              style={[styles.infoLabel, { color: theme.textSecondary }]}
+            >
+              Last Session
+            </ThemedText>
+            <ThemedText style={styles.infoValue}>
+              {stats!.lastSessionDate
+                ? stats!.lastSessionDate.toLocaleDateString("en-US", {
+                    month: "long",
                     day: "numeric",
-                  })}
-                </ThemedText>
-                <ThemedText style={styles.reflectionThought} numberOfLines={2}>
-                  {session.thought}
-                </ThemedText>
-                {session.distortions && session.distortions.length > 0 && (
-                  <View style={styles.distortionTags}>
-                    {session.distortions.slice(0, 2).map((d, i) => (
-                      <View
-                        key={i}
-                        style={[
-                          styles.distortionTag,
-                          { backgroundColor: theme.backgroundRoot },
-                        ]}
-                      >
-                        <ThemedText
+                    year: "numeric",
+                  })
+                : "Not available"}
+            </ThemedText>
+          </GlassCard>
+          <GlassCard style={styles.infoCard} elevated>
+            <ThemedText
+              style={[styles.infoLabel, { color: theme.textSecondary }]}
+            >
+              Most Common Pattern
+            </ThemedText>
+            <ThemedText style={styles.infoValue}>
+              {stats!.topDistortion || "Not enough data yet"}
+            </ThemedText>
+          </GlassCard>
+        </Animated.View>
+
+        {/* Recent Reflections - REAL DATA */}
+        {sessions.length > 0 && (
+          <Animated.View
+            entering={FadeInUp.duration(350).delay(200)}
+            style={styles.section}
+          >
+            <ThemedText
+              style={[styles.sectionLabel, { color: theme.textSecondary }]}
+            >
+              Recent Reflections
+            </ThemedText>
+            <View style={styles.reflectionsList}>
+              {sessions.slice(0, 4).map((session, index) => (
+                <GlassCard key={index} style={styles.reflectionCard} elevated>
+                  <ThemedText
+                    style={[
+                      styles.reflectionDate,
+                      { color: theme.textSecondary },
+                    ]}
+                  >
+                    {new Date(session.timestamp).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </ThemedText>
+                  <ThemedText
+                    style={styles.reflectionThought}
+                    numberOfLines={2}
+                  >
+                    {session.thought}
+                  </ThemedText>
+                  {session.distortions && session.distortions.length > 0 && (
+                    <View style={styles.distortionTags}>
+                      {session.distortions.slice(0, 2).map((d, i) => (
+                        <View
+                          key={i}
                           style={[
-                            styles.distortionTagText,
-                            { color: theme.textSecondary },
+                            styles.distortionTag,
+                            { backgroundColor: theme.backgroundRoot },
                           ]}
                         >
-                          {d}
-                        </ThemedText>
-                      </View>
-                    ))}
-                  </View>
-                )}
-              </GlassCard>
-            ))}
-          </View>
-        </Animated.View>
-      )}
+                          <ThemedText
+                            style={[
+                              styles.distortionTagText,
+                              { color: theme.textSecondary },
+                            ]}
+                          >
+                            {d}
+                          </ThemedText>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                </GlassCard>
+              ))}
+            </View>
+          </Animated.View>
+        )}
 
-      <Animated.View
-        entering={FadeInUp.duration(350).delay(250)}
-        style={styles.noteContainer}
-      >
-        <ThemedText style={[styles.note, { color: theme.textSecondary }]}>
-          Insights update as you complete sessions.
-        </ThemedText>
-      </Animated.View>
+        <Animated.View
+          entering={FadeInUp.duration(350).delay(250)}
+          style={styles.noteContainer}
+        >
+          <ThemedText style={[styles.note, { color: theme.textSecondary }]}>
+            Insights update as you complete sessions.
+          </ThemedText>
+        </Animated.View>
       </PremiumGate>
     </Screen>
   );

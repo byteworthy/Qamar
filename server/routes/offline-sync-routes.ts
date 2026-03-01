@@ -1,29 +1,35 @@
-import type { Express, Request, Response } from 'express';
-import { asyncHandler } from '../middleware/error-handler';
-import { cacheMiddleware, CACHE_TTL } from '../middleware/cache';
+import type { Express, Request, Response } from "express";
+import { asyncHandler } from "../middleware/error-handler";
+import { cacheMiddleware, CACHE_TTL } from "../middleware/cache";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
-import * as fs from 'fs';
-import * as path from 'path';
+} from "../types/error-response";
+import * as fs from "fs";
+import * as path from "path";
 
 // In-memory cache for seed data (loaded once on first request)
 const dataCache: Record<string, unknown[]> = {};
 
-const VALID_CONTENT_TYPES = ['surahs', 'verses', 'hadiths', 'vocabulary', 'scenarios'] as const;
-type ContentType = typeof VALID_CONTENT_TYPES[number];
+const VALID_CONTENT_TYPES = [
+  "surahs",
+  "verses",
+  "hadiths",
+  "vocabulary",
+  "scenarios",
+] as const;
+type ContentType = (typeof VALID_CONTENT_TYPES)[number];
 
 /**
  * Map content type param to seed data filename
  */
 const CONTENT_TYPE_TO_FILE: Record<ContentType, string> = {
-  surahs: 'surahs.json',
-  verses: 'verses.json',
-  hadiths: 'hadiths.json',
-  vocabulary: 'vocabulary.json',
-  scenarios: 'conversation_scenarios.json',
+  surahs: "surahs.json",
+  verses: "verses.json",
+  hadiths: "hadiths.json",
+  vocabulary: "vocabulary.json",
+  scenarios: "conversation_scenarios.json",
 };
 
 /**
@@ -35,17 +41,19 @@ function loadSeedData(contentType: ContentType): unknown[] {
   }
 
   const filename = CONTENT_TYPE_TO_FILE[contentType];
-  const filePath = path.resolve(process.cwd(), 'shared', 'seed-data', filename);
+  const filePath = path.resolve(process.cwd(), "shared", "seed-data", filename);
 
   if (!fs.existsSync(filePath)) {
     throw new Error(`Seed data file not found: ${filename}`);
   }
 
-  const raw = fs.readFileSync(filePath, 'utf-8');
+  const raw = fs.readFileSync(filePath, "utf-8");
   const parsed = JSON.parse(raw);
 
   // Handle both array and object-with-array formats
-  const data = Array.isArray(parsed) ? parsed : Object.values(parsed).find(Array.isArray) || [];
+  const data = Array.isArray(parsed)
+    ? parsed
+    : Object.values(parsed).find(Array.isArray) || [];
   dataCache[contentType] = data as unknown[];
   return dataCache[contentType];
 }
@@ -82,10 +90,11 @@ export function registerOfflineSyncRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/offline/:contentType',
+    "/api/offline/:contentType",
     cacheMiddleware(
       CACHE_TTL.ONE_DAY,
-      (req) => `cache:offline:${req.params.contentType}:${req.query.surah || 'all'}`
+      (req) =>
+        `cache:offline:${req.params.contentType}:${req.query.surah || "all"}`,
     ),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -93,14 +102,16 @@ export function registerOfflineSyncRoutes(app: Express): void {
 
       // Validate content type
       if (!VALID_CONTENT_TYPES.includes(contentType as ContentType)) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            `Invalid content type '${contentType}'. Must be one of: ${VALID_CONTENT_TYPES.join(', ')}`,
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              `Invalid content type '${contentType}'. Must be one of: ${VALID_CONTENT_TYPES.join(", ")}`,
+            ),
+          );
       }
 
       const validType = contentType as ContentType;
@@ -110,38 +121,46 @@ export function registerOfflineSyncRoutes(app: Express): void {
         data = loadSeedData(validType);
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
-        req.logger?.error('Failed to load seed data', { contentType, error: message });
-        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-          createErrorResponse(
-            HTTP_STATUS.INTERNAL_SERVER_ERROR,
-            ERROR_CODES.INTERNAL_ERROR,
-            req.id,
-            'Failed to load content data',
-          )
-        );
+        req.logger?.error("Failed to load seed data", {
+          contentType,
+          error: message,
+        });
+        return res
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.INTERNAL_SERVER_ERROR,
+              ERROR_CODES.INTERNAL_ERROR,
+              req.id,
+              "Failed to load content data",
+            ),
+          );
       }
 
       // For verses, optionally filter by surah number
-      if (validType === 'verses' && req.query.surah) {
+      if (validType === "verses" && req.query.surah) {
         const surahNumber = parseInt(req.query.surah as string, 10);
         if (isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              'Invalid surah number. Must be between 1 and 114.',
-            )
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "Invalid surah number. Must be between 1 and 114.",
+              ),
+            );
         }
         data = data.filter(
-          (v: unknown) => (v as Record<string, unknown>).surah_number === surahNumber
+          (v: unknown) =>
+            (v as Record<string, unknown>).surah_number === surahNumber,
         );
       }
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Served offline content', {
+      req.logger?.info("Served offline content", {
         contentType: validType,
         surah: req.query.surah || null,
         count: data.length,
@@ -154,6 +173,6 @@ export function registerOfflineSyncRoutes(app: Express): void {
         total: data.length,
         timestamp: new Date().toISOString(),
       });
-    })
+    }),
   );
 }

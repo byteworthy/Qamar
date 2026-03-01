@@ -11,7 +11,7 @@
  * Follows the same singleton + listener pattern as quranAudio.ts.
  */
 
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import { Audio, AVPlaybackStatus } from "expo-av";
 
 // =============================================================================
 // TYPES
@@ -31,7 +31,7 @@ export type WordAudioListener = (state: WordAudioState) => void;
 // CONSTANTS
 // =============================================================================
 
-const CDN_BASE = 'https://audio.qurancdn.com/wbw';
+const CDN_BASE = "https://audio.qurancdn.com/wbw";
 const PRELOAD_AHEAD = 3;
 
 // =============================================================================
@@ -39,13 +39,13 @@ const PRELOAD_AHEAD = 3;
 // =============================================================================
 
 function padThree(n: number): string {
-  return String(n).padStart(3, '0');
+  return String(n).padStart(3, "0");
 }
 
 function buildWordUrl(
   surahNumber: number,
   verseNumber: number,
-  wordIndex: number
+  wordIndex: number,
 ): string {
   return `${CDN_BASE}/${padThree(surahNumber)}_${padThree(verseNumber)}_${padThree(wordIndex)}.mp3`;
 }
@@ -101,7 +101,7 @@ class WordByWordAudioService {
   async preloadWords(
     surahNumber: number,
     verseNumber: number,
-    wordCount: number
+    wordCount: number,
   ): Promise<void> {
     await this.configureAudioMode();
 
@@ -115,7 +115,7 @@ class WordByWordAudioService {
         try {
           const { sound } = await Audio.Sound.createAsync(
             { uri },
-            { shouldPlay: false }
+            { shouldPlay: false },
           );
           this.preloadedSounds.set(i, sound);
         } catch {
@@ -135,7 +135,7 @@ class WordByWordAudioService {
     surahNumber: number,
     verseNumber: number,
     startIndex: number,
-    wordCount: number
+    wordCount: number,
   ): Promise<void> {
     const end = Math.min(startIndex + PRELOAD_AHEAD, wordCount);
 
@@ -146,7 +146,7 @@ class WordByWordAudioService {
       try {
         const { sound } = await Audio.Sound.createAsync(
           { uri },
-          { shouldPlay: false }
+          { shouldPlay: false },
         );
         this.preloadedSounds.set(i, sound);
       } catch {
@@ -162,7 +162,7 @@ class WordByWordAudioService {
   async playWord(
     surahNumber: number,
     verseNumber: number,
-    wordIndex: number
+    wordIndex: number,
   ): Promise<void> {
     this.updateState({
       isLoading: true,
@@ -187,7 +187,7 @@ class WordByWordAudioService {
         const { sound } = await Audio.Sound.createAsync(
           { uri },
           { shouldPlay: true },
-          this.onPlaybackStatus
+          this.onPlaybackStatus,
         );
         this.sound = sound;
       }
@@ -195,7 +195,7 @@ class WordByWordAudioService {
       this.updateState({ isLoading: false, isPlaying: true });
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : 'Failed to play word audio';
+        err instanceof Error ? err.message : "Failed to play word audio";
       this.updateState({ isLoading: false, error: message, isPlaying: false });
     }
   }
@@ -203,7 +203,7 @@ class WordByWordAudioService {
   async playAllWords(
     surahNumber: number,
     verseNumber: number,
-    wordCount: number
+    wordCount: number,
   ): Promise<void> {
     this.stopRequested = false;
     this.updateState({
@@ -234,8 +234,12 @@ class WordByWordAudioService {
       } catch (err) {
         if (this.stopRequested) break;
         const message =
-          err instanceof Error ? err.message : 'Failed to play word audio';
-        this.updateState({ error: message, isPlaying: false, isLoading: false });
+          err instanceof Error ? err.message : "Failed to play word audio";
+        this.updateState({
+          error: message,
+          isPlaying: false,
+          isLoading: false,
+        });
         return;
       }
     }
@@ -255,7 +259,7 @@ class WordByWordAudioService {
     try {
       await this.unloadCurrentSound();
     } catch (err) {
-      if (__DEV__) console.error('WordByWordAudio: stop error', err);
+      if (__DEV__) console.error("WordByWordAudio: stop error", err);
     }
 
     await this.clearPreloadedSounds();
@@ -298,8 +302,8 @@ class WordByWordAudioService {
       unloadPromises.push(
         sound.unloadAsync().then(
           () => {},
-          () => {}
-        )
+          () => {},
+        ),
       );
     }
     await Promise.all(unloadPromises);
@@ -309,7 +313,7 @@ class WordByWordAudioService {
   private async playWordAndWait(
     surahNumber: number,
     verseNumber: number,
-    wordIndex: number
+    wordIndex: number,
   ): Promise<void> {
     await this.unloadCurrentSound();
 
@@ -329,21 +333,22 @@ class WordByWordAudioService {
       if (preloaded) {
         this.sound = preloaded;
         this.preloadedSounds.delete(wordIndex);
-        this.sound.setPositionAsync(0).then(() => {
-          this.sound!.setOnPlaybackStatusUpdate(statusCallback);
-          this.updateState({ isLoading: false });
-          this.sound!.playAsync().catch(reject);
-        }).catch(reject);
+        this.sound
+          .setPositionAsync(0)
+          .then(() => {
+            this.sound!.setOnPlaybackStatusUpdate(statusCallback);
+            this.updateState({ isLoading: false });
+            this.sound!.playAsync().catch(reject);
+          })
+          .catch(reject);
       } else {
         const uri = buildWordUrl(surahNumber, verseNumber, wordIndex);
-        Audio.Sound.createAsync(
-          { uri },
-          { shouldPlay: true },
-          statusCallback
-        ).then(({ sound }) => {
-          this.sound = sound;
-          this.updateState({ isLoading: false });
-        }).catch(reject);
+        Audio.Sound.createAsync({ uri }, { shouldPlay: true }, statusCallback)
+          .then(({ sound }) => {
+            this.sound = sound;
+            this.updateState({ isLoading: false });
+          })
+          .catch(reject);
       }
     });
 

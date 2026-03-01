@@ -91,7 +91,9 @@ export function logQuranTranslationChange(translationId: string): void {
  */
 export function logQuranOfflineDownload(surahIds: number[]): void {
   addQuranBreadcrumb(`Offline download: ${surahIds.length} surahs`, 0);
-  console.log(`[Analytics:Quran] Downloaded ${surahIds.length} surahs for offline`);
+  console.log(
+    `[Analytics:Quran] Downloaded ${surahIds.length} surahs for offline`,
+  );
 }
 
 // ============================================================================
@@ -143,14 +145,8 @@ export function logPrayerNotificationToggle(
  * @param prayerName - The prayer that was completed
  * @param onTime - Whether prayer was completed on time
  */
-export function logPrayerCompletion(
-  prayerName: string,
-  onTime: boolean,
-): void {
-  addPrayerBreadcrumb(
-    `Completed ${onTime ? "on time" : "late"}`,
-    prayerName,
-  );
+export function logPrayerCompletion(prayerName: string, onTime: boolean): void {
+  addPrayerBreadcrumb(`Completed ${onTime ? "on time" : "late"}`, prayerName);
   console.log(
     `[Analytics:Prayer] ${prayerName} completed ${onTime ? "on time" : "late"}`,
   );
@@ -204,7 +200,9 @@ export function logFlashcardReview(rating: number, cardId: string): void {
   // Add breadcrumb for user journey
   addArabicLearningBreadcrumb(`Review: ${cardId} (rating ${rating})`);
 
-  console.log(`[Analytics:Arabic] Reviewed card ${cardId} with rating ${rating}`);
+  console.log(
+    `[Analytics:Arabic] Reviewed card ${cardId} with rating ${rating}`,
+  );
 }
 
 /**

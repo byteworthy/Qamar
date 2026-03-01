@@ -35,7 +35,10 @@ export interface QuickAction {
 /**
  * Get Islamic greeting based on time of day
  */
-export function getIslamicGreeting(): { greeting: string; timeMessage: string } {
+export function getIslamicGreeting(): {
+  greeting: string;
+  timeMessage: string;
+} {
   const hour = new Date().getHours();
 
   if (hour >= 3 && hour < 6) {
@@ -56,7 +59,8 @@ export function getIslamicGreeting(): { greeting: string; timeMessage: string } 
   } else if (hour >= 15 && hour < 18) {
     return {
       greeting: "As-salamu Alaykum",
-      timeMessage: "The afternoon light fades gently — reflect on your blessings.",
+      timeMessage:
+        "The afternoon light fades gently — reflect on your blessings.",
     };
   } else if (hour >= 18 && hour < 21) {
     return {
@@ -77,9 +81,18 @@ export function getIslamicGreeting(): { greeting: string; timeMessage: string } 
  */
 export function getHijriDate(date: Date = new Date()): string {
   const HIJRI_MONTHS = [
-    "Muharram", "Safar", "Rabi al-Awwal", "Rabi al-Thani",
-    "Jumada al-Ula", "Jumada al-Thani", "Rajab", "Sha'ban",
-    "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah",
+    "Muharram",
+    "Safar",
+    "Rabi al-Awwal",
+    "Rabi al-Thani",
+    "Jumada al-Ula",
+    "Jumada al-Thani",
+    "Rajab",
+    "Sha'ban",
+    "Ramadan",
+    "Shawwal",
+    "Dhu al-Qi'dah",
+    "Dhu al-Hijjah",
   ];
 
   // Julian Day Number calculation
@@ -90,8 +103,11 @@ export function getHijriDate(date: Date = new Date()): string {
   const jd =
     Math.floor((1461 * (y + 4800 + Math.floor((m - 14) / 12))) / 4) +
     Math.floor((367 * (m - 2 - 12 * Math.floor((m - 14) / 12))) / 12) -
-    Math.floor((3 * Math.floor((y + 4900 + Math.floor((m - 14) / 12)) / 100)) / 4) +
-    d - 32075;
+    Math.floor(
+      (3 * Math.floor((y + 4900 + Math.floor((m - 14) / 12)) / 100)) / 4,
+    ) +
+    d -
+    32075;
 
   // Convert JD to Hijri
   const l = jd - 1948440 + 10632;
@@ -99,9 +115,8 @@ export function getHijriDate(date: Date = new Date()): string {
   const remainder = l - 10631 * n + 354;
   const j =
     Math.floor((10985 - remainder) / 5316) *
-    Math.floor((50 * remainder) / 17719) +
-    Math.floor(remainder / 5670) *
-    Math.floor((43 * remainder) / 15238);
+      Math.floor((50 * remainder) / 17719) +
+    Math.floor(remainder / 5670) * Math.floor((43 * remainder) / 15238);
   const adjustedL =
     remainder -
     Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -

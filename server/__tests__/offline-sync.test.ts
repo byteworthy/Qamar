@@ -24,6 +24,9 @@ import request from "supertest";
 import * as fs from "fs";
 import * as path from "path";
 
+// Import after mocks
+import { registerOfflineSyncRoutes } from "../routes/offline-sync-routes";
+
 // Mock uuid
 jest.mock("uuid", () => ({
   v4: jest.fn(() => "mock-request-id-456"),
@@ -41,7 +44,11 @@ jest.mock("../middleware/cache", () => ({
 
 // Mock request logger
 jest.mock("../middleware/request-logger", () => ({
-  requestLoggerMiddleware: (req: Request, _res: Response, next: NextFunction) => {
+  requestLoggerMiddleware: (
+    req: Request,
+    _res: Response,
+    next: NextFunction,
+  ) => {
     req.id = "mock-request-id-456";
     req.logger = {
       info: jest.fn(),
@@ -52,9 +59,6 @@ jest.mock("../middleware/request-logger", () => ({
     next();
   },
 }));
-
-// Import after mocks
-import { registerOfflineSyncRoutes } from "../routes/offline-sync-routes";
 
 describe("Offline Sync Routes", () => {
   let app: Express;

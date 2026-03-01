@@ -95,12 +95,15 @@ function runOnUI(fn) {
 }
 
 function interpolate(value, inputRange, outputRange, _extrapolation) {
-  if (inputRange.length < 2 || outputRange.length < 2) return outputRange[0] || 0;
+  if (inputRange.length < 2 || outputRange.length < 2)
+    return outputRange[0] || 0;
   if (value <= inputRange[0]) return outputRange[0];
-  if (value >= inputRange[inputRange.length - 1]) return outputRange[outputRange.length - 1];
+  if (value >= inputRange[inputRange.length - 1])
+    return outputRange[outputRange.length - 1];
   for (let i = 0; i < inputRange.length - 1; i++) {
     if (value >= inputRange[i] && value <= inputRange[i + 1]) {
-      const ratio = (value - inputRange[i]) / (inputRange[i + 1] - inputRange[i]);
+      const ratio =
+        (value - inputRange[i]) / (inputRange[i + 1] - inputRange[i]);
       return outputRange[i] + ratio * (outputRange[i + 1] - outputRange[i]);
     }
   }
@@ -135,7 +138,9 @@ const Easing = {
 // --- Layout animation stubs (entering/exiting) ---
 // These return undefined so <Animated.View entering={FadeInUp}> just ignores them
 function makeLayoutAnim() {
-  const fn = function () { return fn; };
+  const fn = function () {
+    return fn;
+  };
   fn.duration = () => fn;
   fn.delay = () => fn;
   fn.springify = () => fn;

@@ -1,18 +1,18 @@
-import type { Express, Request, Response } from 'express';
-import { db } from '../db';
-import { adhkar } from '@shared/schema';
-import { eq, like, or, sql } from 'drizzle-orm';
-import { asyncHandler } from '../middleware/error-handler';
-import { cacheMiddleware, CACHE_TTL } from '../middleware/cache';
+import type { Express, Request, Response } from "express";
+import { db } from "../db";
+import { adhkar } from "@shared/schema";
+import { eq, like, or, sql } from "drizzle-orm";
+import { asyncHandler } from "../middleware/error-handler";
+import { cacheMiddleware, CACHE_TTL } from "../middleware/cache";
 import {
   getAdhkarByCategorySchema,
   searchAdhkarSchema,
-} from '../validation/adhkar-validation';
+} from "../validation/adhkar-validation";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
+} from "../types/error-response";
 
 /**
  * Adhkar API Routes
@@ -48,7 +48,7 @@ export function registerAdhkarRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/adhkar/categories',
+    "/api/adhkar/categories",
     cacheMiddleware(CACHE_TTL.ONE_DAY),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -63,7 +63,7 @@ export function registerAdhkarRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched adhkar categories', {
+      req.logger?.info("Fetched adhkar categories", {
         count: categories.length,
         durationMs: duration,
       });
@@ -72,7 +72,7 @@ export function registerAdhkarRoutes(app: Express): void {
         categories,
         total: categories.length,
       });
-    })
+    }),
   );
 
   /**
@@ -93,7 +93,7 @@ export function registerAdhkarRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/adhkar/search',
+    "/api/adhkar/search",
     cacheMiddleware(CACHE_TTL.ONE_HOUR),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -101,15 +101,17 @@ export function registerAdhkarRoutes(app: Express): void {
       // Validate query params
       const validationResult = searchAdhkarSchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { q, limit, offset } = validationResult.data;
@@ -123,8 +125,8 @@ export function registerAdhkarRoutes(app: Express): void {
           or(
             like(adhkar.translation, searchPattern),
             like(adhkar.transliteration, searchPattern),
-            like(adhkar.arabic, searchPattern)
-          )
+            like(adhkar.arabic, searchPattern),
+          ),
         )
         .orderBy(adhkar.category, adhkar.id)
         .limit(limit)
@@ -138,13 +140,13 @@ export function registerAdhkarRoutes(app: Express): void {
           or(
             like(adhkar.translation, searchPattern),
             like(adhkar.transliteration, searchPattern),
-            like(adhkar.arabic, searchPattern)
-          )
+            like(adhkar.arabic, searchPattern),
+          ),
         );
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Searched adhkar', {
+      req.logger?.info("Searched adhkar", {
         query: q,
         limit,
         offset,
@@ -162,7 +164,7 @@ export function registerAdhkarRoutes(app: Express): void {
           hasMore: offset + limit < count,
         },
       });
-    })
+    }),
   );
 
   /**
@@ -180,7 +182,7 @@ export function registerAdhkarRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/adhkar/daily',
+    "/api/adhkar/daily",
     cacheMiddleware(CACHE_TTL.ONE_HOUR),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -191,24 +193,26 @@ export function registerAdhkarRoutes(app: Express): void {
         .from(adhkar);
 
       if (count === 0) {
-        return res.status(HTTP_STATUS.NOT_FOUND).json(
-          createErrorResponse(
-            HTTP_STATUS.NOT_FOUND,
-            ERROR_CODES.NOT_FOUND,
-            req.id,
-            'No adhkar available'
-          )
-        );
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.NOT_FOUND,
+              ERROR_CODES.NOT_FOUND,
+              req.id,
+              "No adhkar available",
+            ),
+          );
       }
 
       // Calculate deterministic count and offset based on current date
       const now = new Date();
-      const dateString = now.toISOString().split('T')[0]; // YYYY-MM-DD
+      const dateString = now.toISOString().split("T")[0]; // YYYY-MM-DD
 
       // Simple hash function for date string
       let hash = 0;
       for (let i = 0; i < dateString.length; i++) {
-        hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+        hash = (hash << 5) - hash + dateString.charCodeAt(i);
         hash = hash & hash; // Convert to 32-bit integer
       }
 
@@ -231,7 +235,7 @@ export function registerAdhkarRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched daily adhkar', {
+      req.logger?.info("Fetched daily adhkar", {
         date: dateString,
         count: dailyAdhkar.length,
         offset,
@@ -243,7 +247,7 @@ export function registerAdhkarRoutes(app: Express): void {
         date: dateString,
         count: dailyAdhkar.length,
       });
-    })
+    }),
   );
 
   /**
@@ -264,10 +268,11 @@ export function registerAdhkarRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/adhkar',
+    "/api/adhkar",
     cacheMiddleware(
       CACHE_TTL.ONE_DAY,
-      (req) => `cache:adhkar:${req.query.category || 'all'}:${req.query.offset || 0}`
+      (req) =>
+        `cache:adhkar:${req.query.category || "all"}:${req.query.offset || 0}`,
     ),
     asyncHandler(async (req: Request, res: Response) => {
       const startTime = Date.now();
@@ -275,15 +280,17 @@ export function registerAdhkarRoutes(app: Express): void {
       // Validate query params
       const validationResult = getAdhkarByCategorySchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { category, limit, offset } = validationResult.data;
@@ -308,8 +315,8 @@ export function registerAdhkarRoutes(app: Express): void {
 
       const duration = Date.now() - startTime;
 
-      req.logger?.info('Fetched adhkar', {
-        category: category || 'all',
+      req.logger?.info("Fetched adhkar", {
+        category: category || "all",
         limit,
         offset,
         count: adhkarList.length,
@@ -326,6 +333,6 @@ export function registerAdhkarRoutes(app: Express): void {
           hasMore: offset + limit < count,
         },
       });
-    })
+    }),
   );
 }

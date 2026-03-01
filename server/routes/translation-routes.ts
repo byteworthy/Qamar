@@ -66,24 +66,25 @@ export function registerTranslationRoutes(app: Express): void {
     try {
       const parsed = translateSchema.safeParse(req.body);
       if (!parsed.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: parsed.error.issues },
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: parsed.error.issues },
+            ),
+          );
       }
 
       const { text, from, to } = parsed.data;
 
       const result = await translateText(text, from, to);
 
-      const transliteration = to === "ar"
-        ? transliterateArabic(result.translatedText)
-        : null;
+      const transliteration =
+        to === "ar" ? transliterateArabic(result.translatedText) : null;
 
       return res.json({
         translatedText: result.translatedText,
@@ -96,14 +97,16 @@ export function registerTranslationRoutes(app: Express): void {
         logger.error("Translation failed", error);
       }
       Sentry.captureException(error);
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Translation failed",
-        ),
-      );
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Translation failed",
+          ),
+        );
     }
   });
 
@@ -126,15 +129,17 @@ export function registerTranslationRoutes(app: Express): void {
       try {
         const parsed = explainSchema.safeParse(req.body);
         if (!parsed.success) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              "Invalid request data",
-              { validationErrors: parsed.error.issues },
-            ),
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "Invalid request data",
+                { validationErrors: parsed.error.issues },
+              ),
+            );
         }
 
         const { arabicText } = parsed.data;
@@ -149,14 +154,16 @@ export function registerTranslationRoutes(app: Express): void {
         }
 
         if (!isAnthropicConfigured()) {
-          return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-            createErrorResponse(
-              HTTP_STATUS.SERVICE_UNAVAILABLE,
-              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-              req.id,
-              "AI service not configured.",
-            ),
-          );
+          return res
+            .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.SERVICE_UNAVAILABLE,
+                ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+                req.id,
+                "AI service not configured.",
+              ),
+            );
         }
 
         const response = await Sentry.startSpan(
@@ -198,14 +205,16 @@ export function registerTranslationRoutes(app: Express): void {
           logger.error("Translation explain failed", error);
         }
         Sentry.captureException(error);
-        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-          createErrorResponse(
-            HTTP_STATUS.INTERNAL_SERVER_ERROR,
-            ERROR_CODES.INTERNAL_ERROR,
-            req.id,
-            "Failed to analyze Arabic text",
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.INTERNAL_SERVER_ERROR,
+              ERROR_CODES.INTERNAL_ERROR,
+              req.id,
+              "Failed to analyze Arabic text",
+            ),
+          );
       }
     },
   );

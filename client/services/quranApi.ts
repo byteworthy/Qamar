@@ -7,9 +7,9 @@
  * Used when USE_MOCK_DATA is false in useQuranData.ts
  */
 
-import type { Surah, Verse } from '../hooks/useQuranData';
+import type { Surah, Verse } from "../hooks/useQuranData";
 
-const BASE_URL = 'https://api.alquran.cloud/v1';
+const BASE_URL = "https://api.alquran.cloud/v1";
 
 // In-memory cache for API responses (Quran data never changes)
 const cache = new Map<string, { data: unknown; timestamp: number }>();
@@ -29,7 +29,7 @@ async function cachedFetch<T>(url: string): Promise<T> {
         throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
       const json = await response.json();
-      if (json.code !== 200 || json.status !== 'OK') {
+      if (json.code !== 200 || json.status !== "OK") {
         throw new Error(`API returned error: ${json.status}`);
       }
       cache.set(url, { data: json.data, timestamp: Date.now() });
@@ -37,7 +37,9 @@ async function cachedFetch<T>(url: string): Promise<T> {
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
       if (attempt < 2) {
-        await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
+        await new Promise((resolve) =>
+          setTimeout(resolve, 1000 * (attempt + 1)),
+        );
       }
     }
   }
@@ -97,7 +99,7 @@ function mapSurah(raw: ApiSurah): Surah {
     transliteration: raw.englishName,
     translation: raw.englishNameTranslation,
     numberOfVerses: raw.numberOfAyahs,
-    revelationPlace: raw.revelationType === 'Meccan' ? 'Makkah' : 'Madinah',
+    revelationPlace: raw.revelationType === "Meccan" ? "Makkah" : "Madinah",
   };
 }
 
@@ -129,7 +131,7 @@ export async function fetchAllSurahs(): Promise<Surah[]> {
  */
 export async function fetchSurah(
   number: number,
-  edition: string = 'en.asad'
+  edition: string = "en.asad",
 ): Promise<{ surah: Surah; verses: Verse[] }> {
   const [arabicData, englishData] = await Promise.all([
     cachedFetch<ApiSurahFull>(`${BASE_URL}/surah/${number}/quran-uthmani`),
@@ -138,7 +140,7 @@ export async function fetchSurah(
 
   const surah = mapSurah(arabicData);
   const verses: Verse[] = arabicData.ayahs.map((ayah, i) =>
-    mapAyah(ayah, number, englishData.ayahs[i]?.text)
+    mapAyah(ayah, number, englishData.ayahs[i]?.text),
   );
 
   return { surah, verses };
@@ -149,13 +151,13 @@ export async function fetchSurah(
  */
 export async function searchQuran(keyword: string): Promise<Verse[]> {
   const data = await cachedFetch<ApiSearchResult>(
-    `${BASE_URL}/search/${encodeURIComponent(keyword)}/all/en`
+    `${BASE_URL}/search/${encodeURIComponent(keyword)}/all/en`,
   );
   return data.matches.map((m) => ({
     id: m.number,
     surahId: m.surah.number,
     verseNumber: m.numberInSurah,
-    textArabic: '', // Search endpoint only returns the searched edition text
+    textArabic: "", // Search endpoint only returns the searched edition text
     textEnglish: m.text,
   }));
 }
@@ -172,9 +174,10 @@ export function getAudioUrl(surahNumber: number): string {
  * Fetch audio data for a surah (Mishary Alafasy).
  * Returns per-ayah audio URLs.
  */
-export async function fetchSurahAudio(
-  surahNumber: number
-): Promise<{ surahName: string; ayahs: { number: number; audioUrl: string }[] }> {
+export async function fetchSurahAudio(surahNumber: number): Promise<{
+  surahName: string;
+  ayahs: { number: number; audioUrl: string }[];
+}> {
   const data = await cachedFetch<{
     name: string;
     ayahs: { number: number; numberInSurah: number; audio: string }[];

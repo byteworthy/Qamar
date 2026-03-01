@@ -10,10 +10,7 @@ import { z } from "zod";
 import * as Sentry from "@sentry/node";
 import { randomUUID } from "crypto";
 import { aiRateLimiter } from "../middleware/ai-rate-limiter";
-import {
-  VALIDATION_MODE,
-  isAnthropicConfigured,
-} from "../config";
+import { VALIDATION_MODE, isAnthropicConfigured } from "../config";
 import {
   createErrorResponse,
   ERROR_CODES,
@@ -26,7 +23,10 @@ import {
   CRISIS_RESOURCES,
   validateAndSanitizeInput,
 } from "../ai-safety";
-import { detectIslamicQuery, fetchIslamicContext } from "../services/islamic-context";
+import {
+  detectIslamicQuery,
+  fetchIslamicContext,
+} from "../services/islamic-context";
 import { buildKhalilSystemPrompt } from "../services/khalil-prompts";
 import {
   getOrCreateSession,
@@ -171,15 +171,17 @@ export function registerKhalilRoutes(app: Express): void {
     try {
       const validationResult = khalilMessageSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues },
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { message, sessionId: providedSessionId } = validationResult.data;
@@ -191,27 +193,31 @@ export function registerKhalilRoutes(app: Express): void {
       }
 
       if (!isAnthropicConfigured()) {
-        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-          createErrorResponse(
-            HTTP_STATUS.SERVICE_UNAVAILABLE,
-            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-            req.id,
-            "AI service not configured.",
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.SERVICE_UNAVAILABLE,
+              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+              req.id,
+              "AI service not configured.",
+            ),
+          );
       }
 
       // Input validation
       const inputValidation = validateAndSanitizeInput(message);
       if (!inputValidation.valid) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.INVALID_INPUT,
-            req.id,
-            "Invalid input",
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.INVALID_INPUT,
+              req.id,
+              "Invalid input",
+            ),
+          );
       }
 
       const sanitizedMessage = inputValidation.sanitized;
@@ -224,14 +230,16 @@ export function registerKhalilRoutes(app: Express): void {
         if (!isPaid) {
           const todayUsage = getKhalilUsageToday(userId);
           if (todayUsage >= FREE_DAILY_LIMIT) {
-            return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
-              createErrorResponse(
-                HTTP_STATUS.PAYMENT_REQUIRED,
-                ERROR_CODES.PAYMENT_REQUIRED,
-                req.id,
-                "Upgrade to Noor Plus for unlimited Khalil conversations",
-              ),
-            );
+            return res
+              .status(HTTP_STATUS.PAYMENT_REQUIRED)
+              .json(
+                createErrorResponse(
+                  HTTP_STATUS.PAYMENT_REQUIRED,
+                  ERROR_CODES.PAYMENT_REQUIRED,
+                  req.id,
+                  "Upgrade to Qamar Plus for unlimited Khalil conversations",
+                ),
+              );
           }
         }
       }
@@ -281,7 +289,7 @@ export function registerKhalilRoutes(app: Express): void {
           }
 
           // Build messages from session history
-          const messages: Array<{ role: "user" | "assistant"; content: string }> = [
+          const messages: { role: "user" | "assistant"; content: string }[] = [
             ...session.history,
             { role: "user", content: sanitizedMessage },
           ];
@@ -356,14 +364,16 @@ export function registerKhalilRoutes(app: Express): void {
       req.logger.error("Khalil message failed", error, {
         operation: "khalil_message",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to process message",
-        ),
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to process message",
+          ),
+        );
     }
   });
 }

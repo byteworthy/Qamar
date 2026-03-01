@@ -1,14 +1,14 @@
 // shared/types/study-plan.ts
 export type StudyGoal =
-  | 'memorize_juz_30'
-  | 'read_entire_quran'
-  | 'understand_specific_surah'
-  | 'improve_tajweed'
-  | 'custom';
+  | "memorize_juz_30"
+  | "read_entire_quran"
+  | "understand_specific_surah"
+  | "improve_tajweed"
+  | "custom";
 
-export type TimeCommitment = '10min' | '20min' | '30min' | '45min';
+export type TimeCommitment = "10min" | "20min" | "30min" | "45min";
 
-export type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
+export type SkillLevel = "beginner" | "intermediate" | "advanced";
 
 export interface StudyPlanInput {
   goal: StudyGoal;
@@ -45,5 +45,5 @@ export interface WeeklyPlan {
 export interface AdaptationInput {
   planId: string;
   completedTasks: string[]; // Array of task IDs
-  userFeedback: 'too_easy' | 'just_right' | 'too_hard' | 'not_enough_time';
+  userFeedback: "too_easy" | "just_right" | "too_hard" | "not_enough_time";
 }

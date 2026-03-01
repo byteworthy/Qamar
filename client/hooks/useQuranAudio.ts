@@ -6,15 +6,15 @@
  * integration for the VerseReaderScreen.
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   getQuranAudioService,
   PlaybackState,
   RECITERS,
   Reciter,
-} from '../services/quranAudio';
+} from "../services/quranAudio";
 
-export { RECITERS, type Reciter } from '../services/quranAudio';
+export { RECITERS, type Reciter } from "../services/quranAudio";
 
 export interface QuranAudioHook {
   // State
@@ -69,14 +69,14 @@ export function useQuranAudio(): QuranAudioHook {
     async (surahNumber: number, startVerse: number = 1) => {
       await service.playSurah(surahNumber, startVerse);
     },
-    []
+    [],
   );
 
   const playVerse = useCallback(
     async (surahNumber: number, verseNumber: number) => {
       await service.playVerse(surahNumber, verseNumber);
     },
-    []
+    [],
   );
 
   const pause = useCallback(async () => {
@@ -119,8 +119,7 @@ export function useQuranAudio(): QuranAudioHook {
     service.setAutoAdvance(enabled);
   }, []);
 
-  const reciter =
-    RECITERS.find((r) => r.id === state.reciterId) ?? RECITERS[0];
+  const reciter = RECITERS.find((r) => r.id === state.reciterId) ?? RECITERS[0];
 
   return {
     isPlaying: state.isPlaying,

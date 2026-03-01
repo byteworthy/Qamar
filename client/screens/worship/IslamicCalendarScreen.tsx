@@ -1,10 +1,5 @@
 import React, { useState, useMemo } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
@@ -18,9 +13,18 @@ import { GlassCard } from "@/components/GlassCard";
 // ============================================================================
 
 const HIJRI_MONTH_NAMES_EN = [
-  "Muharram", "Safar", "Rabi al-Awwal", "Rabi al-Thani",
-  "Jumada al-Ula", "Jumada al-Thani", "Rajab", "Sha'ban",
-  "Ramadan", "Shawwal", "Dhul Qi'dah", "Dhul Hijjah",
+  "Muharram",
+  "Safar",
+  "Rabi al-Awwal",
+  "Rabi al-Thani",
+  "Jumada al-Ula",
+  "Jumada al-Thani",
+  "Rajab",
+  "Sha'ban",
+  "Ramadan",
+  "Shawwal",
+  "Dhul Qi'dah",
+  "Dhul Hijjah",
 ];
 
 const HIJRI_MONTH_NAMES_AR = [
@@ -87,8 +91,11 @@ function jdToHijri(jd: number): { year: number; month: number; day: number } {
   const j =
     Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719) +
     Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
-  const l3 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
-    Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+  const l3 =
+    l2 -
+    Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
+    Math.floor(j / 16) * Math.floor((15238 * j) / 43) +
+    29;
   const month = Math.floor((24 * l3) / 709);
   const day = l3 - Math.floor((709 * month) / 24);
   const year = 30 * n + j - 30;
@@ -113,7 +120,11 @@ function gregorianToJD(year: number, month: number, day: number): number {
 }
 
 /** Convert Julian Day Number to Gregorian date */
-function jdToGregorian(jd: number): { year: number; month: number; day: number } {
+function jdToGregorian(jd: number): {
+  year: number;
+  month: number;
+  day: number;
+} {
   const z = Math.floor(jd + 0.5);
   const a = Math.floor((z - 1867216.25) / 36524.25);
   const aa = z + 1 + a - Math.floor(a / 4);
@@ -157,16 +168,86 @@ interface IslamicEvent {
 }
 
 const ISLAMIC_EVENTS: IslamicEvent[] = [
-  { name: "Islamic New Year", date: "1st Muharram", month: 1, day: 1, description: "Beginning of the Islamic calendar year", icon: "calendar" },
-  { name: "Day of Ashura", date: "10th Muharram", month: 1, day: 10, description: "Day of fasting and remembrance", icon: "heart" },
-  { name: "Mawlid al-Nabi", date: "12th Rabi al-Awwal", month: 3, day: 12, description: "Birth of Prophet Muhammad (PBUH)", icon: "star" },
-  { name: "Laylat al-Mi'raj", date: "27th Rajab", month: 7, day: 27, description: "Night Journey and Ascension", icon: "moon" },
-  { name: "Laylat al-Bara'ah", date: "15th Sha'ban", month: 8, day: 15, description: "Night of Forgiveness", icon: "heart" },
-  { name: "First Day of Ramadan", date: "1st Ramadan", month: 9, day: 1, description: "Beginning of the blessed month", icon: "moon" },
-  { name: "Laylat al-Qadr", date: "27th Ramadan", month: 9, day: 27, description: "Night of Power (last 10 nights)", icon: "star" },
-  { name: "Eid al-Fitr", date: "1st Shawwal", month: 10, day: 1, description: "Festival of Breaking the Fast", icon: "sun" },
-  { name: "Day of Arafah", date: "9th Dhul Hijjah", month: 12, day: 9, description: "Day of standing on Mount Arafat", icon: "heart" },
-  { name: "Eid al-Adha", date: "10th Dhul Hijjah", month: 12, day: 10, description: "Festival of Sacrifice", icon: "sun" },
+  {
+    name: "Islamic New Year",
+    date: "1st Muharram",
+    month: 1,
+    day: 1,
+    description: "Beginning of the Islamic calendar year",
+    icon: "calendar",
+  },
+  {
+    name: "Day of Ashura",
+    date: "10th Muharram",
+    month: 1,
+    day: 10,
+    description: "Day of fasting and remembrance",
+    icon: "heart",
+  },
+  {
+    name: "Mawlid al-Nabi",
+    date: "12th Rabi al-Awwal",
+    month: 3,
+    day: 12,
+    description: "Birth of Prophet Muhammad (PBUH)",
+    icon: "star",
+  },
+  {
+    name: "Laylat al-Mi'raj",
+    date: "27th Rajab",
+    month: 7,
+    day: 27,
+    description: "Night Journey and Ascension",
+    icon: "moon",
+  },
+  {
+    name: "Laylat al-Bara'ah",
+    date: "15th Sha'ban",
+    month: 8,
+    day: 15,
+    description: "Night of Forgiveness",
+    icon: "heart",
+  },
+  {
+    name: "First Day of Ramadan",
+    date: "1st Ramadan",
+    month: 9,
+    day: 1,
+    description: "Beginning of the blessed month",
+    icon: "moon",
+  },
+  {
+    name: "Laylat al-Qadr",
+    date: "27th Ramadan",
+    month: 9,
+    day: 27,
+    description: "Night of Power (last 10 nights)",
+    icon: "star",
+  },
+  {
+    name: "Eid al-Fitr",
+    date: "1st Shawwal",
+    month: 10,
+    day: 1,
+    description: "Festival of Breaking the Fast",
+    icon: "sun",
+  },
+  {
+    name: "Day of Arafah",
+    date: "9th Dhul Hijjah",
+    month: 12,
+    day: 9,
+    description: "Day of standing on Mount Arafat",
+    icon: "heart",
+  },
+  {
+    name: "Eid al-Adha",
+    date: "10th Dhul Hijjah",
+    month: 12,
+    day: 10,
+    description: "Festival of Sacrifice",
+    icon: "sun",
+  },
 ];
 
 // ============================================================================
@@ -181,7 +262,13 @@ interface CalendarGridProps {
   events: IslamicEvent[];
 }
 
-function CalendarGrid({ hijriYear, hijriMonth, todayDay, isTodayMonth, events }: CalendarGridProps) {
+function CalendarGrid({
+  hijriYear,
+  hijriMonth,
+  todayDay,
+  isTodayMonth,
+  events,
+}: CalendarGridProps) {
   const { theme, isDark } = useTheme();
   const daysInMonth = hijriMonthLength(hijriYear, hijriMonth);
   const firstWeekday = getFirstDayOfHijriMonth(hijriYear, hijriMonth);
@@ -210,7 +297,9 @@ function CalendarGrid({ hijriYear, hijriMonth, todayDay, isTodayMonth, events }:
       <View style={styles.calendarRow}>
         {WEEKDAY_HEADERS.map((d) => (
           <View key={d} style={styles.calendarCell}>
-            <ThemedText style={[styles.weekdayHeader, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.weekdayHeader, { color: theme.textSecondary }]}
+            >
               {d}
             </ThemedText>
           </View>
@@ -251,9 +340,7 @@ function CalendarGrid({ hijriYear, hijriMonth, todayDay, isTodayMonth, events }:
                     >
                       {day}
                     </ThemedText>
-                    {isEvent && !isToday && (
-                      <View style={styles.eventDot} />
-                    )}
+                    {isEvent && !isToday && <View style={styles.eventDot} />}
                   </View>
                 ) : null}
               </View>
@@ -302,7 +389,9 @@ function EventCard({ event, currentMonth, currentDay, delay }: EventCardProps) {
     : daysUntil <= 7 && daysUntil > 0
       ? {
           bg: isDark ? "rgba(100, 150, 100, 0.1)" : "rgba(120, 180, 120, 0.15)",
-          border: isDark ? "rgba(100, 150, 100, 0.3)" : "rgba(100, 150, 100, 0.4)",
+          border: isDark
+            ? "rgba(100, 150, 100, 0.3)"
+            : "rgba(100, 150, 100, 0.4)",
           icon: theme.primary,
           accent: theme.primary,
         }
@@ -338,17 +427,23 @@ function EventCard({ event, currentMonth, currentDay, delay }: EventCardProps) {
             <ThemedText style={[styles.eventName, { color: theme.text }]}>
               {event.name}
             </ThemedText>
-            <ThemedText style={[styles.eventDate, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.eventDate, { color: theme.textSecondary }]}
+            >
               {event.date}
             </ThemedText>
-            <ThemedText style={[styles.eventDescription, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.eventDescription, { color: theme.textSecondary }]}
+            >
               {event.description}
             </ThemedText>
           </View>
         </View>
         <View style={styles.eventCardRight}>
           {isToday ? (
-            <View style={[styles.todayBadge, { backgroundColor: colors.accent }]}>
+            <View
+              style={[styles.todayBadge, { backgroundColor: colors.accent }]}
+            >
               <ThemedText style={[styles.todayBadgeText, { color: "#0f1419" }]}>
                 Today
               </ThemedText>
@@ -358,7 +453,9 @@ function EventCard({ event, currentMonth, currentDay, delay }: EventCardProps) {
               <ThemedText style={[styles.daysNumber, { color: colors.accent }]}>
                 {daysUntil}
               </ThemedText>
-              <ThemedText style={[styles.daysLabel, { color: theme.textSecondary }]}>
+              <ThemedText
+                style={[styles.daysLabel, { color: theme.textSecondary }]}
+              >
                 {daysUntil === 1 ? "day" : "days"}
               </ThemedText>
             </View>
@@ -381,7 +478,8 @@ export default function IslamicCalendarScreen() {
   const [viewYear, setViewYear] = useState(todayHijri.year);
   const [viewMonth, setViewMonth] = useState(todayHijri.month);
 
-  const isTodayMonth = viewYear === todayHijri.year && viewMonth === todayHijri.month;
+  const isTodayMonth =
+    viewYear === todayHijri.year && viewMonth === todayHijri.month;
 
   const gregorianDate = new Date();
 
@@ -407,7 +505,7 @@ export default function IslamicCalendarScreen() {
   // Events for current viewed month
   const monthEvents = useMemo(
     () => ISLAMIC_EVENTS.filter((e) => e.month === viewMonth),
-    [viewMonth]
+    [viewMonth],
   );
 
   // Sort all events by proximity
@@ -418,9 +516,13 @@ export default function IslamicCalendarScreen() {
           return (e.month - todayHijri.month) * 30 + (e.day - todayHijri.day);
         if (e.month === todayHijri.month) {
           if (e.day >= todayHijri.day) return e.day - todayHijri.day;
-          return (12 - todayHijri.month + e.month) * 30 + (e.day - todayHijri.day);
+          return (
+            (12 - todayHijri.month + e.month) * 30 + (e.day - todayHijri.day)
+          );
         }
-        return (12 - todayHijri.month + e.month) * 30 + (e.day - todayHijri.day);
+        return (
+          (12 - todayHijri.month + e.month) * 30 + (e.day - todayHijri.day)
+        );
       };
       return getDays(a) - getDays(b);
     });
@@ -432,7 +534,9 @@ export default function IslamicCalendarScreen() {
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Animated.View entering={FadeInDown.duration(300)}>
           <ThemedText style={styles.headerTitle}>Islamic Calendar</ThemedText>
-          <ThemedText style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.headerSubtitle, { color: theme.textSecondary }]}
+          >
             Hijri dates and important events
           </ThemedText>
         </Animated.View>
@@ -455,14 +559,17 @@ export default function IslamicCalendarScreen() {
                 size={28}
                 color={isDark ? "#f0d473" : "#D4AF37"}
               />
-              <ThemedText style={styles.dateLabel}>Today's Date</ThemedText>
+              <ThemedText style={styles.dateLabel}>Today{"'"}s Date</ThemedText>
             </View>
 
             {/* Arabic month name */}
             <ThemedText
               style={[
                 styles.arabicMonthName,
-                { fontFamily: "Amiri-Bold", color: isDark ? "#f0d473" : "#D4AF37" },
+                {
+                  fontFamily: "Amiri-Bold",
+                  color: isDark ? "#f0d473" : "#D4AF37",
+                },
               ]}
             >
               {HIJRI_MONTH_NAMES_AR[todayHijri.month - 1]}
@@ -475,11 +582,14 @@ export default function IslamicCalendarScreen() {
                 { color: isDark ? "#f0d473" : "#D4AF37" },
               ]}
             >
-              {todayHijri.day} {HIJRI_MONTH_NAMES_EN[todayHijri.month - 1]} {todayHijri.year} AH
+              {todayHijri.day} {HIJRI_MONTH_NAMES_EN[todayHijri.month - 1]}{" "}
+              {todayHijri.year} AH
             </ThemedText>
 
             {/* Gregorian Date */}
-            <ThemedText style={[styles.gregorianDate, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.gregorianDate, { color: theme.textSecondary }]}
+            >
               {gregorianDate.toLocaleDateString("en-US", {
                 weekday: "long",
                 year: "numeric",
@@ -495,7 +605,10 @@ export default function IslamicCalendarScreen() {
           <GlassCard style={styles.calendarCard} elevated>
             {/* Month Navigation */}
             <View style={styles.monthNav}>
-              <Pressable onPress={() => navigateMonth(-1)} style={styles.navButton}>
+              <Pressable
+                onPress={() => navigateMonth(-1)}
+                style={styles.navButton}
+              >
                 <Feather name="chevron-left" size={22} color={theme.text} />
               </Pressable>
 
@@ -508,12 +621,17 @@ export default function IslamicCalendarScreen() {
                 >
                   {HIJRI_MONTH_NAMES_AR[viewMonth - 1]}
                 </ThemedText>
-                <ThemedText style={[styles.monthTitleEnglish, { color: theme.text }]}>
+                <ThemedText
+                  style={[styles.monthTitleEnglish, { color: theme.text }]}
+                >
                   {HIJRI_MONTH_NAMES_EN[viewMonth - 1]} {viewYear}
                 </ThemedText>
               </Pressable>
 
-              <Pressable onPress={() => navigateMonth(1)} style={styles.navButton}>
+              <Pressable
+                onPress={() => navigateMonth(1)}
+                style={styles.navButton}
+              >
                 <Feather name="chevron-right" size={22} color={theme.text} />
               </Pressable>
             </View>
@@ -533,7 +651,10 @@ export default function IslamicCalendarScreen() {
                 {monthEvents.map((event) => (
                   <View
                     key={event.name}
-                    style={[styles.monthEventRow, { borderColor: theme.border }]}
+                    style={[
+                      styles.monthEventRow,
+                      { borderColor: theme.border },
+                    ]}
                   >
                     <View
                       style={[
@@ -541,10 +662,14 @@ export default function IslamicCalendarScreen() {
                         { backgroundColor: "#D4AF37" },
                       ]}
                     />
-                    <ThemedText style={[styles.monthEventDay, { color: theme.primary }]}>
+                    <ThemedText
+                      style={[styles.monthEventDay, { color: theme.primary }]}
+                    >
                       {event.day}
                     </ThemedText>
-                    <ThemedText style={[styles.monthEventName, { color: theme.text }]}>
+                    <ThemedText
+                      style={[styles.monthEventName, { color: theme.text }]}
+                    >
                       {event.name}
                     </ThemedText>
                   </View>
@@ -582,8 +707,11 @@ export default function IslamicCalendarScreen() {
               color={theme.textSecondary}
               style={{ marginRight: 8 }}
             />
-            <ThemedText style={[styles.infoText, { color: theme.textSecondary }]}>
-              Islamic dates are calculated using the tabular calendar and may vary by 1-2 days depending on moon sighting in your location.
+            <ThemedText
+              style={[styles.infoText, { color: theme.textSecondary }]}
+            >
+              Islamic dates are calculated using the tabular calendar and may
+              vary by 1-2 days depending on moon sighting in your location.
             </ThemedText>
           </View>
         </Animated.View>

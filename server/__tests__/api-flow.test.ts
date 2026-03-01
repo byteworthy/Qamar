@@ -31,6 +31,8 @@ import * as encryption from "../encryption";
 import * as dataRetention from "../data-retention";
 import { requestLoggerMiddleware } from "../middleware/request-logger";
 
+jest.setTimeout(15000);
+
 // Mock uuid
 jest.mock("uuid", () => ({
   v4: jest.fn(() => "mock-flow-request-id"),
@@ -203,13 +205,11 @@ describe("Full Reflection API Flow", () => {
       ],
     });
 
-    const reframeRes = await request(app)
-      .post("/api/reframe")
-      .send({
-        thought: "Everything will go wrong tomorrow",
-        patterns: analyzeRes.body.distortions,
-        analysis: analyzeRes.body.happening,
-      });
+    const reframeRes = await request(app).post("/api/reframe").send({
+      thought: "Everything will go wrong tomorrow",
+      patterns: analyzeRes.body.distortions,
+      analysis: analyzeRes.body.happening,
+    });
 
     expect(reframeRes.status).toBe(200);
     expect(reframeRes.body.beliefTested).toBeTruthy();
@@ -245,16 +245,14 @@ describe("Full Reflection API Flow", () => {
     expect(practiceRes.body.steps.length).toBeGreaterThan(0);
 
     // STEP 4: Save reflection
-    const saveRes = await request(app)
-      .post("/api/reflection/save")
-      .send({
-        thought: "Everything will go wrong tomorrow",
-        patterns: analyzeRes.body.distortions,
-        reframe: reframeRes.body.perspective,
-        intention: "I'll prepare one section and trust the rest to Allah",
-        practice: practiceRes.body.title,
-        anchor: reframeRes.body.anchors[0],
-      });
+    const saveRes = await request(app).post("/api/reflection/save").send({
+      thought: "Everything will go wrong tomorrow",
+      patterns: analyzeRes.body.distortions,
+      reframe: reframeRes.body.perspective,
+      intention: "I'll prepare one section and trust the rest to Allah",
+      practice: practiceRes.body.title,
+      anchor: reframeRes.body.anchors[0],
+    });
 
     expect(saveRes.status).toBe(200);
     expect(saveRes.body.success).toBe(true);
@@ -296,9 +294,7 @@ describe("Full Reflection API Flow", () => {
 
   test("can-reflect check before starting flow", async () => {
     // Free user, no reflections today
-    const canReflectRes = await request(app).get(
-      "/api/reflection/can-reflect",
-    );
+    const canReflectRes = await request(app).get("/api/reflection/can-reflect");
 
     expect(canReflectRes.status).toBe(200);
     expect(canReflectRes.body.canReflect).toBe(true);

@@ -6,8 +6,8 @@
  * Calls Voice.destroy() on unmount for clean resource release.
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { getSTTService, STTState } from '../services/speech/sttService';
+import { useEffect, useState, useCallback, useRef } from "react";
+import { getSTTService, STTState } from "../services/speech/sttService";
 
 // =============================================================================
 // TYPES

@@ -12,33 +12,33 @@
 // --------------------------------------------------------------------------
 
 const HIJRI_MONTHS_ENGLISH = [
-  'Muharram',
-  'Safar',
-  'Rabi al-Awwal',
-  'Rabi al-Thani',
-  'Jumada al-Ula',
-  'Jumada al-Thani',
-  'Rajab',
-  'Sha\'ban',
-  'Ramadan',
-  'Shawwal',
-  'Dhul Qi\'dah',
-  'Dhul Hijjah',
+  "Muharram",
+  "Safar",
+  "Rabi al-Awwal",
+  "Rabi al-Thani",
+  "Jumada al-Ula",
+  "Jumada al-Thani",
+  "Rajab",
+  "Sha'ban",
+  "Ramadan",
+  "Shawwal",
+  "Dhul Qi'dah",
+  "Dhul Hijjah",
 ] as const;
 
 const HIJRI_MONTHS_ARABIC = [
-  'محرم',
-  'صفر',
-  'ربيع الأول',
-  'ربيع الثاني',
-  'جمادى الأولى',
-  'جمادى الآخرة',
-  'رجب',
-  'شعبان',
-  'رمضان',
-  'شوال',
-  'ذو القعدة',
-  'ذو الحجة',
+  "محرم",
+  "صفر",
+  "ربيع الأول",
+  "ربيع الثاني",
+  "جمادى الأولى",
+  "جمادى الآخرة",
+  "رجب",
+  "شعبان",
+  "رمضان",
+  "شوال",
+  "ذو القعدة",
+  "ذو الحجة",
 ] as const;
 
 // --------------------------------------------------------------------------
@@ -66,16 +66,77 @@ export interface IslamicEvent {
 // --------------------------------------------------------------------------
 
 const ISLAMIC_EVENTS: IslamicEvent[] = [
-  { name: 'Islamic New Year', nameArabic: 'رأس السنة الهجرية', month: 1, day: 1, description: 'Beginning of the new Hijri year' },
-  { name: 'Day of Ashura', nameArabic: 'يوم عاشوراء', month: 1, day: 10, description: 'Commemorated with fasting; the day Allah saved Musa (AS)' },
-  { name: 'Mawlid an-Nabi', nameArabic: 'المولد النبوي', month: 3, day: 12, description: 'Birth of Prophet Muhammad (PBUH)' },
-  { name: 'Isra and Mi\'raj', nameArabic: 'الإسراء والمعراج', month: 7, day: 27, description: 'The Night Journey and Ascension of the Prophet (PBUH)' },
-  { name: 'Sha\'ban Mid-Night', nameArabic: 'ليلة النصف من شعبان', month: 8, day: 15, description: 'Night of forgiveness and blessings' },
-  { name: 'Start of Ramadan', nameArabic: 'بداية رمضان', month: 9, day: 1, description: 'Beginning of the month of fasting' },
-  { name: 'Laylat al-Qadr (approx.)', nameArabic: 'ليلة القدر', month: 9, day: 27, description: 'The Night of Decree, better than a thousand months' },
-  { name: 'Eid al-Fitr', nameArabic: 'عيد الفطر', month: 10, day: 1, description: 'Festival of Breaking the Fast' },
-  { name: 'Day of Arafah', nameArabic: 'يوم عرفة', month: 12, day: 9, description: 'Standing at Arafah during Hajj; fasting expiates two years of sins' },
-  { name: 'Eid al-Adha', nameArabic: 'عيد الأضحى', month: 12, day: 10, description: 'Festival of the Sacrifice' },
+  {
+    name: "Islamic New Year",
+    nameArabic: "رأس السنة الهجرية",
+    month: 1,
+    day: 1,
+    description: "Beginning of the new Hijri year",
+  },
+  {
+    name: "Day of Ashura",
+    nameArabic: "يوم عاشوراء",
+    month: 1,
+    day: 10,
+    description: "Commemorated with fasting; the day Allah saved Musa (AS)",
+  },
+  {
+    name: "Mawlid an-Nabi",
+    nameArabic: "المولد النبوي",
+    month: 3,
+    day: 12,
+    description: "Birth of Prophet Muhammad (PBUH)",
+  },
+  {
+    name: "Isra and Mi'raj",
+    nameArabic: "الإسراء والمعراج",
+    month: 7,
+    day: 27,
+    description: "The Night Journey and Ascension of the Prophet (PBUH)",
+  },
+  {
+    name: "Sha'ban Mid-Night",
+    nameArabic: "ليلة النصف من شعبان",
+    month: 8,
+    day: 15,
+    description: "Night of forgiveness and blessings",
+  },
+  {
+    name: "Start of Ramadan",
+    nameArabic: "بداية رمضان",
+    month: 9,
+    day: 1,
+    description: "Beginning of the month of fasting",
+  },
+  {
+    name: "Laylat al-Qadr (approx.)",
+    nameArabic: "ليلة القدر",
+    month: 9,
+    day: 27,
+    description: "The Night of Decree, better than a thousand months",
+  },
+  {
+    name: "Eid al-Fitr",
+    nameArabic: "عيد الفطر",
+    month: 10,
+    day: 1,
+    description: "Festival of Breaking the Fast",
+  },
+  {
+    name: "Day of Arafah",
+    nameArabic: "يوم عرفة",
+    month: 12,
+    day: 9,
+    description:
+      "Standing at Arafah during Hajj; fasting expiates two years of sins",
+  },
+  {
+    name: "Eid al-Adha",
+    nameArabic: "عيد الأضحى",
+    month: 12,
+    day: 10,
+    description: "Festival of the Sacrifice",
+  },
 ];
 
 // --------------------------------------------------------------------------
@@ -117,7 +178,11 @@ export function getHijriDate(date: Date = new Date()): HijriDate {
   const j =
     Math.floor((10985 - lRem) / 5316) * Math.floor((50 * lRem) / 17719) +
     Math.floor(lRem / 5670) * Math.floor((43 * lRem) / 15238);
-  const lFinal = lRem - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+  const lFinal =
+    lRem -
+    Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
+    Math.floor(j / 16) * Math.floor((15238 * j) / 43) +
+    29;
   const hijriMonth = Math.floor((24 * lFinal) / 709);
   const hijriDay = lFinal - Math.floor((709 * hijriMonth) / 24);
   const hijriYear = 30 * n + j - 30;
@@ -147,7 +212,7 @@ export function formatHijriDate(hijri: HijriDate): string {
  */
 export function formatHijriDateArabic(hijri: HijriDate): string {
   const arabicDigits = (n: number) =>
-    String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[parseInt(d)]);
+    String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]);
   return `${arabicDigits(hijri.day)} ${hijri.monthArabic} ${arabicDigits(hijri.year)} هـ`;
 }
 
@@ -158,22 +223,28 @@ export function formatHijriDateArabic(hijri: HijriDate): string {
 export function getTodayEvents(date: Date = new Date()): IslamicEvent[] {
   const hijri = getHijriDate(date);
   return ISLAMIC_EVENTS.filter(
-    (e) => e.month === hijri.monthNumber && e.day === hijri.day
+    (e) => e.month === hijri.monthNumber && e.day === hijri.day,
   );
 }
 
 /**
  * Get upcoming Islamic events within the next N days (default 30).
  */
-export function getUpcomingEvents(daysAhead: number = 30, from: Date = new Date()): (IslamicEvent & { hijriDate: HijriDate; daysUntil: number })[] {
-  const results: (IslamicEvent & { hijriDate: HijriDate; daysUntil: number })[] = [];
+export function getUpcomingEvents(
+  daysAhead: number = 30,
+  from: Date = new Date(),
+): (IslamicEvent & { hijriDate: HijriDate; daysUntil: number })[] {
+  const results: (IslamicEvent & {
+    hijriDate: HijriDate;
+    daysUntil: number;
+  })[] = [];
 
   for (let i = 0; i <= daysAhead; i++) {
     const checkDate = new Date(from);
     checkDate.setDate(checkDate.getDate() + i);
     const hijri = getHijriDate(checkDate);
     const dayEvents = ISLAMIC_EVENTS.filter(
-      (e) => e.month === hijri.monthNumber && e.day === hijri.day
+      (e) => e.month === hijri.monthNumber && e.day === hijri.day,
     );
     for (const event of dayEvents) {
       results.push({ ...event, hijriDate: hijri, daysUntil: i });
@@ -186,7 +257,11 @@ export function getUpcomingEvents(daysAhead: number = 30, from: Date = new Date(
 /**
  * Get all Hijri month names (English and Arabic).
  */
-export function getHijriMonths(): { english: string; arabic: string; number: number }[] {
+export function getHijriMonths(): {
+  english: string;
+  arabic: string;
+  number: number;
+}[] {
   return HIJRI_MONTHS_ENGLISH.map((en, i) => ({
     english: en,
     arabic: HIJRI_MONTHS_ARABIC[i],

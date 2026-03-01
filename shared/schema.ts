@@ -108,7 +108,7 @@ export const assumptionLibrary = pgTable(
 );
 
 // ============================================================================
-// ISLAMIC FEATURES TABLES (Noor-AI Integration)
+// ISLAMIC FEATURES TABLES (Qamar-AI Integration)
 // ============================================================================
 
 // Quran metadata (surah information - reference data, not user-specific)
@@ -127,7 +127,9 @@ export const quranMetadata = pgTable(
   },
   (table) => ({
     // Index on surah number for fast lookups
-    surahNumberIdx: index("quran_metadata_surah_number_idx").on(table.surahNumber),
+    surahNumberIdx: index("quran_metadata_surah_number_idx").on(
+      table.surahNumber,
+    ),
   }),
 );
 
@@ -221,7 +223,9 @@ export const userProgress = pgTable(
     quranVersesRead: integer("quran_verses_read").default(0),
     arabicWordsLearned: integer("arabic_words_learned").default(0),
     prayerTimesChecked: integer("prayer_times_checked").default(0),
-    reflectionSessionsCompleted: integer("reflection_sessions_completed").default(0),
+    reflectionSessionsCompleted: integer(
+      "reflection_sessions_completed",
+    ).default(0),
     streakDays: integer("streak_days").default(0),
     lastActiveDate: timestamp("last_active_date").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
@@ -257,7 +261,9 @@ export const vocabularyWords = pgTable(
     // Index on category for fast filtering
     categoryIdx: index("vocabulary_words_category_idx").on(table.category),
     // Index on difficulty for filtering
-    difficultyIdx: index("vocabulary_words_difficulty_idx").on(table.difficulty),
+    difficultyIdx: index("vocabulary_words_difficulty_idx").on(
+      table.difficulty,
+    ),
   }),
 );
 

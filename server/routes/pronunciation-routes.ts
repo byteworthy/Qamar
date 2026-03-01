@@ -65,15 +65,17 @@ export function registerPronunciationRoutes(app: Express): void {
         // Validate request body
         const parsed = pronunciationCheckSchema.safeParse(req.body);
         if (!parsed.success) {
-          return res.status(HTTP_STATUS.BAD_REQUEST).json(
-            createErrorResponse(
-              HTTP_STATUS.BAD_REQUEST,
-              ERROR_CODES.VALIDATION_FAILED,
-              req.id,
-              "Invalid request data",
-              { validationErrors: parsed.error.issues },
-            ),
-          );
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .json(
+              createErrorResponse(
+                HTTP_STATUS.BAD_REQUEST,
+                ERROR_CODES.VALIDATION_FAILED,
+                req.id,
+                "Invalid request data",
+                { validationErrors: parsed.error.issues },
+              ),
+            );
         }
 
         const { expectedText, transcribedText } = parsed.data;
@@ -146,14 +148,16 @@ export function registerPronunciationRoutes(app: Express): void {
         req.logger.error("Pronunciation check failed", error, {
           operation: "pronunciation_check",
         });
-        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-          createErrorResponse(
-            HTTP_STATUS.INTERNAL_SERVER_ERROR,
-            ERROR_CODES.INTERNAL_ERROR,
-            req.id,
-            "Failed to process pronunciation check",
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.INTERNAL_SERVER_ERROR,
+              ERROR_CODES.INTERNAL_ERROR,
+              req.id,
+              "Failed to process pronunciation check",
+            ),
+          );
       }
     },
   );

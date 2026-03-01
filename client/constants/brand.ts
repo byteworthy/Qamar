@@ -1,10 +1,10 @@
 export const Brand = {
-  name: "Noor",
+  name: "Qamar",
   method: "The Siraat Method",
   tagline: "A sacred space to untangle your thoughts, guided by faith.",
 
   disclaimer:
-    "Noor is an Islamic companion for spiritual growth and reflection. For urgent situations, please reach out to trusted support or call 988 Lifeline.",
+    "Qamar is an Islamic companion for spiritual growth and reflection. For urgent situations, please reach out to trusted support or call 988 Lifeline.",
   betaDisclaimer:
     "🌱 Early Access: Islamic content is being refined with scholarly guidance. Current reflections use foundational spiritual principles. Early supporters receive permanent discounted pricing.",
   methodCallout: "Powered by the Siraat Method",

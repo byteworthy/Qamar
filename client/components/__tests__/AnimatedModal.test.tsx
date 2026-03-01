@@ -5,7 +5,7 @@ import { AnimatedModal } from "../AnimatedModal";
 
 // Mock reanimated
 jest.mock("react-native-reanimated", () =>
-  require("react-native-reanimated/mock")
+  require("react-native-reanimated/mock"),
 );
 
 // Mock useTheme hook
@@ -24,7 +24,7 @@ describe("AnimatedModal", () => {
     const { getByText } = render(
       <AnimatedModal visible={true} onRequestClose={() => {}}>
         <Text>Modal Content</Text>
-      </AnimatedModal>
+      </AnimatedModal>,
     );
     expect(getByText("Modal Content")).toBeTruthy();
   });
@@ -34,7 +34,7 @@ describe("AnimatedModal", () => {
     const { getByLabelText } = render(
       <AnimatedModal visible={true} onRequestClose={onRequestClose}>
         <Text>Content</Text>
-      </AnimatedModal>
+      </AnimatedModal>,
     );
     fireEvent.press(getByLabelText("Close modal"));
     expect(onRequestClose).toHaveBeenCalled();
@@ -49,7 +49,7 @@ describe("AnimatedModal", () => {
         dismissOnBackdropPress={false}
       >
         <Text>Content</Text>
-      </AnimatedModal>
+      </AnimatedModal>,
     );
     fireEvent.press(getByLabelText("Close modal"));
     expect(onRequestClose).not.toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe("AnimatedModal", () => {
         <View testID="content">
           <Text>Content</Text>
         </View>
-      </AnimatedModal>
+      </AnimatedModal>,
     );
     // Test that component renders without error with custom style
     expect(getByTestId("content")).toBeTruthy();
@@ -75,7 +75,7 @@ describe("AnimatedModal", () => {
     const { getByLabelText } = render(
       <AnimatedModal visible={true} onRequestClose={() => {}}>
         <Text>Content</Text>
-      </AnimatedModal>
+      </AnimatedModal>,
     );
     const backdrop = getByLabelText("Close modal");
     expect(backdrop).toBeTruthy();

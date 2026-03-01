@@ -6,10 +6,7 @@ import {
   getValidationModeAnalyzeResponse,
 } from "../config";
 import { classifyTone, getTonePromptModifier } from "../toneClassifier";
-import {
-  inferInnerState,
-  getStatePromptModifier,
-} from "../stateInference";
+import { inferInnerState, getStatePromptModifier } from "../stateInference";
 import {
   detectCrisis,
   detectScrupulosity,
@@ -50,15 +47,17 @@ export function registerAiRoutes(app: Express): void {
       // Validate request body
       const validationResult = analyzeSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { thought, emotionalIntensity } = validationResult.data;
@@ -73,27 +72,31 @@ export function registerAiRoutes(app: Express): void {
 
       // OPENAI CONFIGURATION GUARD: Fail clearly if not in validation mode
       if (!isAnthropicConfigured()) {
-        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-          createErrorResponse(
-            HTTP_STATUS.SERVICE_UNAVAILABLE,
-            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-            req.id,
-            "AI service not configured. Set VALIDATION_MODE=true for testing."
-          )
-        );
+        return res
+          .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.SERVICE_UNAVAILABLE,
+              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+              req.id,
+              "AI service not configured. Set VALIDATION_MODE=true for testing.",
+            ),
+          );
       }
 
       // INPUT VALIDATION & SANITIZATION
       const inputValidation = validateAndSanitizeInput(thought);
       if (!inputValidation.valid) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.INVALID_INPUT,
-            req.id,
-            "Invalid input"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.INVALID_INPUT,
+              req.id,
+              "Invalid input",
+            ),
+          );
       }
       const sanitizedThought = inputValidation.sanitized;
 
@@ -230,7 +233,9 @@ export function registerAiRoutes(app: Express): void {
 
           // Load analyze-distortions prompt with DISTORTIONS_LIST replacement
           const analyzePrompt = loadPrompt("analyze-distortions.txt", {
-            DISTORTIONS_LIST: THOUGHT_PATTERNS.map((d: string) => `- ${d}`).join("\n"),
+            DISTORTIONS_LIST: THOUGHT_PATTERNS.map(
+              (d: string) => `- ${d}`,
+            ).join("\n"),
           });
 
           const response = await getAnthropicClient().messages.create({
@@ -292,14 +297,16 @@ ${analyzePrompt}`,
       req.logger.error("Failed to analyze thought", error, {
         operation: "analyze_thought",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to analyze thought"
-        )
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to analyze thought",
+          ),
+        );
     }
   });
 }

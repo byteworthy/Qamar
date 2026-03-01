@@ -19,7 +19,11 @@ import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { PremiumFeature } from "@/lib/premium-features";
 import { logPaywallDismissed } from "@/lib/analytics";
-import { useOfferings, usePurchase, useRestorePurchases } from "@/hooks/useRevenueCat";
+import {
+  useOfferings,
+  usePurchase,
+  useRestorePurchases,
+} from "@/hooks/useRevenueCat";
 import { useTheme } from "@/hooks/useTheme";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { VALIDATION_MODE } from "@/lib/config";
@@ -50,12 +54,15 @@ interface PremiumUpsellProps {
 /**
  * Feature benefit descriptions for the paywall
  */
-const FEATURE_BENEFITS: Record<PremiumFeature, {
-  title: string;
-  description: string;
-  icon: keyof typeof Feather.glyphMap;
-  benefits: string[];
-}> = {
+const FEATURE_BENEFITS: Record<
+  PremiumFeature,
+  {
+    title: string;
+    description: string;
+    icon: keyof typeof Feather.glyphMap;
+    benefits: string[];
+  }
+> = {
   // Quran features
   [PremiumFeature.QURAN_OFFLINE]: {
     title: "Offline Quran Access",
@@ -219,7 +226,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.AI_TUTOR_UNLIMITED]: {
     title: "Unlimited Arabic Tutor",
-    description: "Get unlimited Arabic language lessons from your personal tutor.",
+    description:
+      "Get unlimited Arabic language lessons from your personal tutor.",
     icon: "message-square",
     benefits: [
       "Unlimited tutor conversations",
@@ -241,7 +249,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.HIFZ_UNLIMITED]: {
     title: "Unlimited Hifz Reviews",
-    description: "Memorize the Quran at your own pace with unlimited daily reviews.",
+    description:
+      "Memorize the Quran at your own pace with unlimited daily reviews.",
     icon: "book",
     benefits: [
       "Review 50+ verses per day",
@@ -252,7 +261,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.HIFZ_AI_ANALYSIS]: {
     title: "Advanced Tajweed Coaching",
-    description: "Get advanced pronunciation feedback with detailed Tajweed analysis.",
+    description:
+      "Get advanced pronunciation feedback with detailed Tajweed analysis.",
     icon: "mic",
     benefits: [
       "Advanced Tajweed feedback",
@@ -263,7 +273,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.HIFZ_CIRCLES]: {
     title: "Memorization Circles",
-    description: "Join group memorization circles and share progress with others.",
+    description:
+      "Join group memorization circles and share progress with others.",
     icon: "users",
     benefits: [
       "Create or join circles",
@@ -276,7 +287,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   // Phase 6B: Tafsir & Verse Discussion
   [PremiumFeature.TAFSIR_UNLIMITED]: {
     title: "Unlimited Tafsir Explanations",
-    description: "Get unlimited access to Tafsir explanations with classical sources.",
+    description:
+      "Get unlimited access to Tafsir explanations with classical sources.",
     icon: "book-open",
     benefits: [
       "Unlimited verse explanations",
@@ -300,7 +312,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   // Phase 6C: Dua Finder
   [PremiumFeature.DUA_UNLIMITED]: {
     title: "Unlimited Dua Recommendations",
-    description: "Get unlimited personalized dua recommendations for any situation.",
+    description:
+      "Get unlimited personalized dua recommendations for any situation.",
     icon: "compass",
     benefits: [
       "Unlimited dua searches",
@@ -324,7 +337,8 @@ const FEATURE_BENEFITS: Record<PremiumFeature, {
   },
   [PremiumFeature.STUDY_PLAN_ADAPT]: {
     title: "Adaptive Study Plans",
-    description: "Adapt your study plan based on your progress and performance.",
+    description:
+      "Adapt your study plan based on your progress and performance.",
     icon: "trending-up",
     benefits: [
       "Intelligent adaptation",
@@ -414,7 +428,10 @@ export function PremiumUpsell({
     }
 
     if (!targetPackage) {
-      Alert.alert("Unavailable", "Unable to load subscription options. Please try again later.");
+      Alert.alert(
+        "Unavailable",
+        "Unable to load subscription options. Please try again later.",
+      );
       return;
     }
 
@@ -503,7 +520,12 @@ export function PremiumUpsell({
           <View style={styles.benefitsList}>
             {benefit.benefits.map((item, index) => (
               <View key={index} style={styles.benefitItem}>
-                <Feather name="check" size={14} color={GOLD} style={{ marginTop: 3 }} />
+                <Feather
+                  name="check"
+                  size={14}
+                  color={GOLD}
+                  style={{ marginTop: 3 }}
+                />
                 <Text style={[styles.benefitText, { color: theme.text }]}>
                   {item}
                 </Text>
@@ -554,7 +576,7 @@ export function PremiumUpsell({
 
           {/* Footer */}
           <Text style={[styles.footer, { color: theme.textSecondary + "80" }]}>
-            Cancel anytime  |  7-day free trial
+            Cancel anytime | 7-day free trial
           </Text>
         </GlassCard>
       </Animated.View>

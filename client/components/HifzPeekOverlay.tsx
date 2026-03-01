@@ -74,10 +74,7 @@ export function HifzPeekOverlay({
             {revealedText && (
               <Animated.View entering={FadeIn} style={styles.revealedContainer}>
                 <ThemedText
-                  style={[
-                    styles.revealedText,
-                    { color: theme.primary },
-                  ]}
+                  style={[styles.revealedText, { color: theme.primary }]}
                 >
                   {revealedText}
                 </ThemedText>
@@ -98,10 +95,7 @@ export function HifzPeekOverlay({
                 accessibilityHint="Shows the next word in the ayah as a hint"
               >
                 <ThemedText
-                  style={[
-                    styles.buttonText,
-                    { color: theme.onPrimary },
-                  ]}
+                  style={[styles.buttonText, { color: theme.onPrimary }]}
                 >
                   Reveal Next Word
                 </ThemedText>

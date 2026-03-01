@@ -41,7 +41,9 @@ function useHideWebScrollbar() {
         * { scrollbar-width: none; -ms-overflow-style: none; }
       `;
       document.head.appendChild(style);
-      return () => { document.head.removeChild(style); };
+      return () => {
+        document.head.removeChild(style);
+      };
     }
   }, []);
 }

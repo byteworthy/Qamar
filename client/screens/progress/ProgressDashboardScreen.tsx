@@ -89,7 +89,9 @@ function StatCard({ label, value, icon, delay }: StatCardProps) {
         </View>
         <View style={styles.statContent}>
           <ThemedText style={styles.statValue}>{value}</ThemedText>
-          <ThemedText style={[styles.statLabel, { color: theme.textSecondary }]}>
+          <ThemedText
+            style={[styles.statLabel, { color: theme.textSecondary }]}
+          >
             {label}
           </ThemedText>
         </View>

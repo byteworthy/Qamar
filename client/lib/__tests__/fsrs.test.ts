@@ -21,22 +21,22 @@ import {
   getCardStatistics,
   type FSRSCard,
   type Rating,
-} from '../fsrs';
+} from "../fsrs";
 
-describe('FSRS Algorithm', () => {
-  describe('createNewCard', () => {
-    it('should create a card with default values', () => {
+describe("FSRS Algorithm", () => {
+  describe("createNewCard", () => {
+    it("should create a card with default values", () => {
       const card = createNewCard();
 
       expect(card.difficulty).toBe(0.5);
       expect(card.stability).toBe(0);
       expect(card.lastReview).toBeNull();
       expect(card.nextReview).toBeNull();
-      expect(card.state).toBe('new');
+      expect(card.state).toBe("new");
       expect(card.reviewCount).toBe(0);
     });
 
-    it('should create independent cards', () => {
+    it("should create independent cards", () => {
       const card1 = createNewCard();
       const card2 = createNewCard();
 
@@ -45,12 +45,12 @@ describe('FSRS Algorithm', () => {
     });
   });
 
-  describe('scheduleReview - Rating Effects', () => {
-    it('should schedule with Again (1) - shortest interval', () => {
+  describe("scheduleReview - Rating Effects", () => {
+    it("should schedule with Again (1) - shortest interval", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 1);
 
-      expect(updated.state).toBe('learning');
+      expect(updated.state).toBe("learning");
       expect(updated.stability).toBe(0.4); // w[0]
       expect(updated.difficulty).toBeGreaterThan(card.difficulty);
       expect(updated.reviewCount).toBe(1);
@@ -58,34 +58,34 @@ describe('FSRS Algorithm', () => {
       expect(updated.nextReview).toBeInstanceOf(Date);
     });
 
-    it('should schedule with Hard (2)', () => {
+    it("should schedule with Hard (2)", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 2);
 
-      expect(updated.state).toBe('learning');
+      expect(updated.state).toBe("learning");
       expect(updated.stability).toBe(0.6); // w[1]
       expect(updated.reviewCount).toBe(1);
     });
 
-    it('should schedule with Good (3)', () => {
+    it("should schedule with Good (3)", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 3);
 
-      expect(updated.state).toBe('learning');
+      expect(updated.state).toBe("learning");
       expect(updated.stability).toBe(2.4); // w[2]
       expect(updated.reviewCount).toBe(1);
     });
 
-    it('should schedule with Easy (4) - graduates immediately to review', () => {
+    it("should schedule with Easy (4) - graduates immediately to review", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 4);
 
-      expect(updated.state).toBe('review');
+      expect(updated.state).toBe("review");
       expect(updated.stability).toBe(5.8); // w[3]
       expect(updated.reviewCount).toBe(1);
     });
 
-    it('should increase nextReview interval for higher ratings', () => {
+    it("should increase nextReview interval for higher ratings", () => {
       const card = createNewCard();
 
       const again = scheduleReview(card, 1);
@@ -100,86 +100,86 @@ describe('FSRS Algorithm', () => {
     });
   });
 
-  describe('Card State Transitions', () => {
-    it('should transition new -> learning on Again', () => {
+  describe("Card State Transitions", () => {
+    it("should transition new -> learning on Again", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 1);
 
-      expect(updated.state).toBe('learning');
+      expect(updated.state).toBe("learning");
     });
 
-    it('should transition new -> learning on Hard', () => {
+    it("should transition new -> learning on Hard", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 2);
 
-      expect(updated.state).toBe('learning');
+      expect(updated.state).toBe("learning");
     });
 
-    it('should transition new -> learning on Good', () => {
+    it("should transition new -> learning on Good", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 3);
 
-      expect(updated.state).toBe('learning');
+      expect(updated.state).toBe("learning");
     });
 
-    it('should transition new -> review on Easy', () => {
+    it("should transition new -> review on Easy", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 4);
 
-      expect(updated.state).toBe('review');
+      expect(updated.state).toBe("review");
     });
 
-    it('should transition learning -> review when stability exceeds graduating interval', () => {
+    it("should transition learning -> review when stability exceeds graduating interval", () => {
       const card = createNewCard();
 
       // First review: new -> learning with Good (stability = 2.4)
       const learning = scheduleReview(card, 3);
-      expect(learning.state).toBe('learning');
+      expect(learning.state).toBe("learning");
 
       // Second review: learning -> review if stability >= 1 day
       const review = scheduleReview(learning, 3);
-      expect(review.state).toBe('review');
+      expect(review.state).toBe("review");
     });
 
-    it('should transition review -> relearning on Again', () => {
+    it("should transition review -> relearning on Again", () => {
       // Create a card already in review state
       const reviewCard: FSRSCard = {
         difficulty: 0.5,
         stability: 5,
         lastReview: new Date(Date.now() - 86400000 * 5),
         nextReview: new Date(),
-        state: 'review',
+        state: "review",
         reviewCount: 5,
       };
 
       const updated = scheduleReview(reviewCard, 1);
-      expect(updated.state).toBe('relearning');
+      expect(updated.state).toBe("relearning");
     });
 
-    it('should keep card in review state on successful review', () => {
+    it("should keep card in review state on successful review", () => {
       const reviewCard: FSRSCard = {
         difficulty: 0.5,
         stability: 5,
         lastReview: new Date(Date.now() - 86400000 * 5),
         nextReview: new Date(),
-        state: 'review',
+        state: "review",
         reviewCount: 5,
       };
 
       const updated = scheduleReview(reviewCard, 3);
-      expect(updated.state).toBe('review');
+      expect(updated.state).toBe("review");
     });
   });
 
-  describe('Difficulty Adjustments', () => {
-    it('should increase difficulty on Again (1)', () => {
+  describe("Difficulty Adjustments", () => {
+    it("should increase difficulty on Again (1)", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 1);
 
       expect(updated.difficulty).toBe(0.7); // 0.5 + 0.2
     });
 
-    it('should increase difficulty on Hard (2)', () => {
+    it("should increase difficulty on Hard (2)", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 2);
 
@@ -187,7 +187,7 @@ describe('FSRS Algorithm', () => {
       expect(updated.difficulty).toBeCloseTo(0.65);
     });
 
-    it('should not change difficulty on Good (3)', () => {
+    it("should not change difficulty on Good (3)", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 3);
 
@@ -195,7 +195,7 @@ describe('FSRS Algorithm', () => {
       expect(updated.difficulty).toBeCloseTo(0.5);
     });
 
-    it('should decrease difficulty on Easy (4)', () => {
+    it("should decrease difficulty on Easy (4)", () => {
       const card = createNewCard();
       const updated = scheduleReview(card, 4);
 
@@ -203,7 +203,7 @@ describe('FSRS Algorithm', () => {
       expect(updated.difficulty).toBeCloseTo(0.35);
     });
 
-    it('should clamp difficulty to max 1.0', () => {
+    it("should clamp difficulty to max 1.0", () => {
       const card: FSRSCard = {
         ...createNewCard(),
         difficulty: 0.95,
@@ -213,7 +213,7 @@ describe('FSRS Algorithm', () => {
       expect(updated.difficulty).toBeLessThanOrEqual(1);
     });
 
-    it('should clamp difficulty to min 0.1', () => {
+    it("should clamp difficulty to min 0.1", () => {
       const card: FSRSCard = {
         ...createNewCard(),
         difficulty: 0.15,
@@ -224,21 +224,21 @@ describe('FSRS Algorithm', () => {
     });
   });
 
-  describe('getDueCards', () => {
-    it('should return new cards as due', () => {
+  describe("getDueCards", () => {
+    it("should return new cards as due", () => {
       const cards = [createNewCard(), createNewCard()];
       const due = getDueCards(cards);
 
       expect(due.length).toBe(2);
     });
 
-    it('should return cards with past nextReview as due', () => {
+    it("should return cards with past nextReview as due", () => {
       const pastCard: FSRSCard = {
         difficulty: 0.5,
         stability: 1,
         lastReview: new Date(Date.now() - 86400000 * 2),
         nextReview: new Date(Date.now() - 86400000),
-        state: 'review',
+        state: "review",
         reviewCount: 3,
       };
 
@@ -246,13 +246,13 @@ describe('FSRS Algorithm', () => {
       expect(due.length).toBe(1);
     });
 
-    it('should not return cards with future nextReview', () => {
+    it("should not return cards with future nextReview", () => {
       const futureCard: FSRSCard = {
         difficulty: 0.5,
         stability: 5,
         lastReview: new Date(),
         nextReview: new Date(Date.now() + 86400000 * 5),
-        state: 'review',
+        state: "review",
         reviewCount: 3,
       };
 
@@ -260,13 +260,13 @@ describe('FSRS Algorithm', () => {
       expect(due.length).toBe(0);
     });
 
-    it('should return cards with null nextReview as due', () => {
+    it("should return cards with null nextReview as due", () => {
       const noScheduleCard: FSRSCard = {
         difficulty: 0.5,
         stability: 1,
         lastReview: new Date(),
         nextReview: null,
-        state: 'learning',
+        state: "learning",
         reviewCount: 1,
       };
 
@@ -274,36 +274,36 @@ describe('FSRS Algorithm', () => {
       expect(due.length).toBe(1);
     });
 
-    it('should sort new cards first', () => {
+    it("should sort new cards first", () => {
       const reviewCard: FSRSCard = {
         difficulty: 0.5,
         stability: 1,
         lastReview: new Date(Date.now() - 86400000 * 2),
         nextReview: new Date(Date.now() - 86400000),
-        state: 'review',
+        state: "review",
         reviewCount: 3,
       };
       const newCard = createNewCard();
 
       const due = getDueCards([reviewCard, newCard]);
 
-      expect(due[0].state).toBe('new');
-      expect(due[1].state).toBe('review');
+      expect(due[0].state).toBe("new");
+      expect(due[1].state).toBe("review");
     });
   });
 
-  describe('calculateInterval', () => {
-    it('should return positive interval', () => {
+  describe("calculateInterval", () => {
+    it("should return positive interval", () => {
       const interval = calculateInterval(5);
       expect(interval).toBeGreaterThan(0);
     });
 
-    it('should return minimum of 0.1 days', () => {
+    it("should return minimum of 0.1 days", () => {
       const interval = calculateInterval(0);
       expect(interval).toBeGreaterThanOrEqual(0.1);
     });
 
-    it('should scale with stability', () => {
+    it("should scale with stability", () => {
       // Run multiple times to average out randomness
       let smallSum = 0;
       let largeSum = 0;
@@ -318,29 +318,29 @@ describe('FSRS Algorithm', () => {
     });
   });
 
-  describe('calculateRetention', () => {
-    it('should return 0 for new cards', () => {
+  describe("calculateRetention", () => {
+    it("should return 0 for new cards", () => {
       const card = createNewCard();
       expect(calculateRetention(card)).toBe(0);
     });
 
-    it('should return 0 for cards without review dates', () => {
+    it("should return 0 for cards without review dates", () => {
       const card: FSRSCard = {
         ...createNewCard(),
-        state: 'learning',
+        state: "learning",
         lastReview: null,
         nextReview: null,
       };
       expect(calculateRetention(card)).toBe(0);
     });
 
-    it('should return value between 0 and 1 for reviewed cards', () => {
+    it("should return value between 0 and 1 for reviewed cards", () => {
       const card: FSRSCard = {
         difficulty: 0.5,
         stability: 5,
         lastReview: new Date(Date.now() - 86400000),
         nextReview: new Date(Date.now() + 86400000 * 4),
-        state: 'review',
+        state: "review",
         reviewCount: 3,
       };
 
@@ -350,21 +350,21 @@ describe('FSRS Algorithm', () => {
     });
   });
 
-  describe('getCardStatistics', () => {
-    it('should count cards by state', () => {
+  describe("getCardStatistics", () => {
+    it("should count cards by state", () => {
       const cards: FSRSCard[] = [
         createNewCard(),
         createNewCard(),
         {
           ...createNewCard(),
-          state: 'learning',
+          state: "learning",
           lastReview: new Date(),
           nextReview: new Date(),
           reviewCount: 1,
         },
         {
           ...createNewCard(),
-          state: 'review',
+          state: "review",
           stability: 5,
           lastReview: new Date(),
           nextReview: new Date(Date.now() + 86400000 * 5),
@@ -381,12 +381,12 @@ describe('FSRS Algorithm', () => {
       expect(stats.relearning).toBe(0);
     });
 
-    it('should count due cards', () => {
+    it("should count due cards", () => {
       const cards: FSRSCard[] = [
         createNewCard(), // due (new)
         {
           ...createNewCard(),
-          state: 'review',
+          state: "review",
           stability: 5,
           lastReview: new Date(),
           nextReview: new Date(Date.now() + 86400000 * 5), // not due
@@ -398,11 +398,11 @@ describe('FSRS Algorithm', () => {
       expect(stats.due).toBe(1);
     });
 
-    it('should calculate average difficulty for reviewed cards', () => {
+    it("should calculate average difficulty for reviewed cards", () => {
       const cards: FSRSCard[] = [
         {
           ...createNewCard(),
-          state: 'review',
+          state: "review",
           difficulty: 0.3,
           stability: 5,
           lastReview: new Date(),
@@ -411,7 +411,7 @@ describe('FSRS Algorithm', () => {
         },
         {
           ...createNewCard(),
-          state: 'review',
+          state: "review",
           difficulty: 0.7,
           stability: 3,
           lastReview: new Date(),
@@ -424,7 +424,7 @@ describe('FSRS Algorithm', () => {
       expect(stats.avgDifficulty).toBeCloseTo(0.5);
     });
 
-    it('should return zero averages when no reviewed cards exist', () => {
+    it("should return zero averages when no reviewed cards exist", () => {
       const cards = [createNewCard(), createNewCard()];
       const stats = getCardStatistics(cards);
 
@@ -433,48 +433,48 @@ describe('FSRS Algorithm', () => {
     });
   });
 
-  describe('Full Review Cycle', () => {
-    it('should progress a card from new through learning to review', () => {
+  describe("Full Review Cycle", () => {
+    it("should progress a card from new through learning to review", () => {
       let card = createNewCard();
-      expect(card.state).toBe('new');
+      expect(card.state).toBe("new");
 
       // First review with Good
       card = scheduleReview(card, 3);
-      expect(card.state).toBe('learning');
+      expect(card.state).toBe("learning");
       expect(card.reviewCount).toBe(1);
 
       // Second review with Good - should graduate
       card = scheduleReview(card, 3);
-      expect(card.state).toBe('review');
+      expect(card.state).toBe("review");
       expect(card.reviewCount).toBe(2);
 
       // Third review with Good - stays in review
       card = scheduleReview(card, 3);
-      expect(card.state).toBe('review');
+      expect(card.state).toBe("review");
       expect(card.reviewCount).toBe(3);
       expect(card.stability).toBeGreaterThan(2.4);
     });
 
-    it('should handle lapse and recovery', () => {
+    it("should handle lapse and recovery", () => {
       // Start with a review card
       let card: FSRSCard = {
         difficulty: 0.5,
         stability: 10,
         lastReview: new Date(Date.now() - 86400000 * 10),
         nextReview: new Date(),
-        state: 'review',
+        state: "review",
         reviewCount: 10,
       };
 
       // Lapse: forgot the card
       card = scheduleReview(card, 1);
-      expect(card.state).toBe('relearning');
+      expect(card.state).toBe("relearning");
       expect(card.difficulty).toBeGreaterThan(0.5);
 
       // Recover with Good
       card = scheduleReview(card, 3);
       // Should be back in review if stability >= 1
-      expect(card.state).toBe('review');
+      expect(card.state).toBe("review");
     });
   });
 });

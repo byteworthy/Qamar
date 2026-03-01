@@ -62,50 +62,178 @@ interface DhikrItem {
 // =============================================================================
 
 const CURATED_VERSES: Verse[] = [
-  { arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", translation: "In the name of Allah, the Most Gracious, the Most Merciful.", reference: "1:1" },
-  { arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", translation: "You alone we worship, and You alone we ask for help.", reference: "1:5" },
-  { arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", translation: "Guide us to the straight path.", reference: "1:6" },
-  { arabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ", translation: "This is the Book about which there is no doubt, a guidance for those conscious of Allah.", reference: "2:2" },
-  { arabic: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ", translation: "And seek help through patience and prayer.", reference: "2:45" },
-  { arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", translation: "For indeed, with hardship will be ease.", reference: "94:5" },
-  { arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", translation: "Indeed, with hardship will be ease.", reference: "94:6" },
-  { arabic: "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ", translation: "And your Lord is going to give you, and you will be satisfied.", reference: "93:5" },
-  { arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", translation: "Verily, in the remembrance of Allah do hearts find rest.", reference: "13:28" },
-  { arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", translation: "And whoever relies upon Allah, then He is sufficient for him.", reference: "65:3" },
-  { arabic: "رَبِّ اشْرَحْ لِي صَدْرِي", translation: "My Lord, expand for me my chest.", reference: "20:25" },
-  { arabic: "رَبِّ زِدْنِي عِلْمًا", translation: "My Lord, increase me in knowledge.", reference: "20:114" },
-  { arabic: "وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ", translation: "And We are closer to him than his jugular vein.", reference: "50:16" },
-  { arabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", translation: "Indeed, Allah is with the patient.", reference: "2:153" },
-  { arabic: "وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", translation: "And say: My Lord, have mercy upon them as they brought me up when I was small.", reference: "17:24" },
-  { arabic: "فَاذْكُرُونِي أَذْكُرْكُمْ", translation: "So remember Me; I will remember you.", reference: "2:152" },
-  { arabic: "وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ", translation: "And We have certainly made the Quran easy for remembrance.", reference: "54:17" },
-  { arabic: "قُلْ هُوَ اللَّهُ أَحَدٌ", translation: "Say: He is Allah, the One.", reference: "112:1" },
-  { arabic: "وَإِلَٰهُكُمْ إِلَٰهٌ وَاحِدٌ", translation: "And your god is one God.", reference: "2:163" },
-  { arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا", translation: "O you who have believed, persevere and endure.", reference: "3:200" },
+  {
+    arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    translation: "In the name of Allah, the Most Gracious, the Most Merciful.",
+    reference: "1:1",
+  },
+  {
+    arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+    translation: "You alone we worship, and You alone we ask for help.",
+    reference: "1:5",
+  },
+  {
+    arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+    translation: "Guide us to the straight path.",
+    reference: "1:6",
+  },
+  {
+    arabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ",
+    translation:
+      "This is the Book about which there is no doubt, a guidance for those conscious of Allah.",
+    reference: "2:2",
+  },
+  {
+    arabic: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
+    translation: "And seek help through patience and prayer.",
+    reference: "2:45",
+  },
+  {
+    arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+    translation: "For indeed, with hardship will be ease.",
+    reference: "94:5",
+  },
+  {
+    arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+    translation: "Indeed, with hardship will be ease.",
+    reference: "94:6",
+  },
+  {
+    arabic: "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ",
+    translation:
+      "And your Lord is going to give you, and you will be satisfied.",
+    reference: "93:5",
+  },
+  {
+    arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+    translation: "Verily, in the remembrance of Allah do hearts find rest.",
+    reference: "13:28",
+  },
+  {
+    arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+    translation:
+      "And whoever relies upon Allah, then He is sufficient for him.",
+    reference: "65:3",
+  },
+  {
+    arabic: "رَبِّ اشْرَحْ لِي صَدْرِي",
+    translation: "My Lord, expand for me my chest.",
+    reference: "20:25",
+  },
+  {
+    arabic: "رَبِّ زِدْنِي عِلْمًا",
+    translation: "My Lord, increase me in knowledge.",
+    reference: "20:114",
+  },
+  {
+    arabic: "وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ",
+    translation: "And We are closer to him than his jugular vein.",
+    reference: "50:16",
+  },
+  {
+    arabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+    translation: "Indeed, Allah is with the patient.",
+    reference: "2:153",
+  },
+  {
+    arabic: "وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+    translation:
+      "And say: My Lord, have mercy upon them as they brought me up when I was small.",
+    reference: "17:24",
+  },
+  {
+    arabic: "فَاذْكُرُونِي أَذْكُرْكُمْ",
+    translation: "So remember Me; I will remember you.",
+    reference: "2:152",
+  },
+  {
+    arabic: "وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ",
+    translation: "And We have certainly made the Quran easy for remembrance.",
+    reference: "54:17",
+  },
+  {
+    arabic: "قُلْ هُوَ اللَّهُ أَحَدٌ",
+    translation: "Say: He is Allah, the One.",
+    reference: "112:1",
+  },
+  {
+    arabic: "وَإِلَٰهُكُمْ إِلَٰهٌ وَاحِدٌ",
+    translation: "And your god is one God.",
+    reference: "2:163",
+  },
+  {
+    arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا",
+    translation: "O you who have believed, persevere and endure.",
+    reference: "3:200",
+  },
 ];
 
 const FLASHCARD_WORDS: FlashcardWord[] = [
-  { arabic: "بِسْمِ اللَّهِ", transliteration: "Bismillah", english: "In the name of Allah" },
-  { arabic: "إِنْ شَاءَ اللَّهُ", transliteration: "In sha Allah", english: "If Allah wills" },
-  { arabic: "مَا شَاءَ اللَّهُ", transliteration: "Ma sha Allah", english: "Allah has willed it" },
-  { arabic: "جَزَاكَ اللَّهُ خَيْرًا", transliteration: "Jazak Allahu khayran", english: "May Allah reward you with good" },
-  { arabic: "بَارَكَ اللَّهُ فِيكَ", transliteration: "Baarak Allahu feek", english: "May Allah bless you" },
-  { arabic: "تَوَكُّل", transliteration: "Tawakkul", english: "Trust in Allah / Reliance on God" },
+  {
+    arabic: "بِسْمِ اللَّهِ",
+    transliteration: "Bismillah",
+    english: "In the name of Allah",
+  },
+  {
+    arabic: "إِنْ شَاءَ اللَّهُ",
+    transliteration: "In sha Allah",
+    english: "If Allah wills",
+  },
+  {
+    arabic: "مَا شَاءَ اللَّهُ",
+    transliteration: "Ma sha Allah",
+    english: "Allah has willed it",
+  },
+  {
+    arabic: "جَزَاكَ اللَّهُ خَيْرًا",
+    transliteration: "Jazak Allahu khayran",
+    english: "May Allah reward you with good",
+  },
+  {
+    arabic: "بَارَكَ اللَّهُ فِيكَ",
+    transliteration: "Baarak Allahu feek",
+    english: "May Allah bless you",
+  },
+  {
+    arabic: "تَوَكُّل",
+    transliteration: "Tawakkul",
+    english: "Trust in Allah / Reliance on God",
+  },
   { arabic: "صَبْر", transliteration: "Sabr", english: "Patience" },
   { arabic: "شُكْر", transliteration: "Shukr", english: "Gratitude" },
   { arabic: "تَقْوَى", transliteration: "Taqwa", english: "God-consciousness" },
-  { arabic: "إِحْسَان", transliteration: "Ihsan", english: "Excellence in worship" },
+  {
+    arabic: "إِحْسَان",
+    transliteration: "Ihsan",
+    english: "Excellence in worship",
+  },
   { arabic: "رَحْمَة", transliteration: "Rahmah", english: "Mercy" },
-  { arabic: "نُور", transliteration: "Noor", english: "Light" },
+  { arabic: "نُور", transliteration: "Qamar", english: "Light" },
   { arabic: "هِدَايَة", transliteration: "Hidayah", english: "Guidance" },
   { arabic: "تَوْبَة", transliteration: "Tawbah", english: "Repentance" },
-  { arabic: "دُعَاء", transliteration: "Dua", english: "Supplication / Prayer" },
+  {
+    arabic: "دُعَاء",
+    transliteration: "Dua",
+    english: "Supplication / Prayer",
+  },
 ];
 
 const DHIKR_OPTIONS: DhikrItem[] = [
-  { arabic: "سُبْحَانَ اللَّهِ", transliteration: "SubhanAllah", english: "Glory be to Allah" },
-  { arabic: "الْحَمْدُ لِلَّهِ", transliteration: "Alhamdulillah", english: "All praise is due to Allah" },
-  { arabic: "اللَّهُ أَكْبَرُ", transliteration: "Allahu Akbar", english: "Allah is the Greatest" },
+  {
+    arabic: "سُبْحَانَ اللَّهِ",
+    transliteration: "SubhanAllah",
+    english: "Glory be to Allah",
+  },
+  {
+    arabic: "الْحَمْدُ لِلَّهِ",
+    transliteration: "Alhamdulillah",
+    english: "All praise is due to Allah",
+  },
+  {
+    arabic: "اللَّهُ أَكْبَرُ",
+    transliteration: "Allahu Akbar",
+    english: "Allah is the Greatest",
+  },
 ];
 
 const REFLECTION_PROMPTS: string[] = [
@@ -152,7 +280,10 @@ async function saveReflection(prompt: string, text: string): Promise<void> {
     text,
     date: new Date().toISOString(),
   });
-  await AsyncStorage.setItem(REFLECTIONS_STORAGE_KEY, JSON.stringify(reflections));
+  await AsyncStorage.setItem(
+    REFLECTIONS_STORAGE_KEY,
+    JSON.stringify(reflections),
+  );
 }
 
 // =============================================================================
@@ -167,7 +298,12 @@ interface StepHeaderProps {
 
 function StepHeader({ step, onBack, theme }: StepHeaderProps) {
   const progress = step / 4;
-  const stepLabels = ["Daily Verse", "Arabic Flashcard", "Dhikr Practice", "Reflection"];
+  const stepLabels = [
+    "Daily Verse",
+    "Arabic Flashcard",
+    "Dhikr Practice",
+    "Reflection",
+  ];
 
   return (
     <View style={styles.stepHeader}>
@@ -233,7 +369,10 @@ function DailyVerseStep({ onContinue, theme }: DailyVerseStepProps) {
   }, [onContinue]);
 
   return (
-    <Animated.View entering={FadeInUp.duration(400).springify().damping(18)} style={styles.stepContent}>
+    <Animated.View
+      entering={FadeInUp.duration(400).springify().damping(18)}
+      style={styles.stepContent}
+    >
       <IslamicPattern variant="moonstar" opacity={0.04} />
 
       <GlassCard style={styles.verseCard} breathing>
@@ -244,7 +383,9 @@ function DailyVerseStep({ onContinue, theme }: DailyVerseStepProps) {
           {verse.arabic}
         </ThemedText>
 
-        <View style={[styles.verseDivider, { backgroundColor: theme.border }]} />
+        <View
+          style={[styles.verseDivider, { backgroundColor: theme.border }]}
+        />
 
         <ThemedText
           type="body"
@@ -339,7 +480,10 @@ function FlashcardStep({ onContinue, theme }: FlashcardStepProps) {
   }));
 
   return (
-    <Animated.View entering={FadeInUp.duration(400).springify().damping(18)} style={styles.stepContent}>
+    <Animated.View
+      entering={FadeInUp.duration(400).springify().damping(18)}
+      style={styles.stepContent}
+    >
       <IslamicPattern variant="corner" opacity={0.03} />
 
       <Animated.View style={cardAnimatedStyle}>
@@ -353,14 +497,25 @@ function FlashcardStep({ onContinue, theme }: FlashcardStepProps) {
 
           <ThemedText
             type="body"
-            style={[styles.flashcardTransliteration, { color: theme.textSecondary }]}
+            style={[
+              styles.flashcardTransliteration,
+              { color: theme.textSecondary },
+            ]}
           >
             {word.transliteration}
           </ThemedText>
 
           {isFlipped ? (
-            <Animated.View entering={FadeIn.duration(300)} style={styles.flashcardAnswer}>
-              <View style={[styles.flashcardDivider, { backgroundColor: theme.border }]} />
+            <Animated.View
+              entering={FadeIn.duration(300)}
+              style={styles.flashcardAnswer}
+            >
+              <View
+                style={[
+                  styles.flashcardDivider,
+                  { backgroundColor: theme.border },
+                ]}
+              />
               <ThemedText
                 type="h3"
                 style={[styles.flashcardEnglish, { fontFamily: Fonts?.serif }]}
@@ -371,7 +526,10 @@ function FlashcardStep({ onContinue, theme }: FlashcardStepProps) {
           ) : (
             <Pressable
               onPress={handleFlip}
-              style={[styles.tapToReveal, { backgroundColor: theme.overlayLight }]}
+              style={[
+                styles.tapToReveal,
+                { backgroundColor: theme.overlayLight },
+              ]}
               accessibilityRole="button"
               accessibilityLabel="Tap to reveal the English meaning"
             >
@@ -388,7 +546,10 @@ function FlashcardStep({ onContinue, theme }: FlashcardStepProps) {
       </Animated.View>
 
       {isFlipped && (
-        <Animated.View entering={FadeInUp.duration(300).delay(100)} style={styles.flashcardActions}>
+        <Animated.View
+          entering={FadeInUp.duration(300).delay(100)}
+          style={styles.flashcardActions}
+        >
           <Pressable
             onPress={() => handleResponse(true)}
             style={({ pressed }) => [
@@ -402,7 +563,9 @@ function FlashcardStep({ onContinue, theme }: FlashcardStepProps) {
             accessibilityLabel="I knew this word"
           >
             <Feather name="check" size={18} color="#fff" />
-            <ThemedText style={styles.flashcardButtonText}>I knew this</ThemedText>
+            <ThemedText style={styles.flashcardButtonText}>
+              I knew this
+            </ThemedText>
           </Pressable>
 
           <Pressable
@@ -418,7 +581,9 @@ function FlashcardStep({ onContinue, theme }: FlashcardStepProps) {
             accessibilityLabel="Still learning this word"
           >
             <Feather name="refresh-cw" size={18} color={theme.text} />
-            <ThemedText style={[styles.flashcardButtonText, { color: theme.text }]}>
+            <ThemedText
+              style={[styles.flashcardButtonText, { color: theme.text }]}
+            >
               Still learning
             </ThemedText>
           </Pressable>
@@ -470,7 +635,10 @@ function DhikrStep({ onContinue, theme }: DhikrStepProps) {
   }));
 
   return (
-    <Animated.View entering={FadeInUp.duration(400).springify().damping(18)} style={styles.stepContent}>
+    <Animated.View
+      entering={FadeInUp.duration(400).springify().damping(18)}
+      style={styles.stepContent}
+    >
       <View style={styles.dhikrHeader}>
         <ThemedText
           type="caption"
@@ -508,9 +676,7 @@ function DhikrStep({ onContinue, theme }: DhikrStepProps) {
           {isComplete ? (
             <Feather name="check" size={40} color={theme.onPrimary} />
           ) : (
-            <ThemedText
-              style={[styles.dhikrCount, { color: theme.onPrimary }]}
-            >
+            <ThemedText style={[styles.dhikrCount, { color: theme.onPrimary }]}>
               {count}
             </ThemedText>
           )}
@@ -518,7 +684,9 @@ function DhikrStep({ onContinue, theme }: DhikrStepProps) {
       </Animated.View>
 
       <View style={styles.dhikrProgressContainer}>
-        <View style={[styles.dhikrProgressTrack, { backgroundColor: theme.border }]}>
+        <View
+          style={[styles.dhikrProgressTrack, { backgroundColor: theme.border }]}
+        >
           <View
             style={[
               styles.dhikrProgressFill,
@@ -541,7 +709,10 @@ function DhikrStep({ onContinue, theme }: DhikrStepProps) {
         <Animated.View entering={FadeIn.duration(400)}>
           <ThemedText
             type="body"
-            style={[styles.dhikrCompleteText, { color: theme.success, fontFamily: Fonts?.serif }]}
+            style={[
+              styles.dhikrCompleteText,
+              { color: theme.success, fontFamily: Fonts?.serif },
+            ]}
           >
             Ma sha Allah — well done.
           </ThemedText>
@@ -572,7 +743,10 @@ function ReflectionStep({ onComplete, theme }: ReflectionStepProps) {
   }, [hasText, onComplete, prompt, text]);
 
   return (
-    <Animated.View entering={FadeInUp.duration(400).springify().damping(18)} style={styles.stepContent}>
+    <Animated.View
+      entering={FadeInUp.duration(400).springify().damping(18)}
+      style={styles.stepContent}
+    >
       <IslamicPattern variant="accent" opacity={0.03} />
 
       <GlassCard style={styles.reflectionCard}>
@@ -672,7 +846,10 @@ function CompletionView({ streak, onDone, theme }: CompletionViewProps) {
   }));
 
   return (
-    <Animated.View entering={FadeIn.duration(500)} style={styles.completionContainer}>
+    <Animated.View
+      entering={FadeIn.duration(500)}
+      style={styles.completionContainer}
+    >
       <IslamicPattern variant="full" opacity={0.04} />
 
       <Animated.View
@@ -711,10 +888,7 @@ function CompletionView({ streak, onDone, theme }: CompletionViewProps) {
               <ThemedText type="h3" style={styles.streakNumber}>
                 {streak}
               </ThemedText>
-              <ThemedText
-                type="caption"
-                style={{ color: theme.textSecondary }}
-              >
+              <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                 day streak
               </ThemedText>
             </View>
@@ -722,7 +896,10 @@ function CompletionView({ streak, onDone, theme }: CompletionViewProps) {
         </Animated.View>
       )}
 
-      <Animated.View entering={FadeInUp.duration(400).delay(900)} style={styles.completionButtonWrapper}>
+      <Animated.View
+        entering={FadeInUp.duration(400).delay(900)}
+        style={styles.completionButtonWrapper}
+      >
         <Pressable
           onPress={onDone}
           style={({ pressed }) => [
@@ -807,28 +984,16 @@ export default function DailyNoorScreen() {
         keyboardShouldPersistTaps="handled"
       >
         {step === 1 && (
-          <DailyVerseStep
-            onContinue={() => setStep(2)}
-            theme={theme}
-          />
+          <DailyVerseStep onContinue={() => setStep(2)} theme={theme} />
         )}
         {step === 2 && (
-          <FlashcardStep
-            onContinue={() => setStep(3)}
-            theme={theme}
-          />
+          <FlashcardStep onContinue={() => setStep(3)} theme={theme} />
         )}
         {step === 3 && (
-          <DhikrStep
-            onContinue={() => setStep(4)}
-            theme={theme}
-          />
+          <DhikrStep onContinue={() => setStep(4)} theme={theme} />
         )}
         {step === 4 && (
-          <ReflectionStep
-            onComplete={handleReflectionComplete}
-            theme={theme}
-          />
+          <ReflectionStep onComplete={handleReflectionComplete} theme={theme} />
         )}
         {step === "complete" && (
           <CompletionView

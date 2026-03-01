@@ -4,37 +4,39 @@
  * Tests review queue for spaced repetition
  */
 
-import { renderHook, act } from '@testing-library/react-native';
-import { useHifzReviewQueue } from '../useHifzReviewQueue';
-import { useHifzStore } from '../../stores/hifz-store';
-import type { HifzVerseState } from '../../../shared/types/hifz';
+import { renderHook, act } from "@testing-library/react-native";
+import { useHifzReviewQueue } from "../useHifzReviewQueue";
+import { useHifzStore } from "../../stores/hifz-store";
+import type { HifzVerseState } from "../../../shared/types/hifz";
 
 // Mock dependencies
-jest.mock('@/stores/hifz-store');
+jest.mock("@/stores/hifz-store");
 
-const mockUseHifzStore = useHifzStore as jest.MockedFunction<typeof useHifzStore>;
+const mockUseHifzStore = useHifzStore as jest.MockedFunction<
+  typeof useHifzStore
+>;
 
-describe('useHifzReviewQueue', () => {
-  const now = new Date('2026-02-16T12:00:00Z');
+describe("useHifzReviewQueue", () => {
+  const now = new Date("2026-02-16T12:00:00Z");
   const today = now.toISOString();
-  const yesterday = new Date('2026-02-15T12:00:00Z').toISOString();
-  const tomorrow = new Date('2026-02-17T12:00:00Z').toISOString();
-  const threeDaysAgo = new Date('2026-02-13T12:00:00Z').toISOString();
-  const fourDaysFromNow = new Date('2026-02-20T12:00:00Z').toISOString();
-  const eightDaysFromNow = new Date('2026-02-24T12:00:00Z').toISOString();
+  const yesterday = new Date("2026-02-15T12:00:00Z").toISOString();
+  const tomorrow = new Date("2026-02-17T12:00:00Z").toISOString();
+  const threeDaysAgo = new Date("2026-02-13T12:00:00Z").toISOString();
+  const fourDaysFromNow = new Date("2026-02-20T12:00:00Z").toISOString();
+  const eightDaysFromNow = new Date("2026-02-24T12:00:00Z").toISOString();
 
   const mockDueVerses: HifzVerseState[] = [
     {
       surahNumber: 1,
       verseNumber: 1,
-      memorizedAt: '2026-02-10T12:00:00Z',
-      lastReviewedAt: '2026-02-14T12:00:00Z',
+      memorizedAt: "2026-02-10T12:00:00Z",
+      lastReviewedAt: "2026-02-14T12:00:00Z",
       nextReviewDate: yesterday, // Due yesterday (overdue)
       fsrsState: {
         difficulty: 0.5,
         stability: 1.0,
         reviewCount: 2,
-        state: 'review',
+        state: "review",
       },
       mistakeCount: 0,
       lastMistakes: [],
@@ -42,32 +44,32 @@ describe('useHifzReviewQueue', () => {
     {
       surahNumber: 1,
       verseNumber: 2,
-      memorizedAt: '2026-02-12T12:00:00Z',
-      lastReviewedAt: '2026-02-15T12:00:00Z',
+      memorizedAt: "2026-02-12T12:00:00Z",
+      lastReviewedAt: "2026-02-15T12:00:00Z",
       nextReviewDate: today, // Due today
       fsrsState: {
         difficulty: 0.6,
         stability: 0.8,
         reviewCount: 1,
-        state: 'learning',
+        state: "learning",
       },
       mistakeCount: 1,
-      lastMistakes: ['mistake'],
+      lastMistakes: ["mistake"],
     },
     {
       surahNumber: 1,
       verseNumber: 3,
-      memorizedAt: '2026-02-11T12:00:00Z',
-      lastReviewedAt: '2026-02-14T12:00:00Z',
+      memorizedAt: "2026-02-11T12:00:00Z",
+      lastReviewedAt: "2026-02-14T12:00:00Z",
       nextReviewDate: threeDaysAgo, // Due 3 days ago (very overdue)
       fsrsState: {
         difficulty: 0.7,
         stability: 0.5,
         reviewCount: 3,
-        state: 'relearning',
+        state: "relearning",
       },
       mistakeCount: 2,
-      lastMistakes: ['mistake1', 'mistake2'],
+      lastMistakes: ["mistake1", "mistake2"],
     },
   ];
 
@@ -75,14 +77,14 @@ describe('useHifzReviewQueue', () => {
     {
       surahNumber: 2,
       verseNumber: 1,
-      memorizedAt: '2026-02-14T12:00:00Z',
-      lastReviewedAt: '2026-02-15T12:00:00Z',
+      memorizedAt: "2026-02-14T12:00:00Z",
+      lastReviewedAt: "2026-02-15T12:00:00Z",
       nextReviewDate: tomorrow, // Due tomorrow
       fsrsState: {
         difficulty: 0.4,
         stability: 2.0,
         reviewCount: 1,
-        state: 'learning',
+        state: "learning",
       },
       mistakeCount: 0,
       lastMistakes: [],
@@ -90,14 +92,14 @@ describe('useHifzReviewQueue', () => {
     {
       surahNumber: 2,
       verseNumber: 2,
-      memorizedAt: '2026-02-13T12:00:00Z',
-      lastReviewedAt: '2026-02-14T12:00:00Z',
+      memorizedAt: "2026-02-13T12:00:00Z",
+      lastReviewedAt: "2026-02-14T12:00:00Z",
       nextReviewDate: fourDaysFromNow, // Due in 4 days (this week)
       fsrsState: {
         difficulty: 0.5,
         stability: 3.0,
         reviewCount: 2,
-        state: 'review',
+        state: "review",
       },
       mistakeCount: 0,
       lastMistakes: [],
@@ -105,14 +107,14 @@ describe('useHifzReviewQueue', () => {
     {
       surahNumber: 2,
       verseNumber: 3,
-      memorizedAt: '2026-02-10T12:00:00Z',
-      lastReviewedAt: '2026-02-12T12:00:00Z',
+      memorizedAt: "2026-02-10T12:00:00Z",
+      lastReviewedAt: "2026-02-12T12:00:00Z",
       nextReviewDate: eightDaysFromNow, // Due in 8 days (next week)
       fsrsState: {
         difficulty: 0.3,
         stability: 7.0,
         reviewCount: 3,
-        state: 'review',
+        state: "review",
       },
       mistakeCount: 0,
       lastMistakes: [],
@@ -148,8 +150,8 @@ describe('useHifzReviewQueue', () => {
     jest.useRealTimers();
   });
 
-  describe('Review queue', () => {
-    it('should return due verses from store', () => {
+  describe("Review queue", () => {
+    it("should return due verses from store", () => {
       mockGetReviewQueue.mockReturnValue(mockDueVerses);
       mockGetDueVerseCount.mockReturnValue(mockDueVerses.length);
 
@@ -159,7 +161,7 @@ describe('useHifzReviewQueue', () => {
       expect(result.current.dueCount).toBe(3);
     });
 
-    it('should handle empty review queue', () => {
+    it("should handle empty review queue", () => {
       mockGetReviewQueue.mockReturnValue([]);
       mockGetDueVerseCount.mockReturnValue(0);
 
@@ -170,8 +172,8 @@ describe('useHifzReviewQueue', () => {
     });
   });
 
-  describe('Upcoming reviews', () => {
-    it('should calculate upcoming reviews correctly', () => {
+  describe("Upcoming reviews", () => {
+    it("should calculate upcoming reviews correctly", () => {
       // Mock store to return all verses (due + upcoming)
       const allVerses = [...mockDueVerses, ...mockUpcomingVerses];
       mockGetReviewQueue.mockReturnValue(mockDueVerses);
@@ -179,7 +181,7 @@ describe('useHifzReviewQueue', () => {
 
       // Mock the store's memorizedVerses Map
       const versesMap = new Map<string, HifzVerseState>();
-      allVerses.forEach(v => {
+      allVerses.forEach((v) => {
         versesMap.set(`${v.surahNumber}:${v.verseNumber}`, v);
       });
 
@@ -210,7 +212,7 @@ describe('useHifzReviewQueue', () => {
       expect(result.current.upcomingReviews.thisWeek).toBe(1);
     });
 
-    it('should handle no upcoming reviews', () => {
+    it("should handle no upcoming reviews", () => {
       mockGetReviewQueue.mockReturnValue([]);
       mockGetDueVerseCount.mockReturnValue(0);
       mockUseHifzStore.mockReturnValue({
@@ -236,8 +238,8 @@ describe('useHifzReviewQueue', () => {
     });
   });
 
-  describe('Refresh queue', () => {
-    it('should trigger recalculation when refreshQueue is called', () => {
+  describe("Refresh queue", () => {
+    it("should trigger recalculation when refreshQueue is called", () => {
       mockGetReviewQueue.mockReturnValue(mockDueVerses);
       mockGetDueVerseCount.mockReturnValue(mockDueVerses.length);
 
@@ -259,10 +261,10 @@ describe('useHifzReviewQueue', () => {
     });
   });
 
-  describe('Memoization', () => {
-    it('should memoize calculations to avoid expensive recalculations', () => {
+  describe("Memoization", () => {
+    it("should memoize calculations to avoid expensive recalculations", () => {
       const versesMap = new Map<string, HifzVerseState>();
-      mockDueVerses.forEach(v => {
+      mockDueVerses.forEach((v) => {
         versesMap.set(`${v.surahNumber}:${v.verseNumber}`, v);
       });
 

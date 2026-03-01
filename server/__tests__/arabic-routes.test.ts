@@ -411,15 +411,15 @@ describe("Arabic Language Routes", () => {
 
     test("returns 200 with score and wordResults for valid request", async () => {
       mockAnthropicCreate = (jest.fn() as any).mockResolvedValue({
-        content: [{ type: "text", text: "Focus on the letter ل pronunciation." }],
+        content: [
+          { type: "text", text: "Focus on the letter ل pronunciation." },
+        ],
       });
 
-      const res = await request(app)
-        .post("/api/pronunciation/check")
-        .send({
-          expectedText: "بسم الله",
-          transcribedText: "بسم الاه",
-        });
+      const res = await request(app).post("/api/pronunciation/check").send({
+        expectedText: "بسم الله",
+        transcribedText: "بسم الاه",
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.score).toBe(85);
@@ -437,12 +437,10 @@ describe("Arabic Language Routes", () => {
         incrementAIUsage(ip);
       }
 
-      const res = await request(app)
-        .post("/api/pronunciation/check")
-        .send({
-          expectedText: "بسم الله",
-          transcribedText: "بسم الاه",
-        });
+      const res = await request(app).post("/api/pronunciation/check").send({
+        expectedText: "بسم الله",
+        transcribedText: "بسم الاه",
+      });
 
       expect(res.status).toBe(429);
       expect(res.body.error).toBe("Daily AI limit reached");
@@ -454,14 +452,12 @@ describe("Arabic Language Routes", () => {
         content: [{ type: "text", text: "Tip" }],
       });
 
-      const res = await request(app)
-        .post("/api/pronunciation/check")
-        .send({
-          expectedText: "بسم الله الرحمن الرحيم",
-          transcribedText: "بسم الله الرحمن الرحيم",
-          surahNumber: 1,
-          verseNumber: 1,
-        });
+      const res = await request(app).post("/api/pronunciation/check").send({
+        expectedText: "بسم الله الرحمن الرحيم",
+        transcribedText: "بسم الله الرحمن الرحيم",
+        surahNumber: 1,
+        verseNumber: 1,
+      });
 
       expect(res.status).toBe(200);
       expect(res.body.score).toBeDefined();
@@ -545,9 +541,7 @@ describe("Arabic Language Routes", () => {
 
   describe("POST /api/translate/explain", () => {
     test("returns 400 for missing arabicText", async () => {
-      const res = await request(app)
-        .post("/api/translate/explain")
-        .send({});
+      const res = await request(app).post("/api/translate/explain").send({});
 
       expect(res.status).toBe(400);
       expect(res.body.error).toBe(true);

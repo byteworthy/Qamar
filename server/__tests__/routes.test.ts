@@ -1,5 +1,5 @@
 /**
- * Routes Test Suite for Noor
+ * Routes Test Suite for Qamar
  *
  * Tests all API endpoints in server/routes.ts
  * Target: >80% code coverage
@@ -590,7 +590,7 @@ describe("API Routes", () => {
         });
 
       expect(res.status).toBe(402);
-      expect(res.body.message).toContain("Noor Plus");
+      expect(res.body.message).toContain("Qamar Plus");
       expect(res.body.code).toBe("PAYMENT_REQUIRED");
       expect(res.body.error).toBe(true);
     });
@@ -870,7 +870,7 @@ describe("API Routes", () => {
       const res = await request(app).get("/api/reflection/patterns");
 
       expect(res.status).toBe(403);
-      expect(res.body.message).toContain("Noor Plus");
+      expect(res.body.message).toContain("Qamar Plus");
       expect(res.body.code).toBe("PAYMENT_REQUIRED");
       expect(res.body.error).toBe(true);
     });

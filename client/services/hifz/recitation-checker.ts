@@ -5,7 +5,10 @@
  * Quran text and produces word-level feedback with accuracy scoring.
  */
 
-import type { RecitationResult, WordComparisonResult } from '../../../shared/types/hifz';
+import type {
+  RecitationResult,
+  WordComparisonResult,
+} from "../../../shared/types/hifz";
 
 // =============================================================================
 // HELPERS
@@ -21,7 +24,7 @@ import type { RecitationResult, WordComparisonResult } from '../../../shared/typ
 function removeDiacritics(text: string): string {
   return text.replace(
     /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7-\u06E8\u06EA-\u06ED]/g,
-    '',
+    "",
   );
 }
 
@@ -29,7 +32,7 @@ function removeDiacritics(text: string): string {
  * Normalize text for comparison: trim, NFC-normalize, strip diacritics, and collapse whitespace.
  */
 function normalizeText(text: string): string {
-  return removeDiacritics(text.trim().normalize('NFC')).replace(/\s+/g, ' ');
+  return removeDiacritics(text.trim().normalize("NFC")).replace(/\s+/g, " ");
 }
 
 /**
@@ -51,8 +54,8 @@ function levenshteinDistance(a: string, b: string): number {
     for (let j = 1; j <= bLen; j++) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
       const val = Math.min(
-        row[j] + 1,       // deletion
-        prev + 1,          // insertion
+        row[j] + 1, // deletion
+        prev + 1, // insertion
         row[j - 1] + cost, // substitution
       );
       row[j - 1] = prev;
@@ -81,7 +84,7 @@ export function checkRecitation(
   surahNumber: number,
   verseNumber: number,
   expectedText: string,
-  transcribedText: string
+  transcribedText: string,
 ): RecitationResult {
   const normalizedExpected = normalizeText(expectedText);
   const normalizedTranscribed = normalizeText(transcribedText);
@@ -98,8 +101,8 @@ export function checkRecitation(
   let matchingChars = 0;
 
   for (let i = 0; i < maxLen; i++) {
-    const expected = expectedWords[i] ?? '';
-    const actual = transcribedWords[i] ?? '';
+    const expected = expectedWords[i] ?? "";
+    const actual = transcribedWords[i] ?? "";
     const dist = levenshteinDistance(expected, actual);
 
     // A word is correct if it exactly matches (distance = 0)
@@ -118,7 +121,8 @@ export function checkRecitation(
   }
 
   // Score is based on expected word count (not including extra words user added)
-  const score = expectedLen > 0 ? Math.round((correctCount / expectedLen) * 100) : 100;
+  const score =
+    expectedLen > 0 ? Math.round((correctCount / expectedLen) * 100) : 100;
   const accuracy = totalChars > 0 ? matchingChars / totalChars : 1;
 
   return {

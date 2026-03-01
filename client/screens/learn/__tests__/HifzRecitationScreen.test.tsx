@@ -2,39 +2,50 @@
  * Tests for HifzRecitationScreen
  */
 
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
-import HifzRecitationScreen from '../HifzRecitationScreen';
-import { useHifzRecitation } from '../../../hooks/useHifzRecitation';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react-native";
+import HifzRecitationScreen from "../HifzRecitationScreen";
+import { useHifzRecitation } from "../../../hooks/useHifzRecitation";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 // =============================================================================
 // MOCKS
 // =============================================================================
 
-jest.mock('@react-navigation/native', () => ({
+jest.mock("@react-navigation/native", () => ({
   useRoute: jest.fn(),
   useNavigation: jest.fn(),
 }));
 
-jest.mock('../../../hooks/useHifzRecitation', () => ({
+jest.mock("../../../hooks/useHifzRecitation", () => ({
   useHifzRecitation: jest.fn(),
 }));
 
-jest.mock('../../../components/HifzMistakeFeedback', () => ({
+jest.mock("../../../components/HifzMistakeFeedback", () => ({
   HifzMistakeFeedback: ({ result }: { result: any }) => {
-    const { View, Text } = require('react-native');
+    const { View, Text } = require("react-native");
     return (
       <View testID="hifz-mistake-feedback">
-        <Text>Feedback: {result ? 'Has result' : 'No result'}</Text>
+        <Text>Feedback: {result ? "Has result" : "No result"}</Text>
       </View>
     );
   },
 }));
 
-jest.mock('../../../components/HifzPeekOverlay', () => ({
-  HifzPeekOverlay: ({ visible, onDismiss }: { visible: boolean; onDismiss: () => void }) => {
-    const { Modal, View, Text, Pressable } = require('react-native');
+jest.mock("../../../components/HifzPeekOverlay", () => ({
+  HifzPeekOverlay: ({
+    visible,
+    onDismiss,
+  }: {
+    visible: boolean;
+    onDismiss: () => void;
+  }) => {
+    const { Modal, View, Text, Pressable } = require("react-native");
     if (!visible) return null;
     return (
       <Modal visible={visible} testID="hifz-peek-overlay">
@@ -56,14 +67,18 @@ const mockNavigation = {
 };
 
 const mockUseRoute = useRoute as jest.MockedFunction<typeof useRoute>;
-const mockUseNavigation = useNavigation as jest.MockedFunction<typeof useNavigation>;
-const mockUseHifzRecitation = useHifzRecitation as jest.MockedFunction<typeof useHifzRecitation>;
+const mockUseNavigation = useNavigation as jest.MockedFunction<
+  typeof useNavigation
+>;
+const mockUseHifzRecitation = useHifzRecitation as jest.MockedFunction<
+  typeof useHifzRecitation
+>;
 
 // =============================================================================
 // TESTS
 // =============================================================================
 
-describe('HifzRecitationScreen', () => {
+describe("HifzRecitationScreen", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseNavigation.mockReturnValue(mockNavigation as any);
@@ -71,9 +86,9 @@ describe('HifzRecitationScreen', () => {
     // Default route params
     mockUseRoute.mockReturnValue({
       params: {
-        surahNumber: '1',
-        verseNumber: '1',
-        mode: 'review',
+        surahNumber: "1",
+        verseNumber: "1",
+        mode: "review",
       },
     } as any);
 
@@ -95,22 +110,22 @@ describe('HifzRecitationScreen', () => {
   // Render Tests
   // ============================================================
 
-  it('renders verse reference from route params', () => {
+  it("renders verse reference from route params", () => {
     render(<HifzRecitationScreen />);
     expect(screen.getByText(/Surah 1:1/i)).toBeTruthy();
   });
 
-  it('displays mode indicator for review', () => {
+  it("displays mode indicator for review", () => {
     render(<HifzRecitationScreen />);
     expect(screen.getByText(/Review/i)).toBeTruthy();
   });
 
-  it('displays mode indicator for new memorization', () => {
+  it("displays mode indicator for new memorization", () => {
     mockUseRoute.mockReturnValue({
       params: {
-        surahNumber: '2',
-        verseNumber: '5',
-        mode: 'memorize',
+        surahNumber: "2",
+        verseNumber: "5",
+        mode: "memorize",
       },
     } as any);
 
@@ -118,7 +133,7 @@ describe('HifzRecitationScreen', () => {
     expect(screen.getByText(/New Memorization/i)).toBeTruthy();
   });
 
-  it('shows hidden verse notice', () => {
+  it("shows hidden verse notice", () => {
     render(<HifzRecitationScreen />);
     expect(screen.getByText(/Verse hidden/i)).toBeTruthy();
   });
@@ -127,12 +142,12 @@ describe('HifzRecitationScreen', () => {
   // Record Button Tests
   // ============================================================
 
-  it('shows record button in initial state', () => {
+  it("shows record button in initial state", () => {
     render(<HifzRecitationScreen />);
-    expect(screen.getByTestId('record-button')).toBeTruthy();
+    expect(screen.getByTestId("record-button")).toBeTruthy();
   });
 
-  it('calls startRecitation when record button pressed', () => {
+  it("calls startRecitation when record button pressed", () => {
     const mockStartRecitation = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
@@ -147,11 +162,11 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('record-button'));
+    fireEvent.press(screen.getByTestId("record-button"));
     expect(mockStartRecitation).toHaveBeenCalledTimes(1);
   });
 
-  it('calls stopRecitation when record button pressed while recording', () => {
+  it("calls stopRecitation when record button pressed while recording", () => {
     const mockStopRecitation = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: true,
@@ -166,11 +181,11 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('record-button'));
+    fireEvent.press(screen.getByTestId("record-button"));
     expect(mockStopRecitation).toHaveBeenCalledTimes(1);
   });
 
-  it('shows processing state after stopRecitation', () => {
+  it("shows processing state after stopRecitation", () => {
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: true,
@@ -191,17 +206,17 @@ describe('HifzRecitationScreen', () => {
   // Feedback Display Tests
   // ============================================================
 
-  it('displays HifzMistakeFeedback when result available', () => {
+  it("displays HifzMistakeFeedback when result available", () => {
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test transcription',
+      transcription: "test transcription",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -214,24 +229,24 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    expect(screen.getByTestId('hifz-mistake-feedback')).toBeTruthy();
+    expect(screen.getByTestId("hifz-mistake-feedback")).toBeTruthy();
   });
 
   // ============================================================
   // Rating Buttons Tests
   // ============================================================
 
-  it('shows rating buttons after feedback', () => {
+  it("shows rating buttons after feedback", () => {
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test',
+      transcription: "test",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -244,24 +259,24 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    expect(screen.getByTestId('rating-again')).toBeTruthy();
-    expect(screen.getByTestId('rating-hard')).toBeTruthy();
-    expect(screen.getByTestId('rating-good')).toBeTruthy();
-    expect(screen.getByTestId('rating-easy')).toBeTruthy();
+    expect(screen.getByTestId("rating-again")).toBeTruthy();
+    expect(screen.getByTestId("rating-hard")).toBeTruthy();
+    expect(screen.getByTestId("rating-good")).toBeTruthy();
+    expect(screen.getByTestId("rating-easy")).toBeTruthy();
   });
 
-  it('calls rateAndSave with correct rating when Again pressed', () => {
+  it("calls rateAndSave with correct rating when Again pressed", () => {
     const mockRateAndSave = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test',
+      transcription: "test",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -274,22 +289,22 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('rating-again'));
-    expect(mockRateAndSave).toHaveBeenCalledWith('again');
+    fireEvent.press(screen.getByTestId("rating-again"));
+    expect(mockRateAndSave).toHaveBeenCalledWith("again");
   });
 
-  it('calls rateAndSave with correct rating when Hard pressed', () => {
+  it("calls rateAndSave with correct rating when Hard pressed", () => {
     const mockRateAndSave = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test',
+      transcription: "test",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -302,22 +317,22 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('rating-hard'));
-    expect(mockRateAndSave).toHaveBeenCalledWith('hard');
+    fireEvent.press(screen.getByTestId("rating-hard"));
+    expect(mockRateAndSave).toHaveBeenCalledWith("hard");
   });
 
-  it('calls rateAndSave with correct rating when Good pressed', () => {
+  it("calls rateAndSave with correct rating when Good pressed", () => {
     const mockRateAndSave = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test',
+      transcription: "test",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -330,22 +345,22 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('rating-good'));
-    expect(mockRateAndSave).toHaveBeenCalledWith('good');
+    fireEvent.press(screen.getByTestId("rating-good"));
+    expect(mockRateAndSave).toHaveBeenCalledWith("good");
   });
 
-  it('calls rateAndSave with correct rating when Easy pressed', () => {
+  it("calls rateAndSave with correct rating when Easy pressed", () => {
     const mockRateAndSave = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test',
+      transcription: "test",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -358,42 +373,42 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('rating-easy'));
-    expect(mockRateAndSave).toHaveBeenCalledWith('easy');
+    fireEvent.press(screen.getByTestId("rating-easy"));
+    expect(mockRateAndSave).toHaveBeenCalledWith("easy");
   });
 
   // ============================================================
   // Peek Overlay Tests
   // ============================================================
 
-  it('opens HifzPeekOverlay when hint button pressed', () => {
+  it("opens HifzPeekOverlay when hint button pressed", () => {
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('hint-button'));
-    expect(screen.getByTestId('hifz-peek-overlay')).toBeTruthy();
+    fireEvent.press(screen.getByTestId("hint-button"));
+    expect(screen.getByTestId("hifz-peek-overlay")).toBeTruthy();
   });
 
-  it('closes peek overlay when dismissed', () => {
+  it("closes peek overlay when dismissed", () => {
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('hint-button'));
-    expect(screen.getByTestId('hifz-peek-overlay')).toBeTruthy();
+    fireEvent.press(screen.getByTestId("hint-button"));
+    expect(screen.getByTestId("hifz-peek-overlay")).toBeTruthy();
 
-    fireEvent.press(screen.getByTestId('peek-dismiss'));
+    fireEvent.press(screen.getByTestId("peek-dismiss"));
 
     // Overlay should not be visible anymore
-    expect(screen.queryByTestId('hifz-peek-overlay')).toBeNull();
+    expect(screen.queryByTestId("hifz-peek-overlay")).toBeNull();
   });
 
   // ============================================================
   // Error Handling Tests
   // ============================================================
 
-  it('displays error message when error occurs', () => {
+  it("displays error message when error occurs", () => {
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
       transcription: null,
       result: null,
-      error: 'Recording failed',
+      error: "Recording failed",
       startRecitation: jest.fn(),
       stopRecitation: jest.fn(),
       rateAndSave: jest.fn(),
@@ -404,13 +419,13 @@ describe('HifzRecitationScreen', () => {
     expect(screen.getByText(/Recording failed/i)).toBeTruthy();
   });
 
-  it('shows retry button when error occurs', () => {
+  it("shows retry button when error occurs", () => {
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
       transcription: null,
       result: null,
-      error: 'Recording failed',
+      error: "Recording failed",
       startRecitation: jest.fn(),
       stopRecitation: jest.fn(),
       rateAndSave: jest.fn(),
@@ -418,17 +433,17 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    expect(screen.getByTestId('retry-button')).toBeTruthy();
+    expect(screen.getByTestId("retry-button")).toBeTruthy();
   });
 
-  it('calls reset when retry button pressed', () => {
+  it("calls reset when retry button pressed", () => {
     const mockReset = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
       transcription: null,
       result: null,
-      error: 'Recording failed',
+      error: "Recording failed",
       startRecitation: jest.fn(),
       stopRecitation: jest.fn(),
       rateAndSave: jest.fn(),
@@ -436,7 +451,7 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('retry-button'));
+    fireEvent.press(screen.getByTestId("retry-button"));
     expect(mockReset).toHaveBeenCalledTimes(1);
   });
 
@@ -444,18 +459,18 @@ describe('HifzRecitationScreen', () => {
   // Navigation Tests
   // ============================================================
 
-  it('navigates back after rating', async () => {
+  it("navigates back after rating", async () => {
     const mockRateAndSave = jest.fn();
     mockUseHifzRecitation.mockReturnValue({
       isRecording: false,
       isProcessing: false,
-      transcription: 'test',
+      transcription: "test",
       result: {
-        verseKey: '1:1',
+        verseKey: "1:1",
         surahNumber: 1,
         verseNumber: 1,
-        expectedText: 'test',
-        transcribedText: 'test',
+        expectedText: "test",
+        transcribedText: "test",
         score: 100,
         accuracy: 1.0,
         wordResults: [],
@@ -468,7 +483,7 @@ describe('HifzRecitationScreen', () => {
     });
 
     render(<HifzRecitationScreen />);
-    fireEvent.press(screen.getByTestId('rating-good'));
+    fireEvent.press(screen.getByTestId("rating-good"));
 
     await waitFor(() => {
       expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);

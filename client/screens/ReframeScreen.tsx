@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, TouchableOpacity, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
@@ -321,7 +317,7 @@ function ReframeScreen() {
             type="h4"
             style={[styles.errorTitle, { fontFamily: Fonts?.serif }]}
           >
-            Let's try that again
+            Let{"'"}s try that again
           </ThemedText>
 
           <ThemedText

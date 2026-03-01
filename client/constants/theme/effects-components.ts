@@ -96,20 +96,27 @@ export const Gradients = {
     },
     // Soft vignette overlay - Blue-tinted
     vignette: {
-      colors: ["transparent", "rgba(92, 107, 192, 0.02)", "rgba(92, 107, 192, 0.05)"] as const,
+      colors: [
+        "transparent",
+        "rgba(92, 107, 192, 0.02)",
+        "rgba(92, 107, 192, 0.05)",
+      ] as const,
       locations: [0, 0.7, 1] as const,
       start: { x: 0.5, y: 0.5 },
       end: { x: 0.5, y: 1 },
     },
     // Premium gradients for components
     cardGradient: {
-      colors: ["rgba(245, 248, 251, 0.95)", "rgba(232, 238, 245, 0.98)"] as const,
+      colors: [
+        "rgba(245, 248, 251, 0.95)",
+        "rgba(232, 238, 245, 0.98)",
+      ] as const,
       locations: [0, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 0, y: 1 },
     },
     buttonGradient: {
-      colors: ["#f0d473", "#D4AF37"] as const, // Gold sunrise gradient (Noor theme)
+      colors: ["#f0d473", "#D4AF37"] as const, // Gold sunrise gradient (Qamar theme)
       locations: [0, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 1, y: 1 },
@@ -145,7 +152,11 @@ export const Gradients = {
     },
     // Soft vignette overlay - Gold-tinted (light emerging)
     vignette: {
-      colors: ["transparent", "rgba(212, 175, 55, 0.08)", "rgba(212, 175, 55, 0.15)"] as const,
+      colors: [
+        "transparent",
+        "rgba(212, 175, 55, 0.08)",
+        "rgba(212, 175, 55, 0.15)",
+      ] as const,
       locations: [0, 0.7, 1] as const,
       start: { x: 0.5, y: 0.5 },
       end: { x: 0.5, y: 1 },
@@ -158,7 +169,7 @@ export const Gradients = {
       end: { x: 0, y: 1 },
     },
     buttonGradient: {
-      colors: ["#f0d473", "#D4AF37"] as const, // Gold gradient (Noor/light theme)
+      colors: ["#f0d473", "#D4AF37"] as const, // Gold gradient (Qamar/light theme)
       locations: [0, 1] as const,
       start: { x: 0, y: 0 },
       end: { x: 1, y: 1 },

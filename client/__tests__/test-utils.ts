@@ -1,12 +1,16 @@
 /**
- * Test Utilities for Noor Client Tests
+ * Test Utilities for Qamar Client Tests
  *
  * Provides factory functions for creating mock data and
  * shared test helpers for hook and component tests.
  */
 
 import type { Hadith, HadithCollection } from "../hooks/useHadithData";
-import type { Flashcard, ReviewResult, LearningProgress } from "../hooks/useArabicLearning";
+import type {
+  Flashcard,
+  ReviewResult,
+  LearningProgress,
+} from "../hooks/useArabicLearning";
 
 // ============================================================================
 // FACTORY: Mock Hadith Data
@@ -99,7 +103,8 @@ export function createMockVerse(overrides: Record<string, unknown> = {}) {
     surah_number: 1,
     verse_number: 1,
     arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    translation_en: "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
+    translation_en:
+      "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
     transliteration: "Bismillahi ar-rahmani ar-raheem",
     juz_number: 1,
     page_number: 1,
@@ -124,12 +129,14 @@ export function createMockSurah(overrides: Record<string, unknown> = {}) {
 // MOCK OFFLINE DATABASE
 // ============================================================================
 
-export function createMockOfflineDatabase(data: {
-  surahs?: ReturnType<typeof createMockSurah>[];
-  verses?: ReturnType<typeof createMockVerse>[];
-  hadiths?: Record<string, unknown>[];
-  vocabulary?: Record<string, unknown>[];
-} = {}) {
+export function createMockOfflineDatabase(
+  data: {
+    surahs?: ReturnType<typeof createMockSurah>[];
+    verses?: ReturnType<typeof createMockVerse>[];
+    hadiths?: Record<string, unknown>[];
+    vocabulary?: Record<string, unknown>[];
+  } = {},
+) {
   return {
     isReady: jest.fn(() => true),
     getAllSurahs: jest.fn(async () => data.surahs ?? []),

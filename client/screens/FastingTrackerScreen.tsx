@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import {
-  View,
-  ScrollView,
-  Pressable,
-  Modal,
-  StyleSheet,
-} from "react-native";
+import { View, ScrollView, Pressable, Modal, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
@@ -13,12 +7,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
-import {
-  Fonts,
-  NoorColors,
-  Spacing,
-  BorderRadius,
-} from "@/constants/theme";
+import { Fonts, NoorColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { AtmosphericBackground } from "@/components/AtmosphericBackground";
 import { GlassCard } from "@/components/GlassCard";
@@ -51,7 +40,11 @@ interface DayLog {
 
 type FastingLog = Record<number, DayLog>;
 
-const EXCUSE_OPTIONS: { id: ExcuseReason; label: string; icon: keyof typeof Feather.glyphMap }[] = [
+const EXCUSE_OPTIONS: {
+  id: ExcuseReason;
+  label: string;
+  icon: keyof typeof Feather.glyphMap;
+}[] = [
   { id: "travel", label: "Travel", icon: "navigation" },
   { id: "sickness", label: "Sickness", icon: "thermometer" },
   { id: "other", label: "Other", icon: "more-horizontal" },
@@ -180,14 +173,12 @@ const DayCell = React.memo(function DayCell({
         {day}
       </ThemedText>
       {hasStatus && (
-        <Feather
-          name={getStatusIcon(status)}
-          size={16}
-          color={statusColor}
-        />
+        <Feather name={getStatusIcon(status)} size={16} color={statusColor} />
       )}
       {log?.excuseReason && status === "excused" && (
-        <ThemedText style={[styles.excuseLabel, { color: theme.textSecondary }]}>
+        <ThemedText
+          style={[styles.excuseLabel, { color: theme.textSecondary }]}
+        >
           {log.excuseReason}
         </ThemedText>
       )}
@@ -324,7 +315,10 @@ export default function FastingTrackerScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
-          <Animated.View entering={FadeInUp.duration(300)} style={styles.header}>
+          <Animated.View
+            entering={FadeInUp.duration(300)}
+            style={styles.header}
+          >
             <Pressable
               onPress={() => navigation.goBack()}
               accessibilityRole="button"
@@ -343,10 +337,7 @@ export default function FastingTrackerScreen() {
                 Fasting Tracker
               </ThemedText>
               <ThemedText
-                style={[
-                  styles.headerSubtitle,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.headerSubtitle, { color: theme.textSecondary }]}
               >
                 Ramadan {hijriYear} AH
               </ThemedText>
@@ -441,7 +432,8 @@ export default function FastingTrackerScreen() {
                         { color: theme.text, fontFamily: Fonts?.sansBold },
                       ]}
                     >
-                      {totals.toMakeUp} {totals.toMakeUp === 1 ? "day" : "days"} to make up
+                      {totals.toMakeUp} {totals.toMakeUp === 1 ? "day" : "days"}{" "}
+                      to make up
                     </ThemedText>
                     <ThemedText
                       style={[
@@ -460,10 +452,7 @@ export default function FastingTrackerScreen() {
           {/* Calendar Grid */}
           <Animated.View entering={FadeInUp.duration(350).delay(180)}>
             <ThemedText
-              style={[
-                styles.sectionLabel,
-                { color: theme.textSecondary },
-              ]}
+              style={[styles.sectionLabel, { color: theme.textSecondary }]}
               accessibilityRole="header"
             >
               Daily Log
@@ -554,10 +543,7 @@ export default function FastingTrackerScreen() {
               Day {selectedDay}
             </ThemedText>
             <ThemedText
-              style={[
-                styles.modalSubtitle,
-                { color: theme.textSecondary },
-              ]}
+              style={[styles.modalSubtitle, { color: theme.textSecondary }]}
             >
               How was your fast?
             </ThemedText>
@@ -572,7 +558,11 @@ export default function FastingTrackerScreen() {
                 accessibilityRole="button"
                 accessibilityLabel="Mark as fasted"
               >
-                <Feather name="check-circle" size={22} color={RAMADAN_EMERALD} />
+                <Feather
+                  name="check-circle"
+                  size={22}
+                  color={RAMADAN_EMERALD}
+                />
                 <ThemedText
                   style={[styles.statusButtonText, { color: RAMADAN_EMERALD }]}
                 >
@@ -582,10 +572,7 @@ export default function FastingTrackerScreen() {
 
               <Pressable
                 onPress={() => handleSetStatus("missed")}
-                style={[
-                  styles.statusButton,
-                  { backgroundColor: "#D4756B15" },
-                ]}
+                style={[styles.statusButton, { backgroundColor: "#D4756B15" }]}
                 accessibilityRole="button"
                 accessibilityLabel="Mark as missed"
               >
@@ -631,7 +618,11 @@ export default function FastingTrackerScreen() {
                   accessibilityRole="button"
                   accessibilityLabel="Clear status"
                 >
-                  <Feather name="trash-2" size={22} color={theme.textSecondary} />
+                  <Feather
+                    name="trash-2"
+                    size={22}
+                    color={theme.textSecondary}
+                  />
                   <ThemedText
                     style={[
                       styles.statusButtonText,
@@ -654,10 +645,7 @@ export default function FastingTrackerScreen() {
         animationType="fade"
         onRequestClose={handleCloseExcuseModal}
       >
-        <Pressable
-          style={styles.modalOverlay}
-          onPress={handleCloseExcuseModal}
-        >
+        <Pressable style={styles.modalOverlay} onPress={handleCloseExcuseModal}>
           <Pressable
             style={[
               styles.modalContent,
@@ -686,11 +674,7 @@ export default function FastingTrackerScreen() {
                   accessibilityRole="button"
                   accessibilityLabel={`Excuse reason: ${option.label}`}
                 >
-                  <Feather
-                    name={option.icon}
-                    size={20}
-                    color={RAMADAN_GOLD}
-                  />
+                  <Feather name={option.icon} size={20} color={RAMADAN_GOLD} />
                   <ThemedText
                     style={[styles.excuseButtonText, { color: theme.text }]}
                   >

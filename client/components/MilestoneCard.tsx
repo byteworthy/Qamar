@@ -55,9 +55,7 @@ export function MilestoneCard() {
   const { theme, isDark } = useTheme();
   const pendingMilestone = useGamification((s) => s.pendingMilestone);
   const badges = useGamification((s) => s.badges);
-  const clearPendingMilestone = useGamification(
-    (s) => s.clearPendingMilestone,
-  );
+  const clearPendingMilestone = useGamification((s) => s.clearPendingMilestone);
 
   if (!pendingMilestone) {
     return null;
@@ -77,9 +75,7 @@ export function MilestoneCard() {
     ? formatEarnedDate(earnedBadge.earnedAt)
     : "";
 
-  const backdropColor = isDark
-    ? "rgba(0, 0, 0, 0.65)"
-    : "rgba(0, 0, 0, 0.5)";
+  const backdropColor = isDark ? "rgba(0, 0, 0, 0.65)" : "rgba(0, 0, 0, 0.5)";
 
   return (
     <Modal
@@ -153,10 +149,7 @@ export function MilestoneCard() {
             {/* Badge name */}
             <ThemedText
               type="h3"
-              style={[
-                styles.badgeName,
-                { fontFamily: Fonts?.serifBold },
-              ]}
+              style={[styles.badgeName, { fontFamily: Fonts?.serifBold }]}
             >
               {badge.name}
             </ThemedText>
@@ -164,10 +157,7 @@ export function MilestoneCard() {
             {/* Badge description */}
             <ThemedText
               type="body"
-              style={[
-                styles.description,
-                { color: theme.textSecondary },
-              ]}
+              style={[styles.description, { color: theme.textSecondary }]}
             >
               {badge.description}
             </ThemedText>
@@ -176,10 +166,7 @@ export function MilestoneCard() {
             {earnedDate !== "" && (
               <ThemedText
                 type="caption"
-                style={[
-                  styles.earnedDate,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.earnedDate, { color: theme.textSecondary }]}
               >
                 Earned {earnedDate}
               </ThemedText>
@@ -197,10 +184,7 @@ export function MilestoneCard() {
             >
               <ThemedText
                 type="body"
-                style={[
-                  styles.dismissText,
-                  { color: NoorColors.background },
-                ]}
+                style={[styles.dismissText, { color: NoorColors.background }]}
               >
                 Continue
               </ThemedText>

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useTafsirCache, TafsirData } from '@/stores/tafsir-cache-store';
-import { useGamification } from '@/stores/gamification-store';
+import { useState } from "react";
+import { useTafsirCache, TafsirData } from "@/stores/tafsir-cache-store";
+import { useGamification } from "@/stores/gamification-store";
 
 export function useTafsir() {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,7 +10,7 @@ export function useTafsir() {
 
   const fetchTafsir = async (
     surahNumber: number,
-    verseNumber: number
+    verseNumber: number,
   ): Promise<TafsirData | null> => {
     // Check cache first
     const cached = getTafsir(surahNumber, verseNumber);
@@ -22,17 +22,17 @@ export function useTafsir() {
     setError(null);
 
     try {
-      const response = await fetch('/api/tafsir/explain', {
-        method: 'POST',
+      const response = await fetch("/api/tafsir/explain", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ surahNumber, verseNumber }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to fetch tafsir');
+        throw new Error(errorData.error || "Failed to fetch tafsir");
       }
 
       const data = await response.json();
@@ -44,11 +44,11 @@ export function useTafsir() {
       setTafsir(surahNumber, verseNumber, tafsirData as TafsirData);
 
       // Record gamification activity
-      recordActivity('tafsir_viewed');
+      recordActivity("tafsir_viewed");
 
       return tafsirData as TafsirData;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setError(errorMessage);
       return null;
     } finally {

@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { ThemedText } from '@/components/ThemedText';
-import { GlassCard } from '@/components/GlassCard';
-import { useTheme } from '@/hooks/useTheme';
-import { NoorColors } from '@/constants/theme/colors';
-import { hapticLight } from '@/lib/haptics';
-import type { DailyTask } from '../../shared/types/study-plan';
+import React from "react";
+import { View, StyleSheet, Pressable } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { ThemedText } from "@/components/ThemedText";
+import { GlassCard } from "@/components/GlassCard";
+import { useTheme } from "@/hooks/useTheme";
+import { NoorColors } from "@/constants/theme/colors";
+import { hapticLight } from "@/lib/haptics";
+import type { DailyTask } from "../../shared/types/study-plan";
 
 interface DailyTaskCardProps {
   task: DailyTask;
@@ -22,12 +22,12 @@ export function DailyTaskCard({ task, onToggleComplete }: DailyTaskCardProps) {
     hapticLight();
 
     // Parse deep link: "VerseReader?surahId=2&startVerse=1&endVerse=20"
-    const [screenName, paramsString] = task.screenDeepLink.split('?');
+    const [screenName, paramsString] = task.screenDeepLink.split("?");
     const params: Record<string, any> = {};
 
     if (paramsString) {
-      paramsString.split('&').forEach((param) => {
-        const [key, value] = param.split('=');
+      paramsString.split("&").forEach((param) => {
+        const [key, value] = param.split("=");
         params[key] = isNaN(Number(value)) ? value : Number(value);
       });
     }
@@ -47,11 +47,18 @@ export function DailyTaskCard({ task, onToggleComplete }: DailyTaskCardProps) {
         {/* Checkbox */}
         <Pressable onPress={handleToggle} style={styles.checkbox}>
           {task.completed ? (
-            <View style={[styles.checkboxFilled, { backgroundColor: NoorColors.gold }]}>
+            <View
+              style={[
+                styles.checkboxFilled,
+                { backgroundColor: NoorColors.gold },
+              ]}
+            >
               <Feather name="check" size={16} color="#FFFFFF" />
             </View>
           ) : (
-            <View style={[styles.checkboxEmpty, { borderColor: theme.border }]} />
+            <View
+              style={[styles.checkboxEmpty, { borderColor: theme.border }]}
+            />
           )}
         </Pressable>
 
@@ -74,7 +81,9 @@ export function DailyTaskCard({ task, onToggleComplete }: DailyTaskCardProps) {
           </ThemedText>
           <View style={styles.meta}>
             <Feather name="clock" size={12} color={NoorColors.gold} />
-            <ThemedText style={[styles.metaText, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.metaText, { color: theme.textSecondary }]}
+            >
               {task.estimatedMinutes} min
             </ThemedText>
           </View>
@@ -93,8 +102,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
   checkbox: {
@@ -110,19 +119,19 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   content: {
     flex: 1,
   },
   title: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 4,
   },
   completedText: {
-    textDecorationLine: 'line-through',
+    textDecorationLine: "line-through",
     opacity: 0.6,
   },
   description: {
@@ -131,8 +140,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   meta: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   metaText: {

@@ -25,7 +25,6 @@ import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-
 function ProgressDots({ current }: { current: number }) {
   const { theme } = useTheme();
   return (
@@ -59,8 +58,16 @@ export default function WelcomeScreen() {
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       {/* Atmospheric gradient background */}
       <LinearGradient
-        colors={gradients.atmospheric.colors as readonly [string, string, ...string[]]}
-        locations={gradients.atmospheric.locations as readonly [number, number, ...number[]]}
+        colors={
+          gradients.atmospheric.colors as readonly [string, string, ...string[]]
+        }
+        locations={
+          gradients.atmospheric.locations as readonly [
+            number,
+            number,
+            ...number[],
+          ]
+        }
         start={gradients.atmospheric.start}
         end={gradients.atmospheric.end}
         style={StyleSheet.absoluteFill}
@@ -112,7 +119,12 @@ export default function WelcomeScreen() {
                   { borderColor: theme.highlightAccent + "50" },
                 ]}
               >
-                <Feather name="sun" size={32} color={theme.highlightAccent} accessible={false} />
+                <Feather
+                  name="sun"
+                  size={32}
+                  color={theme.highlightAccent}
+                  accessible={false}
+                />
               </View>
             </View>
           </View>
@@ -132,7 +144,7 @@ export default function WelcomeScreen() {
               },
             ]}
           >
-            Noor
+            Qamar
           </ThemedText>
 
           {/* Arabic subtitle */}
@@ -182,9 +194,19 @@ export default function WelcomeScreen() {
           accessibilityHint="Continues to the next onboarding step"
         >
           <LinearGradient
-            colors={gradients.buttonGradient.colors as readonly [string, string, ...string[]]}
+            colors={
+              gradients.buttonGradient.colors as readonly [
+                string,
+                string,
+                ...string[],
+              ]
+            }
             locations={
-              gradients.buttonGradient.locations as readonly [number, number, ...number[]]
+              gradients.buttonGradient.locations as readonly [
+                number,
+                number,
+                ...number[],
+              ]
             }
             start={gradients.buttonGradient.start}
             end={gradients.buttonGradient.end}

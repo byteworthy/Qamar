@@ -1,5 +1,5 @@
 /**
- * End-to-End Journey Tests for Noor
+ * End-to-End Journey Tests for Qamar
  *
  * Tests complete user flows through the canonical orchestration system:
  * 1. Normal reflection journey (thought → analyze → reframe → practice → intention)

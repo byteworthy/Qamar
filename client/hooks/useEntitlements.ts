@@ -96,7 +96,10 @@ function getRequiredTier(feature: FeatureName): SubscriptionTier {
  * Check if a user's tier grants access to a feature.
  * Pro users have access to all Plus features.
  */
-function tierHasAccess(userTier: SubscriptionTier, requiredTier: SubscriptionTier): boolean {
+function tierHasAccess(
+  userTier: SubscriptionTier,
+  requiredTier: SubscriptionTier,
+): boolean {
   const tierOrder: SubscriptionTier[] = ["free", "plus", "pro"];
   const userLevel = tierOrder.indexOf(userTier);
   const requiredLevel = tierOrder.indexOf(requiredTier);

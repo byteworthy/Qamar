@@ -8,7 +8,13 @@
  * npm install adhan
  */
 
-import { Coordinates, CalculationMethod, CalculationParameters, PrayerTimes, Madhab } from 'adhan';
+import {
+  Coordinates,
+  CalculationMethod,
+  CalculationParameters,
+  PrayerTimes,
+  Madhab,
+} from "adhan";
 
 export interface PrayerTimesResult {
   fajr: Date;
@@ -41,59 +47,59 @@ export interface CalculationMethodInfo {
  */
 export const CALCULATION_METHODS: CalculationMethodInfo[] = [
   {
-    id: 'MuslimWorldLeague',
-    name: 'Muslim World League',
-    description: 'Standard method used by most countries',
+    id: "MuslimWorldLeague",
+    name: "Muslim World League",
+    description: "Standard method used by most countries",
   },
   {
-    id: 'Egyptian',
-    name: 'Egyptian General Authority',
-    description: 'Used in Egypt and parts of Middle East',
+    id: "Egyptian",
+    name: "Egyptian General Authority",
+    description: "Used in Egypt and parts of Middle East",
   },
   {
-    id: 'Karachi',
-    name: 'University of Islamic Sciences, Karachi',
-    description: 'Used in Pakistan, Bangladesh, India',
+    id: "Karachi",
+    name: "University of Islamic Sciences, Karachi",
+    description: "Used in Pakistan, Bangladesh, India",
   },
   {
-    id: 'UmmAlQura',
-    name: 'Umm al-Qura University',
-    description: 'Used in Saudi Arabia',
+    id: "UmmAlQura",
+    name: "Umm al-Qura University",
+    description: "Used in Saudi Arabia",
   },
   {
-    id: 'Dubai',
-    name: 'Dubai',
-    description: 'Used in UAE',
+    id: "Dubai",
+    name: "Dubai",
+    description: "Used in UAE",
   },
   {
-    id: 'Kuwait',
-    name: 'Kuwait',
-    description: 'Used in Kuwait',
+    id: "Kuwait",
+    name: "Kuwait",
+    description: "Used in Kuwait",
   },
   {
-    id: 'Qatar',
-    name: 'Qatar',
-    description: 'Used in Qatar',
+    id: "Qatar",
+    name: "Qatar",
+    description: "Used in Qatar",
   },
   {
-    id: 'Singapore',
-    name: 'Singapore',
-    description: 'Used in Singapore',
+    id: "Singapore",
+    name: "Singapore",
+    description: "Used in Singapore",
   },
   {
-    id: 'NorthAmerica',
-    name: 'Islamic Society of North America',
-    description: 'Used in North America',
+    id: "NorthAmerica",
+    name: "Islamic Society of North America",
+    description: "Used in North America",
   },
   {
-    id: 'Turkey',
-    name: 'Turkey',
-    description: 'Used in Turkey',
+    id: "Turkey",
+    name: "Turkey",
+    description: "Used in Turkey",
   },
   {
-    id: 'Tehran',
-    name: 'Institute of Geophysics, Tehran',
-    description: 'Used in Iran',
+    id: "Tehran",
+    name: "Institute of Geophysics, Tehran",
+    description: "Used in Iran",
   },
 ];
 
@@ -101,8 +107,8 @@ export const CALCULATION_METHODS: CalculationMethodInfo[] = [
  * Available madhab (jurisprudence) methods for Asr calculation
  */
 export const MADHAB_METHODS = [
-  { id: 'Shafi', name: 'Shafi, Maliki, Hanbali' },
-  { id: 'Hanafi', name: 'Hanafi' },
+  { id: "Shafi", name: "Shafi, Maliki, Hanbali" },
+  { id: "Hanafi", name: "Hanafi" },
 ];
 
 /**
@@ -123,14 +129,17 @@ function getCalculationMethod(methodId?: string): CalculationParameters {
     Tehran: CalculationMethod.Tehran(),
   };
 
-  return methods[methodId || 'MuslimWorldLeague'] || CalculationMethod.MuslimWorldLeague();
+  return (
+    methods[methodId || "MuslimWorldLeague"] ||
+    CalculationMethod.MuslimWorldLeague()
+  );
 }
 
 /**
  * Get madhab from string ID
  */
-function getMadhab(madhabId?: string): typeof Madhab[keyof typeof Madhab] {
-  return madhabId === 'Hanafi' ? Madhab.Hanafi : Madhab.Shafi;
+function getMadhab(madhabId?: string): (typeof Madhab)[keyof typeof Madhab] {
+  return madhabId === "Hanafi" ? Madhab.Hanafi : Madhab.Shafi;
 }
 
 /**
@@ -141,7 +150,7 @@ export function calculatePrayerTimes(
   longitude: number,
   date: Date = new Date(),
   methodId?: string,
-  madhabId?: string
+  madhabId?: string,
 ): PrayerTimesResult {
   const coordinates = new Coordinates(latitude, longitude);
   const params = getCalculationMethod(methodId);
@@ -170,12 +179,12 @@ export function calculatePrayerTimes(
 export function getNextPrayer(prayerTimes: PrayerTimesResult): NextPrayer {
   const now = new Date();
   const prayers = [
-    { name: 'Fajr', time: prayerTimes.fajr },
-    { name: 'Sunrise', time: prayerTimes.sunrise },
-    { name: 'Dhuhr', time: prayerTimes.dhuhr },
-    { name: 'Asr', time: prayerTimes.asr },
-    { name: 'Maghrib', time: prayerTimes.maghrib },
-    { name: 'Isha', time: prayerTimes.isha },
+    { name: "Fajr", time: prayerTimes.fajr },
+    { name: "Sunrise", time: prayerTimes.sunrise },
+    { name: "Dhuhr", time: prayerTimes.dhuhr },
+    { name: "Asr", time: prayerTimes.asr },
+    { name: "Maghrib", time: prayerTimes.maghrib },
+    { name: "Isha", time: prayerTimes.isha },
   ];
 
   // Find the next prayer that hasn't occurred yet
@@ -195,11 +204,11 @@ export function getNextPrayer(prayerTimes: PrayerTimesResult): NextPrayer {
   const tomorrowPrayers = calculatePrayerTimes(
     prayerTimes.location.latitude,
     prayerTimes.location.longitude,
-    tomorrow
+    tomorrow,
   );
 
   return {
-    name: 'Fajr',
+    name: "Fajr",
     time: tomorrowPrayers.fajr,
     timeUntil: tomorrowPrayers.fajr.getTime() - now.getTime(),
   };
@@ -208,15 +217,17 @@ export function getNextPrayer(prayerTimes: PrayerTimesResult): NextPrayer {
 /**
  * Get current prayer (the one we're in the time window for)
  */
-export function getCurrentPrayer(prayerTimes: PrayerTimesResult): string | null {
+export function getCurrentPrayer(
+  prayerTimes: PrayerTimesResult,
+): string | null {
   const now = new Date();
 
-  if (now >= prayerTimes.isha) return 'Isha';
-  if (now >= prayerTimes.maghrib) return 'Maghrib';
-  if (now >= prayerTimes.asr) return 'Asr';
-  if (now >= prayerTimes.dhuhr) return 'Dhuhr';
-  if (now >= prayerTimes.sunrise) return 'Dhuhr'; // Between sunrise and dhuhr
-  if (now >= prayerTimes.fajr) return 'Fajr';
+  if (now >= prayerTimes.isha) return "Isha";
+  if (now >= prayerTimes.maghrib) return "Maghrib";
+  if (now >= prayerTimes.asr) return "Asr";
+  if (now >= prayerTimes.dhuhr) return "Dhuhr";
+  if (now >= prayerTimes.sunrise) return "Dhuhr"; // Between sunrise and dhuhr
+  if (now >= prayerTimes.fajr) return "Fajr";
 
   return null; // Before Fajr
 }
@@ -225,9 +236,9 @@ export function getCurrentPrayer(prayerTimes: PrayerTimesResult): string | null 
  * Format prayer time to 12-hour format (e.g., "5:23 AM")
  */
 export function formatPrayerTime(date: Date): string {
-  return date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
   });
 }
@@ -289,19 +300,21 @@ export function isPrayerPast(prayerTime: Date): boolean {
  */
 export function getPrayerStatus(
   prayerName: string,
-  prayerTimes: PrayerTimesResult
-): 'past' | 'current' | 'upcoming' {
+  prayerTimes: PrayerTimesResult,
+): "past" | "current" | "upcoming" {
   const currentPrayer = getCurrentPrayer(prayerTimes);
   const nextPrayer = getNextPrayer(prayerTimes);
 
   if (currentPrayer === prayerName) {
-    return 'current';
+    return "current";
   }
 
-  const prayerTime = prayerTimes[prayerName.toLowerCase() as keyof PrayerTimesResult] as Date;
+  const prayerTime = prayerTimes[
+    prayerName.toLowerCase() as keyof PrayerTimesResult
+  ] as Date;
   if (isPrayerPast(prayerTime)) {
-    return 'past';
+    return "past";
   }
 
-  return 'upcoming';
+  return "upcoming";
 }

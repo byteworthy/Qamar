@@ -1,13 +1,17 @@
 // server/services/study-plan-generator.ts
-import Anthropic from '@anthropic-ai/sdk';
-import type { StudyPlanInput, WeeklyPlan, DailyTask } from '../../shared/types/study-plan';
-import { randomUUID } from 'crypto';
+import Anthropic from "@anthropic-ai/sdk";
+import type {
+  StudyPlanInput,
+  WeeklyPlan,
+  DailyTask,
+} from "../../shared/types/study-plan";
+import { randomUUID } from "crypto";
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const SYSTEM_PROMPT = `You are a Quran study plan generator for the Noor app.
+const SYSTEM_PROMPT = `You are a Quran study plan generator for the Qamar app.
 
 Generate a 7-day weekly study plan as valid JSON matching this schema:
 
@@ -37,19 +41,21 @@ Guidelines:
 - Be realistic and achievable
 - Return ONLY valid JSON, no markdown`;
 
-export async function generateWeeklyPlan(input: StudyPlanInput): Promise<WeeklyPlan> {
+export async function generateWeeklyPlan(
+  input: StudyPlanInput,
+): Promise<WeeklyPlan> {
   const userPrompt = buildUserPrompt(input);
 
   const response = await anthropic.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 2000,
     system: SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: userPrompt }],
+    messages: [{ role: "user", content: userPrompt }],
   });
 
   const content = response.content[0];
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type from Claude');
+  if (content.type !== "text") {
+    throw new Error("Unexpected response type from Claude");
   }
 
   const tasksData = JSON.parse(content.text);
@@ -71,7 +77,7 @@ export async function generateWeeklyPlan(input: StudyPlanInput): Promise<WeeklyP
   return {
     id: randomUUID(),
     createdAt: Date.now(),
-    weekStartDate: monday.toISOString().split('T')[0],
+    weekStartDate: monday.toISOString().split("T")[0],
     goal: input.goal,
     customGoalText: input.customGoalText,
     timeCommitment: input.timeCommitment,
@@ -85,15 +91,15 @@ export async function generateWeeklyPlan(input: StudyPlanInput): Promise<WeeklyP
 function buildUserPrompt(input: StudyPlanInput): string {
   let prompt = `Generate a weekly Quran study plan:\n\n`;
 
-  if (input.goal === 'memorize_juz_30') {
+  if (input.goal === "memorize_juz_30") {
     prompt += `Goal: Memorize Juz 30 (Juz 'Amma)\n`;
-  } else if (input.goal === 'read_entire_quran') {
+  } else if (input.goal === "read_entire_quran") {
     prompt += `Goal: Read the entire Quran in one year\n`;
-  } else if (input.goal === 'understand_specific_surah') {
+  } else if (input.goal === "understand_specific_surah") {
     prompt += `Goal: Deeply understand Surah ${input.specificSurah}\n`;
-  } else if (input.goal === 'improve_tajweed') {
+  } else if (input.goal === "improve_tajweed") {
     prompt += `Goal: Improve tajweed (pronunciation rules)\n`;
-  } else if (input.goal === 'custom') {
+  } else if (input.goal === "custom") {
     prompt += `Goal: ${input.customGoalText}\n`;
   }
 

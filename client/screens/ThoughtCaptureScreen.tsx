@@ -241,262 +241,268 @@ export default function ThoughtCaptureScreen() {
             },
           ]}
         >
-      {/* Progress Indicator */}
-      <ReflectionProgressCompact currentStep="ThoughtCapture" />
+          {/* Progress Indicator */}
+          <ReflectionProgressCompact currentStep="ThoughtCapture" />
 
-      {/* Niyyah Banner - Spiritual grounding at the start */}
-      <Animated.View
-        entering={FadeInDown.duration(500)}
-        style={[
-          styles.niyyahBanner,
-          { backgroundColor: theme.bannerBackground },
-        ]}
-      >
-        <ThemedText
-          type="small"
-          style={[styles.bismillah, { color: theme.onPrimary }]}
-        >
-          بِسْمِ اللَّهِ
-        </ThemedText>
-        <ThemedText
-          type="small"
-          style={[styles.niyyahText, { color: theme.textOnBanner }]}
-        >
-          {niyyahPrompt}
-        </ThemedText>
-      </Animated.View>
-
-      <View style={styles.introSection}>
-        <ThemedText
-          type="h3"
-          style={[styles.heading, { fontFamily: Fonts?.serif }]}
-        >
-          {ScreenCopy.thoughtCapture.title}
-        </ThemedText>
-        <ThemedText
-          type="body"
-          style={[
-            styles.description,
-            { color: theme.textSecondary, lineHeight: 26 },
-          ]}
-        >
-          {ScreenCopy.thoughtCapture.subtitle}
-        </ThemedText>
-      </View>
-
-      <View style={styles.inputSection}>
-        <Animated.View style={breathingStyle}>
-          <TextInput
-            value={thought}
-            onChangeText={handleTextChange}
-            placeholder={ScreenCopy.thoughtCapture.placeholder}
-            placeholderTextColor={theme.textSecondary}
-            multiline
-            maxLength={2000}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBackground,
-                color: theme.text,
-                fontFamily: Platform.OS === "ios" ? "Georgia" : "serif",
-              },
-            ]}
-            textAlignVertical="top"
-            testID="thought-input"
-            accessibilityLabel="Thought input"
-            accessibilityHint="Enter the thought or feeling you want to reflect on"
-          />
-        </Animated.View>
-
-        {/* Auto-hiding character count */}
-        {showCharCount && thought.length > 0 ? (
+          {/* Niyyah Banner - Spiritual grounding at the start */}
           <Animated.View
-            entering={FadeIn.duration(200)}
-            exiting={FadeOut.duration(200)}
+            entering={FadeInDown.duration(500)}
+            style={[
+              styles.niyyahBanner,
+              { backgroundColor: theme.bannerBackground },
+            ]}
           >
             <ThemedText
-              type="caption"
-              style={[styles.hint, { color: theme.textSecondary }]}
+              type="small"
+              style={[styles.bismillah, { color: theme.onPrimary }]}
             >
-              {thought.length}/2000 characters
+              بِسْمِ اللَّهِ
             </ThemedText>
-          </Animated.View>
-        ) : thought.length === 0 ? (
-          <ThemedText
-            type="caption"
-            style={[styles.hint, { color: theme.textSecondary }]}
-          >
-            {ScreenCopy.thoughtCapture.hint}
-          </ThemedText>
-        ) : null}
-
-        {/* Validation hint */}
-        {thought.length > 0 && thought.trim().length < 10 && (
-          <Animated.View entering={FadeIn.duration(200)}>
             <ThemedText
-              type="caption"
-              style={[styles.validationHint, { color: theme.warning }]}
+              type="small"
+              style={[styles.niyyahText, { color: theme.textOnBanner }]}
             >
-              Write a bit more to continue (at least 10 characters)
+              {niyyahPrompt}
             </ThemedText>
           </Animated.View>
-        )}
-      </View>
 
-      {/* Emotional Intensity Section */}
-      <Animated.View
-        entering={FadeInUp.duration(400).delay(100)}
-        style={styles.intensitySection}
-      >
-        <ThemedText
-          type="caption"
-          style={[styles.sectionLabel, { color: theme.textSecondary }]}
-        >
-          HOW HEAVY DOES THIS FEEL?
-        </ThemedText>
+          <View style={styles.introSection}>
+            <ThemedText
+              type="h3"
+              style={[styles.heading, { fontFamily: Fonts?.serif }]}
+            >
+              {ScreenCopy.thoughtCapture.title}
+            </ThemedText>
+            <ThemedText
+              type="body"
+              style={[
+                styles.description,
+                { color: theme.textSecondary, lineHeight: 26 },
+              ]}
+            >
+              {ScreenCopy.thoughtCapture.subtitle}
+            </ThemedText>
+          </View>
 
-        <View style={styles.intensityRow}>
-          {[1, 2, 3, 4, 5].map((level) => {
-            const isSelected = emotionalIntensity === level;
-            const levelColor = getIntensityColor(level);
-            return (
-              <TouchableOpacity
-                key={level}
-                onPress={() => handleIntensityChange(level)}
+          <View style={styles.inputSection}>
+            <Animated.View style={breathingStyle}>
+              <TextInput
+                value={thought}
+                onChangeText={handleTextChange}
+                placeholder={ScreenCopy.thoughtCapture.placeholder}
+                placeholderTextColor={theme.textSecondary}
+                multiline
+                maxLength={2000}
                 style={[
-                  styles.intensityButton,
+                  styles.textInput,
                   {
-                    backgroundColor: isSelected
-                      ? levelColor
-                      : theme.backgroundDefault,
-                    borderColor: isSelected ? levelColor : theme.border,
-                    // Glow effect on selected level
-                    shadowColor: isSelected ? levelColor : "transparent",
-                    shadowOffset: { width: 0, height: 0 },
-                    shadowOpacity: isSelected ? 0.5 : 0,
-                    shadowRadius: isSelected ? 12 : 0,
-                    elevation: isSelected ? 8 : 0,
+                    backgroundColor: theme.inputBackground,
+                    color: theme.text,
+                    fontFamily: Platform.OS === "ios" ? "Georgia" : "serif",
                   },
                 ]}
-                testID={`intensity-${level}`}
-                accessibilityRole="button"
-                accessibilityLabel={`Intensity level ${level}: ${INTENSITY_LABELS[level].label}`}
-                accessibilityHint={INTENSITY_LABELS[level].description}
-                accessibilityState={{ selected: isSelected }}
+                textAlignVertical="top"
+                testID="thought-input"
+                accessibilityLabel="Thought input"
+                accessibilityHint="Enter the thought or feeling you want to reflect on"
+              />
+            </Animated.View>
+
+            {/* Auto-hiding character count */}
+            {showCharCount && thought.length > 0 ? (
+              <Animated.View
+                entering={FadeIn.duration(200)}
+                exiting={FadeOut.duration(200)}
               >
                 <ThemedText
-                  type="small"
-                  style={[
-                    styles.intensityNumber,
-                    {
-                      color: isSelected ? theme.onPrimary : theme.textSecondary,
-                      fontWeight: isSelected ? "700" : "500",
-                    },
-                  ]}
+                  type="caption"
+                  style={[styles.hint, { color: theme.textSecondary }]}
                 >
-                  {level}
+                  {thought.length}/2000 characters
                 </ThemedText>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+              </Animated.View>
+            ) : thought.length === 0 ? (
+              <ThemedText
+                type="caption"
+                style={[styles.hint, { color: theme.textSecondary }]}
+              >
+                {ScreenCopy.thoughtCapture.hint}
+              </ThemedText>
+            ) : null}
 
-        <ThemedText
-          type="small"
-          style={[
-            styles.intensityDescription,
-            { color: getIntensityColor(emotionalIntensity) },
-          ]}
-        >
-          {INTENSITY_LABELS[emotionalIntensity].label}:{" "}
-          {INTENSITY_LABELS[emotionalIntensity].description}
-        </ThemedText>
-      </Animated.View>
-
-      {/* Somatic Awareness Section - appears for higher intensity */}
-      {showSomaticPrompt && (
-        <Animated.View
-          entering={FadeInUp.duration(400).delay(100)}
-          style={styles.somaticSection}
-        >
-          <ThemedText
-            type="caption"
-            style={[styles.sectionLabel, { color: theme.textSecondary }]}
-          >
-            WHERE DO YOU FEEL THIS IN YOUR BODY?
-          </ThemedText>
-
-          <View style={styles.somaticRow}>
-            {SOMATIC_PROMPTS.map((somatic, index) => {
-              const isSelected = selectedSomatic === somatic;
-              return (
-                <Animated.View
-                  key={somatic}
-                  entering={FadeInUp.duration(300).delay(index * 50)}
+            {/* Validation hint */}
+            {thought.length > 0 && thought.trim().length < 10 && (
+              <Animated.View entering={FadeIn.duration(200)}>
+                <ThemedText
+                  type="caption"
+                  style={[styles.validationHint, { color: theme.warning }]}
                 >
+                  Write a bit more to continue (at least 10 characters)
+                </ThemedText>
+              </Animated.View>
+            )}
+          </View>
+
+          {/* Emotional Intensity Section */}
+          <Animated.View
+            entering={FadeInUp.duration(400).delay(100)}
+            style={styles.intensitySection}
+          >
+            <ThemedText
+              type="caption"
+              style={[styles.sectionLabel, { color: theme.textSecondary }]}
+            >
+              HOW HEAVY DOES THIS FEEL?
+            </ThemedText>
+
+            <View style={styles.intensityRow}>
+              {[1, 2, 3, 4, 5].map((level) => {
+                const isSelected = emotionalIntensity === level;
+                const levelColor = getIntensityColor(level);
+                return (
                   <TouchableOpacity
-                    onPress={() => handleSomaticSelect(somatic)}
+                    key={level}
+                    onPress={() => handleIntensityChange(level)}
                     style={[
-                      styles.somaticPill,
+                      styles.intensityButton,
                       {
                         backgroundColor: isSelected
-                          ? theme.primary
+                          ? levelColor
                           : theme.backgroundDefault,
-                        borderColor: isSelected ? theme.primary : theme.border,
-                        // Subtle shadow/ripple effect on selected pill
-                        shadowColor: isSelected ? theme.primary : "transparent",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: isSelected ? 0.25 : 0,
-                        shadowRadius: isSelected ? 8 : 0,
-                        elevation: isSelected ? 4 : 0,
-                        transform: [{ scale: isSelected ? 1.02 : 1 }],
+                        borderColor: isSelected ? levelColor : theme.border,
+                        // Glow effect on selected level
+                        shadowColor: isSelected ? levelColor : "transparent",
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowOpacity: isSelected ? 0.5 : 0,
+                        shadowRadius: isSelected ? 12 : 0,
+                        elevation: isSelected ? 8 : 0,
                       },
                     ]}
+                    testID={`intensity-${level}`}
                     accessibilityRole="button"
-                    accessibilityLabel={`${somatic}`}
-                    accessibilityHint={`Select if you feel ${somatic}`}
+                    accessibilityLabel={`Intensity level ${level}: ${INTENSITY_LABELS[level].label}`}
+                    accessibilityHint={INTENSITY_LABELS[level].description}
                     accessibilityState={{ selected: isSelected }}
                   >
                     <ThemedText
                       type="small"
-                      style={{
-                        color: isSelected
-                          ? theme.onPrimary
-                          : theme.textSecondary,
-                        fontWeight: isSelected ? "600" : "400",
-                      }}
+                      style={[
+                        styles.intensityNumber,
+                        {
+                          color: isSelected
+                            ? theme.onPrimary
+                            : theme.textSecondary,
+                          fontWeight: isSelected ? "700" : "500",
+                        },
+                      ]}
                     >
-                      {somatic}
+                      {level}
                     </ThemedText>
                   </TouchableOpacity>
-                </Animated.View>
-              );
-            })}
+                );
+              })}
+            </View>
+
+            <ThemedText
+              type="small"
+              style={[
+                styles.intensityDescription,
+                { color: getIntensityColor(emotionalIntensity) },
+              ]}
+            >
+              {INTENSITY_LABELS[emotionalIntensity].label}:{" "}
+              {INTENSITY_LABELS[emotionalIntensity].description}
+            </ThemedText>
+          </Animated.View>
+
+          {/* Somatic Awareness Section - appears for higher intensity */}
+          {showSomaticPrompt && (
+            <Animated.View
+              entering={FadeInUp.duration(400).delay(100)}
+              style={styles.somaticSection}
+            >
+              <ThemedText
+                type="caption"
+                style={[styles.sectionLabel, { color: theme.textSecondary }]}
+              >
+                WHERE DO YOU FEEL THIS IN YOUR BODY?
+              </ThemedText>
+
+              <View style={styles.somaticRow}>
+                {SOMATIC_PROMPTS.map((somatic, index) => {
+                  const isSelected = selectedSomatic === somatic;
+                  return (
+                    <Animated.View
+                      key={somatic}
+                      entering={FadeInUp.duration(300).delay(index * 50)}
+                    >
+                      <TouchableOpacity
+                        onPress={() => handleSomaticSelect(somatic)}
+                        style={[
+                          styles.somaticPill,
+                          {
+                            backgroundColor: isSelected
+                              ? theme.primary
+                              : theme.backgroundDefault,
+                            borderColor: isSelected
+                              ? theme.primary
+                              : theme.border,
+                            // Subtle shadow/ripple effect on selected pill
+                            shadowColor: isSelected
+                              ? theme.primary
+                              : "transparent",
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: isSelected ? 0.25 : 0,
+                            shadowRadius: isSelected ? 8 : 0,
+                            elevation: isSelected ? 4 : 0,
+                            transform: [{ scale: isSelected ? 1.02 : 1 }],
+                          },
+                        ]}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${somatic}`}
+                        accessibilityHint={`Select if you feel ${somatic}`}
+                        accessibilityState={{ selected: isSelected }}
+                      >
+                        <ThemedText
+                          type="small"
+                          style={{
+                            color: isSelected
+                              ? theme.onPrimary
+                              : theme.textSecondary,
+                            fontWeight: isSelected ? "600" : "400",
+                          }}
+                        >
+                          {somatic}
+                        </ThemedText>
+                      </TouchableOpacity>
+                    </Animated.View>
+                  );
+                })}
+              </View>
+            </Animated.View>
+          )}
+
+          <View style={styles.buttonSection}>
+            <View testID="continue-button">
+              <Button
+                onPress={handleContinue}
+                disabled={!canContinue}
+                style={{
+                  backgroundColor: canContinue ? theme.primary : theme.border,
+                }}
+                accessibilityHint="Proceeds to analyze your thought patterns"
+              >
+                {ScreenCopy.thoughtCapture.continue}
+              </Button>
+            </View>
           </View>
-        </Animated.View>
-      )}
 
-      <View style={styles.buttonSection}>
-        <View testID="continue-button">
-        <Button
-          onPress={handleContinue}
-          disabled={!canContinue}
-          style={{
-            backgroundColor: canContinue ? theme.primary : theme.border,
-          }}
-          accessibilityHint="Proceeds to analyze your thought patterns"
-        >
-          {ScreenCopy.thoughtCapture.continue}
-        </Button>
-        </View>
-      </View>
-
-        <ExitConfirmationModal
-          visible={showExitModal}
-          onConfirm={handleExit}
-          onCancel={() => setShowExitModal(false)}
-        />
-      </KeyboardAwareScrollViewCompat>
+          <ExitConfirmationModal
+            visible={showExitModal}
+            onConfirm={handleExit}
+            onCancel={() => setShowExitModal(false)}
+          />
+        </KeyboardAwareScrollViewCompat>
       </AtmosphericBackground>
     </View>
   );

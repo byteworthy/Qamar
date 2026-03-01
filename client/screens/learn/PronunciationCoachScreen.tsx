@@ -21,7 +21,11 @@ import {
 } from "react-native";
 import { Audio } from "expo-av";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Animated, { FadeInUp, FadeInDown, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeInDown,
+  FadeIn,
+} from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useRoute, RouteProp } from "@react-navigation/native";
 
@@ -105,7 +109,8 @@ export default function PronunciationCoachScreen() {
   // ==================================================================
 
   const requestMicPermission = useCallback(async (): Promise<boolean> => {
-    const { granted, canAskAgain: stillCanAsk } = await Audio.requestPermissionsAsync();
+    const { granted, canAskAgain: stillCanAsk } =
+      await Audio.requestPermissionsAsync();
     setMicPermission(granted);
     setCanAskAgain(stillCanAsk);
     if (!granted && !stillCanAsk) {
@@ -183,9 +188,7 @@ export default function PronunciationCoachScreen() {
           <ThemedText style={[styles.title, { color: theme.text }]}>
             Pronunciation Coach
           </ThemedText>
-          <ThemedText
-            style={[styles.subtitle, { color: theme.textSecondary }]}
-          >
+          <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
             Practice your Arabic recitation
           </ThemedText>
         </Animated.View>
@@ -229,24 +232,48 @@ export default function PronunciationCoachScreen() {
           <Animated.View entering={FadeIn.duration(300)}>
             <GlassCard style={styles.permissionCard}>
               <View style={styles.permissionIconRow}>
-                <View style={[styles.permissionIconCircle, { backgroundColor: NoorColors.gold + "20" }]}>
+                <View
+                  style={[
+                    styles.permissionIconCircle,
+                    { backgroundColor: NoorColors.gold + "20" },
+                  ]}
+                >
                   <Feather name="mic" size={28} color={NoorColors.gold} />
                 </View>
               </View>
-              <ThemedText style={[styles.permissionCardTitle, { color: theme.text }]}>
+              <ThemedText
+                style={[styles.permissionCardTitle, { color: theme.text }]}
+              >
                 Microphone needed for feedback
               </ThemedText>
-              <ThemedText style={[styles.permissionCardBody, { color: theme.textSecondary }]}>
-                Noor listens to your recitation locally on your device to compare it against the Arabic text and give you personalised pronunciation feedback. Your audio is never stored.
+              <ThemedText
+                style={[
+                  styles.permissionCardBody,
+                  { color: theme.textSecondary },
+                ]}
+              >
+                Qamar listens to your recitation locally on your device to
+                compare it against the Arabic text and give you personalised
+                pronunciation feedback. Your audio is never stored.
               </ThemedText>
               <Pressable
                 onPress={requestMicPermission}
-                style={[styles.permissionButton, { backgroundColor: NoorColors.gold }]}
+                style={[
+                  styles.permissionButton,
+                  { backgroundColor: NoorColors.gold },
+                ]}
                 accessibilityRole="button"
                 accessibilityLabel="Enable microphone access"
               >
-                <Feather name="mic" size={16} color="#FFFFFF" style={{ marginRight: 8 }} />
-                <ThemedText style={styles.permissionButtonText}>Enable Microphone</ThemedText>
+                <Feather
+                  name="mic"
+                  size={16}
+                  color="#FFFFFF"
+                  style={{ marginRight: 8 }}
+                />
+                <ThemedText style={styles.permissionButtonText}>
+                  Enable Microphone
+                </ThemedText>
               </Pressable>
             </GlassCard>
           </Animated.View>
@@ -258,21 +285,35 @@ export default function PronunciationCoachScreen() {
               onPress={() => Linking.openSettings()}
               style={[
                 styles.permissionBanner,
-                { backgroundColor: "rgba(239,68,68,0.08)", borderColor: "rgba(239,68,68,0.3)" },
+                {
+                  backgroundColor: "rgba(239,68,68,0.08)",
+                  borderColor: "rgba(239,68,68,0.3)",
+                },
               ]}
               accessibilityRole="button"
               accessibilityLabel="Open Settings to enable microphone"
             >
               <Feather name="mic-off" size={20} color="#EF4444" />
               <View style={styles.permissionBannerText}>
-                <ThemedText style={[styles.permissionTitle, { color: theme.text }]}>
+                <ThemedText
+                  style={[styles.permissionTitle, { color: theme.text }]}
+                >
                   Microphone access blocked
                 </ThemedText>
-                <ThemedText style={[styles.permissionSubtitle, { color: theme.textSecondary }]}>
-                  Tap to open Settings and enable microphone for Noor.
+                <ThemedText
+                  style={[
+                    styles.permissionSubtitle,
+                    { color: theme.textSecondary },
+                  ]}
+                >
+                  Tap to open Settings and enable microphone for Qamar.
                 </ThemedText>
               </View>
-              <Feather name="external-link" size={16} color={theme.textSecondary} />
+              <Feather
+                name="external-link"
+                size={16}
+                color={theme.textSecondary}
+              />
             </Pressable>
           </Animated.View>
         )}
@@ -291,16 +332,11 @@ export default function PronunciationCoachScreen() {
               style={styles.recordingInfo}
             >
               <View style={styles.recordingDot} />
-              <ThemedText
-                style={[styles.recordingLabel, { color: "#EF4444" }]}
-              >
+              <ThemedText style={[styles.recordingLabel, { color: "#EF4444" }]}>
                 Recording...
               </ThemedText>
               <ThemedText
-                style={[
-                  styles.durationText,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.durationText, { color: theme.textSecondary }]}
               >
                 {formatDuration(pronunciation.duration)}
               </ThemedText>
@@ -336,10 +372,7 @@ export default function PronunciationCoachScreen() {
                 style={styles.statusSpinner}
               />
               <ThemedText
-                style={[
-                  styles.statusText,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.statusText, { color: theme.textSecondary }]}
               >
                 Transcribing...
               </ThemedText>
@@ -378,10 +411,7 @@ export default function PronunciationCoachScreen() {
                     Your recitation:
                   </ThemedText>
                   <ThemedText
-                    style={[
-                      styles.transcriptText,
-                      { color: theme.text },
-                    ]}
+                    style={[styles.transcriptText, { color: theme.text }]}
                   >
                     {pronunciation.transcript}
                   </ThemedText>
@@ -424,9 +454,7 @@ export default function PronunciationCoachScreen() {
               style={({ pressed }) => [
                 styles.submitButton,
                 {
-                  backgroundColor: canSubmit
-                    ? NoorColors.gold
-                    : theme.border,
+                  backgroundColor: canSubmit ? NoorColors.gold : theme.border,
                   opacity: pressed && canSubmit ? 0.85 : 1,
                 },
               ]}

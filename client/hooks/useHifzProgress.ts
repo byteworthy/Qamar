@@ -4,15 +4,15 @@
  * Provides juz-level progress statistics for the dashboard
  */
 
-import { useMemo } from 'react';
-import { useHifzStore } from '../stores/hifz-store';
-import type { JuzProgress } from '../../shared/types/hifz';
+import { useMemo } from "react";
+import { useHifzStore } from "../stores/hifz-store";
+import type { JuzProgress } from "../../shared/types/hifz";
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export type JuzStatus = 'not-started' | 'in-progress' | 'memorized';
+export type JuzStatus = "not-started" | "in-progress" | "memorized";
 
 export interface UseHifzProgressReturn {
   // All juz (if juzNumber not provided)
@@ -65,9 +65,9 @@ export function useHifzProgress(juzNumber?: number): UseHifzProgressReturn {
   }, [memorizedVerses, totalVerses]);
 
   const status: JuzStatus = useMemo(() => {
-    if (memorizedVerses === 0) return 'not-started';
-    if (memorizedVerses >= totalVerses) return 'memorized';
-    return 'in-progress';
+    if (memorizedVerses === 0) return "not-started";
+    if (memorizedVerses >= totalVerses) return "memorized";
+    return "in-progress";
   }, [memorizedVerses, totalVerses]);
 
   // ============================================================
@@ -77,15 +77,16 @@ export function useHifzProgress(juzNumber?: number): UseHifzProgressReturn {
   const overallStats = useMemo(() => {
     const totalMemorized = allJuzProgress.reduce(
       (sum, juz) => sum + juz.memorizedVerses,
-      0
+      0,
     );
 
     const totalVerses = allJuzProgress.reduce(
       (sum, juz) => sum + juz.totalVerses,
-      0
+      0,
     );
 
-    const percentageComplete = totalVerses > 0 ? (totalMemorized / totalVerses) * 100 : 0;
+    const percentageComplete =
+      totalVerses > 0 ? (totalMemorized / totalVerses) * 100 : 0;
 
     return {
       totalMemorized,

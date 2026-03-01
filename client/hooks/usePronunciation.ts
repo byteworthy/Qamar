@@ -45,7 +45,7 @@ export interface PronunciationHook {
   submitForFeedback: (
     expectedText: string,
     surahNumber?: number,
-    verseNumber?: number
+    verseNumber?: number,
   ) => Promise<void>;
   reset: () => void;
 }
@@ -85,14 +85,15 @@ export function usePronunciation(): PronunciationHook {
         ]);
       } catch (err: any) {
         const message =
-          err?.message || "Failed to start recording. Check microphone permissions.";
+          err?.message ||
+          "Failed to start recording. Check microphone permissions.";
         setError(message);
         Sentry.captureException(err, {
           tags: { feature: "pronunciation", action: "startPractice" },
         });
       }
     },
-    [recording, stt]
+    [recording, stt],
   );
 
   // ------------------------------------------------------------------
@@ -135,7 +136,7 @@ export function usePronunciation(): PronunciationHook {
     async (
       expectedText: string,
       surahNumber?: number,
-      verseNumber?: number
+      verseNumber?: number,
     ) => {
       const transcribedText = finalTranscript || stt.transcript;
 
@@ -148,16 +149,12 @@ export function usePronunciation(): PronunciationHook {
       setError(null);
 
       try {
-        const response = await apiRequest(
-          "POST",
-          "/api/pronunciation/check",
-          {
-            expectedText,
-            transcribedText,
-            ...(surahNumber != null && { surahNumber }),
-            ...(verseNumber != null && { verseNumber }),
-          }
-        );
+        const response = await apiRequest("POST", "/api/pronunciation/check", {
+          expectedText,
+          transcribedText,
+          ...(surahNumber != null && { surahNumber }),
+          ...(verseNumber != null && { verseNumber }),
+        });
 
         const data = await response.json();
 
@@ -181,7 +178,7 @@ export function usePronunciation(): PronunciationHook {
         setIsSubmitting(false);
       }
     },
-    [finalTranscript, stt.transcript]
+    [finalTranscript, stt.transcript],
   );
 
   // ------------------------------------------------------------------

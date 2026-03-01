@@ -12,20 +12,20 @@
  * - Pagination enforced to prevent large responses
  */
 
-import type { Express, Request, Response } from 'express';
-import { db } from '../db';
-import { vocabularyWords } from '@shared/schema';
-import { eq, sql, or, ilike, desc } from 'drizzle-orm';
-import { asyncHandler } from '../middleware/error-handler';
+import type { Express, Request, Response } from "express";
+import { db } from "../db";
+import { vocabularyWords } from "@shared/schema";
+import { eq, sql, or, ilike, desc } from "drizzle-orm";
+import { asyncHandler } from "../middleware/error-handler";
 import {
   createErrorResponse,
   ERROR_CODES,
   HTTP_STATUS,
-} from '../types/error-response';
+} from "../types/error-response";
 import {
   getVocabularySchema,
   searchVocabularySchema,
-} from '../validation/vocabulary-validation';
+} from "../validation/vocabulary-validation";
 
 export function registerVocabularyRoutes(app: Express): void {
   /**
@@ -62,23 +62,30 @@ export function registerVocabularyRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/vocabulary',
+    "/api/vocabulary",
     asyncHandler(async (req: Request, res: Response) => {
       // Validate query params
       const validationResult = getVocabularySchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid query parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid query parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
-      const { category, difficulty, limit = 50, offset = 0 } = validationResult.data;
+      const {
+        category,
+        difficulty,
+        limit = 50,
+        offset = 0,
+      } = validationResult.data;
 
       // Build WHERE conditions
       const conditions = [];
@@ -102,7 +109,11 @@ export function registerVocabularyRoutes(app: Express): void {
           exampleSentence: vocabularyWords.exampleSentence,
         })
         .from(vocabularyWords)
-        .where(conditions.length > 0 ? sql`${conditions.reduce((acc, cond) => sql`${acc} AND ${cond}`)}` : undefined)
+        .where(
+          conditions.length > 0
+            ? sql`${conditions.reduce((acc, cond) => sql`${acc} AND ${cond}`)}`
+            : undefined,
+        )
         .orderBy(vocabularyWords.difficulty, vocabularyWords.category)
         .limit(limit)
         .offset(offset);
@@ -111,9 +122,13 @@ export function registerVocabularyRoutes(app: Express): void {
       const [countResult] = await db
         .select({ count: sql<number>`count(*)` })
         .from(vocabularyWords)
-        .where(conditions.length > 0 ? sql`${conditions.reduce((acc, cond) => sql`${acc} AND ${cond}`)}` : undefined);
+        .where(
+          conditions.length > 0
+            ? sql`${conditions.reduce((acc, cond) => sql`${acc} AND ${cond}`)}`
+            : undefined,
+        );
 
-      req.logger?.info('Fetched vocabulary words', {
+      req.logger?.info("Fetched vocabulary words", {
         category,
         difficulty,
         count: words.length,
@@ -126,7 +141,7 @@ export function registerVocabularyRoutes(app: Express): void {
         limit,
         offset,
       });
-    })
+    }),
   );
 
   /**
@@ -142,21 +157,21 @@ export function registerVocabularyRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/vocabulary/categories',
+    "/api/vocabulary/categories",
     asyncHandler(async (req: Request, res: Response) => {
       const categories = await db
         .selectDistinct({ category: vocabularyWords.category })
         .from(vocabularyWords)
         .orderBy(vocabularyWords.category);
 
-      req.logger?.info('Fetched vocabulary categories', {
+      req.logger?.info("Fetched vocabulary categories", {
         count: categories.length,
       });
 
       return res.json({
-        categories: categories.map(c => c.category),
+        categories: categories.map((c) => c.category),
       });
-    })
+    }),
   );
 
   /**
@@ -178,20 +193,22 @@ export function registerVocabularyRoutes(app: Express): void {
    * }
    */
   app.get(
-    '/api/vocabulary/search',
+    "/api/vocabulary/search",
     asyncHandler(async (req: Request, res: Response) => {
       // Validate query params
       const validationResult = searchVocabularySchema.safeParse(req.query);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            'Invalid search parameters',
-            { validationErrors: validationResult.error.issues }
-          )
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid search parameters",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { q, limit = 20 } = validationResult.data;
@@ -214,13 +231,13 @@ export function registerVocabularyRoutes(app: Express): void {
           or(
             ilike(vocabularyWords.arabic, searchTerm),
             ilike(vocabularyWords.english, searchTerm),
-            ilike(vocabularyWords.transliteration, searchTerm)
-          )
+            ilike(vocabularyWords.transliteration, searchTerm),
+          ),
         )
         .orderBy(vocabularyWords.difficulty)
         .limit(limit);
 
-      req.logger?.info('Searched vocabulary', {
+      req.logger?.info("Searched vocabulary", {
         query: q,
         resultsCount: words.length,
       });
@@ -230,6 +247,6 @@ export function registerVocabularyRoutes(app: Express): void {
         total: words.length,
         query: q,
       });
-    })
+    }),
   );
 }

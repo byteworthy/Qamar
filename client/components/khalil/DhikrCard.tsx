@@ -40,7 +40,9 @@ export function DhikrCard({ data }: Props) {
             <ThemedText style={[styles.title, { color: theme.text }]}>
               {data.title}
             </ThemedText>
-            <ThemedText style={[styles.duration, { color: theme.textSecondary }]}>
+            <ThemedText
+              style={[styles.duration, { color: theme.textSecondary }]}
+            >
               {data.duration}
             </ThemedText>
           </View>
@@ -56,7 +58,10 @@ export function DhikrCard({ data }: Props) {
                 ]}
               >
                 <ThemedText
-                  style={[styles.stepNumberText, { color: NoorColors.twilightLight }]}
+                  style={[
+                    styles.stepNumberText,
+                    { color: NoorColors.twilightLight },
+                  ]}
                 >
                   {i + 1}
                 </ThemedText>

@@ -161,9 +161,7 @@ export enum PremiumFeature {
  *   // Show offline download button
  * }
  */
-export async function hasFeature(
-  feature: PremiumFeature,
-): Promise<boolean> {
+export async function hasFeature(feature: PremiumFeature): Promise<boolean> {
   try {
     // In validation mode, simulate limited access
     if (VALIDATION_MODE) {
@@ -187,7 +185,9 @@ export async function hasFeature(
       if (hasProFallback) return true;
     }
 
-    console.log(`[RevenueCat] Feature ${feature}: ${hasAccess ? "granted" : "denied"}`);
+    console.log(
+      `[RevenueCat] Feature ${feature}: ${hasAccess ? "granted" : "denied"}`,
+    );
     return hasAccess;
   } catch (error) {
     console.error("[RevenueCat] Error checking premium feature:", error);
@@ -288,7 +288,7 @@ export async function canAccessPrayerWidget(): Promise<boolean> {
  * Only AI-powered features require Plus subscription.
  *
  * Free (forever): Quran, prayer, Arabic, hadith, adhkar, calendar,
- *   Daily Noor, Ramadan mode, basic streaks, 3 Khalil reflections/day
+ *   Daily Qamar, Ramadan mode, basic streaks, 3 Khalil reflections/day
  * Plus: Unlimited AI, full history, advanced analytics, export, priority AI
  */
 export const FEATURE_TIERS = {
@@ -324,7 +324,9 @@ export const FEATURE_TIERS = {
 export function getRequiredTier(
   feature: PremiumFeature,
 ): "plus" | "pro" | null {
-  if ((FEATURE_TIERS.plus as readonly PremiumFeature[]).includes(feature)) return "plus";
-  if ((FEATURE_TIERS.pro as readonly PremiumFeature[]).includes(feature)) return "pro";
+  if ((FEATURE_TIERS.plus as readonly PremiumFeature[]).includes(feature))
+    return "plus";
+  if ((FEATURE_TIERS.pro as readonly PremiumFeature[]).includes(feature))
+    return "pro";
   return null;
 }

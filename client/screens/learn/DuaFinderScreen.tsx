@@ -5,7 +5,7 @@
  * Features category chips for quick access and a search input for custom situations.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,30 +16,30 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
-} from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
 
-import { Screen } from '@/components/Screen';
-import { ThemedText } from '@/components/ThemedText';
-import { DuaCard } from '@/components/DuaCard';
-import { useTheme } from '@/hooks/useTheme';
-import { useDuaRecommender } from '@/hooks/useDuaRecommender';
-import { useDuaFavorites } from '@/stores/dua-favorites-store';
-import { NoorColors } from '@/constants/theme/colors';
-import { hapticLight } from '@/lib/haptics';
+import { Screen } from "@/components/Screen";
+import { ThemedText } from "@/components/ThemedText";
+import { DuaCard } from "@/components/DuaCard";
+import { useTheme } from "@/hooks/useTheme";
+import { useDuaRecommender } from "@/hooks/useDuaRecommender";
+import { useDuaFavorites } from "@/stores/dua-favorites-store";
+import { NoorColors } from "@/constants/theme/colors";
+import { hapticLight } from "@/lib/haptics";
 
 // =============================================================================
 // CONSTANTS
 // =============================================================================
 
 const CATEGORY_CHIPS = [
-  { label: 'Anxiety', icon: 'heart' as const },
-  { label: 'Gratitude', icon: 'gift' as const },
-  { label: 'Travel', icon: 'navigation' as const },
-  { label: 'Before Eating', icon: 'coffee' as const },
-  { label: 'Morning', icon: 'sunrise' as const },
-  { label: 'Evening', icon: 'sunset' as const },
+  { label: "Anxiety", icon: "heart" as const },
+  { label: "Gratitude", icon: "gift" as const },
+  { label: "Travel", icon: "navigation" as const },
+  { label: "Before Eating", icon: "coffee" as const },
+  { label: "Morning", icon: "sunrise" as const },
+  { label: "Evening", icon: "sunset" as const },
 ];
 
 // =============================================================================
@@ -50,15 +50,19 @@ export default function DuaFinderScreen() {
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
 
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
 
-  const { recommend, isLoading, error, duas, remainingQuota } = useDuaRecommender();
+  const { recommend, isLoading, error, duas, remainingQuota } =
+    useDuaRecommender();
   const { addFavorite, removeFavorite, isFavorite } = useDuaFavorites();
 
   // Scroll to top when results change
   useEffect(() => {
     if (duas.length > 0) {
-      setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: true }), 100);
+      setTimeout(
+        () => scrollRef.current?.scrollTo({ y: 0, animated: true }),
+        100,
+      );
     }
   }, [duas.length]);
 
@@ -78,7 +82,7 @@ export default function DuaFinderScreen() {
     await recommend(category);
   };
 
-  const handleToggleFavorite = (dua: typeof duas[0]) => {
+  const handleToggleFavorite = (dua: (typeof duas)[0]) => {
     const duaId = `${dua.arabic}-${dua.source}`;
 
     if (isFavorite(duaId)) {
@@ -100,7 +104,7 @@ export default function DuaFinderScreen() {
       <KeyboardAvoidingView
         testID="dua-finder-screen"
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={100}
       >
         {/* Input Section */}
@@ -151,7 +155,11 @@ export default function DuaFinderScreen() {
                 <Feather
                   name="search"
                   size={20}
-                  color={inputText.trim() ? NoorColors.background : theme.textSecondary}
+                  color={
+                    inputText.trim()
+                      ? NoorColors.background
+                      : theme.textSecondary
+                  }
                 />
               )}
             </Pressable>
@@ -170,7 +178,9 @@ export default function DuaFinderScreen() {
                 ]}
               >
                 <Feather name="zap" size={12} color={NoorColors.gold} />
-                <ThemedText style={[styles.quotaText, { color: theme.textSecondary }]}>
+                <ThemedText
+                  style={[styles.quotaText, { color: theme.textSecondary }]}
+                >
                   {remainingQuota} searches remaining today
                 </ThemedText>
               </View>
@@ -193,15 +203,26 @@ export default function DuaFinderScreen() {
           {isEmpty ? (
             // Empty State with Category Chips
             <View style={styles.emptyState}>
-              <Animated.View entering={FadeIn.duration(400)} style={styles.emptyHeader}>
-                <View style={[styles.emptyIcon, { backgroundColor: NoorColors.gold + '15' }]}>
+              <Animated.View
+                entering={FadeIn.duration(400)}
+                style={styles.emptyHeader}
+              >
+                <View
+                  style={[
+                    styles.emptyIcon,
+                    { backgroundColor: NoorColors.gold + "15" },
+                  ]}
+                >
                   <Feather name="compass" size={32} color={NoorColors.gold} />
                 </View>
                 <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                   Find the Perfect Dua
                 </ThemedText>
-                <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-                  Search by situation or choose a category below to discover relevant supplications.
+                <ThemedText
+                  style={[styles.emptySubtitle, { color: theme.textSecondary }]}
+                >
+                  Search by situation or choose a category below to discover
+                  relevant supplications.
                 </ThemedText>
               </Animated.View>
 
@@ -218,7 +239,7 @@ export default function DuaFinderScreen() {
                         styles.categoryChip,
                         {
                           backgroundColor: theme.glassSurface,
-                          borderColor: NoorColors.gold + '40',
+                          borderColor: NoorColors.gold + "40",
                           opacity: pressed ? 0.8 : 1,
                           transform: [{ scale: pressed ? 0.97 : 1 }],
                         },
@@ -232,7 +253,9 @@ export default function DuaFinderScreen() {
                         color={NoorColors.gold}
                         style={styles.categoryIcon}
                       />
-                      <ThemedText style={[styles.categoryLabel, { color: theme.text }]}>
+                      <ThemedText
+                        style={[styles.categoryLabel, { color: theme.text }]}
+                      >
                         {chip.label}
                       </ThemedText>
                     </Pressable>
@@ -246,7 +269,9 @@ export default function DuaFinderScreen() {
               {isLoading && (
                 <View style={styles.loadingContainer}>
                   <ActivityIndicator size="large" color={NoorColors.gold} />
-                  <ThemedText style={[styles.loadingText, { color: theme.textSecondary }]}>
+                  <ThemedText
+                    style={[styles.loadingText, { color: theme.textSecondary }]}
+                  >
                     Finding duas for you...
                   </ThemedText>
                 </View>
@@ -259,7 +284,7 @@ export default function DuaFinderScreen() {
                       styles.errorCard,
                       {
                         backgroundColor: theme.glassSurface,
-                        borderColor: '#EF4444' + '40',
+                        borderColor: "#EF4444" + "40",
                       },
                     ]}
                   >
@@ -268,7 +293,12 @@ export default function DuaFinderScreen() {
                       <ThemedText style={styles.errorTitle}>
                         Unable to Find Duas
                       </ThemedText>
-                      <ThemedText style={[styles.errorMessage, { color: theme.textSecondary }]}>
+                      <ThemedText
+                        style={[
+                          styles.errorMessage,
+                          { color: theme.textSecondary },
+                        ]}
+                      >
                         {error}
                       </ThemedText>
                     </View>
@@ -279,8 +309,14 @@ export default function DuaFinderScreen() {
               {!isLoading && !error && duas.length > 0 && (
                 <>
                   <Animated.View entering={FadeIn.duration(300)}>
-                    <ThemedText style={[styles.resultsHeader, { color: theme.textSecondary }]}>
-                      Found {duas.length} {duas.length === 1 ? 'dua' : 'duas'} for you
+                    <ThemedText
+                      style={[
+                        styles.resultsHeader,
+                        { color: theme.textSecondary },
+                      ]}
+                    >
+                      Found {duas.length} {duas.length === 1 ? "dua" : "duas"}{" "}
+                      for you
                     </ThemedText>
                   </Animated.View>
 
@@ -330,8 +366,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     borderRadius: 20,
     borderWidth: 1,
     paddingLeft: 16,
@@ -344,30 +380,30 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     lineHeight: 20,
-    paddingVertical: Platform.OS === 'ios' ? 8 : 6,
+    paddingVertical: Platform.OS === "ios" ? 8 : 6,
     maxHeight: 100,
   },
   searchButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: 8,
   },
   quotaBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 6,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 12,
     borderWidth: 1,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   quotaText: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 
   // ScrollView
@@ -380,47 +416,47 @@ const styles = StyleSheet.create({
   },
   scrollContentEmpty: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
 
   // Empty State
   emptyState: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: 8,
   },
   emptyHeader: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 32,
   },
   emptyIcon: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 16,
   },
   emptyTitle: {
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   emptySubtitle: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 20,
     maxWidth: 320,
   },
 
   // Category Chips
   categoryGrid: {
-    width: '100%',
+    width: "100%",
     gap: 10,
   },
   categoryChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 18,
     borderRadius: 16,
@@ -432,7 +468,7 @@ const styles = StyleSheet.create({
   },
   categoryLabel: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
     flex: 1,
   },
 
@@ -441,8 +477,8 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   loadingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 40,
     gap: 12,
   },
@@ -450,8 +486,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   errorCard: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
     gap: 12,
     padding: 16,
     borderRadius: 16,
@@ -463,8 +499,8 @@ const styles = StyleSheet.create({
   },
   errorTitle: {
     fontSize: 15,
-    fontWeight: '600',
-    color: '#EF4444',
+    fontWeight: "600",
+    color: "#EF4444",
   },
   errorMessage: {
     fontSize: 14,
@@ -472,8 +508,8 @@ const styles = StyleSheet.create({
   },
   resultsHeader: {
     fontSize: 13,
-    fontWeight: '500',
-    textTransform: 'uppercase',
+    fontWeight: "500",
+    textTransform: "uppercase",
     letterSpacing: 0.5,
     marginBottom: 4,
   },

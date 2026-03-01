@@ -28,7 +28,14 @@
  */
 
 import React, { useEffect } from "react";
-import { StyleSheet, TextInput, View, ViewStyle, StyleProp, TextInputProps } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  ViewStyle,
+  StyleProp,
+  TextInputProps,
+} from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -141,7 +148,9 @@ export function AnimatedInput({
     glowOpacity.value = withTiming(0, { duration: 300 }); // Slower glow fade-out
   };
 
-  const characterCount = maxLength ? `${value.length}/${maxLength}` : `${value.length}`;
+  const characterCount = maxLength
+    ? `${value.length}/${maxLength}`
+    : `${value.length}`;
 
   const inputHeight = multiline
     ? Spacing.inputHeight * (numberOfLines || 3)

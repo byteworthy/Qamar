@@ -5,11 +5,11 @@
  * Follows the same subscribe/mountedRef pattern as useQuranAudio.
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   getRecordingService,
   RecordingState,
-} from '../services/speech/recordingService';
+} from "../services/speech/recordingService";
 
 // =============================================================================
 // TYPES

@@ -1,5 +1,5 @@
 /**
- * Safety Integration Layer for Noor
+ * Safety Integration Layer for Qamar
  *
  * Charter Version: 1.0
  * Charter URL: /AI_ISLAMIC_SAFETY_CHARTER.md

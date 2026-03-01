@@ -5,16 +5,16 @@
  * Stores quota locally and syncs from server responses. Resets at midnight.
  */
 
-import { useState, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEntitlements } from './useEntitlements';
+import { useState, useCallback } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEntitlements } from "./useEntitlements";
 
 // =============================================================================
 // CONSTANTS
 // =============================================================================
 
 const FREE_DAILY_LIMIT = 3;
-const STORAGE_KEY = '@noor/ai_quota';
+const STORAGE_KEY = "@noor/ai_quota";
 
 interface StoredQuota {
   date: string; // YYYY-MM-DD

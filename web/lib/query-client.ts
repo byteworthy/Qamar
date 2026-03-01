@@ -1,5 +1,5 @@
-// React Query setup for Noor web app
-import { QueryClient } from '@tanstack/react-query';
+// React Query setup for Qamar web app
+import { QueryClient } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient({
   defaultOptions: {

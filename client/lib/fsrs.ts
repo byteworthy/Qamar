@@ -17,7 +17,7 @@ export interface FSRSCard {
   /** Next scheduled review timestamp */
   nextReview: Date | null;
   /** Current state of the card */
-  state: 'new' | 'learning' | 'review' | 'relearning';
+  state: "new" | "learning" | "review" | "relearning";
   /** Total number of reviews */
   reviewCount: number;
 }
@@ -48,7 +48,7 @@ export function createNewCard(): FSRSCard {
     stability: 0,
     lastReview: null,
     nextReview: null,
-    state: 'new',
+    state: "new",
     reviewCount: 0,
   };
 }
@@ -70,7 +70,7 @@ export function scheduleReview(card: FSRSCard, rating: Rating): FSRSCard {
   // Handle rating
   if (rating === 1) {
     // Again - card failed, reset to learning
-    newCard.state = card.state === 'new' ? 'learning' : 'relearning';
+    newCard.state = card.state === "new" ? "learning" : "relearning";
     newCard.difficulty = Math.min(1, card.difficulty + 0.2);
     newCard.stability = FSRS_PARAMETERS.w[0]; // Short interval
   } else {
@@ -78,27 +78,30 @@ export function scheduleReview(card: FSRSCard, rating: Rating): FSRSCard {
     const difficultyDelta = (rating - 3) * 0.15;
     newCard.difficulty = Math.max(
       0.1,
-      Math.min(1, card.difficulty - difficultyDelta)
+      Math.min(1, card.difficulty - difficultyDelta),
     );
 
     // Calculate new stability based on rating
-    if (card.state === 'new') {
+    if (card.state === "new") {
       // First successful review
       newCard.stability = FSRS_PARAMETERS.w[rating - 1];
       if (rating === 4) {
-        newCard.state = 'review'; // Easy graduates immediately
+        newCard.state = "review"; // Easy graduates immediately
       } else {
-        newCard.state = 'learning';
+        newCard.state = "learning";
       }
     } else {
       // Subsequent reviews
-      const stabilityMultiplier = getStabilityMultiplier(rating, card.difficulty);
+      const stabilityMultiplier = getStabilityMultiplier(
+        rating,
+        card.difficulty,
+      );
       newCard.stability = card.stability * stabilityMultiplier;
 
       // State transitions
-      if (card.state === 'learning' || card.state === 'relearning') {
+      if (card.state === "learning" || card.state === "relearning") {
         if (newCard.stability >= FSRS_PARAMETERS.graduatingInterval) {
-          newCard.state = 'review';
+          newCard.state = "review";
         }
       }
     }
@@ -106,7 +109,9 @@ export function scheduleReview(card: FSRSCard, rating: Rating): FSRSCard {
 
   // Calculate next review date
   const intervalDays = calculateInterval(newCard.stability);
-  newCard.nextReview = new Date(now.getTime() + intervalDays * 24 * 60 * 60 * 1000);
+  newCard.nextReview = new Date(
+    now.getTime() + intervalDays * 24 * 60 * 60 * 1000,
+  );
 
   return newCard;
 }
@@ -119,18 +124,18 @@ export function scheduleReview(card: FSRSCard, rating: Rating): FSRSCard {
  */
 export function getDueCards(
   cards: FSRSCard[],
-  now: Date = new Date()
+  now: Date = new Date(),
 ): FSRSCard[] {
   const dueCards = cards.filter((card) => {
-    if (card.state === 'new') return true; // New cards always due
+    if (card.state === "new") return true; // New cards always due
     if (!card.nextReview) return true; // No schedule = due
     return card.nextReview.getTime() <= now.getTime();
   });
 
   // Sort by priority: new cards first, then by next review time
   return dueCards.sort((a, b) => {
-    if (a.state === 'new' && b.state !== 'new') return -1;
-    if (a.state !== 'new' && b.state === 'new') return 1;
+    if (a.state === "new" && b.state !== "new") return -1;
+    if (a.state !== "new" && b.state === "new") return 1;
     if (!a.nextReview) return -1;
     if (!b.nextReview) return 1;
     return a.nextReview.getTime() - b.nextReview.getTime();
@@ -177,12 +182,13 @@ function getStabilityMultiplier(rating: Rating, difficulty: number): number {
  * @returns Estimated retention rate (0-1)
  */
 export function calculateRetention(card: FSRSCard): number {
-  if (card.state === 'new') return 0;
+  if (card.state === "new") return 0;
   if (!card.lastReview || !card.nextReview) return 0;
 
   const now = new Date();
   const timeSinceReview = now.getTime() - card.lastReview.getTime();
-  const scheduledInterval = card.nextReview.getTime() - card.lastReview.getTime();
+  const scheduledInterval =
+    card.nextReview.getTime() - card.lastReview.getTime();
 
   if (timeSinceReview <= 0) return 1; // Just reviewed
 
@@ -220,7 +226,7 @@ export function getCardStatistics(cards: FSRSCard[]) {
 
     // Count due cards
     if (
-      card.state === 'new' ||
+      card.state === "new" ||
       !card.nextReview ||
       card.nextReview.getTime() <= now.getTime()
     ) {
@@ -228,7 +234,7 @@ export function getCardStatistics(cards: FSRSCard[]) {
     }
 
     // Accumulate for averages
-    if (card.state !== 'new') {
+    if (card.state !== "new") {
       difficultySum += card.difficulty;
       stabilitySum += card.stability;
       reviewedCount++;

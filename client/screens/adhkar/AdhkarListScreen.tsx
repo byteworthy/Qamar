@@ -180,7 +180,12 @@ function CategoryCard({ category, delay }: CategoryCardProps) {
       </Pressable>
 
       {expanded && (
-        <View style={[styles.adhkarList, { backgroundColor: theme.backgroundSecondary }]}>
+        <View
+          style={[
+            styles.adhkarList,
+            { backgroundColor: theme.backgroundSecondary },
+          ]}
+        >
           {category.adhkar.map((dhikr, index) => (
             <Animated.View
               key={dhikr.id}

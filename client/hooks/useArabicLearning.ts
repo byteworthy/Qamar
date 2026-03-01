@@ -73,7 +73,7 @@ async function loadFlashcardState(): Promise<Record<string, FlashcardState>> {
 }
 
 async function saveFlashcardState(
-  state: Record<string, FlashcardState>
+  state: Record<string, FlashcardState>,
 ): Promise<void> {
   await AsyncStorage.setItem(FLASHCARD_STATE_KEY, JSON.stringify(state));
 }
@@ -82,12 +82,12 @@ async function saveFlashcardState(
 // ALPHABET SEED DATA
 // ============================================================================
 
-const ALPHABET_CARDS: Array<{
+const ALPHABET_CARDS: {
   id: string;
   arabic: string;
   transliteration: string;
   english: string;
-}> = [
+}[] = [
   { id: "alpha-1", arabic: "أ", transliteration: "Alif", english: "A" },
   { id: "alpha-2", arabic: "ب", transliteration: "Ba", english: "B" },
   { id: "alpha-3", arabic: "ت", transliteration: "Ta", english: "T" },
@@ -124,7 +124,7 @@ const ALPHABET_CARDS: Array<{
 
 function vocabToFlashcard(
   word: VocabularyWord,
-  fsrs?: FlashcardState
+  fsrs?: FlashcardState,
 ): Flashcard {
   const now = new Date().toISOString();
   return {
@@ -143,7 +143,7 @@ function vocabToFlashcard(
 
 function alphabetToFlashcard(
   letter: (typeof ALPHABET_CARDS)[number],
-  fsrs?: FlashcardState
+  fsrs?: FlashcardState,
 ): Flashcard {
   const now = new Date().toISOString();
   return {
@@ -170,7 +170,7 @@ async function fetchAllCards(): Promise<Flashcard[]> {
 
   // Alphabet cards (static seed data)
   const alphabetCards = ALPHABET_CARDS.map((letter) =>
-    alphabetToFlashcard(letter, fsrsState[letter.id])
+    alphabetToFlashcard(letter, fsrsState[letter.id]),
   );
 
   // Vocabulary cards from offline DB
@@ -180,7 +180,7 @@ async function fetchAllCards(): Promise<Flashcard[]> {
     const moreVocab = await db.getVocabularyByDifficulty(2);
     const combined = [...allVocab, ...moreVocab];
     vocabCards = combined.map((w) =>
-      vocabToFlashcard(w, fsrsState[`vocab-${w.id}`])
+      vocabToFlashcard(w, fsrsState[`vocab-${w.id}`]),
     );
   }
 
@@ -214,12 +214,18 @@ async function submitReview(result: ReviewResult): Promise<Flashcard> {
   const difficultyDelta = (3 - result.rating) * 0.05;
   const newDifficulty = Math.max(
     0.1,
-    Math.min(1.0, current.difficulty + difficultyDelta)
+    Math.min(1.0, current.difficulty + difficultyDelta),
   );
 
   // Adjust stability
   const stabilityMultiplier =
-    result.rating === 1 ? 0.5 : result.rating === 2 ? 1.0 : result.rating === 3 ? 1.5 : 2.0;
+    result.rating === 1
+      ? 0.5
+      : result.rating === 2
+        ? 1.0
+        : result.rating === 3
+          ? 1.5
+          : 2.0;
   const newStability = Math.max(0.1, current.stability * stabilityMultiplier);
 
   const updated: FlashcardState = {
@@ -269,11 +275,9 @@ async function fetchProgress(): Promise<LearningProgress> {
   const fsrsState = await loadFlashcardState();
 
   const cardsLearned = allCards.filter(
-    (c) => c.state === "review" && c.reviewCount > 0
+    (c) => c.state === "review" && c.reviewCount > 0,
   ).length;
-  const cardsDue = allCards.filter(
-    (c) => new Date(c.nextReview) <= now
-  ).length;
+  const cardsDue = allCards.filter((c) => new Date(c.nextReview) <= now).length;
 
   // Compute accuracy from study stats
   let accuracy = 0;
@@ -283,9 +287,7 @@ async function fetchProgress(): Promise<LearningProgress> {
     if (raw) {
       const stats = JSON.parse(raw);
       accuracy =
-        stats.totalReviews > 0
-          ? stats.correctReviews / stats.totalReviews
-          : 0;
+        stats.totalReviews > 0 ? stats.correctReviews / stats.totalReviews : 0;
     }
     const streakRaw = await AsyncStorage.getItem(STREAK_KEY);
     if (streakRaw) {
@@ -321,7 +323,7 @@ async function fetchScenarios(): Promise<ConversationScenario[]> {
     const dbAny = db as any;
     if (dbAny.db && typeof dbAny.db.getAllAsync === "function") {
       const rows = await dbAny.db.getAllAsync(
-        "SELECT * FROM conversation_scenarios ORDER BY difficulty, title"
+        "SELECT * FROM conversation_scenarios ORDER BY difficulty, title",
       );
       return (rows ?? []).map((row: any) => {
         let phrases: ConversationPhrase[] = [];
