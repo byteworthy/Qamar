@@ -116,7 +116,7 @@ export default function PrivacyScreen() {
             Your Privacy Matters
           </ThemedText>
           <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Your sacred space is protected
+            Your private space is protected
           </ThemedText>
         </Animated.View>
 

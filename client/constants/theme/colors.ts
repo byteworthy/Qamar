@@ -23,7 +23,7 @@ export const NoorColors = {
   moonlightDim: "#c5d5e6", // Dimmer moonlight
   moonlightMuted: "#9fb3c9", // Muted moonlight for secondary text
 
-  // Accent colors - "Qamar" (light) theme
+  // Accent colors - "Qamar" (moon) theme
   gold: "#D4AF37", // Your brand gold (light/illumination)
   goldLight: "#f0d473", // Brighter gold (dawn light)
   goldDim: "#b8944d", // Subdued gold
@@ -103,7 +103,7 @@ export const Colors = {
     backgroundSecondary: DawnColors.lavenderLight,
     backgroundTertiary: DawnColors.lavender,
 
-    // Primary action color - Gold (Qamar/light theme)
+    // Primary action color - Gold (Qamar/moon theme)
     primary: DawnColors.sunrise,
     primaryLight: DawnColors.sunriseLight,
     primaryDark: DawnColors.sunriseDark,
@@ -161,7 +161,7 @@ export const Colors = {
 
     // Navigation - Gold highlights (light emerging in darkness)
     tabIconDefault: NoorColors.moonlightMuted,
-    tabIconSelected: NoorColors.goldLight, // Gold = light/Qamar theme
+    tabIconSelected: NoorColors.goldLight, // Gold = Qamar theme
     link: NoorColors.goldLight,
 
     // Backgrounds - Deep twilight/night sky
@@ -170,7 +170,7 @@ export const Colors = {
     backgroundSecondary: NoorColors.backgroundCardLight,
     backgroundTertiary: NoorColors.backgroundLight,
 
-    // Primary action color - Gold (light/Qamar emerging)
+    // Primary action color - Gold (moonlight/Qamar emerging)
     primary: NoorColors.gold,
     primaryLight: NoorColors.goldLight,
     primaryDark: NoorColors.goldDim,

@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 #### Complete Store Metadata Files (Commit: TBD)
 - **Apple App Store Metadata** (`release/STORE_PACK/apple/APP_STORE_METADATA.md`)
-  - Full app description with Islamic CBT positioning
+  - Full app description with Islamic companion positioning
   - 2 subscription tiers: Free and Qamar Plus (Monthly $2.99, Yearly $19.99, Lifetime $49.99)
   - Product IDs for Apple In-App Purchase
   - Comprehensive App Review notes with safety/theological boundaries
@@ -39,8 +39,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 #### Key Store Pack Features
 - **No Stripe references** in mobile store documentation
 - **Local-first architecture**: Reflections stored on device only
-- **Clear boundaries**: Not therapy, not crisis intervention, not religious authority
-- **AI disclosure**: Explicit mention of AI companion usage
+- **Clear boundaries**: Not professional counseling, not crisis intervention, not religious authority
+- **Companion disclosure**: Explicit mention of companion guide usage
 - **Native billing**: Apple IAP and Google Play Billing (no external payment)
 - **Subscription tiers**: Free and Qamar Plus ($2.99/month, $19.99/year, or $49.99 lifetime)
 
@@ -51,12 +51,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Smart gating system**: AsyncStorage flag (`@noor_onboarding_completed`)
 - **First-launch detection**: Shows onboarding once, bypasses on subsequent launches
 - **Crisis resources**: 988 Suicide & Crisis Lifeline with tap-to-call integration
-- **Store-safe boundaries**: Clear disclaimers (not therapy/crisis/religious authority)
+- **Store-safe boundaries**: Clear disclaimers (not professional counseling/crisis/religious authority)
 - **Navigation integration**: Conditional routing in RootStackNavigator
 - **Manual test checklist**: Comprehensive testing procedures (CHUNK6_ONBOARDING_TEST_CHECKLIST.md)
 
 #### Chunk 6B: Onboarding Copy Refinement (Commit: 9466c1f)
-- **AI disclosure**: "Uses an AI companion, not a human therapist"
+- **AI disclosure**: "Uses a companion guide, not a human counselor"
 - **Subscription disclosure**: "Free tier available, with optional Qamar Plus subscription"
 - **Data accuracy**: Updated to match USER_TRANSPARENCY.md exactly
 - **Theological safety**: "AI can make theological mistakes—verify with scholars"
@@ -172,7 +172,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - State-aware validation
 
 #### E2E Journey Tests (9 tests)
-- Complete CBT flow (thought → analyze → reframe → practice → intention)
+- Complete reflection flow (thought → analyze → reframe → practice → intention)
 - High distress permission flow
 - Crisis intervention flow
 - Scrupulosity special handling
@@ -204,7 +204,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 **Last Verified**: 2026-01-17
 
 ### What's Working
-- Complete CBT journey with Islamic integration
+- Complete reflection journey with Islamic integration
 - Multi-layer AI safety validation
 - App-layer encryption at rest for user data
 - Crisis detection and intervention

@@ -246,15 +246,8 @@ export default function PronunciationCoachScreen() {
               >
                 Microphone needed for feedback
               </ThemedText>
-              <ThemedText
-                style={[
-                  styles.permissionCardBody,
-                  { color: theme.textSecondary },
-                ]}
-              >
-                Qamar listens to your recitation locally on your device to
-                compare it against the Arabic text and give you personalised
-                pronunciation feedback. Your audio is never stored.
+              <ThemedText style={[styles.permissionCardBody, { color: theme.textSecondary }]}>
+                Qamar listens to your recitation locally on your device to compare it against the Arabic text and give you personalised pronunciation feedback. Your audio is never stored.
               </ThemedText>
               <Pressable
                 onPress={requestMicPermission}
@@ -300,12 +293,7 @@ export default function PronunciationCoachScreen() {
                 >
                   Microphone access blocked
                 </ThemedText>
-                <ThemedText
-                  style={[
-                    styles.permissionSubtitle,
-                    { color: theme.textSecondary },
-                  ]}
-                >
+                <ThemedText style={[styles.permissionSubtitle, { color: theme.textSecondary }]}>
                   Tap to open Settings and enable microphone for Qamar.
                 </ThemedText>
               </View>

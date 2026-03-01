@@ -33,7 +33,9 @@ describe("Qamar App — Regression Suite", () => {
   describe("App Launch", () => {
     it("should launch without crashing", async () => {
       // Either welcome or home screen
-      await waitFor(element(by.text("Qamar")).or(by.text("Begin Reflection")))
+      await waitFor(
+        element(by.text("Qamar")).or(by.text("Begin Reflection")),
+      )
         .toBeVisible()
         .withTimeout(10000);
       await screenshot("app-launch");

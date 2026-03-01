@@ -577,7 +577,7 @@ Register n8n webhook endpoint in Qamar backend startup:
 import axios from 'axios';
 
 export async function registerN8nWebhook(): Promise<void> {
-  const N8N_INSTANCE = process.env.N8N_INSTANCE_URL || 'https://n8n.noorapp.com';
+  const N8N_INSTANCE = process.env.N8N_INSTANCE_URL || 'https://n8n.qamarapp.com';
   const N8N_API_KEY = process.env.N8N_API_KEY;
 
   if (!N8N_API_KEY) {
@@ -657,7 +657,7 @@ service cloud.firestore {
 
 ```bash
 # n8n Webhook Integration
-N8N_INSTANCE_URL=https://n8n.noorapp.com
+N8N_INSTANCE_URL=https://n8n.qamarapp.com
 N8N_API_KEY=n8n_api_key_xxxxxxxxxxxxx
 
 # Firebase Activity Logging

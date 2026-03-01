@@ -36,7 +36,7 @@ import HadithDetailScreen from "@/screens/learn/HadithDetailScreen";
 import AdhkarListScreen from "@/screens/adhkar/AdhkarListScreen";
 import AlphabetGridScreen from "@/screens/arabic/AlphabetGridScreen";
 import ProgressDashboardScreen from "@/screens/progress/ProgressDashboardScreen";
-import AskKarimScreen from "@/screens/learn/AskKarimScreen";
+import AskAmarScreen from "@/screens/learn/AskAmarScreen";
 import DailyNoorScreen from "@/screens/DailyNoorScreen";
 import AchievementsScreen from "@/screens/AchievementsScreen";
 import RamadanHubScreen from "@/screens/RamadanHubScreen";
@@ -100,221 +100,218 @@ export default function RootStackNavigator() {
           options={{ headerShown: false }}
         />
 
-        {/* Main App Screens */}
-        <Stack.Screen
-          name="Main"
-          component={TabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ThoughtCapture"
-          component={ThoughtCaptureScreen}
-          options={{ headerTitle: "Capture Your Thought" }}
-        />
-        <Stack.Screen
-          name="Noticing"
-          component={DistortionScreen}
-          options={{ headerTitle: "Reflection", gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="BeliefInspection"
-          component={BeliefInspectionScreen}
-          options={{ headerTitle: "Examine Belief", gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Reframe"
-          component={ReframeScreen}
-          options={{
-            headerTitle: "Clearer Perspective",
-            gestureEnabled: false,
-          }}
-        />
-        <Stack.Screen
-          name="Regulation"
-          component={RegulationScreen}
-          options={{ headerTitle: "Calming Practice", gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Intention"
-          component={IntentionScreen}
-          options={{ headerTitle: "Set Intention", gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="ReflectionComplete"
-          component={SessionCompleteScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="History"
-          component={HistoryScreen}
-          options={{ headerTitle: "Past Reflections" }}
-        />
-        <Stack.Screen
-          name="Pricing"
-          component={PricingScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="BillingSuccess"
-          component={BillingSuccessScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CalmingPractice"
-          component={CalmingPracticeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Dua"
-          component={DuaScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Insights"
-          component={InsightsScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="QuranReader"
-          component={QuranReaderScreen}
-          options={{ headerTitle: "Quran Reader" }}
-        />
-        <Stack.Screen
-          name="VerseReader"
-          component={VerseReaderScreen}
-          options={{ headerTitle: "Verses" }}
-        />
-        <Stack.Screen
-          name="VerseDiscussion"
-          component={VerseDiscussionScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PrayerTimes"
-          component={PrayerTimesScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="QiblaFinder"
-          component={QiblaFinderScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="IslamicCalendar"
-          component={IslamicCalendarScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ArabicLearning"
-          component={ArabicLearningScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="FlashcardReview"
-          component={FlashcardReviewScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HadithLibrary"
-          component={HadithLibraryScreen}
-          options={{ headerTitle: "Hadith Library" }}
-        />
-        <Stack.Screen
-          name="HadithList"
-          component={HadithListScreen}
-          options={{ headerTitle: "Hadiths" }}
-        />
-        <Stack.Screen
-          name="HadithDetail"
-          component={HadithDetailScreen}
-          options={{ headerTitle: "Hadith" }}
-        />
-        <Stack.Screen
-          name="AdhkarList"
-          component={AdhkarListScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AlphabetGrid"
-          component={AlphabetGridScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ProgressDashboard"
-          component={ProgressDashboardScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AskKarim"
-          component={AskKarimScreen}
-          options={{ headerTitle: "Ask Karim" }}
-        />
-        <Stack.Screen
-          name="DailyNoor"
-          component={DailyNoorScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Achievements"
-          component={AchievementsScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="RamadanHub"
-          component={RamadanHubScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="FastingTracker"
-          component={FastingTrackerScreen}
-          options={{ headerTitle: "Fasting Tracker" }}
-        />
-        <Stack.Screen
-          name="ArabicTutor"
-          component={ArabicTutorScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PronunciationCoach"
-          component={PronunciationCoachScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Translator"
-          component={TranslatorScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="TajweedGuide"
-          component={TajweedGuideScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="DuaFinder"
-          component={DuaFinderScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="StudyPlan"
-          component={StudyPlanScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="TravelTranslator"
-          component={TravelTranslatorScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HifzDashboard"
-          component={HifzDashboardScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HifzRecitation"
-          component={HifzRecitationScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+      {/* Main App Screens */}
+      <Stack.Screen
+        name="Main"
+        component={TabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ThoughtCapture"
+        component={ThoughtCaptureScreen}
+        options={{ headerTitle: "Capture Your Thought" }}
+      />
+      <Stack.Screen
+        name="Noticing"
+        component={DistortionScreen}
+        options={{ headerTitle: "Reflection", gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="BeliefInspection"
+        component={BeliefInspectionScreen}
+        options={{ headerTitle: "Examine Belief", gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="Reframe"
+        component={ReframeScreen}
+        options={{ headerTitle: "Clearer Perspective", gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="Regulation"
+        component={RegulationScreen}
+        options={{ headerTitle: "Calming Practice", gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="Intention"
+        component={IntentionScreen}
+        options={{ headerTitle: "Set Intention", gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="ReflectionComplete"
+        component={SessionCompleteScreen}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{ headerTitle: "Past Reflections" }}
+      />
+      <Stack.Screen
+        name="Pricing"
+        component={PricingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BillingSuccess"
+        component={BillingSuccessScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CalmingPractice"
+        component={CalmingPracticeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Dua"
+        component={DuaScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Insights"
+        component={InsightsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="QuranReader"
+        component={QuranReaderScreen}
+        options={{ headerTitle: "Quran Reader" }}
+      />
+      <Stack.Screen
+        name="VerseReader"
+        component={VerseReaderScreen}
+        options={{ headerTitle: "Verses" }}
+      />
+      <Stack.Screen
+        name="VerseDiscussion"
+        component={VerseDiscussionScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PrayerTimes"
+        component={PrayerTimesScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="QiblaFinder"
+        component={QiblaFinderScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="IslamicCalendar"
+        component={IslamicCalendarScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ArabicLearning"
+        component={ArabicLearningScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FlashcardReview"
+        component={FlashcardReviewScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HadithLibrary"
+        component={HadithLibraryScreen}
+        options={{ headerTitle: "Hadith Library" }}
+      />
+      <Stack.Screen
+        name="HadithList"
+        component={HadithListScreen}
+        options={{ headerTitle: "Hadiths" }}
+      />
+      <Stack.Screen
+        name="HadithDetail"
+        component={HadithDetailScreen}
+        options={{ headerTitle: "Hadith" }}
+      />
+      <Stack.Screen
+        name="AdhkarList"
+        component={AdhkarListScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AlphabetGrid"
+        component={AlphabetGridScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProgressDashboard"
+        component={ProgressDashboardScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AskAmar"
+        component={AskAmarScreen}
+        options={{ headerTitle: "Ask Amar" }}
+      />
+      <Stack.Screen
+        name="DailyNoor"
+        component={DailyNoorScreen}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="Achievements"
+        component={AchievementsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RamadanHub"
+        component={RamadanHubScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FastingTracker"
+        component={FastingTrackerScreen}
+        options={{ headerTitle: "Fasting Tracker" }}
+      />
+      <Stack.Screen
+        name="ArabicTutor"
+        component={ArabicTutorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PronunciationCoach"
+        component={PronunciationCoachScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Translator"
+        component={TranslatorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TajweedGuide"
+        component={TajweedGuideScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DuaFinder"
+        component={DuaFinderScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="StudyPlan"
+        component={StudyPlanScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TravelTranslator"
+        component={TravelTranslatorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HifzDashboard"
+        component={HifzDashboardScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HifzRecitation"
+        component={HifzRecitationScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
     </View>
   );
 }

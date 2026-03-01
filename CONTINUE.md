@@ -310,11 +310,10 @@ Stripe keys are **web billing only** — mobile uses RevenueCat exclusively.
 client/           # React Native app screens, components, hooks
 server/           # Express.js backend (AI, API routes, middleware)
 shared/           # Shared types, seed data (verses.json)
-docs/plans/       # Approved design docs (start here for next phase)
+release/          # Store submission assets and metadata
 scripts/          # Build scripts, screenshot automation
 e2e/              # Maestro E2E test flows
 legal/            # Privacy Policy, Terms of Service
-release/          # Store submission assets and metadata
 docs/             # Deployment guides, checklists
 web/              # Web export configuration
 ```
@@ -336,8 +335,8 @@ npx tsc --noEmit               # TypeScript check (0 errors expected; known pre-
 
 ## Important Notes
 
-- **Not a therapy app** — Qamar is an Islamic companion for education, worship tools, and personal reflection. No medical/clinical claims.
-- **Safety system** — Built-in crisis detection routes users to 988 Suicide & Crisis Lifeline. This is a safety guardrail, not a therapy feature.
+- **Not a counseling app** — Qamar is an Islamic companion for education, worship tools, and personal reflection.
+- **Safety system** — Built-in crisis detection routes users to 988 Suicide & Crisis Lifeline. This is a safety guardrail, not a counseling feature.
 - **Offline-first** — Quran, Hadith, prayer times, TTS, and tajweed (cached) work without internet. Interactive features (tutor/pronunciation/translation) require connectivity.
 - **Dev build** — `@react-native-voice/voice` requires a dev build (not Expo Go). Run `eas build --profile development` for testing.
 - **Daily quota** — Free users get 3 calls/day across tutor + pronunciation + translation explanations. Plus users get unlimited.

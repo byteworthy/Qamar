@@ -1,7 +1,7 @@
 /**
  * DailyQuotaBadge Component
  *
- * Shows remaining free AI calls as a subtle pill badge: "2 of 3 free today".
+ * Shows remaining free calls as a subtle pill badge: "2 of 3 free today".
  * Hidden for Plus/Pro users (unlimited). Shown only when quota is relevant.
  */
 

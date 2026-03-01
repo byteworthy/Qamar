@@ -13,8 +13,8 @@
 - [ ] Description written (copy from docs/app-store/ios/description.md)
 - [ ] Keywords entered (copy from docs/app-store/ios/keywords.txt)
 - [ ] Promotional text entered
-- [ ] Privacy policy URL: https://byteworthy.github.io/Noor/legal/privacy.html
-- [ ] Support URL: https://byteworthy.github.io/Noor
+- [ ] Privacy policy URL: https://byteworthy.github.io/Qamar/legal/privacy.html
+- [ ] Support URL: https://byteworthy.github.io/Qamar
 - [ ] Support email: scale@getbyteworthy.com
 - [ ] Age rating: 4+
 - [ ] Content rights: Confirmed
@@ -42,7 +42,7 @@
 - [ ] App category: Lifestyle
 - [ ] Content rating questionnaire: Everyone
 - [ ] Target audience: Everyone
-- [ ] Privacy policy URL: https://byteworthy.github.io/Noor/legal/privacy.html
+- [ ] Privacy policy URL: https://byteworthy.github.io/Qamar/legal/privacy.html
 - [ ] Data safety section: All data collected = None
 
 ### Android Build

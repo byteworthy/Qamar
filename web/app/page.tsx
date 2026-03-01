@@ -85,8 +85,7 @@ export default function Home() {
               immediate resources, including 988 Suicide & Crisis Lifeline.
             </p>
             <p className="text-moonlight-muted text-sm">
-              Qamar is not a replacement for professional mental health care.
-              Always consult qualified professionals for serious concerns.
+              Qamar is not a replacement for professional care. Always consult qualified professionals for serious concerns.
             </p>
           </div>
         </section>

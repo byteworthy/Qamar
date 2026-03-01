@@ -142,7 +142,7 @@ export function registerAiRoutes(app: Express): void {
       // SAFETY CHECK 2: Religious Scrupulosity Detection
       const hasScrupulosity = detectScrupulosity(sanitizedThought);
       const scrupulosityModifier = hasScrupulosity
-        ? `\n\nSCRUPULOSITY DETECTED: User shows signs of religious OCD (waswasa). DO NOT reinforce compulsive patterns. Emphasize Allah's mercy and ease. Gently suggest professional support.\n`
+        ? `\n\nSCRUPULOSITY DETECTED: User shows signs of obsessive waswasa (compulsive religious doubt). DO NOT reinforce compulsive patterns. Emphasize Allah's mercy and ease. Gently suggest professional support.\n`
         : "";
 
       // ADAPTIVE INTELLIGENCE: Tone & Emotional State Detection

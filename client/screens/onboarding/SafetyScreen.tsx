@@ -30,7 +30,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const SAFETY_POINTS = [
   {
     icon: "user-x" as const,
-    text: "Qamar is not a therapist, counselor, or Islamic scholar",
+    text: "Qamar is a companion, not a replacement for professional care or scholarly guidance",
   },
   {
     icon: "users" as const,
@@ -128,8 +128,8 @@ export default function SafetyScreen() {
               ]}
             >
               Qamar is a companion for spiritual growth and personal reflection.
-              It is not a replacement for professional guidance, medical care,
-              or scholarly advice.
+              It is not a replacement for professional guidance, medical care, or
+              scholarly advice.
             </ThemedText>
           </GlassCard>
         </Animated.View>
@@ -174,7 +174,7 @@ export default function SafetyScreen() {
         >
           <GlassCard style={styles.closingCard}>
             <Feather
-              name="sunrise"
+              name="heart"
               size={28}
               color={theme.highlightAccent}
               style={{ alignSelf: "center", marginBottom: Spacing.md }}

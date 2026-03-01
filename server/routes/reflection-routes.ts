@@ -61,16 +61,14 @@ export function registerReflectionRoutes(app: Express): void {
       if (!isPaid) {
         const todayCount = await storage.getTodayReflectionCount(userId);
         if (todayCount >= FREE_DAILY_LIMIT) {
-          return res
-            .status(HTTP_STATUS.PAYMENT_REQUIRED)
-            .json(
-              createErrorResponse(
-                HTTP_STATUS.PAYMENT_REQUIRED,
-                ERROR_CODES.PAYMENT_REQUIRED,
-                req.id,
-                "Upgrade to Qamar Plus for unlimited reflections",
-              ),
-            );
+          return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
+            createErrorResponse(
+              HTTP_STATUS.PAYMENT_REQUIRED,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "Upgrade to Qamar Plus for unlimited reflections"
+            )
+          );
         }
       }
 
@@ -341,16 +339,14 @@ export function registerReflectionRoutes(app: Express): void {
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res
-          .status(HTTP_STATUS.FORBIDDEN)
-          .json(
-            createErrorResponse(
-              HTTP_STATUS.FORBIDDEN,
-              ERROR_CODES.PAYMENT_REQUIRED,
-              req.id,
-              "This feature requires Qamar Plus",
-            ),
-          );
+        return res.status(HTTP_STATUS.FORBIDDEN).json(
+          createErrorResponse(
+            HTTP_STATUS.FORBIDDEN,
+            ERROR_CODES.PAYMENT_REQUIRED,
+            req.id,
+            "This feature requires Qamar Plus"
+          )
+        );
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);

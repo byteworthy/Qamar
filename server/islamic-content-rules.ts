@@ -43,7 +43,7 @@ export const SOURCING_RULES = {
   hadith: {
     authenticity: ["Sahih Bukhari", "Sahih Muslim", "Agreed Upon"],
     maxPerResponse: 1,
-    usage: "Therapeutic context only, not as religious proof",
+    usage: "Reflective context only, not as religious proof",
     forbidden: [
       "Weak (da'if) hadith",
       "Fabricated (mawdu') narrations",
@@ -463,7 +463,7 @@ export const SCHOLAR_APPROVED_CONTENT = {
     "Contextual appropriateness",
     "Spiritual safety",
     "Balanced approach",
-    "Therapeutic integrity",
+    "Reflective integrity",
   ],
 };
 

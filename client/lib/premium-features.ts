@@ -48,17 +48,17 @@ export enum PremiumFeature {
   ARABIC_UNLIMITED_REVIEWS = "pro_arabic_unlimited",
 
   /**
-   * AI-powered pronunciation feedback
+   * Pronunciation feedback
    */
   ARABIC_PRONUNCIATION = "pro_arabic_pronunciation",
 
   /**
-   * Unlimited AI Arabic tutor sessions
+   * Unlimited Arabic tutor sessions
    */
   AI_TUTOR_UNLIMITED = "pro_ai_tutor",
 
   /**
-   * Unlimited AI translation explanations
+   * Unlimited translation explanations
    */
   AI_TRANSLATION_EXPLAIN = "pro_ai_translation",
 
@@ -74,7 +74,7 @@ export enum PremiumFeature {
   HIFZ_UNLIMITED = "pro_hifz_unlimited",
 
   /**
-   * Advanced AI Tajweed and pronunciation coaching
+   * Advanced Tajweed and pronunciation coaching
    */
   HIFZ_AI_ANALYSIS = "pro_hifz_ai_analysis",
 
@@ -85,18 +85,18 @@ export enum PremiumFeature {
 
   // ========== TAFSIR & VERSE FEATURES (Phase 6B) ==========
   /**
-   * Unlimited AI Tafsir explanations
+   * Unlimited Tafsir explanations
    */
   TAFSIR_UNLIMITED = "pro_tafsir_unlimited",
 
   /**
-   * Unlimited verse discussion with AI
+   * Unlimited verse discussion
    */
   VERSE_DISCUSSION_UNLIMITED = "pro_verse_discussion",
 
   // ========== DUA FEATURES (Phase 6C) ==========
   /**
-   * Unlimited AI Dua recommendations
+   * Unlimited Dua recommendations
    */
   DUA_UNLIMITED = "pro_dua_unlimited",
 
@@ -284,15 +284,15 @@ export async function canAccessPrayerWidget(): Promise<boolean> {
 
 /**
  * Feature tier configuration.
- * New structure: all non-AI Islamic features are FREE.
- * Only AI-powered features require Plus subscription.
+ * New structure: all core Islamic features are FREE.
+ * Premium features require Plus subscription.
  *
  * Free (forever): Quran, prayer, Arabic, hadith, adhkar, calendar,
  *   Daily Qamar, Ramadan mode, basic streaks, 3 Khalil reflections/day
- * Plus: Unlimited AI, full history, advanced analytics, export, priority AI
+ * Plus: Unlimited access, full history, advanced analytics, export, priority support
  */
 export const FEATURE_TIERS = {
-  // Plus tier features (AI-powered)
+  // Plus tier features (premium)
   plus: [
     PremiumFeature.REFLECTION_EXERCISES,
     PremiumFeature.ARABIC_PRONUNCIATION,
@@ -307,7 +307,7 @@ export const FEATURE_TIERS = {
     PremiumFeature.STUDY_PLAN_ADAPT,
   ],
 
-  // Pro tier features (advanced AI + analytics + social)
+  // Pro tier features (advanced analytics + social)
   pro: [
     PremiumFeature.REFLECTION_ADVANCED,
     PremiumFeature.HIFZ_CIRCLES,

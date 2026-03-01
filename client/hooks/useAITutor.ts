@@ -1,8 +1,8 @@
 /**
  * useAITutor Hook
  *
- * Manages chat state for the AI Arabic Language Tutor.
- * Follows the same conversationHistory.current pattern as AskKarimScreen.
+ * Manages chat state for the Arabic Language Tutor.
+ * Follows the same conversationHistory.current pattern as AskAmarScreen.
  */
 
 import { useState, useCallback, useRef } from "react";
@@ -120,7 +120,7 @@ export function useAITutor(): AITutorHook {
 
         if (response.status === 403) {
           setError(
-            "You've used all your free questions for today. Upgrade to Qamar Premium for unlimited access.",
+            "You've used all your free questions for today. Upgrade to Qamar Plus for unlimited access."
           );
           // Remove the user message we optimistically added
           setMessages((prev) => prev.filter((m) => m.id !== userMessage.id));

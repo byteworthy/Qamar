@@ -186,7 +186,7 @@ export function PronunciationFeedback({ feedback, style }: Props) {
         </GlassCard>
       )}
 
-      {/* ---- AI Tips Section ---- */}
+      {/* ---- Tips Section ---- */}
       {feedback.tips ? (
         <GlassCard style={styles.tipsCard}>
           <View style={styles.tipsHeader}>

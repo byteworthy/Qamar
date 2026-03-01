@@ -616,7 +616,7 @@ export default function HomeScreen() {
                   }
                 >
                   <Feather
-                    name={dailyNoorDone ? "check-circle" : "sun"}
+                    name={dailyNoorDone ? "check-circle" : "feather"}
                     size={18}
                     color={dailyNoorDone ? NoorColors.emerald : NoorColors.gold}
                   />
@@ -904,7 +904,7 @@ export default function HomeScreen() {
                     delay={280}
                   />
                   <QuickActionButton
-                    icon="sun"
+                    icon="feather"
                     label="Adhkar"
                     onPress={handleNavigateAdhkar}
                     color={NoorColors.goldLight}

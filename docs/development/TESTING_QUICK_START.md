@@ -14,7 +14,7 @@
 
 ```bash
 # 1. Start backend server (Terminal 1)
-cd /path/to/noor
+cd /path/to/qamar
 npm run server:dev
 
 # 2. Start Metro bundler (Terminal 2)

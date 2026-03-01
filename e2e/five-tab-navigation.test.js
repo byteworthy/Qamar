@@ -1,11 +1,11 @@
 /**
  * E2E Test: 5-Tab Navigation System
  *
- * Tests the extended 5-tab navigation system for the Qamar app merger.
+ * Tests the extended 5-tab navigation system for the Qamar app.
  *
  * Tab Structure:
- * 1. Home - CBT reflection interface (existing)
- * 2. Companion - Conversational AI (formerly Explore)
+ * 1. Home - Reflection interface (existing)
+ * 2. Companion - Conversational companion (formerly Explore)
  * 3. Learn - Quran, Arabic, Hadith (NEW)
  * 4. Worship - Prayer, Qibla, Adhkar (NEW)
  * 5. Profile - Settings and account (existing)
@@ -61,7 +61,7 @@ describe("5-Tab Navigation System", () => {
         .toBeVisible()
         .withTimeout(3000);
 
-      await expect(element(by.text("Qamar"))).toBeVisible();
+      await expect(element(by.text('Qamar'))).toBeVisible();
     });
 
     it("should navigate to Companion tab", async () => {
@@ -372,7 +372,7 @@ describe("5-Tab Navigation System", () => {
         .withTimeout(2000);
 
       // Existing reflection flow should still work
-      await expect(element(by.text("Qamar"))).toBeVisible();
+      await expect(element(by.text('Qamar'))).toBeVisible();
     });
 
     it("should not break existing Companion (Explore) tab functionality", async () => {

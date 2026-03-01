@@ -9,7 +9,7 @@ test.describe("Navigation", () => {
     await expect(nav).toBeVisible();
 
     // Verify Qamar logo
-    const logo = page.getByRole("link", { name: "Qamar" });
+    const logo = page.getByRole('link', { name: 'Qamar' });
     await expect(logo).toBeVisible();
 
     // Verify logo uses serif font and gold color

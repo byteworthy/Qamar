@@ -62,11 +62,11 @@ const QUICK_PROMPTS = [
   },
   {
     text: "Help me understand Surah Al-Fatiha",
-    icon: "sunrise" as const,
+    icon: "book" as const,
   },
   {
     text: "What are the morning adhkar?",
-    icon: "sun" as const,
+    icon: "feather" as const,
   },
   {
     text: "How did the Prophet deal with sadness?",
@@ -235,13 +235,8 @@ function MessageBubble({
       ]}
     >
       {!isUser && (
-        <View
-          style={[
-            styles.avatarContainer,
-            { backgroundColor: NoorColors.gold + "20" },
-          ]}
-        >
-          <ThemedText style={styles.avatarText}>K</ThemedText>
+        <View style={[styles.avatarContainer, { backgroundColor: NoorColors.gold + "20" }]}>
+          <ThemedText style={styles.avatarText}>A</ThemedText>
         </View>
       )}
       <View
@@ -281,7 +276,7 @@ function MessageBubble({
 // MAIN SCREEN
 // =============================================================================
 
-export default function AskKarimScreen() {
+export default function AskAmarScreen() {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
@@ -319,7 +314,7 @@ export default function AskKarimScreen() {
       Keyboard.dismiss();
 
       Sentry.startSpan(
-        { name: "ask_karim.message_sent", op: "ui.action" },
+        { name: "ask_amar.message_sent", op: "ui.action" },
         () => {},
       );
 
@@ -383,21 +378,13 @@ export default function AskKarimScreen() {
     >
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <Animated.View
-          entering={FadeInDown.duration(300)}
-          style={styles.headerInner}
-        >
-          <View
-            style={[
-              styles.headerAvatar,
-              { backgroundColor: NoorColors.gold + "20" },
-            ]}
-          >
-            <ThemedText style={styles.headerAvatarText}>K</ThemedText>
+        <Animated.View entering={FadeInDown.duration(300)} style={styles.headerInner}>
+          <View style={[styles.headerAvatar, { backgroundColor: NoorColors.gold + "20" }]}>
+            <ThemedText style={styles.headerAvatarText}>A</ThemedText>
           </View>
           <View>
             <ThemedText style={styles.headerTitle} accessibilityRole="header">
-              Karim
+              Amar
             </ThemedText>
             <ThemedText
               style={[styles.headerSubtitle, { color: theme.textSecondary }]}
@@ -420,10 +407,8 @@ export default function AskKarimScreen() {
           ]}
         >
           <Feather name="wifi-off" size={14} color={NoorColors.gold} />
-          <ThemedText
-            style={[styles.offlineBannerText, { color: NoorColors.gold }]}
-          >
-            You{"'"}re offline. Karim needs a connection to respond.
+          <ThemedText style={[styles.offlineBannerText, { color: NoorColors.gold }]}>
+            You're offline. Amar needs a connection to respond.
           </ThemedText>
         </View>
       )}
@@ -458,11 +443,8 @@ export default function AskKarimScreen() {
               <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                 Assalamu Alaikum
               </ThemedText>
-              <ThemedText
-                style={[styles.emptySubtitle, { color: theme.textSecondary }]}
-              >
-                I{"'"}m Karim, your companion for Islamic reflection and
-                learning. Ask me anything or choose a topic below.
+              <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
+                I'm Amar, your companion for Islamic reflection and learning. Ask me anything or choose a topic below.
               </ThemedText>
             </Animated.View>
 
@@ -540,7 +522,7 @@ export default function AskKarimScreen() {
         >
           <TextInput
             style={[styles.textInput, { color: theme.text }]}
-            placeholder="Ask Karim anything..."
+            placeholder="Ask Amar anything..."
             placeholderTextColor={theme.textSecondary}
             value={inputText}
             onChangeText={setInputText}
@@ -550,7 +532,7 @@ export default function AskKarimScreen() {
             returnKeyType="default"
             blurOnSubmit={false}
             accessibilityLabel="Message input"
-            accessibilityHint="Type a question or message for Karim"
+            accessibilityHint="Type a question or message for Amar"
           />
           <Pressable
             onPress={handleSend}

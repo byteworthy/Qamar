@@ -2,7 +2,7 @@
  * HifzMistakeFeedback Component
  *
  * Displays recitation results with score visualization, word-level colored feedback,
- * and optional AI tips panel for Hifz (Quran memorization) practice.
+ * and optional tips panel for Hifz (Quran memorization) practice.
  */
 
 import React from "react";
@@ -216,7 +216,7 @@ export function HifzMistakeFeedback({
         </GlassCard>
       )}
 
-      {/* ---- AI Tips Panel ---- */}
+      {/* ---- Personalized Tips Panel ---- */}
       {showAITips && (
         <GlassCard style={styles.tipsCard}>
           <View style={styles.tipsHeader}>
@@ -227,7 +227,7 @@ export function HifzMistakeFeedback({
               style={styles.tipsIcon}
             />
             <ThemedText style={[styles.sectionTitle, { color: theme.text }]}>
-              AI Tips
+              Tips
             </ThemedText>
           </View>
 
@@ -242,7 +242,7 @@ export function HifzMistakeFeedback({
               <ThemedText
                 style={[styles.tipsButtonText, { color: NoorColors.gold }]}
               >
-                Get AI Tips
+                Get Tips
               </ThemedText>
               <Feather name="arrow-right" size={16} color={NoorColors.gold} />
             </Pressable>

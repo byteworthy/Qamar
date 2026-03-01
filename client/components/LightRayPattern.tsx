@@ -1,7 +1,7 @@
 /**
  * LightRayPattern Component
  *
- * Radiating light rays pattern - unique to Qamar (light) theme.
+ * Radiating light rays pattern - unique to Qamar (moon) theme.
  * Represents light emanating from a source, creating visual distinction
  * from other Islamic apps.
  *

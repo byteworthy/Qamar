@@ -542,7 +542,7 @@ function MainTabNavigator() {
 
 ```typescript
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: ['noor://', 'https://noorapp.com'],
+  prefixes: ['noor://', 'https://qamarapp.com'],
   config: {
     screens: {
       Main: {
@@ -589,10 +589,10 @@ const linking: LinkingOptions<RootStackParamList> = {
 ```
 
 **Example Deep Links:**
-- `noor://quran/surah/1` → Opens Surah Al-Fatihah
-- `noor://companion/new` → Opens Thought Capture screen
-- `noor://prayer` → Opens Prayer Times screen
-- `https://noorapp.com/learn/arabic` → Opens Arabic Alphabet
+- `qamar://quran/surah/1` → Opens Surah Al-Fatihah
+- `qamar://companion/new` → Opens Thought Capture screen
+- `qamar://prayer` → Opens Prayer Times screen
+- `https://qamarapp.com/learn/arabic` → Opens Arabic Alphabet
 
 ---
 
@@ -1041,7 +1041,7 @@ useEffect(() => {
 
 ### Dual AI Strategy
 
-**Goal:** Combine cloud AI (Claude) for therapeutic conversations with local AI (Ollama) for Quran/Hadith search.
+**Goal:** Combine cloud services (Claude) for guided companion conversations with local search (Ollama) for Quran/Hadith retrieval.
 
 ### Architecture
 

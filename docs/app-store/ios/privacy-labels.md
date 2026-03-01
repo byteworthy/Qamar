@@ -25,4 +25,4 @@ Answer all questions as "No" / "We do not collect this data":
 - Sentry error tracking: Only captures crash data, no PII
 
 ## App Store Privacy Policy URL
-https://byteworthy.github.io/Noor/legal/privacy.html
+https://byteworthy.github.io/Qamar/legal/privacy.html

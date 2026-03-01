@@ -13,10 +13,10 @@ export const colors = {
   moonlightDim: "#c5d5e6", // Dimmer moonlight
   moonlightMuted: "#9fb3c9", // Muted moonlight for secondary text
 
-  // Accent colors - Qamar (light) theme
-  gold: "#D4AF37", // Brand gold
-  goldLight: "#f0d473", // Brighter gold (dawn light)
-  goldDim: "#b8944d", // Subdued gold
+  // Accent colors - Qamar (moon) theme
+  gold: '#D4AF37',              // Brand gold
+  goldLight: '#f0d473',         // Brighter gold (dawn light)
+  goldDim: '#b8944d',           // Subdued gold
 
   // Islamic green
   emerald: "#009688", // Brand green

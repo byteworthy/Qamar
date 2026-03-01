@@ -299,7 +299,7 @@ describe("Charter Compliance System", () => {
     const context = {
       inputText: "I'm overwhelmed",
       outputText:
-        "Let me explain the complex philosophical underpinnings of cognitive distortions and how they relate to metacognitive awareness and the broader therapeutic framework.",
+        "Let me explain the complex philosophical underpinnings of cognitive distortions and how they relate to metacognitive awareness and the broader reflective framework.",
       distressLevel: "high" as const,
     };
 
@@ -455,7 +455,7 @@ describe("Full Safety Pipeline Integration", () => {
 
     // Step 2: Should NOT continue with reflection
     const inappropriateOutput =
-      "Let's work on reframing that thought using CBT techniques.";
+      "Let's work on reframing that thought using clinical techniques.";
     const validation = validateOutput(
       inappropriateOutput,
       undefined,

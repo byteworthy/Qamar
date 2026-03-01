@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -86,6 +86,42 @@ function AnimatedTabIcon(props: AnimatedTabIconProps) {
   ) : (
     <AnimatedTabIconNative {...props} />
   );
+}
+
+interface AnimatedEmojiTabIconProps {
+  emoji: string;
+  focused: boolean;
+}
+
+function AnimatedEmojiTabIconNative({ emoji, focused }: AnimatedEmojiTabIconProps) {
+  const scale = useSharedValue(focused ? 1 : 0.9);
+
+  useEffect(() => {
+    if (focused) hapticLight();
+    scale.value = withSpring(focused ? 1.1 : 0.95, { damping: 15, stiffness: 150 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  return (
+    <Animated.View style={animatedStyle}>
+      <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.6 }}>{emoji}</Text>
+    </Animated.View>
+  );
+}
+
+function AnimatedEmojiTabIcon(props: AnimatedEmojiTabIconProps) {
+  if (Platform.OS === 'web') {
+    return (
+      <View style={{ transform: [{ scale: props.focused ? 1.1 : 0.95 }] }}>
+        <Text style={{ fontSize: 20, opacity: props.focused ? 1 : 0.6 }}>{props.emoji}</Text>
+      </View>
+    );
+  }
+  return <AnimatedEmojiTabIconNative {...props} />;
 }
 
 function TabBarBackground() {
@@ -181,8 +217,8 @@ export default function TabNavigator() {
           tabBarLabel: "Worship",
           // @ts-ignore tabBarTestID is valid at runtime for Detox E2E
           tabBarTestID: "tab-worship",
-          tabBarIcon: ({ color, focused }) => (
-            <AnimatedTabIcon name="sun" color={color} focused={focused} />
+          tabBarIcon: ({ focused }) => (
+            <AnimatedEmojiTabIcon emoji="🤲🏽" focused={focused} />
           ),
         }}
       />

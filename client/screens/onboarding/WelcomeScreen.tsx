@@ -119,12 +119,7 @@ export default function WelcomeScreen() {
                   { borderColor: theme.highlightAccent + "50" },
                 ]}
               >
-                <Feather
-                  name="sun"
-                  size={32}
-                  color={theme.highlightAccent}
-                  accessible={false}
-                />
+                <Feather name="moon" size={32} color={theme.highlightAccent} accessible={false} />
               </View>
             </View>
           </View>
@@ -157,7 +152,7 @@ export default function WelcomeScreen() {
               },
             ]}
           >
-            {"نور"}
+            {"قمر"}
           </ThemedText>
 
           {/* Tagline */}

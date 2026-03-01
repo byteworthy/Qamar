@@ -92,8 +92,8 @@ Navigate to **App Store** → Select your build → **Version Information**
 
 ### Step 8: URLs (App Information)
 
-1. **Privacy Policy URL** → Paste: `https://byteworthy.github.io/Noor/legal/privacy.html`
-2. **Terms of Service URL** (if field exists) → Paste: `https://byteworthy.github.io/Noor/legal/terms.html`
+1. **Privacy Policy URL** → Paste: `https://byteworthy.github.io/Qamar/legal/privacy.html`
+2. **Terms of Service URL** (if field exists) → Paste: `https://byteworthy.github.io/Qamar/legal/terms.html`
 
 ### Step 9: Export Compliance
 

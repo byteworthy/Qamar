@@ -230,16 +230,14 @@ export function registerKhalilRoutes(app: Express): void {
         if (!isPaid) {
           const todayUsage = getKhalilUsageToday(userId);
           if (todayUsage >= FREE_DAILY_LIMIT) {
-            return res
-              .status(HTTP_STATUS.PAYMENT_REQUIRED)
-              .json(
-                createErrorResponse(
-                  HTTP_STATUS.PAYMENT_REQUIRED,
-                  ERROR_CODES.PAYMENT_REQUIRED,
-                  req.id,
-                  "Upgrade to Qamar Plus for unlimited Khalil conversations",
-                ),
-              );
+            return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
+              createErrorResponse(
+                HTTP_STATUS.PAYMENT_REQUIRED,
+                ERROR_CODES.PAYMENT_REQUIRED,
+                req.id,
+                "Upgrade to Qamar Plus for unlimited Khalil conversations",
+              ),
+            );
           }
         }
       }
