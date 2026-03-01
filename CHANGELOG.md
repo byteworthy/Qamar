@@ -4,6 +4,52 @@ All notable changes to the Qamar project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0] - 2026-03-01
+
+### Summary
+Qamar v2.0.0 — production-hardened release. All technical debt resolved, brand rename
+complete (NoorColors→QamarColors), full security audit applied, 707+ tests passing,
+zero lint errors, TypeScript strict clean.
+
+### Security
+- RevenueCat webhook HMAC-SHA256 signature verification (graceful dev mode fallback)
+- CSRF cookie `secure` flag aligned with auth.ts REPLIT_DEPLOYMENT pattern
+- SESSION_SECRET centralized in config.ts with startup validation
+- Health endpoint hides internal service details in production
+- SIGTERM graceful shutdown with 5s timeout to prevent hung processes
+- Sensitive route list expanded to include `/api/khalil` and `/api/companion`
+
+### Added
+- DB connection pool health monitoring (60s interval, debug-level stats)
+- AsyncStorage key migration (`@noor_*` → `@qamar_*`) for existing installs
+- Accessibility labels on priority screens (Khalil, Home, QuranReader)
+- FlatList optimization props standardized across all list views
+- GitHub Actions CI workflow with parallel quality checks
+- Loading skeletons for Settings, Education Assets, and Templates pages
+- Debouncing and race condition protection for ezyVet patient search
+- Comprehensive v2.0.0 changelog
+
+### Changed
+- Brand rename: NoorColors→QamarColors across entire codebase
+- All server stubs completed (previously TODO)
+- Hardcoded colors migrated to theme tokens where semantic equivalents exist
+- `as any` type casts replaced with proper types
+- `catch (err: any)` replaced with `catch (err: unknown)` + type guards
+- `.env.example` encryption key docs corrected (64 hex chars = 32 bytes)
+- `islamic-content-expansion.ts` header updated (awaiting scholar validation)
+
+### Fixed
+- ezyVet OAuth requests now have timeout protection
+- All pre-existing lint errors resolved
+- TypeScript syntax bugs fixed
+
+### Testing
+- 707+ tests passing (Phase 6 + Phase 7 complete suite)
+- 0 lint errors, TypeScript strict clean
+- Billing webhook signature verification tests added
+
+---
+
 ## [Unreleased] - 2026-01-19
 
 ### Added - Store Submission Pack (Chunk 4)
