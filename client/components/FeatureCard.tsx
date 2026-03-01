@@ -5,9 +5,18 @@
  * Supports optional "Coming Soon" and "Works Offline" badges.
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withTiming,
+  withSequence,
+  withDelay,
+  Easing,
+} from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -36,6 +45,28 @@ export function FeatureCard({
   offlineReady = false,
   testID,
 }: FeatureCardProps) {
+  // Scanning light shimmer for Coming Soon cards
+  const shimmerX = useSharedValue(-200);
+  useEffect(() => {
+    if (!comingSoon) return;
+    shimmerX.value = withRepeat(
+      withSequence(
+        withDelay(
+          1500,
+          withTiming(400, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+        ),
+        withTiming(-200, { duration: 0 }),
+      ),
+      -1,
+      false,
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comingSoon]);
+
+  const shimmerStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: shimmerX.value }],
+  }));
+
   return (
     <Animated.View entering={FadeInUp.duration(350).delay(delay)}>
       <Pressable
@@ -61,6 +92,24 @@ export function FeatureCard({
           end={{ x: 1, y: 1 }}
           style={styles.cardGradient}
         >
+          {/* Coming soon shimmer sweep */}
+          {comingSoon && (
+            <Animated.View
+              style={[styles.shimmerOverlay, shimmerStyle]}
+              pointerEvents="none"
+            >
+              <LinearGradient
+                colors={[
+                  "transparent",
+                  "rgba(255,255,255,0.15)",
+                  "transparent",
+                ]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.shimmerGradient}
+              />
+            </Animated.View>
+          )}
           <View style={styles.cardHeader}>
             <Feather
               name={icon}
@@ -145,6 +194,16 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "500",
     color: "rgba(255,255,255,0.85)",
+  },
+  shimmerOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    width: 150,
+    zIndex: 1,
+  },
+  shimmerGradient: {
+    flex: 1,
   },
   cardTitle: {
     fontSize: 20,
