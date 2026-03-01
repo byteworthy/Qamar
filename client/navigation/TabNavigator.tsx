@@ -12,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NiyyahColors } from "@/constants/theme";
+import { Fonts, NiyyahColors } from "@/constants/theme";
 import { hapticLight } from "@/lib/haptics";
 
 import HomeScreen from "@/screens/HomeScreen";
@@ -179,6 +179,7 @@ export default function TabNavigator() {
           fontSize: 10,
           fontWeight: "500",
           marginTop: 2,
+          fontFamily: Fonts?.sans,
         },
       }}
     >

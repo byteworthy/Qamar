@@ -28,6 +28,7 @@ import Animated, {
   withSequence,
 } from "react-native-reanimated";
 
+import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/hooks/useTheme";
 import { useScreenProtection } from "@/hooks/useScreenProtection";
 import { Spacing, BorderRadius, Typography, Fonts } from "@/constants/theme";
@@ -341,6 +342,23 @@ export default function ThoughtCaptureScreen() {
                 </ThemedText>
               </Animated.View>
             )}
+
+            {/* Privacy signal */}
+            <View style={styles.privacyRow}>
+              <Feather
+                name="lock"
+                size={11}
+                color={theme.textSecondary}
+              />
+              <ThemedText
+                style={[
+                  styles.privacyText,
+                  { color: theme.textSecondary },
+                ]}
+              >
+                Encrypted & private
+              </ThemedText>
+            </View>
           </View>
 
           {/* Emotional Intensity Section */}
@@ -546,6 +564,15 @@ const styles = StyleSheet.create({
     marginTop: Spacing.xs,
     textAlign: "right",
     fontStyle: "italic",
+  },
+  privacyRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginTop: Spacing.sm,
+  },
+  privacyText: {
+    fontSize: 11,
   },
   // Emotional Intensity Styles
   intensitySection: {

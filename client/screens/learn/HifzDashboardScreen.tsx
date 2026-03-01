@@ -12,6 +12,7 @@
 
 import React from "react";
 import { View, ScrollView, Pressable, StyleSheet } from "react-native";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ThemedText } from "@/components/ThemedText";
@@ -69,191 +70,212 @@ export default function HifzDashboardScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <ThemedText style={styles.title}>Hifz</ThemedText>
-        <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Quran Memorization
-        </ThemedText>
+        <Animated.View entering={FadeInDown.duration(300)}>
+          <ThemedText style={styles.title}>Hifz</ThemedText>
+          <ThemedText style={[styles.subtitle, { color: theme.textSecondary }]}>
+            Quran Memorization
+          </ThemedText>
+        </Animated.View>
 
         {/* Empty State */}
         {!hasMemorizedVerses && (
-          <GlassCard style={styles.emptyStateCard}>
-            <ThemedText style={styles.emptyStateTitle}>
-              Begin your Quran memorization journey
-            </ThemedText>
-            <ThemedText
-              style={[styles.emptyStateText, { color: theme.textSecondary }]}
-            >
-              Start with Juz 30 (short surahs), Al-Fatiha, or any verse that
-              calls to you.
-            </ThemedText>
-            <Pressable
-              testID="hifz-start-session"
-              style={[
-                styles.primaryButton,
-                { backgroundColor: NoorColors.gold },
-              ]}
-              onPress={handleStartMemorizing}
-            >
-              <ThemedText style={styles.buttonText}>Get Started</ThemedText>
-            </Pressable>
-          </GlassCard>
+          <Animated.View entering={FadeInUp.duration(350).delay(80)}>
+            <GlassCard style={styles.emptyStateCard}>
+              <ThemedText style={styles.emptyStateTitle}>
+                Begin your Quran memorization journey
+              </ThemedText>
+              <ThemedText
+                style={[styles.emptyStateText, { color: theme.textSecondary }]}
+              >
+                Start with Juz 30 (short surahs), Al-Fatiha, or any verse that
+                calls to you.
+              </ThemedText>
+              <Pressable
+                testID="hifz-start-session"
+                style={[
+                  styles.primaryButton,
+                  { backgroundColor: NoorColors.gold },
+                ]}
+                onPress={handleStartMemorizing}
+              >
+                <ThemedText style={styles.buttonText}>Get Started</ThemedText>
+              </Pressable>
+            </GlassCard>
+          </Animated.View>
         )}
 
         {/* Overall Stats Card */}
         {hasMemorizedVerses && (
-          <GlassCard style={styles.statsCard}>
-            <ThemedText
-              style={[styles.sectionLabel, { color: theme.textSecondary }]}
-            >
-              Total Progress
-            </ThemedText>
-            <ThemedText style={styles.statsMainText}>
-              {overallStats.totalMemorized} / {overallStats.totalVerses} verses
-            </ThemedText>
-            <ThemedText
-              style={[styles.statsPercentage, { color: NoorColors.gold }]}
-            >
-              {overallStats.percentageComplete.toFixed(1)}% complete
-            </ThemedText>
+          <Animated.View entering={FadeInUp.duration(350).delay(80)}>
+            <GlassCard style={styles.statsCard}>
+              <ThemedText
+                style={[styles.sectionLabel, { color: theme.textSecondary }]}
+              >
+                Total Progress
+              </ThemedText>
+              <ThemedText style={styles.statsMainText}>
+                {overallStats.totalMemorized} / {overallStats.totalVerses}{" "}
+                verses
+              </ThemedText>
+              <ThemedText
+                style={[styles.statsPercentage, { color: NoorColors.gold }]}
+              >
+                {overallStats.percentageComplete.toFixed(1)}% complete
+              </ThemedText>
 
-            {/* Progress Bar */}
-            <View
-              style={[styles.progressBar, { backgroundColor: theme.border }]}
-            >
+              {/* Progress Bar */}
               <View
-                style={[
-                  styles.progressFill,
-                  {
-                    width: `${Math.min(overallStats.percentageComplete, 100)}%`,
-                    backgroundColor: NoorColors.gold,
-                  },
-                ]}
-              />
-            </View>
-          </GlassCard>
+                style={[styles.progressBar, { backgroundColor: theme.border }]}
+              >
+                <View
+                  style={[
+                    styles.progressFill,
+                    {
+                      width: `${Math.min(overallStats.percentageComplete, 100)}%`,
+                      backgroundColor: NoorColors.gold,
+                    },
+                  ]}
+                />
+              </View>
+            </GlassCard>
+          </Animated.View>
         )}
 
         {/* Juz Progress Map */}
         {hasMemorizedVerses && (
-          <GlassCard style={styles.juzMapCard}>
-            <ThemedText style={styles.sectionTitle}>Your Progress</ThemedText>
-            <ThemedText
-              style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
-            >
-              30 Juz Overview
-            </ThemedText>
-            <JuzProgressMap onJuzPress={handleJuzPress} />
-          </GlassCard>
+          <Animated.View entering={FadeInUp.duration(350).delay(160)}>
+            <GlassCard style={styles.juzMapCard}>
+              <ThemedText style={styles.sectionTitle}>Your Progress</ThemedText>
+              <ThemedText
+                style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
+              >
+                30 Juz Overview
+              </ThemedText>
+              <JuzProgressMap onJuzPress={handleJuzPress} />
+            </GlassCard>
+          </Animated.View>
         )}
 
         {/* Review Queue Section */}
         {dueCount > 0 && (
-          <GlassCard style={styles.reviewCard}>
-            <ThemedText style={styles.sectionTitle}>
-              Reviews Due Today
-            </ThemedText>
-            <View
-              style={[
-                styles.badge,
-                { backgroundColor: "rgba(212, 175, 55, 0.2)" },
-              ]}
-            >
-              <ThemedText
-                style={[styles.badgeText, { color: NoorColors.gold }]}
-              >
-                {dueCount} {dueCount === 1 ? "verse" : "verses"}
+          <Animated.View entering={FadeInUp.duration(350).delay(240)}>
+            <GlassCard style={styles.reviewCard}>
+              <ThemedText style={styles.sectionTitle}>
+                Reviews Due Today
               </ThemedText>
-            </View>
-
-            {/* List first 3-5 due verses */}
-            <View style={styles.verseList}>
-              {dueVerses.slice(0, 5).map((verse, index) => (
-                <View
-                  key={`${verse.surahNumber}:${verse.verseNumber}`}
-                  style={styles.verseItem}
+              <View
+                style={[
+                  styles.badge,
+                  { backgroundColor: "rgba(212, 175, 55, 0.2)" },
+                ]}
+              >
+                <ThemedText
+                  style={[styles.badgeText, { color: NoorColors.gold }]}
                 >
-                  <ThemedText style={styles.verseText}>
-                    Surah {verse.surahNumber}:{verse.verseNumber}
-                  </ThemedText>
-                </View>
-              ))}
-            </View>
+                  {dueCount} {dueCount === 1 ? "verse" : "verses"}
+                </ThemedText>
+              </View>
 
-            {/* Review Now Button */}
-            <Pressable
-              style={[
-                styles.primaryButton,
-                { backgroundColor: NoorColors.gold },
-              ]}
-              onPress={handleReviewNow}
-            >
-              <ThemedText style={styles.buttonText}>Review Now</ThemedText>
-            </Pressable>
-          </GlassCard>
+              {/* List first 3-5 due verses */}
+              <View style={styles.verseList}>
+                {dueVerses.slice(0, 5).map((verse, index) => (
+                  <View
+                    key={`${verse.surahNumber}:${verse.verseNumber}`}
+                    style={styles.verseItem}
+                  >
+                    <ThemedText style={styles.verseText}>
+                      Surah {verse.surahNumber}:{verse.verseNumber}
+                    </ThemedText>
+                  </View>
+                ))}
+              </View>
+
+              {/* Review Now Button */}
+              <Pressable
+                style={[
+                  styles.primaryButton,
+                  { backgroundColor: NoorColors.gold },
+                ]}
+                onPress={handleReviewNow}
+              >
+                <ThemedText style={styles.buttonText}>Review Now</ThemedText>
+              </Pressable>
+            </GlassCard>
+          </Animated.View>
         )}
 
         {/* No Reviews Due Message */}
         {dueCount === 0 && hasMemorizedVerses && (
-          <GlassCard style={styles.noReviewCard}>
-            <ThemedText
-              style={[styles.noReviewText, { color: theme.textSecondary }]}
-            >
-              Great job! No reviews due today.
-            </ThemedText>
-          </GlassCard>
+          <Animated.View entering={FadeInUp.duration(350).delay(240)}>
+            <GlassCard style={styles.noReviewCard}>
+              <ThemedText
+                style={[styles.noReviewText, { color: theme.textSecondary }]}
+              >
+                Great job! No reviews due today.
+              </ThemedText>
+            </GlassCard>
+          </Animated.View>
         )}
 
         {/* Upcoming Reviews */}
         {hasMemorizedVerses && (
-          <GlassCard style={styles.upcomingCard}>
-            <ThemedText style={styles.sectionTitle}>
-              Upcoming Reviews
-            </ThemedText>
-            <View style={styles.upcomingList}>
-              <View style={styles.upcomingItem}>
-                <ThemedText style={styles.upcomingLabel}>Today:</ThemedText>
-                <ThemedText
-                  style={[styles.upcomingCount, { color: NoorColors.gold }]}
-                >
-                  {upcomingReviews.today} reviews
-                </ThemedText>
+          <Animated.View entering={FadeInUp.duration(350).delay(320)}>
+            <GlassCard style={styles.upcomingCard}>
+              <ThemedText style={styles.sectionTitle}>
+                Upcoming Reviews
+              </ThemedText>
+              <View style={styles.upcomingList}>
+                <View style={styles.upcomingItem}>
+                  <ThemedText style={styles.upcomingLabel}>Today:</ThemedText>
+                  <ThemedText
+                    style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                  >
+                    {upcomingReviews.today} reviews
+                  </ThemedText>
+                </View>
+                <View style={styles.upcomingItem}>
+                  <ThemedText style={styles.upcomingLabel}>
+                    Tomorrow:
+                  </ThemedText>
+                  <ThemedText
+                    style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                  >
+                    {upcomingReviews.tomorrow} reviews
+                  </ThemedText>
+                </View>
+                <View style={styles.upcomingItem}>
+                  <ThemedText style={styles.upcomingLabel}>
+                    This Week:
+                  </ThemedText>
+                  <ThemedText
+                    style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                  >
+                    {upcomingReviews.thisWeek} reviews
+                  </ThemedText>
+                </View>
               </View>
-              <View style={styles.upcomingItem}>
-                <ThemedText style={styles.upcomingLabel}>Tomorrow:</ThemedText>
-                <ThemedText
-                  style={[styles.upcomingCount, { color: NoorColors.gold }]}
-                >
-                  {upcomingReviews.tomorrow} reviews
-                </ThemedText>
-              </View>
-              <View style={styles.upcomingItem}>
-                <ThemedText style={styles.upcomingLabel}>This Week:</ThemedText>
-                <ThemedText
-                  style={[styles.upcomingCount, { color: NoorColors.gold }]}
-                >
-                  {upcomingReviews.thisWeek} reviews
-                </ThemedText>
-              </View>
-            </View>
-          </GlassCard>
+            </GlassCard>
+          </Animated.View>
         )}
 
         {/* Action Buttons */}
         {hasMemorizedVerses && (
-          <View style={styles.actionButtons}>
-            <Pressable
-              testID="hifz-start-session"
-              style={[
-                styles.primaryButton,
-                { backgroundColor: NoorColors.gold },
-              ]}
-              onPress={handleStartMemorizing}
-            >
-              <ThemedText style={styles.buttonText}>
-                Start Memorizing
-              </ThemedText>
-            </Pressable>
-          </View>
+          <Animated.View entering={FadeInUp.duration(350).delay(400)}>
+            <View style={styles.actionButtons}>
+              <Pressable
+                testID="hifz-start-session"
+                style={[
+                  styles.primaryButton,
+                  { backgroundColor: NoorColors.gold },
+                ]}
+                onPress={handleStartMemorizing}
+              >
+                <ThemedText style={styles.buttonText}>
+                  Start Memorizing
+                </ThemedText>
+              </Pressable>
+            </View>
+          </Animated.View>
         )}
 
         {/* Bottom Spacing */}

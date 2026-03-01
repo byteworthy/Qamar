@@ -924,6 +924,23 @@ export default function ProfileScreen() {
 
         {/* ── Data & Privacy ───────────────────────────────── */}
         <SectionHeader title="Data & Privacy" delay={340} />
+        <Animated.View entering={FadeInUp.duration(350).delay(350)}>
+          <View style={styles.privacyBadgeRow}>
+            <Feather
+              name="lock"
+              size={12}
+              color={theme.textSecondary}
+            />
+            <ThemedText
+              style={[
+                styles.privacyBadgeText,
+                { color: theme.textSecondary },
+              ]}
+            >
+              Your reflections are encrypted & private
+            </ThemedText>
+          </View>
+        </Animated.View>
         <Animated.View entering={FadeInUp.duration(350).delay(360)}>
           <GlassCard style={styles.settingsCard}>
             <ActionRow
@@ -1213,6 +1230,16 @@ const styles = StyleSheet.create({
   // Settings card
   settingsCard: {
     marginBottom: 4,
+  },
+  privacyBadgeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginBottom: 8,
+    paddingHorizontal: 4,
+  },
+  privacyBadgeText: {
+    fontSize: 12,
   },
 
   // Setting row

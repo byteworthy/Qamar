@@ -1,15 +1,15 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
-import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
-import { LinearGradient } from "expo-linear-gradient";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
+import { FeatureCard } from "@/components/FeatureCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { useArabicProgress } from "@/hooks/useArabicLearning";
 import { useShallow } from "zustand/react/shallow";
@@ -18,83 +18,6 @@ import { BorderRadius } from "@/constants/theme";
 import { NoorColors } from "@/constants/theme/colors";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-// ---------------------------------------------------------------------------
-// Feature Card
-// ---------------------------------------------------------------------------
-
-interface FeatureCardProps {
-  title: string;
-  description: string;
-  gradient: string[];
-  icon: keyof typeof Feather.glyphMap;
-  onPress: () => void;
-  delay: number;
-  comingSoon?: boolean;
-  testID?: string;
-}
-
-function FeatureCard({
-  title,
-  description,
-  gradient,
-  icon,
-  onPress,
-  delay,
-  comingSoon = false,
-  testID,
-}: FeatureCardProps) {
-  return (
-    <Animated.View entering={FadeInUp.duration(350).delay(delay)}>
-      <Pressable
-        testID={testID}
-        onPress={comingSoon ? undefined : onPress}
-        style={({ pressed }) => [
-          styles.featureCard,
-          {
-            opacity: comingSoon ? 0.6 : pressed ? 0.9 : 1,
-            transform: [{ scale: pressed && !comingSoon ? 0.98 : 1 }],
-          },
-        ]}
-        accessibilityRole="button"
-        accessibilityLabel={title}
-        accessibilityHint={
-          comingSoon ? "Coming soon" : `Opens ${title.toLowerCase()}`
-        }
-        disabled={comingSoon}
-      >
-        <LinearGradient
-          colors={gradient as [string, string]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.cardGradient}
-        >
-          <View style={styles.cardHeader}>
-            <Feather
-              name={icon}
-              size={28}
-              color="rgba(255,255,255,0.9)"
-              style={styles.cardIcon}
-            />
-            {comingSoon && (
-              <View style={styles.comingSoonBadge}>
-                <ThemedText style={styles.comingSoonText}>
-                  Coming Soon
-                </ThemedText>
-              </View>
-            )}
-          </View>
-          <ThemedText style={styles.cardTitle}>{title}</ThemedText>
-          <ThemedText style={styles.cardDescription}>{description}</ThemedText>
-        </LinearGradient>
-      </Pressable>
-    </Animated.View>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Main Screen
-// ---------------------------------------------------------------------------
 
 export default function LearnTabScreen() {
   const insets = useSafeAreaInsets();
@@ -121,6 +44,7 @@ export default function LearnTabScreen() {
       icon: "book-open" as const,
       screen: "QuranReader" as const,
       comingSoon: false,
+      offlineReady: true,
     },
     {
       title: "Hifz Memorization",
@@ -139,6 +63,7 @@ export default function LearnTabScreen() {
       icon: "edit-3" as const,
       screen: "ArabicLearning" as const,
       comingSoon: false,
+      offlineReady: true,
     },
     {
       title: "Hadith Library",
@@ -155,6 +80,7 @@ export default function LearnTabScreen() {
       icon: "grid" as const,
       screen: "AlphabetGrid" as const,
       comingSoon: false,
+      offlineReady: true,
     },
     {
       title: "Arabic Tutor",
@@ -306,6 +232,7 @@ export default function LearnTabScreen() {
               }}
               delay={120 + index * 80}
               comingSoon={feature.comingSoon}
+              offlineReady={feature.offlineReady}
               testID={
                 feature.screen === "QuranReader"
                   ? "learn-quran-card"
@@ -364,43 +291,4 @@ const styles = StyleSheet.create({
 
   // Feature cards
   featuresGrid: { gap: 16 },
-  featureCard: {
-    borderRadius: 16,
-    overflow: "hidden",
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
-  cardGradient: { padding: 20, minHeight: 140 },
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 12,
-  },
-  cardIcon: { marginBottom: 8 },
-  comingSoonBadge: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  comingSoonText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "rgba(255,255,255,0.9)",
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "rgba(255,255,255,0.95)",
-    marginBottom: 6,
-  },
-  cardDescription: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: "rgba(255,255,255,0.8)",
-  },
 });
