@@ -202,9 +202,9 @@ describe("Islamic Features API Routes", () => {
     server = await registerRoutes(app);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     if (server && server.close) {
-      server.close();
+      await new Promise<void>((resolve) => server.close(() => resolve()));
     }
   });
 
@@ -475,7 +475,7 @@ describe("Islamic Features API Routes", () => {
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
 
-      unauthServer.close();
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -518,7 +518,7 @@ describe("Islamic Features API Routes", () => {
 
       expect(res.status).toBe(401);
 
-      unauthServer.close();
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -563,7 +563,7 @@ describe("Islamic Features API Routes", () => {
 
       expect(res.status).toBe(401);
 
-      unauthServer.close();
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -616,7 +616,7 @@ describe("Islamic Features API Routes", () => {
 
       expect(res.status).toBe(401);
 
-      unauthServer.close();
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -806,7 +806,7 @@ describe("Islamic Features API Routes", () => {
 
       expect(res.status).toBe(401);
 
-      unauthServer.close();
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -918,7 +918,7 @@ describe("Islamic Features API Routes", () => {
 
       expect(res.status).toBe(401);
 
-      unauthServer.close();
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 

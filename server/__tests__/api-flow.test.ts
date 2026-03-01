@@ -152,8 +152,10 @@ describe("Full Reflection API Flow", () => {
     (dataRetention.verifyAdminToken as jest.Mock).mockReturnValue(false);
   });
 
-  afterEach(() => {
-    if (server?.close) server.close();
+  afterEach(async () => {
+    if (server?.close) {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
   });
 
   // =========================================================================

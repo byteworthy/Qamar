@@ -242,9 +242,9 @@ describe("Arabic Language Routes", () => {
     );
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     if (server && server.close) {
-      server.close();
+      await new Promise<void>((resolve) => server.close(() => resolve()));
     }
   });
 

@@ -202,9 +202,9 @@ describe("API Routes", () => {
     );
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     if (server && server.close) {
-      server.close();
+      await new Promise<void>((resolve) => server.close(() => resolve()));
     }
   });
 
@@ -549,7 +549,7 @@ describe("API Routes", () => {
       // Create app without auth middleware
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp)
         .post("/api/reflection/save")
@@ -563,6 +563,8 @@ describe("API Routes", () => {
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
       expect(res.body.error).toBe(true);
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
 
     test("returns validation error for missing required fields", async () => {
@@ -689,13 +691,15 @@ describe("API Routes", () => {
     test("returns 401 when not authenticated", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp).get("/api/reflection/history");
 
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
       expect(res.body.error).toBe(true);
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
 
     test("handles decryption errors gracefully", async () => {
@@ -743,12 +747,14 @@ describe("API Routes", () => {
     test("returns 401 when not authenticated", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp).delete("/api/reflection/123");
 
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
 
     test("returns 400 for invalid reflection ID", async () => {
@@ -819,13 +825,15 @@ describe("API Routes", () => {
     test("allows reflection check for unauthenticated users", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp).get("/api/reflection/can-reflect");
 
       expect(res.status).toBe(200);
       expect(res.body.canReflect).toBe(true);
       expect(res.body.remaining).toBe(3);
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -893,12 +901,14 @@ describe("API Routes", () => {
     test("returns 401 when not authenticated", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp).get("/api/reflection/patterns");
 
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -997,13 +1007,15 @@ describe("API Routes", () => {
     test("returns 401 when not authenticated", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp).get("/api/insights/summary");
 
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
       expect(res.body.error).toBe(true);
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -1040,13 +1052,15 @@ describe("API Routes", () => {
     test("returns 401 when not authenticated", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp).get("/api/insights/assumptions");
 
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
       expect(res.body.error).toBe(true);
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
@@ -1098,7 +1112,7 @@ describe("API Routes", () => {
     test("returns 401 when not authenticated", async () => {
       const unauthApp = express();
       unauthApp.use(express.json());
-      await registerRoutes(unauthApp);
+      const unauthServer = await registerRoutes(unauthApp);
 
       const res = await request(unauthApp)
         .post("/api/duas/contextual")
@@ -1107,6 +1121,8 @@ describe("API Routes", () => {
       expect(res.status).toBe(401);
       expect(res.body.code).toBe("AUTH_REQUIRED");
       expect(res.body.error).toBe(true);
+
+      await new Promise<void>((resolve) => unauthServer.close(() => resolve()));
     });
   });
 
