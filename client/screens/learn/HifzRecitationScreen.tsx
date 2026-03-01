@@ -25,8 +25,9 @@ import { Screen } from "@/components/Screen";
 import { HifzMistakeFeedback } from "@/components/HifzMistakeFeedback";
 import { HifzPeekOverlay } from "@/components/HifzPeekOverlay";
 import { useHifzRecitation } from "@/hooks/useHifzRecitation";
+import { useOfflineQuranVerses } from "@/hooks/useOfflineData";
 import { useGamification } from "@/stores/gamification-store";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 // ====================================================================
 // Types
@@ -55,6 +56,10 @@ export default function HifzRecitationScreen() {
   const surahNum = parseInt(surahNumber, 10);
   const verseNum = parseInt(verseNumber, 10);
 
+  // Verse data from offline DB
+  const { data: verses } = useOfflineQuranVerses(surahNum);
+  const verse = verses?.find((v) => v.verse_number === verseNum);
+
   // Recitation hook
   const {
     isRecording,
@@ -65,7 +70,7 @@ export default function HifzRecitationScreen() {
     stopRecitation,
     rateAndSave,
     reset,
-  } = useHifzRecitation(surahNum, verseNum);
+  } = useHifzRecitation(surahNum, verseNum, verse?.arabic_text);
 
   // Gamification
   const recordActivity = useGamification((state) => state.recordActivity);
@@ -73,6 +78,7 @@ export default function HifzRecitationScreen() {
   // Local state
   const [showPeek, setShowPeek] = useState(false);
   const [revealedText, setRevealedText] = useState<string | null>(null);
+  const [revealedWordCount, setRevealedWordCount] = useState(0);
 
   // ============================================================
   // Handlers
@@ -91,14 +97,15 @@ export default function HifzRecitationScreen() {
   }, []);
 
   const handleRevealWord = useCallback(() => {
-    // TODO: Implement word-by-word reveal logic when Quran text API is integrated
-    setRevealedText("بِسْمِ");
-  }, []);
+    const words = (verse?.arabic_text ?? "").split(" ");
+    const nextCount = Math.min(revealedWordCount + 1, words.length);
+    setRevealedWordCount(nextCount);
+    setRevealedText(words.slice(0, nextCount).join(" "));
+  }, [verse, revealedWordCount]);
 
   const handleRevealAyah = useCallback(() => {
-    // TODO: Implement full ayah reveal when Quran text API is integrated
-    setRevealedText("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ");
-  }, []);
+    setRevealedText(verse?.arabic_text ?? "");
+  }, [verse]);
 
   const handleDismissPeek = useCallback(() => {
     setShowPeek(false);
@@ -118,6 +125,8 @@ export default function HifzRecitationScreen() {
 
   const handleRetry = useCallback(() => {
     reset();
+    setRevealedWordCount(0);
+    setRevealedText(null);
   }, [reset]);
 
   // ============================================================
@@ -132,7 +141,7 @@ export default function HifzRecitationScreen() {
       <ThemedText style={[styles.verseReference, { color: theme.text }]}>
         Surah {surahNum}:{verseNum}
       </ThemedText>
-      <ThemedText style={[styles.modeIndicator, { color: NoorColors.gold }]}>
+      <ThemedText style={[styles.modeIndicator, { color: QamarColors.gold }]}>
         {mode === "review" ? "Review" : "New Memorization"}
       </ThemedText>
       <ThemedText style={[styles.hiddenNotice, { color: theme.textSecondary }]}>
@@ -153,16 +162,16 @@ export default function HifzRecitationScreen() {
           onPress={handleHintPress}
           style={({ pressed }) => [
             styles.hintButton,
-            { borderColor: NoorColors.gold, opacity: pressed ? 0.7 : 1 },
+            { borderColor: QamarColors.gold, opacity: pressed ? 0.7 : 1 },
           ]}
         >
           <Feather
             name="help-circle"
             size={16}
-            color={NoorColors.gold}
+            color={QamarColors.gold}
             style={styles.hintIcon}
           />
-          <ThemedText style={[styles.hintText, { color: NoorColors.gold }]}>
+          <ThemedText style={[styles.hintText, { color: QamarColors.gold }]}>
             Need a hint?
           </ThemedText>
         </Pressable>
@@ -176,7 +185,7 @@ export default function HifzRecitationScreen() {
         style={({ pressed }) => [
           styles.recordButton,
           {
-            backgroundColor: isRecording ? "#EF4444" : NoorColors.gold,
+            backgroundColor: isRecording ? "#EF4444" : QamarColors.gold,
             opacity: pressed && !isProcessing ? 0.85 : isProcessing ? 0.6 : 1,
           },
         ]}
@@ -200,7 +209,7 @@ export default function HifzRecitationScreen() {
         >
           <ActivityIndicator
             size="small"
-            color={NoorColors.gold}
+            color={QamarColors.gold}
             style={styles.processingSpinner}
           />
           <ThemedText
@@ -315,16 +324,16 @@ export default function HifzRecitationScreen() {
             onPress={handleRetry}
             style={({ pressed }) => [
               styles.retryButton,
-              { borderColor: NoorColors.gold, opacity: pressed ? 0.7 : 1 },
+              { borderColor: QamarColors.gold, opacity: pressed ? 0.7 : 1 },
             ]}
           >
             <Feather
               name="refresh-cw"
               size={16}
-              color={NoorColors.gold}
+              color={QamarColors.gold}
               style={styles.retryIcon}
             />
-            <ThemedText style={[styles.retryText, { color: NoorColors.gold }]}>
+            <ThemedText style={[styles.retryText, { color: QamarColors.gold }]}>
               Try Again
             </ThemedText>
           </Pressable>

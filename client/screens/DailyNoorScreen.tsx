@@ -24,7 +24,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
@@ -332,7 +332,7 @@ function StepHeader({ step, onBack, theme }: StepHeaderProps) {
             styles.progressFill,
             {
               width: `${progress * 100}%`,
-              backgroundColor: NoorColors.gold,
+              backgroundColor: QamarColors.gold,
             },
           ]}
         />
@@ -692,7 +692,7 @@ function DhikrStep({ onContinue, theme }: DhikrStepProps) {
               styles.dhikrProgressFill,
               {
                 width: `${Math.min(progressWidth, 100)}%`,
-                backgroundColor: isComplete ? theme.success : NoorColors.gold,
+                backgroundColor: isComplete ? theme.success : QamarColors.gold,
               },
             ]}
           />
@@ -753,7 +753,7 @@ function ReflectionStep({ onComplete, theme }: ReflectionStepProps) {
         <Feather
           name="feather"
           size={24}
-          color={NoorColors.gold}
+          color={QamarColors.gold}
           style={styles.reflectionIcon}
         />
         <ThemedText
@@ -883,7 +883,7 @@ function CompletionView({ streak, onDone, theme }: CompletionViewProps) {
       {streak > 0 && (
         <Animated.View entering={FadeInUp.duration(400).delay(700)}>
           <GlassCard style={styles.streakCard}>
-            <Feather name="zap" size={24} color={NoorColors.gold} />
+            <Feather name="zap" size={24} color={QamarColors.gold} />
             <View style={styles.streakInfo}>
               <ThemedText type="h3" style={styles.streakNumber}>
                 {streak}

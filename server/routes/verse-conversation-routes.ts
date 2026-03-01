@@ -1,8 +1,11 @@
 import { Router, Request, Response } from "express";
 import Anthropic from "@anthropic-ai/sdk";
+import { eq } from "drizzle-orm";
 import { aiDailyQuotaMiddleware } from "../middleware/ai-daily-quota";
 import { aiRateLimiter } from "../middleware/ai-rate-limiter";
 import { buildVerseConversationPrompt } from "../services/verse-conversation-prompts";
+import { quranMetadata } from "@shared/schema";
+import { db } from "../db";
 import logger from "../utils/logger";
 
 const router = Router();
@@ -19,12 +22,26 @@ router.post(
   aiRateLimiter,
   async (req: Request, res: Response) => {
     try {
-      const { surahNumber, verseNumber, message, history = [] } = req.body;
+      const {
+        surahNumber,
+        verseNumber,
+        message,
+        arabicText,
+        translation,
+        history = [],
+      } = req.body;
 
       // Validation
-      if (!surahNumber || !verseNumber || !message) {
+      if (
+        !surahNumber ||
+        !verseNumber ||
+        !message ||
+        !arabicText ||
+        !translation
+      ) {
         return res.status(400).json({
-          error: "Missing required fields: surahNumber, verseNumber, message",
+          error:
+            "Missing required fields: surahNumber, verseNumber, message, arabicText, translation",
         });
       }
 
@@ -32,11 +49,13 @@ router.post(
         return res.status(400).json({ error: "history must be an array" });
       }
 
-      // TODO: Fetch verse details from database
-      const surahName = "Al-Fatihah";
-      const arabicText = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
-      const translation =
-        "In the name of Allah, the Entirely Merciful, the Especially Merciful.";
+      // Fetch surah name from database
+      const [surah] = await db
+        .select()
+        .from(quranMetadata)
+        .where(eq(quranMetadata.surahNumber, surahNumber));
+
+      const surahName = surah?.nameEnglish ?? `Surah ${surahNumber}`;
 
       const systemPrompt = buildVerseConversationPrompt({
         surahNumber,

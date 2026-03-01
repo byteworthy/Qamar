@@ -33,7 +33,7 @@ import {
 } from "@/hooks/useArabicLearning";
 import { useAppState } from "@/stores/app-state";
 import { BorderRadius, Fonts } from "@/constants/theme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { TTSButton } from "@/components/TTSButton";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -103,7 +103,7 @@ function SessionComplete({ reviewed, correct, onDone }: SessionCompleteProps) {
       entering={FadeIn.duration(400)}
       style={styles.sessionComplete}
     >
-      <Feather name="award" size={64} color={NoorColors.gold} />
+      <Feather name="award" size={64} color={QamarColors.gold} />
       <ThemedText style={styles.sessionTitle}>Session Complete!</ThemedText>
       <ThemedText
         style={[styles.sessionSubtitle, { color: theme.textSecondary }]}
@@ -147,7 +147,7 @@ function SessionComplete({ reviewed, correct, onDone }: SessionCompleteProps) {
           ]}
         >
           <ThemedText
-            style={[styles.sessionStatValue, { color: NoorColors.gold }]}
+            style={[styles.sessionStatValue, { color: QamarColors.gold }]}
           >
             {accuracy}%
           </ThemedText>
@@ -163,7 +163,7 @@ function SessionComplete({ reviewed, correct, onDone }: SessionCompleteProps) {
         onPress={onDone}
         style={({ pressed }) => [
           styles.doneButton,
-          { backgroundColor: NoorColors.gold, opacity: pressed ? 0.9 : 1 },
+          { backgroundColor: QamarColors.gold, opacity: pressed ? 0.9 : 1 },
         ]}
         accessibilityRole="button"
         accessibilityLabel="Done"
@@ -393,7 +393,7 @@ export default function FlashcardReviewScreen() {
           <Animated.View
             style={[
               styles.progressBar,
-              { width: `${progress}%`, backgroundColor: NoorColors.gold },
+              { width: `${progress}%`, backgroundColor: QamarColors.gold },
             ]}
           />
         </View>

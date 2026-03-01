@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Pressable, Modal } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { ThemedText } from "./ThemedText";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 interface TooltipProps {
   visible: boolean;
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: NoorColors.gold,
+    backgroundColor: QamarColors.gold,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 10,

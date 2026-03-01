@@ -27,7 +27,7 @@ import {
   BADGE_DEFINITIONS,
 } from "@/stores/gamification-store";
 import {
-  NoorColors,
+  QamarColors,
   Fonts,
   Spacing,
   BorderRadius,
@@ -35,7 +35,7 @@ import {
 } from "@/constants/theme";
 
 // Gold gradient for the celebration accent bar
-const GOLD_GRADIENT_COLORS = [NoorColors.goldLight, NoorColors.gold] as const;
+const GOLD_GRADIENT_COLORS = [QamarColors.goldLight, QamarColors.gold] as const;
 
 function findBadgeById(badgeId: string): Badge | undefined {
   return BADGE_DEFINITIONS.find((b) => b.id === badgeId);
@@ -122,13 +122,13 @@ export function MilestoneCard() {
             <View
               style={[
                 styles.iconCircle,
-                { backgroundColor: NoorColors.gold + "20" },
+                { backgroundColor: QamarColors.gold + "20" },
               ]}
             >
               <Feather
                 name={badge.icon as keyof typeof Feather.glyphMap}
                 size={32}
-                color={NoorColors.gold}
+                color={QamarColors.gold}
               />
             </View>
 
@@ -138,7 +138,7 @@ export function MilestoneCard() {
               style={[
                 styles.congratsText,
                 {
-                  color: NoorColors.gold,
+                  color: QamarColors.gold,
                   fontFamily: Fonts?.serifMedium,
                 },
               ]}
@@ -177,14 +177,14 @@ export function MilestoneCard() {
               onPress={clearPendingMilestone}
               style={[
                 styles.dismissButton,
-                { backgroundColor: NoorColors.gold },
+                { backgroundColor: QamarColors.gold },
               ]}
               accessibilityRole="button"
               accessibilityLabel="Dismiss"
             >
               <ThemedText
                 type="body"
-                style={[styles.dismissText, { color: NoorColors.background }]}
+                style={[styles.dismissText, { color: QamarColors.background }]}
               >
                 Continue
               </ThemedText>

@@ -21,7 +21,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { useTheme } from "@/hooks/useTheme";
 import { useTTS } from "@/hooks/useTTS";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { hapticLight } from "@/lib/haptics";
 
 // =============================================================================
@@ -101,7 +101,7 @@ export function TTSButton({
   }
 
   function getIconColor(): string {
-    if (isSpeaking || isLoading) return NoorColors.gold;
+    if (isSpeaking || isLoading) return QamarColors.gold;
     return theme.textSecondary;
   }
 

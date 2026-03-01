@@ -7,7 +7,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Fonts, NoorColors, Spacing, BorderRadius } from "@/constants/theme";
+import { Fonts, QamarColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { AtmosphericBackground } from "@/components/AtmosphericBackground";
 import { GlassCard } from "@/components/GlassCard";
@@ -23,8 +23,8 @@ const RAMADAN_YEAR_KEY = "@noor_ramadan_year";
 const RAMADAN_MONTH = 9;
 const TOTAL_DAYS = 30;
 
-const RAMADAN_GOLD = NoorColors.gold;
-const RAMADAN_EMERALD = NoorColors.emerald;
+const RAMADAN_GOLD = QamarColors.gold;
+const RAMADAN_EMERALD = QamarColors.emerald;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -92,7 +92,7 @@ function getStatusColor(status: FastingStatus): string {
     case "missed":
       return "#D4756B";
     case "excused":
-      return NoorColors.moonlightMuted;
+      return QamarColors.moonlightMuted;
     default:
       return "transparent";
   }
@@ -392,7 +392,7 @@ export default function FastingTrackerScreen() {
                     style={[
                       styles.summaryNumber,
                       {
-                        color: NoorColors.moonlightMuted,
+                        color: QamarColors.moonlightMuted,
                         fontFamily: Fonts?.sansBold,
                       },
                     ]}
@@ -502,7 +502,7 @@ export default function FastingTrackerScreen() {
                 <View
                   style={[
                     styles.legendDot,
-                    { backgroundColor: NoorColors.moonlightMuted },
+                    { backgroundColor: QamarColors.moonlightMuted },
                   ]}
                 />
                 <ThemedText
@@ -588,7 +588,7 @@ export default function FastingTrackerScreen() {
                 onPress={() => handleSetStatus("excused")}
                 style={[
                   styles.statusButton,
-                  { backgroundColor: NoorColors.moonlightMuted + "15" },
+                  { backgroundColor: QamarColors.moonlightMuted + "15" },
                 ]}
                 accessibilityRole="button"
                 accessibilityLabel="Mark as excused"
@@ -596,12 +596,12 @@ export default function FastingTrackerScreen() {
                 <Feather
                   name="minus-circle"
                   size={22}
-                  color={NoorColors.moonlightMuted}
+                  color={QamarColors.moonlightMuted}
                 />
                 <ThemedText
                   style={[
                     styles.statusButtonText,
-                    { color: NoorColors.moonlightMuted },
+                    { color: QamarColors.moonlightMuted },
                   ]}
                 >
                   Excused
@@ -749,7 +749,7 @@ const styles = StyleSheet.create({
   summaryDivider: {
     width: 1,
     height: 36,
-    backgroundColor: NoorColors.moonlightMuted + "30",
+    backgroundColor: QamarColors.moonlightMuted + "30",
   },
 
   // Make up card

@@ -16,6 +16,21 @@ import { billingService } from "../billing";
 // Mock billing
 jest.mock("../billing");
 
+// Mock database — chain: db.select().from().where() → [{nameEnglish}]
+const mockWhere = jest
+  .fn<() => Promise<{ nameEnglish: string }[]>>()
+  .mockResolvedValue([{ nameEnglish: "Al-Fatihah" }]);
+jest.mock("../db", () => ({
+  db: {
+    select: () => ({ from: () => ({ where: mockWhere }) }),
+  },
+}));
+
+// Mock shared schema
+jest.mock("@shared/schema", () => ({
+  quranMetadata: { surahNumber: "surah_number" },
+}));
+
 // Mock Anthropic with factory
 let mockAnthropicCreate: jest.Mock;
 jest.mock("@anthropic-ai/sdk", () => {
@@ -90,6 +105,9 @@ describe("POST /api/tafsir/explain", () => {
     const res = await request(app).post("/api/tafsir/explain").send({
       surahNumber: 1,
       verseNumber: 1,
+      arabicText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+      translation:
+        "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
     });
 
     expect(res.status).toBe(200);
@@ -107,9 +125,12 @@ describe("POST /api/tafsir/explain", () => {
   });
 
   test("validates surah number range", async () => {
-    const res = await request(app)
-      .post("/api/tafsir/explain")
-      .send({ surahNumber: 115, verseNumber: 1 });
+    const res = await request(app).post("/api/tafsir/explain").send({
+      surahNumber: 115,
+      verseNumber: 1,
+      arabicText: "test",
+      translation: "test",
+    });
 
     expect(res.status).toBe(400);
     expect(res.body.error).toContain("Invalid surah number");

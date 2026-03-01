@@ -14,7 +14,7 @@ import Svg, { Circle } from "react-native-svg";
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import type { PronunciationFeedback as PronunciationFeedbackType } from "@/hooks/usePronunciation";
 
 // ====================================================================
@@ -31,8 +31,8 @@ interface Props {
 // ====================================================================
 
 function getScoreColor(score: number): string {
-  if (score >= 80) return NoorColors.emerald;
-  if (score >= 60) return NoorColors.gold;
+  if (score >= 80) return QamarColors.emerald;
+  if (score >= 60) return QamarColors.gold;
   return "#EF4444"; // red
 }
 
@@ -113,7 +113,9 @@ function WordResultItem({
   if (isCorrect) {
     return (
       <View style={styles.wordItem}>
-        <ThemedText style={[styles.wordCorrect, { color: NoorColors.emerald }]}>
+        <ThemedText
+          style={[styles.wordCorrect, { color: QamarColors.emerald }]}
+        >
           {expected}
         </ThemedText>
       </View>
@@ -193,7 +195,7 @@ export function PronunciationFeedback({ feedback, style }: Props) {
             <Feather
               name="zap"
               size={18}
-              color={NoorColors.gold}
+              color={QamarColors.gold}
               style={styles.tipsIcon}
             />
             <ThemedText style={[styles.sectionTitle, { color: theme.text }]}>

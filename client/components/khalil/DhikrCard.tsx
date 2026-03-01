@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme";
+import { QamarColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import type { KhalilDhikrBlock } from "@/lib/khalil-api";
 
@@ -22,7 +22,7 @@ export function DhikrCard({ data }: Props) {
           styles.card,
           {
             backgroundColor: theme.glassSurface,
-            borderColor: NoorColors.twilightLight + "30",
+            borderColor: QamarColors.twilightLight + "30",
           },
         ]}
         accessibilityLabel={`Dhikr practice: ${data.title}`}
@@ -31,10 +31,10 @@ export function DhikrCard({ data }: Props) {
           <View
             style={[
               styles.iconBadge,
-              { backgroundColor: NoorColors.twilightLight + "18" },
+              { backgroundColor: QamarColors.twilightLight + "18" },
             ]}
           >
-            <Feather name="heart" size={16} color={NoorColors.twilightLight} />
+            <Feather name="heart" size={16} color={QamarColors.twilightLight} />
           </View>
           <View style={styles.headerText}>
             <ThemedText style={[styles.title, { color: theme.text }]}>
@@ -54,13 +54,13 @@ export function DhikrCard({ data }: Props) {
               <View
                 style={[
                   styles.stepNumber,
-                  { backgroundColor: NoorColors.twilightLight + "18" },
+                  { backgroundColor: QamarColors.twilightLight + "18" },
                 ]}
               >
                 <ThemedText
                   style={[
                     styles.stepNumberText,
-                    { color: NoorColors.twilightLight },
+                    { color: QamarColors.twilightLight },
                   ]}
                 >
                   {i + 1}

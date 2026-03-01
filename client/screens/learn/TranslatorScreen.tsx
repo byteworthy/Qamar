@@ -29,7 +29,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { TTSButton } from "@/components/TTSButton";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { useGamification } from "@/stores/gamification-store";
 
 // ====================================================================
@@ -126,7 +126,9 @@ export default function TranslatorScreen() {
               styles.directionLabel,
               {
                 color:
-                  direction === "en-ar" ? NoorColors.gold : theme.textSecondary,
+                  direction === "en-ar"
+                    ? QamarColors.gold
+                    : theme.textSecondary,
               },
             ]}
           >
@@ -140,7 +142,7 @@ export default function TranslatorScreen() {
             accessibilityLabel="Swap translation direction"
             accessibilityRole="button"
           >
-            <Feather name="repeat" size={22} color={NoorColors.gold} />
+            <Feather name="repeat" size={22} color={QamarColors.gold} />
           </TouchableOpacity>
 
           <ThemedText
@@ -148,7 +150,9 @@ export default function TranslatorScreen() {
               styles.directionLabel,
               {
                 color:
-                  direction === "ar-en" ? NoorColors.gold : theme.textSecondary,
+                  direction === "ar-en"
+                    ? QamarColors.gold
+                    : theme.textSecondary,
               },
             ]}
           >
@@ -207,7 +211,7 @@ export default function TranslatorScreen() {
               colors={
                 !inputText.trim() || isTranslating
                   ? ["#8a7a50", "#6b5e3e"]
-                  : [NoorColors.gold, "#c7a84e"]
+                  : [QamarColors.gold, "#c7a84e"]
               }
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -287,26 +291,26 @@ export default function TranslatorScreen() {
                   disabled={isExplaining}
                   style={[
                     styles.explainButton,
-                    { borderColor: NoorColors.gold },
+                    { borderColor: QamarColors.gold },
                   ]}
                   activeOpacity={0.7}
                   accessibilityLabel="Explain translation"
                   accessibilityRole="button"
                 >
                   {isExplaining ? (
-                    <ActivityIndicator size="small" color={NoorColors.gold} />
+                    <ActivityIndicator size="small" color={QamarColors.gold} />
                   ) : (
                     <>
                       <Feather
                         name="help-circle"
                         size={16}
-                        color={NoorColors.gold}
+                        color={QamarColors.gold}
                         style={styles.explainIcon}
                       />
                       <ThemedText
                         style={[
                           styles.explainButtonText,
-                          { color: NoorColors.gold },
+                          { color: QamarColors.gold },
                         ]}
                       >
                         Explain
@@ -339,9 +343,9 @@ export default function TranslatorScreen() {
           <Animated.View entering={FadeInUp.duration(400)}>
             <GlassCard style={styles.explanationCard}>
               <View style={styles.explanationHeader}>
-                <Feather name="zap" size={18} color={NoorColors.gold} />
+                <Feather name="zap" size={18} color={QamarColors.gold} />
                 <ThemedText
-                  style={[styles.explanationTitle, { color: NoorColors.gold }]}
+                  style={[styles.explanationTitle, { color: QamarColors.gold }]}
                 >
                   Detailed Explanation
                 </ThemedText>

@@ -242,21 +242,39 @@ describe("Billing Routes", () => {
 // =============================================================================
 
 describe("Billing Webhooks", () => {
-  test("webhook registration is a no-op", () => {
-    const mockApp = {} as Express;
+  test("webhook registration registers RevenueCat endpoint", () => {
+    const mockApp = {
+      post: jest.fn(),
+    } as unknown as Express;
 
-    // Should not throw (logs via defaultLogger now)
     expect(() => registerBillingWebhookRoute(mockApp)).not.toThrow();
+    expect(mockApp.post).toHaveBeenCalledWith(
+      "/api/billing/webhook/revenuecat",
+      expect.any(Function),
+    );
   });
 
-  test("webhook route does not register any routes", () => {
+  test("webhook handler acknowledges events", () => {
     const mockApp = {
       post: jest.fn(),
     } as unknown as Express;
 
     registerBillingWebhookRoute(mockApp);
 
-    expect(mockApp.post).not.toHaveBeenCalled();
+    // Get the registered handler
+    const handler = (mockApp.post as jest.Mock).mock.calls[0][1] as Function;
+    const mockReq = {
+      body: { event: { type: "INITIAL_PURCHASE" } },
+    } as Request;
+    const mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
+
+    handler(mockReq, mockRes);
+
+    expect(mockRes.status).toHaveBeenCalledWith(200);
+    expect(mockRes.json).toHaveBeenCalledWith({ received: true });
   });
 });
 
@@ -336,7 +354,7 @@ describe("Billing Integration", () => {
 
     // Verify routes were registered
     expect(mockApp.get).toHaveBeenCalledTimes(2); // status, config
-    expect(mockApp.post).toHaveBeenCalledTimes(3); // checkout, portal, sync
+    expect(mockApp.post).toHaveBeenCalledTimes(4); // checkout, portal, sync + revenuecat webhook
   });
 });
 

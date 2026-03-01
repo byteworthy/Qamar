@@ -21,7 +21,7 @@ import Constants from "expo-constants";
 
 import { useTheme } from "@/hooks/useTheme";
 import { VALIDATION_MODE, config } from "@/lib/config";
-import { NoorColors, Spacing, BorderRadius } from "@/constants/theme";
+import { QamarColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -101,7 +101,7 @@ function SectionHeader({ title, delay }: { title: string; delay: number }) {
       style={styles.sectionHeader}
     >
       <ThemedText
-        style={[styles.sectionHeaderText, { color: NoorColors.gold }]}
+        style={[styles.sectionHeaderText, { color: QamarColors.gold }]}
         accessibilityRole="header"
       >
         {title}
@@ -133,7 +133,7 @@ function SegmentedControl<T extends string>({
             style={[
               styles.segmentedOption,
               isSelected && {
-                backgroundColor: NoorColors.gold,
+                backgroundColor: QamarColors.gold,
               },
             ]}
             accessibilityRole="radio"
@@ -145,7 +145,7 @@ function SegmentedControl<T extends string>({
                 styles.segmentedLabel,
                 {
                   color: isSelected
-                    ? NoorColors.background
+                    ? QamarColors.background
                     : theme.textSecondary,
                 },
                 isSelected && { fontWeight: "600" },
@@ -235,7 +235,7 @@ function PickerModal<T extends string>({
                   styles.pickerOption,
                   {
                     backgroundColor: isSelected
-                      ? NoorColors.gold + "20"
+                      ? QamarColors.gold + "20"
                       : "transparent",
                   },
                 ]}
@@ -246,13 +246,16 @@ function PickerModal<T extends string>({
                 <ThemedText
                   style={[
                     styles.pickerOptionText,
-                    isSelected && { color: NoorColors.gold, fontWeight: "600" },
+                    isSelected && {
+                      color: QamarColors.gold,
+                      fontWeight: "600",
+                    },
                   ]}
                 >
                   {opt.label}
                 </ThemedText>
                 {isSelected && (
-                  <Feather name="check" size={18} color={NoorColors.gold} />
+                  <Feather name="check" size={18} color={QamarColors.gold} />
                 )}
               </Pressable>
             );
@@ -554,12 +557,12 @@ export default function ProfileScreen() {
             <View
               style={[
                 styles.avatar,
-                { backgroundColor: NoorColors.gold + "20" },
+                { backgroundColor: QamarColors.gold + "20" },
               ]}
             >
               <View style={styles.avatarInner}>
                 <ThemedText
-                  style={[styles.avatarText, { color: NoorColors.gold }]}
+                  style={[styles.avatarText, { color: QamarColors.gold }]}
                 >
                   {userName.charAt(0).toUpperCase()}
                 </ThemedText>
@@ -568,7 +571,7 @@ export default function ProfileScreen() {
               <View
                 style={[
                   styles.avatarRing,
-                  { borderColor: NoorColors.gold + "40" },
+                  { borderColor: QamarColors.gold + "40" },
                 ]}
               />
             </View>
@@ -634,18 +637,18 @@ export default function ProfileScreen() {
                     flexDirection: "row",
                     alignItems: "center",
                     gap: 4,
-                    backgroundColor: NoorColors.gold + "20",
+                    backgroundColor: QamarColors.gold + "20",
                     paddingHorizontal: 10,
                     paddingVertical: 5,
                     borderRadius: 12,
                   }}
                 >
-                  <Feather name="zap" size={14} color={NoorColors.gold} />
+                  <Feather name="zap" size={14} color={QamarColors.gold} />
                   <ThemedText
                     style={{
                       fontSize: 14,
                       fontWeight: "700",
-                      color: NoorColors.gold,
+                      color: QamarColors.gold,
                     }}
                   >
                     {currentStreak}
@@ -673,9 +676,9 @@ export default function ProfileScreen() {
                 onValueChange={toggleStreakPause}
                 trackColor={{
                   false: theme.backgroundRoot,
-                  true: NoorColors.gold + "80",
+                  true: QamarColors.gold + "80",
                 }}
-                thumbColor={streakPaused ? NoorColors.gold : "#ccc"}
+                thumbColor={streakPaused ? QamarColors.gold : "#ccc"}
                 accessibilityLabel={`Streak pause ${streakPaused ? "on" : "off"}`}
               />
             </SettingRow>
@@ -716,9 +719,9 @@ export default function ProfileScreen() {
                 onValueChange={toggleReducedMotion}
                 trackColor={{
                   false: theme.backgroundRoot,
-                  true: NoorColors.gold + "80",
+                  true: QamarColors.gold + "80",
                 }}
-                thumbColor={uiState.reducedMotion ? NoorColors.gold : "#ccc"}
+                thumbColor={uiState.reducedMotion ? QamarColors.gold : "#ccc"}
                 accessibilityLabel="Reduced motion toggle"
               />
             </SettingRow>
@@ -767,7 +770,7 @@ export default function ProfileScreen() {
               <Switch
                 value={prayerState.notificationsEnabled}
                 onValueChange={handleToggleNotifications}
-                trackColor={{ false: theme.border, true: NoorColors.gold }}
+                trackColor={{ false: theme.border, true: QamarColors.gold }}
                 accessibilityLabel={`Prayer reminders ${prayerState.notificationsEnabled ? "on" : "off"}`}
               />
             </SettingRow>
@@ -791,7 +794,7 @@ export default function ProfileScreen() {
                           onValueChange={() => handleTogglePrayer(prayer)}
                           trackColor={{
                             false: theme.border,
-                            true: NoorColors.gold,
+                            true: QamarColors.gold,
                           }}
                           accessibilityLabel={`${prayer} notification ${prayerState.notificationPreferences.perPrayer[prayer] ? "on" : "off"}`}
                         />
@@ -831,7 +834,7 @@ export default function ProfileScreen() {
                       prayerState.notificationPreferences.dailyReflectionEnabled
                     }
                     onValueChange={handleToggleDailyReflection}
-                    trackColor={{ false: theme.border, true: NoorColors.gold }}
+                    trackColor={{ false: theme.border, true: QamarColors.gold }}
                     accessibilityLabel={`Daily reflection reminder ${prayerState.notificationPreferences.dailyReflectionEnabled ? "on" : "off"}`}
                   />
                 </SettingRow>
@@ -872,7 +875,7 @@ export default function ProfileScreen() {
                   styles.planBadge,
                   {
                     backgroundColor: isPaid
-                      ? NoorColors.gold + "20"
+                      ? QamarColors.gold + "20"
                       : theme.backgroundRoot,
                   },
                 ]}
@@ -880,7 +883,7 @@ export default function ProfileScreen() {
                 <ThemedText
                   style={[
                     styles.planBadgeText,
-                    { color: isPaid ? NoorColors.gold : theme.textSecondary },
+                    { color: isPaid ? QamarColors.gold : theme.textSecondary },
                   ]}
                 >
                   {isPaid ? "Qamar Plus" : "Free"}
@@ -898,7 +901,7 @@ export default function ProfileScreen() {
                   onPress={() => navigation.navigate("Pricing")}
                   style={[
                     styles.upgradeButton,
-                    { backgroundColor: NoorColors.gold },
+                    { backgroundColor: QamarColors.gold },
                   ]}
                   accessibilityRole="button"
                   accessibilityLabel="Upgrade to Qamar Plus"
@@ -906,12 +909,12 @@ export default function ProfileScreen() {
                   <Feather
                     name="star"
                     size={16}
-                    color={NoorColors.background}
+                    color={QamarColors.background}
                   />
                   <ThemedText
                     style={[
                       styles.upgradeButtonText,
-                      { color: NoorColors.background },
+                      { color: QamarColors.background },
                     ]}
                   >
                     Upgrade to Qamar Plus
@@ -926,16 +929,9 @@ export default function ProfileScreen() {
         <SectionHeader title="Data & Privacy" delay={340} />
         <Animated.View entering={FadeInUp.duration(350).delay(350)}>
           <View style={styles.privacyBadgeRow}>
-            <Feather
-              name="lock"
-              size={12}
-              color={theme.textSecondary}
-            />
+            <Feather name="lock" size={12} color={theme.textSecondary} />
             <ThemedText
-              style={[
-                styles.privacyBadgeText,
-                { color: theme.textSecondary },
-              ]}
+              style={[styles.privacyBadgeText, { color: theme.textSecondary }]}
             >
               Your reflections are encrypted & private
             </ThemedText>
@@ -1098,12 +1094,12 @@ export default function ProfileScreen() {
                 onPress={handleSaveName}
                 style={[
                   styles.modalButton,
-                  { backgroundColor: NoorColors.gold },
+                  { backgroundColor: QamarColors.gold },
                 ]}
                 accessibilityRole="button"
                 accessibilityLabel="Save"
               >
-                <ThemedText style={{ color: NoorColors.background }}>
+                <ThemedText style={{ color: QamarColors.background }}>
                   Save
                 </ThemedText>
               </Pressable>

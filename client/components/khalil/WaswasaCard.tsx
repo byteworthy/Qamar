@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme";
+import { QamarColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import type { KhalilWaswasaBlock } from "@/lib/khalil-api";
 
@@ -24,7 +24,7 @@ export function WaswasaCard({ data }: Props) {
           styles.card,
           {
             backgroundColor: theme.glassSurface,
-            borderColor: NoorColors.gold + "30",
+            borderColor: QamarColors.gold + "30",
           },
         ]}
         accessibilityRole="button"
@@ -34,10 +34,10 @@ export function WaswasaCard({ data }: Props) {
           <View
             style={[
               styles.iconBadge,
-              { backgroundColor: NoorColors.gold + "18" },
+              { backgroundColor: QamarColors.gold + "18" },
             ]}
           >
-            <Feather name="alert-circle" size={16} color={NoorColors.gold} />
+            <Feather name="alert-circle" size={16} color={QamarColors.gold} />
           </View>
           <View style={styles.headerText}>
             <ThemedText style={[styles.title, { color: theme.text }]}>
@@ -57,7 +57,7 @@ export function WaswasaCard({ data }: Props) {
               {data.whispers.map((whisper, i) => (
                 <View key={i} style={styles.whisperRow}>
                   <ThemedText
-                    style={[styles.whisperBullet, { color: NoorColors.gold }]}
+                    style={[styles.whisperBullet, { color: QamarColors.gold }]}
                   >
                     {"\u2022"}
                   </ThemedText>
@@ -73,7 +73,7 @@ export function WaswasaCard({ data }: Props) {
             <View
               style={[
                 styles.insightBox,
-                { backgroundColor: NoorColors.gold + "0A" },
+                { backgroundColor: QamarColors.gold + "0A" },
               ]}
             >
               <ThemedText

@@ -263,8 +263,8 @@ export function registerQuranRoutes(app: Express): void {
 
       const { q, surahId, page, limit } = validationResult.data;
 
-      // TODO: Implement full-text search when verse text is in PostgreSQL
-      // For now, return empty results with a note
+      // Search is handled client-side using FTS5 in SQLite offline database
+      // Verse text is not in PostgreSQL, so server search is not feasible
       const duration = Date.now() - startTime;
 
       req.logger?.info("Search request", {

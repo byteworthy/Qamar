@@ -22,7 +22,7 @@ import Animated, {
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Fonts, NiyyahColors, NoorColors } from "@/constants/theme";
+import { Fonts, NiyyahColors, QamarColors } from "@/constants/theme";
 import { secureStorage } from "@/lib/secure-storage";
 import { ThemedText } from "@/components/ThemedText";
 import { AtmosphericBackground } from "@/components/AtmosphericBackground";
@@ -554,7 +554,7 @@ export default function HomeScreen() {
                     gap: 6,
                     backgroundColor:
                       streakStatus === "active"
-                        ? NoorColors.gold + "20"
+                        ? QamarColors.gold + "20"
                         : streakStatus === "endangered"
                           ? "#D4A85A20"
                           : theme.backgroundDefault + "40",
@@ -570,7 +570,7 @@ export default function HomeScreen() {
                     size={16}
                     color={
                       streakStatus === "active"
-                        ? NoorColors.gold
+                        ? QamarColors.gold
                         : streakStatus === "endangered"
                           ? "#D4A85A"
                           : theme.textSecondary
@@ -582,7 +582,7 @@ export default function HomeScreen() {
                       fontWeight: "700",
                       color:
                         streakStatus === "active"
-                          ? NoorColors.gold
+                          ? QamarColors.gold
                           : streakStatus === "endangered"
                             ? "#D4A85A"
                             : theme.textSecondary,
@@ -602,8 +602,8 @@ export default function HomeScreen() {
                     alignItems: "center",
                     gap: 10,
                     backgroundColor: dailyNoorDone
-                      ? NoorColors.emerald + "20"
-                      : NoorColors.gold + "15",
+                      ? QamarColors.emerald + "20"
+                      : QamarColors.gold + "15",
                     paddingHorizontal: 16,
                     paddingVertical: 10,
                     borderRadius: 14,
@@ -618,13 +618,15 @@ export default function HomeScreen() {
                   <Feather
                     name={dailyNoorDone ? "check-circle" : "feather"}
                     size={18}
-                    color={dailyNoorDone ? NoorColors.emerald : NoorColors.gold}
+                    color={
+                      dailyNoorDone ? QamarColors.emerald : QamarColors.gold
+                    }
                   />
                   <ThemedText
                     style={{
                       fontSize: 14,
                       fontWeight: "600",
-                      color: dailyNoorDone ? NoorColors.emerald : theme.text,
+                      color: dailyNoorDone ? QamarColors.emerald : theme.text,
                       flex: 1,
                     }}
                   >
@@ -664,7 +666,7 @@ export default function HomeScreen() {
                           width: 40,
                           height: 40,
                           borderRadius: 20,
-                          backgroundColor: NoorColors.emerald + "20",
+                          backgroundColor: QamarColors.emerald + "20",
                           alignItems: "center",
                           justifyContent: "center",
                         }}
@@ -672,7 +674,7 @@ export default function HomeScreen() {
                         <Feather
                           name="moon"
                           size={20}
-                          color={NoorColors.emerald}
+                          color={QamarColors.emerald}
                         />
                       </View>
                       <View style={{ flex: 1 }}>
@@ -722,7 +724,7 @@ export default function HomeScreen() {
                         <ThemedText
                           style={[
                             styles.prayerLabel,
-                            { color: NoorColors.emerald },
+                            { color: QamarColors.emerald },
                           ]}
                         >
                           Next Prayer
@@ -752,7 +754,7 @@ export default function HomeScreen() {
                           style={[
                             styles.countdownText,
                             {
-                              color: NoorColors.gold,
+                              color: QamarColors.gold,
                               fontFamily: Fonts?.sansBold,
                             },
                           ]}
@@ -774,7 +776,7 @@ export default function HomeScreen() {
                       <ThemedText
                         style={[
                           styles.prayerLabel,
-                          { color: NoorColors.emerald },
+                          { color: QamarColors.emerald },
                         ]}
                       >
                         Prayer Times
@@ -807,14 +809,14 @@ export default function HomeScreen() {
                         style={[
                           styles.hadithBadge,
                           {
-                            backgroundColor: NoorColors.gold + "20",
+                            backgroundColor: QamarColors.gold + "20",
                           },
                         ]}
                       >
                         <Feather
                           name="book-open"
                           size={14}
-                          color={NoorColors.gold}
+                          color={QamarColors.gold}
                         />
                       </View>
                       <ThemedText
@@ -886,28 +888,28 @@ export default function HomeScreen() {
                     icon="edit-3"
                     label="Reflect"
                     onPress={handleNavigateKhalil}
-                    color={NoorColors.gold}
+                    color={QamarColors.gold}
                     delay={200}
                   />
                   <QuickActionButton
                     icon="book"
                     label="Quran"
                     onPress={handleNavigateQuran}
-                    color={NoorColors.emerald}
+                    color={QamarColors.emerald}
                     delay={240}
                   />
                   <QuickActionButton
                     icon="type"
                     label="Arabic"
                     onPress={handleNavigateArabic}
-                    color={NoorColors.twilightLight}
+                    color={QamarColors.twilightLight}
                     delay={280}
                   />
                   <QuickActionButton
                     icon="feather"
                     label="Adhkar"
                     onPress={handleNavigateAdhkar}
-                    color={NoorColors.goldLight}
+                    color={QamarColors.goldLight}
                     delay={320}
                   />
                 </View>
@@ -956,7 +958,11 @@ export default function HomeScreen() {
                   <GlassCard style={styles.streakCard} elevated>
                     <View style={styles.streakHeader}>
                       <View style={styles.streakHeaderLeft}>
-                        <Feather name="zap" size={18} color={NoorColors.gold} />
+                        <Feather
+                          name="zap"
+                          size={18}
+                          color={QamarColors.gold}
+                        />
                         <ThemedText
                           style={[styles.streakTitle, { color: theme.text }]}
                         >
@@ -964,7 +970,10 @@ export default function HomeScreen() {
                         </ThemedText>
                       </View>
                       <ThemedText
-                        style={[styles.streakCount, { color: NoorColors.gold }]}
+                        style={[
+                          styles.streakCount,
+                          { color: QamarColors.gold },
+                        ]}
                       >
                         {dailyProgress.completed}/{dailyProgress.goal}
                       </ThemedText>
@@ -981,7 +990,7 @@ export default function HomeScreen() {
                             styles.streakProgressFill,
                             {
                               width: `${Math.min(dailyProgress.percentage, 100)}%`,
-                              backgroundColor: NoorColors.emerald,
+                              backgroundColor: QamarColors.emerald,
                             },
                           ]}
                         />
@@ -1022,7 +1031,7 @@ export default function HomeScreen() {
                       <ThemedText
                         style={[
                           styles.reflectionsSeeAll,
-                          { color: NoorColors.gold },
+                          { color: QamarColors.gold },
                         ]}
                       >
                         See All

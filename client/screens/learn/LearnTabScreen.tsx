@@ -15,7 +15,7 @@ import { useArabicProgress } from "@/hooks/useArabicLearning";
 import { useShallow } from "zustand/react/shallow";
 import { useAppState, selectDailyProgress } from "@/stores/app-state";
 import { BorderRadius } from "@/constants/theme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -167,7 +167,7 @@ export default function LearnTabScreen() {
             <View style={styles.streakRow}>
               <View style={styles.streakLeft}>
                 <View style={styles.streakIconBadge}>
-                  <Feather name="zap" size={20} color={NoorColors.gold} />
+                  <Feather name="zap" size={20} color={QamarColors.gold} />
                 </View>
                 <View>
                   <ThemedText style={styles.streakTitle}>
@@ -186,7 +186,7 @@ export default function LearnTabScreen() {
               </View>
               <View style={styles.streakRight}>
                 <ThemedText
-                  style={[styles.streakCount, { color: NoorColors.gold }]}
+                  style={[styles.streakCount, { color: QamarColors.gold }]}
                 >
                   {progress?.streak ?? 0}
                 </ThemedText>
@@ -208,7 +208,7 @@ export default function LearnTabScreen() {
                   styles.streakProgressFill,
                   {
                     width: `${Math.min(dailyProgress.percentage, 100)}%`,
-                    backgroundColor: NoorColors.gold,
+                    backgroundColor: QamarColors.gold,
                   },
                 ]}
               />

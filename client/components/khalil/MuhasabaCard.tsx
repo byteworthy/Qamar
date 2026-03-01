@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme";
+import { QamarColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import type { KhalilMuhasabaBlock } from "@/lib/khalil-api";
 
@@ -22,7 +22,7 @@ export function MuhasabaCard({ data }: Props) {
           styles.card,
           {
             backgroundColor: theme.glassSurface,
-            borderColor: NoorColors.gold + "40",
+            borderColor: QamarColors.gold + "40",
           },
         ]}
         accessibilityLabel="Muhasaba summary"
@@ -31,10 +31,10 @@ export function MuhasabaCard({ data }: Props) {
           <View
             style={[
               styles.iconBadge,
-              { backgroundColor: NoorColors.gold + "18" },
+              { backgroundColor: QamarColors.gold + "18" },
             ]}
           >
-            <Feather name="star" size={16} color={NoorColors.gold} />
+            <Feather name="star" size={16} color={QamarColors.gold} />
           </View>
           <ThemedText style={[styles.title, { color: theme.text }]}>
             Your Muhasaba
@@ -50,13 +50,15 @@ export function MuhasabaCard({ data }: Props) {
         {data.whispersFound.length > 0 && (
           <View style={styles.section}>
             <ThemedText
-              style={[styles.sectionLabel, { color: NoorColors.gold }]}
+              style={[styles.sectionLabel, { color: QamarColors.gold }]}
             >
               Whispers We Noticed
             </ThemedText>
             {data.whispersFound.map((w, i) => (
               <View key={i} style={styles.bulletRow}>
-                <ThemedText style={[styles.bullet, { color: NoorColors.gold }]}>
+                <ThemedText
+                  style={[styles.bullet, { color: QamarColors.gold }]}
+                >
                   {"\u2022"}
                 </ThemedText>
                 <ThemedText style={[styles.bulletText, { color: theme.text }]}>
@@ -71,11 +73,11 @@ export function MuhasabaCard({ data }: Props) {
         <View
           style={[
             styles.clarityBox,
-            { backgroundColor: NoorColors.emerald + "0A" },
+            { backgroundColor: QamarColors.emerald + "0A" },
           ]}
         >
           <ThemedText
-            style={[styles.sectionLabel, { color: NoorColors.emerald }]}
+            style={[styles.sectionLabel, { color: QamarColors.emerald }]}
           >
             Clarity Gained
           </ThemedText>

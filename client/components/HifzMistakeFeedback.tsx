@@ -14,8 +14,11 @@ import Svg, { Circle } from "react-native-svg";
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
-import { NoorColors } from "@/constants/theme/colors";
-import type { RecitationResult } from "../../shared/types/hifz";
+import { QamarColors } from "@/constants/theme/colors";
+import type {
+  RecitationResult,
+  WordComparisonResult,
+} from "../../shared/types/hifz";
 
 // ====================================================================
 // Types
@@ -135,7 +138,9 @@ export function HifzMistakeFeedback({
 
   const scoreColor = getScoreColor(result.score);
   const scoreLabel = getScoreLabel(result.score);
-  const incorrectWords = result.wordResults.filter((w: any) => !w.isCorrect);
+  const incorrectWords = result.wordResults.filter(
+    (w: WordComparisonResult) => !w.isCorrect,
+  );
   const mistakeCount = incorrectWords.length;
 
   return (
@@ -161,19 +166,21 @@ export function HifzMistakeFeedback({
           Your Recitation
         </ThemedText>
         <View style={[styles.wordsContainer, { direction: "rtl" }]}>
-          {result.wordResults.map((word: any, index: number) => (
-            <ThemedText
-              key={`${word.expected}-${index}`}
-              style={[
-                styles.wordText,
-                {
-                  color: word.isCorrect ? "#10B981" : "#EF4444",
-                },
-              ]}
-            >
-              {word.expected}
-            </ThemedText>
-          ))}
+          {result.wordResults.map(
+            (word: WordComparisonResult, index: number) => (
+              <ThemedText
+                key={`${word.expected}-${index}`}
+                style={[
+                  styles.wordText,
+                  {
+                    color: word.isCorrect ? "#10B981" : "#EF4444",
+                  },
+                ]}
+              >
+                {word.expected}
+              </ThemedText>
+            ),
+          )}
         </View>
       </GlassCard>
 
@@ -191,7 +198,7 @@ export function HifzMistakeFeedback({
           </ThemedText>
 
           <View style={styles.mistakeList}>
-            {incorrectWords.map((word: any, index: number) => (
+            {incorrectWords.map((word: WordComparisonResult, index: number) => (
               <View key={`mistake-${index}`} style={styles.mistakeItem}>
                 <ThemedText
                   style={[styles.mistakeLabel, { color: theme.textSecondary }]}
@@ -223,7 +230,7 @@ export function HifzMistakeFeedback({
             <Feather
               name="alert-circle"
               size={18}
-              color={NoorColors.gold}
+              color={QamarColors.gold}
               style={styles.tipsIcon}
             />
             <ThemedText style={[styles.sectionTitle, { color: theme.text }]}>
@@ -240,11 +247,11 @@ export function HifzMistakeFeedback({
           ) : onRequestTips ? (
             <Pressable onPress={onRequestTips} style={styles.tipsButton}>
               <ThemedText
-                style={[styles.tipsButtonText, { color: NoorColors.gold }]}
+                style={[styles.tipsButtonText, { color: QamarColors.gold }]}
               >
                 Get Tips
               </ThemedText>
-              <Feather name="arrow-right" size={16} color={NoorColors.gold} />
+              <Feather name="arrow-right" size={16} color={QamarColors.gold} />
             </Pressable>
           ) : null}
         </GlassCard>
@@ -374,7 +381,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: NoorColors.gold,
+    borderColor: QamarColors.gold,
     marginTop: 8,
   },
   tipsButtonText: {

@@ -49,11 +49,20 @@ export const billingService = {
 };
 
 /**
- * No-op webhook route (Stripe webhooks disabled)
+ * RevenueCat webhook receiver for IAP validation
  */
-export function registerBillingWebhookRoute(_app: Express): void {
-  // Stripe webhooks archived - IAP uses client-side validation
-  defaultLogger.info("Billing: Stripe webhooks disabled - using IAP", {
+export function registerBillingWebhookRoute(app: Express): void {
+  app.post("/api/billing/webhook/revenuecat", (req: Request, res: Response) => {
+    // TODO: Verify X-RevenueCat-Signature header when REVENUECAT_WEBHOOK_SECRET is configured
+    // For now: log event type and acknowledge
+    const event = req.body?.event;
+    defaultLogger.info("[billing] RevenueCat webhook", {
+      eventType: event?.type ?? "unknown",
+    });
+    res.status(200).json({ received: true });
+  });
+
+  defaultLogger.info("Billing: RevenueCat webhooks registered (IAP mode)", {
     operation: "billing_init",
   });
 }

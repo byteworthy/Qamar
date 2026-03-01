@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { ThemedText } from "./ThemedText";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = SCREEN_WIDTH * 0.72;
@@ -75,7 +75,7 @@ export function FeaturePreviewCarousel() {
             style={styles.card}
           >
             <View style={styles.iconRing}>
-              <Feather name={item.icon} size={34} color={NoorColors.gold} />
+              <Feather name={item.icon} size={34} color={QamarColors.gold} />
             </View>
             <ThemedText style={styles.title}>{item.title}</ThemedText>
             <ThemedText style={styles.desc}>{item.description}</ThemedText>

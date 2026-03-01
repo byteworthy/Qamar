@@ -22,7 +22,7 @@ import { JuzProgressMap } from "@/components/JuzProgressMap";
 import { useHifzProgress } from "@/hooks/useHifzProgress";
 import { useHifzReviewQueue } from "@/hooks/useHifzReviewQueue";
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { RootStackParamList } from "@/navigation/types";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -94,7 +94,7 @@ export default function HifzDashboardScreen() {
                 testID="hifz-start-session"
                 style={[
                   styles.primaryButton,
-                  { backgroundColor: NoorColors.gold },
+                  { backgroundColor: QamarColors.gold },
                 ]}
                 onPress={handleStartMemorizing}
               >
@@ -118,7 +118,7 @@ export default function HifzDashboardScreen() {
                 verses
               </ThemedText>
               <ThemedText
-                style={[styles.statsPercentage, { color: NoorColors.gold }]}
+                style={[styles.statsPercentage, { color: QamarColors.gold }]}
               >
                 {overallStats.percentageComplete.toFixed(1)}% complete
               </ThemedText>
@@ -132,7 +132,7 @@ export default function HifzDashboardScreen() {
                     styles.progressFill,
                     {
                       width: `${Math.min(overallStats.percentageComplete, 100)}%`,
-                      backgroundColor: NoorColors.gold,
+                      backgroundColor: QamarColors.gold,
                     },
                   ]}
                 />
@@ -170,7 +170,7 @@ export default function HifzDashboardScreen() {
                 ]}
               >
                 <ThemedText
-                  style={[styles.badgeText, { color: NoorColors.gold }]}
+                  style={[styles.badgeText, { color: QamarColors.gold }]}
                 >
                   {dueCount} {dueCount === 1 ? "verse" : "verses"}
                 </ThemedText>
@@ -194,7 +194,7 @@ export default function HifzDashboardScreen() {
               <Pressable
                 style={[
                   styles.primaryButton,
-                  { backgroundColor: NoorColors.gold },
+                  { backgroundColor: QamarColors.gold },
                 ]}
                 onPress={handleReviewNow}
               >
@@ -228,7 +228,7 @@ export default function HifzDashboardScreen() {
                 <View style={styles.upcomingItem}>
                   <ThemedText style={styles.upcomingLabel}>Today:</ThemedText>
                   <ThemedText
-                    style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                    style={[styles.upcomingCount, { color: QamarColors.gold }]}
                   >
                     {upcomingReviews.today} reviews
                   </ThemedText>
@@ -238,7 +238,7 @@ export default function HifzDashboardScreen() {
                     Tomorrow:
                   </ThemedText>
                   <ThemedText
-                    style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                    style={[styles.upcomingCount, { color: QamarColors.gold }]}
                   >
                     {upcomingReviews.tomorrow} reviews
                   </ThemedText>
@@ -248,7 +248,7 @@ export default function HifzDashboardScreen() {
                     This Week:
                   </ThemedText>
                   <ThemedText
-                    style={[styles.upcomingCount, { color: NoorColors.gold }]}
+                    style={[styles.upcomingCount, { color: QamarColors.gold }]}
                   >
                     {upcomingReviews.thisWeek} reviews
                   </ThemedText>
@@ -266,7 +266,7 @@ export default function HifzDashboardScreen() {
                 testID="hifz-start-session"
                 style={[
                   styles.primaryButton,
-                  { backgroundColor: NoorColors.gold },
+                  { backgroundColor: QamarColors.gold },
                 ]}
                 onPress={handleStartMemorizing}
               >

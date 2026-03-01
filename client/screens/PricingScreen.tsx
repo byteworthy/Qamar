@@ -17,7 +17,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { VALIDATION_MODE } from "@/lib/config";
 import {
   Fonts,
-  NoorColors,
+  QamarColors,
   Spacing,
   BorderRadius,
   Gradients,
@@ -174,7 +174,7 @@ const PLAN_OPTIONS: PlanOption[] = [
 // Sub-components
 // ---------------------------------------------------------------------------
 
-const GOLD = NoorColors.gold;
+const GOLD = QamarColors.gold;
 
 function FeatureComparisonRow({
   feature,

@@ -24,7 +24,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { TTSButton } from "@/components/TTSButton";
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { hapticLight } from "@/lib/haptics";
 
 // =============================================================================
@@ -80,8 +80,8 @@ export function DuaCard({
       </ThemedText>
 
       {/* Source Badge */}
-      <View style={[styles.sourceBadge, { borderColor: NoorColors.gold }]}>
-        <ThemedText style={[styles.sourceText, { color: NoorColors.gold }]}>
+      <View style={[styles.sourceBadge, { borderColor: QamarColors.gold }]}>
+        <ThemedText style={[styles.sourceText, { color: QamarColors.gold }]}>
           {source}
         </ThemedText>
       </View>
@@ -105,8 +105,8 @@ export function DuaCard({
             <Feather
               name="heart"
               size={22}
-              color={isFavorite ? NoorColors.gold : theme.textSecondary}
-              fill={isFavorite ? NoorColors.gold : "transparent"}
+              color={isFavorite ? QamarColors.gold : theme.textSecondary}
+              fill={isFavorite ? QamarColors.gold : "transparent"}
             />
           </Pressable>
         )}

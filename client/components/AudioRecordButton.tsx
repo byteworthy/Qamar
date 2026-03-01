@@ -20,7 +20,7 @@ import Animated, {
 import { Feather } from "@expo/vector-icons";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { hapticMedium } from "@/lib/haptics";
 
 // =============================================================================
@@ -94,10 +94,10 @@ export function AudioRecordButton({
   }
 
   const iconSize = Math.round(size * ICON_RATIO);
-  const borderColor = isRecording ? NoorColors.gold : theme.border;
+  const borderColor = isRecording ? QamarColors.gold : theme.border;
   const borderWidth = isRecording ? RECORDING_BORDER_WIDTH : BORDER_WIDTH;
   const backgroundColor = isRecording ? RECORDING_BG : theme.glassSurface;
-  const iconColor = isRecording ? NoorColors.gold : theme.textSecondary;
+  const iconColor = isRecording ? QamarColors.gold : theme.textSecondary;
 
   return (
     <Pressable

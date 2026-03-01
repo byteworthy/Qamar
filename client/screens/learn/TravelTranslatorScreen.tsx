@@ -34,7 +34,7 @@ import {
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { TTSButton } from "@/components/TTSButton";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import {
   type TravelCategory,
   type TravelPhrase,
@@ -83,7 +83,7 @@ function LanguagePicker({
           onPress={() => setSourceLang("en")}
           style={[
             styles.langChip,
-            sourceLang === "en" && { backgroundColor: NoorColors.gold },
+            sourceLang === "en" && { backgroundColor: QamarColors.gold },
           ]}
           accessibilityLabel="English"
           testID="lang-en"
@@ -101,7 +101,7 @@ function LanguagePicker({
           onPress={() => setSourceLang("es")}
           style={[
             styles.langChip,
-            sourceLang === "es" && { backgroundColor: NoorColors.gold },
+            sourceLang === "es" && { backgroundColor: QamarColors.gold },
           ]}
           accessibilityLabel="Spanish"
           testID="lang-es"
@@ -118,7 +118,7 @@ function LanguagePicker({
       </View>
 
       {/* Direction labels + swap */}
-      <ThemedText style={[styles.directionLabel, { color: NoorColors.gold }]}>
+      <ThemedText style={[styles.directionLabel, { color: QamarColors.gold }]}>
         {leftLabel}
       </ThemedText>
       <TouchableOpacity
@@ -127,9 +127,9 @@ function LanguagePicker({
         accessibilityLabel="Swap translation direction"
         testID="swap-direction"
       >
-        <Feather name="repeat" size={20} color={NoorColors.gold} />
+        <Feather name="repeat" size={20} color={QamarColors.gold} />
       </TouchableOpacity>
-      <ThemedText style={[styles.directionLabel, { color: NoorColors.gold }]}>
+      <ThemedText style={[styles.directionLabel, { color: QamarColors.gold }]}>
         {rightLabel}
       </ThemedText>
     </View>
@@ -227,7 +227,7 @@ function PhraseRow({
           <Feather
             name={isFavorite ? "heart" : "heart"}
             size={18}
-            color={isFavorite ? NoorColors.gold : theme.textSecondary}
+            color={isFavorite ? QamarColors.gold : theme.textSecondary}
             style={isFavorite ? { opacity: 1 } : { opacity: 0.5 }}
           />
         </TouchableOpacity>
@@ -374,7 +374,7 @@ export default function TravelTranslatorScreen() {
               style={[
                 styles.tab,
                 activeTab === tab.id && {
-                  borderBottomColor: NoorColors.gold,
+                  borderBottomColor: QamarColors.gold,
                   borderBottomWidth: 2,
                 },
               ]}
@@ -383,7 +383,7 @@ export default function TravelTranslatorScreen() {
                 name={tab.icon as keyof typeof Feather.glyphMap}
                 size={16}
                 color={
-                  activeTab === tab.id ? NoorColors.gold : theme.textSecondary
+                  activeTab === tab.id ? QamarColors.gold : theme.textSecondary
                 }
               />
               <ThemedText
@@ -392,7 +392,7 @@ export default function TravelTranslatorScreen() {
                   {
                     color:
                       activeTab === tab.id
-                        ? NoorColors.gold
+                        ? QamarColors.gold
                         : theme.textSecondary,
                   },
                 ]}
@@ -465,10 +465,10 @@ export default function TravelTranslatorScreen() {
                     <Feather
                       name="arrow-left"
                       size={18}
-                      color={NoorColors.gold}
+                      color={QamarColors.gold}
                     />
                     <ThemedText
-                      style={[styles.backText, { color: NoorColors.gold }]}
+                      style={[styles.backText, { color: QamarColors.gold }]}
                     >
                       All categories
                     </ThemedText>
@@ -562,7 +562,7 @@ export default function TravelTranslatorScreen() {
                 colors={
                   !freeformText.trim() || isTranslating
                     ? ["#8a7a50", "#6b5e3e"]
-                    : [NoorColors.gold, "#c7a84e"]
+                    : [QamarColors.gold, "#c7a84e"]
                 }
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}

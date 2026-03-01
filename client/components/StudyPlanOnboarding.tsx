@@ -11,7 +11,7 @@ import { Feather } from "@expo/vector-icons";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { hapticLight } from "@/lib/haptics";
 import type {
   StudyGoal,
@@ -94,7 +94,7 @@ export function StudyPlanOnboarding({ onComplete }: StudyPlanOnboardingProps) {
                   <Feather
                     name={option.icon as any}
                     size={24}
-                    color={NoorColors.gold}
+                    color={QamarColors.gold}
                   />
                   <View style={styles.optionText}>
                     <ThemedText
@@ -165,7 +165,7 @@ export function StudyPlanOnboarding({ onComplete }: StudyPlanOnboardingProps) {
                 style={styles.optionContainer}
               >
                 <GlassCard style={cardStyle}>
-                  <Feather name="clock" size={24} color={NoorColors.gold} />
+                  <Feather name="clock" size={24} color={QamarColors.gold} />
                   <View style={styles.optionText}>
                     <ThemedText
                       style={[styles.optionTitle, { color: theme.text }]}
@@ -203,7 +203,7 @@ export function StudyPlanOnboarding({ onComplete }: StudyPlanOnboardingProps) {
                   <Feather
                     name={option.icon as any}
                     size={24}
-                    color={NoorColors.gold}
+                    color={QamarColors.gold}
                   />
                   <View style={styles.optionText}>
                     <ThemedText
@@ -249,7 +249,7 @@ export function StudyPlanOnboarding({ onComplete }: StudyPlanOnboardingProps) {
             styles.navButton,
             styles.nextButton,
             {
-              backgroundColor: canProceed() ? NoorColors.gold : theme.border,
+              backgroundColor: canProceed() ? QamarColors.gold : theme.border,
               opacity: canProceed() ? 1 : 0.5,
             },
           ]}
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   selectedCard: {
-    borderColor: NoorColors.gold,
+    borderColor: QamarColors.gold,
     borderWidth: 2,
   },
   optionText: {

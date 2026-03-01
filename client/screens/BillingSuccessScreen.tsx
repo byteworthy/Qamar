@@ -17,7 +17,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/Button";
 import {
   Spacing,
-  NoorColors,
+  QamarColors,
   Fonts,
   BorderRadius,
   Gradients,
@@ -25,7 +25,7 @@ import {
 import { syncBillingStatus, isPaidStatus } from "@/lib/billing";
 import { useQueryClient } from "@tanstack/react-query";
 
-const GOLD = NoorColors.gold;
+const GOLD = QamarColors.gold;
 
 const UNLOCKED_FEATURES = [
   { icon: "message-circle" as const, label: "Unlimited conversations" },

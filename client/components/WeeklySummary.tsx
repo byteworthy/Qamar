@@ -11,7 +11,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors, Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { QamarColors, Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { WeeklySummaryData } from "@/stores/gamification-store";
@@ -41,7 +41,7 @@ type TrendDirection = "up" | "down" | "same";
 // CONSTANTS
 // =============================================================================
 
-const GOLD = NoorColors.gold;
+const GOLD = QamarColors.gold;
 
 const ENCOURAGING_MESSAGES: string[] = [
   "Consistency is beloved to Allah, even if it is small. Keep striving.",
@@ -292,7 +292,10 @@ export function WeeklySummary({
                 accessibilityLabel="Dismiss weekly summary"
               >
                 <ThemedText
-                  style={[styles.dismissText, { color: NoorColors.background }]}
+                  style={[
+                    styles.dismissText,
+                    { color: QamarColors.background },
+                  ]}
                 >
                   Alhamdulillah
                 </ThemedText>

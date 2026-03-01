@@ -24,7 +24,7 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme";
+import { QamarColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import * as Sentry from "@sentry/react-native";
 import { useAppState, selectIsOffline } from "@/stores/app-state";
@@ -137,7 +137,7 @@ function TypingIndicator({
     width: 7,
     height: 7,
     borderRadius: 3.5,
-    backgroundColor: NoorColors.gold,
+    backgroundColor: QamarColors.gold,
     marginHorizontal: 3,
   };
 
@@ -175,10 +175,10 @@ function CitationCard({
   const iconName = isQuran ? "book-open" : isHadith ? "bookmark" : "info";
   const label = isQuran ? "Quran" : isHadith ? "Hadith" : "Concept";
   const accentColor = isQuran
-    ? NoorColors.emerald
+    ? QamarColors.emerald
     : isHadith
-      ? NoorColors.gold
-      : NoorColors.twilightLight;
+      ? QamarColors.gold
+      : QamarColors.twilightLight;
 
   return (
     <Animated.View entering={FadeInUp.duration(300).delay(100)}>
@@ -238,7 +238,7 @@ function MessageBubble({
         <View
           style={[
             styles.avatarContainer,
-            { backgroundColor: NoorColors.gold + "20" },
+            { backgroundColor: QamarColors.gold + "20" },
           ]}
         >
           <ThemedText style={styles.avatarText}>A</ThemedText>
@@ -249,8 +249,8 @@ function MessageBubble({
           isUser ? styles.messageBubbleUser : styles.messageBubbleAssistant,
           isUser
             ? {
-                backgroundColor: NoorColors.gold + "18",
-                borderColor: NoorColors.gold + "30",
+                backgroundColor: QamarColors.gold + "18",
+                borderColor: QamarColors.gold + "30",
               }
             : {
                 backgroundColor: theme.glassSurface,
@@ -390,7 +390,7 @@ export default function AskAmarScreen() {
           <View
             style={[
               styles.headerAvatar,
-              { backgroundColor: NoorColors.gold + "20" },
+              { backgroundColor: QamarColors.gold + "20" },
             ]}
           >
             <ThemedText style={styles.headerAvatarText}>A</ThemedText>
@@ -414,14 +414,14 @@ export default function AskAmarScreen() {
           style={[
             styles.offlineBanner,
             {
-              backgroundColor: NoorColors.gold + "18",
-              borderColor: NoorColors.gold + "30",
+              backgroundColor: QamarColors.gold + "18",
+              borderColor: QamarColors.gold + "30",
             },
           ]}
         >
-          <Feather name="wifi-off" size={14} color={NoorColors.gold} />
+          <Feather name="wifi-off" size={14} color={QamarColors.gold} />
           <ThemedText
-            style={[styles.offlineBannerText, { color: NoorColors.gold }]}
+            style={[styles.offlineBannerText, { color: QamarColors.gold }]}
           >
             {"You're offline. Amar needs a connection to respond."}
           </ThemedText>
@@ -448,7 +448,7 @@ export default function AskAmarScreen() {
               <View
                 style={[
                   styles.emptyAvatar,
-                  { backgroundColor: NoorColors.gold + "15" },
+                  { backgroundColor: QamarColors.gold + "15" },
                 ]}
               >
                 <ThemedText style={styles.emptyAvatarText}>
@@ -490,7 +490,7 @@ export default function AskAmarScreen() {
                     <Feather
                       name={prompt.icon}
                       size={16}
-                      color={NoorColors.gold}
+                      color={QamarColors.gold}
                       style={styles.quickPromptIcon}
                     />
                     <ThemedText
@@ -561,7 +561,7 @@ export default function AskAmarScreen() {
               {
                 backgroundColor:
                   inputText.trim() && !isLoading && !isOffline
-                    ? NoorColors.gold
+                    ? QamarColors.gold
                     : theme.border,
                 opacity: pressed ? 0.8 : 1,
               },
@@ -570,13 +570,15 @@ export default function AskAmarScreen() {
             accessibilityLabel="Send message"
           >
             {isLoading ? (
-              <ActivityIndicator size="small" color={NoorColors.background} />
+              <ActivityIndicator size="small" color={QamarColors.background} />
             ) : (
               <Feather
                 name="arrow-up"
                 size={18}
                 color={
-                  inputText.trim() ? NoorColors.background : theme.textSecondary
+                  inputText.trim()
+                    ? QamarColors.background
+                    : theme.textSecondary
                 }
               />
             )}
@@ -608,7 +610,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  headerAvatarText: { fontSize: 16, fontWeight: "700", color: NoorColors.gold },
+  headerAvatarText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: QamarColors.gold,
+  },
   headerTitle: { fontSize: 18, fontWeight: "700" },
   headerSubtitle: { fontSize: 12, opacity: 0.8 },
 
@@ -692,7 +698,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
   },
-  avatarText: { fontSize: 13, fontWeight: "700", color: NoorColors.gold },
+  avatarText: { fontSize: 13, fontWeight: "700", color: QamarColors.gold },
   messageText: { fontSize: 15, lineHeight: 22 },
 
   citationsContainer: {

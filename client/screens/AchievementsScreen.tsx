@@ -13,7 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors, Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { QamarColors, Spacing, BorderRadius, Fonts } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import {
@@ -26,8 +26,8 @@ import {
 // CONSTANTS
 // =============================================================================
 
-const GOLD = NoorColors.gold;
-const GOLD_DIM = NoorColors.goldDim;
+const GOLD = QamarColors.gold;
+const GOLD_DIM = QamarColors.goldDim;
 const BADGE_ICON_SIZE = 32;
 const GRID_GAP = 12;
 

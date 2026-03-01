@@ -9,7 +9,7 @@ import { StudyPlanOnboarding } from "@/components/StudyPlanOnboarding";
 import { DailyTaskCard } from "@/components/DailyTaskCard";
 import { useTheme } from "@/hooks/useTheme";
 import { useStudyPlan } from "@/hooks/useStudyPlan";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import type { StudyPlanInput } from "../../../shared/types/study-plan";
 
 const DAY_NAMES = [
@@ -51,7 +51,7 @@ export default function StudyPlanScreen() {
 
         {isGenerating && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={NoorColors.gold} />
+            <ActivityIndicator size="large" color={QamarColors.gold} />
             <ThemedText style={[styles.loadingText, { color: theme.text }]}>
               Generating your personalized plan...
             </ThemedText>
@@ -78,7 +78,7 @@ export default function StudyPlanScreen() {
         {/* Header Stats */}
         <GlassCard style={styles.statsCard}>
           <View style={styles.statItem}>
-            <Feather name="target" size={24} color={NoorColors.gold} />
+            <Feather name="target" size={24} color={QamarColors.gold} />
             <ThemedText
               style={[styles.statLabel, { color: theme.textSecondary }]}
             >
@@ -90,7 +90,7 @@ export default function StudyPlanScreen() {
           </View>
 
           <View style={styles.statItem}>
-            <Feather name="calendar" size={24} color={NoorColors.gold} />
+            <Feather name="calendar" size={24} color={QamarColors.gold} />
             <ThemedText
               style={[styles.statLabel, { color: theme.textSecondary }]}
             >
@@ -105,7 +105,7 @@ export default function StudyPlanScreen() {
           </View>
 
           <View style={styles.statItem}>
-            <Feather name="zap" size={24} color={NoorColors.gold} />
+            <Feather name="zap" size={24} color={QamarColors.gold} />
             <ThemedText
               style={[styles.statLabel, { color: theme.textSecondary }]}
             >

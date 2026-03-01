@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme";
+import { QamarColors } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import type { KhalilBasiraBlock } from "@/lib/khalil-api";
 
@@ -22,7 +22,7 @@ export function BasiraCard({ data }: Props) {
           styles.card,
           {
             backgroundColor: theme.glassSurface,
-            borderColor: NoorColors.emerald + "30",
+            borderColor: QamarColors.emerald + "30",
           },
         ]}
         accessibilityLabel="Basira — seeing with clarity"
@@ -31,10 +31,10 @@ export function BasiraCard({ data }: Props) {
           <View
             style={[
               styles.iconBadge,
-              { backgroundColor: NoorColors.emerald + "18" },
+              { backgroundColor: QamarColors.emerald + "18" },
             ]}
           >
-            <Feather name="eye" size={16} color={NoorColors.emerald} />
+            <Feather name="eye" size={16} color={QamarColors.emerald} />
           </View>
           <ThemedText style={[styles.title, { color: theme.text }]}>
             Seeing with Basira
@@ -43,9 +43,11 @@ export function BasiraCard({ data }: Props) {
 
         {/* The whisper */}
         <View
-          style={[styles.section, { backgroundColor: NoorColors.gold + "08" }]}
+          style={[styles.section, { backgroundColor: QamarColors.gold + "08" }]}
         >
-          <ThemedText style={[styles.sectionLabel, { color: NoorColors.gold }]}>
+          <ThemedText
+            style={[styles.sectionLabel, { color: QamarColors.gold }]}
+          >
             The Whisper
           </ThemedText>
           <ThemedText style={[styles.sectionText, { color: theme.text }]}>
@@ -57,11 +59,11 @@ export function BasiraCard({ data }: Props) {
         <View
           style={[
             styles.section,
-            { backgroundColor: NoorColors.emerald + "08" },
+            { backgroundColor: QamarColors.emerald + "08" },
           ]}
         >
           <ThemedText
-            style={[styles.sectionLabel, { color: NoorColors.emerald }]}
+            style={[styles.sectionLabel, { color: QamarColors.emerald }]}
           >
             The Truth
           </ThemedText>
@@ -75,7 +77,7 @@ export function BasiraCard({ data }: Props) {
           <View
             style={[
               styles.evidenceBox,
-              { borderLeftColor: NoorColors.emerald },
+              { borderLeftColor: QamarColors.emerald },
             ]}
           >
             <ThemedText

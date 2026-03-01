@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Fonts, NoorColors, Spacing, BorderRadius } from "@/constants/theme";
+import { Fonts, QamarColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { IslamicPattern } from "@/components/IslamicPattern";
@@ -29,8 +29,8 @@ interface RamadanStatus {
 // Ramadan Colors
 // ─────────────────────────────────────────────────────────────────────────────
 
-const RAMADAN_GOLD = NoorColors.gold;
-const RAMADAN_EMERALD = NoorColors.emerald;
+const RAMADAN_GOLD = QamarColors.gold;
+const RAMADAN_EMERALD = QamarColors.emerald;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers

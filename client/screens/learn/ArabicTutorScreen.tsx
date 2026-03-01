@@ -28,7 +28,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { useAITutor, TutorMode, TutorMessage } from "@/hooks/useAITutor";
 import { useGamification } from "@/stores/gamification-store";
 
@@ -203,9 +203,9 @@ export default function ArabicTutorScreen() {
                 styles.modePill,
                 {
                   backgroundColor: isActive
-                    ? NoorColors.gold
+                    ? QamarColors.gold
                     : theme.glassSurface,
-                  borderColor: isActive ? NoorColors.gold : theme.glassStroke,
+                  borderColor: isActive ? QamarColors.gold : theme.glassStroke,
                 },
               ]}
             >
@@ -242,10 +242,10 @@ export default function ArabicTutorScreen() {
       <View
         style={[
           styles.emptyIconCircle,
-          { backgroundColor: NoorColors.gold + "18" },
+          { backgroundColor: QamarColors.gold + "18" },
         ]}
       >
-        <Feather name="globe" size={32} color={NoorColors.gold} />
+        <Feather name="globe" size={32} color={QamarColors.gold} />
       </View>
       <ThemedText style={styles.emptyTitle}>
         {MODE_EMPTY_TITLES[mode]}
@@ -275,7 +275,7 @@ export default function ArabicTutorScreen() {
               }}
             >
               <ThemedText style={styles.quickPromptText}>{prompt}</ThemedText>
-              <Feather name="arrow-right" size={14} color={NoorColors.gold} />
+              <Feather name="arrow-right" size={14} color={QamarColors.gold} />
             </GlassCard>
           </TouchableOpacity>
         ))}
@@ -306,10 +306,12 @@ export default function ArabicTutorScreen() {
           <View
             style={[
               styles.avatarCircle,
-              { backgroundColor: NoorColors.gold + "18" },
+              { backgroundColor: QamarColors.gold + "18" },
             ]}
           >
-            <ThemedText style={[styles.avatarText, { color: NoorColors.gold }]}>
+            <ThemedText
+              style={[styles.avatarText, { color: QamarColors.gold }]}
+            >
               M
             </ThemedText>
           </View>
@@ -321,8 +323,8 @@ export default function ArabicTutorScreen() {
             styles.messageBubble,
             isUser
               ? {
-                  backgroundColor: NoorColors.gold + "18",
-                  borderColor: NoorColors.gold + "30",
+                  backgroundColor: QamarColors.gold + "18",
+                  borderColor: QamarColors.gold + "30",
                 }
               : {
                   backgroundColor: theme.glassSurface,
@@ -441,11 +443,11 @@ export default function ArabicTutorScreen() {
               testID="daily-quota-badge"
               style={[
                 styles.quotaBadge,
-                { backgroundColor: NoorColors.gold + "18" },
+                { backgroundColor: QamarColors.gold + "18" },
               ]}
             >
               <ThemedText
-                style={[styles.quotaBadgeText, { color: NoorColors.gold }]}
+                style={[styles.quotaBadgeText, { color: QamarColors.gold }]}
               >
                 {remainingQuota} of 3 free today
               </ThemedText>
@@ -485,7 +487,7 @@ export default function ArabicTutorScreen() {
               {
                 backgroundColor:
                   inputText.trim() && !isLoading
-                    ? NoorColors.gold
+                    ? QamarColors.gold
                     : theme.glassSurface,
               },
             ]}
@@ -705,7 +707,7 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 3.5,
-    backgroundColor: NoorColors.gold,
+    backgroundColor: QamarColors.gold,
     opacity: 0.6,
   },
 

@@ -8,7 +8,7 @@ import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useTheme } from "@/hooks/useTheme";
-import { Fonts, NoorColors, Spacing, BorderRadius } from "@/constants/theme";
+import { Fonts, QamarColors, Spacing, BorderRadius } from "@/constants/theme";
 import { ThemedText } from "@/components/ThemedText";
 import { AtmosphericBackground } from "@/components/AtmosphericBackground";
 import { GlassCard } from "@/components/GlassCard";
@@ -29,8 +29,8 @@ const FASTING_LOG_KEY = "@noor_ramadan_fasting_log";
 const RAMADAN_YEAR_KEY = "@noor_ramadan_year";
 const RAMADAN_MONTH = 9;
 
-const RAMADAN_GOLD = NoorColors.gold;
-const RAMADAN_EMERALD = NoorColors.emerald;
+const RAMADAN_GOLD = QamarColors.gold;
+const RAMADAN_EMERALD = QamarColors.emerald;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -449,13 +449,13 @@ export default function RamadanHubScreen() {
                     <View
                       style={[
                         styles.mealTimeBadge,
-                        { backgroundColor: NoorColors.twilight + "20" },
+                        { backgroundColor: QamarColors.twilight + "20" },
                       ]}
                     >
                       <Feather
                         name="moon"
                         size={18}
-                        color={NoorColors.twilightLight}
+                        color={QamarColors.twilightLight}
                       />
                     </View>
                     <ThemedText
@@ -648,11 +648,11 @@ export default function RamadanHubScreen() {
                     {
                       backgroundColor:
                         todayStatus === "excused"
-                          ? NoorColors.moonlightMuted + "25"
+                          ? QamarColors.moonlightMuted + "25"
                           : theme.backgroundRoot,
                       borderColor:
                         todayStatus === "excused"
-                          ? NoorColors.moonlightMuted
+                          ? QamarColors.moonlightMuted
                           : "transparent",
                       borderWidth: todayStatus === "excused" ? 1.5 : 0,
                     },
@@ -663,7 +663,7 @@ export default function RamadanHubScreen() {
                     size={22}
                     color={
                       todayStatus === "excused"
-                        ? NoorColors.moonlightMuted
+                        ? QamarColors.moonlightMuted
                         : theme.textSecondary
                     }
                   />
@@ -673,7 +673,7 @@ export default function RamadanHubScreen() {
                       {
                         color:
                           todayStatus === "excused"
-                            ? NoorColors.moonlightMuted
+                            ? QamarColors.moonlightMuted
                             : theme.textSecondary,
                         fontFamily: Fonts?.sansMedium,
                       },

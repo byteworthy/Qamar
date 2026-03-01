@@ -18,7 +18,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { useTheme } from "@/hooks/useTheme";
 import { useVerseConversation } from "@/hooks/useVerseConversation";
-import { NoorColors } from "@/constants/theme/colors";
+import { useOfflineQuranVerses } from "@/hooks/useOfflineData";
+import { QamarColors } from "@/constants/theme/colors";
 import { RootStackParamList } from "@/navigation/types";
 
 type VerseDiscussionRouteProp = RouteProp<
@@ -31,6 +32,8 @@ export default function VerseDiscussionScreen() {
   const navigation = useNavigation();
   const route = useRoute<VerseDiscussionRouteProp>();
   const { surahNumber, verseNumber } = route.params;
+  const { data: verses } = useOfflineQuranVerses(surahNumber);
+  const verse = verses?.find((v) => v.verse_number === verseNumber);
 
   const [inputText, setInputText] = useState("");
   const scrollViewRef = useRef<ScrollView>(null);
@@ -67,15 +70,13 @@ export default function VerseDiscussionScreen() {
           <ThemedText style={styles.verseReference}>
             Surah {surahNumber}, Verse {verseNumber}
           </ThemedText>
-          {/* TODO: Display actual Arabic text and translation */}
           <ThemedText style={[styles.verseArabic, { color: theme.text }]}>
-            بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+            {verse?.arabic_text ?? "\u2026"}
           </ThemedText>
           <ThemedText
             style={[styles.verseTranslation, { color: theme.textSecondary }]}
           >
-            In the name of Allah, the Entirely Merciful, the Especially
-            Merciful.
+            {verse?.translation_en ?? "\u2026"}
           </ThemedText>
         </GlassCard>
 
@@ -125,7 +126,7 @@ export default function VerseDiscussionScreen() {
 
           {isLoading && (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color={NoorColors.gold} />
+              <ActivityIndicator size="small" color={QamarColors.gold} />
               <ThemedText
                 style={[styles.loadingText, { color: theme.textSecondary }]}
               >
@@ -164,7 +165,7 @@ export default function VerseDiscussionScreen() {
               {
                 backgroundColor:
                   inputText.trim() && !isLoading
-                    ? NoorColors.gold
+                    ? QamarColors.gold
                     : theme.border,
                 opacity: pressed ? 0.7 : 1,
               },

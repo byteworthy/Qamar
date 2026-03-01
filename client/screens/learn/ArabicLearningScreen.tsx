@@ -29,7 +29,7 @@ import {
 import { useShallow } from "zustand/react/shallow";
 import { useAppState, selectDailyProgress } from "@/stores/app-state";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -270,9 +270,9 @@ export default function ArabicLearningScreen() {
                 </ThemedText>
               </View>
               <View style={styles.streakBadge}>
-                <Feather name="zap" size={18} color={NoorColors.gold} />
+                <Feather name="zap" size={18} color={QamarColors.gold} />
                 <ThemedText
-                  style={[styles.streakText, { color: NoorColors.gold }]}
+                  style={[styles.streakText, { color: QamarColors.gold }]}
                 >
                   {progress?.streak ?? 0}
                 </ThemedText>
@@ -291,7 +291,7 @@ export default function ArabicLearningScreen() {
                   styles.dailyProgressFill,
                   {
                     width: `${Math.min(dailyProgress.percentage, 100)}%`,
-                    backgroundColor: NoorColors.gold,
+                    backgroundColor: QamarColors.gold,
                   },
                 ]}
               />
@@ -355,7 +355,7 @@ export default function ArabicLearningScreen() {
                 <View
                   style={[
                     styles.dueBadge,
-                    { backgroundColor: NoorColors.gold },
+                    { backgroundColor: QamarColors.gold },
                   ]}
                 >
                   <ThemedText style={styles.dueBadgeText}>

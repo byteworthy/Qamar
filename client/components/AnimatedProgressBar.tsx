@@ -17,7 +17,7 @@ import Animated, {
   withSequence,
   Easing,
 } from "react-native-reanimated";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 export interface AnimatedProgressBarProps {
   /** 0–100 */
@@ -35,7 +35,7 @@ export interface AnimatedProgressBarProps {
 
 export function AnimatedProgressBar({
   progress,
-  color = NoorColors.gold,
+  color = QamarColors.gold,
   height = 5,
   borderRadius = 3,
   delay = 0,
@@ -55,7 +55,7 @@ export function AnimatedProgressBar({
         easing: Easing.out(Easing.cubic),
       }),
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export function AnimatedProgressBar({
       -1,
       false,
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showGlow]);
 
   const fillStyle = useAnimatedStyle(() => ({
@@ -83,7 +83,11 @@ export function AnimatedProgressBar({
     <View
       style={[
         styles.track,
-        { height, borderRadius, backgroundColor: trackColor ?? "rgba(255,255,255,0.12)" },
+        {
+          height,
+          borderRadius,
+          backgroundColor: trackColor ?? "rgba(255,255,255,0.12)",
+        },
       ]}
       onLayout={(e) => {
         containerWidth.value = e.nativeEvent.layout.width;

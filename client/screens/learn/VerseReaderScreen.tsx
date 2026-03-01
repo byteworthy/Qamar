@@ -42,7 +42,7 @@ import { PremiumGate } from "@/components/PremiumGate";
 import { TajweedText } from "@/components/TajweedText";
 import { WordByWordPlayer } from "@/components/WordByWordPlayer";
 import { TafsirPanel } from "@/components/TafsirPanel";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { TajweedSegment } from "@/services/tajweedParser";
 import { TafsirData } from "@/stores/tafsir-cache-store";
 import { Tooltip } from "@/components/Tooltip";
@@ -193,9 +193,9 @@ const VerseCard = React.memo(function VerseCard({
             accessibilityLabel="Explain verse"
             accessibilityRole="button"
           >
-            <Feather name="book-open" size={18} color={NoorColors.gold} />
+            <Feather name="book-open" size={18} color={QamarColors.gold} />
             <ThemedText
-              style={[styles.verseActionText, { color: NoorColors.gold }]}
+              style={[styles.verseActionText, { color: QamarColors.gold }]}
             >
               Explain
             </ThemedText>
@@ -206,9 +206,9 @@ const VerseCard = React.memo(function VerseCard({
             accessibilityLabel="Discuss verse"
             accessibilityRole="button"
           >
-            <Feather name="message-circle" size={18} color={NoorColors.gold} />
+            <Feather name="message-circle" size={18} color={QamarColors.gold} />
             <ThemedText
-              style={[styles.verseActionText, { color: NoorColors.gold }]}
+              style={[styles.verseActionText, { color: QamarColors.gold }]}
             >
               Discuss
             </ThemedText>
@@ -725,7 +725,7 @@ export default function VerseReaderScreen() {
                       name="eye"
                       size={14}
                       color={
-                        tajweedEnabled ? NoorColors.gold : theme.textSecondary
+                        tajweedEnabled ? QamarColors.gold : theme.textSecondary
                       }
                     />
                   )}
@@ -734,7 +734,7 @@ export default function VerseReaderScreen() {
                       styles.togglePillText,
                       {
                         color: tajweedEnabled
-                          ? NoorColors.gold
+                          ? QamarColors.gold
                           : theme.textSecondary,
                       },
                     ]}
@@ -760,7 +760,7 @@ export default function VerseReaderScreen() {
                     name="type"
                     size={14}
                     color={
-                      wordByWordEnabled ? NoorColors.gold : theme.textSecondary
+                      wordByWordEnabled ? QamarColors.gold : theme.textSecondary
                     }
                   />
                   <ThemedText
@@ -768,7 +768,7 @@ export default function VerseReaderScreen() {
                       styles.togglePillText,
                       {
                         color: wordByWordEnabled
-                          ? NoorColors.gold
+                          ? QamarColors.gold
                           : theme.textSecondary,
                       },
                     ]}
@@ -1158,8 +1158,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   togglePillActive: {
-    borderColor: NoorColors.gold,
-    backgroundColor: NoorColors.gold + "15",
+    borderColor: QamarColors.gold,
+    backgroundColor: QamarColors.gold + "15",
   },
   togglePillText: {
     fontSize: 13,
@@ -1314,7 +1314,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: NoorColors.gold + "20",
+    borderTopColor: QamarColors.gold + "20",
   },
   verseActionButton: {
     flexDirection: "row",
@@ -1323,7 +1323,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: NoorColors.gold + "10",
+    backgroundColor: QamarColors.gold + "10",
   },
   verseActionText: {
     fontSize: 14,

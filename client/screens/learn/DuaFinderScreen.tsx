@@ -26,7 +26,7 @@ import { DuaCard } from "@/components/DuaCard";
 import { useTheme } from "@/hooks/useTheme";
 import { useDuaRecommender } from "@/hooks/useDuaRecommender";
 import { useDuaFavorites } from "@/stores/dua-favorites-store";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { hapticLight } from "@/lib/haptics";
 
 // =============================================================================
@@ -141,7 +141,7 @@ export default function DuaFinderScreen() {
                 {
                   backgroundColor:
                     inputText.trim() && !isLoading
-                      ? NoorColors.gold
+                      ? QamarColors.gold
                       : theme.border,
                   opacity: pressed ? 0.8 : 1,
                 },
@@ -150,14 +150,17 @@ export default function DuaFinderScreen() {
               accessibilityLabel="Search for duas"
             >
               {isLoading ? (
-                <ActivityIndicator size="small" color={NoorColors.background} />
+                <ActivityIndicator
+                  size="small"
+                  color={QamarColors.background}
+                />
               ) : (
                 <Feather
                   name="search"
                   size={20}
                   color={
                     inputText.trim()
-                      ? NoorColors.background
+                      ? QamarColors.background
                       : theme.textSecondary
                   }
                 />
@@ -177,7 +180,7 @@ export default function DuaFinderScreen() {
                   },
                 ]}
               >
-                <Feather name="zap" size={12} color={NoorColors.gold} />
+                <Feather name="zap" size={12} color={QamarColors.gold} />
                 <ThemedText
                   style={[styles.quotaText, { color: theme.textSecondary }]}
                 >
@@ -210,10 +213,10 @@ export default function DuaFinderScreen() {
                 <View
                   style={[
                     styles.emptyIcon,
-                    { backgroundColor: NoorColors.gold + "15" },
+                    { backgroundColor: QamarColors.gold + "15" },
                   ]}
                 >
-                  <Feather name="compass" size={32} color={NoorColors.gold} />
+                  <Feather name="compass" size={32} color={QamarColors.gold} />
                 </View>
                 <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                   Find the Perfect Dua
@@ -239,7 +242,7 @@ export default function DuaFinderScreen() {
                         styles.categoryChip,
                         {
                           backgroundColor: theme.glassSurface,
-                          borderColor: NoorColors.gold + "40",
+                          borderColor: QamarColors.gold + "40",
                           opacity: pressed ? 0.8 : 1,
                           transform: [{ scale: pressed ? 0.97 : 1 }],
                         },
@@ -250,7 +253,7 @@ export default function DuaFinderScreen() {
                       <Feather
                         name={chip.icon}
                         size={18}
-                        color={NoorColors.gold}
+                        color={QamarColors.gold}
                         style={styles.categoryIcon}
                       />
                       <ThemedText
@@ -268,7 +271,7 @@ export default function DuaFinderScreen() {
             <View style={styles.resultsContainer}>
               {isLoading && (
                 <View style={styles.loadingContainer}>
-                  <ActivityIndicator size="large" color={NoorColors.gold} />
+                  <ActivityIndicator size="large" color={QamarColors.gold} />
                   <ThemedText
                     style={[styles.loadingText, { color: theme.textSecondary }]}
                   >

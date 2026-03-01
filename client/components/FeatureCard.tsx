@@ -53,14 +53,17 @@ export function FeatureCard({
       withSequence(
         withDelay(
           1500,
-          withTiming(400, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+          withTiming(400, {
+            duration: 1200,
+            easing: Easing.inOut(Easing.ease),
+          }),
         ),
         withTiming(-200, { duration: 0 }),
       ),
       -1,
       false,
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comingSoon]);
 
   const shimmerStyle = useAnimatedStyle(() => ({

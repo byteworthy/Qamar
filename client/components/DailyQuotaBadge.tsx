@@ -11,7 +11,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { useTheme } from "@/hooks/useTheme";
 import { ThemedText } from "@/components/ThemedText";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 // =============================================================================
 // TYPES
@@ -43,7 +43,7 @@ export function DailyQuotaBadge({
   const color = isEmpty
     ? theme.error
     : isLow
-      ? NoorColors.gold
+      ? QamarColors.gold
       : theme.textSecondary;
 
   return (

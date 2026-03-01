@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { TafsirData } from "@/stores/tafsir-cache-store";
 
 interface TafsirPanelProps {
@@ -38,9 +38,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           {/* Context Section */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Feather name="book-open" size={16} color={NoorColors.gold} />
+              <Feather name="book-open" size={16} color={QamarColors.gold} />
               <ThemedText
-                style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                style={[styles.sectionTitle, { color: QamarColors.gold }]}
               >
                 Context
               </ThemedText>
@@ -54,9 +54,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           {tafsir.keyTerms.length > 0 && (
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <Feather name="search" size={16} color={NoorColors.gold} />
+                <Feather name="search" size={16} color={QamarColors.gold} />
                 <ThemedText
-                  style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                  style={[styles.sectionTitle, { color: QamarColors.gold }]}
                 >
                   Key Terms
                 </ThemedText>
@@ -87,9 +87,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           {/* Scholarly Views Section */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Feather name="users" size={16} color={NoorColors.gold} />
+              <Feather name="users" size={16} color={QamarColors.gold} />
               <ThemedText
-                style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                style={[styles.sectionTitle, { color: QamarColors.gold }]}
               >
                 Scholarly Views
               </ThemedText>
@@ -103,9 +103,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           {tafsir.crossReferences.length > 0 && (
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <Feather name="link" size={16} color={NoorColors.gold} />
+                <Feather name="link" size={16} color={QamarColors.gold} />
                 <ThemedText
-                  style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                  style={[styles.sectionTitle, { color: QamarColors.gold }]}
                 >
                   Related Verses
                 </ThemedText>
@@ -116,11 +116,11 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
                     key={index}
                     style={[
                       styles.crossRefChip,
-                      { borderColor: NoorColors.gold },
+                      { borderColor: QamarColors.gold },
                     ]}
                   >
                     <ThemedText
-                      style={[styles.crossRefText, { color: NoorColors.gold }]}
+                      style={[styles.crossRefText, { color: QamarColors.gold }]}
                     >
                       {ref}
                     </ThemedText>
@@ -133,9 +133,9 @@ export function TafsirPanel({ tafsir, onClose }: TafsirPanelProps) {
           {/* Practical Takeaway */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Feather name="heart" size={16} color={NoorColors.gold} />
+              <Feather name="heart" size={16} color={QamarColors.gold} />
               <ThemedText
-                style={[styles.sectionTitle, { color: NoorColors.gold }]}
+                style={[styles.sectionTitle, { color: QamarColors.gold }]}
               >
                 Practical Takeaway
               </ThemedText>

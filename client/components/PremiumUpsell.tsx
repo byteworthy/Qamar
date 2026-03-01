@@ -30,15 +30,15 @@ import { VALIDATION_MODE } from "@/lib/config";
 import { GlassCard } from "./GlassCard";
 import { Button } from "./Button";
 import {
-  NoorColors,
+  QamarColors,
   Fonts,
   Spacing,
   BorderRadius,
   Gradients,
 } from "@/constants/theme";
 
-const GOLD = NoorColors.gold;
-const GOLD_LIGHT = NoorColors.goldLight;
+const GOLD = QamarColors.gold;
+const GOLD_LIGHT = QamarColors.goldLight;
 
 interface PremiumUpsellProps {
   /** The feature that is locked */

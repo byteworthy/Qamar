@@ -6,6 +6,8 @@
 
 import { useState, useCallback } from "react";
 import { useHifzStore } from "../stores/hifz-store";
+import { useRecording } from "./useRecording";
+import { useSTT } from "./useSTT";
 import { checkRecitation } from "../services/hifz/recitation-checker";
 import type { RecitationResult } from "../../shared/types/hifz";
 
@@ -37,10 +39,12 @@ export interface UseHifzRecitationReturn {
  *
  * @param surahNumber - Surah number (1-114)
  * @param verseNumber - Verse number within the surah
+ * @param expectedText - The expected Arabic text for comparison (from offline DB)
  */
 export function useHifzRecitation(
   surahNumber: number,
   verseNumber: number,
+  expectedText?: string,
 ): UseHifzRecitationReturn {
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -49,6 +53,8 @@ export function useHifzRecitation(
   const [error, setError] = useState<string | null>(null);
 
   const { updateAfterRecitation } = useHifzStore();
+  const recording = useRecording();
+  const stt = useSTT();
 
   // ============================================================
   // Start Recording
@@ -61,16 +67,17 @@ export function useHifzRecitation(
       setTranscription(null);
       setIsRecording(true);
 
-      // TODO: Integrate with actual recording/STT service
-      // For now, this is a placeholder that will be implemented
-      // when the RecitationScreen is built
+      await Promise.all([
+        recording.startRecording(),
+        stt.startListening("ar-SA"),
+      ]);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to start recording",
       );
       setIsRecording(false);
     }
-  }, []);
+  }, [recording, stt]);
 
   // ============================================================
   // Stop Recording & Process
@@ -81,19 +88,18 @@ export function useHifzRecitation(
       setIsRecording(false);
       setIsProcessing(true);
 
-      // TODO: Integrate with actual STT service
-      // Placeholder: Simulate STT transcription
-      const mockTranscription = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
-      const mockExpectedText = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+      await Promise.all([recording.stopRecording(), stt.stopListening()]);
 
-      setTranscription(mockTranscription);
+      const transcribedText = stt.transcript || stt.partialTranscript || "";
 
-      // Check recitation accuracy
+      setTranscription(transcribedText);
+
+      // Check recitation accuracy against expected text
       const recitationResult = checkRecitation(
         surahNumber,
         verseNumber,
-        mockExpectedText,
-        mockTranscription,
+        expectedText ?? "",
+        transcribedText,
       );
 
       setResult(recitationResult);
@@ -104,7 +110,7 @@ export function useHifzRecitation(
       );
       setIsProcessing(false);
     }
-  }, [surahNumber, verseNumber]);
+  }, [surahNumber, verseNumber, expectedText, recording, stt]);
 
   // ============================================================
   // Rate & Save to Store

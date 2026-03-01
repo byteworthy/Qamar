@@ -30,7 +30,7 @@ import { Feather } from "@expo/vector-icons";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { useWordByWordAudio } from "@/hooks/useWordByWordAudio";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { BorderRadius, Spacing, Fonts } from "@/constants/theme";
 
 // =============================================================================
@@ -61,13 +61,13 @@ function AnimatedWord({ word, index, isActive, onPress }: WordProps) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: withTiming(
-        isActive ? `${NoorColors.gold}20` : "transparent",
+        isActive ? `${QamarColors.gold}20` : "transparent",
         { duration: 200 },
       ),
     };
   }, [isActive]);
 
-  const textColor = isActive ? NoorColors.gold : theme.text;
+  const textColor = isActive ? QamarColors.gold : theme.text;
 
   return (
     <Pressable
@@ -147,12 +147,12 @@ export function WordByWordPlayer({
         }
       >
         {isLoading ? (
-          <ActivityIndicator size="small" color={NoorColors.gold} />
+          <ActivityIndicator size="small" color={QamarColors.gold} />
         ) : (
           <Feather
             name={getPlayButtonIcon()}
             size={20}
-            color={NoorColors.gold}
+            color={QamarColors.gold}
           />
         )}
       </Pressable>

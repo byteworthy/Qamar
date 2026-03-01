@@ -34,7 +34,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { AudioRecordButton } from "@/components/AudioRecordButton";
 import { PronunciationFeedback } from "@/components/PronunciationFeedback";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { usePronunciation } from "@/hooks/usePronunciation";
 import { useGamification } from "@/stores/gamification-store";
 
@@ -235,10 +235,10 @@ export default function PronunciationCoachScreen() {
                 <View
                   style={[
                     styles.permissionIconCircle,
-                    { backgroundColor: NoorColors.gold + "20" },
+                    { backgroundColor: QamarColors.gold + "20" },
                   ]}
                 >
-                  <Feather name="mic" size={28} color={NoorColors.gold} />
+                  <Feather name="mic" size={28} color={QamarColors.gold} />
                 </View>
               </View>
               <ThemedText
@@ -260,7 +260,7 @@ export default function PronunciationCoachScreen() {
                 onPress={requestMicPermission}
                 style={[
                   styles.permissionButton,
-                  { backgroundColor: NoorColors.gold },
+                  { backgroundColor: QamarColors.gold },
                 ]}
                 accessibilityRole="button"
                 accessibilityLabel="Enable microphone access"
@@ -368,7 +368,7 @@ export default function PronunciationCoachScreen() {
             >
               <ActivityIndicator
                 size="small"
-                color={NoorColors.gold}
+                color={QamarColors.gold}
                 style={styles.statusSpinner}
               />
               <ThemedText
@@ -454,7 +454,7 @@ export default function PronunciationCoachScreen() {
               style={({ pressed }) => [
                 styles.submitButton,
                 {
-                  backgroundColor: canSubmit ? NoorColors.gold : theme.border,
+                  backgroundColor: canSubmit ? QamarColors.gold : theme.border,
                   opacity: pressed && canSubmit ? 0.85 : 1,
                 },
               ]}
@@ -517,7 +517,7 @@ export default function PronunciationCoachScreen() {
               style={({ pressed }) => [
                 styles.tryAgainButton,
                 {
-                  borderColor: NoorColors.gold,
+                  borderColor: QamarColors.gold,
                   opacity: pressed ? 0.85 : 1,
                 },
               ]}
@@ -525,11 +525,11 @@ export default function PronunciationCoachScreen() {
               <Feather
                 name="refresh-cw"
                 size={16}
-                color={NoorColors.gold}
+                color={QamarColors.gold}
                 style={styles.tryAgainIcon}
               />
               <ThemedText
-                style={[styles.tryAgainText, { color: NoorColors.gold }]}
+                style={[styles.tryAgainText, { color: QamarColors.gold }]}
               >
                 Try Again
               </ThemedText>

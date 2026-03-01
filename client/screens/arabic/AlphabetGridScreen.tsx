@@ -24,7 +24,7 @@ import { GlassCard } from "@/components/GlassCard";
 import { useAllFlashcards, Flashcard } from "@/hooks/useArabicLearning";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { BorderRadius, Fonts, Spacing } from "@/constants/theme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -99,7 +99,7 @@ function LetterDetailModal({ card, visible, onClose }: LetterDetailModalProps) {
 
   const stateColor =
     card.state === "review"
-      ? NoorColors.emerald
+      ? QamarColors.emerald
       : card.state === "learning"
         ? "#D4A85A"
         : card.state === "relearning"
@@ -233,7 +233,7 @@ function AlphabetCell({ card, delay, onPress }: AlphabetCellProps) {
 
   const stateColor =
     card.state === "review"
-      ? NoorColors.emerald
+      ? QamarColors.emerald
       : card.state === "learning"
         ? "#D4A85A"
         : card.state === "relearning"
@@ -252,10 +252,10 @@ function AlphabetCell({ card, delay, onPress }: AlphabetCellProps) {
             width: CELL_SIZE,
             height: CELL_SIZE,
             backgroundColor: isLearned
-              ? NoorColors.emerald + "15"
+              ? QamarColors.emerald + "15"
               : theme.cardBackground,
             borderColor: isLearned
-              ? NoorColors.emerald + "40"
+              ? QamarColors.emerald + "40"
               : theme.cardBackground,
             opacity: pressed ? 0.8 : 1,
             transform: [{ scale: pressed ? 0.93 : 1 }],
@@ -386,7 +386,7 @@ export default function AlphabetGridScreen() {
                     </ThemedText>
                   </View>
                   <ThemedText
-                    style={[styles.progressPct, { color: NoorColors.gold }]}
+                    style={[styles.progressPct, { color: QamarColors.gold }]}
                   >
                     {progressStats.pct}%
                   </ThemedText>
@@ -402,7 +402,7 @@ export default function AlphabetGridScreen() {
                       styles.progressFill,
                       {
                         width: `${progressStats.pct}%`,
-                        backgroundColor: NoorColors.emerald,
+                        backgroundColor: QamarColors.emerald,
                       },
                     ]}
                   />
@@ -452,7 +452,7 @@ export default function AlphabetGridScreen() {
                     <View
                       style={[
                         styles.legendDot,
-                        { backgroundColor: NoorColors.emerald },
+                        { backgroundColor: QamarColors.emerald },
                       ]}
                     />
                     <ThemedText

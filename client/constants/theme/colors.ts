@@ -1,5 +1,5 @@
 // ============================================================================
-// NOOR DESIGN SYSTEM — COLOR TOKENS
+// QAMAR DESIGN SYSTEM — COLOR TOKENS
 // ============================================================================
 
 // ----------------------------------------------------------------------------
@@ -7,11 +7,11 @@
 // ----------------------------------------------------------------------------
 
 /**
- * NoorColors: Dark theme palette - "Light in Darkness"
+ * QamarColors: Dark theme palette - "Light in Darkness"
  * Deep twilight blues, indigo night sky, with gold light accents
  * Evokes: Stars emerging at dusk, lanterns in the night, contemplative prayer time
  */
-export const NoorColors = {
+export const QamarColors = {
   // Night sky foundations
   background: "#0f1419", // Deep twilight blue
   backgroundLight: "#1a2332", // Midnight blue
@@ -155,50 +155,50 @@ export const Colors = {
   },
   dark: {
     // Text - Soft moonlight, not harsh white
-    text: NoorColors.moonlight,
-    textSecondary: NoorColors.moonlightMuted,
-    buttonText: NoorColors.moonlight,
+    text: QamarColors.moonlight,
+    textSecondary: QamarColors.moonlightMuted,
+    buttonText: QamarColors.moonlight,
 
     // Navigation - Gold highlights (light emerging in darkness)
-    tabIconDefault: NoorColors.moonlightMuted,
-    tabIconSelected: NoorColors.goldLight, // Gold = Qamar theme
-    link: NoorColors.goldLight,
+    tabIconDefault: QamarColors.moonlightMuted,
+    tabIconSelected: QamarColors.goldLight, // Gold = Qamar theme
+    link: QamarColors.goldLight,
 
     // Backgrounds - Deep twilight/night sky
-    backgroundRoot: NoorColors.background,
-    backgroundDefault: NoorColors.backgroundCard,
-    backgroundSecondary: NoorColors.backgroundCardLight,
-    backgroundTertiary: NoorColors.backgroundLight,
+    backgroundRoot: QamarColors.background,
+    backgroundDefault: QamarColors.backgroundCard,
+    backgroundSecondary: QamarColors.backgroundCardLight,
+    backgroundTertiary: QamarColors.backgroundLight,
 
     // Primary action color - Gold (moonlight/Qamar emerging)
-    primary: NoorColors.gold,
-    primaryLight: NoorColors.goldLight,
-    primaryDark: NoorColors.goldDim,
+    primary: QamarColors.gold,
+    primaryLight: QamarColors.goldLight,
+    primaryDark: QamarColors.goldDim,
 
     // Accent color - Emerald (Islamic green, but cooler tone)
-    accent: NoorColors.emerald,
-    accentLight: NoorColors.emeraldLight,
-    accentDark: NoorColors.emeraldDark,
+    accent: QamarColors.emerald,
+    accentLight: QamarColors.emeraldLight,
+    accentDark: QamarColors.emeraldDark,
 
     // Structural - Subtle dark blues
-    border: NoorColors.backgroundCardLight,
-    divider: NoorColors.backgroundCardLight,
+    border: QamarColors.backgroundCardLight,
+    divider: QamarColors.backgroundCardLight,
 
     // Surfaces - Layered night sky
-    cardBackground: NoorColors.backgroundCard,
-    cardSurface: NoorColors.backgroundCardLight,
-    elevatedSurface: NoorColors.backgroundCardLight,
-    inputBackground: NoorColors.backgroundCardLight,
+    cardBackground: QamarColors.backgroundCard,
+    cardSurface: QamarColors.backgroundCardLight,
+    elevatedSurface: QamarColors.backgroundCardLight,
+    inputBackground: QamarColors.backgroundCardLight,
 
     // Feedback
-    success: NoorColors.emerald,
+    success: QamarColors.emerald,
     warning: "#D4A85A", // Muted amber, not red
     error: "#D4756B",
 
     // On-color tokens (text/icons on colored backgrounds)
-    onPrimary: NoorColors.background,
-    onAccent: NoorColors.moonlight,
-    onSuccess: NoorColors.background,
+    onPrimary: QamarColors.background,
+    onAccent: QamarColors.moonlight,
+    onSuccess: QamarColors.background,
 
     // Overlay and transparency - Blue-tinted overlays
     overlayLight: "rgba(212, 175, 55, 0.05)", // Gold-tinted overlay (light in dark)
@@ -211,13 +211,13 @@ export const Colors = {
     subtleGlow: "rgba(212, 175, 55, 0.18)", // Gold inner glow (lantern effect)
 
     // Semantic surface colors (for feature-specific use)
-    bannerBackground: NoorColors.indigo,
-    intensityMild: NoorColors.emerald,
-    intensityModerate: NoorColors.twilight,
-    intensityHeavy: NoorColors.gold,
-    intensityIntense: NoorColors.goldLight,
-    pillBackground: NoorColors.indigo,
-    highlightAccent: NoorColors.gold,
-    highlightAccentSubtle: NoorColors.gold + "15",
+    bannerBackground: QamarColors.indigo,
+    intensityMild: QamarColors.emerald,
+    intensityModerate: QamarColors.twilight,
+    intensityHeavy: QamarColors.gold,
+    intensityIntense: QamarColors.goldLight,
+    pillBackground: QamarColors.indigo,
+    highlightAccent: QamarColors.gold,
+    highlightAccentSubtle: QamarColors.gold + "15",
   },
 };

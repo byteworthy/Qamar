@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ThemedText } from "@/components/ThemedText";
 import { GlassCard } from "@/components/GlassCard";
 import { useTheme } from "@/hooks/useTheme";
-import { NoorColors } from "@/constants/theme/colors";
+import { QamarColors } from "@/constants/theme/colors";
 import { hapticLight } from "@/lib/haptics";
 import type { DailyTask } from "../../shared/types/study-plan";
 
@@ -50,7 +50,7 @@ export function DailyTaskCard({ task, onToggleComplete }: DailyTaskCardProps) {
             <View
               style={[
                 styles.checkboxFilled,
-                { backgroundColor: NoorColors.gold },
+                { backgroundColor: QamarColors.gold },
               ]}
             >
               <Feather name="check" size={16} color="#FFFFFF" />
@@ -80,7 +80,7 @@ export function DailyTaskCard({ task, onToggleComplete }: DailyTaskCardProps) {
             {task.description}
           </ThemedText>
           <View style={styles.meta}>
-            <Feather name="clock" size={12} color={NoorColors.gold} />
+            <Feather name="clock" size={12} color={QamarColors.gold} />
             <ThemedText
               style={[styles.metaText, { color: theme.textSecondary }]}
             >

@@ -18,7 +18,7 @@ import { Feather } from "@expo/vector-icons";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { useGamification, StreakStatus } from "@/stores/gamification-store";
-import { NoorColors, Fonts, Spacing, BorderRadius } from "@/constants/theme";
+import { QamarColors, Fonts, Spacing, BorderRadius } from "@/constants/theme";
 
 interface StreakBadgeProps {
   style?: ViewStyle;
@@ -48,7 +48,7 @@ function getStreakIcon(status: StreakStatus): keyof typeof Feather.glyphMap {
 function getStreakColor(status: StreakStatus): string {
   switch (status) {
     case "active":
-      return NoorColors.gold;
+      return QamarColors.gold;
     case "endangered":
       return ENDANGERED_COLOR;
     case "paused":
@@ -56,7 +56,7 @@ function getStreakColor(status: StreakStatus): string {
     case "broken":
       return PAUSED_COLOR;
     default:
-      return NoorColors.gold;
+      return QamarColors.gold;
   }
 }
 

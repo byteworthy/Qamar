@@ -345,16 +345,9 @@ export default function ThoughtCaptureScreen() {
 
             {/* Privacy signal */}
             <View style={styles.privacyRow}>
-              <Feather
-                name="lock"
-                size={11}
-                color={theme.textSecondary}
-              />
+              <Feather name="lock" size={11} color={theme.textSecondary} />
               <ThemedText
-                style={[
-                  styles.privacyText,
-                  { color: theme.textSecondary },
-                ]}
+                style={[styles.privacyText, { color: theme.textSecondary }]}
               >
                 Encrypted & private
               </ThemedText>

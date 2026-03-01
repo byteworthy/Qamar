@@ -1,4 +1,4 @@
-import { DawnColors, NoorColors } from "./colors";
+import { DawnColors, QamarColors } from "./colors";
 import { Spacing, BorderRadius } from "./spacing-typography";
 
 // ----------------------------------------------------------------------------
@@ -198,10 +198,10 @@ export const Surfaces = {
     overlayHeavy: "rgba(15, 20, 40, 0.15)",
   },
   dark: {
-    base: NoorColors.background, // Root background
-    layer1: NoorColors.backgroundCard, // Default content background
-    layer2: NoorColors.backgroundCardLight, // Secondary elevation
-    layer3: NoorColors.backgroundLight, // Tertiary elevation
+    base: QamarColors.background, // Root background
+    layer1: QamarColors.backgroundCard, // Default content background
+    layer2: QamarColors.backgroundCardLight, // Secondary elevation
+    layer3: QamarColors.backgroundLight, // Tertiary elevation
     overlay: "rgba(212, 175, 55, 0.05)", // Gold-tinted overlay
     overlayMedium: "rgba(212, 175, 55, 0.08)",
     overlayHeavy: "rgba(212, 175, 55, 0.12)",
@@ -302,6 +302,6 @@ export const LayoutConstraints = {
 export const SiraatColors = DawnColors;
 
 /**
- * @deprecated Use NoorColors instead - this alias maintained for backward compatibility
+ * @deprecated Use QamarColors instead - this alias maintained for backward compatibility
  */
-export const NiyyahColors = NoorColors;
+export const NiyyahColors = QamarColors;

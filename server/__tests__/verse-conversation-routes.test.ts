@@ -16,6 +16,21 @@ import { billingService } from "../billing";
 // Mock billing
 jest.mock("../billing");
 
+// Mock database — chain: db.select().from().where() → [{nameEnglish}]
+const mockWhere = jest
+  .fn<() => Promise<{ nameEnglish: string }[]>>()
+  .mockResolvedValue([{ nameEnglish: "Al-Fatihah" }]);
+jest.mock("../db", () => ({
+  db: {
+    select: () => ({ from: () => ({ where: mockWhere }) }),
+  },
+}));
+
+// Mock shared schema
+jest.mock("@shared/schema", () => ({
+  quranMetadata: { surahNumber: "surah_number" },
+}));
+
 // Mock Anthropic with factory
 let mockAnthropicCreate: jest.Mock;
 jest.mock("@anthropic-ai/sdk", () => {
@@ -81,6 +96,9 @@ describe("POST /api/verse/discuss", () => {
       surahNumber: 1,
       verseNumber: 1,
       message: "Why do we start with Bismillah?",
+      arabicText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+      translation:
+        "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
       history: [],
     });
 
@@ -109,6 +127,9 @@ describe("POST /api/verse/discuss", () => {
         surahNumber: 1,
         verseNumber: 1,
         message: "Tell me more",
+        arabicText: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+        translation:
+          "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
         history: [
           { role: "user", content: "First question" },
           { role: "assistant", content: "First answer" },
@@ -132,6 +153,8 @@ describe("POST /api/verse/discuss", () => {
       surahNumber: 1,
       verseNumber: 1,
       message: "Test",
+      arabicText: "test",
+      translation: "test",
       history: "not an array",
     });
 

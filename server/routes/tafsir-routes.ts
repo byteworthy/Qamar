@@ -1,8 +1,11 @@
 import { Router, Request, Response } from "express";
 import Anthropic from "@anthropic-ai/sdk";
+import { eq } from "drizzle-orm";
 import { aiDailyQuotaMiddleware } from "../middleware/ai-daily-quota";
 import { aiRateLimiter } from "../middleware/ai-rate-limiter";
 import { buildTafsirPrompt, TafsirResponse } from "../services/tafsir-prompts";
+import { quranMetadata } from "@shared/schema";
+import { db } from "../db";
 import logger from "../utils/logger";
 
 const router = Router();
@@ -18,12 +21,13 @@ router.post(
   aiRateLimiter,
   async (req: Request, res: Response) => {
     try {
-      const { surahNumber, verseNumber } = req.body;
+      const { surahNumber, verseNumber, arabicText, translation } = req.body;
 
       // Validation
-      if (!surahNumber || !verseNumber) {
+      if (!surahNumber || !verseNumber || !arabicText || !translation) {
         return res.status(400).json({
-          error: "Missing required fields: surahNumber, verseNumber",
+          error:
+            "Missing required fields: surahNumber, verseNumber, arabicText, translation",
         });
       }
 
@@ -31,12 +35,13 @@ router.post(
         return res.status(400).json({ error: "Invalid surah number (1-114)" });
       }
 
-      // TODO: Fetch verse Arabic text and translation from database/API
-      // For now, use placeholders
-      const surahName = "Al-Fatihah"; // TODO: lookup from surah metadata
-      const arabicText = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
-      const translation =
-        "In the name of Allah, the Entirely Merciful, the Especially Merciful.";
+      // Fetch surah name from database
+      const [surah] = await db
+        .select()
+        .from(quranMetadata)
+        .where(eq(quranMetadata.surahNumber, surahNumber));
+
+      const surahName = surah?.nameEnglish ?? `Surah ${surahNumber}`;
 
       const systemPrompt = buildTafsirPrompt({
         surahNumber,
