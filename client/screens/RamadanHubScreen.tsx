@@ -379,12 +379,12 @@ export default function RamadanHubScreen() {
   );
 
   const handleNavigateTracker = useCallback(
-    () => navigation.navigate("FastingTracker" as any),
+    () => navigation.navigate("FastingTracker"),
     [navigation],
   );
 
   const handleNavigateKhalil = useCallback(
-    () => navigation.navigate("Main", { screen: "Khalil" } as any),
+    () => navigation.navigate("Main", { screen: "Khalil" }),
     [navigation],
   );
 

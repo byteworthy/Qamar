@@ -414,6 +414,7 @@ export default function KhalilScreen() {
                     ]}
                     accessibilityRole="button"
                     accessibilityLabel={prompt.text}
+                    accessibilityHint="Sends this message to Khalil"
                   >
                     <Feather
                       name={prompt.icon}
@@ -466,6 +467,8 @@ export default function KhalilScreen() {
                         borderColor: QamarColors.gold + "30",
                       },
                     ]}
+                    accessibilityRole="text"
+                    accessibilityLabel={`You said: ${item.blocks[0]?.type === "text" ? item.blocks[0].content : ""}`}
                   >
                     <ThemedText
                       style={[styles.messageText, { color: theme.text }]}
@@ -476,7 +479,11 @@ export default function KhalilScreen() {
                     </ThemedText>
                   </View>
                 ) : (
-                  <View style={styles.assistantBlocks}>
+                  <View
+                    style={styles.assistantBlocks}
+                    accessibilityRole="text"
+                    accessibilityLabel="Khalil's response"
+                  >
                     {item.blocks.map((block, bi) => (
                       <KhalilBlock
                         key={`${item.id}-b${bi}`}

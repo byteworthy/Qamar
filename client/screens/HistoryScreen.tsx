@@ -692,6 +692,9 @@ export default function HistoryScreen() {
             />
           }
           showsVerticalScrollIndicator={false}
+          maxToRenderPerBatch={8}
+          windowSize={5}
+          removeClippedSubviews={true}
           scrollIndicatorInsets={{ bottom: insets.bottom }}
         />
       </AtmosphericBackground>

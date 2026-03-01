@@ -6,7 +6,18 @@
  */
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RouteProp } from "@react-navigation/native";
+import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
+
+/**
+ * Tab navigator parameter list (mirrors TabNavigator.tsx)
+ */
+export type TabParamList = {
+  HomeTab: undefined;
+  Khalil: undefined;
+  Learn: undefined;
+  Worship: undefined;
+  Profile: undefined;
+};
 
 /**
  * Root stack parameter list
@@ -16,7 +27,7 @@ export type RootStackParamList = {
   Onboarding_Welcome: undefined;
   Onboarding_Privacy: undefined;
   Onboarding_Safety: undefined;
-  Main: undefined;
+  Main: NavigatorScreenParams<TabParamList> | undefined;
   Home: undefined;
   ThoughtCapture: undefined;
   Noticing: {

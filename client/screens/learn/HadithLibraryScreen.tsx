@@ -435,9 +435,9 @@ export default function HadithLibraryScreen() {
             { paddingBottom: 100 + insets.bottom },
           ]}
           showsVerticalScrollIndicator={false}
-          windowSize={11}
-          maxToRenderPerBatch={15}
-          removeClippedSubviews
+          windowSize={5}
+          maxToRenderPerBatch={8}
+          removeClippedSubviews={true}
           ListHeaderComponent={
             searchLoading ? (
               <View style={styles.searchLoadingContainer}>
@@ -456,9 +456,9 @@ export default function HadithLibraryScreen() {
             { paddingBottom: 100 + insets.bottom },
           ]}
           showsVerticalScrollIndicator={false}
-          windowSize={11}
-          maxToRenderPerBatch={15}
-          removeClippedSubviews
+          windowSize={5}
+          maxToRenderPerBatch={8}
+          removeClippedSubviews={true}
           ListHeaderComponent={!isSearching ? <DailyHadithCard /> : null}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>

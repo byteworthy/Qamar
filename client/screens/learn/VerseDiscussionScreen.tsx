@@ -108,14 +108,12 @@ export default function VerseDiscussionScreen() {
               entering={FadeInUp.duration(300).delay(index * 50)}
             >
               <GlassCard
-                style={
-                  [
-                    styles.messageCard,
-                    msg.role === "user"
-                      ? styles.userMessage
-                      : styles.assistantMessage,
-                  ] as any
-                }
+                style={{
+                  ...styles.messageCard,
+                  ...(msg.role === "user"
+                    ? styles.userMessage
+                    : styles.assistantMessage),
+                }}
               >
                 <ThemedText style={[styles.messageText, { color: theme.text }]}>
                   {msg.content}

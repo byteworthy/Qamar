@@ -395,7 +395,7 @@ export default function HomeScreen() {
     [navigation],
   );
   const handleNavigateKhalil = useCallback(
-    () => navigation.navigate("Main", { screen: "Khalil" } as any),
+    () => navigation.navigate("Main", { screen: "Khalil" }),
     [navigation],
   );
   const handleNavigateCalmingPractice = useCallback(

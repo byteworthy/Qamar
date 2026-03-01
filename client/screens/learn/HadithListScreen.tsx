@@ -268,6 +268,9 @@ export default function HadithListScreen() {
           { paddingBottom: 100 + insets.bottom, paddingTop: 16 },
         ]}
         showsVerticalScrollIndicator={false}
+        maxToRenderPerBatch={8}
+        windowSize={5}
+        removeClippedSubviews={true}
         ListHeaderComponent={<ListHeader />}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

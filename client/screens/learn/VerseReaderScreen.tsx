@@ -12,6 +12,7 @@ import {
   Pressable,
   ActivityIndicator,
   Modal,
+  TextStyle,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -160,7 +161,7 @@ const VerseCard = React.memo(function VerseCard({
           <TajweedText
             segments={tajweedSegments}
             fontSize={26}
-            style={{ textAlign: "right", writingDirection: "rtl" } as any}
+            style={{ textAlign: "right", writingDirection: "rtl" } as TextStyle}
           />
         ) : wordByWordEnabled ? (
           <WordByWordPlayer
@@ -614,9 +615,9 @@ export default function VerseReaderScreen() {
           },
         ]}
         showsVerticalScrollIndicator={false}
-        windowSize={7}
-        maxToRenderPerBatch={10}
-        removeClippedSubviews
+        windowSize={5}
+        maxToRenderPerBatch={8}
+        removeClippedSubviews={true}
         onScrollToIndexFailed={onScrollToIndexFailed}
         ListHeaderComponent={
           <View style={styles.header}>

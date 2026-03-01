@@ -228,6 +228,7 @@ export default function QuranReaderScreen() {
             autoCapitalize="none"
             autoCorrect={false}
             accessibilityLabel="Search surahs"
+            accessibilityHint="Filter surahs by name or translation"
           />
           {searchQuery.length > 0 && (
             <Pressable
@@ -252,9 +253,9 @@ export default function QuranReaderScreen() {
           { paddingBottom: 100 + insets.bottom },
         ]}
         showsVerticalScrollIndicator={false}
-        windowSize={11}
-        maxToRenderPerBatch={15}
-        removeClippedSubviews
+        windowSize={5}
+        maxToRenderPerBatch={8}
+        removeClippedSubviews={true}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Feather name="book" size={48} color={theme.textSecondary} />
