@@ -12,6 +12,7 @@ import {
 } from "./middleware/production";
 import { isSentryEnabled } from "./sentry";
 import { defaultLogger } from "./utils/logger";
+import { config } from "./config";
 
 // =============================================================================
 // DATABASE CONNECTIVITY CHECK
@@ -138,22 +139,38 @@ export function registerHealthRoute(app: Express): void {
     async (_req: Request, res: Response) => {
       try {
         const health = await getHealthStatus();
-        res.json(health);
-      } catch (error) {
-        // Even on error, return 200 with error info
-        res.json({
+
+        // In production, omit internal service details
+        if (config.isProduction) {
+          res.json({
+            status: health.status,
+            timestamp: health.timestamp,
+            version: health.version,
+            uptime: health.uptime,
+          });
+        } else {
+          res.json(health);
+        }
+      } catch {
+        // Even on error, return 200 with minimal info
+        const errorResponse: Record<string, unknown> = {
           status: "degraded",
           timestamp: new Date().toISOString(),
           version: process.env.npm_package_version || "1.0.0",
           uptime: process.uptime(),
-          error: "Health check failed",
-          checks: {
+        };
+
+        if (!config.isProduction) {
+          errorResponse.error = "Health check failed";
+          errorResponse.checks = {
             database: { configured: false, connected: false },
             ai: { configured: false },
             sentry: { configured: false },
             rateLimit: { enabled: false },
-          },
-        });
+          };
+        }
+
+        res.json(errorResponse);
       }
     },
   );

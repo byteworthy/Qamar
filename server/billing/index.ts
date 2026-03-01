@@ -11,7 +11,59 @@
  */
 
 import type { Express, Request, Response } from "express";
+import crypto from "crypto";
 import { defaultLogger } from "../utils/logger";
+
+// =============================================================================
+// REVENUECAT WEBHOOK SIGNATURE VERIFICATION
+// =============================================================================
+
+let _webhookSecretWarningLogged = false;
+
+function getRevenueCatWebhookSecret(): string | undefined {
+  const secret = process.env.REVENUECAT_WEBHOOK_SECRET;
+  if (!secret && !_webhookSecretWarningLogged) {
+    _webhookSecretWarningLogged = true;
+    defaultLogger.warn(
+      "[billing] REVENUECAT_WEBHOOK_SECRET not set — webhook signature verification disabled (dev mode)",
+      { operation: "billing_init" },
+    );
+  }
+  return secret;
+}
+
+/**
+ * Verify RevenueCat webhook signature using HMAC-SHA256.
+ * RevenueCat sends the signature in the X-RevenueCat-Signature header.
+ * Returns true if valid or if secret is not configured (dev mode).
+ */
+function verifyRevenueCatSignature(
+  rawBody: Buffer | string,
+  signatureHeader: string | undefined,
+): boolean {
+  const secret = getRevenueCatWebhookSecret();
+  if (!secret) {
+    return true; // Dev mode — no verification
+  }
+
+  if (!signatureHeader) {
+    return false;
+  }
+
+  const expectedSignature = crypto
+    .createHmac("sha256", secret)
+    .update(rawBody)
+    .digest("hex");
+
+  const sigBuffer = Buffer.from(signatureHeader, "hex");
+  const expectedBuffer = Buffer.from(expectedSignature, "hex");
+
+  if (sigBuffer.length !== expectedBuffer.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(sigBuffer, expectedBuffer);
+}
 
 // =============================================================================
 // BILLING SERVICE STUB
@@ -53,8 +105,23 @@ export const billingService = {
  */
 export function registerBillingWebhookRoute(app: Express): void {
   app.post("/api/billing/webhook/revenuecat", (req: Request, res: Response) => {
-    // TODO: Verify X-RevenueCat-Signature header when REVENUECAT_WEBHOOK_SECRET is configured
-    // For now: log event type and acknowledge
+    // Verify webhook signature if secret is configured
+    const signature = req.headers["x-revenuecat-signature"] as
+      | string
+      | undefined;
+    const rawBody = (req as unknown as { rawBody?: Buffer }).rawBody;
+
+    if (
+      !verifyRevenueCatSignature(rawBody || JSON.stringify(req.body), signature)
+    ) {
+      defaultLogger.warn("[billing] RevenueCat webhook signature invalid", {
+        operation: "webhook_verify",
+        securityEvent: "webhook_signature_invalid",
+      });
+      res.status(401).json({ error: "Invalid webhook signature" });
+      return;
+    }
+
     const event = req.body?.event;
     defaultLogger.info("[billing] RevenueCat webhook", {
       eventType: event?.type ?? "unknown",

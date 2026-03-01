@@ -79,6 +79,18 @@ function isHTTPError(error: unknown): error is HTTPError {
   );
 }
 
+/**
+ * Routes whose response bodies are excluded from request logging
+ * to prevent logging sensitive user content (reflections, spiritual content).
+ */
+const SENSITIVE_ROUTE_PREFIXES = [
+  "/api/analyze",
+  "/api/reframe",
+  "/api/reflection",
+  "/api/khalil",
+  "/api/companion",
+];
+
 const app = express();
 
 declare module "http" {
@@ -207,11 +219,10 @@ function setupRequestLogging(app: express.Application): void {
 
       let logLine = `[${requestId}] ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
 
-      // Exclude response bodies for sensitive AI routes to prevent logging user content
-      const isSensitiveRoute =
-        path.startsWith("/api/analyze") ||
-        path.startsWith("/api/reframe") ||
-        path.startsWith("/api/reflection");
+      // Exclude response bodies for sensitive routes to prevent logging user content
+      const isSensitiveRoute = SENSITIVE_ROUTE_PREFIXES.some((prefix) =>
+        path.startsWith(prefix),
+      );
 
       if (capturedJsonResponse && !isSensitiveRoute) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;

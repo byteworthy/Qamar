@@ -24,7 +24,9 @@ export function csrfTokenRoute(req: Request, res: Response): void {
     // Set CSRF token in cookie
     res.cookie(CSRF_COOKIE_NAME, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure:
+        process.env.NODE_ENV === "production" ||
+        process.env.REPLIT_DEPLOYMENT === "1",
       sameSite: "lax",
       path: "/",
       maxAge: 3600000, // 1 hour

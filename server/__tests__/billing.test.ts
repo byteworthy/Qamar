@@ -254,7 +254,7 @@ describe("Billing Webhooks", () => {
     );
   });
 
-  test("webhook handler acknowledges events", () => {
+  test("webhook handler acknowledges events when no secret configured", () => {
     const mockApp = {
       post: jest.fn(),
     } as unknown as Express;
@@ -265,7 +265,8 @@ describe("Billing Webhooks", () => {
     const handler = (mockApp.post as jest.Mock).mock.calls[0][1] as Function;
     const mockReq = {
       body: { event: { type: "INITIAL_PURCHASE" } },
-    } as Request;
+      headers: {},
+    } as unknown as Request;
     const mockRes = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
@@ -275,6 +276,36 @@ describe("Billing Webhooks", () => {
 
     expect(mockRes.status).toHaveBeenCalledWith(200);
     expect(mockRes.json).toHaveBeenCalledWith({ received: true });
+  });
+
+  test("webhook handler processes valid event types", () => {
+    const mockApp = {
+      post: jest.fn(),
+    } as unknown as Express;
+
+    registerBillingWebhookRoute(mockApp);
+
+    const handler = (mockApp.post as jest.Mock).mock.calls[0][1] as Function;
+    const eventTypes = [
+      "INITIAL_PURCHASE",
+      "RENEWAL",
+      "CANCELLATION",
+      "EXPIRATION",
+    ];
+
+    for (const eventType of eventTypes) {
+      const mockReq = {
+        body: { event: { type: eventType } },
+        headers: {},
+      } as unknown as Request;
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response;
+
+      handler(mockReq, mockRes);
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+    }
   });
 });
 

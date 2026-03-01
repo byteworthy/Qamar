@@ -18,11 +18,20 @@ const pool = new Pool({
   // Railway PostgreSQL typically doesn't require SSL config
 });
 
-// Graceful shutdown: close pool when process terminates
+// Graceful shutdown: close pool when process terminates (5s timeout)
 process.on("SIGTERM", async () => {
   defaultLogger.info("[DB] SIGTERM received, closing connection pool...");
   try {
-    await pool.end();
+    const SHUTDOWN_TIMEOUT_MS = 5000;
+    await Promise.race([
+      pool.end(),
+      new Promise<never>((_, reject) =>
+        setTimeout(
+          () => reject(new Error("Pool shutdown timed out after 5s")),
+          SHUTDOWN_TIMEOUT_MS,
+        ),
+      ),
+    ]);
     defaultLogger.info("[DB] Connection pool closed successfully");
     process.exit(0);
   } catch (error) {
