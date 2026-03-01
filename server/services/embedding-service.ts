@@ -5,7 +5,7 @@
  * Falls back to deterministic mock embeddings if model fails to load.
  */
 
-import { defaultLogger } from '../utils/logger';
+import { defaultLogger } from "../utils/logger";
 
 /** Minimal type for a feature-extraction pipeline instance. */
 interface FeatureExtractor {
@@ -44,11 +44,13 @@ async function getExtractor(): Promise<FeatureExtractor | null> {
     }
     extractor = (await pipeline!("feature-extraction", EMBEDDING_MODEL, {
       quantized: true,
-    }) as FeatureExtractor;
+    })) as FeatureExtractor;
     defaultLogger.info(`[Embedding] Model loaded: ${EMBEDDING_MODEL}`);
     return extractor;
   } catch (err) {
-    defaultLogger.warn('[Embedding] Model load failed, using mock embeddings', { error: String(err) });
+    defaultLogger.warn("[Embedding] Model load failed, using mock embeddings", {
+      error: String(err),
+    });
     loadFailed = true;
     RAG_DEGRADED = true;
     return null;
@@ -67,7 +69,9 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     const output = await ext(text, { pooling: "mean", normalize: true });
     return Array.from(output.data as Float32Array);
   } catch (err) {
-    defaultLogger.warn('[Embedding] Inference failed, falling back to mock', { error: String(err) });
+    defaultLogger.warn("[Embedding] Inference failed, falling back to mock", {
+      error: String(err),
+    });
     RAG_DEGRADED = true;
     return mockEmbedding(text);
   }

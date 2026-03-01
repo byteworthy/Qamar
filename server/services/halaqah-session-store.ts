@@ -10,7 +10,7 @@
 // =============================================================================
 
 export interface HalaqahSessionContext {
-  history: Array<{ role: "user" | "assistant"; content: string }>;
+  history: { role: "user" | "assistant"; content: string }[];
   topicsExplored: string[];
   scholarlyNotesCount: number;
   lastAccess: number;

@@ -12,40 +12,53 @@
 
 import React from "react";
 import { View, ScrollView, Pressable, StyleSheet } from "react-native";
-import { ThemedText } from "../../components/ThemedText";
-import { Screen } from "../../components/Screen";
-import { GlassCard } from "../../components/GlassCard";
-import { JuzProgressMap } from "../../components/JuzProgressMap";
-import { useHifzProgress } from "../../hooks/useHifzProgress";
-import { useHifzReviewQueue } from "../../hooks/useHifzReviewQueue";
-import { useTheme } from "../../hooks/useTheme";
-import { NoorColors } from "../../constants/theme/colors";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ThemedText } from "@/components/ThemedText";
+import { Screen } from "@/components/Screen";
+import { GlassCard } from "@/components/GlassCard";
+import { JuzProgressMap } from "@/components/JuzProgressMap";
+import { useHifzProgress } from "@/hooks/useHifzProgress";
+import { useHifzReviewQueue } from "@/hooks/useHifzReviewQueue";
+import { useTheme } from "@/hooks/useTheme";
+import { NoorColors } from "@/constants/theme/colors";
+import { RootStackParamList } from "@/navigation/types";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 // =============================================================================
 // MAIN COMPONENT
 // =============================================================================
 
 export default function HifzDashboardScreen() {
+  const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const { overallStats } = useHifzProgress();
   const { dueVerses, dueCount, upcomingReviews } = useHifzReviewQueue();
 
   const hasMemorizedVerses = overallStats.totalMemorized > 0;
 
-  // Placeholder navigation handlers (will be replaced with actual navigation)
   const handleStartMemorizing = () => {
-    // TODO: Navigate to /hifz/memorize when screen is implemented
-    console.log("Navigate to /hifz/memorize");
+    navigation.navigate("HifzRecitation", {
+      surahNumber: 1,
+      verseNumber: 1,
+      mode: "memorize",
+    });
   };
 
   const handleReviewNow = () => {
-    // TODO: Navigate to /hifz/review when screen is implemented
-    console.log("Navigate to /hifz/review");
+    const first = dueVerses[0];
+    if (first) {
+      navigation.navigate("HifzRecitation", {
+        surahNumber: first.surahNumber,
+        verseNumber: first.verseNumber,
+        mode: "review",
+      });
+    }
   };
 
-  const handleJuzPress = (juz: number) => {
-    // TODO: Navigate to /hifz/juz/:juz when screen is implemented
-    console.log(`Navigate to /hifz/juz/${juz}`);
+  const handleJuzPress = (_juz: number) => {
+    navigation.navigate("QuranReader");
   };
 
   return (

@@ -16,10 +16,7 @@ import { z } from "zod";
 import * as Sentry from "@sentry/node";
 import { randomUUID } from "crypto";
 import { aiRateLimiter } from "../middleware/ai-rate-limiter";
-import {
-  VALIDATION_MODE,
-  isAnthropicConfigured,
-} from "../config";
+import { VALIDATION_MODE, isAnthropicConfigured } from "../config";
 import {
   createErrorResponse,
   ERROR_CODES,
@@ -27,10 +24,11 @@ import {
 } from "../types/error-response";
 import { getAnthropicClient, FREE_DAILY_LIMIT } from "./constants";
 import { billingService } from "../billing";
+import { validateAndSanitizeInput } from "../ai-safety";
 import {
-  validateAndSanitizeInput,
-} from "../ai-safety";
-import { detectIslamicQuery, fetchIslamicContext } from "../services/islamic-context";
+  detectIslamicQuery,
+  fetchIslamicContext,
+} from "../services/islamic-context";
 import {
   buildHalaqahSystemPrompt,
   HALAQAH_TOPICS,
@@ -81,11 +79,11 @@ interface HalaqahHadithBlock {
 
 interface HalaqahScholarlyBlock {
   type: "scholarly_note";
-  positions: Array<{
+  positions: {
     view: string;
     held_by: string;
     evidence: string;
-  }>;
+  }[];
   summary: string;
 }
 
@@ -184,15 +182,17 @@ export function registerHalaqahRoutes(app: Express): void {
     try {
       const validationResult = halaqahMessageSchema.safeParse(req.body);
       if (!validationResult.success) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.VALIDATION_FAILED,
-            req.id,
-            "Invalid request data",
-            { validationErrors: validationResult.error.issues },
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.VALIDATION_FAILED,
+              req.id,
+              "Invalid request data",
+              { validationErrors: validationResult.error.issues },
+            ),
+          );
       }
 
       const { question, sessionId: providedSessionId } = validationResult.data;
@@ -200,32 +200,38 @@ export function registerHalaqahRoutes(app: Express): void {
 
       // Validation mode guard
       if (VALIDATION_MODE && !isAnthropicConfigured()) {
-        req.logger.info("Validation mode: returning placeholder halaqah response");
+        req.logger.info(
+          "Validation mode: returning placeholder halaqah response",
+        );
         return res.json(getValidationModeResponse(sessionId));
       }
 
       if (!isAnthropicConfigured()) {
-        return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(
-          createErrorResponse(
-            HTTP_STATUS.SERVICE_UNAVAILABLE,
-            ERROR_CODES.AI_SERVICE_UNAVAILABLE,
-            req.id,
-            "Service not configured.",
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.SERVICE_UNAVAILABLE)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.SERVICE_UNAVAILABLE,
+              ERROR_CODES.AI_SERVICE_UNAVAILABLE,
+              req.id,
+              "Service not configured.",
+            ),
+          );
       }
 
       // Input validation
       const inputValidation = validateAndSanitizeInput(question);
       if (!inputValidation.valid) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(
-          createErrorResponse(
-            HTTP_STATUS.BAD_REQUEST,
-            ERROR_CODES.INVALID_INPUT,
-            req.id,
-            "Invalid input",
-          ),
-        );
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.BAD_REQUEST,
+              ERROR_CODES.INVALID_INPUT,
+              req.id,
+              "Invalid input",
+            ),
+          );
       }
 
       const sanitizedQuestion = inputValidation.sanitized;
@@ -238,14 +244,16 @@ export function registerHalaqahRoutes(app: Express): void {
         if (!isPaid) {
           const todayUsage = getHalaqahUsageToday(userId);
           if (todayUsage >= FREE_DAILY_LIMIT) {
-            return res.status(HTTP_STATUS.PAYMENT_REQUIRED).json(
-              createErrorResponse(
-                HTTP_STATUS.PAYMENT_REQUIRED,
-                ERROR_CODES.PAYMENT_REQUIRED,
-                req.id,
-                "Upgrade to Qamar Plus for unlimited halaqah sessions",
-              ),
-            );
+            return res
+              .status(HTTP_STATUS.PAYMENT_REQUIRED)
+              .json(
+                createErrorResponse(
+                  HTTP_STATUS.PAYMENT_REQUIRED,
+                  ERROR_CODES.PAYMENT_REQUIRED,
+                  req.id,
+                  "Upgrade to Qamar Plus for unlimited halaqah sessions",
+                ),
+              );
           }
         }
       }
@@ -260,7 +268,9 @@ export function registerHalaqahRoutes(app: Express): void {
           let islamicContext: IslamicContext | undefined;
           let knowledgeResults;
 
-          const isIslamic = detectIslamicQuery(sanitizedQuestion) || isIslamicKnowledgeQuery(sanitizedQuestion);
+          const isIslamic =
+            detectIslamicQuery(sanitizedQuestion) ||
+            isIslamicKnowledgeQuery(sanitizedQuestion);
 
           if (isIslamic) {
             await Sentry.startSpan(
@@ -273,10 +283,13 @@ export function registerHalaqahRoutes(app: Express): void {
           }
 
           // Build system prompt with knowledge context
-          const systemPrompt = buildHalaqahSystemPrompt(islamicContext, knowledgeResults);
+          const systemPrompt = buildHalaqahSystemPrompt(
+            islamicContext,
+            knowledgeResults,
+          );
 
           // Build messages from session history
-          const messages: Array<{ role: "user" | "assistant"; content: string }> = [
+          const messages: { role: "user" | "assistant"; content: string }[] = [
             ...session.history,
             { role: "user", content: sanitizedQuestion },
           ];
@@ -346,14 +359,16 @@ export function registerHalaqahRoutes(app: Express): void {
       req.logger.error("Halaqah question failed", error, {
         operation: "halaqah_ask",
       });
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(
-        createErrorResponse(
-          HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          ERROR_CODES.INTERNAL_ERROR,
-          req.id,
-          "Failed to process your question",
-        ),
-      );
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(
+          createErrorResponse(
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            ERROR_CODES.INTERNAL_ERROR,
+            req.id,
+            "Failed to process your question",
+          ),
+        );
     }
   });
 

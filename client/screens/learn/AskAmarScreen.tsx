@@ -235,7 +235,12 @@ function MessageBubble({
       ]}
     >
       {!isUser && (
-        <View style={[styles.avatarContainer, { backgroundColor: NoorColors.gold + "20" }]}>
+        <View
+          style={[
+            styles.avatarContainer,
+            { backgroundColor: NoorColors.gold + "20" },
+          ]}
+        >
           <ThemedText style={styles.avatarText}>A</ThemedText>
         </View>
       )}
@@ -378,8 +383,16 @@ export default function AskAmarScreen() {
     >
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <Animated.View entering={FadeInDown.duration(300)} style={styles.headerInner}>
-          <View style={[styles.headerAvatar, { backgroundColor: NoorColors.gold + "20" }]}>
+        <Animated.View
+          entering={FadeInDown.duration(300)}
+          style={styles.headerInner}
+        >
+          <View
+            style={[
+              styles.headerAvatar,
+              { backgroundColor: NoorColors.gold + "20" },
+            ]}
+          >
             <ThemedText style={styles.headerAvatarText}>A</ThemedText>
           </View>
           <View>
@@ -407,8 +420,10 @@ export default function AskAmarScreen() {
           ]}
         >
           <Feather name="wifi-off" size={14} color={NoorColors.gold} />
-          <ThemedText style={[styles.offlineBannerText, { color: NoorColors.gold }]}>
-            You're offline. Amar needs a connection to respond.
+          <ThemedText
+            style={[styles.offlineBannerText, { color: NoorColors.gold }]}
+          >
+            {"You're offline. Amar needs a connection to respond."}
           </ThemedText>
         </View>
       )}
@@ -443,8 +458,12 @@ export default function AskAmarScreen() {
               <ThemedText style={[styles.emptyTitle, { color: theme.text }]}>
                 Assalamu Alaikum
               </ThemedText>
-              <ThemedText style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-                I'm Amar, your companion for Islamic reflection and learning. Ask me anything or choose a topic below.
+              <ThemedText
+                style={[styles.emptySubtitle, { color: theme.textSecondary }]}
+              >
+                {
+                  "I'm Amar, your companion for Islamic reflection and learning. Ask me anything or choose a topic below."
+                }
               </ThemedText>
             </Animated.View>
 

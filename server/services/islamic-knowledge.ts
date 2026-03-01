@@ -9,9 +9,9 @@
  * rag-engine.ts. It works offline and without model downloads.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { defaultLogger } from '../utils/logger';
+import * as fs from "fs";
+import * as path from "path";
+import { defaultLogger } from "../utils/logger";
 
 // =============================================================================
 // TYPES
@@ -237,18 +237,24 @@ function ensureDataLoaded(): void {
       surahMap = new Map(surahs.map((s) => [s.number, s.nameEnglish]));
     }
   } catch (err) {
-    defaultLogger.warn('[IslamicKnowledge] Failed to load surahs', { error: String(err) });
+    defaultLogger.warn("[IslamicKnowledge] Failed to load surahs", {
+      error: String(err),
+    });
   }
 
   // Load verses
   try {
     const versesPath = path.join(seedDir, "verses.json");
     if (fs.existsSync(versesPath)) {
-      verses = JSON.parse(fs.readFileSync(versesPath, 'utf-8'));
-      defaultLogger.info(`[IslamicKnowledge] Loaded ${verses.length} Quran verses`);
+      verses = JSON.parse(fs.readFileSync(versesPath, "utf-8"));
+      defaultLogger.info(
+        `[IslamicKnowledge] Loaded ${verses.length} Quran verses`,
+      );
     }
   } catch (err) {
-    defaultLogger.warn('[IslamicKnowledge] Failed to load verses', { error: String(err) });
+    defaultLogger.warn("[IslamicKnowledge] Failed to load verses", {
+      error: String(err),
+    });
   }
 
   // Load hadiths
@@ -257,11 +263,13 @@ function ensureDataLoaded(): void {
     if (fs.existsSync(hadithsPath)) {
       const raw = JSON.parse(fs.readFileSync(hadithsPath, "utf-8"));
       // hadiths.json has { collections: [...], hadiths: [...] }
-      hadiths = Array.isArray(raw) ? raw : (raw.hadiths || []);
+      hadiths = Array.isArray(raw) ? raw : raw.hadiths || [];
       defaultLogger.info(`[IslamicKnowledge] Loaded ${hadiths.length} hadiths`);
     }
   } catch (err) {
-    defaultLogger.warn('[IslamicKnowledge] Failed to load hadiths', { error: String(err) });
+    defaultLogger.warn("[IslamicKnowledge] Failed to load hadiths", {
+      error: String(err),
+    });
   }
 
   dataLoaded = true;

@@ -107,7 +107,8 @@ export function PremiumGate({
       </ThemedText>
 
       <ThemedText style={[styles.description, { color: theme.textSecondary }]}>
-        Upgrade to {tierLabel} to access this feature and unlock the full Qamar experience.
+        Upgrade to {tierLabel} to access this feature and unlock the full Qamar
+        experience.
       </ThemedText>
 
       <Button

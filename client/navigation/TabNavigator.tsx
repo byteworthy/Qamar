@@ -93,12 +93,18 @@ interface AnimatedEmojiTabIconProps {
   focused: boolean;
 }
 
-function AnimatedEmojiTabIconNative({ emoji, focused }: AnimatedEmojiTabIconProps) {
+function AnimatedEmojiTabIconNative({
+  emoji,
+  focused,
+}: AnimatedEmojiTabIconProps) {
   const scale = useSharedValue(focused ? 1 : 0.9);
 
   useEffect(() => {
     if (focused) hapticLight();
-    scale.value = withSpring(focused ? 1.1 : 0.95, { damping: 15, stiffness: 150 });
+    scale.value = withSpring(focused ? 1.1 : 0.95, {
+      damping: 15,
+      stiffness: 150,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused]);
 
@@ -114,10 +120,12 @@ function AnimatedEmojiTabIconNative({ emoji, focused }: AnimatedEmojiTabIconProp
 }
 
 function AnimatedEmojiTabIcon(props: AnimatedEmojiTabIconProps) {
-  if (Platform.OS === 'web') {
+  if (Platform.OS === "web") {
     return (
       <View style={{ transform: [{ scale: props.focused ? 1.1 : 0.95 }] }}>
-        <Text style={{ fontSize: 20, opacity: props.focused ? 1 : 0.6 }}>{props.emoji}</Text>
+        <Text style={{ fontSize: 20, opacity: props.focused ? 1 : 0.6 }}>
+          {props.emoji}
+        </Text>
       </View>
     );
   }

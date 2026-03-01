@@ -103,7 +103,7 @@ export const ISLAMIC_CONCEPTS: Record<IslamicConcept, ConceptDefinition> = {
     supportiveApplication:
       "Observing your thoughts without becoming them. The witness stance that enables cognitive flexibility.",
     reflectionConnection:
-      'Core to self-awareness. Muraqaba is the Islamic root of observing your thoughts without becoming them.',
+      "Core to self-awareness. Muraqaba is the Islamic root of observing your thoughts without becoming them.",
   },
   muhasaba: {
     arabic: "مُحَاسَبَة",

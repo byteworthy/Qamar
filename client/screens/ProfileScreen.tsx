@@ -982,10 +982,10 @@ export default function ProfileScreen() {
               <ThemedText
                 style={[styles.disclaimerText, { color: theme.textSecondary }]}
               >
-                Qamar is a spiritual companion and is not a substitute
-                for professional guidance or Islamic scholarly
-                advice. Please consult qualified professionals for personal or
-                religious matters.
+                Qamar is a spiritual companion and is not a substitute for
+                professional guidance or Islamic scholarly advice. Please
+                consult qualified professionals for personal or religious
+                matters.
               </ThemedText>
             </View>
 

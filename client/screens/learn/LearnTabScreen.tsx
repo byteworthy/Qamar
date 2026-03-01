@@ -107,7 +107,8 @@ export default function LearnTabScreen() {
   const features = [
     {
       title: "Ask Amar",
-      description: "Your Islamic knowledge companion — ask anything about Islam",
+      description:
+        "Your Islamic knowledge companion — ask anything about Islam",
       gradient: ["#4a5a3a", "#7a8a6a"],
       icon: "message-circle" as const,
       screen: "AskAmar" as const,

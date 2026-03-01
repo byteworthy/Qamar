@@ -664,7 +664,7 @@ export default function PricingScreen() {
                 { color: GOLD, fontFamily: Fonts?.sansMedium },
               ]}
             >
-              You're on Qamar Plus
+              {"You're on Qamar Plus"}
             </ThemedText>
           </View>
         </View>
@@ -689,8 +689,9 @@ export default function PricingScreen() {
             { color: theme.text, fontFamily: Fonts?.serif },
           ]}
         >
-          "Qamar has become part of my daily spiritual routine. The reflections
-          help me stay grounded and connected to my faith."
+          {
+            '"Qamar has become part of my daily spiritual routine. The reflections help me stay grounded and connected to my faith."'
+          }
         </ThemedText>
         <ThemedText
           style={[styles.socialProofAuthor, { color: theme.textSecondary }]}

@@ -46,14 +46,16 @@ export function registerInsightDuaRoutes(app: Express): void {
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Qamar Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const reflectionCount = await storage.getReflectionCount(userId);
@@ -203,14 +205,16 @@ ${summaryPrompt}`,
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Qamar Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const assumptions = await storage.getAssumptionLibrary(userId);
@@ -276,14 +280,16 @@ ${summaryPrompt}`,
       const isPaid = billingService.isPaidUser(status);
 
       if (!isPaid) {
-        return res.status(HTTP_STATUS.FORBIDDEN).json(
-          createErrorResponse(
-            HTTP_STATUS.FORBIDDEN,
-            ERROR_CODES.PAYMENT_REQUIRED,
-            req.id,
-            "This feature requires Qamar Plus"
-          )
-        );
+        return res
+          .status(HTTP_STATUS.FORBIDDEN)
+          .json(
+            createErrorResponse(
+              HTTP_STATUS.FORBIDDEN,
+              ERROR_CODES.PAYMENT_REQUIRED,
+              req.id,
+              "This feature requires Qamar Plus",
+            ),
+          );
       }
 
       const normalizedState = (state || "").toLowerCase();

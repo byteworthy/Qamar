@@ -128,8 +128,8 @@ export default function SafetyScreen() {
               ]}
             >
               Qamar is a companion for spiritual growth and personal reflection.
-              It is not a replacement for professional guidance, medical care, or
-              scholarly advice.
+              It is not a replacement for professional guidance, medical care,
+              or scholarly advice.
             </ThemedText>
           </GlassCard>
         </Animated.View>

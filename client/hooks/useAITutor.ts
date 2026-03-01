@@ -120,7 +120,7 @@ export function useAITutor(): AITutorHook {
 
         if (response.status === 403) {
           setError(
-            "You've used all your free questions for today. Upgrade to Qamar Plus for unlimited access."
+            "You've used all your free questions for today. Upgrade to Qamar Plus for unlimited access.",
           );
           // Remove the user message we optimistically added
           setMessages((prev) => prev.filter((m) => m.id !== userMessage.id));

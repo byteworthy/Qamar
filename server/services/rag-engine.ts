@@ -5,10 +5,15 @@
  * Supports in-memory search (default) or Qdrant when QDRANT_URL is set.
  */
 
-import { generateEmbedding, cosineSimilarity, EMBEDDING_MODEL, RAG_DEGRADED } from './embedding-service';
-import { defaultLogger } from '../utils/logger';
-import * as fs from 'fs';
-import * as path from 'path';
+import {
+  generateEmbedding,
+  cosineSimilarity,
+  EMBEDDING_MODEL,
+  RAG_DEGRADED,
+} from "./embedding-service";
+import { defaultLogger } from "../utils/logger";
+import * as fs from "fs";
+import * as path from "path";
 
 // =============================================================================
 // TYPES
@@ -160,10 +165,14 @@ function loadSeedData(): void {
           keywords: extractKeywords(v.translationEn),
         });
       }
-      defaultLogger.info(`[RAG] Loaded ${verses.length} Quran verses from seed data`);
+      defaultLogger.info(
+        `[RAG] Loaded ${verses.length} Quran verses from seed data`,
+      );
     }
   } catch (err) {
-    defaultLogger.warn('[RAG] Failed to load Quran verses', { error: String(err) });
+    defaultLogger.warn("[RAG] Failed to load Quran verses", {
+      error: String(err),
+    });
   }
 
   // Load adhkar
@@ -189,10 +198,12 @@ function loadSeedData(): void {
       defaultLogger.info(`[RAG] Loaded ${adhkar.length} adhkar from seed data`);
     }
   } catch (err) {
-    defaultLogger.warn('[RAG] Failed to load adhkar', { error: String(err) });
+    defaultLogger.warn("[RAG] Failed to load adhkar", { error: String(err) });
   }
 
-  defaultLogger.info(`[RAG] Total knowledge base: ${KNOWLEDGE_BASE.length} documents`);
+  defaultLogger.info(
+    `[RAG] Total knowledge base: ${KNOWLEDGE_BASE.length} documents`,
+  );
 }
 
 /** Extract simple keywords from text for keyword-based fallback search */
@@ -339,7 +350,9 @@ export async function initializeRAG(): Promise<void> {
     if (loadCachedEmbeddings()) {
       indexReady = true;
       indexing = false;
-      defaultLogger.info(`[RAG] Loaded ${documentIndex.size} cached embeddings`);
+      defaultLogger.info(
+        `[RAG] Loaded ${documentIndex.size} cached embeddings`,
+      );
       return;
     }
 
@@ -353,7 +366,7 @@ export async function initializeRAG(): Promise<void> {
     indexReady = true;
     defaultLogger.info(`[RAG] Indexed ${documentIndex.size} documents`);
   } catch (err) {
-    defaultLogger.error('[RAG] Indexing failed', err);
+    defaultLogger.error("[RAG] Indexing failed", err);
   } finally {
     indexing = false;
   }
@@ -477,7 +490,10 @@ async function queryViaQdrant(
       confidence: results[0].score,
     };
   } catch (err) {
-    defaultLogger.error('[RAG] Qdrant query failed, falling back to in-memory', err);
+    defaultLogger.error(
+      "[RAG] Qdrant query failed, falling back to in-memory",
+      err,
+    );
     return queryInMemory(question, topK);
   }
 }
@@ -547,7 +563,9 @@ function saveCachedEmbeddings(): void {
     fs.writeFileSync(EMBEDDINGS_PATH, JSON.stringify(data));
     defaultLogger.info(`[RAG] Saved embeddings to ${EMBEDDINGS_PATH}`);
   } catch (err) {
-    defaultLogger.warn('[RAG] Failed to save embeddings cache', { error: String(err) });
+    defaultLogger.warn("[RAG] Failed to save embeddings cache", {
+      error: String(err),
+    });
   }
 }
 
