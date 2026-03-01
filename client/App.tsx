@@ -43,8 +43,13 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useOfflineDatabase } from "@/hooks/useOfflineData";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 
+import { migrateStorageKeys } from "@/lib/storage-migration";
+
 // Initialize Sentry (no-op if EXPO_PUBLIC_SENTRY_DSN not configured)
 initSentry();
+
+// Run one-time storage key migration (@noor_* → @qamar_*)
+migrateStorageKeys();
 
 function useHideWebScrollbar() {
   useEffect(() => {

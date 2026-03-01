@@ -41,8 +41,8 @@ import {
   selectStreakPaused,
 } from "@/stores/gamification-store";
 
-const USER_NAME_KEY = "@noor_user_name";
-const USER_EMAIL_KEY = "@noor_user_email";
+const USER_NAME_KEY = "@qamar_user_name";
+const USER_EMAIL_KEY = "@qamar_user_email";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 

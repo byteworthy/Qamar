@@ -4,7 +4,7 @@
  * This file expands the base Islamic framework with additional
  * Quranic ayat and hadith mapped to cognitive distortion patterns.
  *
- * STATUS: BETA CONTENT - Awaiting scholar validation
+ * STATUS: Awaiting scholar validation — not yet integrated into app
  * Created: 2026-01-24
  * Source: Compiled from authenticated translations
  * Translation: Sahih International (Quran)

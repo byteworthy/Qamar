@@ -1,8 +1,8 @@
 import { Feather } from "@expo/vector-icons";
 
-export const USER_NAME_KEY = "@noor_user_name";
-export const JOURNEY_STATS_KEY = "@noor_journey_stats";
-export const REFLECTIONS_KEY = "@noor_reflections";
+export const USER_NAME_KEY = "@qamar_user_name";
+export const JOURNEY_STATS_KEY = "@qamar_journey_stats";
+export const REFLECTIONS_KEY = "@qamar_reflections";
 
 // Journey tracking data
 export interface JourneyStats {

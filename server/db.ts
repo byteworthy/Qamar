@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pkg from "pg";
 import { defaultLogger } from "./utils/logger";
+import { VALIDATION_MODE } from "./config";
 const { Pool } = pkg;
 
 /**
@@ -21,6 +22,7 @@ const pool = new Pool({
 // Graceful shutdown: close pool when process terminates (5s timeout)
 process.on("SIGTERM", async () => {
   defaultLogger.info("[DB] SIGTERM received, closing connection pool...");
+  if (poolMonitorInterval) clearInterval(poolMonitorInterval);
   try {
     const SHUTDOWN_TIMEOUT_MS = 5000;
     await Promise.race([
@@ -50,5 +52,18 @@ pool.on("error", (err) => {
     err instanceof Error ? err : new Error(String(err)),
   );
 });
+
+// Pool health monitoring: log stats every 60s (skip in VALIDATION_MODE/tests)
+let poolMonitorInterval: ReturnType<typeof setInterval> | undefined;
+if (!VALIDATION_MODE) {
+  poolMonitorInterval = setInterval(() => {
+    defaultLogger.debug("[DB] Pool stats", {
+      totalCount: pool.totalCount,
+      idleCount: pool.idleCount,
+      waitingCount: pool.waitingCount,
+    });
+  }, 60_000);
+  poolMonitorInterval.unref(); // Don't prevent process exit
+}
 
 export const db = drizzle(pool);

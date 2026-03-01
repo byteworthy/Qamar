@@ -31,8 +31,8 @@ describe("HomeScreen", () => {
 
     // Mock AsyncStorage defaults
     mockAsyncStorage.getItem.mockImplementation((key) => {
-      if (key === "@noor_user_name") return Promise.resolve("Aisha");
-      if (key === "@noor_journey_stats") {
+      if (key === "@qamar_user_name") return Promise.resolve("Aisha");
+      if (key === "@qamar_journey_stats") {
         return Promise.resolve(
           JSON.stringify({
             totalReflections: 5,
