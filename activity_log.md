@@ -5,6 +5,90 @@
 
 ---
 
+## 2026-03-01 — Production hardening audit (security, infra, types, a11y, perf)
+
+### What was done
+- **Wave 1 — Security hardening** (6 fixes):
+  - RevenueCat webhook HMAC-SHA256 signature verification with dev-mode fallback
+  - CSRF cookie `secure` flag aligned with REPLIT_DEPLOYMENT pattern
+  - SESSION_SECRET centralized in config.ts with startup validation
+  - Health endpoint hides internal service details in production
+  - SIGTERM graceful shutdown with 5s timeout via Promise.race
+  - Sensitive route list expanded to include `/api/khalil` and `/api/companion`
+- **Wave 2 — Backend infrastructure**:
+  - DB connection pool health monitoring (60s interval, debug-level stats)
+  - AsyncStorage key migration (`@noor_*` → `@qamar_*`) for existing installs
+  - `.env.example` encryption key docs corrected (64 hex chars = 32 bytes)
+  - `islamic-content-expansion.ts` header updated (awaiting scholar validation)
+- **Wave 3 — Frontend type safety** (partial):
+  - Removed `as any` from navigation calls in HomeScreen, RamadanHubScreen
+  - Replaced array `as any` with spread syntax in VerseDiscussionScreen
+  - Changed `as any` to `as TextStyle` in VerseReaderScreen
+  - Added TabParamList type to navigation/types.ts
+- **Wave 4 — Accessibility + Performance**:
+  - KhalilScreen: accessibility roles/labels on message bubbles and suggestion chips
+  - QuranReaderScreen: accessibilityHint on search input
+  - FlatList optimization props standardized across 5 screens (QuranReader, HadithLibrary, HadithList, VerseReader, HistoryScreen)
+- **Wave 5 — Documentation**:
+  - CHANGELOG.md: comprehensive v2.0.0 entry added
+  - activity_log.md: updated with this session
+
+### Key decisions
+- RevenueCat webhook verification uses lazy initialization to avoid breaking test mocks
+- `as any` kept in LearnTabScreen.tsx — navigation overload mismatch requires proper generic typing (deferred)
+- Pre-existing test timeouts in routes.test.ts / islamic-routes.test.ts left untouched (not related to changes)
+
+### Files changed
+- `server/billing/index.ts` — HMAC-SHA256 webhook signature verification
+- `server/middleware/csrf.ts` — secure flag alignment
+- `server/config.ts` — sessionSecret centralized
+- `server/middleware/auth.ts` — simplified getSessionSecret()
+- `server/health.ts` — production mode hides checks
+- `server/db.ts` — shutdown timeout + pool monitoring
+- `server/index.ts` — SENSITIVE_ROUTE_PREFIXES constant
+- `server/__tests__/billing.test.ts` — webhook signature tests
+- `client/lib/storage-migration.ts` — new, @noor → @qamar key migration
+- `client/App.tsx` — storage migration import
+- `client/screens/HomeScreen.data.ts` — @qamar_ key prefixes
+- `client/screens/ProfileScreen.tsx` — @qamar_ key prefixes
+- `client/screens/__tests__/HomeScreen.test.tsx` — updated mock keys
+- `client/navigation/types.ts` — TabParamList type
+- `client/screens/HomeScreen.tsx` — removed `as any`
+- `client/screens/RamadanHubScreen.tsx` — removed 2 `as any`
+- `client/screens/KhalilScreen.tsx` — a11y labels
+- `client/screens/learn/QuranReaderScreen.tsx` — a11y hint + FlatList props
+- `client/screens/learn/HadithLibraryScreen.tsx` — FlatList props
+- `client/screens/learn/HadithListScreen.tsx` — FlatList props
+- `client/screens/learn/VerseReaderScreen.tsx` — TextStyle cast + FlatList props
+- `client/screens/learn/VerseDiscussionScreen.tsx` — spread syntax
+- `client/screens/HistoryScreen.tsx` — FlatList props
+- `.env.example` — corrected encryption key docs
+- `shared/islamic-content-expansion.ts` — header update
+- `CHANGELOG.md` — v2.0.0 entry
+
+### Commits pushed
+- `fad5daa` — fix(server): security hardening
+- `3d19ad4` — chore(infra): db pool monitoring, storage key migration, cleanup
+- `cfb1e64` — docs: add v2.0.0 changelog entry
+- `fa22e2e` — refactor(client): remove any casts, add a11y labels, standardize FlatList props
+
+### Test status
+- **685/708 passing** (23 failures are pre-existing timeouts in routes/islamic-routes tests)
+- **0 lint errors** (228 warnings — pre-existing, non-blocking)
+- **TypeScript clean** (`tsc --noEmit` passes)
+
+### Remaining Wave 3 items (deferred)
+- `as any` in AdhkarListScreen, StudyPlanOnboarding, hifz-store, useArabicLearning
+- Hardcoded color migration in FastingTrackerScreen, HadithDetailScreen, AskAmarScreen
+
+### Next steps
+- Fix pre-existing test timeouts in routes.test.ts / islamic-routes.test.ts
+- Complete remaining `as any` removals and hardcoded color migrations
+- Fill EAS placeholders: `ascAppId` and `appleTeamId` in `eas.json`
+- Physical device testing before App Store submission
+
+---
+
 ## 2026-03-01 — Complete remaining technical debt (server stubs, client UI, brand rename)
 
 ### What was done
